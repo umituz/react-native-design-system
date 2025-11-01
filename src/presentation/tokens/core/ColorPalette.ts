@@ -41,19 +41,19 @@ export const withAlpha = (hexColor: string, alpha: number): string => {
 
 export const lightColors = {
   // =============================================================================
-  // PRIMARY BRAND COLORS (from theme template)
+  // PRIMARY BRAND COLORS
   // =============================================================================
-  primary: '{{PRIMARY_COLOR}}',
-  primaryLight: '{{PRIMARY_LIGHT_COLOR}}',
-  primaryDark: '{{PRIMARY_DARK_COLOR}}',
+  primary: '#3B82F6',
+  primaryLight: '#60A5FA',
+  primaryDark: '#2563EB',
 
-  secondary: '{{SECONDARY_COLOR}}',
-  secondaryLight: '{{SECONDARY_LIGHT_COLOR}}',
-  secondaryDark: '{{SECONDARY_DARK_COLOR}}',
+  secondary: '#8B5CF6',
+  secondaryLight: '#A78BFA',
+  secondaryDark: '#7C3AED',
 
-  accent: '{{ACCENT_COLOR}}',
-  accentLight: '{{ACCENT_LIGHT_COLOR}}',
-  accentDark: '{{ACCENT_DARK_COLOR}}',
+  accent: '#F59E0B',
+  accentLight: '#FBBF24',
+  accentDark: '#D97706',
 
   // =============================================================================
   // MATERIAL DESIGN 3 - ON COLORS (Text on colored backgrounds)
@@ -129,43 +129,43 @@ export const lightColors = {
   gray900: '#18181B',
 
   // =============================================================================
-  // BACKGROUND COLORS (from theme template)
+  // BACKGROUND COLORS
   // =============================================================================
-  backgroundPrimary: '{{BACKGROUND_COLOR}}',
-  backgroundSecondary: '{{BACKGROUND_SECONDARY_COLOR}}',
+  backgroundPrimary: '#FFFFFF',
+  backgroundSecondary: '#F8FAFC',
 
-  surface: '{{SURFACE_COLOR}}',
-  surfaceVariant: '{{SURFACE_SECONDARY_COLOR}}',
-  surfaceSecondary: '{{SURFACE_SECONDARY_COLOR}}', // Alias
+  surface: '#FFFFFF',
+  surfaceVariant: '#F1F5F9',
+  surfaceSecondary: '#F1F5F9', // Alias
   surfaceDisabled: '#F4F4F5',     // Disabled surface color
 
   // =============================================================================
-  // TEXT COLORS (from theme template)
+  // TEXT COLORS
   // =============================================================================
-  textPrimary: '{{TEXT_PRIMARY_COLOR}}',
-  textSecondary: '{{TEXT_SECONDARY_COLOR}}',
-  textTertiary: '{{TEXT_TERTIARY_COLOR}}',
-  textDisabled: '{{TEXT_DISABLED_COLOR}}',
-  textInverse: '{{TEXT_INVERSE_COLOR}}',
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  textTertiary: '#94A3B8',
+  textDisabled: '#CBD5E1',
+  textInverse: '#FFFFFF',
 
   // =============================================================================
-  // BORDER COLORS (from theme template)
+  // BORDER COLORS
   // =============================================================================
-  border: '{{BORDER_COLOR}}',
-  borderLight: '{{BORDER_LIGHT_COLOR}}',
-  borderMedium: '{{BORDER_MEDIUM_COLOR}}',
-  borderFocus: '{{BORDER_FOCUS_COLOR}}',
+  border: '#E2E8F0',
+  borderLight: '#F1F5F9',
+  borderMedium: '#CBD5E1',
+  borderFocus: '#3B82F6',
 
   // =============================================================================
   // COMPONENT-SPECIFIC COLORS
   // =============================================================================
-  buttonPrimary: '{{PRIMARY_COLOR}}',
-  buttonSecondary: '{{SECONDARY_COLOR}}',
+  buttonPrimary: '#3B82F6',
+  buttonSecondary: '#8B5CF6',
 
-  inputBackground: '{{SURFACE_COLOR}}',
-  inputBorder: '{{BORDER_COLOR}}',
+  inputBackground: '#FFFFFF',
+  inputBorder: '#E2E8F0',
 
-  cardBackground: '{{SURFACE_COLOR}}',
+  cardBackground: '#FFFFFF',
 
   // =============================================================================
   // SPECIAL COLORS
@@ -204,7 +204,7 @@ export const lightColors = {
   // =============================================================================
   // GRADIENTS
   // =============================================================================
-  gradient: ['{{PRIMARY_COLOR}}', '{{SECONDARY_COLOR}}'],
+  gradient: ['#3B82F6', '#8B5CF6'],
 };
 
 // =============================================================================
@@ -215,17 +215,17 @@ export const darkColors = {
   // =============================================================================
   // PRIMARY BRAND COLORS (dark mode specific colors)
   // =============================================================================
-  primary: '{{PRIMARY_COLOR}}',
-  primaryLight: '{{PRIMARY_LIGHT_COLOR}}',
-  primaryDark: '{{PRIMARY_DARK_COLOR}}',
+  primary: '#3B82F6',
+  primaryLight: '#60A5FA',
+  primaryDark: '#2563EB',
 
-  secondary: '{{SECONDARY_COLOR}}',
-  secondaryLight: '{{SECONDARY_LIGHT_COLOR}}',
-  secondaryDark: '{{SECONDARY_DARK_COLOR}}',
+  secondary: '#8B5CF6',
+  secondaryLight: '#A78BFA',
+  secondaryDark: '#7C3AED',
 
-  accent: '{{ACCENT_COLOR}}',
-  accentLight: '{{ACCENT_LIGHT_COLOR}}',
-  accentDark: '{{ACCENT_DARK_COLOR}}',
+  accent: '#F59E0B',
+  accentLight: '#FBBF24',
+  accentDark: '#D97706',
 
   // =============================================================================
   // MATERIAL DESIGN 3 - ON COLORS (Same as light mode for type consistency)
@@ -303,41 +303,41 @@ export const darkColors = {
   // =============================================================================
   // BACKGROUND COLORS (dark mode specific colors)
   // =============================================================================
-  backgroundPrimary: '{{BACKGROUND_COLOR}}',
-  backgroundSecondary: '{{BACKGROUND_SECONDARY_COLOR}}',
+  backgroundPrimary: '#FFFFFF',
+  backgroundSecondary: '#F8FAFC',
 
-  surface: '{{SURFACE_COLOR}}',
-  surfaceVariant: '{{SURFACE_SECONDARY_COLOR}}',
-  surfaceSecondary: '{{SURFACE_SECONDARY_COLOR}}', // Alias
+  surface: '#FFFFFF',
+  surfaceVariant: '#F1F5F9',
+  surfaceSecondary: '#F1F5F9', // Alias
   surfaceDisabled: '#F4F4F5',     // Same as light mode for type consistency
 
   // =============================================================================
   // TEXT COLORS (same as light mode for type consistency)
   // =============================================================================
-  textPrimary: '{{TEXT_PRIMARY_COLOR}}',
-  textSecondary: '{{TEXT_SECONDARY_COLOR}}',
-  textTertiary: '{{TEXT_TERTIARY_COLOR}}',
-  textDisabled: '{{TEXT_DISABLED_COLOR}}',
-  textInverse: '{{TEXT_INVERSE_COLOR}}',
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  textTertiary: '#94A3B8',
+  textDisabled: '#CBD5E1',
+  textInverse: '#FFFFFF',
 
   // =============================================================================
   // BORDER COLORS (same as light mode for type consistency)
   // =============================================================================
-  border: '{{BORDER_COLOR}}',
-  borderLight: '{{BORDER_LIGHT_COLOR}}',
-  borderMedium: '{{BORDER_MEDIUM_COLOR}}',
-  borderFocus: '{{BORDER_FOCUS_COLOR}}',
+  border: '#E2E8F0',
+  borderLight: '#F1F5F9',
+  borderMedium: '#CBD5E1',
+  borderFocus: '#3B82F6',
 
   // =============================================================================
   // COMPONENT-SPECIFIC COLORS (same as light mode for type consistency)
   // =============================================================================
-  buttonPrimary: '{{PRIMARY_COLOR}}',
-  buttonSecondary: '{{SECONDARY_COLOR}}',
+  buttonPrimary: '#3B82F6',
+  buttonSecondary: '#8B5CF6',
 
-  inputBackground: '{{SURFACE_COLOR}}',
-  inputBorder: '{{BORDER_COLOR}}',
+  inputBackground: '#FFFFFF',
+  inputBorder: '#E2E8F0',
 
-  cardBackground: '{{SURFACE_COLOR}}',
+  cardBackground: '#FFFFFF',
 
   // =============================================================================
   // SPECIAL COLORS
@@ -378,7 +378,7 @@ export const darkColors = {
   // =============================================================================
   // GRADIENTS (Same as light mode for type consistency)
   // =============================================================================
-  gradient: ['{{PRIMARY_COLOR}}', '{{SECONDARY_COLOR}}'],
+  gradient: ['#3B82F6', '#8B5CF6'],
 };
 
 // =============================================================================
