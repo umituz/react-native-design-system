@@ -1,37 +1,53 @@
 /**
- * useAppDesignTokens Hook - Design Tokens Access
+ * useAppDesignTokens Hook - Theme-Aware Design Tokens
  *
- * ✅ NPM PACKAGE VERSION - Standalone, no theme dependencies
- * ✅ Returns static light theme tokens
- * ✅ Type-safe design tokens
- * ✅ Zero external dependencies
+ * ✅ Accepts optional themeMode parameter
+ * ✅ Returns tokens for specified theme (light/dark)
+ * ✅ Apps control theme, package provides tokens
+ * ✅ Single source of truth
  *
- * NOTE: This is the npm package version which returns light theme only.
- * For dynamic theme switching, apps should use @domains/theme ThemeProvider.
+ * @param themeMode - Optional theme mode ('light' | 'dark'), defaults to 'light'
  *
- * @example
+ * @example Basic usage (light theme)
  * ```typescript
  * import { useAppDesignTokens } from '@umituz/react-native-design-system';
  *
  * const MyComponent = () => {
- *   const tokens = useAppDesignTokens();
+ *   const tokens = useAppDesignTokens(); // Uses light theme by default
  *   return (
  *     <View style={{
  *       backgroundColor: tokens.colors.primary,
- *       padding: tokens.spacing.md,
- *       borderRadius: tokens.borders.radius.md
+ *       padding: tokens.spacing.md
  *     }}>
  *       <Text style={tokens.typography.bodyLarge}>Hello!</Text>
  *     </View>
  *   );
  * };
  * ```
+ *
+ * @example Theme-aware usage
+ * ```typescript
+ * import { useAppDesignTokens } from '@umituz/react-native-design-system';
+ * import { useTheme } from '@domains/theme';
+ *
+ * const MyComponent = () => {
+ *   const { themeMode } = useTheme(); // Get theme from app's theme system
+ *   const tokens = useAppDesignTokens(themeMode); // Pass theme to hook
+ *
+ *   return (
+ *     <View style={{ backgroundColor: tokens.colors.background }}>
+ *       <Text style={{ color: tokens.colors.textPrimary }}>
+ *         This text color changes with theme!
+ *       </Text>
+ *     </View>
+ *   );
+ * };
+ * ```
  */
 
-import { STATIC_DESIGN_TOKENS } from '../tokens/core/TokenFactory';
+import { useMemo } from 'react';
+import { createDesignTokens, type DesignTokens, type ThemeMode } from '../tokens/core/TokenFactory';
 
-export const useAppDesignTokens = () => {
-  // NPM package version: Always return light theme
-  // Apps using factory generator will override this with theme-aware version
-  return STATIC_DESIGN_TOKENS;
+export const useAppDesignTokens = (themeMode: ThemeMode = 'light'): DesignTokens => {
+  return useMemo(() => createDesignTokens(themeMode), [themeMode]);
 };
