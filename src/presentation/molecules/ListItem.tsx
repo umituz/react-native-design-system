@@ -16,7 +16,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   const Component: React.ComponentType<any> = onPress ? TouchableOpacity : View;
 
   return (
-    <Component style={[listItemStyles.container, disabled && listItemStyles.disabled, style]} onPress={onPress} disabled={disabled} activeOpacity={0.7}>
+    <Component style={[listItemStyles.container, disabled ? listItemStyles.disabled : undefined, style]} onPress={onPress} disabled={disabled} activeOpacity={0.7}>
       {leftIcon && (
         <View style={listItemStyles.iconContainer}>
           <AtomicIcon name={leftIcon} color={disabled ? 'surfaceVariant' : 'primary'} />
@@ -24,11 +24,11 @@ export const ListItem: React.FC<ListItemProps> = ({
       )}
       <View style={listItemStyles.content}>
         <AtomicText type="bodyLarge" color={disabled ? 'surfaceVariant' : 'onSurface'} numberOfLines={1}>{title}</AtomicText>
-        {subtitle && <AtomicText type="bodySmall" color={disabled ? 'surfaceVariant' : 'surfaceVariant'} numberOfLines={2} style={listItemStyles.subtitle}>{subtitle}</AtomicText>}
+        {subtitle && <AtomicText type="bodySmall" color="surfaceVariant" numberOfLines={2} style={listItemStyles.subtitle}>{subtitle}</AtomicText>}
       </View>
       {rightIcon && onPress && (
         <View style={listItemStyles.iconContainer}>
-          <AtomicIcon name={rightIcon} color={disabled ? 'surfaceVariant' : 'surfaceVariant'} />
+          <AtomicIcon name={rightIcon} color="surfaceVariant" />
         </View>
       )}
     </Component>
