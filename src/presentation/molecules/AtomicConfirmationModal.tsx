@@ -40,7 +40,7 @@
 import React from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
-import { useLocalization } from '@domains/localization';
+import { useLocalization } from '@umituz/react-native-localization';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
 import { AtomicIcon } from '../atoms/AtomicIcon';

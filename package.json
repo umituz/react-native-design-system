@@ -39,7 +39,8 @@
     "lucide-react-native": "^0.468.0",
     "zustand": "^5.0.2",
     "expo-linear-gradient": "~13.0.2",
-    "@react-navigation/native": "^6.0.0"
+    "@react-navigation/native": "^6.0.0",
+    "@umituz/react-native-localization": "^1.0.0"
   },
   "peerDependenciesMeta": {
     "@react-native-community/datetimepicker": {
@@ -49,6 +50,9 @@
       "optional": true
     },
     "@react-navigation/native": {
+      "optional": true
+    },
+    "@umituz/react-native-localization": {
       "optional": true
     }
   },

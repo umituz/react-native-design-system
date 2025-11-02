@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useLocalization } from '@domains/localization';
-import { getLanguageByCode, getDefaultLanguage } from '@constants/languages';
+import { useLocalization, getLanguageByCode, getDefaultLanguage } from '@umituz/react-native-localization';
 
 export const useLanguageNavigation = (navigationScreen: string) => {
   const navigation = useNavigation();
