@@ -351,3 +351,15 @@ export {
 export {
   useDesignSystemTheme,
 } from './infrastructure/theme/globalThemeStore';
+
+// =============================================================================
+// ICONS DOMAIN - Universal Icon System
+// =============================================================================
+
+export {
+  Icon,
+  type IconProps,
+  type IconSize,
+  type IconColor,
+  type IconName,
+} from './domains/icons/presentation/components/Icon';
