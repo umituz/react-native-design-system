@@ -213,54 +213,54 @@ export const lightColors = {
 
 export const darkColors = {
   // =============================================================================
-  // PRIMARY BRAND COLORS (dark mode specific colors)
+  // PRIMARY BRAND COLORS (darker versions for dark mode)
   // =============================================================================
-  primary: '#3B82F6',
-  primaryLight: '#60A5FA',
-  primaryDark: '#2563EB',
+  primary: '#60A5FA',          // Lighter blue for dark backgrounds
+  primaryLight: '#93C5FD',
+  primaryDark: '#3B82F6',
 
-  secondary: '#8B5CF6',
-  secondaryLight: '#A78BFA',
-  secondaryDark: '#7C3AED',
+  secondary: '#A78BFA',        // Lighter purple for dark backgrounds
+  secondaryLight: '#C4B5FD',
+  secondaryDark: '#8B5CF6',
 
-  accent: '#F59E0B',
-  accentLight: '#FBBF24',
-  accentDark: '#D97706',
-
-  // =============================================================================
-  // MATERIAL DESIGN 3 - ON COLORS (Same as light mode for type consistency)
-  // =============================================================================
-  onPrimary: '#FFFFFF',           // Text on primary background (consistent)
-  onSecondary: '#FFFFFF',         // Text on secondary background (consistent)
-  onSuccess: '#FFFFFF',           // Text on success background
-  onError: '#FFFFFF',             // Text on error background
-  onWarning: '#000000',           // Text on warning background
-  onInfo: '#FFFFFF',              // Text on info background
-  onSurface: '#1E293B',           // Text on surface (same as light mode for type consistency)
-  onBackground: '#1E293B',        // Text on background (same as light mode for type consistency)
-  onSurfaceDisabled: '#CBD5E1',   // Disabled text color (same as light mode for type consistency)
+  accent: '#FBBF24',           // Lighter amber for dark backgrounds
+  accentLight: '#FCD34D',
+  accentDark: '#F59E0B',
 
   // =============================================================================
-  // MATERIAL DESIGN 3 - CONTAINER COLORS (Same as light mode for type consistency)
+  // MATERIAL DESIGN 3 - ON COLORS (Dark mode text colors)
   // =============================================================================
-  primaryContainer: '#DBEAFE',    // Same as light mode for type consistency
-  onPrimaryContainer: '#1E40AF',  // Same as light mode for type consistency
-  secondaryContainer: '#E0E7FF',  // Same as light mode for type consistency
-  onSecondaryContainer: '#3730A3', // Same as light mode for type consistency
-  errorContainer: '#FEE2E2',      // Same as light mode for type consistency
-  onErrorContainer: '#991B1B',    // Same as light mode for type consistency
+  onPrimary: '#000000',           // Dark text on light primary
+  onSecondary: '#000000',         // Dark text on light secondary
+  onSuccess: '#000000',           // Dark text on light success
+  onError: '#FFFFFF',             // Light text on dark error
+  onWarning: '#000000',           // Dark text on light warning
+  onInfo: '#000000',              // Dark text on light info
+  onSurface: '#E2E8F0',           // Light text on dark surface
+  onBackground: '#F1F5F9',        // Light text on dark background
+  onSurfaceDisabled: '#64748B',   // Disabled dark mode text
 
   // =============================================================================
-  // MATERIAL DESIGN 3 - OUTLINE (Same as light mode for type consistency)
+  // MATERIAL DESIGN 3 - CONTAINER COLORS (Dark mode containers)
   // =============================================================================
-  outline: '#CBD5E1',             // Same as light mode for type consistency
-  outlineVariant: '#E2E8F0',      // Same as light mode for type consistency
-  outlineDisabled: '#E2E8F0',     // Same as light mode for type consistency
+  primaryContainer: '#1E3A8A',    // Dark blue container
+  onPrimaryContainer: '#DBEAFE',  // Light text on dark primary container
+  secondaryContainer: '#4C1D95',  // Dark purple container
+  onSecondaryContainer: '#E0E7FF', // Light text on dark secondary container
+  errorContainer: '#7F1D1D',      // Dark red container
+  onErrorContainer: '#FEE2E2',    // Light text on dark error container
 
   // =============================================================================
-  // SEMANTIC UI COLORS (same as light)
+  // MATERIAL DESIGN 3 - OUTLINE (Dark mode outlines)
   // =============================================================================
-  success: '#10B981',
+  outline: '#475569',             // Medium gray outline for dark mode
+  outlineVariant: '#334155',      // Darker outline variant
+  outlineDisabled: '#334155',     // Disabled outline
+
+  // =============================================================================
+  // SEMANTIC UI COLORS (slightly lighter for dark backgrounds)
+  // =============================================================================
+  success: '#34D399',             // Lighter green for dark mode
   successLight: '#34D399',
   successDark: '#059669',
 
@@ -301,43 +301,43 @@ export const darkColors = {
   gray900: '#18181B',
 
   // =============================================================================
-  // BACKGROUND COLORS (dark mode specific colors)
+  // BACKGROUND COLORS (dark mode - true dark backgrounds)
   // =============================================================================
-  backgroundPrimary: '#FFFFFF',
-  backgroundSecondary: '#F8FAFC',
+  backgroundPrimary: '#0F172A',      // Slate 900 - Deep dark background
+  backgroundSecondary: '#1E293B',    // Slate 800 - Slightly lighter
 
-  surface: '#FFFFFF',
-  surfaceVariant: '#F1F5F9',
-  surfaceSecondary: '#F1F5F9', // Alias
-  surfaceDisabled: '#F4F4F5',     // Same as light mode for type consistency
-
-  // =============================================================================
-  // TEXT COLORS (same as light mode for type consistency)
-  // =============================================================================
-  textPrimary: '#1E293B',
-  textSecondary: '#64748B',
-  textTertiary: '#94A3B8',
-  textDisabled: '#CBD5E1',
-  textInverse: '#FFFFFF',
+  surface: '#1E293B',                // Slate 800 - Card/surface backgrounds
+  surfaceVariant: '#334155',         // Slate 700 - Variant surfaces
+  surfaceSecondary: '#334155',       // Alias for surfaceVariant
+  surfaceDisabled: '#475569',        // Slate 600 - Disabled surfaces
 
   // =============================================================================
-  // BORDER COLORS (same as light mode for type consistency)
+  // TEXT COLORS (dark mode - light text on dark backgrounds)
   // =============================================================================
-  border: '#E2E8F0',
-  borderLight: '#F1F5F9',
-  borderMedium: '#CBD5E1',
-  borderFocus: '#3B82F6',
+  textPrimary: '#F1F5F9',            // Slate 100 - Primary text (very light)
+  textSecondary: '#CBD5E1',          // Slate 300 - Secondary text
+  textTertiary: '#94A3B8',           // Slate 400 - Tertiary text
+  textDisabled: '#64748B',           // Slate 500 - Disabled text
+  textInverse: '#0F172A',            // Dark text for light backgrounds
 
   // =============================================================================
-  // COMPONENT-SPECIFIC COLORS (same as light mode for type consistency)
+  // BORDER COLORS (dark mode - subtle borders)
   // =============================================================================
-  buttonPrimary: '#3B82F6',
-  buttonSecondary: '#8B5CF6',
+  border: '#334155',                 // Slate 700 - Default border
+  borderLight: '#475569',            // Slate 600 - Light border
+  borderMedium: '#64748B',           // Slate 500 - Medium border
+  borderFocus: '#60A5FA',            // Blue 400 - Focus border (lighter)
 
-  inputBackground: '#FFFFFF',
-  inputBorder: '#E2E8F0',
+  // =============================================================================
+  // COMPONENT-SPECIFIC COLORS (dark mode specific)
+  // =============================================================================
+  buttonPrimary: '#60A5FA',          // Lighter blue for dark mode
+  buttonSecondary: '#A78BFA',        // Lighter purple for dark mode
 
-  cardBackground: '#FFFFFF',
+  inputBackground: '#1E293B',        // Dark input background
+  inputBorder: '#475569',            // Subtle input border
+
+  cardBackground: '#1E293B',         // Dark card background
 
   // =============================================================================
   // SPECIAL COLORS
