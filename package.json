@@ -31,7 +31,8 @@
     "react-native-reanimated": "~3.10.1",
     "@react-native-community/datetimepicker": "8.0.1",
     "@expo/vector-icons": "^14.0.0",
-    "lucide-react-native": "^0.468.0"
+    "lucide-react-native": "^0.468.0",
+    "zustand": "^5.0.2"
   },
   "peerDependenciesMeta": {
     "@react-native-community/datetimepicker": {

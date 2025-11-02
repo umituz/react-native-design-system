@@ -30,6 +30,7 @@ import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { LoadingState } from '../loading/presentation/components/LoadingState';
+import { useDesignSystemTheme } from '../../infrastructure/theme/globalThemeStore';
 import type { ThemeMode } from '../tokens/core/TokenFactory';
 
 export interface ScreenLayoutProps {
@@ -114,8 +115,9 @@ export interface ScreenLayoutProps {
   keyboardAvoiding?: boolean;
 
   /**
-   * Theme mode for design tokens (default: 'light')
-   * Pass 'dark' for dark mode styling
+   * Theme mode for design tokens
+   * If not provided, uses global theme from useDesignSystemTheme()
+   * Apps should sync their theme with the global store instead of passing this prop
    */
   themeMode?: ThemeMode;
 }
@@ -135,9 +137,13 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   testID,
   hideScrollIndicator = false,
   keyboardAvoiding = false,
-  themeMode = 'light',
+  themeMode,
 }) => {
-  const tokens = useAppDesignTokens(themeMode);
+  // Use global theme if themeMode prop not provided
+  const { themeMode: globalTheme } = useDesignSystemTheme();
+  const effectiveTheme = themeMode ?? globalTheme;
+
+  const tokens = useAppDesignTokens(effectiveTheme);
   const styles = useMemo(() => getStyles(tokens), [tokens]);
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;

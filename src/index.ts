@@ -343,3 +343,12 @@ export {
   getOnboardingDescriptionMarginTop,
   DeviceType,
 } from './presentation/utils/responsive';
+
+// =============================================================================
+// THEME MANAGEMENT - Global Theme Store
+// =============================================================================
+
+export {
+  useDesignSystemTheme,
+  type ThemeMode,
+} from './infrastructure/theme/globalThemeStore';
