@@ -26,8 +26,7 @@
  */
 
 import { create } from 'zustand';
-
-export type ThemeMode = 'light' | 'dark';
+import type { ThemeMode } from '../../presentation/tokens/core/ColorPalette';
 
 interface GlobalThemeStore {
   /** Current theme mode */
@@ -47,3 +46,6 @@ export const useDesignSystemTheme = create<GlobalThemeStore>((set) => ({
   themeMode: 'light',
   setThemeMode: (mode: ThemeMode) => set({ themeMode: mode }),
 }));
+
+// Re-export ThemeMode for backward compatibility
+export type { ThemeMode };

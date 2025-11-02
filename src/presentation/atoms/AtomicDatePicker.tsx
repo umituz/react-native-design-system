@@ -7,9 +7,9 @@
  * Features:
  * - Platform-specific native pickers (iOS wheel, Android dialog)
  * - Consistent styling with design tokens
- * - Locale-aware date/time formatting (via timezone domain)
+ * - Locale-aware date/time formatting (native Date methods)
  * - Timezone-aware (respects device timezone)
- * - Automatic language integration (changes with app language)
+ * - Automatic language integration (native locale support)
  * - Optional label and error states
  * - Minimum and maximum date constraints
  * - Disabled state support
@@ -47,7 +47,6 @@ import {
 } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTimezone } from '@domains/timezone';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { useResponsive } from '../hooks/useResponsive';
 import { AtomicIcon, type AtomicIconColor } from './AtomicIcon';
@@ -104,7 +103,6 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const { isTabletDevice } = useResponsive();
-  const { formatDate: formatDateTz, formatTime } = useTimezone();
   const [show, setShow] = useState(false);
 
   /**
@@ -128,26 +126,35 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
 
   /**
    * Format date based on mode
-   * Uses timezone domain for locale-aware and timezone-aware formatting
-   * Automatically respects user's selected language and device timezone
+   * Uses native Date formatting (locale-aware)
    */
   const formatDate = (date: Date): string => {
     if (mode === 'time') {
-      // Format time only (e.g., "02:30 PM" in English, "14:30" in Turkish)
-      return formatTime(date);
+      // Format time only
+      return date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
     }
     if (mode === 'datetime') {
-      // Format date + time (e.g., "January 15, 2024 02:30 PM")
-      const dateStr = formatDateTz(date, {
+      // Format date + time
+      const dateStr = date.toLocaleDateString([], {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
       });
-      const timeStr = formatTime(date);
+      const timeStr = date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
       return `${dateStr} ${timeStr}`;
     }
-    // Format date only (e.g., "January 15, 2024" in English, "15 Ocak 2024" in Turkish)
-    return formatDateTz(date);
+    // Format date only
+    return date.toLocaleDateString([], {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   /**
