@@ -1,19 +1,17 @@
 /**
  * useAppDesignTokens Hook - Theme-Aware Design Tokens
  *
- * ✅ Accepts optional themeMode parameter
- * ✅ Returns tokens for specified theme (light/dark)
- * ✅ Apps control theme, package provides tokens
+ * ✅ Automatically reads theme from global store
+ * ✅ No parameters needed - fully automatic!
+ * ✅ Returns tokens for current theme (light/dark)
  * ✅ Single source of truth
  *
- * @param themeMode - Optional theme mode ('light' | 'dark'), defaults to 'light'
- *
- * @example Basic usage (light theme)
+ * @example Usage (fully automatic theme-aware)
  * ```typescript
  * import { useAppDesignTokens } from '@umituz/react-native-design-system';
  *
  * const MyComponent = () => {
- *   const tokens = useAppDesignTokens(); // Uses light theme by default
+ *   const tokens = useAppDesignTokens(); // Automatically uses current theme!
  *   return (
  *     <View style={{
  *       backgroundColor: tokens.colors.primary,
@@ -25,29 +23,18 @@
  * };
  * ```
  *
- * @example Theme-aware usage
- * ```typescript
- * import { useAppDesignTokens } from '@umituz/react-native-design-system';
- * import { useTheme } from '@domains/theme';
- *
- * const MyComponent = () => {
- *   const { themeMode } = useTheme(); // Get theme from app's theme system
- *   const tokens = useAppDesignTokens(themeMode); // Pass theme to hook
- *
- *   return (
- *     <View style={{ backgroundColor: tokens.colors.background }}>
- *       <Text style={{ color: tokens.colors.textPrimary }}>
- *         This text color changes with theme!
- *       </Text>
- *     </View>
- *   );
- * };
- * ```
+ * How it works:
+ * - Reads themeMode from global store (useDesignSystemTheme)
+ * - App's theme store syncs to global store automatically
+ * - All components get correct tokens without prop drilling
+ * - Change theme once, everything updates!
  */
 
 import { useMemo } from 'react';
-import { createDesignTokens, type DesignTokens, type ThemeMode } from '../tokens/core/TokenFactory';
+import { createDesignTokens, type DesignTokens } from '../tokens/core/TokenFactory';
+import { useDesignSystemTheme } from '../../infrastructure/theme/globalThemeStore';
 
-export const useAppDesignTokens = (themeMode: ThemeMode = 'light'): DesignTokens => {
+export const useAppDesignTokens = (): DesignTokens => {
+  const { themeMode } = useDesignSystemTheme();
   return useMemo(() => createDesignTokens(themeMode), [themeMode]);
 };
