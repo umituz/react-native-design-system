@@ -30,6 +30,7 @@ import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { LoadingState } from '../loading/presentation/components/LoadingState';
+import type { ThemeMode } from '../tokens/core/TokenFactory';
 
 export interface ScreenLayoutProps {
   /**
@@ -111,6 +112,12 @@ export interface ScreenLayoutProps {
    * Useful for screens with inputs
    */
   keyboardAvoiding?: boolean;
+
+  /**
+   * Theme mode for design tokens (default: 'light')
+   * Pass 'dark' for dark mode styling
+   */
+  themeMode?: ThemeMode;
 }
 
 export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
@@ -128,8 +135,9 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   testID,
   hideScrollIndicator = false,
   keyboardAvoiding = false,
+  themeMode = 'light',
 }) => {
-  const tokens = useAppDesignTokens();
+  const tokens = useAppDesignTokens(themeMode);
   const styles = useMemo(() => getStyles(tokens), [tokens]);
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
