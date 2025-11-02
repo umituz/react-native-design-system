@@ -14,7 +14,7 @@
 
 import { icons } from 'lucide-react-native';
 import type { IIconAdapter, IconSize, IconColor } from '../../domain/interfaces/IIconAdapter';
-import type { DesignTokens } from '@umituz/react-native-design-system';
+import type { DesignTokens } from '../../../../presentation/tokens/core/TokenFactory';
 
 /**
  * Size mapping: Semantic → Pixels

@@ -14,7 +14,9 @@
  * };
  */
 
-import type { DesignTokens } from '@umituz/react-native-design-system';
+import type { ComponentType } from 'react';
+import type { ViewStyle } from 'react-native';
+import type { DesignTokens } from '../../../../presentation/tokens/core/TokenFactory';
 
 export type IconName = string;
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -41,7 +43,7 @@ export interface IIconAdapter {
    * @param name - Icon name (library-specific)
    * @returns Icon component or null if not found
    */
-  getIconComponent: (name: string) => any | null;
+  getIconComponent: (name: string) => ComponentType<any> | null;
 
   /**
    * Convert semantic size to pixel size
@@ -141,5 +143,5 @@ export interface IconProps {
   /**
    * Custom styles
    */
-  style?: any;
+  style?: ViewStyle;
 }
