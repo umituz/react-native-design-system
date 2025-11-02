@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Pressable, StyleProp, ViewStyle, TextStyle } from 'react-native';
-import { TextInput, HelperText } from 'react-native-paper';
+import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { AtomicIcon } from './AtomicIcon';
+import { AtomicText } from './AtomicText';
 import type { AtomicIconName, AtomicIconSize } from './AtomicIcon';
 
 export type AtomicInputVariant = 'outlined' | 'filled' | 'flat';
@@ -61,12 +61,12 @@ export interface AtomicInputProps {
 }
 
 /**
- * AtomicInput - Material Design 3 Text Input
+ * AtomicInput - Pure React Native Text Input
  *
  * Features:
- * - React Native Paper TextInput integration
+ * - Pure React Native implementation (no Paper dependency)
  * - Lucide icons for password toggle and custom icons
- * - Material Design 3 outlined/filled/flat variants
+ * - Outlined/filled/flat variants
  * - Error, success, disabled states
  * - Character counter
  * - Responsive sizing
@@ -100,133 +100,251 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const isDisabled = state === 'disabled' || disabled;
   const characterCount = value?.toString().length || 0;
-
-  // Map variant to Paper mode
-  const getPaperMode = (): 'outlined' | 'flat' => {
-    if (variant === 'outlined') return 'outlined';
-    return 'flat'; // filled and flat both use 'flat' mode
-  };
-
-  // Map state to Paper error prop
   const hasError = state === 'error';
+  const hasSuccess = state === 'success';
 
-  // Get icon size based on input size
-  const getIconSize = (): AtomicIconSize => {
-    switch (size) {
-      case 'sm': return 'xs';
-      case 'lg': return 'md';
-      default: return 'sm';
-    }
+  // Size configuration
+  const sizeConfig = {
+    sm: {
+      paddingVertical: tokens.spacing.xs,
+      paddingHorizontal: tokens.spacing.sm,
+      fontSize: tokens.typography.bodySmall.fontSize,
+      iconSize: 16,
+      minHeight: 40,
+    },
+    md: {
+      paddingVertical: tokens.spacing.sm,
+      paddingHorizontal: tokens.spacing.md,
+      fontSize: tokens.typography.bodyMedium.fontSize,
+      iconSize: 20,
+      minHeight: 48,
+    },
+    lg: {
+      paddingVertical: tokens.spacing.md,
+      paddingHorizontal: tokens.spacing.lg,
+      fontSize: tokens.typography.bodyLarge.fontSize,
+      iconSize: 24,
+      minHeight: 56,
+    },
   };
 
-  const iconSizeName = getIconSize();
-  const iconColor = isDisabled
-    ? tokens.colors.onSurfaceDisabled
-    : tokens.colors.surfaceVariant;
+  const config = sizeConfig[size];
 
-  // Render leading icon
-  const renderLeadingIcon = leadingIcon ? () => (
-    <AtomicIcon
-      name={leadingIcon}
-      size={iconSizeName}
-      customColor={iconColor}
-    />
-  ) : undefined;
+  // Get variant styles
+  const getVariantStyle = (): ViewStyle => {
+    const baseStyle: ViewStyle = {
+      backgroundColor: tokens.colors.surface,
+      borderRadius: tokens.borders.radius.md,
+    };
 
-  // Render trailing icon or password toggle
-  const renderTrailingIcon = () => {
-    if (showPasswordToggle && secureTextEntry) {
-      return (
-        <Pressable onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
-          <AtomicIcon
-            name={isPasswordVisible ? "EyeOff" : "Eye"}
-            size={iconSizeName}
-            customColor={iconColor}
-          />
-        </Pressable>
-      );
+    let borderColor = tokens.colors.border;
+    if (isFocused) borderColor = tokens.colors.primary;
+    if (hasError) borderColor = tokens.colors.error;
+    if (hasSuccess) borderColor = tokens.colors.success;
+    if (isDisabled) borderColor = tokens.colors.borderDisabled;
+
+    switch (variant) {
+      case 'outlined':
+        return {
+          ...baseStyle,
+          borderWidth: isFocused ? 2 : 1,
+          borderColor,
+        };
+
+      case 'filled':
+        return {
+          ...baseStyle,
+          backgroundColor: tokens.colors.surfaceSecondary,
+          borderWidth: 0,
+          borderBottomWidth: isFocused ? 2 : 1,
+          borderBottomColor: borderColor,
+        };
+
+      case 'flat':
+        return {
+          ...baseStyle,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          borderBottomWidth: 1,
+          borderBottomColor: borderColor,
+          borderRadius: 0,
+        };
+
+      default:
+        return baseStyle;
     }
-
-    if (trailingIcon) {
-      const icon = (
-        <AtomicIcon
-          name={trailingIcon}
-          size={iconSizeName}
-          customColor={iconColor}
-        />
-      );
-
-      return onTrailingIconPress ? (
-        <Pressable onPress={onTrailingIconPress}>{icon}</Pressable>
-      ) : icon;
-    }
-
-    return undefined;
   };
 
   // Get text color based on state
   const getTextColor = () => {
-    if (state === 'error') return tokens.colors.error;
-    if (state === 'success') return tokens.colors.success;
-    return tokens.colors.onSurface;
+    if (isDisabled) return tokens.colors.textDisabled;
+    if (hasError) return tokens.colors.error;
+    if (hasSuccess) return tokens.colors.success;
+    return tokens.colors.textPrimary;
   };
 
+  const iconColor = isDisabled ? tokens.colors.textDisabled : tokens.colors.textSecondary;
+
+  const containerStyle: StyleProp<ViewStyle> = [
+    styles.container,
+    getVariantStyle(),
+    {
+      paddingVertical: config.paddingVertical,
+      paddingHorizontal: config.paddingHorizontal,
+      minHeight: config.minHeight,
+      opacity: isDisabled ? 0.5 : 1,
+    },
+    style,
+  ];
+
+  const textInputStyle: StyleProp<TextStyle> = [
+    styles.input,
+    {
+      fontSize: config.fontSize,
+      color: getTextColor(),
+    },
+    leadingIcon ? { paddingLeft: config.iconSize + 8 } : undefined,
+    (trailingIcon || showPasswordToggle) ? { paddingRight: config.iconSize + 8 } : undefined,
+    inputStyle,
+  ];
+
   return (
-    <View style={style} testID={testID}>
-      <TextInput
-        mode={getPaperMode()}
-        label={label}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        error={hasError}
-        disabled={isDisabled}
-        secureTextEntry={secureTextEntry && !isPasswordVisible}
-        maxLength={maxLength}
-        keyboardType={keyboardType}
-        autoCapitalize={autoCapitalize}
-        autoCorrect={autoCorrect}
-        left={renderLeadingIcon ? <TextInput.Icon icon={renderLeadingIcon} /> : undefined}
-        right={renderTrailingIcon() ? <TextInput.Icon icon={renderTrailingIcon} /> : undefined}
-        style={inputStyle}
-        textColor={getTextColor()}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        testID={testID ? `${testID}-input` : undefined}
-      />
+    <View testID={testID}>
+      {label && (
+        <AtomicText
+          type="labelMedium"
+          color={hasError ? 'error' : hasSuccess ? 'success' : 'secondary'}
+          style={styles.label}
+        >
+          {label}
+        </AtomicText>
+      )}
+
+      <View style={containerStyle}>
+        {leadingIcon && (
+          <View style={styles.leadingIcon}>
+            <AtomicIcon
+              name={leadingIcon}
+              customSize={config.iconSize}
+              customColor={iconColor}
+            />
+          </View>
+        )}
+
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor={tokens.colors.textSecondary}
+          secureTextEntry={secureTextEntry && !isPasswordVisible}
+          maxLength={maxLength}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
+          editable={!isDisabled}
+          style={textInputStyle}
+          onBlur={() => {
+            setIsFocused(false);
+            onBlur?.();
+          }}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus?.();
+          }}
+          testID={testID ? `${testID}-input` : undefined}
+        />
+
+        {(showPasswordToggle && secureTextEntry) && (
+          <Pressable
+            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+            style={styles.trailingIcon}
+          >
+            <AtomicIcon
+              name={isPasswordVisible ? "EyeOff" : "Eye"}
+              customSize={config.iconSize}
+              customColor={iconColor}
+            />
+          </Pressable>
+        )}
+
+        {trailingIcon && !showPasswordToggle && (
+          <Pressable
+            onPress={onTrailingIconPress}
+            style={styles.trailingIcon}
+            disabled={!onTrailingIconPress}
+          >
+            <AtomicIcon
+              name={trailingIcon}
+              customSize={config.iconSize}
+              customColor={iconColor}
+            />
+          </Pressable>
+        )}
+      </View>
 
       {(helperText || showCharacterCount) && (
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: tokens.spacing.xs,
-        }}>
+        <View style={styles.helperRow}>
           {helperText && (
-            <HelperText
-              type={hasError ? 'error' : 'info'}
-              visible={Boolean(helperText)}
-              style={{ flex: 1 }}
+            <AtomicText
+              type="bodySmall"
+              color={hasError ? 'error' : 'secondary'}
+              style={styles.helperText}
               testID={testID ? `${testID}-helper` : undefined}
             >
               {helperText}
-            </HelperText>
+            </AtomicText>
           )}
           {showCharacterCount && maxLength && (
-            <HelperText
-              type="info"
-              visible={true}
-              style={{ marginLeft: tokens.spacing.xs }}
+            <AtomicText
+              type="bodySmall"
+              color="secondary"
+              style={styles.characterCount}
               testID={testID ? `${testID}-count` : undefined}
             >
               {characterCount}/{maxLength}
-            </HelperText>
+            </AtomicText>
           )}
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    flex: 1,
+  },
+  label: {
+    marginBottom: 4,
+  },
+  leadingIcon: {
+    position: 'absolute',
+    left: 12,
+    zIndex: 1,
+  },
+  trailingIcon: {
+    position: 'absolute',
+    right: 12,
+    zIndex: 1,
+  },
+  helperRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  helperText: {
+    flex: 1,
+  },
+  characterCount: {
+    marginLeft: 8,
+  },
+});
 
 export type { AtomicInputProps as InputProps };

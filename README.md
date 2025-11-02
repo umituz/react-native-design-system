@@ -1,17 +1,19 @@
 # @umituz/react-native-design-system
 
-Universal design system for React Native apps following Domain-Driven Design (DDD) architecture with Material Design 3 components.
+Universal design system for React Native apps following Domain-Driven Design (DDD) architecture with Material Design 3 principles.
 
 ## ✨ Features
 
 - 🎨 **Material Design 3** - Modern, accessible UI components
-- ⚛️ **Atomic Design** - Organized component hierarchy (Atoms → Molecules → Organisms)
-- 🏗️ **DDD Architecture** - Clean domain-driven structure
+- ⚛️ **Pure React Native** - No external UI library dependencies (lightweight!)
+- 🏗️ **Atomic Design** - Organized component hierarchy (Atoms → Molecules → Organisms)
+- 🧬 **DDD Architecture** - Clean domain-driven structure
 - 🌓 **Theme Support** - Built-in light/dark mode
 - 📱 **Responsive** - Adaptive layouts for phones and tablets
 - ♿ **Accessible** - WCAG AA compliant components
 - 🎭 **Animations** - Smooth React Native Reanimated animations
 - 📦 **Zero Config** - Works out of the box
+- 🪶 **Lightweight** - Smaller bundle size (no Paper dependency)
 
 ## 📦 Installation
 
@@ -22,8 +24,10 @@ npm install @umituz/react-native-design-system
 ### Peer Dependencies
 
 ```bash
-npm install react@18.3.1 react-native@0.76.3 react-native-paper@^5.12.5 react-native-reanimated@~3.10.1
+npm install react@18.3.1 react-native@0.76.3 react-native-reanimated@~3.10.1 lucide-react-native@^0.468.0
 ```
+
+> **v1.3.0 Breaking Change**: React Native Paper dependency removed! All components now use pure React Native implementation for lighter bundle size and full control over styling.
 
 ## 🚀 Usage
 
@@ -60,11 +64,12 @@ const MyScreen = () => {
 ## 🧩 Components
 
 ### Atoms (Primitive UI Components)
-- `AtomicButton` - Material Design 3 buttons with variants
-- `AtomicText` - Typography with MD3 type scale
-- `AtomicInput` - Text inputs with validation
-- `AtomicCard` - Container cards
-- `AtomicIcon` - Icon components
+- `AtomicButton` - Pure React Native buttons with variants (primary, secondary, outline, text, danger)
+- `AtomicText` - Typography with MD3 type scale (pure RN Text)
+- `AtomicInput` - Text inputs with validation states (pure RN TextInput)
+- `AtomicTextArea` - Multiline inputs with character counter (pure RN TextInput)
+- `AtomicCard` - Container cards with elevation (pure RN View)
+- `AtomicIcon` - Lucide icons with 1,639 icons
 - `AtomicSwitch` - Toggle switches
 - `AtomicBadge` - Status badges
 - `AtomicProgress` - Progress indicators
@@ -79,9 +84,9 @@ const MyScreen = () => {
 - And more...
 
 ### Organisms (Complex Patterns)
-- `ScreenLayout` - Screen wrapper with safe area
+- `ScreenLayout` - Screen wrapper with safe area (pure RN View)
 - `AppHeader` - Application header
-- `FormContainer` - Form layout container
+- `FormContainer` - Form layout container with keyboard handling (pure RN View + ScrollView)
 
 ## 🎨 Design Tokens
 

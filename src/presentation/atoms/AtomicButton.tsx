@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button as PaperButton } from 'react-native-paper';
-import { StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, ActivityIndicator, View } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { Pressable } from 'react-native';
+import { AtomicText } from './AtomicText';
+import { Icon } from '../../domains/icons/presentation/components/Icon';
+import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import type { IconName } from '../../domains/icons/domain/interfaces/IIconAdapter';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -15,14 +17,14 @@ export interface AtomicButtonProps {
   size?: ButtonSize;
   disabled?: boolean;
   loading?: boolean;
-  icon?: string;
+  icon?: IconName;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   testID?: string;
 }
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export const AtomicButton: React.FC<AtomicButtonProps> = ({
   title,
@@ -35,8 +37,11 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   icon,
   fullWidth = false,
   style,
+  textStyle,
   testID,
 }) => {
+  const tokens = useAppDesignTokens();
+
   // Animation
   const scale = useSharedValue(1);
 
@@ -63,62 +68,205 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
     }
   };
 
-  // Map variants to Paper modes
-  const getPaperMode = (): 'contained' | 'outlined' | 'text' | 'contained-tonal' | 'elevated' => {
+  // Size configurations
+  const sizeConfig = {
+    sm: {
+      paddingVertical: tokens.spacing.xs,
+      paddingHorizontal: tokens.spacing.sm,
+      fontSize: tokens.typography.bodySmall.fontSize,
+      iconSize: 16,
+      minHeight: 32,
+    },
+    md: {
+      paddingVertical: tokens.spacing.sm,
+      paddingHorizontal: tokens.spacing.md,
+      fontSize: tokens.typography.bodyMedium.fontSize,
+      iconSize: 20,
+      minHeight: 44,
+    },
+    lg: {
+      paddingVertical: tokens.spacing.md,
+      paddingHorizontal: tokens.spacing.lg,
+      fontSize: tokens.typography.bodyLarge.fontSize,
+      iconSize: 24,
+      minHeight: 52,
+    },
+  };
+
+  const config = sizeConfig[size];
+
+  // Variant styles
+  const getVariantStyles = () => {
+    const baseStyle: ViewStyle = {
+      backgroundColor: tokens.colors.primary,
+      borderWidth: 0,
+    };
+
+    const baseTextStyle: TextStyle = {
+      color: tokens.colors.textInverse,
+    };
+
     switch (variant) {
       case 'primary':
-        return 'contained';
+        return {
+          container: {
+            ...baseStyle,
+            backgroundColor: tokens.colors.primary,
+          },
+          text: {
+            ...baseTextStyle,
+            color: tokens.colors.textInverse,
+          },
+        };
+
       case 'secondary':
-        return 'contained-tonal';
+        return {
+          container: {
+            ...baseStyle,
+            backgroundColor: tokens.colors.surfaceSecondary,
+          },
+          text: {
+            ...baseTextStyle,
+            color: tokens.colors.textPrimary,
+          },
+        };
+
       case 'outline':
-        return 'outlined';
+        return {
+          container: {
+            ...baseStyle,
+            backgroundColor: 'transparent',
+            borderWidth: 1,
+            borderColor: tokens.colors.border,
+          },
+          text: {
+            ...baseTextStyle,
+            color: tokens.colors.textPrimary,
+          },
+        };
+
       case 'text':
-        return 'text';
+        return {
+          container: {
+            ...baseStyle,
+            backgroundColor: 'transparent',
+          },
+          text: {
+            ...baseTextStyle,
+            color: tokens.colors.primary,
+          },
+        };
+
       case 'danger':
-        return 'contained';
+        return {
+          container: {
+            ...baseStyle,
+            backgroundColor: tokens.colors.error,
+          },
+          text: {
+            ...baseTextStyle,
+            color: tokens.colors.textInverse,
+          },
+        };
+
       default:
-        return 'contained';
+        return {
+          container: baseStyle,
+          text: baseTextStyle,
+        };
     }
   };
 
-  // Map size to padding
-  const getContentStyle = () => {
-    const paddingMap = {
-      sm: { paddingVertical: 4, paddingHorizontal: 12 },
-      md: { paddingVertical: 8, paddingHorizontal: 16 },
-      lg: { paddingVertical: 12, paddingHorizontal: 20 },
-    };
-    return paddingMap[size];
-  };
+  const variantStyles = getVariantStyles();
 
-  const buttonStyle: StyleProp<ViewStyle> = StyleSheet.flatten([
-    fullWidth ? { width: '100%' } : undefined,
+  const containerStyle: StyleProp<ViewStyle> = [
+    styles.button,
+    {
+      paddingVertical: config.paddingVertical,
+      paddingHorizontal: config.paddingHorizontal,
+      minHeight: config.minHeight,
+      borderRadius: tokens.borders.radius.md,
+    },
+    variantStyles.container,
+    fullWidth ? styles.fullWidth : undefined,
+    disabled ? styles.disabled : undefined,
     style,
-  ]);
+  ];
+
+  const buttonTextStyle: StyleProp<TextStyle> = [
+    {
+      fontSize: config.fontSize,
+      fontWeight: '600',
+    },
+    variantStyles.text,
+    disabled ? styles.disabledText : undefined,
+    textStyle,
+  ];
 
   const buttonText = title || children;
+  const showIcon = icon && !loading;
+  const iconColor = variantStyles.text.color;
 
   return (
-    <AnimatedPressable
-      style={animatedStyle}
+    <AnimatedTouchable
+      style={[animatedStyle, containerStyle]}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={handlePress}
+      activeOpacity={0.8}
+      disabled={disabled || loading}
+      testID={testID}
     >
-      <PaperButton
-        mode={getPaperMode()}
-        disabled={disabled}
-        loading={loading}
-        icon={icon}
-        style={buttonStyle}
-        contentStyle={getContentStyle()}
-        testID={testID}
-        buttonColor={variant === 'danger' ? '#DC2626' : undefined}
-      >
-        {buttonText}
-      </PaperButton>
-    </AnimatedPressable>
+      <View style={styles.content}>
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color={variantStyles.text.color}
+            style={styles.loader}
+          />
+        ) : showIcon ? (
+          <Icon
+            name={icon}
+            customSize={config.iconSize}
+            customColor={iconColor}
+            style={styles.icon}
+          />
+        ) : null}
+
+        <AtomicText style={buttonTextStyle}>
+          {buttonText}
+        </AtomicText>
+      </View>
+    </AnimatedTouchable>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  disabledText: {
+    opacity: 0.7,
+  },
+  icon: {
+    marginRight: 8,
+  },
+  loader: {
+    marginRight: 8,
+  },
+});
 
 export type { AtomicButtonProps as ButtonProps };

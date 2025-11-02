@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card as PaperCard } from 'react-native-paper';
-import { StyleProp, ViewStyle } from 'react-native';
+import { View, StyleProp, ViewStyle } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { Pressable } from 'react-native';
+import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 
 export type AtomicCardVariant = 'flat' | 'elevated' | 'outlined';
 export type AtomicCardPadding = 'none' | 'sm' | 'md' | 'lg' | 'xl';
@@ -28,6 +28,8 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
   children,
   testID,
 }) => {
+  const tokens = useAppDesignTokens();
+
   // Animation for tap feedback
   const scale = useSharedValue(1);
 
@@ -54,43 +56,64 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
     }
   };
 
-  // Map variants to Paper modes
-  const getPaperMode = (): 'elevated' | 'outlined' | 'contained' => {
+  // Map padding to token values
+  const getPaddingValue = (): number => {
+    const paddingMap = {
+      none: 0,
+      sm: tokens.spacing.sm,
+      md: tokens.spacing.md,
+      lg: tokens.spacing.lg,
+      xl: tokens.spacing.xl,
+    };
+    return paddingMap[padding];
+  };
+
+  // Get variant styles
+  const getVariantStyle = (): ViewStyle => {
+    const baseStyle: ViewStyle = {
+      backgroundColor: tokens.colors.surface,
+      borderRadius: tokens.borders.radius.md,
+    };
+
     switch (variant) {
       case 'elevated':
-        return 'elevated';
+        return {
+          ...baseStyle,
+          borderWidth: 1,
+          borderColor: tokens.colors.border,
+        };
+
       case 'outlined':
-        return 'outlined';
+        return {
+          ...baseStyle,
+          borderWidth: 1,
+          borderColor: tokens.colors.border,
+        };
+
       case 'flat':
-        return 'contained';
+        return {
+          ...baseStyle,
+          borderWidth: 0,
+        };
+
       default:
-        return 'elevated';
+        return baseStyle;
     }
   };
 
-  // Map padding to actual values
-  const getContentStyle = () => {
-    const paddingMap = {
-      none: 0,
-      sm: 8,
-      md: 16,
-      lg: 24,
-      xl: 32,
-    };
-    const paddingValue = paddingMap[padding];
-    return { padding: paddingValue };
-  };
+  const cardStyle: StyleProp<ViewStyle> = [
+    getVariantStyle(),
+    {
+      padding: getPaddingValue(),
+      opacity: disabled ? 0.5 : 1,
+    },
+    style,
+  ];
 
   const cardContent = (
-    <PaperCard
-      mode={getPaperMode()}
-      style={style}
-      testID={testID}
-    >
-      <PaperCard.Content style={getContentStyle()}>
-        {children}
-      </PaperCard.Content>
-    </PaperCard>
+    <View style={cardStyle} testID={testID}>
+      {children}
+    </View>
   );
 
   // If onPress provided, wrap with animated pressable

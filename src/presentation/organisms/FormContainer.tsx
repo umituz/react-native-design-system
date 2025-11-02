@@ -1,17 +1,16 @@
 /**
  * FormContainer Component
  *
- * A reusable container for forms with Material Design 3 integration,
- * proper keyboard handling, and responsive layout.
+ * A reusable container for forms with proper keyboard handling and responsive layout.
  *
  * Features:
- * - Material Design 3 Surface component for elevation and theme integration
+ * - Pure React Native implementation (no Paper dependency)
  * - Universal keyboard handling (no platform-specific code)
  * - ScrollView with automatic content padding
  * - Safe area insets for bottom tab navigation overlap
  * - Responsive max width for large screens (tablets)
  * - Consistent vertical spacing between form elements
- * - Theme-aware surface colors and elevation
+ * - Theme-aware surface colors
  * - Optimized performance with memoized styles
  *
  * Usage:
@@ -31,13 +30,12 @@
  * - Consistent form layout across all 100+ generated apps
  * - Responsive design for tablets (max 700px) and phones (full width)
  * - Automatic vertical spacing between form elements (no manual marginBottom)
- * - Material Design 3 surface with proper elevation
  * - Reduces boilerplate in form screens
  * - Universal code - no platform checks, works on iOS, Android, Web
  *
  * Technical Details:
  * - Uses ScrollView with contentContainerStyle for keyboard handling
- * - React Native Paper Surface for Material Design 3 integration
+ * - Pure React Native View for surface (lightweight)
  * - Vertical spacing via Children.map() wrapping (universal compatibility)
  * - Safe area insets from react-native-safe-area-context
  * - Responsive values from useResponsive hook
@@ -53,7 +51,6 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { Surface } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { useResponsive } from '../hooks/useResponsive';
@@ -72,15 +69,15 @@ export interface FormContainerProps {
   showsVerticalScrollIndicator?: boolean;
   /** Optional test ID for E2E testing */
   testID?: string;
-  /** Disable Material Design elevation (default: false) */
-  disableElevation?: boolean;
+  /** Show surface border (default: true) */
+  showBorder?: boolean;
 }
 
 /**
  * FormContainer - Universal form wrapper component
  *
  * Wraps forms with:
- * - Material Design 3 Surface component
+ * - Pure React Native surface
  * - Universal keyboard handling (no platform checks)
  * - ScrollView for content overflow
  * - Safe area insets (bottom tabs, notch)
@@ -93,7 +90,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   contentContainerStyle,
   showsVerticalScrollIndicator = false,
   testID,
-  disableElevation = false,
+  showBorder = true,
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
@@ -111,6 +108,9 @@ export const FormContainer: React.FC<FormContainerProps> = ({
         surface: {
           flex: 1,
           backgroundColor: tokens.colors.surface,
+          borderWidth: showBorder ? 1 : 0,
+          borderColor: tokens.colors.border,
+          borderRadius: tokens.borders.radius.md,
         },
         scrollView: {
           flex: 1,
@@ -135,12 +135,15 @@ export const FormContainer: React.FC<FormContainerProps> = ({
     [
       tokens.colors.backgroundPrimary,
       tokens.colors.surface,
+      tokens.colors.border,
+      tokens.borders.radius.md,
       tokens.spacing.lg,
       tokens.spacing.xl,
       formBottomPadding,
       formContentWidth,
       formElementSpacing,
       insets.bottom,
+      showBorder,
     ]
   );
 
@@ -160,10 +163,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
-      <Surface
-        style={styles.surface}
-        elevation={disableElevation ? 0 : 1}
-      >
+      <View style={styles.surface}>
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
@@ -174,7 +174,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
         >
           {childrenWithSpacing}
         </ScrollView>
-      </Surface>
+      </View>
     </View>
   );
 };
