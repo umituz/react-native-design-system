@@ -350,5 +350,4 @@ export {
 
 export {
   useDesignSystemTheme,
-  type ThemeMode,
 } from './infrastructure/theme/globalThemeStore';

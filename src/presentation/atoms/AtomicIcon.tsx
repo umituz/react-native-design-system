@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import type { ViewStyle } from 'react-native';
 import * as LucideIcons from 'lucide-react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 
@@ -44,7 +45,18 @@ export interface IconProps {
   customSize?: number;
   /** Custom color override (hex) */
   customColor?: string;
+  /** Optional style */
+  style?: ViewStyle;
+  /** Optional test ID */
+  testID?: string;
+  /** Legacy prop support: icon (alias for name) */
+  icon?: string;
 }
+
+/**
+ * Icon name type (all Lucide icon names as string)
+ */
+export type IconName = string;
 
 /**
  * Size mapping (pixels)
@@ -65,18 +77,24 @@ const sizeMap: Record<IconSize, number> = {
  */
 export const AtomicIcon: React.FC<IconProps> = ({
   name,
+  icon, // Legacy support
   color = 'textPrimary',
   size = 'md',
   customSize,
   customColor,
+  style,
+  testID,
 }) => {
   const tokens = useAppDesignTokens();
 
+  // Support legacy 'icon' prop (fallback to 'name')
+  const iconName = name || icon || '';
+
   // Get icon component from Lucide
-  const IconComponent = (LucideIcons as any)[name];
+  const IconComponent = (LucideIcons as any)[iconName];
 
   if (!IconComponent) {
-    console.warn(`Icon "${name}" not found in Lucide icon set`);
+    console.warn(`Icon "${iconName}" not found in Lucide icon set`);
     return null;
   }
 
@@ -104,10 +122,11 @@ export const AtomicIcon: React.FC<IconProps> = ({
   // Resolve size
   const iconSize = customSize || sizeMap[size];
 
-  return <IconComponent color={resolveColor()} size={iconSize} />;
+  return <IconComponent color={resolveColor()} size={iconSize} style={style} testID={testID} />;
 };
 
 // Re-export types for backward compatibility
 export type AtomicIconProps = IconProps;
 export type AtomicIconSize = IconSize;
 export type AtomicIconColor = IconColor;
+export type AtomicIconName = IconName;

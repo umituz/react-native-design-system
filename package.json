@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "src/index.ts",
   "types": "src/index.ts",
