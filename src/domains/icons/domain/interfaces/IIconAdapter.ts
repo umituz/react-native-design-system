@@ -16,6 +16,7 @@
 
 import type { DesignTokens } from '@umituz/react-native-design-system';
 
+export type IconName = string;
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 export type IconColor =
   | 'primary'

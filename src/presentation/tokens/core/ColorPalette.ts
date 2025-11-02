@@ -155,6 +155,7 @@ export const lightColors = {
   borderLight: '#F1F5F9',
   borderMedium: '#CBD5E1',
   borderFocus: '#3B82F6',
+  borderDisabled: '#F1F5F9',
 
   // =============================================================================
   // COMPONENT-SPECIFIC COLORS
@@ -327,6 +328,7 @@ export const darkColors = {
   borderLight: '#475569',            // Slate 600 - Light border
   borderMedium: '#64748B',           // Slate 500 - Medium border
   borderFocus: '#60A5FA',            // Blue 400 - Focus border (lighter)
+  borderDisabled: '#475569',         // Slate 600 - Disabled border
 
   // =============================================================================
   // COMPONENT-SPECIFIC COLORS (dark mode specific)

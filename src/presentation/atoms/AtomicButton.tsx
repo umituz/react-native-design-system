@@ -228,7 +228,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
           <Icon
             name={icon}
             customSize={config.iconSize}
-            customColor={iconColor}
+            customColor={typeof iconColor === 'string' ? iconColor : undefined}
             style={styles.icon}
           />
         ) : null}
