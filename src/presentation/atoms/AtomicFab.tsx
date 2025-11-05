@@ -61,10 +61,10 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
   const isDisabled = disabled || loading;
 
   // Get configurations
-  const sizeConfig = FAB_SIZES[size];
+  const sizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
   const variants = getFabVariants(tokens);
-  const variantConfig = variants[variant];
-  const iconSize = getFabIconSize(size);
+  const variantConfig = variants[variant as 'primary' | 'secondary' | 'surface'];
+  const iconSize = getFabIconSize(size as 'sm' | 'md' | 'lg');
 
   // Combine styles
   const fabStyle = StyleSheet.flatten([

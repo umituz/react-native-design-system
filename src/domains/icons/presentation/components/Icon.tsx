@@ -30,7 +30,7 @@ import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../../../presentation/hooks/useAppDesignTokens';
 import { CURRENT_LIBRARY } from '../../domain/config/IconLibraryConfig';
 import { LucideAdapter } from '../../infrastructure/adapters/LucideAdapter';
-import type { IconProps } from '../../domain/interfaces/IIconAdapter';
+import type { IconProps, IconSize, IconColor } from '../../domain/interfaces/IIconAdapter';
 
 /**
  * Get adapter based on current library configuration
@@ -76,10 +76,10 @@ export const Icon: React.FC<IconProps> = ({
   }
 
   // Calculate icon size
-  const iconSize = adapter.getIconSize(size, customSize);
+  const iconSize = adapter.getIconSize(size as IconSize, customSize);
 
   // Get icon color from theme
-  const iconColor = adapter.getIconColor(color, tokens, customColor);
+  const iconColor = adapter.getIconColor(color as IconColor, tokens, customColor);
 
   // Get stroke width (for outline icons)
   const iconStrokeWidth = strokeWidth || adapter.getStrokeWidth?.() || 2;

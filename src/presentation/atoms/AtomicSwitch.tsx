@@ -72,8 +72,8 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
   const tokens = useAppDesignTokens();
   const styles = getStyles(tokens);
 
-  const sizeConfig = SIZE_CONFIG[size];
-  const colors = getVariantColors(tokens, variant);
+  const sizeConfig = SIZE_CONFIG[size as 'sm' | 'md' | 'lg'];
+  const colors = getVariantColors(tokens, variant as 'primary' | 'secondary' | 'success' | 'warning' | 'error');
 
   const defaultTrackColor = trackColor || {
     false: colors.trackFalse,

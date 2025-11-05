@@ -95,7 +95,7 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
   const isDisabled = disabled || loading;
 
   // Get opacity value based on strength
-  const opacityValue = getOpacityValue(strength);
+  const opacityValue = getOpacityValue(strength as 'subtle' | 'normal' | 'strong');
 
   // Normalize hit slop
   const normalizedHitSlop = normalizeHitSlop(hitSlop);
