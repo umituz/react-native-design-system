@@ -131,7 +131,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
     return () => {
       breathingAnimation.stop();
     };
-  }, [scaleAnim]);
+  }, [scaleAnim, tokens.animations.slowest]);
 
   // Dynamic styles based on theme
   const styles = useMemo(() => getStyles(tokens, config, fullScreen), [tokens, config, fullScreen]);

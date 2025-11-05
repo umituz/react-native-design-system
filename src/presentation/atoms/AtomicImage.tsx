@@ -15,7 +15,7 @@
  */
 
 import React from 'react';
-import { Image, ImageProps, StyleSheet, ViewStyle } from 'react-native';
+import { Image, ImageProps, StyleSheet, ViewStyle, View } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 
 // =============================================================================
@@ -100,11 +100,13 @@ export const AtomicImage: React.FC<AtomicImageProps> = ({
   ];
 
   return (
-    <Image
-      source={source}
-      style={finalImageStyle}
-      {...props}
-    />
+    <View style={containerStyle}>
+      <Image
+        source={source}
+        style={finalImageStyle}
+        {...props}
+      />
+    </View>
   );
 };
 
@@ -132,8 +134,6 @@ const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) =>
   StyleSheet.create({
     container: {
       overflow: 'hidden',
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     image: {
       width: '100%',

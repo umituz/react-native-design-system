@@ -38,7 +38,9 @@ export const LucideAdapter: IIconAdapter = {
   getIconComponent: (name: string) => {
     const IconComponent = icons[name as keyof typeof icons];
     if (!IconComponent) {
-      console.warn(`[LucideAdapter] Icon "${name}" not found in Lucide library`);
+      if (__DEV__) {
+        console.warn(`[LucideAdapter] Icon "${name}" not found in Lucide library`);
+      }
       return null;
     }
     return IconComponent;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ScrollView, View, TouchableOpacity, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { AtomicChip } from './AtomicChip';
@@ -66,7 +66,7 @@ export const AtomicFilter: React.FC<AtomicFilterProps> = ({
   /**
    * Handle filter chip press
    */
-  const handleFilterPress = (optionId: string) => {
+  const handleFilterPress = useCallback((optionId: string) => {
     if (multiSelect) {
       // Multi-select mode: Toggle selection
       if (selectedIds.includes(optionId)) {
@@ -86,14 +86,14 @@ export const AtomicFilter: React.FC<AtomicFilterProps> = ({
         onSelectionChange([optionId]);
       }
     }
-  };
+  }, [multiSelect, selectedIds, onSelectionChange]);
 
   /**
    * Handle clear all button press
    */
-  const handleClearAll = () => {
+  const handleClearAll = useCallback(() => {
     onSelectionChange([]);
-  };
+  }, [onSelectionChange]);
 
   const hasActiveFilters = selectedIds.length > 0;
 

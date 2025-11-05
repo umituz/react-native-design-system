@@ -70,7 +70,6 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
   ...props
 }) => {
   const tokens = useAppDesignTokens();
-  const styles = getStyles(tokens);
 
   const sizeConfig = SIZE_CONFIG[size as 'sm' | 'md' | 'lg'];
   const colors = getVariantColors(tokens, variant as 'primary' | 'secondary' | 'success' | 'warning' | 'error');
@@ -92,7 +91,6 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
       thumbColor={defaultThumbColor}
       ios_backgroundColor={defaultIosBackgroundColor}
       style={[
-        styles.switch,
         {
           transform: [{ scaleX: sizeConfig.scaleX }, { scaleY: sizeConfig.scaleY }],
         },
@@ -147,17 +145,6 @@ const getVariantColors = (tokens: ReturnType<typeof useAppDesignTokens>, variant
       };
   }
 };
-
-// =============================================================================
-// STYLES
-// =============================================================================
-
-const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) =>
-  StyleSheet.create({
-    switch: {
-      // Default switch styling is handled by platform
-    },
-  });
 
 // =============================================================================
 // EXPORTS
