@@ -97,9 +97,9 @@ export const AtomicBadge: React.FC<AtomicBadgeProps> = ({
   const tokens = useAppDesignTokens();
   const styles = getStyles(tokens);
 
-  const sizeConfig = getSizeConfig(tokens)[size];
-  const colors = getVariantColors(tokens, variant);
-  const borderRadius = getBorderRadius(shape, sizeConfig.borderRadius, tokens);
+  const sizeConfig = getSizeConfig(tokens)[size as 'xs' | 'sm' | 'md' | 'lg'];
+  const colors = getVariantColors(tokens, variant as 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info');
+  const borderRadius = getBorderRadius(shape as 'circle' | 'rounded' | 'square', sizeConfig.borderRadius, tokens);
 
   // Handle max value display
   const displayValue = React.useMemo(() => {

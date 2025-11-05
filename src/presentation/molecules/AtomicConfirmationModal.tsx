@@ -40,6 +40,7 @@
 import React from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+// @ts-ignore - Optional peer dependency
 import { useLocalization } from '@umituz/react-native-localization';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
@@ -82,7 +83,7 @@ export const AtomicConfirmationModal: React.FC<AtomicConfirmationModalProps> = (
   const { t } = useLocalization();
 
   // Get variant-specific configuration (icon and color only)
-  const variantConfig = getVariantConfig(variant, tokens);
+  const variantConfig = getVariantConfig(variant as 'default' | 'destructive' | 'warning' | 'success', tokens);
 
   // Get locale-aware default text based on variant
   const getDefaultConfirmText = (): string => {
