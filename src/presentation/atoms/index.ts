@@ -85,11 +85,6 @@ import {
 } from './AtomicDivider';
 
 import {
-  AtomicSkeleton,
-  type AtomicSkeletonProps,
-} from './AtomicSkeleton';
-
-import {
   AtomicProgress,
   type AtomicProgressProps,
 } from './AtomicProgress';
@@ -199,11 +194,6 @@ export {
 };
 
 export {
-  AtomicSkeleton,
-  type AtomicSkeletonProps,
-};
-
-export {
   AtomicProgress,
   type AtomicProgressProps,
 };
@@ -260,7 +250,6 @@ export type AtomicComponentProps =
   | AtomicAvatarProps
   | AtomicChipProps
   | AtomicDividerProps
-  | AtomicSkeletonProps
   | AtomicProgressProps
   | AtomicAvatarGroupProps
   | AtomicFabProps
@@ -366,7 +355,6 @@ const defaultExport = {
   AtomicAvatar,
   AtomicChip,
   AtomicDivider,
-  AtomicSkeleton,
   AtomicProgress,
   AtomicAvatarGroup,
   AtomicFab,

@@ -210,8 +210,8 @@ export const useConfirmationModal = (config: {
   title: string;
   message: string;
   variant?: ConfirmationModalVariant;
-  confirmText?: string;
-  cancelText?: string;
+  confirmText: string;
+  cancelText: string;
   onConfirm: () => void;
 }) => {
   const [visible, setVisible] = React.useState(false);
