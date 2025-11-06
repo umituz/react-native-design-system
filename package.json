@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -40,17 +40,13 @@
     "lucide-react-native": "^0.468.0",
     "zustand": "^5.0.2",
     "expo-linear-gradient": "~13.0.2",
-    "@react-navigation/native": "^6.0.0",
-    "@umituz/react-native-localization": "^1.0.0"
+    "@react-navigation/native": "^6.0.0"
   },
   "peerDependenciesMeta": {
     "expo-linear-gradient": {
       "optional": true
     },
     "@react-navigation/native": {
-      "optional": true
-    },
-    "@umituz/react-native-localization": {
       "optional": true
     }
   },

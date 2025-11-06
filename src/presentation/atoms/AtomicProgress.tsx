@@ -10,7 +10,6 @@
  * Usage:
  * - File upload progress
  * - Task completion progress
- * - Loading progress
  * - Achievement progress
  * - Form completion
  */
@@ -42,8 +41,6 @@ export interface AtomicProgressProps {
   showValue?: boolean;
   /** Custom text color */
   textColor?: string;
-  /** Animation duration in milliseconds */
-  animationDuration?: number;
   /** Style overrides */
   style?: ViewStyle | ViewStyle[];
   /** Test ID for testing */
@@ -64,7 +61,6 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
   showPercentage = false,
   showValue = false,
   textColor,
-  animationDuration = 300,
   style,
   testID,
 }) => {

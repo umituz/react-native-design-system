@@ -11,7 +11,6 @@ Universal design system for React Native apps following Domain-Driven Design (DD
 - 🌓 **Theme Support** - Built-in light/dark mode
 - 📱 **Responsive** - Adaptive layouts for phones and tablets
 - ♿ **Accessible** - WCAG AA compliant components
-- 🎭 **Animations** - Smooth React Native Reanimated animations
 - 📦 **Zero Config** - Works out of the box
 - 🪶 **Lightweight** - Smaller bundle size (no Paper dependency)
 

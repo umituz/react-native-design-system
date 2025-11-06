@@ -40,8 +40,6 @@
 import React from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
-// @ts-ignore - Optional peer dependency
-import { useLocalization } from '@umituz/react-native-localization';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
 import { AtomicIcon } from '../atoms/AtomicIcon';
@@ -80,28 +78,9 @@ export const AtomicConfirmationModal: React.FC<AtomicConfirmationModalProps> = (
   testID = 'atomic-confirmation-modal',
 }) => {
   const tokens = useAppDesignTokens();
-  const { t } = useLocalization();
 
   // Get variant-specific configuration (icon and color only)
   const variantConfig = getVariantConfig(variant as 'default' | 'destructive' | 'warning' | 'success', tokens);
-
-  // Get locale-aware default text based on variant
-  const getDefaultConfirmText = (): string => {
-    switch (variant) {
-      case 'destructive':
-        return t('general.delete');
-      case 'warning':
-        return t('general.continue');
-      case 'success':
-      case 'default':
-      default:
-        return t('general.confirm');
-    }
-  };
-
-  // Determine final text values
-  const finalConfirmText = confirmText || getDefaultConfirmText();
-  const finalCancelText = cancelText || t('general.cancel');
 
   // Determine final icon
   const finalIcon = icon || variantConfig.icon;
@@ -185,7 +164,7 @@ export const AtomicConfirmationModal: React.FC<AtomicConfirmationModalProps> = (
               style={getButtonStyle()}
               testID={`${testID}-cancel-button`}
             >
-              {finalCancelText}
+              {cancelText}
             </AtomicButton>
 
             {/* Confirm Button */}
@@ -201,7 +180,7 @@ export const AtomicConfirmationModal: React.FC<AtomicConfirmationModalProps> = (
               ]}
               testID={`${testID}-confirm-button`}
             >
-              {finalConfirmText}
+              {confirmText}
             </AtomicButton>
           </View>
         </View>

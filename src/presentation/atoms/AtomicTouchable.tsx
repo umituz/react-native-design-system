@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { AtomicTouchableProps, TouchableFeedback, FeedbackStrength } from './touchable/types';
 import {
@@ -156,21 +156,10 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
       accessibilityRole={accessibilityRole}
       accessibilityState={{
         disabled: isDisabled,
-        busy: loading,
       }}
       testID={testID}
     >
-      {loading ? (
-        <View style={getLoadingContainerStyle()}>
-          <ActivityIndicator
-            size="small"
-            color={tokens.colors.primary}
-            testID={`${testID}-loading`}
-          />
-        </View>
-      ) : (
-        children
-      )}
+      {children}
     </Pressable>
   );
 };

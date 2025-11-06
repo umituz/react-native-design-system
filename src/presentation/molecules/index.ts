@@ -11,7 +11,6 @@
 export { FormField } from './FormField';
 export { ListItem } from './ListItem';
 export { SearchBar } from './SearchBar';
-export { LanguageSwitcher } from './LanguageSwitcher';
 export { SectionCard } from './SectionCard';
 export { IconContainer } from './IconContainer';
 export { ScreenHeader } from './ScreenHeader';

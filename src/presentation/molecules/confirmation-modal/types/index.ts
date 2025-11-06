@@ -45,16 +45,14 @@ export interface AtomicConfirmationModalProps {
   variant?: ConfirmationModalVariant;
 
   /**
-   * Confirm button text
-   * @default 'Confirm' (or variant-specific default)
+   * Confirm button text (required)
    */
-  confirmText?: string;
+  confirmText: string;
 
   /**
-   * Cancel button text
-   * @default 'Cancel'
+   * Cancel button text (required)
    */
-  cancelText?: string;
+  cancelText: string;
 
   /**
    * Icon name to display at top (MaterialIcons name)
