@@ -41,7 +41,6 @@ export interface HitSlop {
  *   feedback="opacity"
  *   strength="normal"
  *   disabled={isLoading}
- *   loading={isLoading}
  *   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
  *   style={styles.touchable}
  * >
@@ -92,12 +91,6 @@ export interface AtomicTouchableProps {
    * @default false
    */
   disabled?: boolean;
-
-  /**
-   * Show loading indicator (disables touch)
-   * @default false
-   */
-  loading?: boolean;
 
   /**
    * Hit slop - extends touchable area

@@ -11,12 +11,11 @@
  * - presentation/atoms: Primitive UI components (AtomicButton, AtomicText, etc.)
  * - presentation/molecules: Composite components (SearchBar, ListItem, etc.)
  * - presentation/organisms: Complex patterns (ScreenLayout, AppHeader, FormContainer)
- * - presentation/loading: Loading states (LoadingState, LoadingSpinner)
  * - presentation/tokens: Design tokens (colors, typography, spacing, etc.)
  * - presentation/utils: Utility functions and helpers
  *
  * Usage:
- *   import { AtomicButton, AtomicFilter, AtomicTouchable, SearchBar, LoadingState, STATIC_TOKENS } from '@umituz/react-native-design-system';
+ *   import { AtomicButton, AtomicFilter, AtomicTouchable, SearchBar, STATIC_TOKENS } from '@umituz/react-native-design-system';
  */
 
 // =============================================================================
@@ -227,29 +226,6 @@ export {
 
 // Note: FeedbackModal moved to @domains/feedback
 // Import from feedback domain: import { FeedbackModal } from '@domains/feedback';
-
-// =============================================================================
-// LOADING - Loading States
-// =============================================================================
-
-export {
-  LoadingState,
-  type LoadingStateProps,
-  type LoadingStateSize,
-} from './presentation/loading/presentation/components/LoadingState';
-
-export {
-  LoadingSpinner,
-  type LoadingSpinnerProps,
-  type LoadingSpinnerSize,
-  type LoadingSpinnerColor,
-} from './presentation/loading/presentation/components/LoadingSpinner';
-
-export {
-  useLoading,
-  type LoadingConfig,
-  type UseLoadingReturn,
-} from './presentation/loading/presentation/hooks/useLoading';
 
 // =============================================================================
 // TOKENS - Design Tokens (Refactored with ZERO duplication)
