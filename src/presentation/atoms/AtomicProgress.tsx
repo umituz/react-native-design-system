@@ -10,7 +10,6 @@
  * Usage:
  * - File upload progress
  * - Task completion progress
- * - Loading progress
  * - Achievement progress
  * - Form completion
  */

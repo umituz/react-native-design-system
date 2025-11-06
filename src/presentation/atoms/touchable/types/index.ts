@@ -40,7 +40,7 @@ export interface HitSlop {
  *   onPress={handlePress}
  *   feedback="opacity"
  *   strength="normal"
- *   disabled={isLoading}
+ *   disabled={isDisabled}
  *   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
  *   style={styles.touchable}
  * >
