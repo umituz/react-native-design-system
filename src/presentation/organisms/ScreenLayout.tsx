@@ -4,6 +4,7 @@
  * Provides consistent layout structure for all screens:
  * - SafeAreaView with configurable edges
  * - Optional ScrollView for content
+ * - Loading state support
  * - Theme-aware background colors
  * - Optional header/footer slots
  * - Consistent spacing and padding
@@ -16,6 +17,7 @@
  * Advanced:
  * <ScreenLayout
  *   scrollable={false}
+ *   loading={isLoading}
  *   edges={['top', 'bottom']}
  *   header={<CustomHeader />}
  * >
@@ -27,6 +29,7 @@ import React, { useMemo } from 'react';
 import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { LoadingState } from '../loading/presentation/components/LoadingState';
 
 export interface ScreenLayoutProps {
   /**
@@ -48,6 +51,22 @@ export interface ScreenLayoutProps {
    * - [] - No safe area (use cautiously)
    */
   edges?: Edge[];
+
+  /**
+   * Show loading state
+   * When true, displays LoadingState component
+   */
+  loading?: boolean;
+
+  /**
+   * Loading icon name (default: 'settings')
+   */
+  loadingIcon?: string;
+
+  /**
+   * Loading message (default: 'Loading...')
+   */
+  loadingMessage?: string;
 
   /**
    * Optional header component
@@ -99,6 +118,9 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   children,
   scrollable = true,
   edges = ['top'],
+  loading = false,
+  loadingIcon = 'settings',
+  loadingMessage = 'Loading...',
   header,
   footer,
   backgroundColor,
@@ -113,6 +135,24 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   const styles = useMemo(() => getStyles(tokens), [tokens]);
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
+
+  // Show loading state
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
+        edges={edges}
+        testID={testID}
+      >
+        <LoadingState
+          icon={loadingIcon}
+          message={loadingMessage}
+          size="large"
+          fullScreen
+        />
+      </SafeAreaView>
+    );
+  }
 
   // Non-scrollable layout
   if (!scrollable) {

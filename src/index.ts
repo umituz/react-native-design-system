@@ -228,6 +228,12 @@ export {
 // Import from feedback domain: import { FeedbackModal } from '@domains/feedback';
 
 // =============================================================================
+// LOADING - Loading States
+// =============================================================================
+// Loading components moved to separate package
+// Import from @umituz/react-native-loading when available
+
+// =============================================================================
 // TOKENS - Design Tokens (Refactored with ZERO duplication)
 // =============================================================================
 

@@ -382,7 +382,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
       {/* Selection Modal */}
       <Modal
         visible={modalVisible}
-        animationType="none"
+        animationType="slide"
         transparent
         onRequestClose={closeModal}
         testID={`${testID}-modal`}

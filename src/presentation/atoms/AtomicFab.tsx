@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { useResponsive } from '../hooks/useResponsive';
 import { AtomicIcon } from './AtomicIcon';
@@ -40,6 +40,7 @@ export { FAB_SIZES, getFabVariants, getFabIconSize, getFabBorder };
  * - Material Design 3 sizes (sm: 40px, md: 56px, lg: 72px)
  * - Three variants: primary, secondary, surface
  * - Responsive positioning (above tab bar, safe area aware)
+ * - Loading state with spinner
  * - Disabled state with opacity
  * - Theme-aware colors from design tokens
  * - Border for depth (no shadows per CLAUDE.md)
@@ -50,13 +51,14 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
   variant = 'primary',
   size = 'md',
   disabled = false,
+  loading = false,
   style,
   testID,
   accessibilityLabel,
 }) => {
   const tokens = useAppDesignTokens();
   const responsive = useResponsive();
-  const isDisabled = disabled;
+  const isDisabled = disabled || loading;
 
   // Get configurations
   const sizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
@@ -92,7 +94,11 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
       accessibilityLabel={accessibilityLabel || `${icon} button`}
       accessibilityRole="button"
     >
-      <AtomicIcon name={icon} size={iconSize} customColor={variantConfig.iconColor} />
+      {loading ? (
+        <ActivityIndicator size="small" color={variantConfig.iconColor} />
+      ) : (
+        <AtomicIcon name={icon} size={iconSize} customColor={variantConfig.iconColor} />
+      )}
     </TouchableOpacity>
   );
 };

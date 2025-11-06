@@ -11,6 +11,7 @@ Universal design system for React Native apps following Domain-Driven Design (DD
 - 🌓 **Theme Support** - Built-in light/dark mode
 - 📱 **Responsive** - Adaptive layouts for phones and tablets
 - ♿ **Accessible** - WCAG AA compliant components
+- 🎭 **Animations** - Smooth React Native Reanimated animations
 - 📦 **Zero Config** - Works out of the box
 - 🪶 **Lightweight** - Smaller bundle size (no Paper dependency)
 
@@ -23,7 +24,7 @@ npm install @umituz/react-native-design-system
 ### Peer Dependencies
 
 ```bash
-npm install react@18.3.1 react-native@0.76.3 react-native-svg@^15.0.0 lucide-react-native@^0.468.0
+npm install react@18.3.1 react-native@0.76.3 react-native-reanimated@~3.10.1 react-native-svg@^15.0.0 lucide-react-native@^0.468.0
 ```
 
 > **v1.3.0 Breaking Change**: React Native Paper dependency removed! All components now use pure React Native implementation for lighter bundle size and full control over styling.

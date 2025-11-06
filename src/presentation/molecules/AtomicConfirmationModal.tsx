@@ -117,7 +117,7 @@ export const AtomicConfirmationModal: React.FC<AtomicConfirmationModalProps> = (
     <Modal
       visible={visible}
       transparent
-      animationType="none"
+      animationType="fade"
       onRequestClose={onCancel}
       statusBarTranslucent
       testID={testID}

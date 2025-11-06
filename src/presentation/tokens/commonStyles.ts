@@ -96,7 +96,7 @@ export const useCommonStyles = () => {
 
     /**
      * Centered container - both horizontal and vertical
-     * Perfect for empty states, splash screens
+     * Perfect for empty states, loading screens, splash screens
      */
     centerContainer: {
       flex: 1,

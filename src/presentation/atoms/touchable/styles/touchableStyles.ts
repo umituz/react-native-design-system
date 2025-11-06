@@ -36,6 +36,15 @@ export const getDisabledStyle = (): ViewStyle => ({
 });
 
 /**
+ * Get loading container style
+ * Centers the loading indicator
+ */
+export const getLoadingContainerStyle = (): ViewStyle => ({
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+/**
  * Convert number to HitSlop object
  * If hitSlop is a number, apply it to all sides
  */

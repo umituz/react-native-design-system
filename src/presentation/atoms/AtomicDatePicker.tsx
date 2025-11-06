@@ -215,7 +215,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
       {show && (
         <Modal
           transparent
-          animationType="none"
+          animationType={isTabletDevice ? 'fade' : 'slide'}
           visible={show}
           onRequestClose={() => setShow(false)}
         >

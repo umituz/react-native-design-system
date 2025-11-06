@@ -1,14 +1,14 @@
 /**
- * AtomicSkeleton - Universal Skeleton Placeholder Component
+ * AtomicSkeleton - Universal Skeleton Loading Component
  *
- * Displays skeleton placeholders for content
+ * Displays skeleton placeholders for loading states
  * Theme: {{THEME_NAME}} ({{CATEGORY}} category)
  *
  * Atomic Design Level: ATOM
- * Purpose: Content placeholder
+ * Purpose: Loading state placeholder
  *
  * Usage:
- * - Content placeholders
+ * - Content loading placeholders
  * - List item skeletons
  * - Card skeletons
  * - Text line skeletons
