@@ -1,12 +1,11 @@
 import React from 'react';
-import { Pressable, View, ActivityIndicator, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { AtomicTouchableProps, TouchableFeedback, FeedbackStrength } from './touchable/types';
 import {
   getOpacityValue,
   getTouchableContainerStyle,
   getDisabledStyle,
-  getLoadingContainerStyle,
   normalizeHitSlop,
 } from './touchable/styles/touchableStyles';
 
@@ -21,7 +20,6 @@ export {
   getOpacityValue,
   getTouchableContainerStyle,
   getDisabledStyle,
-  getLoadingContainerStyle,
   normalizeHitSlop,
 } from './touchable/styles/touchableStyles';
 
@@ -34,7 +32,6 @@ export {
  * Features:
  * - Multiple feedback variants (opacity, highlight, ripple, none)
  * - Configurable feedback strength (subtle, normal, strong)
- * - Loading state with indicator
  * - Disabled state with visual feedback
  * - Hit slop customization for small touch targets
  * - Minimum 48x48 touch target (iOS HIG compliance)
@@ -46,15 +43,6 @@ export {
  * // Basic usage with opacity feedback
  * <AtomicTouchable onPress={handlePress}>
  *   <AtomicText>Press Me</AtomicText>
- * </AtomicTouchable>
- *
- * // With loading state
- * <AtomicTouchable
- *   onPress={handleSubmit}
- *   loading={isSubmitting}
- *   feedback="highlight"
- * >
- *   <AtomicText>Submit</AtomicText>
  * </AtomicTouchable>
  *
  * // With custom hit slop (extends touch area)
@@ -76,7 +64,6 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
   feedback = 'opacity',
   strength = 'normal',
   disabled = false,
-  loading = false,
   hitSlop,
   style,
   pressedStyle,
@@ -92,7 +79,7 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
   const tokens = useAppDesignTokens();
 
   // Determine if touchable should be disabled
-  const isDisabled = disabled || loading;
+  const isDisabled = disabled;
 
   // Get opacity value based on strength
   const opacityValue = getOpacityValue(strength as 'subtle' | 'normal' | 'strong');

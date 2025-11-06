@@ -66,12 +66,6 @@ export interface AtomicFabProps {
   disabled?: boolean;
 
   /**
-   * Whether to show loading state
-   * @default false
-   */
-  loading?: boolean;
-
-  /**
    * Custom style for the FAB container
    */
   style?: StyleProp<ViewStyle>;

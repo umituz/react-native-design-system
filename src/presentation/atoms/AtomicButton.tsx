@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, ActivityIndicator, View } from 'react-native';
+import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { Icon } from '../../domains/icons/presentation/components/Icon';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
@@ -15,7 +15,6 @@ export interface AtomicButtonProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
-  loading?: boolean;
   icon?: IconName;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -30,7 +29,6 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   variant = 'primary',
   size = 'md',
   disabled = false,
-  loading = false,
   icon,
   fullWidth = false,
   style,
@@ -40,7 +38,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   const tokens = useAppDesignTokens();
 
   const handlePress = () => {
-    if (!disabled && !loading) {
+    if (!disabled) {
       onPress();
     }
   };
@@ -181,7 +179,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   ];
 
   const buttonText = title || children;
-  const showIcon = icon && !loading;
+  const showIcon = icon;
   const iconColor = variantStyles.text.color;
 
   return (
@@ -189,17 +187,11 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
       style={containerStyle}
       onPress={handlePress}
       activeOpacity={0.8}
-      disabled={disabled || loading}
+      disabled={disabled}
       testID={testID}
     >
       <View style={styles.content}>
-        {loading ? (
-          <ActivityIndicator
-            size="small"
-            color={variantStyles.text.color}
-            style={styles.loader}
-          />
-        ) : showIcon ? (
+        {showIcon ? (
           <Icon
             name={icon}
             customSize={config.iconSize}
@@ -237,9 +229,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   icon: {
-    marginRight: 8,
-  },
-  loader: {
     marginRight: 8,
   },
 });
