@@ -19,7 +19,7 @@ import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AtomicIcon } from '../atoms/AtomicIcon';
 import { AtomicText } from '../atoms/AtomicText';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 
 export interface ScreenHeaderProps {
   /** Screen title (centered) */

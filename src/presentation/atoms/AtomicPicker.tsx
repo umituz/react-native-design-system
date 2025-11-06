@@ -51,7 +51,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicPickerProps, PickerOption } from './picker/types';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';

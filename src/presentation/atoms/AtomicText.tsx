@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleProp, TextStyle } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 
 export type TextStyleVariant =
   | 'displayLarge' | 'displayMedium' | 'displaySmall'

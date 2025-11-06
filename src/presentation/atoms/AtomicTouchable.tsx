@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicTouchableProps, TouchableFeedback, FeedbackStrength } from './touchable/types';
 import {
   getOpacityValue,

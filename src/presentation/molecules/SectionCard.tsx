@@ -15,7 +15,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicCard } from '../atoms/AtomicCard';
 import { AtomicText } from '../atoms/AtomicText';
 

@@ -39,7 +39,7 @@
 
 import React from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
 import { AtomicIcon } from '../atoms/AtomicIcon';

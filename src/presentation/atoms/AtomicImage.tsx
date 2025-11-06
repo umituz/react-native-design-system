@@ -16,7 +16,7 @@
 
 import React from 'react';
 import { Image, ImageProps, StyleSheet, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 
 // =============================================================================
 // TYPE DEFINITIONS

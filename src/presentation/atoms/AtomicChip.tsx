@@ -19,7 +19,7 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { AtomicIcon } from './AtomicIcon';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 
 // =============================================================================
 // TYPE DEFINITIONS

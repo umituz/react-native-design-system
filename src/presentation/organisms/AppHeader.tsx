@@ -10,11 +10,10 @@
 
 import React from 'react';
 import { View, ViewStyle, SafeAreaView } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
 import { AtomicIcon } from '../atoms/AtomicIcon';
-import type { IconName } from '@umituz/react-native-icon';
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -29,9 +28,9 @@ import type { IconName } from '@umituz/react-native-icon';
 export interface AppHeaderProps {
   title: string;
   subtitle?: string;
-  leftIcon?: IconName; // Icon name
+  leftIcon?: string; // MaterialIcons name
   onLeftPress?: () => void;
-  rightIcon?: IconName; // Icon name
+  rightIcon?: string; // MaterialIcons name
   onRightPress?: () => void;
   showShadow?: boolean;
   backgroundColor?: string;

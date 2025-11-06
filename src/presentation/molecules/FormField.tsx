@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicInput, AtomicInputProps } from '../atoms/AtomicInput';
 
