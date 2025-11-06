@@ -272,7 +272,6 @@ export {
   // Individual base tokens
   spacing,
   typography,
-  animations,
   borders,
 
   // Type exports
@@ -281,7 +280,6 @@ export {
   type ColorPalette,
   type Spacing,
   type Typography,
-  type Animations,
   type Borders,
   type BaseTokens,
 } from './presentation/tokens/AppDesignTokens';

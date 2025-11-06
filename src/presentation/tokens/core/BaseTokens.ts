@@ -220,26 +220,6 @@ export const typography = {
 } as const;
 
 // =============================================================================
-// ANIMATION TOKENS
-// =============================================================================
-
-export const animations = {
-  // Duration scale (milliseconds)
-  fastest: 150,
-  fast: 150,
-  normal: 300,
-  slow: 500,
-  slower: 750,
-  slowest: 1000,
-
-  // Easing functions
-  easeInOut: 'ease-in-out' as const,
-  easeIn: 'ease-in' as const,
-  easeOut: 'ease-out' as const,
-  linear: 'linear' as const,
-} as const;
-
-// =============================================================================
 // OPACITY TOKENS
 // =============================================================================
 
@@ -371,7 +351,6 @@ export const avatarSizes = {
 export const BASE_TOKENS = {
   spacing,
   typography,
-  animations,
   opacity,
   borders,
   sizes,
@@ -385,7 +364,6 @@ export const BASE_TOKENS = {
 
 export type Spacing = typeof spacing;
 export type Typography = typeof typography;
-export type Animations = typeof animations;
 export type Opacity = typeof opacity;
 export type Borders = typeof borders;
 export type Sizes = typeof sizes;

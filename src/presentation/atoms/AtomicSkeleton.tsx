@@ -1,7 +1,7 @@
 /**
  * AtomicSkeleton - Universal Skeleton Loading Component
  *
- * Displays animated skeleton placeholders for loading states
+ * Displays skeleton placeholders for loading states
  * Theme: {{THEME_NAME}} ({{CATEGORY}} category)
  *
  * Atomic Design Level: ATOM
@@ -15,8 +15,8 @@
  * - Image placeholders
  */
 
-import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, ViewStyle, Animated, DimensionValue } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, ViewStyle, DimensionValue } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 
 // =============================================================================
@@ -32,14 +32,8 @@ export interface AtomicSkeletonProps {
   shape?: 'rectangle' | 'circle' | 'rounded';
   /** Border radius for rounded shapes */
   borderRadius?: number;
-  /** Animation duration in milliseconds */
-  duration?: number;
-  /** Whether to show animation */
-  animated?: boolean;
   /** Skeleton color */
   color?: string;
-  /** Highlight color for animation */
-  highlightColor?: string;
   /** Style overrides */
   style?: ViewStyle;
   /** Test ID for testing */
@@ -55,43 +49,14 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
   height = 20,
   shape = 'rectangle',
   borderRadius,
-  duration,
-  animated = true,
   color,
-  highlightColor,
   style,
   testID,
 }) => {
   const tokens = useAppDesignTokens();
-  const animatedValue = useRef(new Animated.Value(0)).current;
 
   // Default values
-  const finalDuration = duration ?? tokens.animations.slowest;
   const skeletonColor = color || tokens.colors.surfaceVariant;
-  const skeletonHighlight = highlightColor || tokens.colors.surface;
-
-  // Animation effect
-  useEffect(() => {
-    if (animated) {
-      const animation = Animated.loop(
-        Animated.sequence([
-          Animated.timing(animatedValue, {
-            toValue: 1,
-            duration: finalDuration,
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedValue, {
-            toValue: 0,
-            duration: finalDuration,
-            useNativeDriver: false,
-          }),
-        ])
-      );
-      animation.start();
-
-      return () => animation.stop();
-    }
-  }, [animated, finalDuration, animatedValue]);
 
   // Calculate border radius based on shape
   const getBorderRadius = (): number => {
@@ -114,22 +79,6 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
     backgroundColor: skeletonColor,
     borderRadius: getBorderRadius(),
   };
-
-  if (animated) {
-    const animatedStyle = {
-      backgroundColor: animatedValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: [skeletonColor, skeletonHighlight],
-      }),
-    };
-
-    return (
-      <Animated.View
-        style={[skeletonStyle, animatedStyle, style]}
-        testID={testID}
-      />
-    );
-  }
 
   return (
     <View

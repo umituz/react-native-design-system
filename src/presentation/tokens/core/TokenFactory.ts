@@ -18,13 +18,12 @@ import { getColorPalette, withAlpha, type ThemeMode, type ColorPalette } from '.
 
 /**
  * Complete design tokens shape
- * Combines static tokens (spacing, typography, animations, borders) + dynamic colors
+ * Combines static tokens (spacing, typography, borders) + dynamic colors
  */
 export type DesignTokens = {
   colors: ColorPalette;
   spacing: typeof BASE_TOKENS.spacing;
   typography: typeof BASE_TOKENS.typography;
-  animations: typeof BASE_TOKENS.animations;
   iconSizes: typeof BASE_TOKENS.iconSizes;
   opacity: typeof BASE_TOKENS.opacity;
   avatarSizes: typeof BASE_TOKENS.avatarSizes;
@@ -67,7 +66,6 @@ export const createDesignTokens = (mode: ThemeMode): DesignTokens => {
     // ✅ STATIC: These don't change with theme
     spacing: BASE_TOKENS.spacing,
     typography: BASE_TOKENS.typography,
-    animations: BASE_TOKENS.animations,
     iconSizes: BASE_TOKENS.iconSizes,
     opacity: BASE_TOKENS.opacity,
     avatarSizes: BASE_TOKENS.avatarSizes,
@@ -107,7 +105,7 @@ export const createDesignTokens = (mode: ThemeMode): DesignTokens => {
 export const STATIC_DESIGN_TOKENS = createDesignTokens('light');
 
 /**
- * STATIC TOKENS (spacing, typography, animations, borders)
+ * STATIC TOKENS (spacing, typography, borders)
  * These DON'T change with theme - safe to use anywhere
  */
 export const STATIC_TOKENS = BASE_TOKENS;
