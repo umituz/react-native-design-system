@@ -14,6 +14,7 @@ import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 import { AtomicText } from '../atoms/AtomicText';
 import { AtomicButton } from '../atoms/AtomicButton';
 import { AtomicIcon } from '../atoms/AtomicIcon';
+import type { IconName } from '@umituz/react-native-icon';
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -28,9 +29,9 @@ import { AtomicIcon } from '../atoms/AtomicIcon';
 export interface AppHeaderProps {
   title: string;
   subtitle?: string;
-  leftIcon?: string; // MaterialIcons name
+  leftIcon?: IconName; // Icon name
   onLeftPress?: () => void;
-  rightIcon?: string; // MaterialIcons name
+  rightIcon?: IconName; // Icon name
   onRightPress?: () => void;
   showShadow?: boolean;
   backgroundColor?: string;

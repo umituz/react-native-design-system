@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import { Icon } from '../../domains/icons/presentation/components/Icon';
-import type { IconProps, IconSize, IconColor } from '../../domains/icons/domain/interfaces/IIconAdapter';
-import type { LucideIconName } from '../../domains/icons/infrastructure/adapters/LucideAdapter';
+import { Icon } from '@umituz/react-native-icon';
+import type { IconProps, IconSize, IconColor, IconName } from '@umituz/react-native-icon';
 
 /**
  * AtomicIcon Component
@@ -38,4 +37,4 @@ export const AtomicIcon: React.FC<IconProps> = (props) => {
 export type AtomicIconProps = IconProps;
 export type AtomicIconSize = IconSize;
 export type AtomicIconColor = IconColor;
-export type AtomicIconName = LucideIconName;
+export type AtomicIconName = IconName;

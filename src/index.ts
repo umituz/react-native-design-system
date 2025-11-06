@@ -225,40 +225,44 @@ export {
 // Import from feedback domain: import { FeedbackModal } from '@domains/feedback';
 
 // =============================================================================
-// TOKENS - Design Tokens (Refactored with ZERO duplication)
+// TOKENS - MOVED TO @umituz/react-native-theme
 // =============================================================================
+// All design tokens (BASE_TOKENS, STATIC_TOKENS, spacing, typography, etc.)
+// have been moved to @umituz/react-native-theme package.
+// Import directly from theme package:
+//   import { BASE_TOKENS, STATIC_TOKENS, spacing, typography } from '@umituz/react-native-theme';
+//   import { useAppDesignTokens, createDesignTokens, lightColors, darkColors } from '@umituz/react-native-theme';
 
+// Re-export for backward compatibility (deprecated - use @umituz/react-native-theme directly)
 export {
-  // Static tokens (don't change with theme)
-  STATIC_TOKENS,
   BASE_TOKENS,
-
-  // Token factory
+  STATIC_TOKENS,
+  spacing,
+  typography,
+  borders,
+  iconSizes,
+  opacity,
+  avatarSizes,
+  sizes,
+  type Spacing,
+  type Typography,
+  type Borders,
+  type IconSizes,
+  type Opacity,
+  type AvatarSizes,
+  type Sizes,
+  type BaseTokens,
   createDesignTokens,
-
-  // Color utilities
+  STATIC_DESIGN_TOKENS,
   withAlpha,
   lightColors,
   darkColors,
   getColorPalette,
-
-  // Individual base tokens
-  spacing,
-  typography,
-  borders,
-
-  // Type exports
   type DesignTokens,
   type ThemeMode,
   type ColorPalette,
-  type Spacing,
-  type Typography,
-  type Borders,
-  type BaseTokens,
-} from './presentation/tokens/AppDesignTokens';
-
-// Hook for dynamic theme-aware tokens (exported separately to avoid cycle)
-export { useAppDesignTokens } from './presentation/hooks/useAppDesignTokens';
+  useAppDesignTokens,
+} from '@umituz/react-native-theme';
 
 export {
   useCommonStyles,
@@ -316,21 +320,22 @@ export {
 } from './presentation/utils/responsive';
 
 // =============================================================================
-// THEME MANAGEMENT - Global Theme Store
+// THEME MANAGEMENT - MOVED TO @umituz/react-native-theme
 // =============================================================================
-
-export {
-  useDesignSystemTheme,
-} from './infrastructure/theme/globalThemeStore';
+// useDesignSystemTheme has been moved to @umituz/react-native-theme package.
+// Import directly: import { useDesignSystemTheme } from '@umituz/react-native-theme';
 
 // =============================================================================
-// ICONS DOMAIN - Universal Icon System
+// ICONS DOMAIN - MOVED TO @umituz/react-native-icon
 // =============================================================================
+// Icon components have been moved to @umituz/react-native-icon package.
+// Import directly: import { Icon, IconName, IconSize, IconColor } from '@umituz/react-native-icon';
 
+// Re-export for backward compatibility (deprecated - use @umituz/react-native-icon directly)
 export {
   Icon,
   type IconProps,
   type IconSize,
   type IconColor,
   type IconName,
-} from './domains/icons/presentation/components/Icon';
+} from '@umituz/react-native-icon';

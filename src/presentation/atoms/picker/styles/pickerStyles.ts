@@ -2,8 +2,7 @@ import { ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../../../hooks/useAppDesignTokens';
 import { PickerSize } from '../types';
 import { IOS_HIG, getMinTouchTarget } from '../../../utils/platformConstants';
-
-type DesignTokens = ReturnType<typeof useAppDesignTokens>;
+import type { DesignTokens } from '@umituz/react-native-theme';
 
 /**
  * Picker container styles with iOS HIG compliance
@@ -50,7 +49,14 @@ export const getPickerContainerStyles = (tokens: DesignTokens) => ({
   },
 });
 
-export const getPickerLabelStyles = (tokens: DesignTokens) => ({
+export const getPickerLabelStyles = (tokens: DesignTokens): {
+  base: TextStyle;
+  size: {
+    sm: TextStyle;
+    md: TextStyle;
+    lg: TextStyle;
+  };
+} => ({
   base: {
     marginBottom: tokens.spacing.xs,
     color: tokens.colors.textPrimary,
@@ -63,7 +69,14 @@ export const getPickerLabelStyles = (tokens: DesignTokens) => ({
   },
 });
 
-export const getPickerPlaceholderStyles = (tokens: DesignTokens) => ({
+export const getPickerPlaceholderStyles = (tokens: DesignTokens): {
+  base: TextStyle;
+  size: {
+    sm: TextStyle;
+    md: TextStyle;
+    lg: TextStyle;
+  };
+} => ({
   base: {
     color: tokens.colors.textSecondary,
   },
@@ -74,7 +87,14 @@ export const getPickerPlaceholderStyles = (tokens: DesignTokens) => ({
   },
 });
 
-export const getPickerValueStyles = (tokens: DesignTokens) => ({
+export const getPickerValueStyles = (tokens: DesignTokens): {
+  base: TextStyle;
+  size: {
+    sm: TextStyle;
+    md: TextStyle;
+    lg: TextStyle;
+  };
+} => ({
   base: {
     flex: 1,
     color: tokens.colors.textPrimary,

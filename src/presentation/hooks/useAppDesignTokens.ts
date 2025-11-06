@@ -1,40 +1,13 @@
 /**
- * useAppDesignTokens Hook - Theme-Aware Design Tokens
+ * useAppDesignTokens Hook - MOVED TO @umituz/react-native-theme
  *
- * ✅ Automatically reads theme from global store
- * ✅ No parameters needed - fully automatic!
- * ✅ Returns tokens for current theme (light/dark)
- * ✅ Single source of truth
+ * This hook has been moved to @umituz/react-native-theme package.
+ * Re-exported here for backward compatibility.
  *
- * @example Usage (fully automatic theme-aware)
+ * @deprecated Import from @umituz/react-native-theme instead
  * ```typescript
- * import { useAppDesignTokens } from '@umituz/react-native-design-system';
- *
- * const MyComponent = () => {
- *   const tokens = useAppDesignTokens(); // Automatically uses current theme!
- *   return (
- *     <View style={{
- *       backgroundColor: tokens.colors.primary,
- *       padding: tokens.spacing.md
- *     }}>
- *       <Text style={tokens.typography.bodyLarge}>Hello!</Text>
- *     </View>
- *   );
- * };
+ * import { useAppDesignTokens } from '@umituz/react-native-theme';
  * ```
- *
- * How it works:
- * - Reads themeMode from global store (useDesignSystemTheme)
- * - App's theme store syncs to global store automatically
- * - All components get correct tokens without prop drilling
- * - Change theme once, everything updates!
  */
 
-import { useMemo } from 'react';
-import { createDesignTokens, type DesignTokens } from '../tokens/core/TokenFactory';
-import { useDesignSystemTheme } from '../../infrastructure/theme/globalThemeStore';
-
-export const useAppDesignTokens = (): DesignTokens => {
-  const { themeMode } = useDesignSystemTheme();
-  return useMemo(() => createDesignTokens(themeMode), [themeMode]);
-};
+export { useAppDesignTokens } from '@umituz/react-native-theme';
