@@ -75,8 +75,8 @@ export const AtomicImage: React.FC<AtomicImageProps> = ({
   const tokens = useAppDesignTokens();
   const styles = getStyles(tokens);
 
-  const imageSize = SIZE_CONFIG[size];
-  const calculatedBorderRadius = borderRadius ?? getBorderRadius(shape, imageSize, tokens);
+  const imageSize = SIZE_CONFIG[size as 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'];
+  const calculatedBorderRadius = borderRadius ?? getBorderRadius(shape as 'square' | 'circle' | 'rounded', imageSize, tokens);
 
   const containerStyle = [
     styles.container,
