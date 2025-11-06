@@ -1,7 +1,5 @@
 import React from 'react';
-import { View, StyleProp, ViewStyle } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
-import { Pressable } from 'react-native';
+import { View, StyleProp, ViewStyle, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
 
 export type AtomicCardVariant = 'flat' | 'elevated' | 'outlined';
@@ -17,7 +15,6 @@ export interface AtomicCardProps {
   testID?: string;
 }
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const AtomicCard: React.FC<AtomicCardProps> = ({
   variant = 'elevated',
@@ -29,26 +26,6 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
   testID,
 }) => {
   const tokens = useAppDesignTokens();
-
-  // Animation for tap feedback
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const handlePressIn = () => {
-    if (onPress && !disabled) {
-      scale.value = withSpring(0.98, {
-        damping: 15,
-        stiffness: 150,
-      });
-    }
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1);
-  };
 
   const handlePress = () => {
     if (onPress && !disabled) {
@@ -116,17 +93,12 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
     </View>
   );
 
-  // If onPress provided, wrap with animated pressable
+  // If onPress provided, wrap with pressable
   if (onPress && !disabled) {
     return (
-      <AnimatedPressable
-        style={animatedStyle}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={handlePress}
-      >
+      <Pressable onPress={handlePress}>
         {cardContent}
-      </AnimatedPressable>
+      </Pressable>
     );
   }
 

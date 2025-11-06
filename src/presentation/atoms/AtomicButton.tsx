@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, ActivityIndicator, View } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { AtomicText } from './AtomicText';
 import { Icon } from '../../domains/icons/presentation/components/Icon';
 import { useAppDesignTokens } from '../hooks/useAppDesignTokens';
@@ -24,8 +23,6 @@ export interface AtomicButtonProps {
   testID?: string;
 }
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
 export const AtomicButton: React.FC<AtomicButtonProps> = ({
   title,
   children,
@@ -41,26 +38,6 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   testID,
 }) => {
   const tokens = useAppDesignTokens();
-
-  // Animation
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  const handlePressIn = () => {
-    if (!disabled && !loading) {
-      scale.value = withSpring(0.95, {
-        damping: 15,
-        stiffness: 150,
-      });
-    }
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1);
-  };
 
   const handlePress = () => {
     if (!disabled && !loading) {
@@ -208,10 +185,8 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
   const iconColor = variantStyles.text.color;
 
   return (
-    <AnimatedTouchable
-      style={[animatedStyle, containerStyle]}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+    <TouchableOpacity
+      style={containerStyle}
       onPress={handlePress}
       activeOpacity={0.8}
       disabled={disabled || loading}
@@ -237,7 +212,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
           {buttonText}
         </AtomicText>
       </View>
-    </AnimatedTouchable>
+    </TouchableOpacity>
   );
 };
 
