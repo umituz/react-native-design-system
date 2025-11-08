@@ -1,15 +1,16 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.8.0",
+  "version": "1.5.2",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "clean": "rm -rf lib",
     "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build",
     "version:patch": "npm version patch -m 'chore: release v%s'",
     "version:minor": "npm version minor -m 'chore: release v%s'",
     "version:major": "npm version major -m 'chore: release v%s'"
@@ -23,25 +24,23 @@
     "ddd",
     "domain-driven-design"
   ],
-  "author": "\u00dcmit UZ <umit@umituz.com>",
+  "author": "Ümit UZ <umit@umituz.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/umituz/react-native-design-system"
   },
   "peerDependencies": {
-    "@expo/vector-icons": "^14.0.0",
-    "@react-native-community/datetimepicker": "8.0.1",
-    "@react-navigation/native": "^6.0.0",
-    "@umituz/react-native-icon": "^1.0.0",
-    "@umituz/react-native-theme": "^1.0.0",
-    "expo-linear-gradient": "~13.0.2",
-    "lucide-react-native": "^0.468.0",
     "react": ">=18.2.0",
     "react-native": ">=0.74.0",
     "react-native-reanimated": "~3.10.1",
     "react-native-svg": ">=13.0.0",
-    "zustand": "^5.0.2"
+    "@react-native-community/datetimepicker": "8.0.1",
+    "@expo/vector-icons": "^14.0.0",
+    "lucide-react-native": "^0.468.0",
+    "zustand": "^5.0.2",
+    "expo-linear-gradient": "~13.0.2",
+    "@react-navigation/native": "^6.0.0"
   },
   "peerDependenciesMeta": {
     "expo-linear-gradient": {
@@ -49,36 +48,29 @@
     },
     "@react-navigation/native": {
       "optional": true
-    },
-    "@umituz/react-native-theme": {
-      "optional": false
-    },
-    "@umituz/react-native-icon": {
-      "optional": false
     }
   },
   "devDependencies": {
-    "@expo/vector-icons": "^14.0.0",
-    "@react-native-community/datetimepicker": "8.0.1",
-    "@react-navigation/native": "^6.0.0",
+    "typescript": "^5.3.3",
     "@types/react": "^18.2.45",
     "@types/react-native": "^0.73.0",
-    "@umituz/react-native-icon": "^1.0.1",
-    "@umituz/react-native-theme": "^1.0.0",
-    "expo-linear-gradient": "~13.0.2",
-    "lucide-react-native": "^0.468.0",
     "react": ">=18.2.0",
     "react-native": ">=0.74.0",
     "react-native-reanimated": "~3.10.1",
-    "react-native-safe-area-context": "^4.8.0",
     "react-native-svg": "^15.0.0",
-    "typescript": "^5.3.3",
-    "zustand": "^5.0.2"
+    "@expo/vector-icons": "^14.0.0",
+    "lucide-react-native": "^0.468.0",
+    "zustand": "^5.0.2",
+    "react-native-safe-area-context": "^4.8.0",
+    "@react-native-community/datetimepicker": "8.0.1",
+    "expo-linear-gradient": "~13.0.2",
+    "@react-navigation/native": "^6.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
+    "lib",
     "src",
     "README.md",
     "LICENSE"
