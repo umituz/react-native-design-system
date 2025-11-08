@@ -64,6 +64,7 @@ export {
   type AtomicIconProps,
   type AtomicIconSize,
   type AtomicIconColor,
+  type AtomicIconName,
 } from './presentation/atoms/AtomicIcon';
 
 export {
