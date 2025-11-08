@@ -360,7 +360,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
               accessibilityLabel="Clear selection"
               testID={`${testID}-clear`}
             >
-              <AtomicIcon name="cancel" size="sm" color="secondary" />
+              <AtomicIcon name="X" size="sm" color="secondary" />
             </TouchableOpacity>
           )}
 
@@ -427,7 +427,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
                 />
                 {searchQuery.length > 0 && (
                   <TouchableOpacity onPress={() => handleSearch('')}>
-                    <AtomicIcon name="cancel" size="sm" color="secondary" />
+                    <AtomicIcon name="X" size="sm" color="secondary" />
                   </TouchableOpacity>
                 )}
               </View>
