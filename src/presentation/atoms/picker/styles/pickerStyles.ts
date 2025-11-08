@@ -102,7 +102,7 @@ export const getPickerErrorStyles = (tokens: DesignTokens): TextStyle => ({
 export const getModalOverlayStyles = (tokens: DesignTokens): ViewStyle => ({
   flex: 1,
   backgroundColor: tokens.colors.overlayMedium,
-  justifyContent: 'flex-start',
+  justifyContent: 'flex-end',
 });
 
 export const getModalContainerStyles = (tokens: DesignTokens, maxHeight: number): ViewStyle => ({

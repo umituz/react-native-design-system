@@ -276,7 +276,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
         {/* Selected Indicator */}
         {selected && (
-          <AtomicIcon name="CheckCircle" size="md" color="primary" />
+          <AtomicIcon name="CircleCheck" size="md" color="primary" />
         )}
       </TouchableOpacity>
     );
@@ -366,7 +366,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
           {/* Dropdown Icon */}
           <AtomicIcon
-            name={modalVisible ? 'expand-less' : 'expand-more'}
+            name={modalVisible ? 'ChevronUp' : 'ChevronDown'}
             size="sm"
             color={disabled ? 'surfaceVariant' : 'secondary'}
           />
@@ -444,7 +444,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
               />
             ) : (
               <View style={emptyStateStyles}>
-                <AtomicIcon name="error-outline" size="xl" color="secondary" />
+                <AtomicIcon name="Info" size="xl" color="secondary" />
                 <AtomicText style={emptyStateTextStyles}>
                   {emptyMessage}
                 </AtomicText>
