@@ -44,6 +44,9 @@
     },
     "@react-navigation/native": {
       "optional": true
+    },
+    "lucide-react-native": {
+      "optional": true
     }
   },
   "devDependencies": {
