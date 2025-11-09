@@ -192,9 +192,11 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
     styles.container,
     getVariantStyle(),
     {
-      paddingVertical: config.paddingVertical,
+      paddingTop: config.paddingVertical,
+      paddingBottom: config.paddingVertical,
       paddingHorizontal: config.paddingHorizontal,
       minHeight: config.minHeight,
+      justifyContent: 'center',
       opacity: isDisabled ? 0.5 : 1,
     },
     style,
@@ -204,7 +206,9 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
     styles.input,
     {
       fontSize: config.fontSize,
+      lineHeight: config.fontSize * 1.5, // Ensure text is fully visible
       color: getTextColor(),
+      paddingVertical: 0, // Remove vertical padding to prevent clipping
     },
     leadingIcon ? { paddingLeft: config.iconSize + 8 } : undefined,
     (trailingIcon || showPasswordToggle) ? { paddingRight: config.iconSize + 8 } : undefined,
@@ -246,6 +250,8 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           autoCorrect={autoCorrect}
           editable={!isDisabled}
           style={textInputStyle}
+          textAlignVertical="center"
+          includeFontPadding={false}
           onBlur={() => {
             setIsFocused(false);
             onBlur?.();
@@ -320,6 +326,8 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    margin: 0,
+    padding: 0,
   },
   label: {
     marginBottom: 4,
