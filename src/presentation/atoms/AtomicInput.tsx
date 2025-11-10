@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle, Platform } from 'react-native';
+import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';
@@ -205,8 +205,8 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   const textInputStyle: StyleProp<TextStyle> = [
     styles.input,
     {
-      fontSize: config.fontSize || tokens.typography.bodyMedium.fontSize || 16,
-      lineHeight: (config.fontSize || tokens.typography.bodyMedium.fontSize || 16) * 1.5, // Ensure text is fully visible
+      fontSize: config.fontSize,
+      lineHeight: config.fontSize * 1.2, // Tighter lineHeight to prevent text clipping
       color: getTextColor(),
       paddingVertical: 0, // Remove vertical padding to prevent clipping
     },
@@ -231,7 +231,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
         {leadingIcon && (
           <View style={styles.leadingIcon}>
             <AtomicIcon
-              name={typeof leadingIcon === 'string' ? leadingIcon : String(leadingIcon)}
+              name={leadingIcon}
               customSize={config.iconSize}
               customColor={iconColor}
             />
@@ -250,8 +250,6 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           autoCorrect={autoCorrect}
           editable={!isDisabled}
           style={textInputStyle}
-          textAlignVertical="center"
-          {...(Platform.OS === 'android' && { includeFontPadding: false })}
           onBlur={() => {
             setIsFocused(false);
             onBlur?.();
@@ -283,7 +281,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
             disabled={!onTrailingIconPress}
           >
             <AtomicIcon
-              name={typeof trailingIcon === 'string' ? trailingIcon : String(trailingIcon)}
+              name={trailingIcon}
               customSize={config.iconSize}
               customColor={iconColor}
             />
