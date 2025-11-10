@@ -1,0 +1,59 @@
+/**
+ * IconContainer Molecule Component
+ *
+ * Standardized icon container with consistent sizing and styling.
+ * Used throughout app for icon displays in lists, cards, and settings.
+ *
+ * Features:
+ * - Consistent sizing system
+ * - Optional background circle
+ * - Optional gradient background
+ * - Theme-aware colors
+ * - Accessibility support
+ *
+ * Atomic Design: Molecule (View + Icon)
+ */
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useAppDesignTokens } from '@umituz/react-native-theme';
+import { LinearGradient } from 'expo-linear-gradient';
+const getSizeMap = (tokens) => ({
+    sm: tokens.iconSizes.sm,
+    md: tokens.iconSizes.md,
+    lg: tokens.iconSizes.lg,
+    xl: tokens.iconSizes.xl,
+});
+export const IconContainer = ({ icon, size = 'md', backgroundColor, gradient, withBorder = false, borderColor, style, testID, }) => {
+    const tokens = useAppDesignTokens();
+    const sizeMap = getSizeMap(tokens);
+    const containerSize = sizeMap[size];
+    const borderRadius = containerSize / 2;
+    const containerStyle = [
+        styles.container,
+        {
+            width: containerSize,
+            height: containerSize,
+            borderRadius,
+            backgroundColor: backgroundColor || (gradient ? undefined : tokens.colors.surfaceVariant),
+        },
+        withBorder && {
+            borderWidth: 1,
+            borderColor: borderColor || tokens.colors.border,
+        },
+        style,
+    ];
+    if (gradient) {
+        return (<LinearGradient colors={gradient} style={containerStyle} testID={testID}>
+        {icon}
+      </LinearGradient>);
+    }
+    return (<View style={containerStyle} testID={testID}>
+      {icon}
+    </View>);
+};
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle, Platform } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';
@@ -205,8 +205,8 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   const textInputStyle: StyleProp<TextStyle> = [
     styles.input,
     {
-      fontSize: config.fontSize,
-      lineHeight: config.fontSize * 1.5, // Ensure text is fully visible
+      fontSize: config.fontSize || tokens.typography.bodyMedium.fontSize || 16,
+      lineHeight: (config.fontSize || tokens.typography.bodyMedium.fontSize || 16) * 1.5, // Ensure text is fully visible
       color: getTextColor(),
       paddingVertical: 0, // Remove vertical padding to prevent clipping
     },
@@ -231,7 +231,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
         {leadingIcon && (
           <View style={styles.leadingIcon}>
             <AtomicIcon
-              name={leadingIcon}
+              name={typeof leadingIcon === 'string' ? leadingIcon : String(leadingIcon)}
               customSize={config.iconSize}
               customColor={iconColor}
             />
@@ -251,7 +251,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           editable={!isDisabled}
           style={textInputStyle}
           textAlignVertical="center"
-          includeFontPadding={false}
+          {...(Platform.OS === 'android' && { includeFontPadding: false })}
           onBlur={() => {
             setIsFocused(false);
             onBlur?.();
@@ -283,7 +283,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
             disabled={!onTrailingIconPress}
           >
             <AtomicIcon
-              name={trailingIcon}
+              name={typeof trailingIcon === 'string' ? trailingIcon : String(trailingIcon)}
               customSize={config.iconSize}
               customColor={iconColor}
             />

@@ -193,7 +193,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = ({
       <View style={styles.content}>
         {showIcon ? (
           <Icon
-            name={icon}
+            name={typeof icon === 'string' ? icon : String(icon)}
             customSize={config.iconSize}
             customColor={typeof iconColor === 'string' ? iconColor : undefined}
             style={styles.icon}

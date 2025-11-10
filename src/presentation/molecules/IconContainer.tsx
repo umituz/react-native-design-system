@@ -70,7 +70,7 @@ export const IconContainer: React.FC<IconContainerProps> = ({
   if (gradient) {
     return (
       <LinearGradient
-        colors={gradient}
+        colors={gradient as unknown as readonly [string, string, ...string[]]}
         style={containerStyle}
         testID={testID}
       >

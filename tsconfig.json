@@ -16,7 +16,7 @@
     },
 
     /* Emit */
-    "noEmit": true,
+    "noEmit": false,
 
     /* Interop Constraints */
     "esModuleInterop": true,
@@ -50,6 +50,7 @@
   ],
   "exclude": [
     "node_modules",
+    "node_modules/@umituz",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
