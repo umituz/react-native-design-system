@@ -44,6 +44,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
+  type StyleProp,
+  type ViewStyle,
 } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -78,7 +80,7 @@ export interface AtomicDatePickerProps {
   /** Optional test ID for E2E testing */
   testID?: string;
   /** Optional container style */
-  style?: import('react-native').StyleProp<import('react-native').ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -108,7 +110,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const { modalRef, present, dismiss } = useBottomSheetModal();
-  const [tempDate, setTempDate] = useState<Date>(value || new Date());
+  const [tempDate, setTempDate] = useState<Date>(value ?? new Date());
 
   // Update tempDate when value prop changes
   useEffect(() => {
@@ -139,7 +141,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
    * Handle open - reset temp date to current value
    */
   const handleOpen = () => {
-    setTempDate(value || new Date());
+    setTempDate(value ?? new Date());
     present();
   };
 
@@ -239,7 +241,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
         enableHandleIndicator
         onDismiss={() => {
           // Reset temp date when closed without saving
-          setTempDate(value || new Date());
+          setTempDate(value ?? new Date());
         }}
       >
         <View style={styles.bottomSheetContent}>
