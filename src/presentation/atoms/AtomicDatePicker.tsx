@@ -49,7 +49,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicIcon, type AtomicIconColor } from './AtomicIcon';
-import { BottomSheet, useBottomSheet } from '@umituz/react-native-bottom-sheet';
+import { BottomSheetModal, useBottomSheetModal } from '@umituz/react-native-bottom-sheet';
 import { AtomicButton } from './AtomicButton';
 
 /**
@@ -103,7 +103,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const tokens = useAppDesignTokens();
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const { sheetRef, open, close } = useBottomSheet();
+  const { modalRef, present, dismiss } = useBottomSheetModal();
   const [tempDate, setTempDate] = useState<Date>(value || new Date());
 
   // Update tempDate when value prop changes
@@ -128,7 +128,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
    */
   const handleDone = () => {
     onChange(tempDate);
-    close();
+    dismiss();
   };
 
   /**
@@ -136,7 +136,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
    */
   const handleOpen = () => {
     setTempDate(value || new Date());
-    open();
+    present();
   };
 
   /**
@@ -227,13 +227,13 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
       )}
 
       {/* Bottom Sheet DatePicker */}
-      <BottomSheet
-        ref={sheetRef}
+      <BottomSheetModal
+        ref={modalRef}
         preset="medium"
         enableBackdrop
         enablePanDownToClose
         enableHandleIndicator
-        onClose={() => {
+        onDismiss={() => {
           // Reset temp date when closed without saving
           setTempDate(value || new Date());
         }}
@@ -258,7 +258,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
             />
           </View>
         </View>
-      </BottomSheet>
+      </BottomSheetModal>
     </View>
   );
 };
