@@ -30,26 +30,27 @@
  * ```
  *
  * Platform Behavior:
- * - iOS: Opens modal with spinner wheel, requires "Done" button
- * - Android: Opens native dialog, auto-closes on selection
+ * - Opens bottom sheet from bottom with spinner wheel
+ * - Requires "Done" button to confirm selection
+ * - Can be dismissed by swiping down or tapping backdrop
  *
  * @module AtomicDatePicker
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Modal,
   useWindowDimensions,
 } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '@umituz/react-native-theme';
-import { useResponsive } from '../hooks/useResponsive';
 import { AtomicIcon, type AtomicIconColor } from './AtomicIcon';
+import { BottomSheet, useBottomSheet } from '@umituz/react-native-bottom-sheet';
+import { AtomicButton } from './AtomicButton';
 
 /**
  * Props for AtomicDatePicker component
@@ -102,26 +103,40 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const tokens = useAppDesignTokens();
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const { isTabletDevice } = useResponsive();
-  const [show, setShow] = useState(false);
+  const { sheetRef, open, close } = useBottomSheet();
+  const [tempDate, setTempDate] = useState<Date>(value || new Date());
+
+  // Update tempDate when value prop changes
+  useEffect(() => {
+    if (value) {
+      setTempDate(value);
+    }
+  }, [value]);
 
   /**
-   * Handle date/time change
-   * Universal handler that works across all platforms
-   * Note: event.type can be 'set', 'dismissed', or 'neutralButtonPressed'
+   * Handle date/time change in picker
+   * Updates temporary date state (not final until Done is pressed)
    */
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    // Close picker when user confirms or dismisses
-    // iOS: Stays open until "Done" button (handled separately)
-    // Android/Web: Auto-closes on selection
-    if (event.type === 'set' || event.type === 'dismissed') {
-      setShow(false);
-    }
-
-    // Update value only if date was selected (not dismissed)
     if (event.type === 'set' && selectedDate) {
-      onChange(selectedDate);
+      setTempDate(selectedDate);
     }
+  };
+
+  /**
+   * Handle Done button - apply selected date and close sheet
+   */
+  const handleDone = () => {
+    onChange(tempDate);
+    close();
+  };
+
+  /**
+   * Handle open - reset temp date to current value
+   */
+  const handleOpen = () => {
+    setTempDate(value || new Date());
+    open();
   };
 
   /**
@@ -182,7 +197,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
           error ? styles.buttonError : undefined,
           disabled ? styles.buttonDisabled : undefined,
         ]}
-        onPress={() => !disabled && setShow(true)}
+        onPress={handleOpen}
         disabled={disabled}
         testID={testID ? `${testID}-button` : undefined}
         accessibilityLabel={label || placeholder}
@@ -211,49 +226,39 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
         </Text>
       )}
 
-      {/* Universal DatePicker - Works across iOS, Android, Web */}
-      {show && (
-        <Modal
-          transparent
-          animationType={isTabletDevice ? 'fade' : 'slide'}
-          visible={show}
-          onRequestClose={() => setShow(false)}
-        >
-          <TouchableOpacity
-            style={styles.modalOverlay}
-            activeOpacity={1}
-            onPress={() => setShow(false)}
-            accessibilityLabel="Close date picker"
-            accessibilityRole="button"
-          >
-            <View
-              style={styles.pickerContainer}
-              onStartShouldSetResponder={() => true}
-            >
-              <DateTimePicker
-                value={value || new Date()}
-                mode={mode}
-                display="spinner"
-                onChange={handleChange}
-                minimumDate={minimumDate}
-                maximumDate={maximumDate}
-                testID={testID ? `${testID}-picker` : undefined}
-              />
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.doneButton}
-                  onPress={() => setShow(false)}
-                  testID={testID ? `${testID}-done` : undefined}
-                  accessibilityLabel="Done"
-                  accessibilityRole="button"
-                >
-                  <Text style={styles.doneText}>Done</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </Modal>
-      )}
+      {/* Bottom Sheet DatePicker */}
+      <BottomSheet
+        ref={sheetRef}
+        preset="medium"
+        enableBackdrop
+        enablePanDownToClose
+        enableHandleIndicator
+        onClose={() => {
+          // Reset temp date when closed without saving
+          setTempDate(value || new Date());
+        }}
+      >
+        <View style={styles.bottomSheetContent}>
+          <DateTimePicker
+            value={tempDate}
+            mode={mode}
+            display="spinner"
+            onChange={handleChange}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+            testID={testID ? `${testID}-picker` : undefined}
+          />
+          <View style={styles.buttonContainer}>
+            <AtomicButton
+              label="Done"
+              onPress={handleDone}
+              variant="primary"
+              style={styles.doneButton}
+              testID={testID ? `${testID}-done` : undefined}
+            />
+          </View>
+        </View>
+      </BottomSheet>
     </View>
   );
 };
@@ -316,16 +321,9 @@ const getStyles = (
       marginTop: tokens.spacing.xs,
       marginLeft: tokens.spacing.xs,
     },
-    modalOverlay: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      justifyContent: 'flex-start',
-    },
-    pickerContainer: {
-      backgroundColor: tokens.colors.surface,
-      borderTopLeftRadius: tokens.borders.radius.xl,
-      borderTopRightRadius: tokens.borders.radius.xl,
-      paddingTop: tokens.spacing.lg,
+    bottomSheetContent: {
+      paddingHorizontal: tokens.spacing.lg,
+      paddingTop: tokens.spacing.md,
       paddingBottom: Math.max(
         insets.bottom + tokens.spacing.md,
         tokens.spacing.xl,
@@ -333,22 +331,11 @@ const getStyles = (
     },
     buttonContainer: {
       alignItems: 'center',
-      marginTop: tokens.spacing.md,
-      paddingHorizontal: tokens.spacing.lg,
+      marginTop: tokens.spacing.lg,
+      paddingHorizontal: tokens.spacing.md,
     },
     doneButton: {
-      backgroundColor: tokens.colors.primary,
-      paddingHorizontal: tokens.spacing.xl,
-      paddingVertical: tokens.spacing.sm,
-      borderRadius: tokens.borders.radius.lg,
       minWidth: buttonMinWidth,
-      alignItems: 'center',
-      minHeight: 44, // Apple HIG minimum touch target
-    },
-    doneText: {
-      color: tokens.colors.onPrimary,
-      fontSize: tokens.typography.bodyLarge.fontSize,
-      fontWeight: tokens.typography.semibold,
     },
   });
 };
