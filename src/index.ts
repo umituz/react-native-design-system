@@ -145,7 +145,7 @@ export {
 export {
   AtomicIcon as Icon,
   type AtomicIconProps as IconProps,
-  type AtomicIconSize as IconSize,
-  type AtomicIconColor as IconColor,
-  type AtomicIconName as IconName,
+  type IconSize,
+  type IconColor,
+  type IconName,
 } from '@umituz/react-native-design-system-atoms';
