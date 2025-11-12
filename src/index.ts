@@ -85,18 +85,46 @@ export {
 } from './presentation/tokens/commonStyles';
 
 // =============================================================================
-// UTILITIES - Helper Functions
-// =============================================================================
-
-// Platform constants are now exported from @umituz/react-native-design-system-responsive
-// Re-exported above via export * from '@umituz/react-native-design-system-responsive'
-
-// =============================================================================
-// RESPONSIVE UTILITIES - Centralized Responsive Management
+// UTILITIES - Helper Functions & Responsive Utilities
 // Re-exported from @umituz/react-native-design-system-responsive
 // =============================================================================
 
-export * from '@umituz/react-native-design-system-responsive';
+export {
+  IOS_HIG,
+  ANDROID_MATERIAL,
+  PLATFORM_CONSTANTS,
+  isValidTouchTarget,
+  getMinTouchTarget,
+  useResponsive,
+  useResponsiveSizes,
+  useDeviceType,
+  type UseResponsiveReturn,
+  getScreenDimensions,
+  isSmallPhone,
+  isTablet,
+  getResponsiveLogoSize,
+  getResponsiveInputHeight,
+  getResponsiveHorizontalPadding,
+  getResponsiveBottomPosition,
+  getResponsiveFABPosition,
+  getResponsiveModalMaxHeight,
+  getResponsiveMinModalHeight,
+  getResponsiveIconContainerSize,
+  getResponsiveGridColumns,
+  getResponsiveMaxWidth,
+  getResponsiveFontSize,
+  isLandscape,
+  getKeyboardBehavior,
+  getDeviceType,
+  getMinTouchTargetSize,
+  getSpacingMultiplier,
+  getOnboardingIconMarginTop,
+  getOnboardingIconMarginBottom,
+  getOnboardingTitleMarginBottom,
+  getOnboardingTextPadding,
+  getOnboardingDescriptionMarginTop,
+  DeviceType,
+} from '@umituz/react-native-design-system-responsive';
 
 // =============================================================================
 // THEME MANAGEMENT - Global Theme Store
