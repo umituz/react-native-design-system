@@ -132,6 +132,13 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   };
 
   const config = sizeConfig[size] ?? sizeConfig.md;
+  
+  // Ensure config is always defined
+  const fontSize = config?.fontSize ?? tokens.typography.bodyMedium.fontSize;
+  const iconSize = config?.iconSize ?? 20;
+  const paddingVertical = config?.paddingVertical ?? tokens.spacing.sm;
+  const paddingHorizontal = config?.paddingHorizontal ?? tokens.spacing.md;
+  const minHeight = config?.minHeight ?? 48;
 
   // Get variant styles
   const getVariantStyle = (): ViewStyle => {
@@ -192,10 +199,10 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
     styles.container,
     getVariantStyle(),
     {
-      paddingTop: config.paddingVertical,
-      paddingBottom: config.paddingVertical,
-      paddingHorizontal: config.paddingHorizontal,
-      minHeight: config.minHeight,
+      paddingTop: paddingVertical,
+      paddingBottom: paddingVertical,
+      paddingHorizontal: paddingHorizontal,
+      minHeight: minHeight,
       justifyContent: 'center',
       opacity: isDisabled ? 0.5 : 1,
     },
@@ -205,13 +212,13 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   const textInputStyle: StyleProp<TextStyle> = [
     styles.input,
     {
-      fontSize: config?.fontSize ?? tokens.typography.bodyMedium.fontSize,
-      lineHeight: (config?.fontSize ?? tokens.typography.bodyMedium.fontSize) * 1.2, // Tighter lineHeight to prevent text clipping
+      fontSize: fontSize,
+      lineHeight: fontSize * 1.2, // Tighter lineHeight to prevent text clipping
       color: getTextColor(),
       paddingVertical: 0, // Remove vertical padding to prevent clipping
     },
-    leadingIcon ? { paddingLeft: (config.iconSize ?? 20) + 8 } : undefined,
-    (trailingIcon || showPasswordToggle) ? { paddingRight: (config.iconSize ?? 20) + 8 } : undefined,
+    leadingIcon ? { paddingLeft: iconSize + 8 } : undefined,
+    (trailingIcon || showPasswordToggle) ? { paddingRight: iconSize + 8 } : undefined,
     inputStyle,
   ];
 
@@ -232,7 +239,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           <View style={styles.leadingIcon}>
             <AtomicIcon
               name={leadingIcon}
-              customSize={config.iconSize}
+              customSize={iconSize}
               customColor={iconColor}
             />
           </View>
@@ -268,7 +275,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           >
             <AtomicIcon
               name={isPasswordVisible ? "EyeOff" : "Eye"}
-              customSize={config.iconSize}
+              customSize={iconSize}
               customColor={iconColor}
             />
           </Pressable>
@@ -282,7 +289,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           >
             <AtomicIcon
               name={trailingIcon}
-              customSize={config.iconSize}
+              customSize={iconSize}
               customColor={iconColor}
             />
           </Pressable>
