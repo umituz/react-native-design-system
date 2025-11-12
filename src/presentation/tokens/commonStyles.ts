@@ -16,7 +16,7 @@
  */
 
 import { ViewStyle, TextStyle } from 'react-native';
-import { useAppDesignTokens } from '@umituz/react-native-theme';
+import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 
 /**
  * Hook to get common styles with dynamic theme support

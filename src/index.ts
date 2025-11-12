@@ -25,11 +25,11 @@
 
 export * from '@umituz/react-native-design-system-atoms';
 
-// Re-export typography types for convenience (from @umituz/react-native-typography)
+// Re-export typography types for convenience (from @umituz/react-native-design-system-typography)
 export type {
   TextStyleVariant,
   ColorVariant,
-} from '@umituz/react-native-typography';
+} from '@umituz/react-native-design-system-typography';
 
 // =============================================================================
 // MOLECULES - Composite Components
@@ -49,9 +49,9 @@ export * from '@umituz/react-native-design-system-organisms';
 // Import from feedback domain: import { FeedbackModal } from '@domains/feedback';
 
 // =============================================================================
-// THEME-RELATED EXPORTS - Re-exported from @umituz/react-native-theme
+// THEME-RELATED EXPORTS - Re-exported from @umituz/react-native-design-system-theme
 // =============================================================================
-// All tokens, colors, and theme utilities come from @umituz/react-native-theme
+// All tokens, colors, and theme utilities come from @umituz/react-native-design-system-theme
 // Design system does NOT define any tokens - it only uses them from theme package
 
 export {
@@ -75,10 +75,10 @@ export {
   type Spacing,
   type Typography,
   type Borders,
-} from '@umituz/react-native-theme';
+} from '@umituz/react-native-design-system-theme';
 
 // Hook for dynamic theme-aware tokens (re-exported from theme package)
-export { useAppDesignTokens } from '@umituz/react-native-theme';
+export { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 
 export {
   useCommonStyles,
@@ -130,10 +130,10 @@ export {
 // THEME MANAGEMENT - Global Theme Store
 // =============================================================================
 
-// Theme management moved to @umituz/react-native-theme
+// Theme management moved to @umituz/react-native-design-system-theme
 export {
   useDesignSystemTheme,
-} from '@umituz/react-native-theme';
+} from '@umituz/react-native-design-system-theme';
 
 // =============================================================================
 // ICONS DOMAIN - Universal Icon System

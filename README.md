@@ -133,10 +133,10 @@ responsive.horizontalPadding
 
 ## 🌓 Theme Integration
 
-This package works seamlessly with `@umituz/react-native-theme`:
+This package works seamlessly with `@umituz/react-native-design-system-theme`:
 
 ```typescript
-import { ThemeProvider } from '@umituz/react-native-theme';
+import { ThemeProvider } from '@umituz/react-native-design-system-theme';
 import { ScreenLayout } from '@umituz/react-native-design-system';
 
 const App = () => (

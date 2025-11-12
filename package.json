@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.5.36",
+  "version": "1.5.37",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -103,7 +103,7 @@
     "@umituz/react-native-design-system-molecules": "latest",
     "@umituz/react-native-design-system-organisms": "latest",
     "@umituz/react-native-design-system-responsive": "latest",
-    "@umituz/react-native-theme": "^1.2.5",
-    "@umituz/react-native-typography": "^1.1.0"
+    "@umituz/react-native-design-system-theme": "latest",
+    "@umituz/react-native-design-system-typography": "latest"
   }
 }
