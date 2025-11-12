@@ -138,14 +138,14 @@ export {
 // =============================================================================
 // ICONS DOMAIN - Universal Icon System
 // =============================================================================
-// Icon components have been moved to @umituz/react-native-icon package.
-// Import directly: import { Icon, IconName, IconSize, IconColor } from '@umituz/react-native-icon';
+// Icon components are now part of @umituz/react-native-design-system-atoms
+// Import directly: import { AtomicIcon, IconName, IconSize, IconColor } from '@umituz/react-native-design-system-atoms';
 
-// Re-export for backward compatibility (deprecated - use @umituz/react-native-icon directly)
+// Re-export for backward compatibility
 export {
-  Icon,
-  type IconProps,
-  type IconSize,
-  type IconColor,
-  type IconName,
-} from '@umituz/react-native-icon';
+  AtomicIcon as Icon,
+  type AtomicIconProps as IconProps,
+  type AtomicIconSize as IconSize,
+  type AtomicIconColor as IconColor,
+  type AtomicIconName as IconName,
+} from '@umituz/react-native-design-system-atoms';

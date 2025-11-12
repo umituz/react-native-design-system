@@ -12,7 +12,7 @@ import React from 'react';
 import { View, ViewStyle, SafeAreaView } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { AtomicText, AtomicButton, AtomicIcon } from '@umituz/react-native-design-system-atoms';
-import type { IconName } from '@umituz/react-native-icon';
+import type { IconName } from '@umituz/react-native-design-system-atoms';
 
 // =============================================================================
 // TYPE DEFINITIONS
