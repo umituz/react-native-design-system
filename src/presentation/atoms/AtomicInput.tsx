@@ -133,11 +133,11 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
 
   const config = sizeConfig[size] ?? sizeConfig.md;
   
-  // Ensure config is always defined
-  const fontSize = config?.fontSize ?? tokens.typography.bodyMedium.fontSize;
+  // Ensure config is always defined with safe fallbacks
+  const fontSize = config?.fontSize ?? tokens.typography.bodyMedium?.fontSize ?? 16;
   const iconSize = config?.iconSize ?? 20;
-  const paddingVertical = config?.paddingVertical ?? tokens.spacing.sm;
-  const paddingHorizontal = config?.paddingHorizontal ?? tokens.spacing.md;
+  const paddingVertical = config?.paddingVertical ?? tokens.spacing?.sm ?? 8;
+  const paddingHorizontal = config?.paddingHorizontal ?? tokens.spacing?.md ?? 12;
   const minHeight = config?.minHeight ?? 48;
 
   // Get variant styles

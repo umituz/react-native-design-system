@@ -58,7 +58,7 @@ import { AtomicButton } from './AtomicButton';
  */
 export interface AtomicDatePickerProps {
   /** Selected date value */
-  value: Date;
+  value: Date | null;
   /** Callback when date changes */
   onChange: (date: Date) => void;
   /** Optional label displayed above picker */
@@ -77,6 +77,8 @@ export interface AtomicDatePickerProps {
   placeholder?: string;
   /** Optional test ID for E2E testing */
   testID?: string;
+  /** Optional container style */
+  style?: import('react-native').StyleProp<import('react-native').ViewStyle>;
 }
 
 /**
@@ -100,6 +102,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   mode = 'date',
   placeholder = 'Select date',
   testID,
+  style,
 }) => {
   const tokens = useAppDesignTokens();
   const { height } = useWindowDimensions();
@@ -185,7 +188,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const styles = getStyles(tokens, height, insets);
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={[styles.container, style]} testID={testID}>
       {label && (
         <Text style={styles.label} testID={testID ? `${testID}-label` : undefined}>
           {label}
