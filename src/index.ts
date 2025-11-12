@@ -34,6 +34,12 @@ export {
   type AtomicTextProps,
 } from './presentation/atoms/AtomicText';
 
+// Re-export typography types for convenience (from @umituz/react-native-typography)
+export type {
+  TextStyleVariant,
+  ColorVariant,
+} from '@umituz/react-native-typography';
+
 export {
   AtomicCard,
   type AtomicCardProps,
