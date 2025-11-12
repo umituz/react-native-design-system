@@ -99,6 +99,10 @@
   ],
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
+    "@umituz/react-native-design-system-atoms": "latest",
+    "@umituz/react-native-design-system-molecules": "latest",
+    "@umituz/react-native-design-system-organisms": "latest",
+    "@umituz/react-native-design-system-responsive": "latest",
     "@umituz/react-native-theme": "^1.2.5",
     "@umituz/react-native-typography": "^1.1.0"
   }
