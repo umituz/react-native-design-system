@@ -9,3 +9,7 @@ yarn-error.log*
 .yarn-integrity
 lib/
 *.tsbuildinfo
+
+# Ignore compiled JavaScript files (we use TypeScript only)
+src/**/*.js
+!src/**/*.config.js

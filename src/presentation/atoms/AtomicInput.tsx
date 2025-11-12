@@ -131,7 +131,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
     },
   };
 
-  const config = sizeConfig[size];
+  const config = sizeConfig[size] ?? sizeConfig.md;
 
   // Get variant styles
   const getVariantStyle = (): ViewStyle => {
@@ -205,13 +205,13 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   const textInputStyle: StyleProp<TextStyle> = [
     styles.input,
     {
-      fontSize: config.fontSize,
-      lineHeight: config.fontSize * 1.2, // Tighter lineHeight to prevent text clipping
+      fontSize: config?.fontSize ?? tokens.typography.bodyMedium.fontSize,
+      lineHeight: (config?.fontSize ?? tokens.typography.bodyMedium.fontSize) * 1.2, // Tighter lineHeight to prevent text clipping
       color: getTextColor(),
       paddingVertical: 0, // Remove vertical padding to prevent clipping
     },
-    leadingIcon ? { paddingLeft: config.iconSize + 8 } : undefined,
-    (trailingIcon || showPasswordToggle) ? { paddingRight: config.iconSize + 8 } : undefined,
+    leadingIcon ? { paddingLeft: (config.iconSize ?? 20) + 8 } : undefined,
+    (trailingIcon || showPasswordToggle) ? { paddingRight: (config.iconSize ?? 20) + 8 } : undefined,
     inputStyle,
   ];
 

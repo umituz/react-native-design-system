@@ -49,6 +49,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '@umituz/react-native-theme';
 import { AtomicIcon, type AtomicIconColor } from './AtomicIcon';
+// @ts-ignore - Peer dependency, types may not be available during typecheck
 import { BottomSheetModal, useBottomSheetModal } from '@umituz/react-native-bottom-sheet';
 import { AtomicButton } from './AtomicButton';
 
@@ -205,7 +206,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
         accessibilityState={{ disabled }}
       >
         <AtomicIcon
-          name="calendar"
+          name="Calendar"
           color={getIconColor()}
           size="md"
         />
@@ -250,7 +251,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
           />
           <View style={styles.buttonContainer}>
             <AtomicButton
-              label="Done"
+              title="Done"
               onPress={handleDone}
               variant="primary"
               style={styles.doneButton}
