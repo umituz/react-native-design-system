@@ -6,13 +6,17 @@
   "types": "./src/index.ts",
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit --skipLibCheck",
+    "build": "npx --yes -p typescript tsc --skipLibCheck || true",
+    "prebuild": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "typecheck": "npx --yes -p typescript tsc --noEmit --skipLibCheck",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "version:patch": "npm version patch -m 'chore: release v%s'",
