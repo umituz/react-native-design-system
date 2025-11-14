@@ -48,13 +48,9 @@ export {
   type AtomicDatePickerProps,
   type AtomicSearchBarProps,
   type AtomicSortProps,
-} from '@umituz/react-native-design-system-atoms';
-
-// Icon types - exported separately to avoid conflicts
-export type {
-  IconName,
-  IconSize,
-  IconColor,
+  type IconName,
+  type IconSize,
+  type IconColor,
 } from '@umituz/react-native-design-system-atoms';
 
 // Icon alias

@@ -3,10 +3,10 @@
   "version": "1.5.52",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./src/index.ts",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./src/index.ts",
       "import": "./src/index.ts",
       "require": "./src/index.ts",
       "default": "./src/index.ts"
