@@ -1,73 +1,140 @@
-/**
- * @umituz/react-native-design-system - Public API
- *
- * Universal UI component library for React Native apps
- * Domain-Driven Design (DDD) Architecture
- *
- * This is the SINGLE SOURCE OF TRUTH for all UI components.
- * ALL imports from the design system MUST go through this file.
- *
- * Architecture:
- * - @umituz/react-native-design-system-atoms: Primitive UI components (AtomicButton, AtomicText, etc.)
- * - @umituz/react-native-design-system-molecules: Composite components (SearchBar, ListItem, etc.)
- * - @umituz/react-native-design-system-organisms: Complex patterns (ScreenLayout, AppHeader, FormContainer)
- * - presentation/tokens: Design tokens (colors, typography, spacing, etc.)
- * - presentation/utils: Utility functions and helpers
- *
- * Usage:
- *   import { AtomicButton, AtomicFilter, AtomicTouchable, SearchBar, STATIC_TOKENS } from '@umituz/react-native-design-system';
- */
+// =============================================================================
+// ATOMS - Atomic Design Components
+// =============================================================================
+export {
+  AtomicButton,
+  AtomicText,
+  AtomicCard,
+  AtomicInput,
+  AtomicTextArea,
+  AtomicPicker,
+  AtomicIcon,
+  AtomicImage,
+  AtomicSwitch,
+  AtomicBadge,
+  AtomicFormError,
+  AtomicAvatar,
+  AtomicChip,
+  AtomicDivider,
+  AtomicProgress,
+  AtomicAvatarGroup,
+  AtomicFab,
+  AtomicFilter,
+  AtomicTouchable,
+  AtomicNumberInput,
+  AtomicDatePicker,
+  AtomicSearchBar,
+  AtomicSort,
+  type AtomicButtonProps,
+  type AtomicTextProps,
+  type AtomicCardProps,
+  type AtomicInputProps,
+  type AtomicTextAreaProps,
+  type AtomicPickerProps,
+  type AtomicIconProps,
+  type AtomicImageProps,
+  type AtomicSwitchProps,
+  type AtomicBadgeProps,
+  type AtomicFormErrorProps,
+  type AtomicAvatarProps,
+  type AtomicChipProps,
+  type AtomicDividerProps,
+  type AtomicProgressProps,
+  type AtomicAvatarGroupProps,
+  type AtomicFabProps,
+  type AtomicFilterProps,
+  type AtomicTouchableProps,
+  type AtomicNumberInputProps,
+  type AtomicDatePickerProps,
+  type AtomicSearchBarProps,
+  type AtomicSortProps,
+  type IconName,
+  type IconSize,
+  type IconColor,
+} from '@umituz/react-native-design-system-atoms';
+
+// Icon alias
+export {
+  AtomicIcon as Icon,
+  type AtomicIconProps as IconProps,
+} from '@umituz/react-native-design-system-atoms';
+
+// Re-export IconName, IconSize, IconColor as Icon types
+export type {
+  IconName,
+  IconSize,
+  IconColor,
+} from '@umituz/react-native-design-system-atoms';
 
 // =============================================================================
-// ATOMS - Primitive UI Components
-// Re-exported from @umituz/react-native-design-system-atoms
+// MOLECULES - Composite Components
 // =============================================================================
+export {
+  FormField,
+  ListItem,
+  SearchBar,
+  SectionCard,
+  IconContainer,
+  ScreenHeader,
+  EmptyState,
+  SectionHeader,
+  SectionContainer,
+  GridContainer,
+  ConfirmationModal,
+  useConfirmationModal,
+  type FormFieldProps,
+  type ListItemProps,
+  type SearchBarProps,
+  type ScreenHeaderProps,
+  type ConfirmationModalProps,
+  type ConfirmationModalVariant,
+} from '@umituz/react-native-design-system-molecules';
 
-export * from '@umituz/react-native-design-system-atoms';
+// ConfirmationModal alias
+export {
+  ConfirmationModal as AtomicConfirmationModal,
+  type ConfirmationModalProps as AtomicConfirmationModalProps,
+} from '@umituz/react-native-design-system-molecules';
 
-// Re-export typography types for convenience (from @umituz/react-native-design-system-typography)
+// =============================================================================
+// ORGANISMS - Complex Patterns
+// =============================================================================
+export {
+  AppHeader,
+  ScreenLayout,
+  FormContainer,
+  type AppHeaderProps,
+  type ScreenLayoutProps,
+  type FormContainerProps,
+} from '@umituz/react-native-design-system-organisms';
+
+// =============================================================================
+// TYPOGRAPHY TYPES
+// =============================================================================
 export type {
   TextStyleVariant,
   ColorVariant,
 } from '@umituz/react-native-design-system-typography';
 
 // =============================================================================
-// MOLECULES - Composite Components
-// Re-exported from @umituz/react-native-design-system-molecules
+// THEME & DESIGN TOKENS
 // =============================================================================
-
-export * from '@umituz/react-native-design-system-molecules';
-
-// =============================================================================
-// ORGANISMS - Complex Patterns
-// Re-exported from @umituz/react-native-design-system-organisms
-// =============================================================================
-
-export * from '@umituz/react-native-design-system-organisms';
-
-// Note: FeedbackModal moved to @domains/feedback
-// Import from feedback domain: import { FeedbackModal } from '@domains/feedback';
-
-// =============================================================================
-// THEME-RELATED EXPORTS - Re-exported from @umituz/react-native-design-system-theme
-// =============================================================================
-// All tokens, colors, and theme utilities come from @umituz/react-native-design-system-theme
-// Design system does NOT define any tokens - it only uses them from theme package
-
 export {
-  // Token factory
   createDesignTokens,
   STATIC_DESIGN_TOKENS,
   BASE_TOKENS,
   STATIC_TOKENS,
-
-  // Color utilities
   withAlpha,
   lightColors,
   darkColors,
   getColorPalette,
-
-  // Type exports
+  useAppDesignTokens,
+  useDesignSystemTheme,
+  useTheme,
+  lightTheme,
+  darkTheme,
+  createResponsiveValue,
+  ThemeStorage,
   type DesignTokens,
   type ThemeMode,
   type ColorPalette,
@@ -75,20 +142,20 @@ export {
   type Spacing,
   type Typography,
   type Borders,
+  type Theme,
+  type ExtendedColorPalette,
 } from '@umituz/react-native-design-system-theme';
 
-// Hook for dynamic theme-aware tokens (re-exported from theme package)
-export { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
-
+// =============================================================================
+// COMMON STYLES
+// =============================================================================
 export {
   useCommonStyles,
 } from './presentation/tokens/commonStyles';
 
 // =============================================================================
-// UTILITIES - Helper Functions & Responsive Utilities
-// Re-exported from @umituz/react-native-design-system-responsive
+// RESPONSIVE UTILITIES
 // =============================================================================
-
 export {
   IOS_HIG,
   ANDROID_MATERIAL,
@@ -98,7 +165,6 @@ export {
   useResponsive,
   useResponsiveSizes,
   useDeviceType,
-  type UseResponsiveReturn,
   getScreenDimensions,
   isSmallPhone,
   isTablet,
@@ -123,29 +189,6 @@ export {
   getOnboardingTitleMarginBottom,
   getOnboardingTextPadding,
   getOnboardingDescriptionMarginTop,
-  DeviceType,
+  type UseResponsiveReturn,
+  type DeviceType,
 } from '@umituz/react-native-design-system-responsive';
-
-// =============================================================================
-// THEME MANAGEMENT - Global Theme Store
-// =============================================================================
-
-// Theme management moved to @umituz/react-native-design-system-theme
-export {
-  useDesignSystemTheme,
-} from '@umituz/react-native-design-system-theme';
-
-// =============================================================================
-// ICONS DOMAIN - Universal Icon System
-// =============================================================================
-// Icon components are now part of @umituz/react-native-design-system-atoms
-// Import directly: import { AtomicIcon, IconName, IconSize, IconColor } from '@umituz/react-native-design-system-atoms';
-
-// Re-export for backward compatibility
-export {
-  AtomicIcon as Icon,
-  type AtomicIconProps as IconProps,
-  type IconSize,
-  type IconColor,
-  type IconName,
-} from '@umituz/react-native-design-system-atoms';

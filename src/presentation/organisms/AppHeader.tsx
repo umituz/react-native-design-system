@@ -12,24 +12,13 @@ import React from 'react';
 import { View, ViewStyle, SafeAreaView } from 'react-native';
 import { useAppDesignTokens } from '@umituz/react-native-design-system-theme';
 import { AtomicText, AtomicButton, AtomicIcon } from '@umituz/react-native-design-system-atoms';
-import type { IconName } from '@umituz/react-native-design-system-atoms';
 
-// =============================================================================
-// TYPE DEFINITIONS
-// =============================================================================
-
-/**
- * AppHeader component props
- *
- * leftIcon/rightIcon: Any MaterialIcons name
- * @see https://fonts.google.com/icons
- */
 export interface AppHeaderProps {
   title: string;
   subtitle?: string;
-  leftIcon?: IconName;
+  leftIcon?: string;
   onLeftPress?: () => void;
-  rightIcon?: IconName;
+  rightIcon?: string;
   onRightPress?: () => void;
   showShadow?: boolean;
   backgroundColor?: string;
