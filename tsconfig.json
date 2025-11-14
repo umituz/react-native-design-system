@@ -12,6 +12,9 @@
       "@constants/*": ["src/constants/*"]
     },
     "noEmit": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
