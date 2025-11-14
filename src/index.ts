@@ -38,10 +38,6 @@ export {
 } from './presentation/utils/variants/compound';
 
 export {
-  combineStyles,
-} from './presentation/utils/variants/helpers';
-
-export {
   conditionalStyle,
   responsiveStyle,
   combineStyles,
