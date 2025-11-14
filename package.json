@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.5.57",
+  "version": "1.5.58",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -44,6 +44,12 @@
     "@react-native-community/datetimepicker": "^8.5.0",
     "@react-navigation/native": "^6.0.0",
     "@umituz/react-native-bottom-sheet": "*",
+    "@umituz/react-native-design-system-atoms": "*",
+    "@umituz/react-native-design-system-molecules": "*",
+    "@umituz/react-native-design-system-organisms": "*",
+    "@umituz/react-native-design-system-responsive": "*",
+    "@umituz/react-native-design-system-theme": "*",
+    "@umituz/react-native-design-system-typography": "*",
     "expo-linear-gradient": "^15.0.7",
     "lucide-react-native": ">=0.468.0",
     "react": ">=18.2.0 || ^19.0.0",
@@ -75,6 +81,12 @@
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@umituz/react-native-bottom-sheet": "*",
+    "@umituz/react-native-design-system-atoms": "*",
+    "@umituz/react-native-design-system-molecules": "*",
+    "@umituz/react-native-design-system-organisms": "*",
+    "@umituz/react-native-design-system-responsive": "*",
+    "@umituz/react-native-design-system-theme": "*",
+    "@umituz/react-native-design-system-typography": "*",
     "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -99,12 +111,6 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0",
-    "@umituz/react-native-design-system-atoms": "latest",
-    "@umituz/react-native-design-system-molecules": "latest",
-    "@umituz/react-native-design-system-organisms": "latest",
-    "@umituz/react-native-design-system-responsive": "latest",
-    "@umituz/react-native-design-system-theme": "latest",
-    "@umituz/react-native-design-system-typography": "latest"
+    "@react-native-async-storage/async-storage": "^2.2.0"
   }
 }
