@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.5.59",
+  "version": "1.5.60",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -10,7 +10,9 @@
       "import": "./src/index.ts",
       "require": "./src/index.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./src/index.ts": "./src/index.ts",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "typecheck": "npx --yes -p typescript tsc --noEmit --skipLibCheck",
