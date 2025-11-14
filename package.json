@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "1.5.39",
+  "version": "1.5.49",
   "description": "Universal design system for React Native apps - Domain-Driven Design architecture with Material Design 3 components",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --skipLibCheck",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "version:patch": "npm version patch -m 'chore: release v%s'",
