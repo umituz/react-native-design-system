@@ -23,6 +23,6 @@ export { createDesignTokens, STATIC_DESIGN_TOKENS, BASE_TOKENS, STATIC_TOKENS, w
 // =============================================================================
 export { useCommonStyles, } from './presentation/tokens/commonStyles';
 // =============================================================================
-// RESPONSIVE UTILITIES
+// RESPONSIVE UTILITIES - REMOVED (deprecated package)
 // =============================================================================
-export { IOS_HIG, ANDROID_MATERIAL, PLATFORM_CONSTANTS, isValidTouchTarget, getMinTouchTarget, useResponsive, useResponsiveSizes, useDeviceType, getScreenDimensions, isSmallPhone, isTablet, getResponsiveLogoSize, getResponsiveInputHeight, getResponsiveHorizontalPadding, getResponsiveBottomPosition, getResponsiveFABPosition, getResponsiveModalMaxHeight, getResponsiveMinModalHeight, getResponsiveIconContainerSize, getResponsiveGridColumns, getResponsiveMaxWidth, getResponsiveFontSize, isLandscape, getKeyboardBehavior, getDeviceType, getMinTouchTargetSize, getSpacingMultiplier, getOnboardingIconMarginTop, getOnboardingIconMarginBottom, getOnboardingTitleMarginBottom, getOnboardingTextPadding, getOnboardingDescriptionMarginTop, } from '@umituz/react-native-design-system-responsive';
+// Note: Import directly from @umituz/react-native-design-system-responsive
