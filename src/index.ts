@@ -1,8 +1,9 @@
 /**
  * @umituz/react-native-design-system
  * 
- * ⚠️ DEPRECATED: This package is deprecated. 
- * Please import directly from individual packages:
+ * Design System Aggregator Package
+ * 
+ * This package aggregates exports from individual design system packages:
  * - @umituz/react-native-design-system-atoms
  * - @umituz/react-native-design-system-molecules  
  * - @umituz/react-native-design-system-organisms
@@ -10,17 +11,34 @@
  * - @umituz/react-native-design-system-responsive
  * - @umituz/react-native-design-system-typography
  * 
- * This package only exports its own utilities:
- * - useCommonStyles
+ * This package also exports its own utilities:
  * - variants utilities
  */
 
 // =============================================================================
-// COMMON STYLES - Own utility
+// ATOMS - Re-export from atoms package
 // =============================================================================
-export {
-  useCommonStyles,
-} from './presentation/tokens/commonStyles';
+export * from '@umituz/react-native-design-system-atoms';
+
+// =============================================================================
+// MOLECULES - Re-export from molecules package
+// =============================================================================
+export * from '@umituz/react-native-design-system-molecules';
+
+// =============================================================================
+// ORGANISMS - Re-export from organisms package
+// =============================================================================
+export * from '@umituz/react-native-design-system-organisms';
+
+// =============================================================================
+// THEME - Re-export from theme package
+// =============================================================================
+export * from '@umituz/react-native-design-system-theme';
+
+// =============================================================================
+// RESPONSIVE - Re-export from responsive package
+// =============================================================================
+export * from '@umituz/react-native-design-system-responsive';
 
 // =============================================================================
 // VARIANTS UTILITIES - Own utilities
