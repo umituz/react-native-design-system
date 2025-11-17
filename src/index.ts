@@ -6,11 +6,11 @@
  */
 
 // =============================================================================
-// COMMON STYLES - Own utility
+// COMMON STYLES - Re-export from @umituz/react-native-design-system-theme
 // =============================================================================
 export {
   useCommonStyles,
-} from './presentation/tokens/commonStyles';
+} from '@umituz/react-native-design-system-theme';
 
 // =============================================================================
 // VARIANTS UTILITIES - Own utilities
