@@ -40,8 +40,12 @@ export {
   AtomicText,
   AtomicIcon,
   AtomicButton,
+  AtomicInput,
   type IconName,
 } from '@umituz/react-native-design-system-atoms';
+
+// Alias for backward compatibility
+export { AtomicIcon as Icon } from '@umituz/react-native-design-system-atoms';
 
 // =============================================================================
 // ORGANISMS - Re-export from @umituz/react-native-design-system-organisms
