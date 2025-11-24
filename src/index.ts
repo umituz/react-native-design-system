@@ -41,6 +41,9 @@ export {
   AtomicIcon,
   AtomicButton,
   AtomicInput,
+  AtomicCard,
+  AtomicFab,
+  AtomicSearchBar,
   type IconName,
 } from '@umituz/react-native-design-system-atoms';
 
@@ -55,10 +58,84 @@ export {
 } from '@umituz/react-native-design-system-organisms';
 
 // =============================================================================
+// MOLECULES - Re-export from @umituz/react-native-design-system-molecules
+// =============================================================================
+export {
+  EmptyState,
+  FormField,
+  ListItem,
+  SearchBar,
+  SectionCard,
+  IconContainer,
+  ScreenHeader,
+  SectionHeader,
+  SectionContainer,
+  GridContainer,
+  ConfirmationModal,
+  useConfirmationModal,
+} from '@umituz/react-native-design-system-molecules';
+
+// =============================================================================
+// RESPONSIVE - Re-export from @umituz/react-native-design-system-responsive
+// =============================================================================
+export {
+  useResponsive,
+  useResponsiveSizes,
+  useDeviceType,
+  getScreenDimensions,
+  isSmallPhone,
+  isTablet,
+  getResponsiveLogoSize,
+  getResponsiveInputHeight,
+  getResponsiveHorizontalPadding,
+  getResponsiveBottomPosition,
+  getResponsiveFABPosition,
+  getResponsiveModalMaxHeight,
+  getResponsiveMinModalHeight,
+  getResponsiveIconContainerSize,
+  getResponsiveGridColumns,
+  getResponsiveMaxWidth,
+  getResponsiveFontSize,
+  isLandscape,
+  getKeyboardBehavior,
+  getDeviceType,
+  getMinTouchTargetSize,
+  getSpacingMultiplier,
+  getOnboardingIconMarginTop,
+  getOnboardingIconMarginBottom,
+  getOnboardingTitleMarginTop,
+  getOnboardingTextPadding,
+  getOnboardingDescriptionMarginTop,
+  IOS_HIG,
+  ANDROID_MATERIAL,
+  PLATFORM_CONSTANTS,
+  isValidTouchTarget,
+  getMinTouchTarget,
+  DeviceType,
+} from '@umituz/react-native-design-system-responsive';
+
+// =============================================================================
+// LOADING - Re-export from @umituz/react-native-loading
+// =============================================================================
+export {
+  LoadingState,
+  SkeletonLoader,
+  useLoading,
+  useSimpleLoading,
+  LOADING_EMOJIS,
+  SIZE_CONFIGS,
+  ANIMATION_CONFIGS,
+  SKELETON_PATTERNS,
+  LoadingUtils,
+  LOADING_CONSTANTS,
+} from '@umituz/react-native-loading';
+
+// =============================================================================
 // THEME - Re-export from @umituz/react-native-design-system-theme
 // =============================================================================
 export {
   useAppDesignTokens,
   STATIC_TOKENS,
   type DesignTokens,
+  withAlpha,
 } from '@umituz/react-native-design-system-theme';
