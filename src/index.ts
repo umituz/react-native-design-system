@@ -103,7 +103,7 @@ export {
   getSpacingMultiplier,
   getOnboardingIconMarginTop,
   getOnboardingIconMarginBottom,
-  getOnboardingTitleMarginTop,
+  getOnboardingTitleMarginBottom,
   getOnboardingTextPadding,
   getOnboardingDescriptionMarginTop,
   IOS_HIG,
