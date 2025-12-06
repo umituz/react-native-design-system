@@ -122,12 +122,9 @@ export {
   SkeletonLoader,
   useLoading,
   useSimpleLoading,
-  LOADING_EMOJIS,
   SIZE_CONFIGS,
-  ANIMATION_CONFIGS,
   SKELETON_PATTERNS,
-  LoadingUtils,
-  LOADING_CONSTANTS,
+  DEFAULT_LOADING_EMOJI,
 } from '@umituz/react-native-loading';
 
 // =============================================================================
