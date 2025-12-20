@@ -54,27 +54,62 @@ export const SIZE_CONSTRAINTS = {
   LOGO_MAX_SMALL: 120,          // Maximum logo size for small phones
   LOGO_MIN_TABLET: 140,         // Minimum logo size for tablets
   LOGO_MAX_TABLET: 200,         // Maximum logo size for tablets
-  
+
   // Input height constraints
   INPUT_MAX_SMALL: 120,         // Maximum input height for small devices
   INPUT_MAX_MEDIUM: 150,        // Maximum input height for medium devices
   INPUT_MAX_LARGE: 200,          // Maximum input height for large devices
-  
+
   // Icon container constraints
   ICON_MAX_SMALL: 120,           // Maximum icon container for small phones
   ICON_MAX_TABLET: 180,          // Maximum icon container for tablets
-  
+
   // Content width constraints
   CONTENT_MAX_TABLET: 600,       // Maximum content width for tablets
-  
+
   // Modal height constraints
   MODAL_MIN_SMALL: 250,         // Minimum modal height for small devices
   MODAL_MIN_STANDARD: 300,       // Minimum modal height for standard devices
   MODAL_MIN_TABLET: 350,        // Minimum modal height for tablets
   MODAL_MAX_TABLET: 500,        // Maximum modal height for tablets
-  
+
   // Font size constraints
   FONT_MIN_SIZE: 11,             // Minimum font size
+} as const;
+
+/**
+ * Modal layout configuration
+ * Responsive values for modal/overlay components
+ */
+export const MODAL_CONFIG = {
+  // Width percentages by device type
+  WIDTH_PERCENT_PHONE: 0.92,       // 92% of screen width for phones
+  WIDTH_PERCENT_TABLET: 0.75,      // 75% of screen width for tablets
+
+  // Height percentages by device type
+  HEIGHT_PERCENT_SMALL: 0.85,      // 85% of screen height for small devices
+  HEIGHT_PERCENT_STANDARD: 0.88,   // 88% of screen height for standard devices
+  HEIGHT_PERCENT_TABLET: 0.80,     // 80% of screen height for tablets
+
+  // Max width constraints
+  MAX_WIDTH_PHONE: 480,            // Maximum modal width for phones
+  MAX_WIDTH_TABLET: 600,           // Maximum modal width for tablets
+
+  // Border radius by device type
+  BORDER_RADIUS_PHONE: 32,         // Border radius for phones
+  BORDER_RADIUS_TABLET: 24,        // Border radius for tablets
+
+  // Backdrop opacity
+  BACKDROP_OPACITY_DEFAULT: 0.85,  // Default backdrop opacity
+
+  // Bottom sheet specific
+  BOTTOM_SHEET_MIN_HEIGHT: 400,    // Minimum height for bottom sheets
+  BOTTOM_SHEET_MAX_HEIGHT_PERCENT: 0.9, // Max height percentage for bottom sheets
+
+  // Dialog specific
+  DIALOG_WIDTH_PERCENT: 0.94,      // Dialog width percentage
+  DIALOG_MAX_WIDTH: 500,           // Maximum dialog width
+  DIALOG_MAX_HEIGHT_PERCENT: 0.85, // Dialog max height percentage
 } as const;
 
 /**

@@ -34,9 +34,24 @@ export {
   getResponsiveHorizontalPadding,
   getResponsiveBottomPosition,
   getResponsiveFABPosition,
+} from './responsiveLayout';
+
+// Responsive modal utilities
+export {
   getResponsiveModalMaxHeight,
   getResponsiveMinModalHeight,
-} from './responsiveLayout';
+  getResponsiveModalWidth,
+  getResponsiveModalHeight,
+  getResponsiveModalBorderRadius,
+  getResponsiveModalMaxWidth,
+  getResponsiveBackdropOpacity,
+  getResponsiveModalLayout,
+  getResponsiveBottomSheetLayout,
+  getResponsiveDialogLayout,
+  type ResponsiveModalLayout,
+  type ResponsiveBottomSheetLayout,
+  type ResponsiveDialogLayout,
+} from './responsiveModal';
 
 // Platform constants
 export {
@@ -55,6 +70,7 @@ export {
   HEIGHT_THRESHOLDS,
   GRID_CONFIG,
   VALIDATION_CONSTRAINTS,
+  MODAL_CONFIG,
 } from './config';
 
 

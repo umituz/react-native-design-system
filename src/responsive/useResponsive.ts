@@ -21,6 +21,9 @@ import {
   getResponsiveFABPosition,
   getResponsiveModalMaxHeight,
   getResponsiveMinModalHeight,
+  getResponsiveModalLayout,
+  getResponsiveBottomSheetLayout,
+  getResponsiveDialogLayout,
   getResponsiveIconContainerSize,
   getResponsiveGridColumns,
   getResponsiveMaxWidth,
@@ -31,6 +34,9 @@ import {
   getDeviceType,
   getMinTouchTarget,
   DeviceType,
+  type ResponsiveModalLayout,
+  type ResponsiveBottomSheetLayout,
+  type ResponsiveDialogLayout,
 } from './responsive';
 import { getSpacingMultiplier } from './deviceDetection';
 
@@ -68,6 +74,11 @@ export interface UseResponsiveReturn {
   modalMinHeight: number;
   gridColumns: number;
   spacingMultiplier: number;
+
+  // Modal layouts (complete configurations)
+  modalLayout: ResponsiveModalLayout;
+  bottomSheetLayout: ResponsiveBottomSheetLayout;
+  dialogLayout: ResponsiveDialogLayout;
 
   // Utility functions
   getLogoSize: (baseSize?: number) => number;
@@ -124,6 +135,11 @@ export const useResponsive = (): UseResponsiveReturn => {
     modalMinHeight: getResponsiveMinModalHeight(),
     gridColumns: getResponsiveGridColumns(),
     spacingMultiplier: getSpacingMultiplier(),
+
+    // Modal layouts (complete configurations)
+    modalLayout: getResponsiveModalLayout(),
+    bottomSheetLayout: getResponsiveBottomSheetLayout(),
+    dialogLayout: getResponsiveDialogLayout(),
 
     // Utility functions (memoized)
     getLogoSize,

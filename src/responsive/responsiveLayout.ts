@@ -4,18 +4,11 @@
  */
 
 import { getScreenDimensions } from './deviceDetection';
-import {
-  DEVICE_BREAKPOINTS,
-  LAYOUT_CONSTANTS,
-  HEIGHT_THRESHOLDS,
-  SIZE_CONSTRAINTS,
-} from './config';
+import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from './config';
 import { validateNumber, validateSafeAreaInsets } from './validation';
 
 /**
  * Responsive horizontal padding
- * @param basePadding - Base padding value (default: 16)
- * @param insets - Safe area insets object
  */
 export const getResponsiveHorizontalPadding = (
   basePadding: number = LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE,
@@ -49,8 +42,6 @@ export const getResponsiveHorizontalPadding = (
 
 /**
  * Responsive bottom positioning
- * @param basePosition - Base bottom position (default: 32)
- * @param insets - Safe area insets object
  */
 export const getResponsiveBottomPosition = (
   basePosition: number = LAYOUT_CONSTANTS.BOTTOM_POSITION_BASE,
@@ -69,7 +60,6 @@ export const getResponsiveBottomPosition = (
 
 /**
  * Responsive FAB position
- * @param insets - Safe area insets object
  */
 export const getResponsiveFABPosition = (
   insets: { bottom?: number; right?: number } = { bottom: 0, right: 0 }
@@ -81,57 +71,28 @@ export const getResponsiveFABPosition = (
 
     if (width >= DEVICE_BREAKPOINTS.TABLET) {
       return {
-        bottom: Math.max(LAYOUT_CONSTANTS.FAB_BOTTOM_TABLET, bottom + LAYOUT_CONSTANTS.TAB_BAR_OFFSET),
-        right: Math.max(LAYOUT_CONSTANTS.FAB_RIGHT_TABLET, right + LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE),
+        bottom: Math.max(
+          LAYOUT_CONSTANTS.FAB_BOTTOM_TABLET,
+          bottom + LAYOUT_CONSTANTS.TAB_BAR_OFFSET
+        ),
+        right: Math.max(
+          LAYOUT_CONSTANTS.FAB_RIGHT_TABLET,
+          right + LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE
+        ),
       };
     }
 
     return {
-      bottom: Math.max(LAYOUT_CONSTANTS.TAB_BAR_OFFSET, bottom + LAYOUT_CONSTANTS.SAFE_AREA_OFFSET),
-      right: Math.max(LAYOUT_CONSTANTS.FAB_RIGHT_PHONE, right + LAYOUT_CONSTANTS.SAFE_AREA_OFFSET),
+      bottom: Math.max(
+        LAYOUT_CONSTANTS.TAB_BAR_OFFSET,
+        bottom + LAYOUT_CONSTANTS.SAFE_AREA_OFFSET
+      ),
+      right: Math.max(
+        LAYOUT_CONSTANTS.FAB_RIGHT_PHONE,
+        right + LAYOUT_CONSTANTS.SAFE_AREA_OFFSET
+      ),
     };
   } catch {
     return { bottom: 90, right: 20 };
-  }
-};
-
-/**
- * Responsive modal max height
- */
-export const getResponsiveModalMaxHeight = (): string => {
-  try {
-    const { height } = getScreenDimensions();
-
-    if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
-      return LAYOUT_CONSTANTS.MODAL_HEIGHT_SMALL;
-    } else if (height >= HEIGHT_THRESHOLDS.LARGE_DEVICE) {
-      return LAYOUT_CONSTANTS.MODAL_HEIGHT_TABLET;
-    }
-
-    return LAYOUT_CONSTANTS.MODAL_HEIGHT_STANDARD;
-  } catch {
-    return '70%';
-  }
-};
-
-/**
- * Responsive modal min height
- */
-export const getResponsiveMinModalHeight = (): number => {
-  try {
-    const { height } = getScreenDimensions();
-
-    if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
-      const calculatedHeight = height * 0.4;
-      return Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_SMALL);
-    } else if (height >= HEIGHT_THRESHOLDS.LARGE_DEVICE) {
-      const calculatedHeight = height * 0.35;
-      return Math.min(Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_TABLET), SIZE_CONSTRAINTS.MODAL_MAX_TABLET);
-    }
-
-    const calculatedHeight = height * 0.45;
-    return Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_STANDARD);
-  } catch {
-    return 300;
   }
 };

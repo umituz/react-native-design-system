@@ -26,6 +26,17 @@ export {
   getResponsiveFABPosition,
   getResponsiveModalMaxHeight,
   getResponsiveMinModalHeight,
+  getResponsiveModalWidth,
+  getResponsiveModalHeight,
+  getResponsiveModalBorderRadius,
+  getResponsiveModalMaxWidth,
+  getResponsiveBackdropOpacity,
+  getResponsiveModalLayout,
+  getResponsiveBottomSheetLayout,
+  getResponsiveDialogLayout,
+  type ResponsiveModalLayout,
+  type ResponsiveBottomSheetLayout,
+  type ResponsiveDialogLayout,
   getResponsiveIconContainerSize,
   getResponsiveGridColumns,
   getResponsiveGridCellSize,
@@ -35,6 +46,7 @@ export {
   isLandscape,
   getDeviceType,
   DeviceType,
+  MODAL_CONFIG,
 } from './responsive';
 
 // Device detection exports
