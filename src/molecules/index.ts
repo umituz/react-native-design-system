@@ -9,6 +9,7 @@ export { ListItem, type ListItemProps } from './ListItem';
 export { SearchBar, type SearchBarProps } from './SearchBar';
 export { IconContainer } from './IconContainer';
 export { ScreenHeader, type ScreenHeaderProps } from './ScreenHeader';
+export { BaseModal, type BaseModalProps } from './BaseModal';
 export { ConfirmationModal } from './ConfirmationModalMain';
 export { useConfirmationModal } from './confirmation-modal/useConfirmationModal';
 

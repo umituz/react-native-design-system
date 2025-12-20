@@ -94,6 +94,14 @@ export {
   getResponsiveFABPosition,
   getResponsiveModalMaxHeight,
   getResponsiveMinModalHeight,
+  getResponsiveModalWidth,
+  getResponsiveModalHeight,
+  getResponsiveModalBorderRadius,
+  getResponsiveModalMaxWidth,
+  getResponsiveBackdropOpacity,
+  getResponsiveModalLayout,
+  getResponsiveBottomSheetLayout,
+  getResponsiveDialogLayout,
   getResponsiveIconContainerSize,
   getResponsiveGridColumns,
   getResponsiveMaxWidth,
@@ -106,6 +114,10 @@ export {
   PLATFORM_CONSTANTS,
   isValidTouchTarget,
   DeviceType,
+  type ResponsiveModalLayout,
+  type ResponsiveBottomSheetLayout,
+  type ResponsiveDialogLayout,
+  type UseResponsiveReturn,
 } from './responsive';
 
 // =============================================================================
@@ -161,8 +173,10 @@ export {
   SearchBar,
   IconContainer,
   ScreenHeader,
+  BaseModal,
   ConfirmationModal,
   useConfirmationModal,
+  type BaseModalProps,
 } from './molecules';
 
 // =============================================================================

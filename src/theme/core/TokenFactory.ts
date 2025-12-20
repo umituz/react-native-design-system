@@ -28,6 +28,7 @@ export type DesignTokens = {
   iconSizes: typeof BASE_TOKENS.iconSizes;
   opacity: typeof BASE_TOKENS.opacity;
   avatarSizes: typeof BASE_TOKENS.avatarSizes;
+  borderRadius: typeof BASE_TOKENS.borders.radius;
   borders: typeof BASE_TOKENS.borders & {
     card: typeof BASE_TOKENS.borders.card & { borderColor: string };
     input: typeof BASE_TOKENS.borders.input & { borderColor: string };
@@ -78,6 +79,7 @@ export const createDesignTokens = (
     iconSizes: BASE_TOKENS.iconSizes,
     opacity: BASE_TOKENS.opacity,
     avatarSizes: BASE_TOKENS.avatarSizes,
+    borderRadius: BASE_TOKENS.borders.radius,
 
     // ✅ BORDERS: Static + injected border colors from theme
     borders: {

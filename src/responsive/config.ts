@@ -87,9 +87,9 @@ export const MODAL_CONFIG = {
   WIDTH_PERCENT_TABLET: 0.75,      // 75% of screen width for tablets
 
   // Height percentages by device type
-  HEIGHT_PERCENT_SMALL: 0.85,      // 85% of screen height for small devices
-  HEIGHT_PERCENT_STANDARD: 0.88,   // 88% of screen height for standard devices
-  HEIGHT_PERCENT_TABLET: 0.80,     // 80% of screen height for tablets
+  HEIGHT_PERCENT_SMALL: 0.75,      // 75% of screen height for small devices
+  HEIGHT_PERCENT_STANDARD: 0.78,   // 78% of screen height for standard devices
+  HEIGHT_PERCENT_TABLET: 0.70,     // 70% of screen height for tablets
 
   // Max width constraints
   MAX_WIDTH_PHONE: 480,            // Maximum modal width for phones
