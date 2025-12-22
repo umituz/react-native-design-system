@@ -29,7 +29,7 @@ const useConfirmButtonStyle = (
 ) => {
   return React.useCallback(() => {
     const baseStyle = getButtonStyle();
-    const variantStyles = [];
+    const variantStyles: ViewStyle[] = [];
 
     if (variant === 'destructive') variantStyles.push({ backgroundColor: tokens.colors.error });
     if (variant === 'warning') variantStyles.push({ backgroundColor: tokens.colors.warning });

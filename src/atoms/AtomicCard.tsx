@@ -40,11 +40,8 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
             case 'elevated':
                 return {
                     backgroundColor: tokens.colors.surface,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 4,
-                    elevation: 2,
+                    borderWidth: 1,
+                    borderColor: tokens.colors.outlineVariant || tokens.colors.outline,
                 };
             case 'outlined':
                 return {
