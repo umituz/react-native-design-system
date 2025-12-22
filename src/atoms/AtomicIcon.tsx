@@ -1,17 +1,24 @@
 /**
  * AtomicIcon - Theme-aware Icon Component
  *
- * Uses @umituz/react-native-icons internally
+ * Uses @expo/vector-icons/Ionicons internally
  * Adds theme-aware semantic colors and background support
  */
 
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { Icon, type IconSize as BaseIconSize, ICON_SIZES } from "@umituz/react-native-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useAppDesignTokens } from '../theme';
+import {
+  getIconSize,
+  ICON_SIZES,
+  type IconSize as BaseIconSize
+} from "./AtomicIcon.types";
 
-// Re-export IconSize from icons package for convenience
+// Re-export IconSize for convenience
 export type IconSize = BaseIconSize;
+
+const FALLBACK_ICON = "help-circle-outline";
 
 // Semantic color names that map to theme tokens
 export type IconColor =
@@ -96,7 +103,7 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
   const tokens = useAppDesignTokens();
 
   // Calculate size
-  const iconSize = customSize ?? (typeof size === "number" ? size : ICON_SIZES[size]);
+  const sizeInPixels = customSize ?? getIconSize(size);
 
   // Calculate color
   const iconColor = customColor
@@ -105,9 +112,29 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
       ? getSemanticColor(color, tokens)
       : tokens.colors.textPrimary;
 
+  // Validate icon
+  const isValidIcon = name in Ionicons.glyphMap;
+  const iconName = isValidIcon ? name : FALLBACK_ICON;
+
+  if (__DEV__ && !isValidIcon) {
+    console.warn(
+      `[AtomicIcon] Invalid icon name: "${name}". Using fallback icon "${FALLBACK_ICON}". ` +
+      `Available icons: https://icons.expo.fyi/`
+    );
+  }
+
+  const iconElement = (
+    <Ionicons
+      name={iconName as keyof typeof Ionicons.glyphMap}
+      size={sizeInPixels}
+      color={iconColor}
+      testID={testID ? `${testID}-icon` : undefined}
+    />
+  );
+
   if (withBackground) {
     const bgColor = backgroundColor || tokens.colors.surfaceVariant;
-    const containerSize = iconSize + 16;
+    const containerSize = sizeInPixels + 16;
 
     return (
       <View
@@ -124,14 +151,14 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
         testID={testID}
         accessibilityLabel={accessibilityLabel}
       >
-        <Icon name={name} size={iconSize} color={iconColor} />
+        {iconElement}
       </View>
     );
   }
 
   return (
     <View accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
-      <Icon name={name} size={iconSize} color={iconColor} />
+      {iconElement}
     </View>
   );
 });
@@ -147,3 +174,4 @@ const styles = StyleSheet.create({
 
 // Legacy type alias for backward compatibility
 export type IconProps = AtomicIconProps;
+

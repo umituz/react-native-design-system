@@ -40,6 +40,8 @@ export {
     type IconName,
 } from './AtomicIcon';
 
+export * from './AtomicIcon.types';
+
 // Avatar
 export { AtomicAvatar, type AtomicAvatarProps } from './AtomicAvatar';
 
