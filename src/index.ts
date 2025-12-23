@@ -142,6 +142,7 @@ export {
   AtomicProgress,
   AtomicPicker,
   AtomicDatePicker,
+  AtomicSkeleton,
   type IconName,
   type IconSize,
   type IconColor,
@@ -167,6 +168,10 @@ export {
   type PickerOption,
   type PickerSize,
   type AtomicDatePickerProps,
+  type AtomicSkeletonProps,
+  type SkeletonPattern,
+  type SkeletonConfig,
+  SKELETON_PATTERNS,
 } from './atoms';
 
 // =============================================================================

@@ -70,3 +70,12 @@ export {
 
 // DatePicker
 export { AtomicDatePicker, type AtomicDatePickerProps } from './AtomicDatePicker';
+
+// Skeleton
+export {
+    AtomicSkeleton,
+    type AtomicSkeletonProps,
+    type SkeletonPattern,
+    type SkeletonConfig,
+    SKELETON_PATTERNS,
+} from './skeleton';
