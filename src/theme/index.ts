@@ -56,10 +56,23 @@ export {
 } from './core/TokenFactory';
 
 // =============================================================================
+// RESPONSIVE TOKEN FACTORY
+// =============================================================================
+
+export {
+  createResponsiveDesignTokens,
+  type ResponsiveDesignTokens,
+  type ResponsiveSpacing,
+  type ResponsiveTypography,
+  type ResponsiveBorderRadius,
+} from './core/ResponsiveTokenFactory';
+
+// =============================================================================
 // HOOKS
 // =============================================================================
 
 export { useAppDesignTokens } from './hooks/useAppDesignTokens';
+export { useResponsiveDesignTokens } from './hooks/useResponsiveDesignTokens';
 export { useDesignSystemTheme } from './infrastructure/globalThemeStore';
 export { useTheme } from './infrastructure/stores/themeStore';
 export { useThemedStyles, useThemedStyleSheet } from './hooks/useThemedStyles';
