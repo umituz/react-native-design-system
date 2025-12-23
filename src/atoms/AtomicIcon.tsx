@@ -11,7 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAppDesignTokens } from '../theme';
 import {
   getIconSize,
-  ICON_SIZES,
   type IconSize as BaseIconSize
 } from "./AtomicIcon.types";
 
