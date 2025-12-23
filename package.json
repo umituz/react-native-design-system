@@ -63,7 +63,9 @@
     "react-native-svg": ">=15.0.0",
     "zustand": ">=5.0.0",
     "expo-device": ">=5.0.0",
-    "expo-application": ">=5.0.0"
+    "expo-application": ">=5.0.0",
+    "@umituz/react-native-uuid": "latest",
+    "expo-crypto": ">=13.0.0"
   },
   "peerDependenciesMeta": {
     "expo-linear-gradient": {
@@ -107,7 +109,9 @@
     "zustand": "^5.0.2",
     "expo-device": "~7.0.2",
     "expo-application": "~5.9.1",
-    "expo-localization": "~16.0.1"
+    "expo-localization": "~16.0.1",
+    "@umituz/react-native-uuid": "latest",
+    "expo-crypto": "~14.0.0"
   },
   "publishConfig": {
     "access": "public"
