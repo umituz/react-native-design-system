@@ -3,7 +3,7 @@
  * Modal, bottom sheet, and dialog layout utilities.
  */
 
-import { getScreenDimensions } from './deviceDetection';
+import { getScreenDimensions } from '../device/detection';
 import {
   DEVICE_BREAKPOINTS,
   LAYOUT_CONSTANTS,

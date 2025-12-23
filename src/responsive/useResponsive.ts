@@ -38,7 +38,7 @@ import {
   type ResponsiveBottomSheetLayout,
   type ResponsiveDialogLayout,
 } from './responsive';
-import { getSpacingMultiplier } from './deviceDetection';
+import { getSpacingMultiplier } from '../device/detection';
 
 export interface UseResponsiveReturn {
   // Device info

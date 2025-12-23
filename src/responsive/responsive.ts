@@ -7,7 +7,7 @@
  * This is the main export file that imports from specialized modules.
  */
 
-// Device detection
+// Device detection (re-exported from device module)
 export {
   getScreenDimensions,
   isSmallPhone,
@@ -15,7 +15,7 @@ export {
   isLandscape,
   getDeviceType,
   DeviceType,
-} from './deviceDetection';
+} from '../device/detection';
 
 // Responsive sizing
 export {

@@ -1,24 +1,16 @@
 /**
- * @umituz/react-native-design-system-responsive - Public API
+ * @umituz/react-native-design-system/responsive - Public API
  *
- * Responsive design utilities for React Native - Screen dimensions, device detection,
- * and responsive sizing utilities following Material Design 3 and iOS HIG principles.
- *
- * Usage:
- * ```typescript
- * import { useResponsive, isTablet, getResponsiveLogoSize } from '@umituz/react-native-design-system-responsive';
- * ```
+ * Responsive sizing and layout utilities for React Native.
+ * For device detection, use '@umituz/react-native-design-system/device'.
  */
 
 // Hook exports
 export { useResponsive } from './useResponsive';
 export type { UseResponsiveReturn } from './useResponsive';
 
-// Utility function exports
+// Responsive sizing utilities
 export {
-  getScreenDimensions,
-  isSmallPhone,
-  isTablet,
   getResponsiveLogoSize,
   getResponsiveInputHeight,
   getResponsiveHorizontalPadding,
@@ -43,41 +35,26 @@ export {
   type GridCellSizeConfig,
   getResponsiveMaxWidth,
   getResponsiveFontSize,
-  isLandscape,
-  getDeviceType,
-  DeviceType,
   MODAL_CONFIG,
 } from './responsive';
 
-// Device detection exports
-export { getSpacingMultiplier } from './deviceDetection';
-
-
-
-// Platform constants exports
+// Re-export from device for backward compatibility
 export {
-  IOS_HIG,
-  PLATFORM_CONSTANTS,
-  isValidTouchTarget,
-  getMinTouchTarget,
-} from './platformConstants';
-
-// iPad-specific exports
-export {
-  IPAD_BREAKPOINTS,
-  TOUCH_TARGETS,
-  CONTENT_WIDTH_CONSTRAINTS,
-  IPAD_LAYOUT_CONFIG,
-} from './iPadBreakpoints';
-
-export {
+  DeviceType,
+  getScreenDimensions,
+  isSmallPhone,
+  isTablet,
+  isLandscape,
+  getDeviceType,
+  getSpacingMultiplier,
   isIPad,
   isIPadMini,
   isIPadPro,
   isIPadLandscape,
-} from './iPadDetection';
-
-export {
+  IPAD_BREAKPOINTS,
+  TOUCH_TARGETS,
+  CONTENT_WIDTH_CONSTRAINTS,
+  IPAD_LAYOUT_CONFIG,
   getContentMaxWidth,
   getIPadGridColumns,
   getTouchTargetSize,
@@ -85,11 +62,19 @@ export {
   getIPadFontScale,
   getIPadLayoutInfo,
   type IPadLayoutInfo,
-} from './iPadLayoutUtils';
-
-export {
   getIPadModalDimensions,
   getPaywallDimensions,
   type ModalDimensions,
   type PaywallDimensions,
-} from './iPadModalUtils';
+} from '../device/detection';
+
+// Platform constants
+export {
+  IOS_HIG,
+  PLATFORM_CONSTANTS,
+  isValidTouchTarget,
+  getMinTouchTarget,
+} from './platformConstants';
+
+// Config exports
+export { DEVICE_BREAKPOINTS } from './config';

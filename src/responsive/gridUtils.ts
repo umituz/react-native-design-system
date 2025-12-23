@@ -3,7 +3,7 @@
  * Responsive grid sizing and column calculations
  */
 
-import { getScreenDimensions } from './deviceDetection';
+import { getScreenDimensions } from '../device/detection';
 import { DEVICE_BREAKPOINTS, GRID_CONFIG } from './config';
 import { validateNumber } from './validation';
 

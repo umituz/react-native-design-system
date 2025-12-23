@@ -3,7 +3,7 @@
  * Layout utilities for positioning and spacing.
  */
 
-import { getScreenDimensions } from './deviceDetection';
+import { getScreenDimensions } from '../device/detection';
 import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from './config';
 import { validateNumber, validateSafeAreaInsets } from './validation';
 
