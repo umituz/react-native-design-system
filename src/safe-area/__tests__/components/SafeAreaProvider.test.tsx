@@ -1,15 +1,14 @@
 /**
  * Tests for SafeAreaProvider component
  */
+import { SafeAreaProvider, useSafeAreaConfig } from '../../components/SafeAreaProvider';
 
 describe('SafeAreaProvider', () => {
   it('should be defined', () => {
-    const { SafeAreaProvider } = require('../../components/SafeAreaProvider');
     expect(SafeAreaProvider).toBeDefined();
   });
 
   it('should have useSafeAreaConfig export', () => {
-    const { useSafeAreaConfig } = require('../../components/SafeAreaProvider');
     expect(useSafeAreaConfig).toBeDefined();
   });
 });

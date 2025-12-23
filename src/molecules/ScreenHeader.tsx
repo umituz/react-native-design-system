@@ -74,8 +74,8 @@ const ScreenHeaderBackButton: React.FC<{
   const handleBackPress = React.useCallback(() => {
     if (onBackPress) {
       onBackPress();
-    } else {
-      __DEV__ && console.warn('ScreenHeader: onBackPress is required when back button is visible');
+    } else if (__DEV__) {
+      console.warn('ScreenHeader: onBackPress is required when back button is visible');
     }
   }, [onBackPress]);
 

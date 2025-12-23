@@ -1,15 +1,15 @@
 /**
  * Tests for useSafeAreaInsets hook
  */
+import { describe, it, expect } from '@jest/globals';
+import { useSafeAreaInsets } from '../../hooks/useSafeAreaInsets';
 
 describe('useSafeAreaInsets', () => {
   it('should be defined', () => {
-    const { useSafeAreaInsets } = require('../../hooks/useSafeAreaInsets');
     expect(useSafeAreaInsets).toBeDefined();
   });
 
   it('should return function', () => {
-    const { useSafeAreaInsets } = require('../../hooks/useSafeAreaInsets');
     expect(typeof useSafeAreaInsets).toBe('function');
   });
 });

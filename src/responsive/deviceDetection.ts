@@ -17,13 +17,13 @@ import { validateScreenDimensions } from './validation';
  * @returns Operation result or fallback
  */
 const withDeviceDetectionFallback = <T>(
-  operation: () => T, 
-  fallback: T, 
+  operation: () => T,
+  fallback: T,
   warningMessage: string
 ): T => {
   try {
     return operation();
-  } catch (error) {
+  } catch {
     if (__DEV__) {
       console.warn(`[DeviceDetection] ${warningMessage}`);
     }
@@ -48,11 +48,11 @@ export enum DeviceType {
  */
 export const getScreenDimensions = () => {
   const { width, height } = Dimensions.get('window');
-  
+
   try {
     validateScreenDimensions(width, height);
     return { width, height };
-  } catch (error) {
+  } catch {
     if (__DEV__) {
       console.warn('[getScreenDimensions] Invalid screen dimensions detected, using fallback values');
     }

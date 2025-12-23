@@ -107,7 +107,6 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
     isFocused,
     isPasswordVisible,
     characterCount,
-    isAtMaxLength: _isAtMaxLength,
     setIsFocused,
     handleTextChange,
     togglePasswordVisibility,

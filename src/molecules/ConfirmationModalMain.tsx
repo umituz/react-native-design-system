@@ -65,7 +65,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       statusBarTranslucent
       testID={testID}
     >
-      <View style={getModalOverlayStyle(tokens)}>
+      <View style={getModalOverlayStyle()}>
         <ConfirmationModalBackdrop
           showBackdrop={showBackdrop}
           onBackdropPress={handleBackdropPress}

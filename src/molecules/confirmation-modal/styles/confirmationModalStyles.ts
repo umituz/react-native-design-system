@@ -13,8 +13,7 @@ import type { DesignTokens } from '../../../theme';
  * Note: Confirm text is handled in component with translations
  */
 export const getVariantConfig = (
-  variant: ConfirmationModalVariant,
-  _tokens: DesignTokens
+  variant: ConfirmationModalVariant
 ): Omit<ConfirmationModalVariantConfig, 'confirmText'> => {
   switch (variant) {
     case 'destructive':
@@ -44,7 +43,7 @@ export const getVariantConfig = (
 /**
  * Get modal overlay style
  */
-export const getModalOverlayStyle = (_tokens: DesignTokens): ViewStyle => ({
+export const getModalOverlayStyle = (): ViewStyle => ({
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
@@ -79,28 +78,28 @@ export const getModalContainerStyle = (tokens: DesignTokens): ViewStyle => ({
 /**
  * Get icon container style
  */
-export const getIconContainerStyle = (_tokens: DesignTokens): ViewStyle => ({
+export const getIconContainerStyle = (): ViewStyle => ({
   marginBottom: 16,
 });
 
 /**
  * Get title container style
  */
-export const getTitleContainerStyle = (_tokens: DesignTokens): ViewStyle => ({
+export const getTitleContainerStyle = (): ViewStyle => ({
   marginBottom: 8,
 });
 
 /**
  * Get message container style
  */
-export const getMessageContainerStyle = (_tokens: DesignTokens): ViewStyle => ({
+export const getMessageContainerStyle = (): ViewStyle => ({
   marginBottom: 24,
 });
 
 /**
  * Get button container style
  */
-export const getButtonContainerStyle = (_tokens: DesignTokens): ViewStyle => ({
+export const getButtonContainerStyle = (): ViewStyle => ({
   flexDirection: 'row',
   gap: 12,
   width: '100%',

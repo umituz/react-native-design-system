@@ -1,6 +1,7 @@
 /**
  * Simple test utilities for safe area package
  */
+import { describe, it, expect, jest } from '@jest/globals';
 
 export const mockSafeAreaInsets = {
   top: 44,
@@ -9,7 +10,7 @@ export const mockSafeAreaInsets = {
   right: 0,
 };
 
-export const createWrapper = (insets = mockSafeAreaInsets) => {
+export const createWrapper = () => {
   return ({ children }: { children: any }) => children;
 };
 
@@ -21,11 +22,11 @@ export const renderHookWithSafeArea = <T, P>(
     insets?: typeof mockSafeAreaInsets;
   },
 ) => {
-  const wrapper = options?.wrapper || createWrapper(options?.insets);
-  
+  // wrapper not used in this stub implementation
+
   return {
     result: { current: hook(options?.initialProps as P) },
-    rerender: () => {},
+    rerender: () => { },
   };
 };
 

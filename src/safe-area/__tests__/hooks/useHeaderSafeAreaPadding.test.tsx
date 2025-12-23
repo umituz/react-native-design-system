@@ -1,15 +1,15 @@
 /**
  * Tests for useHeaderSafeAreaPadding hook
  */
+import { describe, it, expect } from '@jest/globals';
+import { useHeaderSafeAreaPadding } from '../../hooks/useHeaderSafeAreaPadding';
 
 describe('useHeaderSafeAreaPadding', () => {
   it('should be defined', () => {
-    const { useHeaderSafeAreaPadding } = require('../../hooks/useHeaderSafeAreaPadding');
     expect(useHeaderSafeAreaPadding).toBeDefined();
   });
 
   it('should return function', () => {
-    const { useHeaderSafeAreaPadding } = require('../../hooks/useHeaderSafeAreaPadding');
     expect(typeof useHeaderSafeAreaPadding).toBe('function');
   });
 });

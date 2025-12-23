@@ -80,7 +80,6 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
   searchable = false,
   clearable = false,
   autoClose = true,
-  color: _color = 'primary',
   size = 'md',
   modalTitle,
   emptyMessage = 'No options available',

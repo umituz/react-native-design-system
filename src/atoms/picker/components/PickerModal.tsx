@@ -59,7 +59,6 @@ interface PickerModalProps {
 export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   visible,
   onClose,
-  options: _options,
   selectedValues,
   onSelect,
   title,
@@ -67,7 +66,6 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   searchQuery,
   onSearchChange,
   filteredOptions,
-  multiple: _multiple = false,
   emptyMessage = 'No options available',
   searchPlaceholder = 'Search...',
   closeAccessibilityLabel = 'Close picker',
@@ -76,7 +74,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
-  const modalOverlayStyles = getModalOverlayStyles(tokens);
+  const modalOverlayStyles = getModalOverlayStyles();
   const modalContainerStyles = getModalContainerStyles(tokens, 0);
   const modalHeaderStyles = getModalHeaderStyles(tokens);
   const modalTitleStyles = getModalTitleStyles(tokens);

@@ -1,15 +1,15 @@
 /**
  * Tests for useStatusBarSafeAreaPadding hook
  */
+import { describe, it, expect } from '@jest/globals';
+import { useStatusBarSafeAreaPadding } from '../../hooks/useStatusBarSafeAreaPadding';
 
 describe('useStatusBarSafeAreaPadding', () => {
   it('should be defined', () => {
-    const { useStatusBarSafeAreaPadding } = require('../../hooks/useStatusBarSafeAreaPadding');
     expect(useStatusBarSafeAreaPadding).toBeDefined();
   });
 
   it('should return function', () => {
-    const { useStatusBarSafeAreaPadding } = require('../../hooks/useStatusBarSafeAreaPadding');
     expect(typeof useStatusBarSafeAreaPadding).toBe('function');
   });
 });

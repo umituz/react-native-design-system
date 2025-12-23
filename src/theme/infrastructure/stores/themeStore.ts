@@ -66,7 +66,6 @@ export const useTheme = create<ThemeState>()((set: any, get: any) => ({
         useDesignSystemTheme.getState().setThemeMode('dark');
       }
     } catch (error) {
-      /* eslint-disable-next-line no-console */
       if (__DEV__) console.error('[ThemeStore] Initialization error:', error);
       // Silent failure - still mark as initialized to prevent blocking
       set({ isInitialized: true });
@@ -90,7 +89,6 @@ export const useTheme = create<ThemeState>()((set: any, get: any) => ({
       // Sync with design system global theme
       useDesignSystemTheme.getState().setThemeMode(mode);
     } catch (error) {
-      /* eslint-disable-next-line no-console */
       if (__DEV__) console.error('[ThemeStore] Error setting theme mode:', error);
     }
   },

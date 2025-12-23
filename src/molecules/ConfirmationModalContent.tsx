@@ -52,13 +52,13 @@ export const ConfirmationModalContent: React.FC<{
   style?: StyleProp<ViewStyle>;
   testID: string;
 }> = ({ tokens, variant, title, message, confirmText, cancelText, icon, onConfirm, onCancel, style, testID }) => {
-  const variantConfig = getVariantConfig(variant as 'default' | 'destructive' | 'warning' | 'success', tokens);
+  const variantConfig = getVariantConfig(variant as 'default' | 'destructive' | 'warning' | 'success');
   const finalIcon = icon || variantConfig.icon;
   const getConfirmButtonStyle = useConfirmButtonStyle(variant, tokens);
 
   return (
     <View style={[getModalContainerStyle(tokens), style]}>
-      <View style={getIconContainerStyle(tokens)}>
+      <View style={getIconContainerStyle()}>
         <ConfirmationModalIcon
           icon={finalIcon}
           iconColor={variantConfig.iconColor}
@@ -66,11 +66,11 @@ export const ConfirmationModalContent: React.FC<{
         />
       </View>
 
-      <View style={getTitleContainerStyle(tokens)}>
+      <View style={getTitleContainerStyle()}>
         <ConfirmationModalTitle title={title} tokens={tokens} testID={testID} />
       </View>
 
-      <View style={getMessageContainerStyle(tokens)}>
+      <View style={getMessageContainerStyle()}>
         <ConfirmationModalMessage message={message} tokens={tokens} testID={testID} />
       </View>
 

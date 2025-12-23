@@ -26,7 +26,6 @@ interface PickerChipsProps {
 export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
   selectedOptions,
   onRemoveChip,
-  testID: _testID,
 }) => {
   const tokens = useAppDesignTokens();
 

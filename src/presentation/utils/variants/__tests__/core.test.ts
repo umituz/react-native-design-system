@@ -1,5 +1,4 @@
 import { describe, it, expect } from '@jest/globals';
-import { View, Text } from 'react-native';
 import { createVariants, type VariantConfig } from '../core';
 
 describe('createVariants', () => {
