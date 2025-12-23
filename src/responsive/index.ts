@@ -38,36 +38,6 @@ export {
   MODAL_CONFIG,
 } from './responsive';
 
-// Re-export from device for backward compatibility
-export {
-  DeviceType,
-  getScreenDimensions,
-  isSmallPhone,
-  isTablet,
-  isLandscape,
-  getDeviceType,
-  getSpacingMultiplier,
-  isIPad,
-  isIPadMini,
-  isIPadPro,
-  isIPadLandscape,
-  IPAD_BREAKPOINTS,
-  TOUCH_TARGETS,
-  CONTENT_WIDTH_CONSTRAINTS,
-  IPAD_LAYOUT_CONFIG,
-  getContentMaxWidth,
-  getIPadGridColumns,
-  getTouchTargetSize,
-  getIPadScreenPadding,
-  getIPadFontScale,
-  getIPadLayoutInfo,
-  type IPadLayoutInfo,
-  getIPadModalDimensions,
-  getPaywallDimensions,
-  type ModalDimensions,
-  type PaywallDimensions,
-} from '../device/detection';
-
 // Platform constants
 export {
   IOS_HIG,

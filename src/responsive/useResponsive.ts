@@ -28,17 +28,19 @@ import {
   getResponsiveGridColumns,
   getResponsiveMaxWidth,
   getResponsiveFontSize,
-  isSmallPhone,
-  isTablet,
-  isLandscape,
-  getDeviceType,
-  getMinTouchTarget,
-  DeviceType,
   type ResponsiveModalLayout,
   type ResponsiveBottomSheetLayout,
   type ResponsiveDialogLayout,
 } from './responsive';
-import { getSpacingMultiplier } from '../device/detection';
+import {
+  isSmallPhone,
+  isTablet,
+  isLandscape,
+  getDeviceType,
+  DeviceType,
+  getSpacingMultiplier,
+} from '../device/detection';
+import { getMinTouchTarget } from './platformConstants';
 
 export interface UseResponsiveReturn {
   // Device info

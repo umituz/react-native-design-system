@@ -1,21 +1,8 @@
 /**
  * Responsive Design Utilities
  *
- * Centralized responsive sizing and spacing utilities to prevent
- * Apple App Store rejection due to layout issues on different devices.
- *
- * This is the main export file that imports from specialized modules.
+ * Centralized responsive sizing and spacing utilities.
  */
-
-// Device detection (re-exported from device module)
-export {
-  getScreenDimensions,
-  isSmallPhone,
-  isTablet,
-  isLandscape,
-  getDeviceType,
-  DeviceType,
-} from '../device/detection';
 
 // Responsive sizing
 export {
@@ -53,14 +40,6 @@ export {
   type ResponsiveDialogLayout,
 } from './responsiveModal';
 
-// Platform constants
-export {
-  IOS_HIG,
-  PLATFORM_CONSTANTS,
-  isValidTouchTarget,
-  getMinTouchTarget,
-} from './platformConstants';
-
 // Configuration
 export {
   DEVICE_BREAKPOINTS,
@@ -72,6 +51,3 @@ export {
   VALIDATION_CONSTRAINTS,
   MODAL_CONFIG,
 } from './config';
-
-
-

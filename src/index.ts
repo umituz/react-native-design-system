@@ -90,9 +90,6 @@ export {
 
 export {
   useResponsive,
-  getScreenDimensions,
-  isSmallPhone,
-  isTablet,
   getResponsiveLogoSize,
   getResponsiveInputHeight,
   getResponsiveHorizontalPadding,
@@ -112,19 +109,70 @@ export {
   getResponsiveGridColumns,
   getResponsiveMaxWidth,
   getResponsiveFontSize,
-  isLandscape,
-  getDeviceType,
   getMinTouchTarget,
-  getSpacingMultiplier,
   IOS_HIG,
   PLATFORM_CONSTANTS,
   isValidTouchTarget,
-  DeviceType,
+  DEVICE_BREAKPOINTS,
   type ResponsiveModalLayout,
   type ResponsiveBottomSheetLayout,
   type ResponsiveDialogLayout,
   type UseResponsiveReturn,
 } from './responsive';
+
+// =============================================================================
+// DEVICE EXPORTS
+// =============================================================================
+
+export {
+  // Device detection
+  DeviceType,
+  getScreenDimensions,
+  isSmallPhone,
+  isTablet,
+  isLandscape,
+  getDeviceType,
+  getSpacingMultiplier,
+  // iPad detection
+  isIPad,
+  isIPadMini,
+  isIPadPro,
+  isIPadLandscape,
+  IPAD_BREAKPOINTS,
+  TOUCH_TARGETS,
+  CONTENT_WIDTH_CONSTRAINTS,
+  IPAD_LAYOUT_CONFIG,
+  // iPad utilities
+  getContentMaxWidth,
+  getIPadGridColumns,
+  getTouchTargetSize,
+  getIPadScreenPadding,
+  getIPadFontScale,
+  getIPadLayoutInfo,
+  getIPadModalDimensions,
+  getPaywallDimensions,
+  type IPadLayoutInfo,
+  type ModalDimensions,
+  type PaywallDimensions,
+  // Device info
+  DEVICE_CONSTANTS,
+  DeviceUtils,
+  DeviceTypeUtils,
+  DeviceMemoryUtils,
+  DeviceService,
+  UserFriendlyIdService,
+  PersistentDeviceIdService,
+  useDeviceInfo,
+  useDeviceCapabilities,
+  useDeviceId,
+  useAnonymousUser,
+  getAnonymousUserId,
+  type DeviceInfo,
+  type ApplicationInfo,
+  type SystemInfo,
+  type AnonymousUser,
+  type UseAnonymousUserOptions,
+} from './device';
 
 // =============================================================================
 // ATOMS EXPORTS
