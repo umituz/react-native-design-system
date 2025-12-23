@@ -143,6 +143,7 @@ export {
   AtomicPicker,
   AtomicDatePicker,
   AtomicSkeleton,
+  AtomicBadge,
   type IconName,
   type IconSize,
   type IconColor,
@@ -172,6 +173,9 @@ export {
   type SkeletonPattern,
   type SkeletonConfig,
   SKELETON_PATTERNS,
+  type AtomicBadgeProps,
+  type BadgeVariant,
+  type BadgeSize,
 } from './atoms';
 
 // =============================================================================

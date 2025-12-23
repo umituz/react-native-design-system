@@ -79,3 +79,11 @@ export {
     type SkeletonConfig,
     SKELETON_PATTERNS,
 } from './skeleton';
+
+// Badge
+export {
+    AtomicBadge,
+    type AtomicBadgeProps,
+    type BadgeVariant,
+    type BadgeSize,
+} from './AtomicBadge';
