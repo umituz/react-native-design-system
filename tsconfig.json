@@ -36,6 +36,7 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.example.tsx",
-    "src/__tests__"
+    "src/__tests__",
+    "**/__tests__/**"
   ]
 }

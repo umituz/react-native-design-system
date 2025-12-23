@@ -1,6 +1,7 @@
 /**
  * Tests for SafeAreaProvider component
  */
+import { describe, it, expect } from '@jest/globals';
 import { SafeAreaProvider, useSafeAreaConfig } from '../../components/SafeAreaProvider';
 
 describe('SafeAreaProvider', () => {

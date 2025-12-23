@@ -70,7 +70,7 @@ export const ConfirmationModalButtons: React.FC<{
   confirmButtonStyle: StyleProp<ViewStyle>;
   testID: string;
 }> = ({ confirmText, cancelText, onConfirm, onCancel, confirmButtonStyle, testID }) => (
-  <View style={getButtonContainerStyle({} as DesignTokens)}>
+  <View style={getButtonContainerStyle()}>
     <AtomicButton
       variant="outline"
       size="md"

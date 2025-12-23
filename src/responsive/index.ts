@@ -62,3 +62,34 @@ export {
   getMinTouchTarget,
 } from './platformConstants';
 
+// iPad-specific exports
+export {
+  IPAD_BREAKPOINTS,
+  TOUCH_TARGETS,
+  CONTENT_WIDTH_CONSTRAINTS,
+  IPAD_LAYOUT_CONFIG,
+} from './iPadBreakpoints';
+
+export {
+  isIPad,
+  isIPadMini,
+  isIPadPro,
+  isIPadLandscape,
+} from './iPadDetection';
+
+export {
+  getContentMaxWidth,
+  getIPadGridColumns,
+  getTouchTargetSize,
+  getIPadScreenPadding,
+  getIPadFontScale,
+  getIPadLayoutInfo,
+  type IPadLayoutInfo,
+} from './iPadLayoutUtils';
+
+export {
+  getIPadModalDimensions,
+  getPaywallDimensions,
+  type ModalDimensions,
+  type PaywallDimensions,
+} from './iPadModalUtils';
