@@ -24,8 +24,9 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
-import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
+import { View, ScrollView, StyleSheet, type ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import type { Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../theme';
 
 /**

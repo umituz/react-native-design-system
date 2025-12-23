@@ -6,8 +6,8 @@
 import React, { createContext, useContext } from 'react';
 import {
   SafeAreaProvider as NativeSafeAreaProvider,
-  type SafeAreaProviderProps as NativeSafeAreaProviderProps,
 } from 'react-native-safe-area-context';
+import type { SafeAreaProviderProps as NativeSafeAreaProviderProps } from 'react-native-safe-area-context';
 import { DEFAULT_CONFIG } from '../constants';
 
 export interface SafeAreaConfig {
