@@ -21,3 +21,4 @@ export type {
 
 // Divider
 export * from './Divider';
+export * from "./StepProgress";

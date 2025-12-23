@@ -176,6 +176,7 @@ export {
   BaseModal,
   ConfirmationModal,
   useConfirmationModal,
+  StepProgress,
   type BaseModalProps,
 } from './molecules';
 
