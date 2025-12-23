@@ -24,10 +24,13 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, StyleSheet, type ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ScrollView, StyleSheet, type ViewStyle, RefreshControlProps } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../theme';
+import { useResponsive } from '../responsive/useResponsive';
+import { getResponsiveMaxWidth } from '../responsive/responsiveSizing';
+import { getResponsiveHorizontalPadding } from '../responsive/responsiveLayout';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider
@@ -124,6 +127,20 @@ export interface ScreenLayoutProps {
    */
   accessible?: boolean;
 
+  /**
+   * Enable responsive content width and centering (default: true)
+   */
+  responsiveEnabled?: boolean;
+
+  /**
+   * Maximum content width override
+   */
+  maxWidth?: number;
+
+  /**
+   * RefreshControl component for pull-to-refresh
+   */
+  refreshControl?: React.ReactElement<RefreshControlProps>;
 }
 
 export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
@@ -138,25 +155,41 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   testID,
   hideScrollIndicator = false,
   keyboardAvoiding = false,
+  responsiveEnabled = true,
+  maxWidth,
+  refreshControl,
 }) => {
   // Automatically uses current theme from global store
   const tokens = useAppDesignTokens();
+  const { isTabletDevice } = useResponsive();
+  const insets = useSafeAreaInsets();
+
+  const finalMaxWidth = maxWidth || (responsiveEnabled ? getResponsiveMaxWidth() : undefined);
+  const horizontalPadding = responsiveEnabled ? getResponsiveHorizontalPadding(tokens.spacing.md, insets) : tokens.spacing.md;
+
   const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
     },
+    responsiveWrapper: {
+      flex: 1,
+      width: '100%',
+      maxWidth: finalMaxWidth,
+      alignSelf: 'center',
+    },
     content: {
       flex: 1,
+      paddingHorizontal: horizontalPadding,
     },
     scrollView: {
       flex: 1,
     },
     scrollContent: {
       flexGrow: 1,
-      paddingHorizontal: tokens.spacing.md,
+      paddingHorizontal: horizontalPadding,
       paddingBottom: tokens.spacing.lg,
     },
-  }), [tokens]);
+  }), [tokens, finalMaxWidth, horizontalPadding]);
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
 
@@ -168,11 +201,13 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
         edges={edges}
         testID={testID}
       >
-        {header}
-        <View style={[styles.content, contentContainerStyle]}>
-          {children}
+        <View style={styles.responsiveWrapper}>
+          {header}
+          <View style={[styles.content, contentContainerStyle]}>
+            {children}
+          </View>
+          {footer}
         </View>
-        {footer}
       </SafeAreaView>
     );
   }
@@ -184,16 +219,19 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
       edges={edges}
       testID={testID}
     >
-      {header}
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
-        showsVerticalScrollIndicator={!hideScrollIndicator}
-        keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
-      >
-        {children}
-      </ScrollView>
-      {footer}
+      <View style={styles.responsiveWrapper}>
+        {header}
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+          showsVerticalScrollIndicator={!hideScrollIndicator}
+          keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
+          refreshControl={refreshControl}
+        >
+          {children}
+        </ScrollView>
+        {footer}
+      </View>
     </SafeAreaView>
   );
 };

@@ -60,6 +60,10 @@ export interface AtomicInputProps {
   onBlur?: () => void;
   /** Focus callback */
   onFocus?: () => void;
+  /** Multiline input support */
+  multiline?: boolean;
+  /** Number of lines for multiline input */
+  numberOfLines?: number;
 }
 
 /**
@@ -99,6 +103,8 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   testID,
   onBlur,
   onFocus,
+  multiline = false,
+  numberOfLines,
 }) => {
   const tokens = useAppDesignTokens();
 
@@ -202,6 +208,8 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           editable={!isDisabled}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
           style={textInputStyle}
           onBlur={() => {
             setIsFocused(false);
