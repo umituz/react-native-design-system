@@ -46,10 +46,14 @@ export const Countdown: React.FC<CountdownProps> = ({
     );
     const currentTarget = allTargets[currentTargetIndex];
 
-    const { timeRemaining } = useCountdown(currentTarget, {
+    const { timeRemaining, setTarget: updateTarget } = useCountdown(currentTarget, {
         interval,
         onExpire,
     });
+
+    React.useEffect(() => {
+        updateTarget(currentTarget);
+    }, [currentTarget, updateTarget]);
 
     const handleToggle = () => {
         const nextIndex = (currentTargetIndex + 1) % allTargets.length;
