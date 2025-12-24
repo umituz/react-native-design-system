@@ -11,25 +11,13 @@
  */
 
 // Component exports
-export { AppHeader } from './AppHeader';
-export { ScreenLayout } from './ScreenLayout';
 export { FormContainer } from './FormContainer';
-export { FormLayout } from './FormLayout';
 
 // Type exports
-export type { AppHeaderProps } from './AppHeader';
-export type { ScreenLayoutProps } from './ScreenLayout';
 export type { FormContainerProps } from './FormContainer';
-export type { FormLayoutProps } from './FormLayout';
 
 // Union type for all organism props (used for type narrowing)
-import type { AppHeaderProps } from './AppHeader';
-import type { ScreenLayoutProps } from './ScreenLayout';
 import type { FormContainerProps } from './FormContainer';
-import type { FormLayoutProps } from './FormLayout';
 
 export type OrganismComponentProps =
-  | { type: 'AppHeader'; props: AppHeaderProps }
-  | { type: 'ScreenLayout'; props: ScreenLayoutProps }
-  | { type: 'FormContainer'; props: FormContainerProps }
-  | { type: 'FormLayout'; props: FormLayoutProps };
+  | { type: 'FormContainer'; props: FormContainerProps };
