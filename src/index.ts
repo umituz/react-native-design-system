@@ -377,6 +377,22 @@ export {
   type CelebrationModalProps,
   type CelebrationModalContentProps,
   type CelebrationFireworksOverlayProps,
+  // Long Press Menu
+  type MenuAction,
+  type MenuActionTypeValue,
+  MenuActionType,
+  // Emoji
+  EmojiPicker,
+  useEmojiPicker,
+  EmojiCategory,
+  EmojiUtils,
+  type EmojiObject,
+  type EmojiPickerConfig,
+  type EmojiSelectCallback,
+  type EmojiPickerState,
+  type EmojiPickerProps,
+  type UseEmojiPickerOptions,
+  type UseEmojiPickerReturn,
 } from './molecules';
 
 // =============================================================================
@@ -415,3 +431,9 @@ export {
   responsiveStyle,
   combineStyles,
 } from './presentation/utils/variants/helpers';
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+
+export * from './utilities';
