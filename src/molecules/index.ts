@@ -4,6 +4,7 @@
  */
 
 // Component exports
+export * from './avatar';
 export { FormField, type FormFieldProps } from './FormField';
 export { ListItem, type ListItemProps } from './ListItem';
 export { SearchBar, type SearchBarProps } from './SearchBar';
