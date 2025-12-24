@@ -24,6 +24,19 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
 
     const config = sizeConfig[size];
 
+    const displayValue = value >= 100 ? String(value) : String(value).padStart(2, '0');
+    const digitCount = String(value).length;
+
+    // Calculate font size based on digit count for better consistency
+    let fontSizeMultiplier = 1;
+    if (digitCount >= 4) {
+        fontSizeMultiplier = 0.6; // 4+ digits
+    } else if (digitCount === 3) {
+        fontSizeMultiplier = 0.7; // 3 digits
+    }
+
+    const calculatedFontSize = config.fontSize * fontSizeMultiplier;
+
     return (
         <View
             style={[
@@ -33,15 +46,17 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
                     borderRadius: tokens.borders.radius.lg,
                     paddingVertical: config.padding,
                     minHeight: config.minHeight,
+                    paddingHorizontal: tokens.spacing.xs,
                 },
             ]}
         >
             <AtomicText
                 type="displaySmall"
                 color="onSurface"
-                style={[styles.value, { fontSize: config.fontSize }]}
+                style={[styles.value, { fontSize: calculatedFontSize }]}
+                numberOfLines={1}
             >
-                {String(value).padStart(2, '0')}
+                {displayValue}
             </AtomicText>
             <AtomicText
                 type="labelSmall"

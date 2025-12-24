@@ -14,14 +14,6 @@ export function calculateTimeRemaining(targetDate: Date | string): TimeRemaining
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
-    if (__DEV__) {
-        console.log('[TimeCalculator] Now:', now);
-        console.log('[TimeCalculator] Target:', target);
-        console.log('[TimeCalculator] Difference (ms):', difference);
-        console.log('[TimeCalculator] Total seconds:', totalSeconds);
-        console.log('[TimeCalculator] Calculated - Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds);
-    }
-
     return {
         days,
         hours,
