@@ -35,7 +35,7 @@ import { getResponsiveHorizontalPadding } from '../../responsive/responsiveLayou
  * NOTE: This component now works in conjunction with the SafeAreaProvider
  * from our safe-area module. The SafeAreaProvider should wrap your app root:
  * 
- * import { SafeAreaProvider } from '@umituz/react-native-design-system';
+ * import { SafeAreaProvider } from '../../index';
  * 
  * function App() {
  *   return (

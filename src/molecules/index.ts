@@ -32,3 +32,6 @@ export * from './alerts';
 
 // Calendar
 export * from './calendar';
+
+// Swipe Actions
+export * from './swipe-actions';

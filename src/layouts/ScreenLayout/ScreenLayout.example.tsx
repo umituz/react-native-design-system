@@ -12,7 +12,7 @@ import {
     ScreenHeader,
     AtomicButton,
     AtomicText
-} from '@umituz/react-native-design-system';
+} from '../../index';
 
 // 1. Wrap your app root with SafeAreaProvider
 export function App() {
@@ -78,7 +78,7 @@ export function CustomScrollScreen() {
 }
 
 // 5. Using safe area hooks directly
-import { useContentSafeAreaPadding, useSafeAreaInsets } from '@umituz/react-native-design-system';
+import { useContentSafeAreaPadding, useSafeAreaInsets } from '../../index';
 
 export function CustomComponent() {
     const insets = useSafeAreaInsets();

@@ -24,7 +24,7 @@ import { useResponsive } from '../../responsive/useResponsive';
  *
  * @example
  * ```typescript
- * import { useResponsiveDesignTokens } from '@umituz/react-native-design-system';
+ * import { useResponsiveDesignTokens } from '../../index';
  *
  * const MyComponent = () => {
  *   const tokens = useResponsiveDesignTokens();

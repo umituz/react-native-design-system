@@ -326,6 +326,16 @@ export {
   type CalendarWeek,
   type ICalendarRepository,
   type CalendarViewMode,
+  // Swipe Actions
+  SwipeActionButton,
+  SwipeActionUtils,
+  ACTION_PRESETS,
+  DEFAULT_SWIPE_CONFIG,
+  type SwipeActionButtonProps,
+  type SwipeActionType,
+  type SwipeActionConfig,
+  type SwipeDirection,
+  type SwipeableConfig,
 } from './molecules';
 
 // =============================================================================
