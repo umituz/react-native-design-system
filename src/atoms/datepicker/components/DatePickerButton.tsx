@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../../../theme';
 import { AtomicIcon } from '../../AtomicIcon';
 import { AtomicText } from '../../AtomicText';
 

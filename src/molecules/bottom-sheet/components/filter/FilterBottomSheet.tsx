@@ -8,8 +8,8 @@ import React, { forwardRef, useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { BottomSheetModal } from '../BottomSheetModal';
 import type { BottomSheetModalRef } from '../../types/BottomSheet';
-import { AtomicText, AtomicIcon, AtomicButton } from "@atoms";
-import { useAppDesignTokens } from "@theme";
+import { AtomicText, AtomicIcon, AtomicButton } from '../../../../atoms';
+import { useAppDesignTokens } from '../../../../theme';
 import type { FilterOption, FilterCategory } from '../../types/Filter';
 import { FilterUtils } from '../../types/Filter';
 

@@ -8,8 +8,8 @@
 import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AtomicText, AtomicIcon } from '@atoms';
-import { useAppDesignTokens } from '@theme';
+import { AtomicText, AtomicIcon } from '../../atoms';
+import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType, AlertPosition } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
 

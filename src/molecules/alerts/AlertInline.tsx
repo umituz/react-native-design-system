@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AtomicText } from '@atoms';
-import { useAppDesignTokens } from '@theme';
+import { AtomicText } from '../../atoms';
+import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 
 interface AlertInlineProps {

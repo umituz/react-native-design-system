@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../theme';
 import { ConfirmationModalProps } from './confirmation-modal/types/';
 import {
   getModalOverlayStyle,

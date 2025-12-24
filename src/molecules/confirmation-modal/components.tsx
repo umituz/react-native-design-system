@@ -6,8 +6,8 @@
 
 import React from 'react';
 import { View, ViewStyle, StyleProp } from 'react-native';
-import { AtomicText, AtomicButton, AtomicIcon } from '@atoms';
-import type { DesignTokens } from '@theme';
+import { AtomicText, AtomicButton, AtomicIcon } from '../../atoms';
+import type { DesignTokens } from '../../theme';
 import {
   getButtonContainerStyle,
   getButtonStyle,

@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { StyleSheet, View, Modal, Pressable } from 'react-native';
-import { AtomicText, AtomicButton } from '@atoms';
-import { useAppDesignTokens } from '@theme';
+import { AtomicText, AtomicButton } from '../../atoms';
+import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
 

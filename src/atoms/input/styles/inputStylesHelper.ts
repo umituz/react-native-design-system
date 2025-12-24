@@ -6,7 +6,7 @@
  */
 
 import { ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../../../theme';
 import type { AtomicInputVariant, AtomicInputSize } from '../../AtomicInput';
 
 interface GetVariantStyleParams {

@@ -7,7 +7,7 @@ import React from "react";
 import { View, StyleSheet, type StyleProp, type ViewStyle, type TextStyle } from "react-native";
 import { AtomicText } from "./AtomicText";
 import { AtomicIcon, type IconName } from "./AtomicIcon";
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../theme';
 
 export type BadgeVariant = "primary" | "secondary" | "success" | "warning" | "error" | "info";
 export type BadgeSize = "sm" | "md" | "lg";

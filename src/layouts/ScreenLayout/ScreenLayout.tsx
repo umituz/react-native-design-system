@@ -27,9 +27,9 @@ import React, { useMemo } from 'react';
 import { View, ScrollView, StyleSheet, type ViewStyle, RefreshControlProps } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { Edge } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '@theme';
-import { getResponsiveMaxWidth } from '@responsive/responsiveSizing';
-import { getResponsiveHorizontalPadding } from '@responsive/responsiveLayout';
+import { useAppDesignTokens } from '../../theme';
+import { getResponsiveMaxWidth } from '../../responsive/responsiveSizing';
+import { getResponsiveHorizontalPadding } from '../../responsive/responsiveLayout';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider

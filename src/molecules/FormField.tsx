@@ -9,8 +9,8 @@
 
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '@theme';
-import { AtomicText, AtomicInput, type AtomicInputProps } from '@atoms';
+import { useAppDesignTokens } from '../theme';
+import { AtomicText, AtomicInput, type AtomicInputProps } from '../atoms';
 
 // =============================================================================
 // TYPE DEFINITIONS

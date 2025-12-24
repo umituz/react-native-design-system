@@ -6,8 +6,8 @@
  */
 
 import { Dimensions } from 'react-native';
-import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from '@responsive/config';
-import { validateScreenDimensions } from '@responsive/validation';
+import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from '../../responsive/config';
+import { validateScreenDimensions } from '../../responsive/validation';
 
 /**
  * Helper function for device detection with fallback

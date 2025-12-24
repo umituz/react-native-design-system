@@ -3,7 +3,7 @@
  */
 
 import { Dimensions, Platform } from 'react-native';
-import { DEVICE_BREAKPOINTS } from '@responsive/config';
+import { DEVICE_BREAKPOINTS } from '../../responsive/config';
 import { IPAD_BREAKPOINTS } from './iPadBreakpoints';
 
 /**

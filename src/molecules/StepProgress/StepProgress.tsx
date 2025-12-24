@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
-import { useAppDesignTokens } from '@theme/hooks/useAppDesignTokens';
+import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
 
 export interface StepProgressProps {
     currentStep: number;

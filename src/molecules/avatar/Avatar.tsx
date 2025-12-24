@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { View, Image, StyleSheet, type StyleProp, type ViewStyle, type ImageStyle } from 'react-native';
-import { useAppDesignTokens } from '@theme';
-import { AtomicText, AtomicIcon } from '@atoms';
+import { useAppDesignTokens } from '../../theme';
+import { AtomicText, AtomicIcon } from '../../atoms';
 import type { AvatarSize, AvatarShape } from './Avatar.utils';
 import {
   SIZE_CONFIGS,

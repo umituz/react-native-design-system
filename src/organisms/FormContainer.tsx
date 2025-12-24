@@ -52,8 +52,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '@theme';
-import { useResponsive } from '@responsive';
+import { useAppDesignTokens } from '../theme';
+import { useResponsive } from '../responsive';
 
 /**
  * Props for FormContainer component

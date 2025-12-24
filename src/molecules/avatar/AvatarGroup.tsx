@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '@theme';
-import { AtomicText } from '@atoms';
+import { useAppDesignTokens } from '../../theme';
+import { AtomicText } from '../../atoms';
 import { Avatar } from './Avatar';
 import type { AvatarSize, AvatarShape } from './Avatar.utils';
 import {

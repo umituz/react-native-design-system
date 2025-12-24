@@ -8,7 +8,7 @@
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../theme';
 import {
   getIconSize,
   type IconSize as BaseIconSize

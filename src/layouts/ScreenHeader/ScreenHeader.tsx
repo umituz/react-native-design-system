@@ -14,8 +14,8 @@
 
 import React from 'react';
 import { View, TouchableOpacity, ViewStyle } from 'react-native';
-import { AtomicIcon, AtomicText } from '@atoms';
-import { useAppDesignTokens } from '@theme';
+import { AtomicIcon, AtomicText } from '../../atoms';
+import { useAppDesignTokens } from '../../theme';
 
 export interface ScreenHeaderProps {
   /** Screen title (centered) */

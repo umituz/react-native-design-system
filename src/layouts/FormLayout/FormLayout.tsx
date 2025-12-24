@@ -7,8 +7,8 @@
 
 import React, { useMemo } from 'react';
 import { View, ScrollView, KeyboardAvoidingView, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useResponsiveDesignTokens } from '@theme';
-import { useResponsive } from '@responsive';
+import { useResponsiveDesignTokens } from '../../theme';
+import { useResponsive } from '../../responsive';
 
 export interface FormLayoutProps {
   /** Form fields and content */

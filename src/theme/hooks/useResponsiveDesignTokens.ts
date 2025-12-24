@@ -12,7 +12,7 @@
 import { useMemo } from 'react';
 import { useDesignSystemTheme } from '../infrastructure/globalThemeStore';
 import { createResponsiveDesignTokens, type ResponsiveDesignTokens } from '../core/ResponsiveTokenFactory';
-import { useResponsive } from '@responsive/useResponsive';
+import { useResponsive } from '../../responsive/useResponsive';
 
 /**
  * Hook for responsive design tokens

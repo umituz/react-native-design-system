@@ -24,7 +24,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, type StyleProp, type ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../../theme';
 import type { SkeletonPattern, SkeletonConfig } from './AtomicSkeleton.types';
 import { SKELETON_PATTERNS } from './AtomicSkeleton.types';
 

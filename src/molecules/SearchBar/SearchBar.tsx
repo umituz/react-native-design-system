@@ -6,8 +6,8 @@ import {
     ActivityIndicator,
     StyleSheet,
 } from 'react-native';
-import { useAppDesignTokens } from '@theme';
-import { AtomicIcon } from '@atoms/AtomicIcon';
+import { useAppDesignTokens } from '../../theme';
+import { AtomicIcon } from '../../atoms/AtomicIcon';
 import type { SearchBarProps } from './types';
 
 export const SearchBar = forwardRef<TextInput, SearchBarProps>(({

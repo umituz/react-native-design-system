@@ -20,7 +20,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '@theme';
+import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
 import { AtomicIcon } from '../../AtomicIcon';
 import { AtomicText } from '../../AtomicText';
