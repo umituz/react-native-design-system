@@ -411,6 +411,20 @@ export {
   type CountdownTarget,
   type CountdownFormatOptions,
   type CountdownDisplayConfig,
+  // Animation
+  Animated,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSpring,
+  withSequence,
+  withRepeat,
+  runOnJS,
+  cancelAnimation,
+  Easing,
+  type SharedValue,
+  type WithTimingConfig,
+  type WithSpringConfig,
 } from './molecules';
 
 // =============================================================================

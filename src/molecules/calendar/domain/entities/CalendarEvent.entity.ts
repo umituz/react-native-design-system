@@ -75,26 +75,6 @@ export interface CalendarEvent {
   reminders?: number[];
 
   /**
-   * System calendar sync (expo-calendar integration)
-   */
-  systemCalendar?: {
-    /**
-     * System calendar ID where event is synced
-     */
-    calendarId: string;
-
-    /**
-     * System event ID from device calendar
-     */
-    eventId: string;
-
-    /**
-     * Last sync timestamp
-     */
-    lastSyncedAt: Date;
-  };
-
-  /**
    * App-specific metadata
    * Use this for domain-specific properties
    * @example
@@ -158,7 +138,6 @@ export interface CreateCalendarEventRequest {
   reminders?: number[];
   metadata?: unknown;
   recurring?: CalendarEvent['recurring'];
-  syncToSystemCalendar?: boolean; // Auto-sync to device calendar
 }
 
 /**
@@ -177,26 +156,4 @@ export interface UpdateCalendarEventRequest {
   reminders?: number[];
   metadata?: unknown;
   recurring?: CalendarEvent['recurring'];
-  systemCalendar?: CalendarEvent['systemCalendar'];
-}
-
-/**
- * System calendar list item
- */
-export interface SystemCalendar {
-  id: string;
-  title: string;
-  color: string;
-  source: string;
-  isPrimary: boolean;
-  allowsModifications: boolean;
-}
-
-/**
- * Calendar permission result
- */
-export interface CalendarPermissionResult {
-  granted: boolean;
-  canAskAgain: boolean;
-  status: string;
 }

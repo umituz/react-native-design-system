@@ -10,12 +10,8 @@
  */
 
 import type { CalendarDay, CalendarWeek } from '../../domain/entities/CalendarDay.entity';
-import type { CalendarEvent, SystemCalendar } from '../../domain/entities/CalendarEvent.entity';
+import type { CalendarEvent } from '../../domain/entities/CalendarEvent.entity';
 import { CalendarGeneration } from './CalendarGeneration';
-import { CalendarPermissions } from './CalendarPermissions';
-// CalendarEvents is not used in this facade
-// import { CalendarEvents } from './CalendarEvents';
-import { CalendarSync } from './CalendarSync';
 import { DateUtilities } from '../utils/DateUtilities';
 
 /**
@@ -77,48 +73,6 @@ export class CalendarService {
    */
   static getNextWeek(currentDate: Date): Date {
     return CalendarGeneration.getNextWeek(currentDate);
-  }
-
-  /**
-   * Request calendar permissions
-   */
-  static async requestPermissions() {
-    return CalendarPermissions.requestPermissions();
-  }
-
-  /**
-   * Check if permissions are granted
-   */
-  static async hasPermissions(): Promise<boolean> {
-    return CalendarPermissions.hasPermissions();
-  }
-
-  /**
-   * Sync event to system calendar
-   */
-  static async syncToSystemCalendar(event: CalendarEvent) {
-    return CalendarSync.syncToSystemCalendar(event);
-  }
-
-  /**
-   * Update system calendar event
-   */
-  static async updateSystemCalendarEvent(event: CalendarEvent) {
-    return CalendarSync.updateSystemCalendarEvent(event);
-  }
-
-  /**
-   * Remove event from system calendar
-   */
-  static async removeFromSystemCalendar(eventId: string) {
-    return CalendarSync.removeFromSystemCalendar(eventId);
-  }
-
-  /**
-   * Get system calendars
-   */
-  static async getSystemCalendars(): Promise<SystemCalendar[]> {
-    return CalendarSync.getSystemCalendars();
   }
 
   /**

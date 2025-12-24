@@ -11,31 +11,13 @@
  * - Event CRUD operations with persistence
  * - Completion tracking
  * - Recurring events support
- * - **NEW:** System calendar sync (expo-calendar) - iOS/Android only
  *
  * Usage:
  * ```tsx
- * import { useCalendar, AtomicCalendar, useSystemCalendar } from '@umituz/react-native-calendar';
+ * import { useCalendar, AtomicCalendar } from '@umituz/react-native-design-system';
  *
  * const MyScreen = () => {
  *   const { days, selectedDate, actions } = useCalendar();
- *   const {
- *     systemCalendars,
- *     permission,
- *     requestPermission,
- *     syncEventToCalendar,
- *   } = useSystemCalendar();
- *
- *   // Request permission to access device calendar
- *   useEffect(() => {
- *     requestPermission();
- *   }, []);
- *
- *   // Sync event to device calendar
- *   const handleCreateEvent = async (eventData) => {
- *     const event = await actions.addEvent(eventData);
- *     await syncEventToCalendar(event); // Sync to iOS/Android calendar
- *   };
  *
  *   return (
  *     <AtomicCalendar
@@ -53,8 +35,6 @@ export type {
   CalendarEvent,
   CreateCalendarEventRequest,
   UpdateCalendarEventRequest,
-  SystemCalendar,
-  CalendarPermissionResult,
 } from './domain/entities/CalendarEvent.entity';
 
 export type {
@@ -68,10 +48,7 @@ export type { ICalendarRepository } from './domain/repositories/ICalendarReposit
 
 // Infrastructure Services
 export { CalendarService } from './infrastructure/services/CalendarService';
-export { CalendarPermissions } from './infrastructure/services/CalendarPermissions';
-export { CalendarEvents } from './infrastructure/services/CalendarEvents';
 export { CalendarGeneration } from './infrastructure/services/CalendarGeneration';
-export { CalendarSync } from './infrastructure/services/CalendarSync';
 
 // Infrastructure Utils
 export { DateUtilities } from './infrastructure/utils/DateUtilities';
@@ -87,7 +64,6 @@ export {
   useCalendar,
   useCalendarNavigation,
   useCalendarEvents,
-  useSystemCalendar,
   type UseCalendarReturn,
 } from './presentation/hooks/useCalendar';
 
