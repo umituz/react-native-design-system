@@ -28,4 +28,8 @@ export interface CountdownDisplayConfig {
     showToggle?: boolean;
     layout?: 'grid' | 'inline' | 'compact';
     size?: 'small' | 'medium' | 'large';
+    showDays?: boolean;
+    showHours?: boolean;
+    showMinutes?: boolean;
+    showSeconds?: boolean;
 }

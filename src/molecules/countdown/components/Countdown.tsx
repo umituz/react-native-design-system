@@ -33,6 +33,10 @@ export const Countdown: React.FC<CountdownProps> = ({
         showToggle = alternateTargets.length > 0,
         layout = 'grid',
         size = 'medium',
+        showDays,
+        showHours = true,
+        showMinutes = true,
+        showSeconds = true,
     } = displayConfig;
 
     const [currentTargetIndex, setCurrentTargetIndex] = React.useState(0);
@@ -70,27 +74,35 @@ export const Countdown: React.FC<CountdownProps> = ({
     const timeUnits = useMemo(() => {
         const units = [];
 
-        if (timeRemaining.days > 0) {
+        const shouldShowDays = showDays !== undefined ? showDays : timeRemaining.days > 0;
+
+        if (shouldShowDays) {
             units.push({
                 value: timeRemaining.days,
                 label: labelFormatter('days', timeRemaining.days)
             });
         }
-        units.push({
-            value: timeRemaining.hours,
-            label: labelFormatter('hours', timeRemaining.hours)
-        });
-        units.push({
-            value: timeRemaining.minutes,
-            label: labelFormatter('minutes', timeRemaining.minutes)
-        });
-        units.push({
-            value: timeRemaining.seconds,
-            label: labelFormatter('seconds', timeRemaining.seconds)
-        });
+        if (showHours) {
+            units.push({
+                value: timeRemaining.hours,
+                label: labelFormatter('hours', timeRemaining.hours)
+            });
+        }
+        if (showMinutes) {
+            units.push({
+                value: timeRemaining.minutes,
+                label: labelFormatter('minutes', timeRemaining.minutes)
+            });
+        }
+        if (showSeconds) {
+            units.push({
+                value: timeRemaining.seconds,
+                label: labelFormatter('seconds', timeRemaining.seconds)
+            });
+        }
 
         return units;
-    }, [timeRemaining, labelFormatter]);
+    }, [timeRemaining, labelFormatter, showDays, showHours, showMinutes, showSeconds]);
 
     return (
         <View style={styles.container}>
