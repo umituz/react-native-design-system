@@ -14,6 +14,7 @@ export interface CountdownProps {
     interval?: number;
     onExpire?: () => void;
     onTargetChange?: (target: CountdownTarget) => void;
+    formatLabel?: (unit: 'days' | 'hours' | 'minutes' | 'seconds', value: number) => string;
 }
 
 export const Countdown: React.FC<CountdownProps> = ({
@@ -23,6 +24,7 @@ export const Countdown: React.FC<CountdownProps> = ({
     interval = 1000,
     onExpire,
     onTargetChange,
+    formatLabel,
 }) => {
     const tokens = useAppDesignTokens();
     const {
@@ -53,18 +55,42 @@ export const Countdown: React.FC<CountdownProps> = ({
         }
     };
 
+    const defaultFormatLabel = (unit: 'days' | 'hours' | 'minutes' | 'seconds', value: number) => {
+        const labels = {
+            days: 'DAYS',
+            hours: 'HOURS',
+            minutes: 'MINUTES',
+            seconds: 'SECONDS',
+        };
+        return labels[unit];
+    };
+
+    const labelFormatter = formatLabel || defaultFormatLabel;
+
     const timeUnits = useMemo(() => {
         const units = [];
 
         if (timeRemaining.days > 0) {
-            units.push({ value: timeRemaining.days, label: 'Days' });
+            units.push({
+                value: timeRemaining.days,
+                label: labelFormatter('days', timeRemaining.days)
+            });
         }
-        units.push({ value: timeRemaining.hours, label: 'Hours' });
-        units.push({ value: timeRemaining.minutes, label: 'Minutes' });
-        units.push({ value: timeRemaining.seconds, label: 'Seconds' });
+        units.push({
+            value: timeRemaining.hours,
+            label: labelFormatter('hours', timeRemaining.hours)
+        });
+        units.push({
+            value: timeRemaining.minutes,
+            label: labelFormatter('minutes', timeRemaining.minutes)
+        });
+        units.push({
+            value: timeRemaining.seconds,
+            label: labelFormatter('seconds', timeRemaining.seconds)
+        });
 
         return units;
-    }, [timeRemaining]);
+    }, [timeRemaining, labelFormatter]);
 
     return (
         <View style={styles.container}>
