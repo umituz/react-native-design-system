@@ -31,8 +31,8 @@ export function createTabScreen<T extends ParamListBase = ParamListBase>(
     const isFab = screen.isFab ?? false;
 
     const baseOptions: BottomTabNavigationOptions = {
-      tabBarLabel: isFab ? undefined : processedLabel,
-      title: processedLabel,
+      tabBarLabel: isFab ? "" : processedLabel,
+      title: isFab ? "" : processedLabel,
       tabBarIcon: ({ focused }: { focused: boolean }) => {
         const iconName = IconRenderer.getIconName(
           screen.name,

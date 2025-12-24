@@ -32,18 +32,21 @@ export class NavigationValidator {
 
       if (type === "tab") {
         const tabScreen = screen as TabScreen;
-        if (!tabScreen.label || typeof tabScreen.label !== "string" || tabScreen.label.trim() === "") {
-          throw new Error(`Tab screen '${screen.name}' must have a valid non-empty label`);
+
+        if (!tabScreen.isFab) {
+          if (!tabScreen.label || typeof tabScreen.label !== "string" || tabScreen.label.trim() === "") {
+            throw new Error(`Tab screen '${screen.name}' must have a valid non-empty label`);
+          }
+
+          if (tabScreen.label.length > 50) {
+            throw new Error(`Tab screen '${screen.name}' label too long (max 50 characters)`);
+          }
         }
 
         if (tabScreen.icon !== undefined && (typeof tabScreen.icon !== "string" || tabScreen.icon.trim() === "")) {
           if (__DEV__) {
             console.warn(`[NavigationValidator] Tab screen '${screen.name}' has invalid icon, it will be ignored`);
           }
-        }
-
-        if (tabScreen.label.length > 50) {
-          throw new Error(`Tab screen '${screen.name}' label too long (max 50 characters)`);
         }
       }
     });
