@@ -27,3 +27,11 @@ export type {
 } from "@react-navigation/bottom-tabs";
 
 export type { StackNavigationOptions } from "@react-navigation/stack";
+
+// Navigation Utilities
+export { AppNavigation } from "./utils/AppNavigation";
+export { TabLabel, type TabLabelProps } from "./components/TabLabel";
+export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
+
+// Navigation Theme
+export { createNavigationTheme } from "./utils/NavigationTheme";
