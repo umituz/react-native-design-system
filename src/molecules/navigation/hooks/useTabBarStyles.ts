@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { useMemo } from 'react';
-import { useAppDesignTokens } from '../../../atoms';
+import { useAppDesignTokens } from '../../../theme';
 
 export interface TabBarConfig {
     backgroundColor?: string;
