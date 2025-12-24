@@ -4,9 +4,9 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
-import { AtomicText } from '../../atoms/AtomicText';
-import { AtomicIcon } from '../../atoms/AtomicIcon';
-import { useAppDesignTokens } from '../../theme';
+import { AtomicText } from '@atoms/AtomicText';
+import { AtomicIcon } from '@atoms/AtomicIcon';
+import { useAppDesignTokens } from '@theme';
 import type { SearchHistoryProps } from './types';
 
 export const SearchHistory: React.FC<SearchHistoryProps> = ({

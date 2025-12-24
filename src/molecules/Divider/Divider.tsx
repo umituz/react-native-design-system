@@ -10,8 +10,8 @@
 
 import React from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
-import { AtomicText } from '../../atoms/AtomicText';
+import { useAppDesignTokens } from '@theme/hooks/useAppDesignTokens';
+import { AtomicText } from '@atoms/AtomicText';
 import type { DividerOrientation, DividerStyle, DividerSpacing } from './types';
 import {
     DividerUtils,

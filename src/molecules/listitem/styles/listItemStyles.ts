@@ -2,7 +2,7 @@
  * ListItem Styles
  */
 import type { ViewStyle, TextStyle } from 'react-native';
-import type { DesignTokens } from '../../../theme';
+import type { DesignTokens } from '@theme';
 
 export interface ListItemStyles {
     container: ViewStyle;

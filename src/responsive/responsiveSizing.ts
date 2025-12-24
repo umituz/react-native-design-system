@@ -3,7 +3,7 @@
  * Responsive sizing utilities for UI components.
  */
 
-import { getScreenDimensions } from '../device/detection';
+import { getScreenDimensions } from '@device/detection';
 import {
   DEVICE_BREAKPOINTS,
   RESPONSIVE_PERCENTAGES,

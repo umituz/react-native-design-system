@@ -5,7 +5,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '@theme';
 import { useAlertStore } from './AlertStore';
 import { AlertToast } from './AlertToast';
 import { AlertBanner } from './AlertBanner';

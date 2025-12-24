@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { View, StyleSheet, type ViewStyle, type StyleProp } from 'react-native';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 
 export type AtomicCardVariant = 'elevated' | 'outlined' | 'filled';
 export type AtomicCardPadding = 'none' | 'sm' | 'md' | 'lg';

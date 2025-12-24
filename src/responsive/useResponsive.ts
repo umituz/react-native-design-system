@@ -39,7 +39,7 @@ import {
   getDeviceType,
   DeviceType,
   getSpacingMultiplier,
-} from '../device/detection';
+} from '@device/detection';
 import { getMinTouchTarget } from './platformConstants';
 
 export interface UseResponsiveReturn {

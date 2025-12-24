@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { useAppDesignTokens } from '../theme';
-import { useResponsive } from '../responsive';
+import { useAppDesignTokens } from '@theme';
+import { useResponsive } from '@responsive';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicFabProps } from './fab/types';
 import {

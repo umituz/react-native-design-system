@@ -46,7 +46,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 import { AtomicText } from './AtomicText';
 import { DatePickerModal } from './datepicker/components/DatePickerModal';
 import { DatePickerButton } from './datepicker/components/DatePickerButton';

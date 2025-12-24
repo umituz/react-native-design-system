@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useAppDesignTokens } from '../../../theme';
+import { useAppDesignTokens } from '@theme';
 import { AtomicText } from '../../AtomicText';
 
 interface DatePickerModalProps {

@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { useAppDesignTokens } from '../../../theme';
+import { useAppDesignTokens } from '@theme';
 import { PickerOption } from '../types';
 import { AtomicIcon } from '../../AtomicIcon';
 import { AtomicText } from '../../AtomicText';

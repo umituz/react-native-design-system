@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { StyleSheet, View, Pressable, StyleProp, ViewStyle } from 'react-native';
-import { AtomicText, AtomicIcon } from '../../atoms';
-import { useAppDesignTokens } from '../../theme';
+import { AtomicText, AtomicIcon } from '@atoms';
+import { useAppDesignTokens } from '@theme';
 import { Alert, AlertType } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
 

@@ -2,7 +2,7 @@
  * AtomicPicker Styles
  */
 import type { ViewStyle, TextStyle } from 'react-native';
-import type { DesignTokens } from '../../../theme';
+import type { DesignTokens } from '@theme';
 
 export type PickerSize = 'sm' | 'md' | 'lg';
 

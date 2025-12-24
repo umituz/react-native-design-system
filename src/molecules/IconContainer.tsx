@@ -16,7 +16,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 
 interface IconContainerProps {
   icon: React.ReactNode;

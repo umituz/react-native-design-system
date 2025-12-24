@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { FlatList, RefreshControl, type FlatListProps, type ListRenderItem } from 'react-native';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useResponsiveDesignTokens } from '@theme';
 
 export interface ListProps<T> extends Omit<FlatListProps<T>, 'renderItem'> {
   /** Data array */

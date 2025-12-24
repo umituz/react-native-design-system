@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { AtomicIcon } from './AtomicIcon';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 import type { IconName } from './AtomicIcon';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text' | 'danger';

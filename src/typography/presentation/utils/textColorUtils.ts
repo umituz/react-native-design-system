@@ -24,7 +24,7 @@
  */
 
 import type { ColorVariant } from '../../domain/entities/TypographyTypes';
-import type { DesignTokens } from '../../../theme';
+import type { DesignTokens } from '@theme';
 
 // Cache for color variant validation to improve performance
 const COLOR_VARIANT_SET = new Set<string>([

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { AtomicText, AtomicIcon } from '../../../../../atoms';
-import type { useAppDesignTokens } from '../../../../../theme';
+import { AtomicText, AtomicIcon } from '@atoms';
+import type { useAppDesignTokens } from '@theme';
 
 interface FilterSheetHeaderProps {
     title: string;

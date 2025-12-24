@@ -7,8 +7,8 @@
 
 import React, { useMemo } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useResponsive } from '../../responsive';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useResponsive } from '@responsive';
+import { useResponsiveDesignTokens } from '@theme';
 
 export interface ContainerProps {
   /** Container content */

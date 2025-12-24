@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { useAppDesignTokens } from '../theme';
-import { AtomicText, AtomicIcon } from '../atoms';
+import { useAppDesignTokens } from '@theme';
+import { AtomicText, AtomicIcon } from '@atoms';
 import { ListItemProps } from './listitem/types';
 import { getListItemStyles } from './listitem/styles/listItemStyles';
 

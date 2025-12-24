@@ -5,7 +5,7 @@ import GorhomBottomSheet, {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet';
-import { useAppDesignTokens } from '../../../theme';
+import { useAppDesignTokens } from '@theme';
 import type {
   BottomSheetConfig,
   BottomSheetRef,

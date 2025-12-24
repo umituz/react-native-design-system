@@ -21,7 +21,64 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@atoms": [
+        "src/atoms/index.ts"
+      ],
+      "@atoms/*": [
+        "src/atoms/*"
+      ],
+      "@molecules": [
+        "src/molecules/index.ts"
+      ],
+      "@molecules/*": [
+        "src/molecules/*"
+      ],
+      "@organisms": [
+        "src/organisms/index.ts"
+      ],
+      "@organisms/*": [
+        "src/organisms/*"
+      ],
+      "@layouts": [
+        "src/layouts/index.ts"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@theme": [
+        "src/theme/index.ts"
+      ],
+      "@theme/*": [
+        "src/theme/*"
+      ],
+      "@typography": [
+        "src/typography/index.ts"
+      ],
+      "@typography/*": [
+        "src/typography/*"
+      ],
+      "@responsive": [
+        "src/responsive/index.ts"
+      ],
+      "@responsive/*": [
+        "src/responsive/*"
+      ],
+      "@device": [
+        "src/device/index.ts"
+      ],
+      "@device/*": [
+        "src/device/*"
+      ],
+      "@safe-area": [
+        "src/safe-area/index.ts"
+      ],
+      "@safe-area/*": [
+        "src/safe-area/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"

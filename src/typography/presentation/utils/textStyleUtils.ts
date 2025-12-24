@@ -32,7 +32,7 @@ import type { TextStyle as RNTextStyle } from 'react-native';
 type TextStyle = RNTextStyle;
 
 import type { TextStyleVariant } from '../../domain/entities/TypographyTypes';
-import type { DesignTokens } from '../../../theme';
+import type { DesignTokens } from '@theme';
 
 // Cache for text style variant validation to improve performance
 const TEXT_STYLE_VARIANT_SET = new Set<string>([

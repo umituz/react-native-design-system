@@ -6,8 +6,8 @@
 
 import React from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../theme';
-import { useResponsive } from '../responsive';
+import { useAppDesignTokens } from '@theme';
+import { useResponsive } from '@responsive';
 
 export interface BaseModalProps {
   visible: boolean;

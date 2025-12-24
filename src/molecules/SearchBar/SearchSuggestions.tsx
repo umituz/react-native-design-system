@@ -4,8 +4,8 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native';
-import { AtomicText } from '../../atoms/AtomicText';
-import { useAppDesignTokens } from '../../theme';
+import { AtomicText } from '@atoms/AtomicText';
+import { useAppDesignTokens } from '@theme';
 import type { SearchSuggestionsProps } from './types';
 
 export function SearchSuggestions<T>({

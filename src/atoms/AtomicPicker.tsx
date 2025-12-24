@@ -46,7 +46,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 import { AtomicPickerProps } from './picker/types';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';

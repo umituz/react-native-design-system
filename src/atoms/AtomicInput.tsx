@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from '@theme';
 import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';
 import { useInputState } from './input/hooks/useInputState';
