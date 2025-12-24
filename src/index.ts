@@ -359,6 +359,24 @@ export {
   type BottomTabNavigationOptions,
   type BottomTabScreenProps,
   type StackNavigationOptions,
+  // Celebration
+  CelebrationModal,
+  CelebrationModalContent,
+  CelebrationFireworksOverlay,
+  useCelebrationState,
+  useCelebrationModalAnimation,
+  FireworksConfigService,
+  DEFAULT_FIREWORKS_COLORS,
+  DEFAULT_FIREWORKS_CONFIG,
+  type CelebrationConfig,
+  type CelebrationAction,
+  type ThemeColors,
+  type CelebrationFireworksConfig,
+  type UseCelebrationStateReturn,
+  type UseCelebrationModalAnimationReturn,
+  type CelebrationModalProps,
+  type CelebrationModalContentProps,
+  type CelebrationFireworksOverlayProps,
 } from './molecules';
 
 // =============================================================================
