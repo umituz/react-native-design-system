@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { View, StyleSheet, ScrollView, Modal, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView, Modal, Pressable, GestureResponderEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AtomicButton } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme';
@@ -46,7 +46,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Pressable
           style={[styles.sheet, { backgroundColor: tokens.colors.surface, paddingBottom: insets.bottom }]}
-          onPress={(e) => e.stopPropagation()}
+          onPress={(e: GestureResponderEvent) => e.stopPropagation()}
         >
           <View style={[styles.handle, { backgroundColor: tokens.colors.border }]} />
 

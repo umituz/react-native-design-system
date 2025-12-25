@@ -10,7 +10,7 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon } from '../../atoms/AtomicIcon';
 import type { SearchBarProps } from './types';
 
-export const SearchBar = forwardRef<TextInput, SearchBarProps>(({
+export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, SearchBarProps>(({
     value,
     onChangeText,
     onSubmit,

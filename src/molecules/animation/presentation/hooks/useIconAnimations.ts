@@ -94,13 +94,14 @@ export function useElementAnimations(
       transform.scale.value = 1;
       transform.rotate.value = 0;
     }
+    return undefined;
   }, [visible, isReanimatedReady, animationConfig, transform]);
 
   const elementStyle = useAnimatedStyle(() => ({
     transform: [
       { scale: transform.scale.value },
       { rotate: `${transform.rotate.value}deg` },
-    ],
+    ] as any,
   }));
 
   return {

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, GestureResponderEvent } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
 import { AtomicIcon } from '../../AtomicIcon';
@@ -41,7 +41,7 @@ export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
         <View key={opt.value} style={chipStyles}>
           <AtomicText style={chipTextStyles}>{opt.label}</AtomicText>
           <TouchableOpacity
-            onPress={(e) => {
+            onPress={(e: GestureResponderEvent) => {
               e.stopPropagation();
               onRemoveChip(opt.value);
             }}

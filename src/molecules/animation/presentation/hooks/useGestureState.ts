@@ -37,7 +37,7 @@ export const useGestureState = () => {
             { translateX: translateX.value },
             { translateY: translateY.value },
             { scale: scale.value },
-        ],
+        ] as any,
     }));
 
     return {

@@ -191,7 +191,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
           {filteredOptions.length > 0 ? (
             <FlatList
               data={filteredOptions}
-              keyExtractor={(item) => item.value}
+              keyExtractor={(item: PickerOption) => item.value}
               renderItem={renderOption}
               showsVerticalScrollIndicator
               testID={`${testID}-list`}

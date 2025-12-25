@@ -35,6 +35,9 @@ export interface CelebrationModalProps {
   }) => React.ReactNode;
 }
 
+// Access View through Animated namespace with type assertion for reanimated v3 compatibility
+const AnimatedView = (Animated as unknown as { View: React.ComponentType<{ style?: unknown; children?: React.ReactNode }> }).View;
+
 export const CelebrationModal: React.FC<CelebrationModalProps> = ({
   visible,
   config,
@@ -59,7 +62,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         dismissOnBackdrop={true}
         testID="celebration-modal"
       >
-        <Animated.View style={modalStyle}>
+        <AnimatedView style={modalStyle}>
           {renderContent ? (
             renderContent({ config, onClose, iconStyle, modalStyle })
           ) : themeColors ? (
@@ -71,7 +74,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
               modalStyle={modalStyle}
             />
           ) : null}
-        </Animated.View>
+        </AnimatedView>
       </BaseModal>
     </>
   );

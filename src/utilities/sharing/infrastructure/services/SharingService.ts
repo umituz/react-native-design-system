@@ -9,7 +9,7 @@
  */
 
 import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from 'expo-file-system/build/legacy';
 import type { ShareOptions, ShareResult } from '../../domain/entities/Share';
 import { SharingUtils } from '../../domain/entities/Share';
 

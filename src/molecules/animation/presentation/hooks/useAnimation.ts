@@ -45,7 +45,7 @@ export const useAnimation = () => {
                 { translateX: translateXValue },
                 { scale: scaleValue },
                 { rotate: `${transform.rotate.value}deg` },
-            ],
+            ] as any,
         };
     });
 

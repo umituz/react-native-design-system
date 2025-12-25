@@ -8,6 +8,9 @@ import type { ThemeColors } from "../../domain/entities/FireworksConfig";
 import type { useCelebrationModalAnimation } from "../hooks/useCelebrationModalAnimation";
 import { createCelebrationModalStyles } from "../styles/CelebrationModalStyles";
 
+// Access View through Animated namespace with type assertion for reanimated v3 compatibility
+const AnimatedView = (Animated as unknown as { View: React.ComponentType<{ style?: unknown; children?: React.ReactNode }> }).View;
+
 export interface CelebrationModalContentProps {
     config: CelebrationConfig;
     onClose: () => void;
@@ -30,7 +33,7 @@ export const CelebrationModalContent: React.FC<CelebrationModalContentProps> = (
     const primaryColor = themeColors?.primary || tokens.colors.primary;
 
     return (
-        <Animated.View
+        <AnimatedView
             style={[
                 styles.modal,
                 modalStyle,
@@ -45,11 +48,11 @@ export const CelebrationModalContent: React.FC<CelebrationModalContentProps> = (
                 },
             ]}
         >
-            <Animated.View style={[styles.iconContainer, iconStyle]}>
+            <AnimatedView style={[styles.iconContainer, iconStyle]}>
                 <View style={[styles.iconCircle, { backgroundColor: successColor }]}>
                     <AtomicIcon name="checkmark" size="xl" color="onPrimary" />
                 </View>
-            </Animated.View>
+            </AnimatedView>
 
             <AtomicText type="headlineSmall" style={[styles.title, { color: tokens.colors.onSurface }]}>
                 {config.title}
@@ -85,6 +88,6 @@ export const CelebrationModalContent: React.FC<CelebrationModalContentProps> = (
                     />
                 )}
             </View>
-        </Animated.View>
+        </AnimatedView>
     );
 };
