@@ -9,7 +9,7 @@
  */
 
 import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system/build/legacy';
+import { FileSystemService } from '@umituz/react-native-filesystem';
 import type { ShareOptions, ShareResult } from '../../domain/entities/Share';
 import { SharingUtils } from '../../domain/entities/Share';
 
@@ -64,13 +64,13 @@ export class SharingService {
           // Ensure we have an extension if possible, or default to bin/jpg? 
           // Better to rely on what we have, or let the caller specify mimeType to infer extension?
           // For now, nice and simple:
-          const localUri = `${FileSystem.cacheDirectory}${filename}`;
-          const { uri: downloadedUri, status } = await FileSystem.downloadAsync(uri, localUri);
+          const localUri = FileSystemService.generateFilePath(filename);
+          const result = await FileSystemService.downloadFile(uri, localUri);
 
-          if (status !== 200) {
-            return { success: false, error: `Failed to download file: ${status}` };
+          if (!result.success) {
+            return { success: false, error: result.error || 'Failed to download file' };
           }
-          shareUri = downloadedUri;
+          shareUri = result.uri!;
         } catch (downloadError) {
           return {
             success: false,
