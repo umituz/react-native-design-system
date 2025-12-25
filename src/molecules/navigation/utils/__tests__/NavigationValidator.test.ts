@@ -196,7 +196,7 @@ describe('NavigationValidator', () => {
 
       try {
         NavigationValidator.validateInitialRoute('NonExistent', mockTabScreens);
-      } catch (_error) {
+      } catch {
         // Expected to throw
       }
 

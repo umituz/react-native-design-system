@@ -5,7 +5,10 @@
  */
 
 import { renderHook } from '@testing-library/react';
+import { GestureDetector } from 'react-native-gesture-handler';
 import { useGesture } from '../useGesture';
+import { useGestureCreators } from '../useGestureCreators';
+import { useGestureState } from '../useGestureState';
 
 // Mock react-native-gesture-handler
 jest.mock('react-native-gesture-handler', () => ({
@@ -39,9 +42,6 @@ jest.mock('../useGestureState', () => ({
     translateX: { value: 0 },
     translateY: { value: 0 },
     scale: { value: 1 },
-    savedTranslateX: { value: 0 },
-    savedTranslateY: { value: 0 },
-    savedScale: { value: 1 },
     reset: jest.fn(),
     animatedStyle: {},
   })),
@@ -88,21 +88,18 @@ describe('useGesture', () => {
 
   it('should export GestureDetector', () => {
     const { result } = renderHook(() => useGesture());
-    const { GestureDetector } = require('react-native-gesture-handler');
 
     expect(result.current.GestureDetector).toBe(GestureDetector);
   });
 
   describe('gesture creators integration', () => {
     it('should integrate with useGestureCreators', () => {
-      const { useGestureCreators } = require('../useGestureCreators');
       renderHook(() => useGesture());
 
       expect(useGestureCreators).toHaveBeenCalled();
     });
 
     it('should integrate with useGestureState', () => {
-      const { useGestureState } = require('../useGestureState');
       renderHook(() => useGesture());
 
       expect(useGestureState).toHaveBeenCalled();

@@ -1,9 +1,5 @@
-/// <reference types="react" />
-/// <reference types="react-native" />
-
 declare module 'react-native-reanimated' {
   import React from 'react';
-  import { ViewProps, ViewStyle } from 'react-native';
 
   export interface WithTimingConfig {
     duration?: number;
@@ -39,7 +35,7 @@ declare module 'react-native-reanimated' {
   export function runOnUI<T>(fn: () => T): () => T;
   export function runOnJS<T extends (...args: any[]) => any>(fn: T): T;
   export function cancelAnimation(sharedValue: SharedValue<any>): void;
-  
+
   export const Easing: {
     linear: (t: number) => number;
     ease: (t: number) => number;
@@ -58,7 +54,6 @@ declare module 'react-native-reanimated' {
 
 declare module 'react-native-gesture-handler' {
   import React from 'react';
-  import { ViewStyle } from 'react-native';
 
   export interface PanGestureHandlerProps {
     onGestureEvent?: (event: any) => void;

@@ -28,10 +28,8 @@ export const Countdown: React.FC<CountdownProps> = ({
 }) => {
     const tokens = useAppDesignTokens();
     const {
-        showIcon = true,
         showLabel = true,
         showToggle = alternateTargets.length > 0,
-        layout = 'grid',
         size = 'medium',
         showDays,
         showHours = true,
@@ -63,7 +61,7 @@ export const Countdown: React.FC<CountdownProps> = ({
         }
     };
 
-    const defaultFormatLabel = (unit: 'days' | 'hours' | 'minutes' | 'seconds', value: number) => {
+    const defaultFormatLabel = (unit: 'days' | 'hours' | 'minutes' | 'seconds') => {
         const labels = {
             days: 'DAYS',
             hours: 'HOURS',

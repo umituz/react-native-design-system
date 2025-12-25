@@ -6,6 +6,10 @@
 
 import { renderHook, act } from '@testing-library/react';
 import { useAnimation } from '../useAnimation';
+import { useTimingAnimation } from '../useTimingAnimation';
+import { useSpringAnimation } from '../useSpringAnimation';
+import { useTransformAnimation } from '../useTransformAnimation';
+import { useAnimatedStyle } from 'react-native-reanimated';
 
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => ({
@@ -25,39 +29,46 @@ jest.mock('react-native-reanimated', () => ({
   },
 }));
 
+// Define singleton mock objects
+const mockTiming = {
+  fadeIn: jest.fn(),
+  fadeOut: jest.fn(),
+  slideInUp: jest.fn(),
+  slideInDown: jest.fn(),
+  slideInLeft: jest.fn(),
+  slideInRight: jest.fn(),
+  opacity: { value: 1 },
+  translateY: { value: 0 },
+  translateX: { value: 0 },
+};
+
+const mockSpring = {
+  scaleIn: jest.fn(),
+  scaleOut: jest.fn(),
+  bounce: jest.fn(),
+  scale: { value: 1 },
+};
+
+const mockTransform = {
+  shake: jest.fn(),
+  pulse: jest.fn(),
+  spin: jest.fn(),
+  translateX: { value: 0 },
+  scale: { value: 1 },
+  rotate: { value: 0 },
+};
+
 // Mock all sub-hooks
 jest.mock('../useTimingAnimation', () => ({
-  useTimingAnimation: jest.fn(() => ({
-    fadeIn: jest.fn(),
-    fadeOut: jest.fn(),
-    slideInUp: jest.fn(),
-    slideInDown: jest.fn(),
-    slideInLeft: jest.fn(),
-    slideInRight: jest.fn(),
-    opacity: { value: 1 },
-    translateY: { value: 0 },
-    translateX: { value: 0 },
-  })),
+  useTimingAnimation: jest.fn(() => mockTiming),
 }));
 
 jest.mock('../useSpringAnimation', () => ({
-  useSpringAnimation: jest.fn(() => ({
-    scaleIn: jest.fn(),
-    scaleOut: jest.fn(),
-    bounce: jest.fn(),
-    scale: { value: 1 },
-  })),
+  useSpringAnimation: jest.fn(() => mockSpring),
 }));
 
 jest.mock('../useTransformAnimation', () => ({
-  useTransformAnimation: jest.fn(() => ({
-    shake: jest.fn(),
-    pulse: jest.fn(),
-    spin: jest.fn(),
-    translateX: { value: 0 },
-    scale: { value: 1 },
-    rotate: { value: 0 },
-  })),
+  useTransformAnimation: jest.fn(() => mockTransform),
 }));
 
 describe('useAnimation Integration', () => {
@@ -66,10 +77,6 @@ describe('useAnimation Integration', () => {
   });
 
   it('should integrate all animation hooks', () => {
-    const { useTimingAnimation } = require('../useTimingAnimation');
-    const { useSpringAnimation } = require('../useSpringAnimation');
-    const { useTransformAnimation } = require('../useTransformAnimation');
-
     renderHook(() => useAnimation());
 
     expect(useTimingAnimation).toHaveBeenCalled();
@@ -116,7 +123,6 @@ describe('useAnimation Integration', () => {
 
   it('should provide animated style', () => {
     const { result } = renderHook(() => useAnimation());
-    const { useAnimatedStyle } = require('react-native-reanimated');
 
     expect(typeof result.current.animatedStyle).toBe('function');
     expect(useAnimatedStyle).toHaveBeenCalled();
@@ -125,8 +131,6 @@ describe('useAnimation Integration', () => {
   describe('animation combinations', () => {
     it('should allow combining fade and scale animations', () => {
       const { result } = renderHook(() => useAnimation());
-      const mockTiming = require('../useTimingAnimation').useTimingAnimation();
-      const mockSpring = require('../useSpringAnimation').useSpringAnimation();
 
       act(() => {
         result.current.fadeIn();
@@ -139,8 +143,6 @@ describe('useAnimation Integration', () => {
 
     it('should allow combining slide and rotate animations', () => {
       const { result } = renderHook(() => useAnimation());
-      const mockTiming = require('../useTimingAnimation').useTimingAnimation();
-      const mockTransform = require('../useTransformAnimation').useTransformAnimation();
 
       act(() => {
         result.current.slideInUp();
@@ -153,9 +155,6 @@ describe('useAnimation Integration', () => {
 
     it('should allow complex animation sequences', () => {
       const { result } = renderHook(() => useAnimation());
-      const mockTiming = require('../useTimingAnimation').useTimingAnimation();
-      const mockSpring = require('../useSpringAnimation').useSpringAnimation();
-      const mockTransform = require('../useTransformAnimation').useTransformAnimation();
 
       act(() => {
         result.current.fadeIn();
@@ -179,7 +178,6 @@ describe('useAnimation Integration', () => {
 
   describe('animated style composition', () => {
     it('should compose styles from all animation types', () => {
-      const { useAnimatedStyle } = require('react-native-reanimated');
       const mockStyle = {
         opacity: 1,
         transform: [
@@ -190,7 +188,7 @@ describe('useAnimation Integration', () => {
         ],
       };
 
-      useAnimatedStyle.mockReturnValue(mockStyle);
+      (useAnimatedStyle as jest.Mock).mockReturnValue(mockStyle);
 
       const { result } = renderHook(() => useAnimation());
 
@@ -198,10 +196,6 @@ describe('useAnimation Integration', () => {
     });
 
     it('should prioritize transform values over timing/spring values', () => {
-      const { useAnimatedStyle } = require('react-native-reanimated');
-      const mockTiming = require('../useTimingAnimation').useTimingAnimation();
-      const mockTransform = require('../useTransformAnimation').useTransformAnimation();
-
       // Set transform values to non-default
       mockTransform.translateX.value = 50;
       mockTransform.scale.value = 1.5;

@@ -7,7 +7,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { Fireworks } from '../Fireworks';
-import { FIREWORKS_CONSTANTS } from '../../../domain/entities/Fireworks';
+import { useFireworks } from '../../hooks/useFireworks';
 
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => ({
@@ -61,8 +61,8 @@ describe('Fireworks Component', () => {
   it('should apply custom styles', () => {
     const customStyle = { backgroundColor: 'blue' };
     const { getByTestId } = render(
-      <Fireworks 
-        colors={['#FF0000']} 
+      <Fireworks
+        colors={['#FF0000']}
         style={customStyle}
       />
     );
@@ -94,16 +94,15 @@ describe('Fireworks Component', () => {
   describe('autoTrigger', () => {
     it('should trigger fireworks when autoTrigger is true and container has size', () => {
       const mockTrigger = jest.fn();
-      const { useFireworks } = require('../../hooks/useFireworks');
-      useFireworks.mockReturnValue({
+      (useFireworks as jest.Mock).mockReturnValue({
         particles: [],
         trigger: mockTrigger,
         isActive: false,
       });
 
       const { getByTestId } = render(
-        <Fireworks 
-          colors={['#FF0000']} 
+        <Fireworks
+          colors={['#FF0000']}
           autoTrigger={true}
         />
       );
@@ -120,16 +119,15 @@ describe('Fireworks Component', () => {
 
     it('should not trigger when autoTrigger is false', () => {
       const mockTrigger = jest.fn();
-      const { useFireworks } = require('../../hooks/useFireworks');
-      useFireworks.mockReturnValue({
+      (useFireworks as jest.Mock).mockReturnValue({
         particles: [],
         trigger: mockTrigger,
         isActive: false,
       });
 
       render(
-        <Fireworks 
-          colors={['#FF0000']} 
+        <Fireworks
+          colors={['#FF0000']}
           autoTrigger={false}
         />
       );
@@ -139,16 +137,15 @@ describe('Fireworks Component', () => {
 
     it('should use custom trigger position', () => {
       const mockTrigger = jest.fn();
-      const { useFireworks } = require('../../hooks/useFireworks');
-      useFireworks.mockReturnValue({
+      (useFireworks as jest.Mock).mockReturnValue({
         particles: [],
         trigger: mockTrigger,
         isActive: false,
       });
 
       const { getByTestId } = render(
-        <Fireworks 
-          colors={['#FF0000']} 
+        <Fireworks
+          colors={['#FF0000']}
           autoTrigger={true}
           triggerX={0.25}
           triggerY={0.75}
@@ -171,8 +168,7 @@ describe('Fireworks Component', () => {
       const particles = [
         { x: 100, y: 100, color: '#FF0000', size: 4, life: 1 },
       ];
-      const { useFireworks } = require('../../hooks/useFireworks');
-      useFireworks.mockReturnValue({
+      (useFireworks as jest.Mock).mockReturnValue({
         particles,
         trigger: jest.fn(),
         isActive: false,

@@ -6,6 +6,7 @@
 
 import { renderHook, act } from '@testing-library/react';
 import { useTransformAnimation } from '../useTransformAnimation';
+import { withTiming, withSequence, withRepeat, Easing } from 'react-native-reanimated';
 
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => ({
@@ -45,7 +46,6 @@ describe('useTransformAnimation', () => {
   describe('shake', () => {
     it('should create shake animation sequence', () => {
       const { result } = renderHook(() => useTransformAnimation());
-      const { withTiming, withSequence, withRepeat } = require('react-native-reanimated');
 
       act(() => {
         result.current.shake();
@@ -62,7 +62,6 @@ describe('useTransformAnimation', () => {
   describe('pulse', () => {
     it('should create pulse animation with default repeat count', () => {
       const { result } = renderHook(() => useTransformAnimation());
-      const { withTiming, withSequence, withRepeat } = require('react-native-reanimated');
 
       act(() => {
         result.current.pulse();
@@ -77,7 +76,6 @@ describe('useTransformAnimation', () => {
 
     it('should use custom repeat count', () => {
       const { result } = renderHook(() => useTransformAnimation());
-      const { withTiming, withSequence, withRepeat } = require('react-native-reanimated');
       const customRepeatCount = 3;
 
       act(() => {
@@ -95,7 +93,6 @@ describe('useTransformAnimation', () => {
   describe('spin', () => {
     it('should create spin animation with default repeat count', () => {
       const { result } = renderHook(() => useTransformAnimation());
-      const { withTiming, withRepeat, Easing } = require('react-native-reanimated');
 
       act(() => {
         result.current.spin();
@@ -110,7 +107,6 @@ describe('useTransformAnimation', () => {
 
     it('should use custom repeat count', () => {
       const { result } = renderHook(() => useTransformAnimation());
-      const { withTiming, withRepeat } = require('react-native-reanimated');
       const customRepeatCount = 2;
 
       act(() => {

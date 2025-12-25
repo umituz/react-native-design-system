@@ -23,7 +23,7 @@ export class SharingService {
   static async isAvailable(): Promise<boolean> {
     try {
       return await Sharing.isAvailableAsync();
-    } catch (error) {
+    } catch {
       return false;
     }
   }

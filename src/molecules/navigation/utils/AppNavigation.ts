@@ -81,10 +81,9 @@ export class AppNavigation {
     * Navigate to a screen in a nested navigator (e.g. Tab > Stack > Screen)
     */
     static navigateToNested(parentParams: { screen: string; params?: any }): void {
-        // This is a simplified wrapper for navigating to nested stacks which usually looks like:
-        // navigate('ParentStack', { screen: 'ChildScreen', params: { ... } })
-        // But React Navigation handle this quite well with basic .navigate too if hierarchy is clear.
-        // Kept simple for now.
+        if (this.navigationRef?.isReady()) {
+            this.navigationRef.navigate(parentParams.screen, parentParams.params);
+        }
     }
 
     /**

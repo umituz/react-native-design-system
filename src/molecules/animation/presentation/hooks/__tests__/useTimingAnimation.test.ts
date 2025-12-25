@@ -6,7 +6,8 @@
 
 import { renderHook, act } from '@testing-library/react';
 import { useTimingAnimation } from '../useTimingAnimation';
-import { AnimationPreset, ANIMATION_CONSTANTS } from '../../../domain/entities/Animation';
+import { ANIMATION_CONSTANTS } from '../../../domain/entities/Animation';
+import { withTiming } from 'react-native-reanimated';
 
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => ({
@@ -25,7 +26,7 @@ jest.mock('react-native-reanimated', () => ({
 // Mock AnimationConfigService
 jest.mock('../../../infrastructure/services/TimingAnimationConfigService', () => ({
   TimingAnimationConfigService: {
-    getTimingConfig: jest.fn((preset) => ({
+    getTimingConfig: jest.fn(() => ({
       duration: ANIMATION_CONSTANTS.DURATION.NORMAL,
     })),
   },
@@ -58,7 +59,6 @@ describe('useTimingAnimation', () => {
   describe('fadeIn', () => {
     it('should animate opacity to 1 with default config', () => {
       const { result } = renderHook(() => useTimingAnimation());
-      const { withTiming } = require('react-native-reanimated');
 
       act(() => {
         result.current.fadeIn();
@@ -72,7 +72,6 @@ describe('useTimingAnimation', () => {
 
     it('should use custom config when provided', () => {
       const { result } = renderHook(() => useTimingAnimation());
-      const { withTiming } = require('react-native-reanimated');
       const customConfig = { duration: 500 };
 
       act(() => {
@@ -86,7 +85,6 @@ describe('useTimingAnimation', () => {
   describe('fadeOut', () => {
     it('should animate opacity to 0 with default config', () => {
       const { result } = renderHook(() => useTimingAnimation());
-      const { withTiming } = require('react-native-reanimated');
 
       act(() => {
         result.current.fadeOut();
@@ -102,7 +100,6 @@ describe('useTimingAnimation', () => {
   describe('slideInUp', () => {
     it('should slide from bottom to top with default distance', () => {
       const { result } = renderHook(() => useTimingAnimation());
-      const { withTiming } = require('react-native-reanimated');
 
       act(() => {
         result.current.slideInUp();

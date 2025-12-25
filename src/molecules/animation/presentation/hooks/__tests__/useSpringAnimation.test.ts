@@ -6,7 +6,8 @@
 
 import { renderHook, act } from '@testing-library/react';
 import { useSpringAnimation } from '../useSpringAnimation';
-import { AnimationPreset, ANIMATION_CONSTANTS } from '../../../domain/entities/Animation';
+import { ANIMATION_CONSTANTS } from '../../../domain/entities/Animation';
+import { withSpring, withSequence } from 'react-native-reanimated';
 
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => ({
@@ -21,7 +22,7 @@ jest.mock('react-native-reanimated', () => ({
 // Mock SpringAnimationConfigService
 jest.mock('../../../infrastructure/services/SpringAnimationConfigService', () => ({
   SpringAnimationConfigService: {
-    getSpringConfig: jest.fn((preset) => ({
+    getSpringConfig: jest.fn(() => ({
       damping: ANIMATION_CONSTANTS.SPRING.DAMPING,
       stiffness: ANIMATION_CONSTANTS.SPRING.STIFFNESS,
     })),
@@ -50,7 +51,6 @@ describe('useSpringAnimation', () => {
   describe('scaleIn', () => {
     it('should animate scale from 0 to 1 with default config', () => {
       const { result } = renderHook(() => useSpringAnimation());
-      const { withSpring } = require('react-native-reanimated');
 
       act(() => {
         result.current.scaleIn();
@@ -64,7 +64,6 @@ describe('useSpringAnimation', () => {
 
     it('should use custom config when provided', () => {
       const { result } = renderHook(() => useSpringAnimation());
-      const { withSpring } = require('react-native-reanimated');
       const customConfig = { damping: 20, stiffness: 200 };
 
       act(() => {
@@ -78,7 +77,6 @@ describe('useSpringAnimation', () => {
   describe('scaleOut', () => {
     it('should animate scale to 0 with default config', () => {
       const { result } = renderHook(() => useSpringAnimation());
-      const { withSpring } = require('react-native-reanimated');
 
       act(() => {
         result.current.scaleOut();
@@ -94,7 +92,6 @@ describe('useSpringAnimation', () => {
   describe('bounce', () => {
     it('should create bounce animation sequence', () => {
       const { result } = renderHook(() => useSpringAnimation());
-      const { withSpring, withSequence } = require('react-native-reanimated');
       const mockConfig = { damping: 5, stiffness: 120 };
 
       act(() => {
@@ -110,7 +107,6 @@ describe('useSpringAnimation', () => {
 
     it('should use default config when none provided', () => {
       const { result } = renderHook(() => useSpringAnimation());
-      const { withSpring, withSequence } = require('react-native-reanimated');
 
       act(() => {
         result.current.bounce();

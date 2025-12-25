@@ -55,7 +55,7 @@ const Particle: React.FC<{
     opacity: withTiming(opacity, { duration: 100 }),
   }));
 
-  // @ts-ignore - Animated.View exists at runtime
+  // @ts-expect-error - Animated.View exists at runtime
   return <Animated.View style={animatedStyle} />;
 };
 

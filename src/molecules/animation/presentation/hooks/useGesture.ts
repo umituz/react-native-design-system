@@ -8,11 +8,7 @@
 import { GestureDetector } from 'react-native-gesture-handler';
 import { useGestureState } from './useGestureState';
 import { useGestureCreators } from './useGestureCreators';
-import type {
-    TapGestureOptions,
-    PanGestureOptions,
-    PinchGestureOptions,
-} from './useGestureCreators';
+
 
 /**
  * Hook for gesture handling

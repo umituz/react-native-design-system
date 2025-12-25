@@ -1,0 +1,93 @@
+
+> @umituz/react-native-design-system@2.3.31 lint
+> eslint . --ext .ts,.tsx
+
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/components/Fireworks.tsx
+  58:3  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/components/__tests__/Fireworks.test.tsx
+   10:10  error  'FIREWORKS_CONSTANTS' is defined but never used  @typescript-eslint/no-unused-vars
+   97:32  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  123:32  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  142:32  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  174:32  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/__tests__/useAnimation.integration.test.ts
+   69:36  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+   70:36  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+   71:39  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  119:34  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  128:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  129:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  142:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  143:29  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  156:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  157:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  158:29  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  182:36  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  201:36  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  202:13  error  'mockTiming' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  202:26  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  203:29  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/__tests__/useGesture.test.ts
+   91:33  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   98:38  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  105:35  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/__tests__/useSpringAnimation.test.ts
+    9:10  error  'AnimationPreset' is defined but never used      @typescript-eslint/no-unused-vars
+   24:31  error  'preset' is defined but never used               @typescript-eslint/no-unused-vars
+   53:30  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+   67:30  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+   81:30  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+   97:44  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  113:15  error  'withSpring' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  113:44  error  A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/__tests__/useTimingAnimation.test.ts
+    9:10  error  'AnimationPreset' is defined but never used  @typescript-eslint/no-unused-vars
+   28:31  error  'preset' is defined but never used           @typescript-eslint/no-unused-vars
+   61:30  error  A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+   75:30  error  A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+   89:30  error  A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+  105:30  error  A `require()` style import is forbidden      @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/__tests__/useTransformAnimation.test.ts
+   48:56  error  A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+   65:56  error  A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+   80:15  error  'withTiming' is assigned a value but never used    @typescript-eslint/no-unused-vars
+   80:27  error  'withSequence' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   80:56  error  A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+   98:50  error  A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+  113:15  error  'withTiming' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  113:42  error  A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/presentation/hooks/useGesture.ts
+  12:5  error  'TapGestureOptions' is defined but never used    @typescript-eslint/no-unused-vars
+  13:5  error  'PanGestureOptions' is defined but never used    @typescript-eslint/no-unused-vars
+  14:5  error  'PinchGestureOptions' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/animation/types/global.d.ts
+   1:1   error  Do not use a triple slash reference for react, use `import` style instead         @typescript-eslint/triple-slash-reference
+   1:1   error  Do not use a triple slash reference for react, use `import` style instead         @typescript-eslint/triple-slash-reference
+   2:1   error  Do not use a triple slash reference for react-native, use `import` style instead  @typescript-eslint/triple-slash-reference
+   2:1   error  Do not use a triple slash reference for react-native, use `import` style instead  @typescript-eslint/triple-slash-reference
+   6:12  error  'ViewProps' is defined but never used                                             @typescript-eslint/no-unused-vars
+   6:23  error  'ViewStyle' is defined but never used                                             @typescript-eslint/no-unused-vars
+  61:12  error  'ViewStyle' is defined but never used                                             @typescript-eslint/no-unused-vars
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/countdown/components/Countdown.tsx
+  31:9   error  'showIcon' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  34:9   error  'layout' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  66:81  error  'value' is defined but never used              @typescript-eslint/no-unused-vars
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/navigation/utils/AppNavigation.ts
+  83:29  error  'parentParams' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/umituz/Desktop/github/umituz/apps/artificial_intelligence/npm-packages/react-native-design-system/src/molecules/navigation/utils/__tests__/NavigationValidator.test.ts
+  199:16  error  '_error' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 62 problems (62 errors, 0 warnings)
+
