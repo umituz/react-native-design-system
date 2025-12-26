@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.3.38",
+  "version": "2.3.39",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive and safe area utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -109,6 +109,7 @@
     "@types/react-native": "^0.72.8",
     "@typescript-eslint/eslint-plugin": "^8.50.1",
     "@typescript-eslint/parser": "^8.50.1",
+    "@umituz/react-native-filesystem": "^2.1.7",
     "@umituz/react-native-haptics": "^1.0.2",
     "@umituz/react-native-localization": "^3.5.34",
     "@umituz/react-native-uuid": "*",
