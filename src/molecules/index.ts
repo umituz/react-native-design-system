@@ -48,6 +48,12 @@ export * from './animation';
 // Long Press Menu
 export * from './long-press-menu';
 
+// Photo Upload
+export * from './PhotoUploadCard';
+
+// Step Header
+export * from './StepHeader';
+
 // Emoji
 export * from './emoji';
 
