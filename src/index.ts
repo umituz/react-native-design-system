@@ -405,6 +405,14 @@ export {
   type CountdownTarget,
   type CountdownFormatOptions,
   type CountdownDisplayConfig,
+  // Photo Upload
+  PhotoUploadCard,
+  type PhotoUploadCardProps,
+  type PhotoUploadCardConfig,
+  // Step Header
+  StepHeader,
+  type StepHeaderProps,
+  type StepHeaderConfig,
   // Animation
   Animated,
   useSharedValue,
