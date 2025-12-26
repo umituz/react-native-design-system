@@ -41,7 +41,7 @@ export const useFireworks = (config: FireworksConfig) => {
     if (__DEV__) {
       console.warn('useFireworks: colors array is required and cannot be empty');
     }
-    return { particles: [], trigger: () => {}, isActive: false };
+    return { particles: [], trigger: () => { }, isActive: false };
   }
 
   const createParticle = useCallback((
@@ -51,7 +51,7 @@ export const useFireworks = (config: FireworksConfig) => {
   ): ParticleConfig => {
     const angle = Math.random() * Math.PI * 2;
     const velocity = Math.random() * spread + 50;
-    
+
     return {
       x,
       y,
@@ -63,6 +63,8 @@ export const useFireworks = (config: FireworksConfig) => {
       decay: FIREWORKS_CONSTANTS.DECAY_RATE + Math.random() * 0.01,
     };
   }, [particleSize, spread]);
+
+  const isActiveRef = useRef(false);
 
   const updateParticles = useCallback(() => {
     const currentParticles = [...particlesRef.current];
@@ -88,12 +90,13 @@ export const useFireworks = (config: FireworksConfig) => {
     particlesRef.current = updated;
     setParticles(updated);
 
-    if (updated.length > 0 && isActive) {
+    if (updated.length > 0 && isActiveRef.current) {
       animationFrameRef.current = requestAnimationFrame(updateParticles);
     } else {
       setIsActive(false);
+      isActiveRef.current = false;
     }
-  }, [isActive]);
+  }, [setIsActive]); // Removed isActive dependency
 
   const trigger = useCallback((x?: number, y?: number) => {
     const centerX = x ?? 0;
@@ -110,6 +113,7 @@ export const useFireworks = (config: FireworksConfig) => {
     particlesRef.current = particlesArray;
     setParticles(particlesArray);
     setIsActive(true);
+    isActiveRef.current = true;
 
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
