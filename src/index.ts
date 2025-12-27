@@ -338,6 +338,8 @@ export {
   FabButton,
   NavigationCleanupManager,
   AppNavigation,
+  TabLabel,
+  useTabBarStyles,
   type TabsNavigatorProps,
   type StackNavigatorProps,
   type FabButtonProps,
@@ -354,6 +356,8 @@ export {
   type BottomTabNavigationOptions,
   type BottomTabScreenProps,
   type StackNavigationOptions,
+  type TabLabelProps,
+  type TabBarConfig,
   // Celebration
   CelebrationModal,
   CelebrationModalContent,
