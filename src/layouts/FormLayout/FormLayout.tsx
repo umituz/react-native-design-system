@@ -7,7 +7,7 @@
 
 import React, { useMemo } from 'react';
 import { View, ScrollView, KeyboardAvoidingView, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '../../theme';
 import { useResponsive } from '../../responsive';
 
 export interface FormLayoutProps {
@@ -51,7 +51,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   disableScroll = false,
   testID,
 }) => {
-  const tokens = useResponsiveDesignTokens();
+  const tokens = useAppDesignTokens();
   const { insets } = useResponsive();
 
   const styles = useMemo(

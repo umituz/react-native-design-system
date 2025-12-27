@@ -8,7 +8,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useResponsive } from '../../responsive';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '../../theme';
 
 export interface ContainerProps {
   /** Container content */
@@ -49,7 +49,7 @@ export const Container: React.FC<ContainerProps> = ({
   testID,
 }) => {
   const { maxContentWidth } = useResponsive();
-  const tokens = useResponsiveDesignTokens();
+  const tokens = useAppDesignTokens();
 
   const containerWidth = maxWidth || maxContentWidth;
 

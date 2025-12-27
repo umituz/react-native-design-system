@@ -18,7 +18,6 @@
 
 export {
   useAppDesignTokens,
-  useResponsiveDesignTokens,
   useCommonStyles,
   useDesignSystemTheme,
   useTheme,
@@ -34,7 +33,6 @@ export {
   typography,
   borders,
   createDesignTokens,
-  createResponsiveDesignTokens,
   lightTheme,
   darkTheme,
   createResponsiveValue,
@@ -53,10 +51,8 @@ export {
   type AvatarSizes,
   type ComponentSizes,
   type DesignTokens,
-  type ResponsiveDesignTokens,
   type ResponsiveSpacing,
   type ResponsiveTypography,
-  type ResponsiveBorderRadius,
   type Theme,
   type ExtendedColorPalette,
   type NavigationTheme,
@@ -414,10 +410,6 @@ export {
   type CountdownTarget,
   type CountdownFormatOptions,
   type CountdownDisplayConfig,
-  // Photo Upload
-  PhotoUploadCard,
-  type PhotoUploadCardProps,
-  type PhotoUploadCardConfig,
   // Step Header
   StepHeader,
   type StepHeaderProps,

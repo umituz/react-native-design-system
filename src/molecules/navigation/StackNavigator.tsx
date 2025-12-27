@@ -61,6 +61,7 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
 
     return (
         <Stack.Navigator
+            id={config.id}
             initialRouteName={config.initialRouteName as string}
             screenOptions={{
                 ...defaultScreenOptions,

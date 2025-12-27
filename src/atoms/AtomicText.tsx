@@ -1,66 +1,72 @@
 import React from 'react';
-import { Text, StyleProp, TextStyle } from 'react-native';
-import { useAppDesignTokens, useResponsiveDesignTokens } from '../theme';
-import type { TextStyleVariant, ColorVariant } from '../typography';
-import { getTextColor } from '../typography';
+import { Text, type StyleProp, type TextStyle, type TextProps } from 'react-native';
+import { useAppDesignTokens } from '../theme';
+import { getTextColor, type TextStyleVariant, type ColorVariant } from '../typography';
 
-export interface AtomicTextProps {
-  children: React.ReactNode;
+export interface AtomicTextProps extends TextProps {
+  /** Typographic style variant from tokens */
   type?: TextStyleVariant;
+  
+  /** Color variant from tokens or custom hex color */
   color?: ColorVariant | string;
-  numberOfLines?: number;
-  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
-  textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify';
+  
+  /** Text alignment */
+  align?: TextStyle['textAlign'];
+  
+  /** Content to render */
+  children: React.ReactNode;
+  
+  /** Custom text style */
   style?: StyleProp<TextStyle>;
+  
+  /** Test ID for automation */
   testID?: string;
-  /** Enable responsive font sizing (scales based on device) */
-  responsive?: boolean;
 }
 
-export const AtomicText: React.FC<AtomicTextProps> = ({
-  children,
+/**
+ * AtomicText - Primitive Text Component
+ * 
+ * ✅ Responsive by default
+ * ✅ Theme-aware
+ * ✅ SOLID, DRY, KISS
+ */
+export const AtomicText = ({
   type = 'bodyMedium',
-  color,
-  numberOfLines,
-  ellipsizeMode,
-  textAlign,
+  color = 'textPrimary',
+  align,
+  children,
   style,
   testID,
-  responsive = false,
-}) => {
-  const staticTokens = useAppDesignTokens();
-  const responsiveTokens = useResponsiveDesignTokens();
-
-  // Use responsive tokens if enabled, otherwise use static
-  const tokens = responsive ? responsiveTokens : staticTokens;
+  ...props
+}: AtomicTextProps) => {
+  const tokens = useAppDesignTokens();
 
   // Get typography style from tokens
   const typographyStyle = (tokens.typography as Record<string, any>)[type];
+  
+  // Use responsive font size if available
+  const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;
 
-  // Get color from tokens or use custom color using utility function
-  const resolvedColor = getTextColor(color, tokens);
-
-  // Use responsive font size if enabled and available
-  const fontSize = responsive && typographyStyle.responsiveFontSize
-    ? typographyStyle.responsiveFontSize
-    : typographyStyle.fontSize;
+  // Resolve color
+  const resolvedColor = typeof color === 'string' && !color.includes('.') 
+    ? getTextColor(color as ColorVariant, tokens) 
+    : color;
 
   const textStyle: StyleProp<TextStyle> = [
     typographyStyle,
     {
-      color: resolvedColor,
+      color: resolvedColor as string,
       ...(fontSize && { fontSize }),
-      ...(textAlign && { textAlign }),
+      ...(align && { textAlign: align }),
     },
     style,
   ];
 
   return (
     <Text
-      numberOfLines={numberOfLines}
-      ellipsizeMode={ellipsizeMode}
       style={textStyle}
       testID={testID}
+      {...props}
     >
       {children}
     </Text>

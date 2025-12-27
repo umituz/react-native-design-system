@@ -1,89 +1,68 @@
-/**
- * TOKEN FACTORY - THEME INJECTION LOGIC
- *
- * ✅ Factory Pattern for creating complete design tokens
- * ✅ Combines static tokens (BaseTokens) + dynamic colors (ColorPalette)
- * ✅ Type-safe token generation
- * ✅ Zero duplication - SINGLE SOURCE OF TRUTH
- *
- * @module TokenFactory
- */
-
 import { BASE_TOKENS } from './BaseTokens';
 import { getColorPalette, withAlpha, type ThemeMode, type ColorPalette } from './ColorPalette';
 import { applyCustomColors, type CustomThemeColors } from './CustomColors';
-
-// =============================================================================
-// DESIGN TOKENS TYPE
-// =============================================================================
-
-/**
- * Complete design tokens shape
- * Combines static tokens (spacing, typography, borders) + dynamic colors
- */
-export type DesignTokens = {
-  colors: ColorPalette;
-  spacing: typeof BASE_TOKENS.spacing;
-  typography: typeof BASE_TOKENS.typography;
-  iconSizes: typeof BASE_TOKENS.iconSizes;
-  opacity: typeof BASE_TOKENS.opacity;
-  avatarSizes: typeof BASE_TOKENS.avatarSizes;
-  borderRadius: typeof BASE_TOKENS.borders.radius;
-  borders: typeof BASE_TOKENS.borders & {
-    card: typeof BASE_TOKENS.borders.card & { borderColor: string };
-    input: typeof BASE_TOKENS.borders.input & { borderColor: string };
-  };
-};
-
-// =============================================================================
-// TOKEN FACTORY FUNCTION
-// =============================================================================
+import { type DesignTokens, type ResponsiveTypography } from '../types/ThemeTypes';
 
 /**
  * Create complete design tokens for a specific theme mode
+ * 
+ * ✅ Responsive by default
+ * ✅ SINGLE SOURCE OF TRUTH
  *
  * @param mode - Theme mode ('light' or 'dark')
  * @param customColors - Optional custom colors to override default colors
- * @returns Complete design tokens object
- *
- * @example
- * ```typescript
- * const lightTokens = createDesignTokens('light');
- * const darkTokens = createDesignTokens('dark');
- * const customTokens = createDesignTokens('dark', { primary: '#FF6B35' });
- *
- * // Use in components
- * <View style={{ backgroundColor: lightTokens.colors.primary }}>
- *   <Text style={lightTokens.typography.bodyLarge}>Hello!</Text>
- * </View>
- * ```
+ * @param multiplier - Device-based spacing multiplier
+ * @param getFontSize - Function to get responsive font size
+ * @returns Complete responsive design tokens object
  */
 export const createDesignTokens = (
   mode: ThemeMode,
   customColors?: CustomThemeColors,
+  multiplier: number = 1,
+  getFontSize: (size: number) => number = (s) => s,
 ): DesignTokens => {
-  // Get color palette for theme mode
   const baseColors = getColorPalette(mode);
-
-  // Apply custom colors if provided
   const colors = applyCustomColors(baseColors, customColors);
 
-  // Combine static tokens + dynamic colors
-  return {
-    // ✅ DYNAMIC: Colors from theme mode + custom overrides
-    colors,
+  // Responsive Spacing
+  const spacing = Object.keys(BASE_TOKENS.spacing).reduce((acc, key) => {
+    const value = BASE_TOKENS.spacing[key as keyof typeof BASE_TOKENS.spacing];
+    acc[key as keyof typeof BASE_TOKENS.spacing] = typeof value === 'number' ? value * multiplier : value;
+    return acc;
+  }, {} as any);
 
-    // ✅ STATIC: These don't change with theme
-    spacing: BASE_TOKENS.spacing,
-    typography: BASE_TOKENS.typography,
+  // Responsive Typography
+  const typography = Object.keys(BASE_TOKENS.typography).reduce((acc, key) => {
+    const style = BASE_TOKENS.typography[key as keyof typeof BASE_TOKENS.typography];
+    if (typeof style === 'object' && style.fontSize) {
+      acc[key as keyof typeof BASE_TOKENS.typography] = {
+        ...(style as any),
+        responsiveFontSize: getFontSize(style.fontSize as number),
+      };
+    } else {
+      acc[key as keyof typeof BASE_TOKENS.typography] = style as any;
+    }
+    return acc;
+  }, {} as any) as ResponsiveTypography;
+
+  // Responsive Borders
+  const borderRadius = Object.keys(BASE_TOKENS.borders.radius).reduce((acc, key) => {
+    const value = BASE_TOKENS.borders.radius[key as keyof typeof BASE_TOKENS.borders.radius];
+    acc[key as keyof typeof BASE_TOKENS.borders.radius] = value === 0 || key === 'full' ? value : Math.round(value * multiplier);
+    return acc;
+  }, {} as any);
+
+  return {
+    colors,
+    spacing,
+    typography,
     iconSizes: BASE_TOKENS.iconSizes,
     opacity: BASE_TOKENS.opacity,
     avatarSizes: BASE_TOKENS.avatarSizes,
-    borderRadius: BASE_TOKENS.borders.radius,
-
-    // ✅ BORDERS: Static + injected border colors from theme
+    borderRadius,
     borders: {
       ...BASE_TOKENS.borders,
+      radius: borderRadius,
       card: {
         ...BASE_TOKENS.borders.card,
         borderColor: colors.border,
@@ -93,12 +72,12 @@ export const createDesignTokens = (
         borderColor: colors.border,
       },
     },
+    spacingMultiplier: multiplier,
+    baseSpacing: BASE_TOKENS.spacing,
+    baseTypography: BASE_TOKENS.typography,
+    baseBorderRadius: BASE_TOKENS.borders.radius,
   };
 };
-
-// =============================================================================
-// UTILITY EXPORTS
-// =============================================================================
 
 export { withAlpha };
 export type { ThemeMode, ColorPalette };

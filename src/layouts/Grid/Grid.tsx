@@ -8,7 +8,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useResponsive } from '../../responsive';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '../../theme';
 
 export interface GridProps {
   /** Grid items to render */
@@ -51,7 +51,7 @@ export const Grid: React.FC<GridProps> = ({
   testID,
 }) => {
   const { gridColumns, spacingMultiplier } = useResponsive();
-  const tokens = useResponsiveDesignTokens();
+  const tokens = useAppDesignTokens();
 
   // Calculate responsive columns
   const columns = gridColumns || (mobileColumns && tabletColumns

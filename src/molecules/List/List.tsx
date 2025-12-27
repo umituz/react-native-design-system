@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { FlatList, RefreshControl, type FlatListProps, type ListRenderItem } from 'react-native';
-import { useResponsiveDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '../../theme';
 
 export interface ListProps<T> extends Omit<FlatListProps<T>, 'renderItem'> {
   /** Data array */
@@ -53,7 +53,7 @@ export const List = <T,>({
   contentPadding = false,
   ...rest
 }: ListProps<T>) => {
-  const tokens = useResponsiveDesignTokens();
+  const tokens = useAppDesignTokens();
 
   return (
     <FlatList

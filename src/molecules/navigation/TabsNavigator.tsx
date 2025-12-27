@@ -80,6 +80,7 @@ export function TabsNavigator<T extends ParamListBase>({
 
     return (
         <Tab.Navigator
+            id={config.id}
             initialRouteName={config.initialRouteName as string}
             screenOptions={{
                 ...defaultScreenOptions,

@@ -66,6 +66,8 @@ export interface StackScreen<T extends ParamListBase = ParamListBase>
 }
 
 export interface BaseNavigatorConfig<T extends ParamListBase = ParamListBase> {
+  /** Unique identifier for the navigator (required for React Navigation v7+) */
+  id?: string;
   screens: TabScreen[] | StackScreen[];
   initialRouteName?: Extract<keyof T, string>;
   getLabel?: (label: string) => string;
