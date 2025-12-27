@@ -74,7 +74,11 @@ export const Countdown: React.FC<CountdownProps> = ({
     const labelFormatter = formatLabel || defaultFormatLabel;
 
     const timeUnits = useMemo(() => {
-        const units: { value: number; label: string }[] = [];
+        interface CountdownUnit {
+            value: number;
+            label: string;
+        }
+        const units: CountdownUnit[] = [];
 
         const shouldShowDays = showDays !== undefined ? showDays : timeRemaining.days > 0;
 

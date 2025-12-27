@@ -31,7 +31,11 @@ export type IconColor =
   | "surfaceVariant"
   | "onPrimary"
   | "onSecondary"
-  | "textInverse";
+  | "textInverse"
+  | "textPrimary"
+  | "textSecondary"
+  | "textTertiary"
+  | "onSurfaceVariant";
 
 // Accept any string for flexibility
 export type IconName = string;
@@ -75,6 +79,10 @@ const getSemanticColor = (
     onPrimary: tokens.colors.onPrimary,
     onSecondary: tokens.colors.onSecondary,
     textInverse: tokens.colors.textInverse,
+    textPrimary: tokens.colors.textPrimary,
+    textSecondary: tokens.colors.textSecondary,
+    textTertiary: tokens.colors.textTertiary,
+    onSurfaceVariant: tokens.colors.onSurfaceVariant,
   };
   return colorMap[color];
 };

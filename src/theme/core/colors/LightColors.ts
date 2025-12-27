@@ -28,6 +28,7 @@ export const lightColors = {
   onSurface: '#1E293B',           // Text on surface
   onBackground: '#1E293B',        // Text on background
   onSurfaceDisabled: '#CBD5E1',   // Disabled text color
+  onSurfaceVariant: '#64748B',    // Text on surface variant
 
   // MATERIAL DESIGN 3 - CONTAINER COLORS (Lighter versions for containers)
   primaryContainer: '#FFE4CD',    // Light orange container

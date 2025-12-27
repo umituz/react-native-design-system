@@ -28,6 +28,7 @@ export const darkColors = {
   onSurface: '#E2E8F0',           // Light text on dark surface
   onBackground: '#F1F5F9',        // Light text on dark background
   onSurfaceDisabled: '#64748B',   // Disabled dark mode text
+  onSurfaceVariant: '#CBD5E1',    // Text on dark surface variant
 
   // MATERIAL DESIGN 3 - CONTAINER COLORS (Dark mode containers)
   primaryContainer: '#CC4A1F',    // Dark orange container
