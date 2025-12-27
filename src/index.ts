@@ -337,6 +337,7 @@ export {
   createStackNavigator,
   FabButton,
   NavigationCleanupManager,
+  AppNavigation,
   type TabsNavigatorProps,
   type StackNavigatorProps,
   type FabButtonProps,
