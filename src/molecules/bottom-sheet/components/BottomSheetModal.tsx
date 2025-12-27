@@ -79,9 +79,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
   useImperativeHandle(ref, () => ({
     present: () => {
       if (__DEV__) {
-        // eslint-disable-next-line no-console
         console.log('[BottomSheetModal] present() called');
-        // eslint-disable-next-line no-console
         console.log('[BottomSheetModal] modalRef.current:', modalRef.current);
       }
       modalRef.current?.present();

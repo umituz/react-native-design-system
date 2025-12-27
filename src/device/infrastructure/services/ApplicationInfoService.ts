@@ -20,10 +20,13 @@ export class ApplicationInfoService {
    */
   static async getApplicationInfo(): Promise<ApplicationInfo> {
     try {
-      const [installTime, lastUpdateTime] = await Promise.all([
-        withTimeout(() => Application.getInstallationTimeAsync(), 1000),
-        withTimeout(() => Application.getLastUpdateTimeAsync(), 1000),
+      const [installTimeResult, lastUpdateTimeResult] = await Promise.all([
+        withTimeout<Date>(() => Application.getInstallationTimeAsync(), 1000),
+        withTimeout<Date>(() => Application.getLastUpdateTimeAsync(), 1000),
       ]);
+
+      const installTime: Date | null = installTimeResult ?? null;
+      const lastUpdateTime: Date | null = lastUpdateTimeResult ?? null;
 
       const applicationName = safeAccess(() => Application.applicationName, 'Unknown');
       const applicationId = safeAccess(() => Application.applicationId, 'Unknown');

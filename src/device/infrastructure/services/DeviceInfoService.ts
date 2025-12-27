@@ -21,10 +21,11 @@ export class DeviceInfoService {
    */
   static async getDeviceInfo(): Promise<DeviceInfo> {
     try {
-      const totalMemory = await withTimeout(
+      const totalMemoryResult = await withTimeout<number>(
         () => Device.getMaxMemoryAsync(),
         1000,
       );
+      const totalMemory: number | null = totalMemoryResult ?? null;
 
       const brand = safeAccess(() => Device.brand, null);
       const manufacturer = safeAccess(() => Device.manufacturer, null);

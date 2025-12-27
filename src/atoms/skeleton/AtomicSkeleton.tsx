@@ -24,7 +24,7 @@
 
 import React, { useEffect } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import {
+import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withRepeat,
@@ -32,10 +32,11 @@ import {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
 import { useAppDesignTokens } from '../../theme';
 import type { SkeletonPattern, SkeletonConfig } from './AtomicSkeleton.types';
 import { SKELETON_PATTERNS } from './AtomicSkeleton.types';
+
+const AnimatedView = (Animated as any).createAnimatedComponent(View);
 
 const SHIMMER_DURATION = 1200;
 
@@ -90,7 +91,7 @@ const SkeletonItem: React.FC<{
   }));
 
   return (
-    <Animated.View
+    <AnimatedView
       style={[
         styles.skeleton,
         {

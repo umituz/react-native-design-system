@@ -2,18 +2,22 @@
  * Device Domain - Core Entities
  *
  * This file defines core types and interfaces for device information.
- * Handles device details, app info using expo-device and expo-application.
+ * All types are self-contained - no external dependencies for types.
  *
  * @domain device
  * @layer domain/entities
  */
 
-import type * as DeviceModule from 'expo-device';
-
 /**
- * Re-export Device types from expo-device
+ * Device type enumeration (matches expo-device values)
  */
-export type DeviceType = DeviceModule.DeviceType;
+export enum DeviceType {
+  UNKNOWN = 0,
+  PHONE = 1,
+  TABLET = 2,
+  DESKTOP = 3,
+  TV = 4,
+}
 
 /**
  * Device information interface

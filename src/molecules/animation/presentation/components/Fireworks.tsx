@@ -11,6 +11,8 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { useFireworks } from '../hooks/useFireworks';
 import type { FireworksConfig } from '../../domain/entities/Fireworks';
 
+const AnimatedView = (Animated as any).createAnimatedComponent(View);
+
 export interface FireworksProps extends FireworksConfig {
   /**
    * X position to trigger fireworks (0-1, relative to container width)
@@ -55,7 +57,7 @@ const Particle: React.FC<{
     opacity: withTiming(opacity, { duration: 100 }),
   }));
 
-  return <Animated.View style={animatedStyle} />;
+  return <AnimatedView style={animatedStyle} />;
 };
 
 /**
