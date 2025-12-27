@@ -87,3 +87,11 @@ export {
     type BadgeVariant,
     type BadgeSize,
 } from './AtomicBadge';
+
+// Spinner
+export {
+    AtomicSpinner,
+    type AtomicSpinnerProps,
+    type SpinnerSize,
+    type SpinnerColor,
+} from './AtomicSpinner';
