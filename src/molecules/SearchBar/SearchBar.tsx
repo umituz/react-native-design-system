@@ -41,6 +41,9 @@ export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, Search
                 {
                     backgroundColor: tokens.colors.surfaceVariant,
                     borderColor: tokens.colors.border,
+                    height: 48 * tokens.spacingMultiplier,
+                    paddingHorizontal: 12 * tokens.spacingMultiplier,
+                    borderRadius: 24 * tokens.spacingMultiplier,
                 },
                 containerStyle,
             ]}
@@ -72,7 +75,7 @@ export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, Search
                     styles.input,
                     {
                         color: tokens.colors.textPrimary,
-                        fontSize: 16, // Body medium usually
+                        fontSize: tokens.typography.bodyMedium.responsiveFontSize,
                     },
                     inputStyle,
                 ]}
@@ -115,9 +118,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 12,
-        height: 48,
-        borderRadius: 24, // Pill shape
+        paddingHorizontal: 12, // Will be scaled by parent if needed, or we rely on token usage elsewhere
+        height: 48, // Should be dynamic ideally, but keeping simple for now
+        borderRadius: 24,
         borderWidth: 1,
     },
     iconContainer: {
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         height: '100%',
-        paddingVertical: 0, // Reset default padding
+        paddingVertical: 0,
     },
     rightActions: {
         flexDirection: 'row',

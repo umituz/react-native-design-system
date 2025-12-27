@@ -18,7 +18,7 @@ export const ListItem: React.FC<ListItemProps> = ({
     <Component style={[listItemStyles.container, disabled ? listItemStyles.disabled : undefined, style]} onPress={onPress} disabled={disabled} activeOpacity={0.7}>
       {leftIcon && (
         <View style={listItemStyles.iconContainer}>
-          <AtomicIcon name={leftIcon} color={disabled ? 'surfaceVariant' : 'primary'} />
+          <AtomicIcon name={leftIcon} color={disabled ? 'surfaceVariant' : 'primary'} size="md" />
         </View>
       )}
       <View style={listItemStyles.content}>
@@ -27,7 +27,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       </View>
       {rightIcon && onPress && (
         <View style={listItemStyles.iconContainer}>
-          <AtomicIcon name={rightIcon} color="surfaceVariant" />
+          <AtomicIcon name={rightIcon} color="surfaceVariant" size="sm" />
         </View>
       )}
     </Component>
