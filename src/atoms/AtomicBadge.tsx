@@ -31,12 +31,6 @@ export interface AtomicBadgeProps {
     testID?: string;
 }
 
-const SIZE_CONFIG = {
-    sm: { paddingH: 6, paddingV: 2, fontSize: 10, iconSize: 10, gap: 3, radius: 4 },
-    md: { paddingH: 8, paddingV: 4, fontSize: 11, iconSize: 12, gap: 4, radius: 6 },
-    lg: { paddingH: 12, paddingV: 6, fontSize: 13, iconSize: 14, gap: 5, radius: 8 },
-};
-
 export const AtomicBadge: React.FC<AtomicBadgeProps> = React.memo(({
     text,
     variant = "primary",
@@ -48,7 +42,33 @@ export const AtomicBadge: React.FC<AtomicBadgeProps> = React.memo(({
     testID,
 }) => {
     const tokens = useAppDesignTokens();
-    const sizeConfig = SIZE_CONFIG[size];
+
+    const sizeConfig = {
+        sm: { 
+            paddingH: 6 * tokens.spacingMultiplier, 
+            paddingV: 2 * tokens.spacingMultiplier, 
+            fontSize: 10 * tokens.spacingMultiplier, 
+            iconSize: 10 * tokens.spacingMultiplier, 
+            gap: 3 * tokens.spacingMultiplier, 
+            radius: 4 * tokens.spacingMultiplier 
+        },
+        md: { 
+            paddingH: 8 * tokens.spacingMultiplier, 
+            paddingV: 4 * tokens.spacingMultiplier, 
+            fontSize: 11 * tokens.spacingMultiplier, 
+            iconSize: 12 * tokens.spacingMultiplier, 
+            gap: 4 * tokens.spacingMultiplier, 
+            radius: 6 * tokens.spacingMultiplier 
+        },
+        lg: { 
+            paddingH: 12 * tokens.spacingMultiplier, 
+            paddingV: 6 * tokens.spacingMultiplier, 
+            fontSize: 13 * tokens.spacingMultiplier, 
+            iconSize: 14 * tokens.spacingMultiplier, 
+            gap: 5 * tokens.spacingMultiplier, 
+            radius: 8 * tokens.spacingMultiplier 
+        },
+    }[size];
 
     const getVariantColors = () => {
         switch (variant) {

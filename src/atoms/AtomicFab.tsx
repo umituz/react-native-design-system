@@ -60,10 +60,18 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
   const isDisabled = disabled;
 
   // Get configurations
-  const sizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
+  const baseSizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
   const variants = getFabVariants(tokens);
   const variantConfig = variants[variant as 'primary' | 'secondary' | 'surface'];
-  const iconSize = getFabIconSize(size as 'sm' | 'md' | 'lg');
+  const baseIconSize = getFabIconSize(size as 'sm' | 'md' | 'lg');
+
+  // Scale dimensions
+  const sizeConfig = {
+    width: baseSizeConfig.width * tokens.spacingMultiplier,
+    height: baseSizeConfig.height * tokens.spacingMultiplier,
+    borderRadius: baseSizeConfig.borderRadius * tokens.spacingMultiplier,
+  };
+  const iconSize = baseIconSize * tokens.spacingMultiplier;
 
   // Combine styles
   const fabStyle = StyleSheet.flatten([

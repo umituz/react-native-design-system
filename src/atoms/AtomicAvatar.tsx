@@ -70,7 +70,7 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const avatarSize = customSize || tokens.avatarSizes[size];
+  const avatarSize = customSize ? customSize * tokens.spacingMultiplier : tokens.avatarSizes[size];
   const avatarRadius = borderRadius ?? avatarSize / 2;
 
   // Generate initials from name
@@ -106,12 +106,12 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
     borderRadius: avatarRadius,
   };
 
-  // Font size based on avatar size
-  const getFontSize = (size: number): number => {
-    if (size <= 32) return 12;
-    if (size <= 48) return 16;
-    if (size <= 64) return 20;
-    return 24;
+  // Font size based on avatar size (scaled)
+  const getAvatarFontSize = (sizeValue: number): number => {
+    const baseFontSize = sizeValue <= 32 ? 12 : 
+                        sizeValue <= 48 ? 16 : 
+                        sizeValue <= 64 ? 20 : 24;
+    return baseFontSize * tokens.spacingMultiplier;
   };
 
   return (
@@ -132,7 +132,7 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
           type="labelLarge"
           color={defaultTextColor}
           style={{
-            fontSize: getFontSize(avatarSize),
+            fontSize: getAvatarFontSize(avatarSize),
             fontWeight: tokens.typography.semibold,
           }}
         >
@@ -143,7 +143,7 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
           type="labelLarge"
           color={defaultTextColor}
           style={{
-            fontSize: getFontSize(avatarSize),
+            fontSize: getAvatarFontSize(avatarSize),
             fontWeight: tokens.typography.semibold,
           }}
         >

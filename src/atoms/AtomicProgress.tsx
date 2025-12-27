@@ -77,14 +77,16 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
   // Calculate progress width
   const progressWidth = `${clampedValue}%`;
 
+  const scaledHeight = height * tokens.spacingMultiplier;
+
   // Border radius based on shape
-  const borderRadius = shape === 'rounded' ? height / 2 : 0;
+  const progressBorderRadius = shape === 'rounded' ? scaledHeight / 2 : 0;
 
   const containerStyle: ViewStyle = {
     width: width as DimensionValue,
-    height,
+    height: scaledHeight,
     backgroundColor: progressBackground,
-    borderRadius,
+    borderRadius: progressBorderRadius,
     overflow: 'hidden',
   };
 
@@ -92,11 +94,11 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
     width: progressWidth as DimensionValue,
     height: '100%' as DimensionValue,
     backgroundColor: progressColor,
-    borderRadius,
+    borderRadius: progressBorderRadius,
   };
 
   const textStyle = {
-    fontSize: tokens.typography.bodySmall.fontSize,
+    fontSize: tokens.typography.bodySmall.responsiveFontSize,
     fontWeight: tokens.typography.labelMedium.fontWeight,
     color: progressTextColor,
     textAlign: 'center' as const,

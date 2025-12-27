@@ -239,13 +239,13 @@ const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) => {
       marginBottom: tokens.spacing.md,
     },
     label: {
-      fontSize: tokens.typography.bodyMedium.fontSize,
+      fontSize: tokens.typography.bodyMedium.responsiveFontSize,
       fontWeight: tokens.typography.semibold,
       color: tokens.colors.onSurface,
       marginBottom: tokens.spacing.sm,
     },
     errorText: {
-      fontSize: tokens.typography.bodySmall.fontSize,
+      fontSize: tokens.typography.bodySmall.responsiveFontSize,
       color: tokens.colors.error,
       marginTop: tokens.spacing.xs,
       marginLeft: tokens.spacing.xs,

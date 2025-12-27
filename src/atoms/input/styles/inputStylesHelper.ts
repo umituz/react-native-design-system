@@ -28,23 +28,23 @@ export const getSizeConfig = ({ size, tokens }: GetSizeConfigParams) => {
     sm: {
       paddingVertical: tokens.spacing.xs,
       paddingHorizontal: tokens.spacing.sm,
-      fontSize: tokens.typography.bodySmall.fontSize,
-      iconSize: 16,
-      minHeight: 40,
+      fontSize: tokens.typography.bodySmall.responsiveFontSize,
+      iconSize: 16 * tokens.spacingMultiplier,
+      minHeight: 40 * tokens.spacingMultiplier,
     },
     md: {
       paddingVertical: tokens.spacing.sm,
       paddingHorizontal: tokens.spacing.md,
-      fontSize: tokens.typography.bodyMedium.fontSize,
-      iconSize: 20,
-      minHeight: 48,
+      fontSize: tokens.typography.bodyMedium.responsiveFontSize,
+      iconSize: 20 * tokens.spacingMultiplier,
+      minHeight: 48 * tokens.spacingMultiplier,
     },
     lg: {
       paddingVertical: tokens.spacing.md,
       paddingHorizontal: tokens.spacing.lg,
-      fontSize: tokens.typography.bodyLarge.fontSize,
-      iconSize: 24,
-      minHeight: 56,
+      fontSize: tokens.typography.bodyLarge.responsiveFontSize,
+      iconSize: 24 * tokens.spacingMultiplier,
+      minHeight: 56 * tokens.spacingMultiplier,
     },
   };
 

@@ -56,9 +56,15 @@ export const createDesignTokens = (
     colors,
     spacing,
     typography,
-    iconSizes: BASE_TOKENS.iconSizes,
+    iconSizes: Object.keys(BASE_TOKENS.iconSizes).reduce((acc, key) => {
+      acc[key as keyof typeof BASE_TOKENS.iconSizes] = BASE_TOKENS.iconSizes[key as keyof typeof BASE_TOKENS.iconSizes] * multiplier;
+      return acc;
+    }, {} as any),
     opacity: BASE_TOKENS.opacity,
-    avatarSizes: BASE_TOKENS.avatarSizes,
+    avatarSizes: Object.keys(BASE_TOKENS.avatarSizes).reduce((acc, key) => {
+      acc[key as keyof typeof BASE_TOKENS.avatarSizes] = BASE_TOKENS.avatarSizes[key as keyof typeof BASE_TOKENS.avatarSizes] * multiplier;
+      return acc;
+    }, {} as any),
     borderRadius,
     borders: {
       ...BASE_TOKENS.borders,

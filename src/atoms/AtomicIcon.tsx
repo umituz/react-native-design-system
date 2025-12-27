@@ -110,7 +110,10 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
   const tokens = useAppDesignTokens();
 
   // Calculate size
-  const sizeInPixels = customSize ?? getIconSize(size);
+  const baseSize = customSize ?? size;
+  const sizeInPixels = typeof baseSize === 'number'
+    ? baseSize * tokens.spacingMultiplier
+    : (tokens.iconSizes as Record<string, number>)[baseSize] || (tokens.iconSizes as Record<string, number>).md;
 
   // Calculate color
   const iconColor = customColor

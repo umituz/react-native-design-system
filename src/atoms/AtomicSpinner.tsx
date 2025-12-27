@@ -81,8 +81,10 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  // Resolve size
-  const resolvedSize = typeof size === 'number' ? size : SIZE_MAP[size];
+  // Resolve size (scaled)
+  const baseSize = typeof size === 'number' ? size : SIZE_MAP[size];
+  const resolvedSize = baseSize * tokens.spacingMultiplier;
+  
   const activitySize = typeof size === 'number'
     ? (size >= 30 ? 'large' : 'small')
     : ACTIVITY_SIZE_MAP[size];
@@ -109,7 +111,7 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
   // Container styles
   const containerStyles: ViewStyle[] = [
     styles.container,
-    textPosition === 'right' && styles.containerRow,
+    textPosition === 'right' && { flexDirection: 'row' },
     fullContainer && styles.fullContainer,
     overlay && [styles.overlay, { backgroundColor: resolvedOverlayColor }],
   ].filter(Boolean) as ViewStyle[];
@@ -142,7 +144,9 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
           type="bodyMedium"
           style={[
             styles.text,
-            textPosition === 'right' ? styles.textRight : styles.textBottom,
+            textPosition === 'right' 
+              ? { marginLeft: 12 * tokens.spacingMultiplier }
+              : { marginTop: 12 * tokens.spacingMultiplier },
             { color: overlay ? '#FFFFFF' : tokens.colors.textSecondary },
           ]}
         >

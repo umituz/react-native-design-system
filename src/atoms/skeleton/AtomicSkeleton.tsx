@@ -65,7 +65,8 @@ const SkeletonItem: React.FC<{
   baseColor: string;
   highlightColor: string;
   disableAnimation: boolean;
-}> = ({ config, baseColor, highlightColor, disableAnimation }) => {
+  multiplier: number;
+}> = ({ config, baseColor, highlightColor, disableAnimation, multiplier }) => {
   const opacity = useSharedValue(0);
 
   useEffect(() => {
@@ -95,10 +96,10 @@ const SkeletonItem: React.FC<{
       style={[
         styles.skeleton,
         {
-          width: config.width as number | `${number}%` | undefined,
-          height: config.height,
-          borderRadius: config.borderRadius,
-          marginBottom: config.marginBottom,
+          width: typeof config.width === 'number' ? config.width * multiplier : config.width,
+          height: config.height ? config.height * multiplier : undefined,
+          borderRadius: config.borderRadius ? config.borderRadius * multiplier : undefined,
+          marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
           backgroundColor: baseColor,
         },
         animatedStyle,
@@ -129,6 +130,7 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
           baseColor={tokens.colors.surfaceSecondary}
           highlightColor={tokens.colors.border}
           disableAnimation={disableAnimation}
+          multiplier={tokens.spacingMultiplier}
         />
       ))}
     </View>

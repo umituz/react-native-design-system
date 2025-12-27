@@ -44,17 +44,17 @@ export const getPickerContainerStyles = (tokens: DesignTokens): PickerContainerS
         sm: {
             paddingHorizontal: tokens.spacing.sm,
             paddingVertical: tokens.spacing.xs,
-            minHeight: 36,
+            minHeight: 36 * tokens.spacingMultiplier,
         },
         md: {
             paddingHorizontal: tokens.spacing.md,
             paddingVertical: tokens.spacing.sm,
-            minHeight: 48,
+            minHeight: 48 * tokens.spacingMultiplier,
         },
         lg: {
             paddingHorizontal: tokens.spacing.lg,
             paddingVertical: tokens.spacing.md,
-            minHeight: 56,
+            minHeight: 56 * tokens.spacingMultiplier,
         },
     },
     state: {
@@ -73,9 +73,9 @@ export const getPickerLabelStyles = (tokens: DesignTokens): PickerLabelStyles =>
         marginBottom: tokens.spacing.xs,
     },
     size: {
-        sm: { fontSize: tokens.typography.bodySmall.fontSize },
-        md: { fontSize: tokens.typography.bodyMedium.fontSize },
-        lg: { fontSize: tokens.typography.bodyLarge.fontSize },
+        sm: { fontSize: tokens.typography.bodySmall.responsiveFontSize },
+        md: { fontSize: tokens.typography.bodyMedium.responsiveFontSize },
+        lg: { fontSize: tokens.typography.bodyLarge.responsiveFontSize },
     },
 });
 
@@ -85,9 +85,9 @@ export const getPickerValueStyles = (tokens: DesignTokens): PickerValueStyles =>
         flex: 1,
     },
     size: {
-        sm: { fontSize: tokens.typography.bodySmall.fontSize },
-        md: { fontSize: tokens.typography.bodyMedium.fontSize },
-        lg: { fontSize: tokens.typography.bodyLarge.fontSize },
+        sm: { fontSize: tokens.typography.bodySmall.responsiveFontSize },
+        md: { fontSize: tokens.typography.bodyMedium.responsiveFontSize },
+        lg: { fontSize: tokens.typography.bodyLarge.responsiveFontSize },
     },
 });
 
@@ -97,15 +97,15 @@ export const getPickerPlaceholderStyles = (tokens: DesignTokens): PickerPlacehol
         flex: 1,
     },
     size: {
-        sm: { fontSize: tokens.typography.bodySmall.fontSize },
-        md: { fontSize: tokens.typography.bodyMedium.fontSize },
-        lg: { fontSize: tokens.typography.bodyLarge.fontSize },
+        sm: { fontSize: tokens.typography.bodySmall.responsiveFontSize },
+        md: { fontSize: tokens.typography.bodyMedium.responsiveFontSize },
+        lg: { fontSize: tokens.typography.bodyLarge.responsiveFontSize },
     },
 });
 
 export const getPickerErrorStyles = (tokens: DesignTokens): TextStyle => ({
     color: tokens.colors.error,
-    fontSize: tokens.typography.bodySmall.fontSize,
+    fontSize: tokens.typography.bodySmall.responsiveFontSize,
     marginTop: tokens.spacing.xs,
 });
 
@@ -135,7 +135,7 @@ export const getModalHeaderStyles = (tokens: DesignTokens): ViewStyle => ({
 });
 
 export const getModalTitleStyles = (tokens: DesignTokens): TextStyle => ({
-    fontSize: tokens.typography.titleLarge.fontSize,
+    fontSize: tokens.typography.titleLarge.responsiveFontSize,
     fontWeight: '600',
     color: tokens.colors.onSurface,
 });
@@ -154,7 +154,7 @@ export const getSearchContainerStyles = (tokens: DesignTokens): ViewStyle => ({
 
 export const getSearchInputStyles = (tokens: DesignTokens): TextStyle => ({
     flex: 1,
-    fontSize: tokens.typography.bodyMedium.fontSize,
+    fontSize: tokens.typography.bodyMedium.responsiveFontSize,
     color: tokens.colors.onSurface,
     paddingVertical: 0,
 });
@@ -174,13 +174,13 @@ export const getOptionContainerStyles = (
 });
 
 export const getOptionTextStyles = (tokens: DesignTokens, selected: boolean): TextStyle => ({
-    fontSize: tokens.typography.bodyLarge.fontSize,
+    fontSize: tokens.typography.bodyLarge.responsiveFontSize,
     color: selected ? tokens.colors.primary : tokens.colors.onSurface,
     fontWeight: selected ? '600' : '400',
 });
 
 export const getOptionDescriptionStyles = (tokens: DesignTokens): TextStyle => ({
-    fontSize: tokens.typography.bodySmall.fontSize,
+    fontSize: tokens.typography.bodySmall.responsiveFontSize,
     color: tokens.colors.textSecondary,
     marginTop: tokens.spacing.xs,
 });
@@ -194,7 +194,7 @@ export const getEmptyStateStyles = (tokens: DesignTokens): ViewStyle => ({
 });
 
 export const getEmptyStateTextStyles = (tokens: DesignTokens): TextStyle => ({
-    fontSize: tokens.typography.bodyMedium.fontSize,
+    fontSize: tokens.typography.bodyMedium.responsiveFontSize,
     color: tokens.colors.textSecondary,
     textAlign: 'center',
 });
@@ -218,6 +218,6 @@ export const getChipStyles = (tokens: DesignTokens): ViewStyle => ({
 });
 
 export const getChipTextStyles = (tokens: DesignTokens): TextStyle => ({
-    fontSize: tokens.typography.bodySmall.fontSize,
+    fontSize: tokens.typography.bodySmall.responsiveFontSize,
     color: tokens.colors.onSurface,
 });

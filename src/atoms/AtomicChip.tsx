@@ -89,19 +89,19 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
     sm: {
       paddingHorizontal: tokens.spacing.sm,
       paddingVertical: tokens.spacing.xs,
-      fontSize: tokens.typography.bodySmall.fontSize,
+      fontSize: tokens.typography.bodySmall.responsiveFontSize,
       iconSize: 'xs' as const
     },
     md: {
       paddingHorizontal: tokens.spacing.md,
       paddingVertical: tokens.spacing.sm,
-      fontSize: tokens.typography.bodyMedium.fontSize,
+      fontSize: tokens.typography.bodyMedium.responsiveFontSize,
       iconSize: 'sm' as const
     },
     lg: {
       paddingHorizontal: tokens.spacing.md,
       paddingVertical: tokens.spacing.sm,
-      fontSize: tokens.typography.bodyLarge.fontSize,
+      fontSize: tokens.typography.bodyLarge.responsiveFontSize,
       iconSize: 'sm' as const
     },
   };
