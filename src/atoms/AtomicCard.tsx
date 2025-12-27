@@ -1,30 +1,41 @@
 /**
  * AtomicCard Component
- * 
+ *
  * A simple, styled card container component
  */
 
 import React from 'react';
-import { View, StyleSheet, type ViewStyle, type StyleProp } from 'react-native';
+import {
+  View,
+  Pressable,
+  StyleSheet,
+  type ViewStyle,
+  type StyleProp,
+  type GestureResponderEvent,
+} from 'react-native';
 import { useAppDesignTokens } from '../theme';
 
 export type AtomicCardVariant = 'elevated' | 'outlined' | 'filled';
 export type AtomicCardPadding = 'none' | 'sm' | 'md' | 'lg';
 
 export interface AtomicCardProps {
-    children: React.ReactNode;
-    variant?: AtomicCardVariant;
-    padding?: AtomicCardPadding;
-    style?: StyleProp<ViewStyle>;
-    testID?: string;
+  children: React.ReactNode;
+  variant?: AtomicCardVariant;
+  padding?: AtomicCardPadding;
+  style?: StyleProp<ViewStyle>;
+  testID?: string;
+  onPress?: (event: GestureResponderEvent) => void;
+  disabled?: boolean;
 }
 
 export const AtomicCard: React.FC<AtomicCardProps> = ({
-    children,
-    variant = 'elevated',
-    padding = 'md',
-    style,
-    testID,
+  children,
+  variant = 'elevated',
+  padding = 'md',
+  style,
+  testID,
+  onPress,
+  disabled,
 }) => {
     const tokens = useAppDesignTokens();
 
@@ -58,24 +69,36 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
         }
     };
 
+  const cardStyle = [
+    styles.card,
+    { borderRadius: tokens.borders.radius.md },
+    { padding: paddingValues[padding] },
+    getVariantStyle(),
+    style,
+  ];
+
+  if (onPress) {
     return (
-        <View
-            style={[
-                styles.card,
-                { borderRadius: tokens.borders.radius.md },
-                { padding: paddingValues[padding] },
-                getVariantStyle(),
-                style,
-            ]}
-            testID={testID}
-        >
-            {children}
-        </View>
+      <Pressable
+        style={cardStyle}
+        testID={testID}
+        onPress={onPress}
+        disabled={disabled}
+      >
+        {children}
+      </Pressable>
     );
+  }
+
+  return (
+    <View style={cardStyle} testID={testID}>
+      {children}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    card: {
-        overflow: 'hidden',
-    },
+  card: {
+    overflow: 'hidden',
+  },
 });
