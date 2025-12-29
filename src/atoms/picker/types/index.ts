@@ -30,8 +30,8 @@ export interface AtomicPickerProps {
   onChange: (value: string | string[]) => void;
   options: PickerOption[];
   label?: string;
-  /** Placeholder text - REQUIRED for i18n, pass translated string */
-  placeholder: string;
+  /** Placeholder text - pass translated string for i18n */
+  placeholder?: string;
   error?: string;
   disabled?: boolean;
   multiple?: boolean;
@@ -41,14 +41,14 @@ export interface AtomicPickerProps {
   color?: IconColor;
   size?: PickerSize;
   modalTitle?: string;
-  /** Empty state message - REQUIRED for i18n, pass translated string */
-  emptyMessage: string;
-  /** Search placeholder text - REQUIRED for i18n, pass translated string */
-  searchPlaceholder: string;
-  /** Clear button accessibility label - REQUIRED for i18n, pass translated string */
-  clearAccessibilityLabel: string;
-  /** Close button accessibility label - REQUIRED for i18n, pass translated string */
-  closeAccessibilityLabel: string;
+  /** Empty state message - pass translated string for i18n */
+  emptyMessage?: string;
+  /** Search placeholder text - pass translated string for i18n */
+  searchPlaceholder?: string;
+  /** Clear button accessibility label - pass translated string for i18n */
+  clearAccessibilityLabel?: string;
+  /** Close button accessibility label - pass translated string for i18n */
+  closeAccessibilityLabel?: string;
   style?: ViewStyle | ViewStyle[];
   labelStyle?: TextStyle | TextStyle[];
   testID?: string;

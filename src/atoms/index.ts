@@ -91,7 +91,20 @@ export {
 // Spinner
 export {
     AtomicSpinner,
+    AtomicSpinner as LoadingSpinner,
     type AtomicSpinnerProps,
     type SpinnerSize,
     type SpinnerColor,
 } from './AtomicSpinner';
+
+// Empty State
+export { EmptyState, type EmptyStateProps } from './EmptyState';
+
+// TextArea
+export { AtomicTextArea, type AtomicTextAreaProps } from './AtomicTextArea';
+
+// Switch
+export { AtomicSwitch, type AtomicSwitchProps } from './AtomicSwitch';
+
+// Touchable
+export { AtomicTouchable, type AtomicTouchableProps } from './AtomicTouchable';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { AtomicIcon } from './AtomicIcon';
 import { useAppDesignTokens } from '../theme';
@@ -15,6 +15,7 @@ export interface AtomicButtonProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
+  loading?: boolean;
   icon?: IconName;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -30,6 +31,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
   variant = 'primary',
   size = 'md',
   disabled = false,
+  loading = false,
   icon,
   fullWidth = false,
   style,
@@ -40,10 +42,12 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
   const tokens = useAppDesignTokens();
 
   const handlePress = () => {
-    if (!disabled) {
+    if (!disabled && !loading) {
       onPress();
     }
   };
+
+  const isDisabled = disabled || loading;
 
   // Size configurations
   const sizeConfig = {
@@ -166,7 +170,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
     },
     variantStyles.container,
     fullWidth ? styles.fullWidth : undefined,
-    disabled ? styles.disabled : undefined,
+    isDisabled ? styles.disabled : undefined,
     style,
   ];
 
@@ -176,7 +180,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
       fontWeight: '600',
     },
     variantStyles.text,
-    disabled ? styles.disabledText : undefined,
+    isDisabled ? styles.disabledText : undefined,
     textStyle,
   ];
 
@@ -189,11 +193,17 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
       style={containerStyle}
       onPress={handlePress}
       activeOpacity={activeOpacity}
-      disabled={disabled}
+      disabled={isDisabled}
       testID={testID}
     >
       <View style={styles.content}>
-        {showIcon ? (
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color={iconColor as string}
+            style={styles.icon}
+          />
+        ) : showIcon ? (
           <AtomicIcon
             name={icon}
             customSize={config.iconSize}
