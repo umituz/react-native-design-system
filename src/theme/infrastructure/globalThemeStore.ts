@@ -25,20 +25,20 @@
  * ```
  */
 
-import { create } from 'zustand';
+import { createStore } from '@umituz/react-native-storage';
 import type { ThemeMode } from '../core/ColorPalette';
 import type { CustomThemeColors } from '../core/CustomColors';
 
-interface GlobalThemeStore {
+interface GlobalThemeState {
   /** Current theme mode */
   themeMode: ThemeMode;
-
   /** Custom theme colors override */
   customColors?: CustomThemeColors;
+}
 
+interface GlobalThemeActions {
   /** Update theme mode (called by app when theme changes) */
   setThemeMode: (mode: ThemeMode) => void;
-
   /** Set custom theme colors (called by app when custom colors change) */
   setCustomColors: (colors?: CustomThemeColors) => void;
 }
@@ -49,20 +49,26 @@ interface GlobalThemeStore {
  * This is a MINIMAL store - app has the real theme logic.
  * Design system just mirrors the current theme for its components.
  */
-export const useDesignSystemTheme = create<GlobalThemeStore>()((set: any, get: any) => ({
-  themeMode: 'dark',
-  customColors: undefined,
-  setThemeMode: (mode: ThemeMode) => {
-    // Only update if mode actually changed to prevent unnecessary re-renders
-    const currentMode = get().themeMode;
-    if (currentMode !== mode) {
-      set({ themeMode: mode });
-    }
+export const useDesignSystemTheme = createStore<GlobalThemeState, GlobalThemeActions>({
+  name: 'design-system-theme',
+  initialState: {
+    themeMode: 'dark',
+    customColors: undefined,
   },
-  setCustomColors: (colors?: CustomThemeColors) => {
-    set({ customColors: colors });
-  },
-}));
+  persist: false,
+  actions: (set, get) => ({
+    setThemeMode: (mode: ThemeMode) => {
+      // Only update if mode actually changed to prevent unnecessary re-renders
+      const currentMode = get().themeMode;
+      if (currentMode !== mode) {
+        set({ themeMode: mode });
+      }
+    },
+    setCustomColors: (colors?: CustomThemeColors) => {
+      set({ customColors: colors });
+    },
+  }),
+});
 
 // Re-export ThemeMode for backward compatibility
 export type { ThemeMode };

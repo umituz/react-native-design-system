@@ -28,15 +28,8 @@ export class ThemeStorage {
         return value as ThemeMode;
       }
 
-      if (__DEV__) {
-        console.warn('[ThemeStorage] Invalid theme mode value stored:', value);
-      }
       return null;
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      if (__DEV__) {
-        console.error('[ThemeStorage] Error getting theme mode:', errorMessage);
-      }
+    } catch {
       // Return null instead of throwing to prevent app crashes
       return null;
     }
@@ -55,9 +48,6 @@ export class ThemeStorage {
       await AsyncStorage.setItem(STORAGE_KEY, mode);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      if (__DEV__) {
-        console.error('[ThemeStorage] Error saving theme mode:', errorMessage);
-      }
       // Re-throw validation errors but swallow storage errors to prevent app crashes
       if (errorMessage.includes('Invalid theme mode')) {
         throw error;
@@ -71,11 +61,7 @@ export class ThemeStorage {
   static async clearThemeMode(): Promise<void> {
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      if (__DEV__) {
-        console.error('[ThemeStorage] Error clearing theme mode:', errorMessage);
-      }
+    } catch {
       // Don't throw - clearing storage is not critical
     }
   }

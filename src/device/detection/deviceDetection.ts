@@ -13,20 +13,15 @@ import { validateScreenDimensions } from '../../responsive/validation';
  * Helper function for device detection with fallback
  * @param operation - Operation to perform
  * @param fallback - Fallback value if operation fails
- * @param warningMessage - Warning message for __DEV__
  * @returns Operation result or fallback
  */
 const withDeviceDetectionFallback = <T>(
   operation: () => T,
-  fallback: T,
-  warningMessage: string
+  fallback: T
 ): T => {
   try {
     return operation();
   } catch {
-    if (__DEV__) {
-      console.warn(`[DeviceDetection] ${warningMessage}`);
-    }
     return fallback;
   }
 };
@@ -53,9 +48,6 @@ export const getScreenDimensions = () => {
     validateScreenDimensions(width, height);
     return { width, height };
   } catch {
-    if (__DEV__) {
-      console.warn('[getScreenDimensions] Invalid screen dimensions detected, using fallback values');
-    }
     // Fallback to safe default dimensions
     return { width: 414, height: 896 };
   }
@@ -71,8 +63,7 @@ export const isSmallPhone = (): boolean => {
       const { width } = getScreenDimensions();
       return width <= DEVICE_BREAKPOINTS.SMALL_PHONE;
     },
-    false,
-    'Error detecting device type, assuming standard phone'
+    false
   );
 };
 
@@ -86,8 +77,7 @@ export const isTablet = (): boolean => {
       const { width } = getScreenDimensions();
       return width >= DEVICE_BREAKPOINTS.SMALL_TABLET;
     },
-    false,
-    'Error detecting device type, assuming phone'
+    false
   );
 };
 
@@ -101,8 +91,7 @@ export const isLandscape = (): boolean => {
       const { width, height } = getScreenDimensions();
       return width > height;
     },
-    false,
-    'Error detecting orientation, assuming portrait'
+    false
   );
 };
 
@@ -125,15 +114,14 @@ export const getDeviceType = (): DeviceType => {
 
       return DeviceType.TABLET;
     },
-    DeviceType.MEDIUM_PHONE,
-    'Error detecting device type, assuming medium phone'
+    DeviceType.MEDIUM_PHONE
   );
 };
 
 /**
  * Responsive spacing multiplier
  * Returns a multiplier for spacing based on device size
- * 
+ *
  * @returns Spacing multiplier (0.9-1.2)
  */
 export const getSpacingMultiplier = (): number => {
@@ -149,7 +137,6 @@ export const getSpacingMultiplier = (): number => {
 
       return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD;
     },
-    LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD,
-    'Error calculating spacing multiplier, using fallback'
+    LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD
   );
 };

@@ -28,10 +28,7 @@ export class LabelProcessor {
       try {
         const processedLabel = getLabel(label);
         result = typeof processedLabel === "string" ? processedLabel : label;
-      } catch (error) {
-        if (__DEV__) {
-          console.error(`[LabelProcessor] Error processing label: ${label}`, error);
-        }
+      } catch {
         result = label;
       }
     }
@@ -44,12 +41,6 @@ export class LabelProcessor {
       }
     }
     this.labelCache.set(cacheKey, result);
-    
-    // Log cache performance in development
-    if (__DEV__ && (this.cacheHits + this.cacheMisses) % 100 === 0) {
-      const hitRate = (this.cacheHits / (this.cacheHits + this.cacheMisses)) * 100;
-      console.log(`[LabelProcessor] Cache hit rate: ${hitRate.toFixed(1)}%`);
-    }
     
     return result;
   }

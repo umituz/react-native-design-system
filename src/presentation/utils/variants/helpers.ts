@@ -14,9 +14,6 @@ export function conditionalStyle<T extends Style>(
   trueStyle: T,
   falseStyle?: T
 ): T | undefined {
-  if (__DEV__) {
-    console.log('[Design System] Conditional style applied:', condition);
-  }
   return condition ? trueStyle : falseStyle;
 }
 
@@ -25,9 +22,6 @@ export function responsiveStyle<T extends Style>(
   medium?: T,
   large?: T
 ): T {
-  if (__DEV__) {
-    console.log('[Design System] Responsive style - using small breakpoint');
-  }
   void medium;
   void large;
   return small;

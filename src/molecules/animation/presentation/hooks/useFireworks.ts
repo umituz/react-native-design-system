@@ -38,9 +38,7 @@ export const useFireworks = (config: FireworksConfig) => {
   } = config;
 
   if (!colors || colors.length === 0) {
-    if (__DEV__) {
-      console.warn('useFireworks: colors array is required and cannot be empty');
-    }
+    // Return no-op when colors not provided
     return { particles: [], trigger: () => { }, isActive: false };
   }
 
@@ -104,7 +102,8 @@ export const useFireworks = (config: FireworksConfig) => {
 
     const newParticles: ParticleConfig[] = [];
     for (let i = 0; i < particleCount; i++) {
-      const color = colors[Math.floor(Math.random() * colors.length)];
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      const color = colors[colorIndex] ?? colors[0] ?? '#FFFFFF';
       newParticles.push(createParticle(centerX, centerY, color));
     }
 

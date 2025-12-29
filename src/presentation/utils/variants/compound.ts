@@ -18,10 +18,6 @@ export function createAdvancedVariants<T extends Record<string, Record<string, S
   return (props: VariantProps<T> = {}): Style => {
     let result = baseVariantFn(props);
 
-    if (__DEV__) {
-      console.log('[Design System] Creating advanced variant with compound conditions');
-    }
-
     if (config.compoundVariants) {
       config.compoundVariants.forEach(compound => {
         const conditionsMet = Object.entries(compound.conditions).every(

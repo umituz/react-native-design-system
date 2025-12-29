@@ -18,12 +18,6 @@ jest.mock('@umituz/react-native-design-system-theme', () => ({
   }),
 }));
 
-// Mock Lucide icons
-jest.mock('lucide-react-native', () => ({
-  Settings: () => 'Settings-Icon',
-  Heart: () => 'Heart-Icon',
-}));
-
 describe('AtomicIcon', () => {
   it('renders with default props', () => {
     const { getByTestId } = render(

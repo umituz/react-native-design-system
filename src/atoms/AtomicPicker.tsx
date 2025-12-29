@@ -73,7 +73,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
   onChange,
   options,
   label,
-  placeholder = 'Select...',
+  placeholder,
   error,
   disabled = false,
   multiple = false,
@@ -82,9 +82,10 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
   autoClose = true,
   size = 'md',
   modalTitle,
-  emptyMessage = 'No options available',
-  clearAccessibilityLabel = 'Clear selection',
-  closeAccessibilityLabel = 'Close picker',
+  emptyMessage,
+  searchPlaceholder,
+  clearAccessibilityLabel,
+  closeAccessibilityLabel,
   style,
   labelStyle,
   testID,
@@ -294,7 +295,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
         filteredOptions={filteredOptions}
         multiple={multiple}
         emptyMessage={emptyMessage}
-        searchPlaceholder="Search..."
+        searchPlaceholder={searchPlaceholder}
         closeAccessibilityLabel={closeAccessibilityLabel}
         testID={testID}
       />

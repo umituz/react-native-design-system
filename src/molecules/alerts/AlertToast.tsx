@@ -17,7 +17,7 @@ interface AlertToastProps {
 }
 
 export function AlertToast({ alert }: AlertToastProps) {
-    const dismissAlert = useAlertStore((state) => state.dismissAlert);
+    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const tokens = useAppDesignTokens();
 
     const handleDismiss = () => {
@@ -48,7 +48,7 @@ export function AlertToast({ alert }: AlertToastProps) {
                 return { backgroundColor: tokens.colors.backgroundPrimary };
             case 'secondary':
                 return {
-                    backgroundColor: 'transparent',
+                    backgroundColor: undefined,
                     borderWidth: 1,
                     borderColor: tokens.colors.textInverse,
                 };

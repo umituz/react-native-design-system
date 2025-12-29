@@ -38,6 +38,12 @@ import {
   getEmptyStateTextStyles,
 } from '../styles/pickerStyles';
 
+/**
+ * PickerModalProps
+ *
+ * IMPORTANT: String props are REQUIRED for proper i18n support.
+ * Pass translated strings from your app's i18n system.
+ */
 interface PickerModalProps {
   visible: boolean;
   onClose: () => void;
@@ -50,9 +56,12 @@ interface PickerModalProps {
   onSearchChange: (query: string) => void;
   filteredOptions: PickerOption[];
   multiple?: boolean;
-  emptyMessage?: string;
-  searchPlaceholder?: string;
-  closeAccessibilityLabel?: string;
+  /** Empty state message - REQUIRED for i18n */
+  emptyMessage: string;
+  /** Search placeholder - REQUIRED for i18n */
+  searchPlaceholder: string;
+  /** Close accessibility label - REQUIRED for i18n */
+  closeAccessibilityLabel: string;
   testID?: string;
 }
 
@@ -66,9 +75,9 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   searchQuery,
   onSearchChange,
   filteredOptions,
-  emptyMessage = 'No options available',
-  searchPlaceholder = 'Search...',
-  closeAccessibilityLabel = 'Close picker',
+  emptyMessage,
+  searchPlaceholder,
+  closeAccessibilityLabel,
   testID,
 }) => {
   const tokens = useAppDesignTokens();

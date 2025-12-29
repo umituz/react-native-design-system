@@ -22,14 +22,12 @@ export interface StackNavigatorProps<T extends ParamListBase> {
 export function StackNavigator<T extends ParamListBase>({ config }: StackNavigatorProps<T>) {
     const tokens = useAppDesignTokens();
 
-    // Validate configuration
-    if (__DEV__) {
-        try {
-            NavigationValidator.validateScreens(config.screens, "stack");
-            NavigationValidator.validateInitialRoute(config.initialRouteName, config.screens);
-        } catch (error) {
-            if (__DEV__) console.error('[StackNavigator] Configuration validation failed:', error);
-        }
+    // Validate configuration silently
+    try {
+        NavigationValidator.validateScreens(config.screens, "stack");
+        NavigationValidator.validateInitialRoute(config.initialRouteName, config.screens);
+    } catch {
+        // Silent validation failure
     }
 
     const { screens } = config;
@@ -55,7 +53,6 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
     }), [tokens]);
 
     if (screens.length === 0) {
-        if (__DEV__) console.warn('[StackNavigator] No screens found');
         return null;
     }
 

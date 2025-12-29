@@ -18,10 +18,6 @@ export function createVariants<T extends Record<string, Record<string, Style>>>(
   return (props: VariantProps<T> = {}): Style => {
     let result: Style = { ...config.base };
 
-    if (__DEV__) {
-      console.log('[Design System] Creating variant with props:', props);
-    }
-
     // Apply default variants
     if (config.defaultVariants) {
       Object.entries(config.defaultVariants).forEach(([variantKey, defaultValue]) => {

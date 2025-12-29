@@ -129,7 +129,7 @@ export const Avatar: React.FC<AvatarProps> = ({
             styles.initials,
             {
               fontSize: config.fontSize,
-              color: '#FFFFFF',
+              color: tokens.colors.textInverse,
             },
           ]}
         >
@@ -143,7 +143,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       <AtomicIcon
         name={icon}
         customSize={config.iconSize}
-        customColor="#FFFFFF"
+        customColor={tokens.colors.textInverse}
       />
     );
   };

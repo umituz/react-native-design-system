@@ -50,9 +50,7 @@ export const AnimationThemeProvider: React.FC<AnimationThemeProviderProps> = ({
 export const useAnimationTheme = (): ThemeContext => {
   const context = useContext(ThemeContext);
   if (!context) {
-    if (__DEV__) {
-      console.warn('useAnimationTheme must be used within AnimationThemeProvider');
-    }
+    // Return default theme if used outside provider
     return {
       theme: DEFAULT_ANIMATION_THEME,
       setTheme: () => {},

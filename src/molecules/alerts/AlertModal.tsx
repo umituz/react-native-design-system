@@ -14,7 +14,7 @@ interface AlertModalProps {
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
-    const dismissAlert = useAlertStore((state) => state.dismissAlert);
+    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const tokens = useAppDesignTokens();
 
     const handleClose = () => {

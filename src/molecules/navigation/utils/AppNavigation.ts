@@ -31,8 +31,6 @@ export class AppNavigation {
     static navigate(name: string, params?: object): void {
         if (this.navigationRef?.isReady()) {
             this.navigationRef.navigate(name, params);
-        } else if (__DEV__) {
-            console.warn('[AppNavigation] Navigation ref is not ready. Call setRef() first.');
         }
     }
 

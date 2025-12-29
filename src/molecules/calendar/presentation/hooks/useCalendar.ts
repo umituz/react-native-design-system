@@ -84,7 +84,7 @@ export const useCalendar = (): UseCalendarReturn => {
     isLoading,
     error,
     actions,
-  } = useCalendarStore((state) => state);
+  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
 
   // Load events on mount
   useEffect(() => {
@@ -133,7 +133,7 @@ export const useCalendarNavigation = () => {
     selectedDate,
     currentMonth,
     actions: { setSelectedDate, navigateMonth, goToToday, setCurrentMonth },
-  } = useCalendarStore((state) => state);
+  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
 
   return {
     selectedDate,
@@ -163,7 +163,7 @@ export const useCalendarEvents = () => {
       uncompleteEvent,
       clearError,
     },
-  } = useCalendarStore((state) => state);
+  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
 
   return {
     events,

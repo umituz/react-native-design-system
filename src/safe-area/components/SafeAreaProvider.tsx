@@ -36,16 +36,6 @@ export const SafeAreaProvider: React.FC<SafeAreaProviderProps> = ({
 }) => {
   const mergedConfig = { ...DEFAULT_CONFIG, ...config };
 
-  if (__DEV__) {
-    if (config) {
-      Object.entries(config).forEach(([key, value]) => {
-        if (typeof value !== 'number' && typeof value !== 'boolean') {
-          console.warn(`SafeAreaProvider: ${key} must be a number or boolean, got ${typeof value}`);
-        }
-      });
-    }
-  }
-
   return (
     <SafeAreaConfigContext.Provider value={mergedConfig}>
       <NativeSafeAreaProvider {...nativeProps}>

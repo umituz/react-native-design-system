@@ -165,9 +165,11 @@ export class AvatarUtils {
 
     if (words.length >= 2) {
       // Full name: First letter of first + first letter of last
-      const first = words[0][0];
-      const last = words[words.length - 1][0];
-      return (first + last).toLocaleUpperCase('tr-TR');
+      const firstWord = words[0] ?? '';
+      const lastWord = words[words.length - 1] ?? '';
+      const first = firstWord[0] ?? '';
+      const last = lastWord[0] ?? '';
+      return (first + last).toLocaleUpperCase('tr-TR') || '?';
     } else {
       // Single word: First 2 letters
       return trimmed.slice(0, 2).toLocaleUpperCase('tr-TR');

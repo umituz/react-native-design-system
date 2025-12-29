@@ -2,21 +2,30 @@
  * Alert Store
  */
 
-import { create } from 'zustand';
+import { createStore } from '@umituz/react-native-storage';
 import { Alert } from './AlertTypes';
 
 interface AlertState {
     alerts: Alert[];
+}
+
+interface AlertActions {
     addAlert: (alert: Alert) => void;
     dismissAlert: (id: string) => void;
     clearAlerts: () => void;
 }
 
-export const useAlertStore = create<AlertState>((set) => ({
-    alerts: [],
-    addAlert: (alert) => set((state) => ({ alerts: [...state.alerts, alert] })),
-    dismissAlert: (id) => set((state) => ({
-        alerts: state.alerts.filter((a) => a.id !== id)
-    })),
-    clearAlerts: () => set({ alerts: [] }),
-}));
+export const useAlertStore = createStore<AlertState, AlertActions>({
+    name: 'alert-store',
+    initialState: {
+        alerts: [],
+    },
+    persist: false,
+    actions: (set, get) => ({
+        addAlert: (alert: Alert) => set({ alerts: [...get().alerts, alert] }),
+        dismissAlert: (id: string) => set({
+            alerts: get().alerts.filter((a: Alert) => a.id !== id)
+        }),
+        clearAlerts: () => set({ alerts: [] }),
+    }),
+});

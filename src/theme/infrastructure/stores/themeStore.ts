@@ -10,7 +10,7 @@
  * - Syncs with design system global theme store
  */
 
-import { create } from 'zustand';
+import { createStore } from '@umituz/react-native-storage';
 import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
 import { useDesignSystemTheme } from '../globalThemeStore';
@@ -21,6 +21,9 @@ interface ThemeState {
   themeMode: ThemeMode;
   isDark: boolean;
   isInitialized: boolean;
+}
+
+interface ThemeActions {
   setThemeMode: (mode: ThemeMode) => Promise<void>;
   toggleTheme: () => Promise<void>;
   initialize: () => Promise<void>;
@@ -39,66 +42,70 @@ interface ThemeState {
  * };
  * ```
  */
-export const useTheme = create<ThemeState>()((set: any, get: any) => ({
-  theme: darkTheme,
-  themeMode: 'dark',
-  isDark: true,
-  isInitialized: false,
+export const useTheme = createStore<ThemeState, ThemeActions>({
+  name: 'theme-store',
+  initialState: {
+    theme: darkTheme,
+    themeMode: 'dark',
+    isDark: true,
+    isInitialized: false,
+  },
+  persist: false,
+  actions: (set, get) => ({
+    initialize: async () => {
+      try {
+        const savedMode = await ThemeStorage.getThemeMode();
+        if (savedMode) {
+          const theme = savedMode === 'light' ? lightTheme : darkTheme;
+          set({
+            themeMode: savedMode,
+            theme,
+            isDark: savedMode === 'dark',
+            isInitialized: true,
+          });
 
-  initialize: async () => {
-    try {
-      const savedMode = await ThemeStorage.getThemeMode();
-      if (savedMode) {
-        const theme = savedMode === 'light' ? lightTheme : darkTheme;
-        set({
-          themeMode: savedMode,
-          theme,
-          isDark: savedMode === 'dark',
-          isInitialized: true,
-        });
-
-        // Sync with design system global theme
-        useDesignSystemTheme.getState().setThemeMode(savedMode);
-      } else {
-        // No saved mode - use default 'dark' and sync to design system store
+          // Sync with design system global theme
+          useDesignSystemTheme.getState().setThemeMode(savedMode);
+        } else {
+          // No saved mode - use default 'dark' and sync to design system store
+          set({ isInitialized: true });
+          // Ensure design system store is synced even if no saved mode exists
+          useDesignSystemTheme.getState().setThemeMode('dark');
+        }
+      } catch {
+        // Silent failure - still mark as initialized to prevent blocking
         set({ isInitialized: true });
-        // Ensure design system store is synced even if no saved mode exists
+        // Ensure design system store is synced even on error
         useDesignSystemTheme.getState().setThemeMode('dark');
       }
-    } catch (error) {
-      if (__DEV__) console.error('[ThemeStore] Initialization error:', error);
-      // Silent failure - still mark as initialized to prevent blocking
-      set({ isInitialized: true });
-      // Ensure design system store is synced even on error
-      useDesignSystemTheme.getState().setThemeMode('dark');
-    }
-  },
+    },
 
-  setThemeMode: async (mode: ThemeMode) => {
-    try {
-      const theme = mode === 'light' ? lightTheme : darkTheme;
+    setThemeMode: async (mode: ThemeMode) => {
+      try {
+        const theme = mode === 'light' ? lightTheme : darkTheme;
 
-      set({
-        themeMode: mode,
-        theme,
-        isDark: mode === 'dark',
-      });
+        set({
+          themeMode: mode,
+          theme,
+          isDark: mode === 'dark',
+        });
 
-      await ThemeStorage.setThemeMode(mode);
+        await ThemeStorage.setThemeMode(mode);
 
-      // Sync with design system global theme
-      useDesignSystemTheme.getState().setThemeMode(mode);
-    } catch (error) {
-      if (__DEV__) console.error('[ThemeStore] Error setting theme mode:', error);
-    }
-  },
+        // Sync with design system global theme
+        useDesignSystemTheme.getState().setThemeMode(mode);
+      } catch {
+        // Silent failure
+      }
+    },
 
-  toggleTheme: async () => {
-    const { themeMode, setThemeMode } = get();
-    const newMode: ThemeMode = themeMode === 'light' ? 'dark' : 'light';
-    await setThemeMode(newMode);
-  },
-}));
+    toggleTheme: async () => {
+      const { themeMode, setThemeMode } = get();
+      const newMode: ThemeMode = themeMode === 'light' ? 'dark' : 'light';
+      await setThemeMode(newMode);
+    },
+  }),
+});
 
 
 

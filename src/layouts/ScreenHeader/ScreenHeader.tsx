@@ -74,9 +74,8 @@ const ScreenHeaderBackButton: React.FC<{
   const handleBackPress = React.useCallback(() => {
     if (onBackPress) {
       onBackPress();
-    } else if (__DEV__) {
-      console.warn('ScreenHeader: onBackPress is required when back button is visible');
     }
+    // If no onBackPress provided, do nothing silently
   }, [onBackPress]);
 
   if (hideBackButton) return null;
@@ -88,7 +87,7 @@ const ScreenHeaderBackButton: React.FC<{
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         testID={`${testID}-back-button`}
       >
-        <AtomicIcon name={backIconName || 'ArrowLeft'} color={backIconColor} />
+        <AtomicIcon name={backIconName || 'arrow-back'} color={backIconColor} />
       </TouchableOpacity>
     </View>
   );
@@ -132,7 +131,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   hideBackButton = false,
   style,
   testID = 'screen-header',
-  backIconName = 'ArrowLeft',
+  backIconName = 'arrow-back',
   backIconColor = 'primary',
 }) => {
   const tokens = useAppDesignTokens();

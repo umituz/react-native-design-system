@@ -14,7 +14,8 @@ export class DateUtilities {
    * Format date to string (YYYY-MM-DD)
    */
   static formatDateToString(date: Date): string {
-    return date.toISOString().split('T')[0];
+    const parts = date.toISOString().split('T');
+    return parts[0] ?? '';
   }
 
   /**
@@ -91,7 +92,10 @@ export class DateUtilities {
    * Parse date from string (YYYY-MM-DD)
    */
   static parseDate(dateString: string): Date {
-    const [year, month, day] = dateString.split('-').map(Number);
+    const parts = dateString.split('-').map(Number);
+    const year = parts[0] ?? 0;
+    const month = parts[1] ?? 1;
+    const day = parts[2] ?? 1;
     return new Date(year, month - 1, day);
   }
 

@@ -36,10 +36,8 @@ export class NavigationCleanupManager {
       unsubscribers.forEach(unsubscribe => {
         try {
           unsubscribe();
-        } catch (error) {
-          if (__DEV__) {
-            console.warn('[NavigationCleanupManager] Error during cleanup:', error);
-          }
+        } catch {
+          // Silent cleanup error handling
         }
       });
     };
@@ -52,10 +50,8 @@ export class NavigationCleanupManager {
     return () => {
       try {
         unsubscribe();
-      } catch (error) {
-        if (__DEV__) {
-          console.warn('[NavigationCleanupManager] Error during cleanup:', error);
-        }
+      } catch {
+        // Silent cleanup error handling
       }
     };
   }

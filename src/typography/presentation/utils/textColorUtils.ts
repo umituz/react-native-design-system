@@ -123,9 +123,6 @@ class MaterialColorMapper implements ColorMapper {
         return tokens.colors.textSecondary;
 
       default:
-        if (__DEV__) {
-          console.warn(`Unknown color variant: ${color}`);
-        }
         return tokens.colors.textPrimary;
     }
   }

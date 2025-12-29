@@ -7,9 +7,6 @@ export class NavigationValidator {
     }
 
     if (screens.length === 0) {
-      if (__DEV__) {
-        console.warn(`[NavigationValidator] No screens provided for ${type} navigator`);
-      }
       return;
     }
 
@@ -43,11 +40,8 @@ export class NavigationValidator {
           }
         }
 
-        if (tabScreen.icon !== undefined && (typeof tabScreen.icon !== "string" || tabScreen.icon.trim() === "")) {
-          if (__DEV__) {
-            console.warn(`[NavigationValidator] Tab screen '${screen.name}' has invalid icon, it will be ignored`);
-          }
-        }
+        // Invalid icon check - silently handled
+        void (tabScreen.icon !== undefined && (typeof tabScreen.icon !== "string" || tabScreen.icon.trim() === ""));
       }
     });
   }
@@ -55,9 +49,6 @@ export class NavigationValidator {
   static validateInitialRoute(initialRouteName: string | undefined, screens: TabScreen[] | StackScreen[]): void {
     if (initialRouteName && !screens.find(screen => screen.name === initialRouteName)) {
       const error = `Initial route '${initialRouteName}' not found in screens. Available screens: ${screens.map(s => s.name).join(", ")}`;
-      if (__DEV__) {
-        console.error(`[NavigationValidator] ${error}`);
-      }
       throw new Error(error);
     }
   }

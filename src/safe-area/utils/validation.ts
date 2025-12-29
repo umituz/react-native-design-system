@@ -39,33 +39,9 @@ export const validateNumericInput = (
   return isValid;
 };
 
-// Throttled console warning to prevent spam
-// Uses requestAnimationFrame for better performance
-const warningTimes = new Map<string, number>();
-const WARNING_THROTTLE = 1000; // 1 second
-
-export const throttledWarn = (message: string): void => {
-  if (!__DEV__) {
-    return;
-  }
-  
-  const now = Date.now();
-  const lastTime = warningTimes.get(message) || 0;
-  
-  if (now - lastTime > WARNING_THROTTLE) {
-    console.warn(message);
-    warningTimes.set(message, now);
-    
-    // Clean up old entries to prevent memory leaks
-    if (warningTimes.size > 50) {
-      const cutoffTime = now - WARNING_THROTTLE * 10;
-      for (const [key, time] of warningTimes.entries()) {
-        if (time < cutoffTime) {
-          warningTimes.delete(key);
-        }
-      }
-    }
-  }
+export const throttledWarn = (_message: string): void => {
+  // Silent validation - no console output in production
+  void _message;
 };
 
 // Cleanup function to clear validation cache

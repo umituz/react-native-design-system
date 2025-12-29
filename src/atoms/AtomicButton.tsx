@@ -41,9 +41,6 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
 
   const handlePress = () => {
     if (!disabled) {
-      if (__DEV__) {
-        console.log('[AtomicButton] Button pressed:', { title, variant, disabled });
-      }
       onPress();
     }
   };
@@ -115,7 +112,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
         return {
           container: {
             ...baseStyle,
-            backgroundColor: 'transparent',
+            backgroundColor: undefined,
             borderWidth: 1,
             borderColor: tokens.colors.border,
           },
@@ -129,7 +126,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
         return {
           container: {
             ...baseStyle,
-            backgroundColor: 'transparent',
+            backgroundColor: undefined,
           },
           text: {
             ...baseTextStyle,

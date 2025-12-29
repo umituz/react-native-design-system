@@ -31,16 +31,13 @@ export interface CustomThemeColors {
  */
 export const validateCustomColors = (customColors: CustomThemeColors): boolean => {
   const colorValues = Object.values(customColors).filter(Boolean) as string[];
-  
+
   for (const color of colorValues) {
     if (!isValidHexColor(color)) {
-      if (__DEV__) {
-        console.warn('[validateCustomColors] Invalid hex color:', color);
-      }
       return false;
     }
   }
-  
+
   return true;
 };
 
@@ -60,9 +57,6 @@ export const applyCustomColors = (
 
   // Validate custom colors
   if (!validateCustomColors(customColors)) {
-    if (__DEV__) {
-      console.error('[applyCustomColors] Invalid custom colors provided, using defaults');
-    }
     return palette;
   }
 

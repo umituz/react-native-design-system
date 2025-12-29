@@ -110,9 +110,10 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
 
   // Calculate size
   const baseSize = customSize ?? size;
-  const sizeInPixels = typeof baseSize === 'number'
+  const iconSizesMap = tokens.iconSizes as Record<string, number>;
+  const sizeInPixels: number = typeof baseSize === 'number'
     ? baseSize * tokens.spacingMultiplier
-    : (tokens.iconSizes as Record<string, number>)[baseSize] || (tokens.iconSizes as Record<string, number>).md;
+    : iconSizesMap[baseSize] ?? iconSizesMap['md'] ?? 24;
 
   // Calculate color
   const iconColor = customColor
@@ -121,16 +122,9 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
       ? getSemanticColor(color, tokens)
       : tokens.colors.textPrimary;
 
-  // Validate icon
+  // Validate icon - use fallback silently if invalid
   const isValidIcon = name in Ionicons.glyphMap;
   const iconName = isValidIcon ? name : FALLBACK_ICON;
-
-  if (__DEV__ && !isValidIcon) {
-    console.warn(
-      `[AtomicIcon] Invalid icon name: "${name}". Using fallback icon "${FALLBACK_ICON}". ` +
-      `Available icons: https://icons.expo.fyi/`
-    );
-  }
 
   const iconElement = (
     <Ionicons

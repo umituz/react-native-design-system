@@ -28,7 +28,6 @@ export class ClipboardUtils {
         try {
             await Clipboard.setStringAsync(text);
         } catch (error) {
-            console.error('[ClipboardUtils] Failed to copy to clipboard:', error);
             throw error;
         }
     }
@@ -40,7 +39,6 @@ export class ClipboardUtils {
         try {
             return await Clipboard.getStringAsync();
         } catch (error) {
-            console.error('[ClipboardUtils] Failed to get from clipboard:', error);
             throw error;
         }
     }
@@ -51,8 +49,7 @@ export class ClipboardUtils {
     static async hasContent(): Promise<boolean> {
         try {
             return await Clipboard.hasStringAsync();
-        } catch (error) {
-            console.error('[ClipboardUtils] Failed to check clipboard:', error);
+        } catch {
             return false;
         }
     }
@@ -64,7 +61,6 @@ export class ClipboardUtils {
         try {
             await Clipboard.setStringAsync('');
         } catch (error) {
-            console.error('[ClipboardUtils] Failed to clear clipboard:', error);
             throw error;
         }
     }

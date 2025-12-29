@@ -27,16 +27,10 @@ export const isValidHexColor = (hexColor: string): boolean => {
  */
 export const withAlpha = (hexColor: string, alpha: number): string => {
   if (!isValidHexColor(hexColor)) {
-    if (__DEV__) {
-      console.warn('[withAlpha] Invalid hex color format:', hexColor);
-    }
     return hexColor;
   }
 
   if (typeof alpha !== 'number' || alpha < 0 || alpha > 1) {
-    if (__DEV__) {
-      console.warn('[withAlpha] Invalid alpha value, must be 0-1:', alpha);
-    }
     return hexColor;
   }
 

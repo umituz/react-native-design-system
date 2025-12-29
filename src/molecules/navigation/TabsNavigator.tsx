@@ -24,18 +24,15 @@ export function TabsNavigator<T extends ParamListBase>({
 }: TabsNavigatorProps<T>) {
     const tokens = useAppDesignTokens();
 
-    // Validate configuration
-    if (__DEV__) {
-        try {
-            NavigationValidator.validateScreens(config.screens, "tab");
-            NavigationValidator.validateInitialRoute(
-                config.initialRouteName,
-                config.screens
-            );
-        } catch (error) {
-            if (__DEV__)
-                console.error("[TabsNavigator] Configuration validation failed:", error);
-        }
+    // Validate configuration silently
+    try {
+        NavigationValidator.validateScreens(config.screens, "tab");
+        NavigationValidator.validateInitialRoute(
+            config.initialRouteName,
+            config.screens
+        );
+    } catch {
+        // Silent validation failure
     }
 
     // Memoize filtered screens
@@ -74,7 +71,6 @@ export function TabsNavigator<T extends ParamListBase>({
     );
 
     if (visibleScreens.length === 0) {
-        if (__DEV__) console.warn("[TabsNavigator] No visible screens found");
         return null;
     }
 

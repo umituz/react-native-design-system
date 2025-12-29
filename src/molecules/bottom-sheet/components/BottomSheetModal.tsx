@@ -1,5 +1,3 @@
-declare const __DEV__: boolean;
-
 import React, { forwardRef, useCallback, useMemo, useImperativeHandle, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import {
@@ -78,10 +76,6 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
   useImperativeHandle(ref, () => ({
     present: () => {
-      if (__DEV__) {
-        console.log('[BottomSheetModal] present() called');
-        console.log('[BottomSheetModal] modalRef.current:', modalRef.current);
-      }
       modalRef.current?.present();
     },
     dismiss: () => modalRef.current?.dismiss(),

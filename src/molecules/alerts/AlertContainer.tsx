@@ -10,22 +10,22 @@ import { useAlertStore } from './AlertStore';
 import { AlertToast } from './AlertToast';
 import { AlertBanner } from './AlertBanner';
 import { AlertModal } from './AlertModal';
-import { AlertMode } from './AlertTypes';
+import { Alert, AlertMode } from './AlertTypes';
 
 export const AlertContainer: React.FC = () => {
-    const alerts = useAlertStore((state) => state.alerts);
+    const alerts = useAlertStore((state: { alerts: Alert[] }) => state.alerts);
     const insets = useSafeAreaInsets();
     const tokens = useAppDesignTokens();
 
-    const toasts = alerts.filter((a) => a.mode === AlertMode.TOAST);
-    const banners = alerts.filter((a) => a.mode === AlertMode.BANNER);
-    const modals = alerts.filter((a) => a.mode === AlertMode.MODAL);
+    const toasts = alerts.filter((a: Alert) => a.mode === AlertMode.TOAST);
+    const banners = alerts.filter((a: Alert) => a.mode === AlertMode.BANNER);
+    const modals = alerts.filter((a: Alert) => a.mode === AlertMode.MODAL);
 
     return (
         <View style={styles.container} pointerEvents="box-none">
             {/* Banners at top */}
             <View style={[styles.bannerContainer, { paddingTop: insets.top }]}>
-                {banners.map((alert) => (
+                {banners.map((alert: Alert) => (
                     <AlertBanner key={alert.id} alert={alert} />
                 ))}
             </View>
@@ -38,7 +38,7 @@ export const AlertContainer: React.FC = () => {
                     paddingHorizontal: tokens.spacing.md,
                 }
             ]}>
-                {toasts.map((alert) => (
+                {toasts.map((alert: Alert) => (
                     <View key={alert.id} style={{ marginBottom: tokens.spacing.sm, width: '100%' }}>
                         <AlertToast alert={alert} />
                     </View>
@@ -46,7 +46,7 @@ export const AlertContainer: React.FC = () => {
             </View>
 
             {/* Modals on top of everything */}
-            {modals.map((alert) => (
+            {modals.map((alert: Alert) => (
                 <AlertModal key={alert.id} alert={alert} />
             ))}
         </View>

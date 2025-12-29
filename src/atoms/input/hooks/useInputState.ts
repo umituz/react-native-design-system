@@ -35,17 +35,11 @@ export const useInputState = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);
 
   const handleTextChange = useCallback((text: string) => {
-    if (__DEV__) {
-      console.log('[useInputState] Text changed:', { text, length: text.length });
-    }
     setLocalValue(text);
     onChangeText?.(text);
   }, [onChangeText]);
 
   const togglePasswordVisibility = useCallback(() => {
-    if (__DEV__) {
-      console.log('[useInputState] Password visibility toggled');
-    }
     setIsPasswordVisible((prev) => !prev);
   }, []);
 

@@ -18,7 +18,7 @@ interface AlertBannerProps {
 }
 
 export function AlertBanner({ alert }: AlertBannerProps) {
-    const dismissAlert = useAlertStore((state) => state.dismissAlert);
+    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const insets = useSafeAreaInsets();
     const tokens = useAppDesignTokens();
 
