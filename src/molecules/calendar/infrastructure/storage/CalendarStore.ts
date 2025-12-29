@@ -23,46 +23,6 @@ import { CalendarService } from '../services/CalendarService';
 export type CalendarViewMode = 'month' | 'week' | 'day' | 'list';
 
 /**
- * Calendar state interface
- */
-interface CalendarState {
-  // State
-  events: CalendarEvent[];
-  selectedDate: Date;
-  currentMonth: Date;
-  viewMode: CalendarViewMode;
-  isLoading: boolean;
-  error: string | null;
-
-  // Actions
-  actions: {
-    // Event CRUD
-    loadEvents: () => Promise<void>;
-    addEvent: (request: CreateCalendarEventRequest) => Promise<void>;
-    updateEvent: (request: UpdateCalendarEventRequest) => Promise<void>;
-    deleteEvent: (id: string) => Promise<void>;
-    completeEvent: (id: string) => Promise<void>;
-    uncompleteEvent: (id: string) => Promise<void>;
-
-    // Navigation
-    setSelectedDate: (date: Date) => void;
-    goToToday: () => void;
-    navigateMonth: (direction: 'prev' | 'next') => void;
-    navigateWeek: (direction: 'prev' | 'next') => void;
-    setCurrentMonth: (date: Date) => void;
-
-    // View mode
-    setViewMode: (mode: CalendarViewMode) => void;
-
-    // Utilities
-    getEventsForDate: (date: Date) => CalendarEvent[];
-    getEventsForMonth: (year: number, month: number) => CalendarEvent[];
-    clearError: () => void;
-    clearAllEvents: () => Promise<void>;
-  };
-}
-
-/**
  * Storage key for calendar events
  */
 const STORAGE_KEY = 'calendar_events';
@@ -75,20 +35,65 @@ const generateId = (): string => {
 };
 
 /**
+ * Calendar state (data only)
+ */
+interface CalendarState {
+  events: CalendarEvent[];
+  selectedDate: Date;
+  currentMonth: Date;
+  viewMode: CalendarViewMode;
+  isLoading: boolean;
+  error: string | null;
+}
+
+/**
+ * Calendar actions
+ */
+interface CalendarActions {
+  // Event CRUD
+  loadEvents: () => Promise<void>;
+  addEvent: (request: CreateCalendarEventRequest) => Promise<void>;
+  updateEvent: (request: UpdateCalendarEventRequest) => Promise<void>;
+  deleteEvent: (id: string) => Promise<void>;
+  completeEvent: (id: string) => Promise<void>;
+  uncompleteEvent: (id: string) => Promise<void>;
+
+  // Navigation
+  setSelectedDate: (date: Date) => void;
+  goToToday: () => void;
+  navigateMonth: (direction: 'prev' | 'next') => void;
+  navigateWeek: (direction: 'prev' | 'next') => void;
+  setCurrentMonth: (date: Date) => void;
+
+  // View mode
+  setViewMode: (mode: CalendarViewMode) => void;
+
+  // Utilities
+  getEventsForDate: (date: Date) => CalendarEvent[];
+  getEventsForMonth: (year: number, month: number) => CalendarEvent[];
+  clearError: () => void;
+  clearAllEvents: () => Promise<void>;
+}
+
+/**
+ * Initial state
+ */
+const initialState: CalendarState = {
+  events: [],
+  selectedDate: new Date(),
+  currentMonth: new Date(),
+  viewMode: 'month',
+  isLoading: false,
+  error: null,
+};
+
+/**
  * Calendar Store
  */
-export const useCalendarStore = create<CalendarState>()(
+export const useCalendarStore = create<CalendarState & { actions: CalendarActions }>()(
   persist(
     (set, get) => ({
-      // Initial State
-      events: [],
-      selectedDate: new Date(),
-      currentMonth: new Date(),
-      viewMode: 'month',
-      isLoading: false,
-      error: null,
-
-      // Actions
+      ...initialState,
       actions: {
         /**
          * Load events from storage
@@ -98,20 +103,21 @@ export const useCalendarStore = create<CalendarState>()(
           try {
             const stored = await AsyncStorage.getItem(STORAGE_KEY);
             if (stored) {
-              const events = JSON.parse(stored);
+              const parsed = JSON.parse(stored) as CalendarEvent[];
               // Restore Date objects
-              events.forEach((event: CalendarEvent) => {
-                event.createdAt = new Date(event.createdAt);
-                event.updatedAt = new Date(event.updatedAt);
-              });
+              const events = parsed.map((event) => ({
+                ...event,
+                createdAt: new Date(event.createdAt),
+                updatedAt: new Date(event.updatedAt),
+              }));
               set({ events, isLoading: false });
             } else {
               set({ isLoading: false });
             }
-          } catch (error) {
+          } catch {
             set({
-              error: error instanceof Error ? error.message : 'Failed to load events',
-              isLoading: false
+              error: 'Failed to load events',
+              isLoading: false,
             });
           }
         },
@@ -133,10 +139,10 @@ export const useCalendarStore = create<CalendarState>()(
             const events = [...get().events, newEvent];
             await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
             set({ events, isLoading: false });
-          } catch (error) {
+          } catch {
             set({
-              error: error instanceof Error ? error.message : 'Failed to add event',
-              isLoading: false
+              error: 'Failed to add event',
+              isLoading: false,
             });
           }
         },
@@ -147,7 +153,7 @@ export const useCalendarStore = create<CalendarState>()(
         updateEvent: async (request: UpdateCalendarEventRequest) => {
           set({ isLoading: true, error: null });
           try {
-            const events = get().events.map(event => {
+            const events = get().events.map((event) => {
               if (event.id === request.id) {
                 return {
                   ...event,
@@ -160,10 +166,10 @@ export const useCalendarStore = create<CalendarState>()(
 
             await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
             set({ events, isLoading: false });
-          } catch (error) {
+          } catch {
             set({
-              error: error instanceof Error ? error.message : 'Failed to update event',
-              isLoading: false
+              error: 'Failed to update event',
+              isLoading: false,
             });
           }
         },
@@ -174,13 +180,13 @@ export const useCalendarStore = create<CalendarState>()(
         deleteEvent: async (id: string) => {
           set({ isLoading: true, error: null });
           try {
-            const events = get().events.filter(event => event.id !== id);
+            const events = get().events.filter((event) => event.id !== id);
             await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
             set({ events, isLoading: false });
-          } catch (error) {
+          } catch {
             set({
-              error: error instanceof Error ? error.message : 'Failed to delete event',
-              isLoading: false
+              error: 'Failed to delete event',
+              isLoading: false,
             });
           }
         },
@@ -222,9 +228,10 @@ export const useCalendarStore = create<CalendarState>()(
          */
         navigateMonth: (direction: 'prev' | 'next') => {
           const currentMonth = get().currentMonth;
-          const newMonth = direction === 'prev'
-            ? CalendarService.getPreviousMonth(currentMonth)
-            : CalendarService.getNextMonth(currentMonth);
+          const newMonth =
+            direction === 'prev'
+              ? CalendarService.getPreviousMonth(currentMonth)
+              : CalendarService.getNextMonth(currentMonth);
 
           set({ currentMonth: newMonth });
         },
@@ -234,9 +241,10 @@ export const useCalendarStore = create<CalendarState>()(
          */
         navigateWeek: (direction: 'prev' | 'next') => {
           const selectedDate = get().selectedDate;
-          const newDate = direction === 'prev'
-            ? CalendarService.getPreviousWeek(selectedDate)
-            : CalendarService.getNextWeek(selectedDate);
+          const newDate =
+            direction === 'prev'
+              ? CalendarService.getPreviousWeek(selectedDate)
+              : CalendarService.getNextWeek(selectedDate);
 
           set({ selectedDate: newDate });
         },
@@ -288,10 +296,10 @@ export const useCalendarStore = create<CalendarState>()(
           try {
             await AsyncStorage.removeItem(STORAGE_KEY);
             set({ events: [], isLoading: false });
-          } catch (error) {
+          } catch {
             set({
-              error: error instanceof Error ? error.message : 'Failed to clear events',
-              isLoading: false
+              error: 'Failed to clear events',
+              isLoading: false,
             });
           }
         },
@@ -300,7 +308,6 @@ export const useCalendarStore = create<CalendarState>()(
     {
       name: 'calendar-storage',
       storage: createJSONStorage(() => AsyncStorage),
-      // Only persist events, not UI state
       partialize: (state) => ({ events: state.events }),
     }
   )

@@ -76,6 +76,7 @@ export interface UseCalendarReturn {
  * Main calendar hook
  */
 export const useCalendar = (): UseCalendarReturn => {
+  const store = useCalendarStore();
   const {
     events,
     selectedDate,
@@ -84,7 +85,7 @@ export const useCalendar = (): UseCalendarReturn => {
     isLoading,
     error,
     actions,
-  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
+  } = store;
 
   // Load events on mount
   useEffect(() => {
@@ -129,11 +130,12 @@ export const useCalendar = (): UseCalendarReturn => {
  * Lightweight hook for just navigation actions
  */
 export const useCalendarNavigation = () => {
+  const store = useCalendarStore();
   const {
     selectedDate,
     currentMonth,
     actions: { setSelectedDate, navigateMonth, goToToday, setCurrentMonth },
-  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
+  } = store;
 
   return {
     selectedDate,
@@ -150,6 +152,7 @@ export const useCalendarNavigation = () => {
  * Lightweight hook for just event operations
  */
 export const useCalendarEvents = () => {
+  const store = useCalendarStore();
   const {
     events,
     isLoading,
@@ -163,7 +166,7 @@ export const useCalendarEvents = () => {
       uncompleteEvent,
       clearError,
     },
-  } = useCalendarStore((state: ReturnType<typeof useCalendarStore.getState>) => state);
+  } = store;
 
   return {
     events,
