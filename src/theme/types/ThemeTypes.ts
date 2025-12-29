@@ -45,14 +45,15 @@ export type DesignTokens = {
   opacity: BaseTokens['opacity'];
   avatarSizes: BaseTokens['avatarSizes'];
   borderRadius: ResponsiveBorderRadius;
+  radius: ResponsiveBorderRadius;
   borders: Borders & {
     card: Borders['card'] & { borderColor: string };
     input: Borders['input'] & { borderColor: string };
   };
-  
+
   // Responsive metadata
   spacingMultiplier: number;
-  
+
   // Base tokens for reference if needed
   baseSpacing: Spacing;
   baseTypography: Typography;

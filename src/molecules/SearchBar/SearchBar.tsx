@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import {
     View,
     TextInput,
@@ -10,7 +10,7 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon } from '../../atoms/AtomicIcon';
 import type { SearchBarProps } from './types';
 
-export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, SearchBarProps>(({
+export const SearchBar: React.FC<SearchBarProps> = ({
     value,
     onChangeText,
     onSubmit,
@@ -24,7 +24,7 @@ export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, Search
     containerStyle,
     inputStyle,
     testID,
-}, ref) => {
+}) => {
     const tokens = useAppDesignTokens();
 
     const handleClear = () => {
@@ -58,7 +58,6 @@ export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, Search
             </View>
 
             <TextInput
-                ref={ref}
                 value={value}
                 onChangeText={onChangeText}
                 onSubmitEditing={onSubmit}
@@ -110,9 +109,7 @@ export const SearchBar = forwardRef<React.ComponentRef<typeof TextInput>, Search
             )}
         </View>
     );
-});
-
-SearchBar.displayName = 'SearchBar';
+};
 
 const styles = StyleSheet.create({
     container: {
