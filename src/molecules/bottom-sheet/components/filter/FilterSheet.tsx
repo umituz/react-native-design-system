@@ -34,7 +34,8 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
-  const hasActiveFilter = FilterUtils.hasActiveFilter(selectedIds, defaultFilterId);
+  const safeSelectedIds = selectedIds ?? [];
+  const hasActiveFilter = FilterUtils.hasActiveFilter(safeSelectedIds, defaultFilterId);
 
   const handleFilterPressWithClose = useCallback((id: string) => {
     onFilterPress(id);
@@ -61,7 +62,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
               <FilterSheetOption
                 key={option.id}
                 option={option}
-                isSelected={selectedIds.includes(option.id)}
+                isSelected={safeSelectedIds.includes(option.id)}
                 onPress={handleFilterPressWithClose}
                 tokens={tokens}
               />

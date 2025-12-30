@@ -83,8 +83,10 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
         }
     }), [tokens]);
 
+    const safeSelectedIds = selectedIds ?? [];
+
     const renderOption = useCallback((option: FilterOption, categoryId: string) => {
-        const isSelected = selectedIds.includes(option.id);
+        const isSelected = safeSelectedIds.includes(option.id);
 
         return (
             <TouchableOpacity
@@ -115,7 +117,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
                 )}
             </TouchableOpacity>
         );
-    }, [selectedIds, tokens, onFilterPress]);
+    }, [safeSelectedIds, tokens, onFilterPress]);
 
     const renderCategory = useCallback((category: FilterCategory) => (
         <View key={category.id} style={styles.category}>
@@ -129,7 +131,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     ), [renderOption, styles]);
 
 
-    const hasActiveFilters = FilterUtils.hasActiveFilter(selectedIds, defaultId);
+    const hasActiveFilters = FilterUtils.hasActiveFilter(safeSelectedIds, defaultId);
 
     return (
         <BottomSheetModal
