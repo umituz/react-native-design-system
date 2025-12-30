@@ -40,11 +40,6 @@ export const CelebrationModalContent: React.FC<CelebrationModalContentProps> = (
                 {
                     backgroundColor: tokens.colors.surface,
                     borderColor: tokens.colors.surfaceVariant,
-                    shadowColor: tokens.colors.onSurface,
-                    shadowOffset: { width: 0, height: 8 },
-                    shadowOpacity: 0.15,
-                    shadowRadius: 24,
-                    elevation: 8,
                 },
             ]}
         >

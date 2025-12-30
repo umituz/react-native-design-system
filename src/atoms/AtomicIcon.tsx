@@ -8,6 +8,7 @@
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Svg, { Path } from "react-native-svg";
 import { useAppDesignTokens } from '../theme';
 import {
   type IconSize as BaseIconSize
@@ -50,6 +51,10 @@ export interface AtomicIconProps {
   color?: IconColor;
   /** Custom color (overrides color) */
   customColor?: string;
+  /** Custom SVG path for generic icons */
+  svgPath?: string;
+  /** ViewBox for custom SVG (default: 0 0 24 24) */
+  svgViewBox?: string;
   /** Add circular background */
   withBackground?: boolean;
   /** Background color */
@@ -102,6 +107,8 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
   customColor,
   withBackground = false,
   backgroundColor,
+  svgPath,
+  svgViewBox = "0 0 24 24",
   accessibilityLabel,
   testID,
   style,
@@ -123,10 +130,21 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
       : tokens.colors.textPrimary;
 
   // Validate icon - use fallback silently if invalid
-  const isValidIcon = name in Ionicons.glyphMap;
-  const iconName = isValidIcon ? name : FALLBACK_ICON;
+  const iconName = name && name in Ionicons.glyphMap ? name : FALLBACK_ICON;
 
-  const iconElement = (
+  const iconElement = svgPath ? (
+    <Svg
+      viewBox={svgViewBox}
+      width={sizeInPixels}
+      height={sizeInPixels}
+      key="custom-svg-icon"
+    >
+      <Path
+        d={svgPath}
+        fill={iconColor}
+      />
+    </Svg>
+  ) : (
     <Ionicons
       name={iconName as keyof typeof Ionicons.glyphMap}
       size={sizeInPixels}

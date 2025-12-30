@@ -25,7 +25,6 @@ export const FabButton: React.FC<FabButtonProps> = ({
             {
                 backgroundColor: tokens.colors.primary,
                 borderColor: tokens.colors.onPrimary,
-                shadowColor: tokens.colors.onSurface,
             },
             style
         ]}>
