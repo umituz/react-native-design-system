@@ -4,18 +4,20 @@ import type { ParamListBase } from "@react-navigation/native";
 import { AtomicIcon } from "../../../atoms/AtomicIcon";
 import { useAppDesignTokens } from "../../../theme";
 import { useSafeAreaInsets } from "../../../safe-area";
-import type { TabNavigatorConfig, TabScreen } from "../types";
+import type { TabNavigatorConfig } from "../types";
 
 export interface UseTabConfigProps<T extends ParamListBase> {
   config: TabNavigatorConfig<T>;
 }
 
-export const useTabConfig = <T extends ParamListBase>({ config }: UseTabConfigProps<T>) => {
+export const useTabConfig = <T extends ParamListBase>({
+  config,
+}: UseTabConfigProps<T>) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
-  const finalConfig: TabNavigatorConfig<T> = useMemo(
-    () => ({
+  const finalConfig: TabNavigatorConfig<T> = useMemo(() => {
+    return {
       ...config,
       renderIcon: (
         iconName: string,
@@ -28,7 +30,7 @@ export const useTabConfig = <T extends ParamListBase>({ config }: UseTabConfigPr
           return config.renderIcon(iconName, focused, routeName, isFab);
         }
 
-        const screen = config.screens.find(s => s.name === routeName);
+        const screen = config.screens.find((s) => s.name === routeName);
         const fabConfig = config.fabConfig;
 
         if (isFab) {
@@ -90,11 +92,12 @@ export const useTabConfig = <T extends ParamListBase>({ config }: UseTabConfigPr
           color: tokens.colors.textPrimary,
         },
         headerTintColor: tokens.colors.textPrimary,
-        ...(typeof config.screenOptions === 'object' ? config.screenOptions : {}),
+        ...(typeof config.screenOptions === "object"
+          ? config.screenOptions
+          : {}),
       },
-    }),
-    [tokens, config, insets],
-  );
+    };
+  }, [tokens, config, insets]);
 
   return finalConfig;
 };
