@@ -150,6 +150,10 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
       size={sizeInPixels}
       color={iconColor}
       testID={testID ? `${testID}-icon` : undefined}
+      style={{
+        padding: 4, // Prevent font truncation
+        includeFontPadding: false, // Android specific
+      }}
     />
   );
 
