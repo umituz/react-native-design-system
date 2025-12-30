@@ -32,6 +32,7 @@ export type { StackNavigationOptions } from "@react-navigation/stack";
 export { AppNavigation } from "./utils/AppNavigation";
 export { TabLabel, type TabLabelProps } from "./components/TabLabel";
 export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
+export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
 
 // Navigation Theme
 export { createNavigationTheme } from "./utils/NavigationTheme";

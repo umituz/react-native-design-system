@@ -49,6 +49,8 @@ export interface TabScreen<T extends ParamListBase = ParamListBase>
   options?:
   | BottomTabNavigationOptions
   | ((props: BottomTabScreenProps<T>) => BottomTabNavigationOptions);
+  /** Custom SVG path for the icon */
+  svgPath?: string;
   /** Whether the tab should be visible */
   visible?: boolean;
 }
