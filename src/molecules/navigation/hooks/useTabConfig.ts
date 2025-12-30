@@ -4,19 +4,20 @@ import type { ParamListBase } from "@react-navigation/native";
 import { AtomicIcon } from "../../../atoms/AtomicIcon";
 import { useAppDesignTokens } from "../../../theme";
 import { useSafeAreaInsets } from "../../../safe-area";
-import type { TabNavigatorConfig } from "../types";
+import type { TabNavigatorConfig, TabScreen } from "../types";
 
 export interface UseTabConfigProps<T extends ParamListBase> {
   config: TabNavigatorConfig<T>;
 }
 
-export const useTabConfig = <T extends ParamListBase>({
-  config,
-}: UseTabConfigProps<T>) => {
+export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T>): TabNavigatorConfig<T> {
+  const { config } = props;
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
   const finalConfig: TabNavigatorConfig<T> = useMemo(() => {
+    const screens = config.screens as TabScreen<T>[];
+    
     return {
       ...config,
       renderIcon: (
@@ -25,47 +26,38 @@ export const useTabConfig = <T extends ParamListBase>({
         routeName: string,
         isFab: boolean,
       ) => {
-        // If user provided a custom renderer, use it
         if (config.renderIcon) {
           return config.renderIcon(iconName, focused, routeName, isFab);
         }
 
-        const screen = config.screens.find((s) => s.name === routeName);
-        const fabConfig = config.fabConfig;
+        const screen = screens.find((s) => s.name === routeName);
+        const fab = config.fabConfig;
 
         if (isFab) {
-          const size = fabConfig?.size ?? 84;
-          return (
-            <View
-              style={{
-                width: size,
-                height: size,
-                borderRadius: size / 2,
-                backgroundColor: tokens.colors.primary,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: fabConfig?.offsetY ?? -32,
-              }}
-            >
-              <AtomicIcon
-                name={iconName}
-                svgPath={screen?.svgPath}
-                customSize={size * 0.57} // Approx 48/84 ratio
-                customColor="#FFFFFF"
-              />
-            </View>
-          );
+          const fabSize = fab?.size ?? 84;
+          return React.createElement(View, {
+            style: {
+              width: fabSize,
+              height: fabSize,
+              borderRadius: fabSize / 2,
+              backgroundColor: tokens.colors.primary,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: fab?.offsetY ?? -32,
+            }
+          }, React.createElement(AtomicIcon, {
+            name: iconName,
+            svgPath: screen?.svgPath,
+            customSize: fabSize * 0.57,
+            customColor: "#FFFFFF"
+          }));
         }
 
-        return (
-          <AtomicIcon
-            name={iconName}
-            customColor={
-              focused ? tokens.colors.primary : tokens.colors.textSecondary
-            }
-            size="lg"
-          />
-        );
+        return React.createElement(AtomicIcon, {
+          name: iconName,
+          customColor: focused ? tokens.colors.primary : tokens.colors.textSecondary,
+          size: "lg"
+        });
       },
       screenOptions: {
         tabBarActiveTintColor: tokens.colors.primary,
@@ -100,4 +92,4 @@ export const useTabConfig = <T extends ParamListBase>({
   }, [tokens, config, insets]);
 
   return finalConfig;
-};
+}
