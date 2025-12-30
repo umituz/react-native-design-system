@@ -92,8 +92,10 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   const emptyStateStyles = getEmptyStateStyles(tokens);
   const emptyStateTextStyles = getEmptyStateTextStyles(tokens);
 
+  const safeSelectedValues = selectedValues ?? [];
+
   const isSelected = (optionValue: string): boolean => {
-    return selectedValues.includes(optionValue);
+    return safeSelectedValues.includes(optionValue);
   };
 
   const renderOption = ({ item }: { item: PickerOption }) => {
