@@ -56,12 +56,12 @@ interface PickerModalProps {
   onSearchChange: (query: string) => void;
   filteredOptions: PickerOption[];
   multiple?: boolean;
-  /** Empty state message - REQUIRED for i18n */
-  emptyMessage: string;
-  /** Search placeholder - REQUIRED for i18n */
-  searchPlaceholder: string;
-  /** Close accessibility label - REQUIRED for i18n */
-  closeAccessibilityLabel: string;
+  /** Empty state message */
+  emptyMessage?: string;
+  /** Search placeholder */
+  searchPlaceholder?: string;
+  /** Close accessibility label */
+  closeAccessibilityLabel?: string;
   testID?: string;
 }
 
