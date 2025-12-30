@@ -42,7 +42,7 @@ export type IconName = string;
 
 export interface AtomicIconProps {
   /** Icon name (Ionicons) */
-  name: IconName;
+  name?: IconName;
   /** Semantic size preset */
   size?: IconSize;
   /** Custom size in pixels (overrides size) */
