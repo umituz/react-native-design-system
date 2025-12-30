@@ -349,6 +349,7 @@ export {
   AppNavigation,
   TabLabel,
   useTabBarStyles,
+  useTabConfig,
   type TabsNavigatorProps,
   type StackNavigatorProps,
   type FabButtonProps,
