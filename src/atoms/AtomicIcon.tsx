@@ -129,8 +129,13 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
       ? getSemanticColor(color, tokens)
       : tokens.colors.textPrimary;
 
-  // Validate icon - use fallback silently if invalid
-  const iconName = name && name in Ionicons.glyphMap ? name : FALLBACK_ICON;
+  // Validate icon - use fallback and log warning in DEV if invalid
+  const isInvalidIcon = name && !(name in Ionicons.glyphMap);
+  const iconName = name && !isInvalidIcon ? name : FALLBACK_ICON;
+
+  if (__DEV__ && isInvalidIcon) {
+    console.warn(`[DesignSystem] Invalid icon name: "${name}". Falling back to "${FALLBACK_ICON}"`);
+  }
 
   const iconElement = svgPath ? (
     <Svg
@@ -197,6 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// Legacy type alias for backward compatibility
-export type IconProps = AtomicIconProps;
 
