@@ -78,6 +78,7 @@ export interface UseResponsiveReturn {
   modalMinHeight: number;
   gridColumns: number;
   spacingMultiplier: number;
+  tabBarConfig: ResponsiveTabBarConfig;
 
   // Modal layouts (complete configurations)
   modalLayout: ResponsiveModalLayout;
@@ -167,6 +168,7 @@ export const useResponsive = (): UseResponsiveReturn => {
       modalMinHeight: getResponsiveMinModalHeight(),
       gridColumns: getResponsiveGridColumns(),
       spacingMultiplier: getSpacingMultiplier(),
+      tabBarConfig: getResponsiveTabBarConfig(insets),
 
       // Modal layouts (complete configurations)
       modalLayout: getResponsiveModalLayout(),
