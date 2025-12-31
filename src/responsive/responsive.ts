@@ -21,6 +21,9 @@ export {
   getResponsiveHorizontalPadding,
   getResponsiveBottomPosition,
   getResponsiveFABPosition,
+  getResponsiveTabBarHeight,
+  getResponsiveTabBarConfig,
+  type ResponsiveTabBarConfig,
 } from './responsiveLayout';
 
 // Responsive modal utilities

@@ -3,21 +3,38 @@ import { View } from "react-native";
 import type { ParamListBase } from "@react-navigation/native";
 import { AtomicIcon } from "../../../atoms/AtomicIcon";
 import { useAppDesignTokens } from "../../../theme";
-import { useSafeAreaInsets } from "../../../safe-area";
+import { useResponsive } from "../../../responsive";
 import type { TabNavigatorConfig, TabScreen } from "../types";
 
 export interface UseTabConfigProps<T extends ParamListBase> {
   config: TabNavigatorConfig<T>;
 }
 
+/**
+ * Get the appropriate icon name based on focus state
+ * Ionicons convention: filled for active, outline for inactive
+ */
+const getIconNameForState = (baseName: string, focused: boolean): string => {
+  if (!baseName) return "help-circle-outline";
+
+  const hasOutlineSuffix = baseName.endsWith("-outline");
+  const hasSharpSuffix = baseName.endsWith("-sharp");
+
+  if (hasOutlineSuffix || hasSharpSuffix) {
+    return baseName;
+  }
+
+  return focused ? baseName : `${baseName}-outline`;
+};
+
 export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T>): TabNavigatorConfig<T> {
   const { config } = props;
   const tokens = useAppDesignTokens();
-  const insets = useSafeAreaInsets();
+  const { tabBarConfig, insets } = useResponsive();
 
   const finalConfig: TabNavigatorConfig<T> = useMemo(() => {
     const screens = config.screens as TabScreen<T>[];
-    
+
     return {
       ...config,
       renderIcon: (
@@ -34,7 +51,7 @@ export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T
         const fab = config.fabConfig;
 
         if (isFab) {
-          const fabSize = fab?.size ?? 84;
+          const fabSize = fab?.size ?? tabBarConfig.fabSize;
           return React.createElement(View, {
             style: {
               width: fabSize,
@@ -43,7 +60,7 @@ export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T
               backgroundColor: tokens.colors.primary,
               justifyContent: "center",
               alignItems: "center",
-              marginTop: fab?.offsetY ?? -32,
+              marginTop: fab?.offsetY ?? tabBarConfig.fabOffsetY,
             }
           }, React.createElement(AtomicIcon, {
             name: iconName,
@@ -53,25 +70,28 @@ export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T
           }));
         }
 
+        const resolvedIconName = getIconNameForState(iconName, focused);
+
         return React.createElement(AtomicIcon, {
-          name: iconName,
+          name: resolvedIconName,
           customColor: focused ? tokens.colors.primary : tokens.colors.textSecondary,
-          size: "lg"
+          customSize: tabBarConfig.iconSize,
         });
       },
       screenOptions: {
         tabBarActiveTintColor: tokens.colors.primary,
         tabBarInactiveTintColor: tokens.colors.textSecondary,
         tabBarShowLabel: false,
-        tabBarIconStyle: {
-          marginBottom: 0,
+        tabBarItemStyle: {
+          paddingVertical: tabBarConfig.paddingTop,
         },
         tabBarStyle: {
           backgroundColor: tokens.colors.surface,
-          borderTopColor: tokens.colors.borderLight,
           borderTopWidth: 0,
-          paddingBottom: insets.bottom || 0,
-          height: tokens.spacing.tabBarHeight + (insets.bottom || 16),
+          paddingBottom: tabBarConfig.paddingBottom,
+          paddingTop: tabBarConfig.paddingTop,
+          height: tabBarConfig.height,
+          elevation: 0,
         },
         headerStyle: {
           backgroundColor: tokens.colors.surface,
@@ -89,7 +109,7 @@ export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T
           : {}),
       },
     };
-  }, [tokens, config, insets]);
+  }, [tokens, config, tabBarConfig, insets]);
 
   return finalConfig;
 }

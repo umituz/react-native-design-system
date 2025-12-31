@@ -96,3 +96,98 @@ export const getResponsiveFABPosition = (
     return { bottom: 90, right: 20 };
   }
 };
+
+/**
+ * Tab bar height constants
+ */
+const TAB_BAR_CONSTANTS = {
+  BASE_HEIGHT_PHONE: 60,
+  BASE_HEIGHT_TABLET: 70,
+  MIN_PADDING_BOTTOM: 8,
+  MIN_PADDING_TOP: 8,
+  ICON_SIZE_PHONE: 24,
+  ICON_SIZE_TABLET: 28,
+  FAB_SIZE_PHONE: 64,
+  FAB_SIZE_TABLET: 72,
+  FAB_OFFSET_Y_PHONE: -24,
+  FAB_OFFSET_Y_TABLET: -28,
+} as const;
+
+/**
+ * Responsive tab bar configuration
+ */
+export interface ResponsiveTabBarConfig {
+  height: number;
+  paddingBottom: number;
+  paddingTop: number;
+  iconSize: number;
+  fabSize: number;
+  fabOffsetY: number;
+}
+
+/**
+ * Get responsive tab bar height based on device and safe area
+ */
+export const getResponsiveTabBarHeight = (
+  insets: { bottom?: number } = { bottom: 0 }
+): number => {
+  try {
+    validateSafeAreaInsets(insets);
+    const { width } = getScreenDimensions();
+    const { bottom = 0 } = insets;
+
+    const baseHeight = width >= DEVICE_BREAKPOINTS.SMALL_TABLET
+      ? TAB_BAR_CONSTANTS.BASE_HEIGHT_TABLET
+      : TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE;
+
+    const bottomPadding = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM);
+
+    return baseHeight + bottomPadding;
+  } catch {
+    return TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE + TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM;
+  }
+};
+
+/**
+ * Get complete responsive tab bar configuration
+ */
+export const getResponsiveTabBarConfig = (
+  insets: { bottom?: number } = { bottom: 0 }
+): ResponsiveTabBarConfig => {
+  try {
+    validateSafeAreaInsets(insets);
+    const { width } = getScreenDimensions();
+    const { bottom = 0 } = insets;
+    const isTabletSize = width >= DEVICE_BREAKPOINTS.SMALL_TABLET;
+
+    const baseHeight = isTabletSize
+      ? TAB_BAR_CONSTANTS.BASE_HEIGHT_TABLET
+      : TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE;
+
+    const paddingBottom = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM);
+
+    return {
+      height: baseHeight + paddingBottom,
+      paddingBottom,
+      paddingTop: TAB_BAR_CONSTANTS.MIN_PADDING_TOP,
+      iconSize: isTabletSize
+        ? TAB_BAR_CONSTANTS.ICON_SIZE_TABLET
+        : TAB_BAR_CONSTANTS.ICON_SIZE_PHONE,
+      fabSize: isTabletSize
+        ? TAB_BAR_CONSTANTS.FAB_SIZE_TABLET
+        : TAB_BAR_CONSTANTS.FAB_SIZE_PHONE,
+      fabOffsetY: isTabletSize
+        ? TAB_BAR_CONSTANTS.FAB_OFFSET_Y_TABLET
+        : TAB_BAR_CONSTANTS.FAB_OFFSET_Y_PHONE,
+    };
+  } catch {
+    return {
+      height: TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE + TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM,
+      paddingBottom: TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM,
+      paddingTop: TAB_BAR_CONSTANTS.MIN_PADDING_TOP,
+      iconSize: TAB_BAR_CONSTANTS.ICON_SIZE_PHONE,
+      fabSize: TAB_BAR_CONSTANTS.FAB_SIZE_PHONE,
+      fabOffsetY: TAB_BAR_CONSTANTS.FAB_OFFSET_Y_PHONE,
+    };
+  }
+};
