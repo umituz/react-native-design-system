@@ -10,9 +10,9 @@
  * ```
  */
 
-import { useCallback, useMemo } from 'react';
-import { useWindowDimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useCallback, useMemo } from "react";
+import { useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   getResponsiveLogoSize,
   getResponsiveInputHeight,
@@ -33,7 +33,7 @@ import {
   type ResponsiveBottomSheetLayout,
   type ResponsiveDialogLayout,
   type ResponsiveTabBarConfig,
-} from './responsive';
+} from "./responsive";
 import {
   isSmallPhone,
   isTablet,
@@ -41,8 +41,8 @@ import {
   getDeviceType,
   DeviceType,
   getSpacingMultiplier,
-} from '../device/detection';
-import { getMinTouchTarget } from './platformConstants';
+} from "../device/detection";
+import { getMinTouchTarget } from "./platformConstants";
 
 export interface UseResponsiveReturn {
   // Device info
@@ -84,8 +84,13 @@ export interface UseResponsiveReturn {
   bottomSheetLayout: ResponsiveBottomSheetLayout;
   dialogLayout: ResponsiveDialogLayout;
 
-  // Tab bar configuration
-  tabBarConfig: ResponsiveTabBarConfig;
+  // Onboarding specific responsive values
+  onboardingIconSize: number;
+  onboardingIconMarginTop: number;
+  onboardingIconMarginBottom: number;
+  onboardingTitleMarginBottom: number;
+  onboardingDescriptionMarginTop: number;
+  onboardingTextPadding: number;
 
   // Utility functions
   getLogoSize: (baseSize?: number) => number;
@@ -105,62 +110,87 @@ export const useResponsive = (): UseResponsiveReturn => {
   const insets = useSafeAreaInsets();
 
   // Memoize utility functions to prevent unnecessary re-renders
-  const getLogoSize = useCallback((baseSize?: number) => getResponsiveLogoSize(baseSize), []);
-  const getInputHeight = useCallback((baseHeight?: number) => getResponsiveInputHeight(baseHeight), []);
-  const getIconSize = useCallback((baseSize?: number) => getResponsiveIconContainerSize(baseSize), []);
-  const getMaxWidth = useCallback((baseWidth?: number) => getResponsiveMaxWidth(baseWidth), []);
-  const getFontSize = useCallback((baseFontSize: number) => getResponsiveFontSize(baseFontSize), []);
-  const getGridCols = useCallback((mobile?: number, tablet?: number) => getResponsiveGridColumns(mobile, tablet), []);
+  const getLogoSize = useCallback(
+    (baseSize?: number) => getResponsiveLogoSize(baseSize),
+    [],
+  );
+  const getInputHeight = useCallback(
+    (baseHeight?: number) => getResponsiveInputHeight(baseHeight),
+    [],
+  );
+  const getIconSize = useCallback(
+    (baseSize?: number) => getResponsiveIconContainerSize(baseSize),
+    [],
+  );
+  const getMaxWidth = useCallback(
+    (baseWidth?: number) => getResponsiveMaxWidth(baseWidth),
+    [],
+  );
+  const getFontSize = useCallback(
+    (baseFontSize: number) => getResponsiveFontSize(baseFontSize),
+    [],
+  );
+  const getGridCols = useCallback(
+    (mobile?: number, tablet?: number) =>
+      getResponsiveGridColumns(mobile, tablet),
+    [],
+  );
 
   // Memoize responsive values to prevent unnecessary recalculations
-  const responsiveValues = useMemo(() => ({
-    // Device info
-    width,
-    height,
-    isSmallDevice: isSmallPhone(),
-    isTabletDevice: isTablet(),
-    isLandscapeDevice: isLandscape(),
-    deviceType: getDeviceType(),
+  const responsiveValues = useMemo(
+    () => ({
+      // Device info
+      width,
+      height,
+      isSmallDevice: isSmallPhone(),
+      isTabletDevice: isTablet(),
+      isLandscapeDevice: isLandscape(),
+      deviceType: getDeviceType(),
 
-    // Safe area insets
-    insets,
+      // Safe area insets
+      insets,
 
-    // Responsive sizes (with default values)
-    logoSize: getResponsiveLogoSize(),
-    inputHeight: getResponsiveInputHeight(),
-    iconContainerSize: getResponsiveIconContainerSize(),
-    maxContentWidth: getResponsiveMaxWidth(),
-    minTouchTarget: getMinTouchTarget(),
+      // Responsive sizes (with default values)
+      logoSize: getResponsiveLogoSize(),
+      inputHeight: getResponsiveInputHeight(),
+      iconContainerSize: getResponsiveIconContainerSize(),
+      maxContentWidth: getResponsiveMaxWidth(),
+      minTouchTarget: getMinTouchTarget(),
 
-    // Responsive positioning
-    horizontalPadding: getResponsiveHorizontalPadding(undefined, insets),
-    bottomPosition: getResponsiveBottomPosition(undefined, insets),
-    fabPosition: getResponsiveFABPosition(insets),
+      // Responsive positioning
+      horizontalPadding: getResponsiveHorizontalPadding(undefined, insets),
+      bottomPosition: getResponsiveBottomPosition(undefined, insets),
+      fabPosition: getResponsiveFABPosition(insets),
 
-    // Responsive layout
-    modalMaxHeight: getResponsiveModalMaxHeight(),
-    modalMinHeight: getResponsiveMinModalHeight(),
-    gridColumns: getResponsiveGridColumns(),
-    spacingMultiplier: getSpacingMultiplier(),
+      // Responsive layout
+      modalMaxHeight: getResponsiveModalMaxHeight(),
+      modalMinHeight: getResponsiveMinModalHeight(),
+      gridColumns: getResponsiveGridColumns(),
+      spacingMultiplier: getSpacingMultiplier(),
 
-    // Modal layouts (complete configurations)
-    modalLayout: getResponsiveModalLayout(),
-    bottomSheetLayout: getResponsiveBottomSheetLayout(),
-    dialogLayout: getResponsiveDialogLayout(),
+      // Modal layouts (complete configurations)
+      modalLayout: getResponsiveModalLayout(),
+      bottomSheetLayout: getResponsiveBottomSheetLayout(),
+      dialogLayout: getResponsiveDialogLayout(),
 
-    // Tab bar configuration
-    tabBarConfig: getResponsiveTabBarConfig(insets),
+      // Onboarding specific responsive values
+      onboardingIconSize: getIconSize(64),
+      onboardingIconMarginTop: getSpacingMultiplier() * 24,
+      onboardingIconMarginBottom: getSpacingMultiplier() * 16,
+      onboardingTitleMarginBottom: getSpacingMultiplier() * 16,
+      onboardingDescriptionMarginTop: getSpacingMultiplier() * 12,
+      onboardingTextPadding: getSpacingMultiplier() * 20,
 
-    // Utility functions (memoized)
-    getLogoSize,
-    getInputHeight,
-    getIconSize,
-    getMaxWidth,
-    getFontSize,
-    getGridCols,
-  }), [width, height, insets]);
+      // Utility functions
+      getLogoSize,
+      getInputHeight,
+      getIconSize,
+      getMaxWidth,
+      getFontSize,
+      getGridCols,
+    }),
+    [width, height, insets],
+  );
 
   return responsiveValues;
 };
-
-
