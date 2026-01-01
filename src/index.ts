@@ -429,8 +429,11 @@ export {
   type StepHeaderConfig,
   // Splash
   SplashScreen,
+  useSplashFlow,
   type SplashScreenProps,
   type SplashColors,
+  type UseSplashFlowOptions,
+  type UseSplashFlowResult,
   // Animation
   Animated,
   useSharedValue,
