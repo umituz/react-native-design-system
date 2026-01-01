@@ -64,12 +64,17 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   onError,
 }: DesignSystemProviderProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
+  const [minDisplayTimeMet, setMinDisplayTimeMet] = useState(false);
   const initialize = useThemeStore((state) => state.initialize);
   const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
+
+  // Minimum splash display time (1.5 seconds)
+  const MIN_SPLASH_DISPLAY_TIME = 1500;
 
   if (__DEV__) {
     console.log('[DesignSystemProvider] Component render:', {
       isInitialized,
+      minDisplayTimeMet,
       showLoadingIndicator,
       hasSplashConfig: !!splashConfig,
       splashConfigKeys: splashConfig ? Object.keys(splashConfig) : [],
@@ -78,12 +83,18 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
 
   useEffect(() => {
     if (__DEV__) console.log('[DesignSystemProvider] Initializing...');
-    
+
     // Apply custom colors if provided
     if (customColors) {
       if (__DEV__) console.log('[DesignSystemProvider] Applying custom colors');
       setCustomColors(customColors);
     }
+
+    // Start minimum display timer
+    const displayTimer = setTimeout(() => {
+      if (__DEV__) console.log('[DesignSystemProvider] Minimum display time met (1.5s)');
+      setMinDisplayTimeMet(true);
+    }, MIN_SPLASH_DISPLAY_TIME);
 
     // Initialize theme store
     initialize()
@@ -99,20 +110,26 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
         setIsInitialized(true); // Still render app even on error
         onError?.(error);
       });
+
+    return () => clearTimeout(displayTimer);
   }, [initialize, customColors, setCustomColors, onInitialized, onError]);
 
   const renderContent = () => {
+    const shouldShowSplash = showLoadingIndicator && (!isInitialized || !minDisplayTimeMet);
+
     if (__DEV__) {
       console.log('[DesignSystemProvider] renderContent:', {
         showLoadingIndicator,
         isInitialized,
+        minDisplayTimeMet,
+        shouldShowSplash,
         hasSplashConfig: !!splashConfig,
         hasLoadingComponent: !!loadingComponent,
       });
     }
 
-    // Show loading indicator if requested and not yet initialized
-    if (showLoadingIndicator && !isInitialized) {
+    // Show loading indicator if requested and not yet ready (both conditions must be met)
+    if (shouldShowSplash) {
       if (__DEV__) console.log('[DesignSystemProvider] Showing loading state');
 
       if (loadingComponent) {
