@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { StatusBar, StatusBarProps } from 'react-native';
-import { useTheme } from '../../theme/hooks/useTheme';
-import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
+import { useTheme } from '../../theme';
+import { useAppDesignTokens } from '../../theme';
 
 export interface AtomicStatusBarProps extends Omit<StatusBarProps, 'barStyle' | 'backgroundColor'> {
   barStyle?: 'auto' | 'light-content' | 'dark-content';
