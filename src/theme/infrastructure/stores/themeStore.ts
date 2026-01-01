@@ -10,7 +10,6 @@
  * - Syncs with design system global theme store
  */
 
-import { useEffect } from 'react';
 import { createStore } from '@umituz/react-native-storage';
 import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
@@ -35,15 +34,17 @@ interface ThemeActions {
  *
  * Usage:
  * ```typescript
- * import { useTheme } from '@umituz/react-native-design-system-theme';
+ * import { useTheme } from '@umituz/react-native-design-system';
  *
  * const MyComponent = () => {
  *   const { theme, themeMode, setThemeMode, toggleTheme } = useTheme();
  *   // ...
  * };
  * ```
+ * 
+ * NOTE: Make sure to wrap your app with DesignSystemProvider for auto-initialization
  */
-const useThemeStore = createStore<ThemeState, ThemeActions>({
+export const useTheme = createStore<ThemeState, ThemeActions>({
   name: 'theme-store',
   initialState: {
     theme: darkTheme,
@@ -108,35 +109,8 @@ const useThemeStore = createStore<ThemeState, ThemeActions>({
   }),
 });
 
-// Auto-initialize theme store on first use
-let isInitializing = false;
-let isInitialized = false;
+// Export internal store for DesignSystemProvider
+export const useThemeStore = useTheme;
 
-/**
- * Wrapper hook that auto-initializes theme store
- * This prevents apps from hanging when they forget to call initialize()
- */
-export const useTheme = () => {
-  const store = useThemeStore();
-
-  useEffect(() => {
-    if (!isInitialized && !isInitializing) {
-      isInitializing = true;
-      if (__DEV__) console.log('[useTheme] Auto-initializing theme store...');
-      
-      store.initialize().then(() => {
-        isInitialized = true;
-        isInitializing = false;
-        if (__DEV__) console.log('[useTheme] Theme store initialized');
-      }).catch(() => {
-        isInitialized = true;
-        isInitializing = false;
-        if (__DEV__) console.log('[useTheme] Theme store initialization failed, using defaults');
-      });
-    }
-  }, []);
-
-  return store;
-};
 
 

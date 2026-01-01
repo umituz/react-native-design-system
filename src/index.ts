@@ -23,6 +23,7 @@ export {
   useTheme,
   useThemedStyles,
   useThemedStyleSheet,
+  DesignSystemProvider,
   lightColors,
   darkColors,
   getColorPalette,

@@ -72,6 +72,12 @@ export { useThemedStyles, useThemedStyleSheet } from './hooks/useThemedStyles';
 export { useCommonStyles } from './hooks/useCommonStyles';
 
 // =============================================================================
+// PROVIDER
+// =============================================================================
+
+export { DesignSystemProvider } from './infrastructure/providers/DesignSystemProvider';
+
+// =============================================================================
 // THEME OBJECTS
 // =============================================================================
 
