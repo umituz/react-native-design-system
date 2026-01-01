@@ -67,6 +67,15 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const initialize = useThemeStore((state) => state.initialize);
   const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
 
+  if (__DEV__) {
+    console.log('[DesignSystemProvider] Component render:', {
+      isInitialized,
+      showLoadingIndicator,
+      hasSplashConfig: !!splashConfig,
+      splashConfigKeys: splashConfig ? Object.keys(splashConfig) : [],
+    });
+  }
+
   useEffect(() => {
     if (__DEV__) console.log('[DesignSystemProvider] Initializing...');
     
@@ -79,29 +88,45 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     // Initialize theme store
     initialize()
       .then(() => {
-        if (__DEV__) console.log('[DesignSystemProvider] Initialized successfully');
+        if (__DEV__) console.log('[DesignSystemProvider] Initialized successfully - setting isInitialized to true');
         setIsInitialized(true);
+        if (__DEV__) console.log('[DesignSystemProvider] State updated - calling onInitialized callback');
         onInitialized?.();
       })
       .catch((error) => {
         if (__DEV__) console.error('[DesignSystemProvider] Initialization failed:', error);
+        if (__DEV__) console.log('[DesignSystemProvider] Error occurred - setting isInitialized to true anyway');
         setIsInitialized(true); // Still render app even on error
         onError?.(error);
       });
   }, [initialize, customColors, setCustomColors, onInitialized, onError]);
 
   const renderContent = () => {
+    if (__DEV__) {
+      console.log('[DesignSystemProvider] renderContent:', {
+        showLoadingIndicator,
+        isInitialized,
+        hasSplashConfig: !!splashConfig,
+        hasLoadingComponent: !!loadingComponent,
+      });
+    }
+
     // Show loading indicator if requested and not yet initialized
     if (showLoadingIndicator && !isInitialized) {
+      if (__DEV__) console.log('[DesignSystemProvider] Showing loading state');
+
       if (loadingComponent) {
+        if (__DEV__) console.log('[DesignSystemProvider] Rendering custom loading component');
         return <>{loadingComponent}</>;
       }
-      
+
       // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
       if (splashConfig) {
+        if (__DEV__) console.log('[DesignSystemProvider] Rendering SplashScreen with config:', splashConfig);
         return <SplashScreen {...splashConfig} />;
       }
 
+      if (__DEV__) console.log('[DesignSystemProvider] Rendering fallback ActivityIndicator');
       return (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" />
@@ -109,6 +134,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       );
     }
 
+    if (__DEV__) console.log('[DesignSystemProvider] Rendering children (app initialized)');
     return <>{children}</>;
   };
 

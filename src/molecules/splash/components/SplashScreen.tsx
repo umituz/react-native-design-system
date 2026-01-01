@@ -37,6 +37,18 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     iconPlaceholder: `${tokens.colors.textPrimary}30`, // 30% opacity
   };
 
+  if (__DEV__) {
+    console.log('[SplashScreen] Component render:', {
+      visible,
+      appName,
+      tagline,
+      hasIcon: !!icon,
+      hasCustomColors: !!customColors,
+      resolvedColors: colors,
+      hasGradient: !!gradientColors,
+    });
+  }
+
   const handleTimeout = useCallback(() => {
     if (__DEV__) {
       console.log(`[SplashScreen] Timeout reached: ${maxDuration}ms`);
@@ -61,9 +73,13 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
   if (!visible) {
     if (__DEV__) {
-      console.log("[SplashScreen] Not visible, returning null");
+      console.log("[SplashScreen] Not visible (visible=false), returning null");
     }
     return null;
+  }
+
+  if (__DEV__) {
+    console.log("[SplashScreen] Rendering splash screen UI");
   }
 
   const iconPlaceholderColor = colors.iconPlaceholder ?? `${colors.text}30`;
