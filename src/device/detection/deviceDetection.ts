@@ -1,19 +1,23 @@
 /**
  * Device Detection Utilities
  *
- * Utilities for detecting device types and screen dimensions.
- * Follows universal design principles for cross-platform compatibility.
+ * Uses expo-device for primary device type detection (PHONE vs TABLET)
+ * and screen dimensions for secondary distinctions (small vs large phone).
+ *
+ * Benefits:
+ * - expo-device uses system-level detection on iOS (100% reliable)
+ * - Uses screen diagonal on Android (more accurate than pixels)
+ * - Future-proof: new devices automatically detected correctly
  */
 
 import { Dimensions } from 'react-native';
+import * as Device from 'expo-device';
+import { DeviceType as ExpoDeviceType } from 'expo-device';
 import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from '../../responsive/config';
 import { validateScreenDimensions } from '../../responsive/validation';
 
 /**
  * Helper function for device detection with fallback
- * @param operation - Operation to perform
- * @param fallback - Fallback value if operation fails
- * @returns Operation result or fallback
  */
 const withDeviceDetectionFallback = <T>(
   operation: () => T,
@@ -28,6 +32,7 @@ const withDeviceDetectionFallback = <T>(
 
 /**
  * Device type enum for conditional rendering
+ * Used for fine-grained phone size distinctions
  */
 export enum DeviceType {
   SMALL_PHONE = 'SMALL_PHONE',
@@ -38,8 +43,6 @@ export enum DeviceType {
 
 /**
  * Get current screen dimensions
- * @returns Screen width and height
- * @throws ResponsiveValidationError if dimensions are invalid
  */
 export const getScreenDimensions = () => {
   const { width, height } = Dimensions.get('window');
@@ -48,18 +51,40 @@ export const getScreenDimensions = () => {
     validateScreenDimensions(width, height);
     return { width, height };
   } catch {
-    // Fallback to safe default dimensions
     return { width: 414, height: 896 };
   }
 };
 
 /**
- * Check if current device is a small phone (iPhone 13 mini, SE)
- * @returns true if device is a small phone
+ * Check if current device is a tablet
+ * Uses expo-device for accurate system-level detection
+ */
+export const isTablet = (): boolean => {
+  return withDeviceDetectionFallback(
+    () => Device.deviceType === ExpoDeviceType.TABLET,
+    false
+  );
+};
+
+/**
+ * Check if current device is a phone
+ * Uses expo-device for accurate system-level detection
+ */
+export const isPhone = (): boolean => {
+  return withDeviceDetectionFallback(
+    () => Device.deviceType === ExpoDeviceType.PHONE,
+    true
+  );
+};
+
+/**
+ * Check if current device is a small phone (iPhone SE, 13 mini)
+ * Uses width breakpoint within phone category
  */
 export const isSmallPhone = (): boolean => {
   return withDeviceDetectionFallback(
     () => {
+      if (!isPhone()) return false;
       const { width } = getScreenDimensions();
       return width <= DEVICE_BREAKPOINTS.SMALL_PHONE;
     },
@@ -68,14 +93,15 @@ export const isSmallPhone = (): boolean => {
 };
 
 /**
- * Check if current device is a tablet (iPad)
- * @returns true if device is a tablet
+ * Check if current device is a large phone (Pro Max, Plus models)
+ * Uses width breakpoint within phone category
  */
-export const isTablet = (): boolean => {
+export const isLargePhone = (): boolean => {
   return withDeviceDetectionFallback(
     () => {
+      if (!isPhone()) return false;
       const { width } = getScreenDimensions();
-      return width >= DEVICE_BREAKPOINTS.SMALL_TABLET;
+      return width >= DEVICE_BREAKPOINTS.MEDIUM_PHONE;
     },
     false
   );
@@ -83,7 +109,6 @@ export const isTablet = (): boolean => {
 
 /**
  * Check if device is in landscape mode
- * @returns true if device is in landscape orientation
  */
 export const isLandscape = (): boolean => {
   return withDeviceDetectionFallback(
@@ -96,43 +121,44 @@ export const isLandscape = (): boolean => {
 };
 
 /**
- * Get current device type
- * @returns Device type enum value
+ * Get current device type with fine-grained phone distinctions
+ * Uses expo-device for PHONE vs TABLET, width for phone size variants
  */
 export const getDeviceType = (): DeviceType => {
   return withDeviceDetectionFallback(
     () => {
+      // Use expo-device for primary detection
+      if (isTablet()) {
+        return DeviceType.TABLET;
+      }
+
+      // For phones, use width for size variants
       const { width } = getScreenDimensions();
 
       if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
         return DeviceType.SMALL_PHONE;
       } else if (width <= DEVICE_BREAKPOINTS.MEDIUM_PHONE) {
         return DeviceType.MEDIUM_PHONE;
-      } else if (width <= DEVICE_BREAKPOINTS.LARGE_PHONE) {
-        return DeviceType.LARGE_PHONE;
       }
 
-      return DeviceType.TABLET;
+      return DeviceType.LARGE_PHONE;
     },
     DeviceType.MEDIUM_PHONE
   );
 };
 
 /**
- * Responsive spacing multiplier
- * Returns a multiplier for spacing based on device size
- *
- * @returns Spacing multiplier (0.9-1.2)
+ * Responsive spacing multiplier based on device type
  */
 export const getSpacingMultiplier = (): number => {
   return withDeviceDetectionFallback(
     () => {
-      const { width } = getScreenDimensions();
-
-      if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
-        return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_SMALL;
-      } else if (width >= DEVICE_BREAKPOINTS.TABLET) {
+      if (isTablet()) {
         return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET;
+      }
+
+      if (isSmallPhone()) {
+        return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_SMALL;
       }
 
       return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD;

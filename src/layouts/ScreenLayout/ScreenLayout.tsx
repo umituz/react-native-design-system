@@ -29,8 +29,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import type { Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
 import { getResponsiveHorizontalPadding } from '../../responsive/responsiveLayout';
-import { getScreenDimensions } from '../../device/detection';
-import { DEVICE_BREAKPOINTS } from '../../responsive/config';
+import { isTablet as checkIsTablet } from '../../device/detection';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider
@@ -162,11 +161,10 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   // Automatically uses current theme from global store
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
-  const { width: screenWidth } = getScreenDimensions();
-  const isTablet = screenWidth >= DEVICE_BREAKPOINTS.SMALL_TABLET;
+  const isTabletDevice = checkIsTablet();
 
   // Only apply maxWidth for tablets - phones should fill full width
-  const finalMaxWidth = maxWidth || (responsiveEnabled && isTablet ? 600 : undefined);
+  const finalMaxWidth = maxWidth || (responsiveEnabled && isTabletDevice ? 600 : undefined);
   const horizontalPadding = responsiveEnabled ? getResponsiveHorizontalPadding(tokens.spacing.md, insets) : tokens.spacing.md;
 
   const styles = useMemo(() => StyleSheet.create({

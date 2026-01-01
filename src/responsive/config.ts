@@ -10,9 +10,9 @@
  * These values determine when responsive behaviors change
  */
 export const DEVICE_BREAKPOINTS = {
-  SMALL_PHONE: 375,    // iPhone 13 mini and smaller
-  MEDIUM_PHONE: 414,   // iPhone 13/14/15
-  LARGE_PHONE: 428,    // iPhone 14 Pro Max
+  SMALL_PHONE: 375,    // iPhone SE, iPhone 13 mini
+  MEDIUM_PHONE: 414,   // iPhone 13/14/15 (390-393px actual)
+  LARGE_PHONE: 500,    // iPhone 14/15 Pro Max (430px) - buffer for future devices
   SMALL_TABLET: 768,   // iPad mini
   TABLET: 1024,        // iPad Air and larger tablets
 } as const;
