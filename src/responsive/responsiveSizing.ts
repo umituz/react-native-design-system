@@ -3,9 +3,8 @@
  * Responsive sizing utilities for UI components.
  */
 
-import { getScreenDimensions } from '../device/detection';
+import { getScreenDimensions, isSmallPhone, isTablet } from '../device/detection';
 import {
-  DEVICE_BREAKPOINTS,
   RESPONSIVE_PERCENTAGES,
   SIZE_CONSTRAINTS,
   HEIGHT_THRESHOLDS,
@@ -27,11 +26,13 @@ export const getResponsiveLogoSize = (baseSize: number = 140): number => {
   try {
     const validatedBaseSize = validateNumber(baseSize, 'baseSize', 50, 500);
     const { width } = getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone();
+    const isTabletDevice = isTablet();
 
-    if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
+    if (isSmallPhoneDevice) {
       const calculatedSize = safePercentage(width, RESPONSIVE_PERCENTAGES.LOGO_SMALL_PHONE_MAX);
       return clamp(calculatedSize, SIZE_CONSTRAINTS.LOGO_MIN_SMALL, SIZE_CONSTRAINTS.LOGO_MAX_SMALL);
-    } else if (width >= DEVICE_BREAKPOINTS.TABLET) {
+    } else if (isTabletDevice) {
       const calculatedSize = safePercentage(width, RESPONSIVE_PERCENTAGES.LOGO_TABLET_MAX);
       return clamp(calculatedSize, SIZE_CONSTRAINTS.LOGO_MIN_TABLET, SIZE_CONSTRAINTS.LOGO_MAX_TABLET);
     }
@@ -73,11 +74,13 @@ export const getResponsiveIconContainerSize = (baseSize: number = 140): number =
   try {
     const validatedBaseSize = validateNumber(baseSize, 'baseSize', 50, 300);
     const { width } = getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone();
+    const isTabletDevice = isTablet();
 
-    if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
+    if (isSmallPhoneDevice) {
       const calculatedSize = safePercentage(width, RESPONSIVE_PERCENTAGES.ICON_CONTAINER_SMALL_PHONE);
       return Math.min(calculatedSize, SIZE_CONSTRAINTS.ICON_MAX_SMALL);
-    } else if (width >= DEVICE_BREAKPOINTS.TABLET) {
+    } else if (isTabletDevice) {
       const calculatedSize = safePercentage(width, RESPONSIVE_PERCENTAGES.ICON_CONTAINER_TABLET);
       return Math.min(calculatedSize, SIZE_CONSTRAINTS.ICON_MAX_TABLET);
     }
@@ -96,10 +99,12 @@ export const getResponsiveMaxWidth = (baseWidth: number = 400): number => {
   try {
     const validatedBaseWidth = validateNumber(baseWidth, 'baseWidth', 100, 1000);
     const { width } = getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone();
+    const isTabletDevice = isTablet();
 
-    if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
+    if (isSmallPhoneDevice) {
       return safePercentage(width, RESPONSIVE_PERCENTAGES.CONTENT_SMALL_PHONE);
-    } else if (width >= DEVICE_BREAKPOINTS.TABLET) {
+    } else if (isTabletDevice) {
       const calculatedWidth = safePercentage(width, RESPONSIVE_PERCENTAGES.CONTENT_TABLET);
       return Math.min(calculatedWidth, SIZE_CONSTRAINTS.CONTENT_MAX_TABLET);
     }
@@ -118,12 +123,13 @@ export const getResponsiveMaxWidth = (baseWidth: number = 400): number => {
 export const getResponsiveFontSize = (baseFontSize: number): number => {
   try {
     const validatedBaseSize = validateFontSize(baseFontSize);
-    const { width } = getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone();
+    const isTabletDevice = isTablet();
 
-    if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
+    if (isSmallPhoneDevice) {
       const scaledSize = validatedBaseSize * RESPONSIVE_PERCENTAGES.FONT_SMALL_PHONE;
       return Math.max(scaledSize, SIZE_CONSTRAINTS.FONT_MIN_SIZE);
-    } else if (width >= DEVICE_BREAKPOINTS.TABLET) {
+    } else if (isTabletDevice) {
       return validatedBaseSize * RESPONSIVE_PERCENTAGES.FONT_TABLET;
     }
 

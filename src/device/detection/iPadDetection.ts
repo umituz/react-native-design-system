@@ -1,20 +1,20 @@
 /**
  * iPad Device Detection Utilities
+ *
+ * Uses expo-device for system-level tablet detection,
+ * then uses screen dimensions for iPad-specific sub-categories.
  */
 
-import { Dimensions, Platform } from 'react-native';
-import { DEVICE_BREAKPOINTS } from '../../responsive/config';
+import { Dimensions } from 'react-native';
 import { IPAD_BREAKPOINTS } from './iPadBreakpoints';
+import { isTablet, isLandscape } from './deviceDetection';
 
 /**
- * Detect if the current device is an iPad
+ * Detect if the current device is an iPad (or Android tablet)
+ * Uses expo-device for accurate system-level detection
  */
 export function isIPad(): boolean {
-    if (Platform.OS !== 'ios') return false;
-
-    const { width, height } = Dimensions.get('window');
-    const minDimension = Math.min(width, height);
-    return minDimension >= DEVICE_BREAKPOINTS.SMALL_TABLET;
+    return isTablet();
 }
 
 /**
@@ -40,9 +40,9 @@ export function isIPadPro(): boolean {
 }
 
 /**
- * Check if device is in landscape orientation
+ * Check if tablet device is in landscape orientation
+ * Uses shared isLandscape detection for consistency
  */
 export function isIPadLandscape(): boolean {
-    const { width, height } = Dimensions.get('window');
-    return width > height;
+    return isLandscape();
 }

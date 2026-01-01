@@ -3,9 +3,8 @@
  * Modal, bottom sheet, and dialog layout utilities.
  */
 
-import { getScreenDimensions } from '../device/detection';
+import { getScreenDimensions, isTablet } from '../device/detection';
 import {
-  DEVICE_BREAKPOINTS,
   LAYOUT_CONSTANTS,
   HEIGHT_THRESHOLDS,
   SIZE_CONSTRAINTS,
@@ -74,7 +73,7 @@ export const getResponsiveMinModalHeight = (): number => {
 export const getResponsiveModalWidth = (): number => {
   try {
     const { width } = getScreenDimensions();
-    const isTabletDevice = width >= DEVICE_BREAKPOINTS.TABLET;
+    const isTabletDevice = isTablet();
 
     const widthPercent = isTabletDevice
       ? MODAL_CONFIG.WIDTH_PERCENT_TABLET
@@ -92,8 +91,8 @@ export const getResponsiveModalWidth = (): number => {
 
 export const getResponsiveModalHeight = (): number => {
   try {
-    const { width, height } = getScreenDimensions();
-    const isTabletDevice = width >= DEVICE_BREAKPOINTS.TABLET;
+    const { height } = getScreenDimensions();
+    const isTabletDevice = isTablet();
 
     if (isTabletDevice) {
       return height * MODAL_CONFIG.HEIGHT_PERCENT_TABLET;
@@ -111,8 +110,7 @@ export const getResponsiveModalHeight = (): number => {
 
 export const getResponsiveModalBorderRadius = (): number => {
   try {
-    const { width } = getScreenDimensions();
-    const isTabletDevice = width >= DEVICE_BREAKPOINTS.TABLET;
+    const isTabletDevice = isTablet();
 
     return isTabletDevice
       ? MODAL_CONFIG.BORDER_RADIUS_TABLET
@@ -124,8 +122,7 @@ export const getResponsiveModalBorderRadius = (): number => {
 
 export const getResponsiveModalMaxWidth = (): number => {
   try {
-    const { width } = getScreenDimensions();
-    const isTabletDevice = width >= DEVICE_BREAKPOINTS.TABLET;
+    const isTabletDevice = isTablet();
 
     return isTabletDevice
       ? MODAL_CONFIG.MAX_WIDTH_TABLET
@@ -140,8 +137,7 @@ export const getResponsiveBackdropOpacity = (): number => {
 };
 
 export const getResponsiveModalLayout = (): ResponsiveModalLayout => {
-  const { width } = getScreenDimensions();
-  const isTabletDevice = width >= DEVICE_BREAKPOINTS.TABLET;
+  const isTabletDevice = isTablet();
 
   return {
     width: getResponsiveModalWidth(),

@@ -19,7 +19,9 @@ export {
 export {
     DeviceType,
     getScreenDimensions,
+    isPhone,
     isSmallPhone,
+    isLargePhone,
     isTablet,
     isLandscape,
     getDeviceType,

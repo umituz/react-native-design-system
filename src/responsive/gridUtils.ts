@@ -3,8 +3,8 @@
  * Responsive grid sizing and column calculations
  */
 
-import { getScreenDimensions } from '../device/detection';
-import { DEVICE_BREAKPOINTS, GRID_CONFIG } from './config';
+import { getScreenDimensions, isTablet } from '../device/detection';
+import { GRID_CONFIG } from './config';
 import { validateNumber } from './validation';
 
 /**
@@ -23,8 +23,8 @@ export const getResponsiveGridColumns = (
     const validatedMobile = validateNumber(mobileColumns, 'mobileColumns', 1, 20);
     const validatedTablet = validateNumber(tabletColumns, 'tabletColumns', 1, 20);
 
-    const { width } = getScreenDimensions();
-    return width >= DEVICE_BREAKPOINTS.TABLET ? validatedTablet : validatedMobile;
+    const isTabletDevice = isTablet();
+    return isTabletDevice ? validatedTablet : validatedMobile;
   } catch {
     return 2;
   }
