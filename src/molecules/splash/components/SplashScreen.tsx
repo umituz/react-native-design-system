@@ -1,14 +1,15 @@
 /**
  * Splash Screen Component
- * Pure prop-driven component, no context needed
+ * Pure prop-driven component with theme-aware defaults
  */
 
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AtomicText } from "../../../atoms";
-import type { SplashScreenProps } from "../types";
+import { useAppDesignTokens } from "../../../theme";
+import type { SplashScreenProps, SplashColors } from "../types";
 import { SPLASH_CONSTANTS } from "../constants";
 
 declare const __DEV__: boolean;
@@ -17,7 +18,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   icon,
   appName,
   tagline,
-  colors,
+  colors: customColors,
   gradientColors,
   visible = true,
   maxDuration,
@@ -26,7 +27,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   style,
 }: SplashScreenProps) => {
   const insets = useSafeAreaInsets();
+  const tokens = useAppDesignTokens();
   const [timedOut, setTimedOut] = useState(false);
+
+  // Derive colors from tokens if not provided (theme-aware defaults)
+  const colors: SplashColors = customColors ?? {
+    background: tokens.colors.backgroundPrimary,
+    text: tokens.colors.textPrimary,
+    iconPlaceholder: `${tokens.colors.textPrimary}30`, // 30% opacity
+  };
 
   const handleTimeout = useCallback(() => {
     if (__DEV__) {
@@ -96,6 +105,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           </AtomicText>
         ) : null}
 
+        {/* Always show loading indicator during initialization */}
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator
+            size="large"
+            color={colors.text}
+            style={styles.loadingIndicator}
+          />
+        </View>
+
         {timedOut && __DEV__ ? (
           <AtomicText
             type="labelSmall"
@@ -161,6 +179,15 @@ const styles = StyleSheet.create({
   tagline: {
     textAlign: "center",
     opacity: 0.9,
+  },
+  loadingContainer: {
+    marginTop: SPLASH_CONSTANTS.CONTENT_PADDING,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 40,
+  },
+  loadingIndicator: {
+    opacity: 0.8,
   },
   timeoutText: {
     textAlign: "center",

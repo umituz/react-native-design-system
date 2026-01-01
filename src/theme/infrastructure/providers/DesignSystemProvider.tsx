@@ -98,7 +98,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       }
       
       // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
-      if (splashConfig?.colors) {
+      if (splashConfig) {
         return <SplashScreen {...splashConfig} />;
       }
 
