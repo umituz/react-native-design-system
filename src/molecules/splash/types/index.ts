@@ -67,8 +67,25 @@ export interface SplashScreenProps {
   /** App icon/logo image source */
   icon?: ImageSourcePropType;
 
-  /** Color configuration (required - must be provided by app) */
-  colors: SplashColors;
+  /**
+   * Color configuration (optional - uses design tokens by default)
+   *
+   * If not provided, colors will be automatically derived from the current theme:
+   * - Light mode: dark text on light background
+   * - Dark mode: light text on dark background
+   *
+   * @example
+   * // Auto theme-aware (recommended)
+   * <SplashScreen appName="MyApp" icon={icon} />
+   *
+   * // Custom colors
+   * <SplashScreen
+   *   appName="MyApp"
+   *   icon={icon}
+   *   colors={{ background: '#FF0000', text: '#FFFFFF' }}
+   * />
+   */
+  colors?: SplashColors;
 
   /** Optional gradient colors (overrides background color) */
   gradientColors?: readonly [string, string, ...string[]];

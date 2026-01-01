@@ -108,3 +108,6 @@ export { AtomicSwitch, type AtomicSwitchProps } from './AtomicSwitch';
 
 // Touchable
 export { AtomicTouchable, type AtomicTouchableProps } from './AtomicTouchable';
+
+// StatusBar
+export { AtomicStatusBar, type AtomicStatusBarProps } from './status-bar';
