@@ -53,17 +53,17 @@ export const getResponsiveMinModalHeight = (): number => {
     const { height } = getScreenDimensions();
 
     if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
-      const calculatedHeight = height * 0.4;
+      const calculatedHeight = height * MODAL_CONFIG.MIN_HEIGHT_PERCENT_SMALL;
       return Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_SMALL);
     } else if (height >= HEIGHT_THRESHOLDS.LARGE_DEVICE) {
-      const calculatedHeight = height * 0.35;
+      const calculatedHeight = height * MODAL_CONFIG.MIN_HEIGHT_PERCENT_TABLET;
       return Math.min(
         Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_TABLET),
         SIZE_CONSTRAINTS.MODAL_MAX_TABLET
       );
     }
 
-    const calculatedHeight = height * 0.45;
+    const calculatedHeight = height * MODAL_CONFIG.MIN_HEIGHT_PERCENT_STANDARD;
     return Math.max(calculatedHeight, SIZE_CONSTRAINTS.MODAL_MIN_STANDARD);
   } catch {
     return 300;
@@ -146,7 +146,7 @@ export const getResponsiveModalLayout = (): ResponsiveModalLayout => {
     borderRadius: getResponsiveModalBorderRadius(),
     backdropOpacity: getResponsiveBackdropOpacity(),
     horizontalPadding: isTabletDevice
-      ? LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE * 1.5
+      ? LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE * LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET
       : LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE,
   };
 };

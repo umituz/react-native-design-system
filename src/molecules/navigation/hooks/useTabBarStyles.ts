@@ -1,6 +1,7 @@
-import { Platform } from 'react-native';
 import { useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../../theme';
+import { getResponsiveTabBarConfig } from '../../../responsive/responsiveLayout';
 
 export interface TabBarConfig {
     backgroundColor?: string;
@@ -19,17 +20,24 @@ export interface TabBarConfig {
 
 export function useTabBarStyles(config: TabBarConfig = {}) {
     const tokens = useAppDesignTokens();
+    const insets = useSafeAreaInsets();
+
+    // Get responsive tab bar config based on device type and safe area
+    const responsiveConfig = useMemo(
+        () => getResponsiveTabBarConfig(insets),
+        [insets]
+    );
 
     const tabBarStyle = useMemo(() => ({
         backgroundColor: config.backgroundColor || tokens.colors.surface,
         borderTopColor: config.borderTopColor || tokens.colors.borderLight,
         borderTopWidth: config.borderTopWidth ?? 1,
-        paddingTop: config.paddingTop ?? 12,
-        paddingBottom: config.paddingBottom ?? (Platform.OS === 'ios' ? 24 : 12),
-        minHeight: config.minHeight ?? (Platform.OS === 'ios' ? 80 : 70),
+        paddingTop: config.paddingTop ?? responsiveConfig.paddingTop,
+        paddingBottom: config.paddingBottom ?? responsiveConfig.paddingBottom,
+        minHeight: config.minHeight ?? responsiveConfig.height,
     }), [config.backgroundColor, config.borderTopColor, config.borderTopWidth,
     config.paddingTop, config.paddingBottom, config.minHeight, tokens.colors.surface,
-    tokens.colors.borderLight]);
+    tokens.colors.borderLight, responsiveConfig]);
 
     const screenOptions = useMemo(() => ({
         headerShown: false,

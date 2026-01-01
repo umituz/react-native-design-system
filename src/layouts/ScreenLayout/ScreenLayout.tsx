@@ -24,12 +24,11 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, StyleSheet, type ViewStyle, RefreshControlProps } from 'react-native';
+import { View, ScrollView, StyleSheet, KeyboardAvoidingView, type ViewStyle, type RefreshControlProps } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
-import { getResponsiveHorizontalPadding } from '../../responsive/responsiveLayout';
-import { isTablet as checkIsTablet } from '../../device/detection';
+import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider
@@ -161,14 +160,23 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   // Automatically uses current theme from global store
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
-  const isTabletDevice = checkIsTablet();
 
-  // Only apply maxWidth for tablets - phones should fill full width
-  const finalMaxWidth = maxWidth || (responsiveEnabled && isTabletDevice ? 600 : undefined);
-  const horizontalPadding = responsiveEnabled ? getResponsiveHorizontalPadding(tokens.spacing.md, insets) : tokens.spacing.md;
+  // Get all responsive layout values from centralized config
+  const layoutConfig = useMemo(
+    () => getScreenLayoutConfig(insets),
+    [insets]
+  );
+
+  // Use provided maxWidth or responsive default
+  const finalMaxWidth = maxWidth || (responsiveEnabled ? layoutConfig.maxContentWidth : undefined);
+  const horizontalPadding = responsiveEnabled ? layoutConfig.horizontalPadding : tokens.spacing.md;
+  const verticalPadding = responsiveEnabled ? layoutConfig.verticalPadding : tokens.spacing.lg;
 
   const styles = useMemo(() => StyleSheet.create({
     container: {
+      flex: 1,
+    },
+    keyboardAvoidingView: {
       flex: 1,
     },
     responsiveWrapper: {
@@ -178,6 +186,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
     },
     content: {
       flex: 1,
+      paddingTop: verticalPadding,
       paddingHorizontal: horizontalPadding,
     },
     scrollView: {
@@ -185,12 +194,29 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
     },
     scrollContent: {
       flexGrow: 1,
+      paddingTop: verticalPadding,
       paddingHorizontal: horizontalPadding,
-      paddingBottom: tokens.spacing.lg,
+      paddingBottom: verticalPadding,
     },
-  }), [tokens, finalMaxWidth, horizontalPadding]);
+  }), [tokens, finalMaxWidth, horizontalPadding, verticalPadding]);
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
+
+  // Content wrapper - optionally with KeyboardAvoidingView
+  // Uses 'padding' behavior which works consistently cross-platform
+  const ContentWrapper: React.FC<{ children: React.ReactNode }> = ({ children: wrapperChildren }) => {
+    if (keyboardAvoiding) {
+      return (
+        <KeyboardAvoidingView
+          style={styles.keyboardAvoidingView}
+          behavior="padding"
+        >
+          {wrapperChildren}
+        </KeyboardAvoidingView>
+      );
+    }
+    return <>{wrapperChildren}</>;
+  };
 
   // Non-scrollable layout
   if (!scrollable) {
@@ -200,13 +226,15 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
         edges={edges}
         testID={testID}
       >
-        <View style={styles.responsiveWrapper}>
-          {header}
-          <View style={[styles.content, contentContainerStyle]}>
-            {children}
+        <ContentWrapper>
+          <View style={styles.responsiveWrapper}>
+            {header}
+            <View style={[styles.content, contentContainerStyle]}>
+              {children}
+            </View>
+            {footer}
           </View>
-          {footer}
-        </View>
+        </ContentWrapper>
       </SafeAreaView>
     );
   }
@@ -218,19 +246,21 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
       edges={edges}
       testID={testID}
     >
-      <View style={styles.responsiveWrapper}>
-        {header}
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
-          showsVerticalScrollIndicator={!hideScrollIndicator}
-          keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
-          refreshControl={refreshControl}
-        >
-          {children}
-        </ScrollView>
-        {footer}
-      </View>
+      <ContentWrapper>
+        <View style={styles.responsiveWrapper}>
+          {header}
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+            showsVerticalScrollIndicator={!hideScrollIndicator}
+            keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
+            refreshControl={refreshControl}
+          >
+            {children}
+          </ScrollView>
+          {footer}
+        </View>
+      </ContentWrapper>
     </SafeAreaView>
   );
 };

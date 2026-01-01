@@ -19,11 +19,14 @@ export {
 // Responsive layout
 export {
   getResponsiveHorizontalPadding,
+  getResponsiveVerticalPadding,
+  getScreenLayoutConfig,
   getResponsiveBottomPosition,
   getResponsiveFABPosition,
   getResponsiveTabBarHeight,
   getResponsiveTabBarConfig,
   type ResponsiveTabBarConfig,
+  type ScreenLayoutConfig,
 } from './responsiveLayout';
 
 // Responsive modal utilities

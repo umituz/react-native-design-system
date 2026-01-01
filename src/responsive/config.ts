@@ -91,6 +91,11 @@ export const MODAL_CONFIG = {
   HEIGHT_PERCENT_STANDARD: 0.78,   // 78% of screen height for standard devices
   HEIGHT_PERCENT_TABLET: 0.70,     // 70% of screen height for tablets
 
+  // Min modal height percentages (for calculated min heights)
+  MIN_HEIGHT_PERCENT_SMALL: 0.40,     // 40% of screen height for small devices
+  MIN_HEIGHT_PERCENT_STANDARD: 0.45,  // 45% of screen height for standard devices
+  MIN_HEIGHT_PERCENT_TABLET: 0.35,    // 35% of screen height for tablets
+
   // Max width constraints
   MAX_WIDTH_PHONE: 480,            // Maximum modal width for phones
   MAX_WIDTH_TABLET: 600,           // Maximum modal width for tablets
@@ -121,9 +126,12 @@ export const LAYOUT_CONSTANTS = {
   SPACING_MULTIPLIER_SMALL: 0.90,   // 90% spacing for small devices
   SPACING_MULTIPLIER_TABLET: 1.20,   // 120% spacing for tablets
   SPACING_MULTIPLIER_STANDARD: 1.0,   // 100% spacing for standard devices
-  
+
   // Padding and margins
   HORIZONTAL_PADDING_BASE: 16,         // Base horizontal padding
+  VERTICAL_PADDING_SMALL: 12,          // Vertical padding for small devices
+  VERTICAL_PADDING_STANDARD: 16,       // Vertical padding for standard devices
+  VERTICAL_PADDING_TABLET: 24,         // Vertical padding for tablets
   BOTTOM_POSITION_BASE: 32,           // Base bottom position
   
   // Safe area offsets

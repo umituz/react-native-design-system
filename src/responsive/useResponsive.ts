@@ -17,6 +17,8 @@ import {
   getResponsiveLogoSize,
   getResponsiveInputHeight,
   getResponsiveHorizontalPadding,
+  getResponsiveVerticalPadding,
+  getScreenLayoutConfig,
   getResponsiveBottomPosition,
   getResponsiveFABPosition,
   getResponsiveTabBarConfig,
@@ -33,6 +35,7 @@ import {
   type ResponsiveBottomSheetLayout,
   type ResponsiveDialogLayout,
   type ResponsiveTabBarConfig,
+  type ScreenLayoutConfig,
 } from "./responsive";
 import {
   isSmallPhone,
@@ -70,8 +73,12 @@ export interface UseResponsiveReturn {
 
   // Responsive positioning
   horizontalPadding: number;
+  verticalPadding: number;
   bottomPosition: number;
   fabPosition: { bottom: number; right: number };
+
+  // Screen layout config (complete configuration for ScreenLayout)
+  screenLayoutConfig: ScreenLayoutConfig;
 
   // Responsive layout
   modalMaxHeight: string;
@@ -160,8 +167,12 @@ export const useResponsive = (): UseResponsiveReturn => {
 
       // Responsive positioning
       horizontalPadding: getResponsiveHorizontalPadding(undefined, insets),
+      verticalPadding: getResponsiveVerticalPadding(insets),
       bottomPosition: getResponsiveBottomPosition(undefined, insets),
       fabPosition: getResponsiveFABPosition(insets),
+
+      // Screen layout config (complete configuration for ScreenLayout)
+      screenLayoutConfig: getScreenLayoutConfig(insets),
 
       // Responsive layout
       modalMaxHeight: getResponsiveModalMaxHeight(),

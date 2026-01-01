@@ -3,8 +3,8 @@
  * Layout utilities for positioning and spacing.
  */
 
-import { getScreenDimensions, isTablet } from '../device/detection';
-import { LAYOUT_CONSTANTS } from './config';
+import { isTablet, isSmallPhone, getSpacingMultiplier } from '../device/detection';
+import { LAYOUT_CONSTANTS, SIZE_CONSTRAINTS } from './config';
 import { validateNumber, validateSafeAreaInsets } from './validation';
 
 /**
@@ -12,6 +12,75 @@ import { validateNumber, validateSafeAreaInsets } from './validation';
  * Uses expo-device based detection for accuracy
  */
 const checkIsTabletSize = (): boolean => isTablet();
+
+/**
+ * Screen layout configuration for ScreenLayout component
+ */
+export interface ScreenLayoutConfig {
+  maxContentWidth: number | undefined;
+  horizontalPadding: number;
+  verticalPadding: number;
+  spacingMultiplier: number;
+}
+
+/**
+ * Get complete screen layout configuration
+ * Returns all responsive values needed for ScreenLayout
+ */
+export const getScreenLayoutConfig = (
+  insets: { left?: number; right?: number; top?: number; bottom?: number } = {}
+): ScreenLayoutConfig => {
+  try {
+    const isTabletDevice = checkIsTabletSize();
+    const spacingMultiplier = getSpacingMultiplier();
+
+    return {
+      maxContentWidth: isTabletDevice ? SIZE_CONSTRAINTS.CONTENT_MAX_TABLET : undefined,
+      horizontalPadding: getResponsiveHorizontalPadding(LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE, insets),
+      verticalPadding: getResponsiveVerticalPadding(insets),
+      spacingMultiplier,
+    };
+  } catch {
+    return {
+      maxContentWidth: undefined,
+      horizontalPadding: LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE,
+      verticalPadding: LAYOUT_CONSTANTS.VERTICAL_PADDING_STANDARD,
+      spacingMultiplier: LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD,
+    };
+  }
+};
+
+/**
+ * Responsive vertical padding
+ * Adjusts based on device type and safe area insets
+ */
+export const getResponsiveVerticalPadding = (
+  insets: { top?: number; bottom?: number } = { top: 0, bottom: 0 }
+): number => {
+  try {
+    validateSafeAreaInsets(insets);
+    const { top = 0 } = insets;
+    const isTabletDevice = checkIsTabletSize();
+    const isSmall = isSmallPhone();
+    const spacingMultiplier = getSpacingMultiplier();
+
+    // Base padding adjusted by device type
+    let basePadding: number = LAYOUT_CONSTANTS.VERTICAL_PADDING_STANDARD;
+    if (isTabletDevice) {
+      basePadding = LAYOUT_CONSTANTS.VERTICAL_PADDING_TABLET;
+    } else if (isSmall) {
+      basePadding = LAYOUT_CONSTANTS.VERTICAL_PADDING_SMALL;
+    }
+
+    // Apply spacing multiplier for consistency
+    const adjustedPadding = basePadding * spacingMultiplier;
+
+    // Ensure minimum padding respects safe area
+    return Math.max(adjustedPadding, top > 0 ? 8 : adjustedPadding);
+  } catch {
+    return LAYOUT_CONSTANTS.VERTICAL_PADDING_STANDARD;
+  }
+};
 
 /**
  * Responsive horizontal padding
@@ -28,7 +97,7 @@ export const getResponsiveHorizontalPadding = (
     const isTabletDevice = checkIsTabletSize();
 
     if (isTabletDevice) {
-      const tabletPadding = validatedBasePadding * 1.5;
+      const tabletPadding = validatedBasePadding * LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET;
       return Math.max(
         tabletPadding,
         left + LAYOUT_CONSTANTS.HORIZONTAL_PADDING_BASE,
@@ -99,7 +168,10 @@ export const getResponsiveFABPosition = (
       ),
     };
   } catch {
-    return { bottom: 90, right: 20 };
+    return {
+      bottom: LAYOUT_CONSTANTS.TAB_BAR_OFFSET,
+      right: LAYOUT_CONSTANTS.FAB_RIGHT_PHONE,
+    };
   }
 };
 
