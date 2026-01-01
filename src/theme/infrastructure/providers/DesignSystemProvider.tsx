@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactNode } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 import { useThemeStore } from '../stores/themeStore';
 import { useDesignSystemTheme } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
@@ -89,25 +90,33 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       });
   }, [initialize, customColors, setCustomColors, onInitialized, onError]);
 
-  // Show loading indicator if requested and not yet initialized
-  if (showLoadingIndicator && !isInitialized) {
-    if (loadingComponent) {
-      return <>{loadingComponent}</>;
-    }
-    
-    // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
-    if (splashConfig?.colors) {
-      return <SplashScreen {...splashConfig} />;
+  const renderContent = () => {
+    // Show loading indicator if requested and not yet initialized
+    if (showLoadingIndicator && !isInitialized) {
+      if (loadingComponent) {
+        return <>{loadingComponent}</>;
+      }
+      
+      // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
+      if (splashConfig?.colors) {
+        return <SplashScreen {...splashConfig} />;
+      }
+
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
     }
 
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+    return <>{children}</>;
+  };
 
-  return <>{children}</>;
+  return (
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      {renderContent()}
+    </SafeAreaProvider>
+  );
 };
 
 const styles = StyleSheet.create({
