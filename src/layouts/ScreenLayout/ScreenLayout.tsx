@@ -173,7 +173,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
       flex: 1,
       width: '100%',
       maxWidth: finalMaxWidth,
-      alignSelf: 'center',
+      alignSelf: 'flex-start',
     },
     content: {
       flex: 1,

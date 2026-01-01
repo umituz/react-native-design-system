@@ -10,6 +10,7 @@
  * - Syncs with design system global theme store
  */
 
+import { useEffect } from 'react';
 import { createStore } from '@umituz/react-native-storage';
 import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
@@ -42,7 +43,7 @@ interface ThemeActions {
  * };
  * ```
  */
-export const useTheme = createStore<ThemeState, ThemeActions>({
+const useThemeStore = createStore<ThemeState, ThemeActions>({
   name: 'theme-store',
   initialState: {
     theme: darkTheme,
@@ -107,8 +108,35 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
   }),
 });
 
+// Auto-initialize theme store on first use
+let isInitializing = false;
+let isInitialized = false;
 
+/**
+ * Wrapper hook that auto-initializes theme store
+ * This prevents apps from hanging when they forget to call initialize()
+ */
+export const useTheme = () => {
+  const store = useThemeStore();
 
+  useEffect(() => {
+    if (!isInitialized && !isInitializing) {
+      isInitializing = true;
+      if (__DEV__) console.log('[useTheme] Auto-initializing theme store...');
+      
+      store.initialize().then(() => {
+        isInitialized = true;
+        isInitializing = false;
+        if (__DEV__) console.log('[useTheme] Theme store initialized');
+      }).catch(() => {
+        isInitialized = true;
+        isInitializing = false;
+        if (__DEV__) console.log('[useTheme] Theme store initialization failed, using defaults');
+      });
+    }
+  }, []);
 
+  return store;
+};
 
 
