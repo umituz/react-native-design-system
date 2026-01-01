@@ -28,8 +28,9 @@ import { View, ScrollView, StyleSheet, type ViewStyle, RefreshControlProps } fro
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { Edge } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
-import { getResponsiveMaxWidth } from '../../responsive/responsiveSizing';
 import { getResponsiveHorizontalPadding } from '../../responsive/responsiveLayout';
+import { getScreenDimensions } from '../../device/detection';
+import { DEVICE_BREAKPOINTS } from '../../responsive/config';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider
@@ -161,8 +162,11 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   // Automatically uses current theme from global store
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
+  const { width: screenWidth } = getScreenDimensions();
+  const isTablet = screenWidth >= DEVICE_BREAKPOINTS.SMALL_TABLET;
 
-  const finalMaxWidth = maxWidth || (responsiveEnabled ? getResponsiveMaxWidth() : undefined);
+  // Only apply maxWidth for tablets - phones should fill full width
+  const finalMaxWidth = maxWidth || (responsiveEnabled && isTablet ? 600 : undefined);
   const horizontalPadding = responsiveEnabled ? getResponsiveHorizontalPadding(tokens.spacing.md, insets) : tokens.spacing.md;
 
   const styles = useMemo(() => StyleSheet.create({
@@ -172,8 +176,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
     responsiveWrapper: {
       flex: 1,
       width: '100%',
-      maxWidth: finalMaxWidth,
-      alignSelf: 'flex-start',
+      ...(finalMaxWidth ? { maxWidth: finalMaxWidth, alignSelf: 'center' as const } : {}),
     },
     content: {
       flex: 1,
