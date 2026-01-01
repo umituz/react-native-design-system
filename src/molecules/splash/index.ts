@@ -8,3 +8,6 @@ export type {
   SplashScreenProps,
   SplashColors,
 } from './types';
+
+export { useSplashFlow } from './hooks';
+export type { UseSplashFlowOptions, UseSplashFlowResult } from './hooks';
