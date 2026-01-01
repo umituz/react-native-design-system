@@ -234,6 +234,8 @@ export {
   type AtomicSwitchProps,
   AtomicTouchable,
   type AtomicTouchableProps,
+  AtomicStatusBar,
+  type AtomicStatusBarProps,
 } from './atoms';
 
 // =============================================================================

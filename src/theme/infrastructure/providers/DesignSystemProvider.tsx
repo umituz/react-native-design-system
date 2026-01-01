@@ -141,7 +141,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
       if (splashConfig) {
         if (__DEV__) console.log('[DesignSystemProvider] Rendering SplashScreen with config:', splashConfig);
-        return <SplashScreen {...splashConfig} />;
+        return <SplashScreen {...splashConfig} visible={shouldShowSplash} />;
       }
 
       if (__DEV__) console.log('[DesignSystemProvider] Rendering fallback ActivityIndicator');
