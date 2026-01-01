@@ -26,28 +26,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   onReady,
   style,
 }: SplashScreenProps) => {
+  // ALL HOOKS MUST BE AT THE TOP (Rules of Hooks)
   const insets = useSafeAreaInsets();
   const tokens = useAppDesignTokens();
   const [timedOut, setTimedOut] = useState(false);
-
-  // Derive colors from tokens if not provided (theme-aware defaults)
-  const colors: SplashColors = customColors ?? {
-    background: tokens.colors.backgroundPrimary,
-    text: tokens.colors.textPrimary,
-    iconPlaceholder: `${tokens.colors.textPrimary}30`, // 30% opacity
-  };
-
-  if (__DEV__) {
-    console.log('[SplashScreen] Component render:', {
-      visible,
-      appName,
-      tagline,
-      hasIcon: !!icon,
-      hasCustomColors: !!customColors,
-      resolvedColors: colors,
-      hasGradient: !!gradientColors,
-    });
-  }
 
   const handleTimeout = useCallback(() => {
     if (__DEV__) {
@@ -70,6 +52,27 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     const timer = setTimeout(handleTimeout, maxDuration);
     return () => clearTimeout(timer);
   }, [maxDuration, visible, handleTimeout]);
+
+  // ALL HOOKS ABOVE - NOW SAFE TO USE OTHER LOGIC
+
+  // Derive colors from tokens if not provided (theme-aware defaults)
+  const colors: SplashColors = customColors ?? {
+    background: tokens.colors.backgroundPrimary,
+    text: tokens.colors.textPrimary,
+    iconPlaceholder: `${tokens.colors.textPrimary}30`, // 30% opacity
+  };
+
+  if (__DEV__) {
+    console.log('[SplashScreen] Component render:', {
+      visible,
+      appName,
+      tagline,
+      hasIcon: !!icon,
+      hasCustomColors: !!customColors,
+      resolvedColors: colors,
+      hasGradient: !!gradientColors,
+    });
+  }
 
   if (!visible) {
     if (__DEV__) {

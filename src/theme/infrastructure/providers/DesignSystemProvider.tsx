@@ -63,23 +63,11 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   onInitialized,
   onError,
 }: DesignSystemProviderProps) => {
+  // ALL HOOKS MUST BE AT THE TOP (Rules of Hooks)
   const [isInitialized, setIsInitialized] = useState(false);
   const [minDisplayTimeMet, setMinDisplayTimeMet] = useState(false);
   const initialize = useThemeStore((state) => state.initialize);
   const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
-
-  // Minimum splash display time (1.5 seconds)
-  const MIN_SPLASH_DISPLAY_TIME = 1500;
-
-  if (__DEV__) {
-    console.log('[DesignSystemProvider] Component render:', {
-      isInitialized,
-      minDisplayTimeMet,
-      showLoadingIndicator,
-      hasSplashConfig: !!splashConfig,
-      splashConfigKeys: splashConfig ? Object.keys(splashConfig) : [],
-    });
-  }
 
   useEffect(() => {
     if (__DEV__) console.log('[DesignSystemProvider] Initializing...');
@@ -90,7 +78,8 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       setCustomColors(customColors);
     }
 
-    // Start minimum display timer
+    // Start minimum display timer (1.5 seconds)
+    const MIN_SPLASH_DISPLAY_TIME = 1500;
     const displayTimer = setTimeout(() => {
       if (__DEV__) console.log('[DesignSystemProvider] Minimum display time met (1.5s)');
       setMinDisplayTimeMet(true);
@@ -113,6 +102,18 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
 
     return () => clearTimeout(displayTimer);
   }, [initialize, customColors, setCustomColors, onInitialized, onError]);
+
+  // ALL HOOKS ABOVE - NOW SAFE TO USE OTHER LOGIC
+
+  if (__DEV__) {
+    console.log('[DesignSystemProvider] Component render:', {
+      isInitialized,
+      minDisplayTimeMet,
+      showLoadingIndicator,
+      hasSplashConfig: !!splashConfig,
+      splashConfigKeys: splashConfig ? Object.keys(splashConfig) : [],
+    });
+  }
 
   const renderContent = () => {
     const shouldShowSplash = showLoadingIndicator && (!isInitialized || !minDisplayTimeMet);
