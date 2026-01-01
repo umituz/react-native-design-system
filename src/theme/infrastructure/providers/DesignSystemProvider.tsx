@@ -3,6 +3,8 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { useThemeStore } from '../stores/themeStore';
 import { useDesignSystemTheme } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
+import { SplashScreen } from '../../../molecules/splash';
+import type { SplashScreenProps } from '../../../molecules/splash/types';
 
 declare const __DEV__: boolean;
 
@@ -11,9 +13,11 @@ interface DesignSystemProviderProps {
   children: ReactNode;
   /** Custom theme colors to override defaults */
   customColors?: CustomThemeColors;
-  /** Show loading indicator while initializing (default: false) */
+  /** Show loading indicator while initializing (default: true) */
   showLoadingIndicator?: boolean;
-  /** Custom loading component */
+  /** Splash screen configuration (used when showLoadingIndicator is true) */
+  splashConfig?: Pick<SplashScreenProps, 'appName' | 'tagline' | 'icon' | 'colors' | 'gradientColors'>;
+  /** Custom loading component (overrides splash screen) */
   loadingComponent?: ReactNode;
   /** Callback when initialization completes */
   onInitialized?: () => void;
@@ -52,7 +56,8 @@ interface DesignSystemProviderProps {
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   children,
   customColors,
-  showLoadingIndicator = false,
+  showLoadingIndicator = true,
+  splashConfig,
   loadingComponent,
   onInitialized,
   onError,
@@ -90,6 +95,11 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       return <>{loadingComponent}</>;
     }
     
+    // Use SplashScreen if config provided, otherwise fallback to ActivityIndicator
+    if (splashConfig?.colors) {
+      return <SplashScreen {...splashConfig} />;
+    }
+
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" />

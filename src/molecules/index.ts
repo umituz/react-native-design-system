@@ -56,3 +56,6 @@ export * from './emoji';
 
 // Countdown
 export * from './countdown';
+
+// Splash
+export * from './splash';
