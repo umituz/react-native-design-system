@@ -16,8 +16,10 @@ import { PersistentDeviceIdService } from './PersistentDeviceIdService';
 /**
  * Device extras for user documents
  * Compatible with UserDocumentExtras from @umituz/react-native-auth
+ * Index signature added for Record<string, unknown> compatibility
  */
 export interface DeviceExtras {
+  [key: string]: string | undefined;
   deviceId?: string;
   platform?: string;
   deviceModel?: string;
