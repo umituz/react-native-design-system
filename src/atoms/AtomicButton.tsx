@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, StyleProp, ViewStyle, TextStyle, TouchableOpacity, View } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { AtomicIcon } from './AtomicIcon';
+import { AtomicSpinner } from './AtomicSpinner';
 import { useAppDesignTokens } from '../theme';
 import type { IconName } from './AtomicIcon';
 
@@ -198,8 +199,8 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
     >
       <View style={styles.content}>
         {loading ? (
-          <ActivityIndicator
-            size="small"
+          <AtomicSpinner
+            size="sm"
             color={iconColor as string}
             style={styles.icon}
           />

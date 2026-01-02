@@ -3,11 +3,11 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    ActivityIndicator,
     StyleSheet,
 } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon } from '../../atoms/AtomicIcon';
+import { AtomicSpinner } from '../../atoms/AtomicSpinner';
 import type { SearchBarProps } from './types';
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -83,9 +83,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             {(loading || showClear) && (
                 <View style={styles.rightActions}>
                     {loading && (
-                        <ActivityIndicator
-                            size="small"
-                            color={tokens.colors.primary}
+                        <AtomicSpinner
+                            size="sm"
+                            color="primary"
                             style={styles.loader}
                         />
                     )}

@@ -26,7 +26,7 @@ export interface EmptyStateProps {
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
-  icon = 'inbox',
+  icon = 'file-tray-outline',
   title,
   subtitle,
   description,

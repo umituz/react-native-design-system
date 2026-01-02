@@ -4,10 +4,10 @@
  */
 
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Image, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "../../../safe-area";
-import { AtomicText } from "../../../atoms";
+import { AtomicText, AtomicSpinner } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
 import type { SplashScreenProps, SplashColors } from "../types";
 import { SPLASH_CONSTANTS } from "../constants";
@@ -126,8 +126,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
         {/* Always show loading indicator during initialization */}
         <View style={styles.loadingContainer}>
-          <ActivityIndicator
-            size="large"
+          <AtomicSpinner
+            size="lg"
             color={colors.text}
             style={styles.loadingIndicator}
           />
