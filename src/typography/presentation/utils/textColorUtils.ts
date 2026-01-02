@@ -108,19 +108,19 @@ class MaterialColorMapper implements ColorMapper {
       case 'info':
         return tokens.colors.info;
 
-      // Legacy support (deprecated - maps to new names)
+      // Brand colors (can be used as text color)
       case 'primary':
-        return tokens.colors.textPrimary;
+        return tokens.colors.primary;
       case 'secondary':
-        return tokens.colors.textSecondary;
+        return tokens.colors.secondary;
       case 'tertiary':
-        return tokens.colors.textTertiary;
+        return tokens.colors.tertiary ?? tokens.colors.textTertiary;
       case 'disabled':
         return tokens.colors.textDisabled;
       case 'inverse':
         return tokens.colors.textInverse;
       case 'surfaceVariant':
-        return tokens.colors.textSecondary;
+        return tokens.colors.surfaceVariant;
 
       default:
         return tokens.colors.textPrimary;
