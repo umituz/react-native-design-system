@@ -166,11 +166,13 @@ export {
   useDeviceId,
   useAnonymousUser,
   getAnonymousUserId,
+  collectDeviceExtras,
   type DeviceInfo,
   type ApplicationInfo,
   type SystemInfo,
   type AnonymousUser,
   type UseAnonymousUserOptions,
+  type DeviceExtras,
 } from './device';
 
 // =============================================================================

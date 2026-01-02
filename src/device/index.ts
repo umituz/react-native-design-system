@@ -74,6 +74,8 @@ export { DeviceService } from './infrastructure/services/DeviceService';
 export { UserFriendlyIdService } from './infrastructure/services/UserFriendlyIdService';
 import { PersistentDeviceIdService } from './infrastructure/services/PersistentDeviceIdService';
 export { PersistentDeviceIdService };
+export { collectDeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
+export type { DeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
 
 // ============================================================================
 // PRESENTATION - Device hooks
