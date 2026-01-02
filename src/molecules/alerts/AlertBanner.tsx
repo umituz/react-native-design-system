@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from '../../safe-area';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType, AlertPosition } from './AlertTypes';

@@ -6,7 +6,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "../../../safe-area";
 import { AtomicText } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
 import type { SplashScreenProps, SplashColors } from "../types";

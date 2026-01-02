@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { View, type ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from '../../safe-area';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText, AtomicButton, type IconName } from '../../atoms';
 

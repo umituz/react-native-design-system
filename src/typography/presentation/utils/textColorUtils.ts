@@ -114,7 +114,7 @@ class MaterialColorMapper implements ColorMapper {
       case 'secondary':
         return tokens.colors.secondary;
       case 'tertiary':
-        return tokens.colors.tertiary ?? tokens.colors.textTertiary;
+        return tokens.colors.textTertiary;
       case 'disabled':
         return tokens.colors.textDisabled;
       case 'inverse':

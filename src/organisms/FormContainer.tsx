@@ -51,7 +51,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from '../safe-area';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
 

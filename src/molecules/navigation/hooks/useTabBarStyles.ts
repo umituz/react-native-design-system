@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from '../../../safe-area';
 import { useAppDesignTokens } from '../../../theme';
 import { getResponsiveTabBarConfig } from '../../../responsive/responsiveLayout';
 

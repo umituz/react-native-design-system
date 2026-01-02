@@ -25,8 +25,7 @@
 
 import React, { useMemo } from 'react';
 import { View, ScrollView, StyleSheet, KeyboardAvoidingView, type ViewStyle, type RefreshControlProps } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import type { Edge } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets, type Edge } from '../../safe-area';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
 

@@ -12,7 +12,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "../safe-area";
 import {
   getResponsiveLogoSize,
   getResponsiveInputHeight,

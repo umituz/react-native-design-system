@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { View, StyleSheet, ScrollView, Modal, Pressable, GestureResponderEvent } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "../../../../safe-area";
 import { AtomicButton } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme';
 import type { FilterOption } from "../../types/Filter";

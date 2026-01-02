@@ -13,7 +13,7 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from '../../../safe-area';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useAppDesignTokens } from '../../../theme';
 import { AtomicText } from '../../AtomicText';

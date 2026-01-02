@@ -21,4 +21,5 @@ export { useStableOptions, clearPerformanceCaches } from './utils/optimization';
 export { validateNumericInput, throttledWarn, clearValidationCache } from './utils/validation';
 
 // Re-export from react-native-safe-area-context for convenience
-export { initialWindowMetrics } from 'react-native-safe-area-context';
+export { initialWindowMetrics, SafeAreaView } from 'react-native-safe-area-context';
+export type { Edge } from 'react-native-safe-area-context';
