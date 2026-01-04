@@ -8,7 +8,7 @@ export interface MenuAction {
   /** Unique identifier for the action */
   id: string;
 
-  /** Icon name from ../../../atoms (Lucide icons) */
+  /** Icon name (Ionicons) */
   icon: IconName;
 
   /** Display label for the action */

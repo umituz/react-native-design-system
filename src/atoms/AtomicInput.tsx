@@ -28,9 +28,9 @@ export interface AtomicInputProps {
   placeholder?: string;
   /** Helper text below input */
   helperText?: string;
-  /** Leading icon (Lucide icon name) */
+  /** Leading icon (Ionicons name) */
   leadingIcon?: IconName;
-  /** Trailing icon (Lucide icon name) */
+  /** Trailing icon (Ionicons name) */
   trailingIcon?: IconName;
   /** Callback when trailing icon is pressed */
   onTrailingIconPress?: () => void;
@@ -71,7 +71,7 @@ export interface AtomicInputProps {
  *
  * Features:
  * - Pure React Native implementation (no Paper dependency)
- * - Lucide icons for password toggle and custom icons
+ * - Ionicons for password toggle and custom icons
  * - Outlined/filled/flat variants
  * - Error, success, disabled states
  * - Character counter
@@ -228,7 +228,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
             style={styles.trailingIcon}
           >
             <AtomicIcon
-              name={isPasswordVisible ? "EyeOff" : "Eye"}
+              name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
               customSize={sizeConfig.iconSize}
               customColor={iconColor}
             />

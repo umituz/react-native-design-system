@@ -65,7 +65,6 @@ export const createDesignTokens = (
       acc[key as keyof typeof BASE_TOKENS.avatarSizes] = BASE_TOKENS.avatarSizes[key as keyof typeof BASE_TOKENS.avatarSizes] * multiplier;
       return acc;
     }, {} as any),
-    borderRadius,
     radius: borderRadius,
     borders: {
       ...BASE_TOKENS.borders,

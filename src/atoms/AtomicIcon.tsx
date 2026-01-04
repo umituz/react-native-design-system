@@ -11,7 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Svg, { Path } from "react-native-svg";
 import { useAppDesignTokens } from '../theme';
 import {
-  type IconSize as BaseIconSize
+  type IconSize as BaseIconSize,
+  type IoniconsName
 } from "./AtomicIcon.types";
 
 // Re-export IconSize for convenience
@@ -37,8 +38,10 @@ export type IconColor =
   | "textTertiary"
   | "onSurfaceVariant";
 
-// Accept any string for flexibility
-export type IconName = string;
+/**
+ * IconName can be a valid Ionicons name or any string (for custom SVGs)
+ */
+export type IconName = IoniconsName | string;
 
 export interface AtomicIconProps {
   /** Icon name (Ionicons) */

@@ -68,7 +68,7 @@ const MyScreen = () => {
 - `AtomicInput` - Text inputs with validation states (pure RN TextInput)
 - `AtomicTextArea` - Multiline inputs with character counter (pure RN TextInput)
 - `AtomicCard` - Container cards with elevation (pure RN View)
-- `AtomicIcon` - Lucide icons with 1,639 icons
+- `AtomicIcon` - Ionicons with 1,300+ icons
 - `AtomicSwitch` - Toggle switches
 - `AtomicBadge` - Status badges
 - `AtomicProgress` - Progress indicators

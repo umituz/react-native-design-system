@@ -49,7 +49,7 @@ export const AtomicText = ({
   const textType = variant || type;
 
   // Get typography style from tokens
-  const typographyStyle = (tokens.typography as Record<string, any>)[textType];
+  const typographyStyle = tokens.typography[textType as keyof typeof tokens.typography] as TextStyle & { responsiveFontSize?: number };
   
   // Use responsive font size if available
   const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;
