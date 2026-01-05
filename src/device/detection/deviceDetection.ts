@@ -11,10 +11,22 @@
  */
 
 import { Dimensions } from 'react-native';
-import * as Device from 'expo-device';
-import { DeviceType as ExpoDeviceType } from 'expo-device';
 import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from '../../responsive/config';
 import { validateScreenDimensions } from '../../responsive/validation';
+
+// Safely try to import expo-device
+let Device: any = null;
+let ExpoDeviceType: any = null;
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const ExpoDevice = require('expo-device');
+  Device = ExpoDevice;
+  ExpoDeviceType = ExpoDevice.DeviceType;
+} catch {
+  // Fallback if expo-device is not available
+  console.warn('[Design System] expo-device not found, using screen dimensions for device detection');
+}
 
 /**
  * Helper function for device detection with fallback
