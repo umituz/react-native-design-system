@@ -66,6 +66,7 @@ export const createDesignTokens = (
       return acc;
     }, {} as any),
     radius: borderRadius,
+    borderRadius: borderRadius,
     borders: {
       ...BASE_TOKENS.borders,
       radius: borderRadius,

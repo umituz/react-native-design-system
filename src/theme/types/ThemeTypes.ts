@@ -45,6 +45,7 @@ export type DesignTokens = {
   opacity: BaseTokens['opacity'];
   avatarSizes: BaseTokens['avatarSizes'];
   radius: ResponsiveBorderRadius;
+  borderRadius: ResponsiveBorderRadius;
   borders: Borders & {
     card: Borders['card'] & { borderColor: string };
     input: Borders['input'] & { borderColor: string };
