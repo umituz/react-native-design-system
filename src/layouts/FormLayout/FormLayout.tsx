@@ -6,9 +6,10 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { View, ScrollView, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { useResponsive } from '../../responsive';
+import { AtomicKeyboardAvoidingView } from '../../atoms';
 
 export interface FormLayoutProps {
   /** Form fields and content */
@@ -103,9 +104,9 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   const mainContent = disableKeyboardAvoid ? (
     scrollableContent
   ) : (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <AtomicKeyboardAvoidingView style={styles.container}>
       {scrollableContent}
-    </KeyboardAvoidingView>
+    </AtomicKeyboardAvoidingView>
   );
 
   return (

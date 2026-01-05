@@ -111,3 +111,6 @@ export { AtomicTouchable, type AtomicTouchableProps } from './AtomicTouchable';
 
 // StatusBar
 export { AtomicStatusBar, type AtomicStatusBarProps } from './status-bar';
+
+// Keyboard Avoiding
+export { AtomicKeyboardAvoidingView, type AtomicKeyboardAvoidingViewProps } from './AtomicKeyboardAvoidingView';

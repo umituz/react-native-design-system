@@ -24,10 +24,11 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, StyleSheet, KeyboardAvoidingView, type ViewStyle, type RefreshControlProps } from 'react-native';
+import { View, ScrollView, StyleSheet, type ViewStyle, type RefreshControlProps } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets, type Edge } from '../../safe-area';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
+import { AtomicKeyboardAvoidingView } from '../../atoms';
 
 /**
  * NOTE: This component now works in conjunction with the SafeAreaProvider
@@ -206,12 +207,11 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   const ContentWrapper: React.FC<{ children: React.ReactNode }> = ({ children: wrapperChildren }) => {
     if (keyboardAvoiding) {
       return (
-        <KeyboardAvoidingView
+        <AtomicKeyboardAvoidingView
           style={styles.keyboardAvoidingView}
-          behavior="padding"
         >
           {wrapperChildren}
-        </KeyboardAvoidingView>
+        </AtomicKeyboardAvoidingView>
       );
     }
     return <>{wrapperChildren}</>;

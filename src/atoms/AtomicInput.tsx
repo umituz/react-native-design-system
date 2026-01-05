@@ -43,7 +43,15 @@ export interface AtomicInputProps {
   /** Show character counter */
   showCharacterCount?: boolean;
   /** Keyboard type */
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'url' | 'number-pad' | 'decimal-pad';
+  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'url' | 'number-pad' | 'decimal-pad' | 'web-search' | 'twitter' | 'numeric' | 'visible-password';
+  /** Return key type */
+  returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
+  /** Callback when submit button is pressed */
+  onSubmitEditing?: () => void;
+  /** Blur on submit */
+  blurOnSubmit?: boolean;
+  /** Auto focus */
+  autoFocus?: boolean;
   /** Auto-capitalize */
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   /** Auto-correct */
@@ -78,7 +86,7 @@ export interface AtomicInputProps {
  * - Responsive sizing
  * - Full accessibility support
  */
-export const AtomicInput: React.FC<AtomicInputProps> = ({
+export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
   variant = 'outlined',
   state = 'default',
   size = 'md',
@@ -95,6 +103,10 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   maxLength,
   showCharacterCount = false,
   keyboardType = 'default',
+  returnKeyType,
+  onSubmitEditing,
+  blurOnSubmit,
+  autoFocus,
   autoCapitalize = 'sentences',
   autoCorrect = true,
   disabled = false,
@@ -105,7 +117,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
   onFocus,
   multiline = false,
   numberOfLines,
-}) => {
+}, ref) => {
   const tokens = useAppDesignTokens();
 
   const {
@@ -198,6 +210,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
         )}
 
         <TextInput
+          ref={ref}
           value={localValue}
           onChangeText={handleTextChange}
           placeholder={placeholder}
@@ -205,6 +218,10 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
           secureTextEntry={secureTextEntry && !isPasswordVisible}
           maxLength={maxLength}
           keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={onSubmitEditing}
+          blurOnSubmit={blurOnSubmit}
+          autoFocus={autoFocus}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           editable={!isDisabled}
@@ -274,7 +291,7 @@ export const AtomicInput: React.FC<AtomicInputProps> = ({
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
