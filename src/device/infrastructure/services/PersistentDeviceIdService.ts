@@ -9,7 +9,7 @@
  * @layer infrastructure/services
  */
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storageRepository, unwrap } from '@umituz/react-native-storage';
 import { DeviceIdService } from './DeviceIdService';
 
 const STORAGE_KEY = '@device/persistent_id';
@@ -64,7 +64,8 @@ export class PersistentDeviceIdService {
    */
   private static async initializeDeviceId(): Promise<string> {
     try {
-      const storedId = await AsyncStorage.getItem(STORAGE_KEY);
+      const result = await storageRepository.getString(STORAGE_KEY, '');
+      const storedId = unwrap(result, '');
 
       if (storedId) {
         cachedDeviceId = storedId;
@@ -72,7 +73,7 @@ export class PersistentDeviceIdService {
       }
 
       const newId = await this.createNewDeviceId();
-      await AsyncStorage.setItem(STORAGE_KEY, newId);
+      await storageRepository.setString(STORAGE_KEY, newId);
       cachedDeviceId = newId;
 
       return newId;
@@ -101,8 +102,7 @@ export class PersistentDeviceIdService {
    */
   static async hasStoredId(): Promise<boolean> {
     try {
-      const storedId = await AsyncStorage.getItem(STORAGE_KEY);
-      return storedId !== null;
+      return await storageRepository.hasItem(STORAGE_KEY);
     } catch {
       return false;
     }
@@ -114,7 +114,7 @@ export class PersistentDeviceIdService {
    */
   static async clearStoredId(): Promise<void> {
     try {
-      await AsyncStorage.removeItem(STORAGE_KEY);
+      await storageRepository.removeItem(STORAGE_KEY);
       cachedDeviceId = null;
       initializationPromise = null;
     } catch {

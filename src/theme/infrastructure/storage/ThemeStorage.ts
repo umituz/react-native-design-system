@@ -6,7 +6,7 @@
  * Apps should use this for theme persistence.
  */
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storageRepository, unwrap } from '@umituz/react-native-storage';
 import type { ThemeMode } from '../../core/ColorPalette';
 import { DESIGN_CONSTANTS } from '../../core/constants/DesignConstants';
 
@@ -18,7 +18,9 @@ export class ThemeStorage {
    */
   static async getThemeMode(): Promise<ThemeMode | null> {
     try {
-      const value = await AsyncStorage.getItem(STORAGE_KEY);
+      const result = await storageRepository.getString(STORAGE_KEY, '');
+      const value = unwrap(result, '');
+      
       if (!value) {
         return null;
       }
@@ -45,7 +47,7 @@ export class ThemeStorage {
         throw new Error(`Invalid theme mode: ${mode}`);
       }
 
-      await AsyncStorage.setItem(STORAGE_KEY, mode);
+      await storageRepository.setString(STORAGE_KEY, mode);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       // Re-throw validation errors but swallow storage errors to prevent app crashes
@@ -60,7 +62,7 @@ export class ThemeStorage {
    */
   static async clearThemeMode(): Promise<void> {
     try {
-      await AsyncStorage.removeItem(STORAGE_KEY);
+      await storageRepository.removeItem(STORAGE_KEY);
     } catch {
       // Don't throw - clearing storage is not critical
     }

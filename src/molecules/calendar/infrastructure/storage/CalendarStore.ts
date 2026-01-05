@@ -13,7 +13,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storageRepository, unwrap, storageService } from '@umituz/react-native-storage';
 import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
 import { CalendarService } from '../services/CalendarService';
 
@@ -101,16 +101,17 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
         loadEvents: async () => {
           set({ isLoading: true, error: null });
           try {
-            const stored = await AsyncStorage.getItem(STORAGE_KEY);
-            if (stored) {
-              const parsed = JSON.parse(stored) as CalendarEvent[];
+            const result = await storageRepository.getItem<CalendarEvent[]>(STORAGE_KEY, []);
+            const events = unwrap(result, []);
+            
+            if (events && events.length > 0) {
               // Restore Date objects
-              const events = parsed.map((event) => ({
+              const hydratedEvents = events.map((event) => ({
                 ...event,
                 createdAt: new Date(event.createdAt),
                 updatedAt: new Date(event.updatedAt),
               }));
-              set({ events, isLoading: false });
+              set({ events: hydratedEvents, isLoading: false });
             } else {
               set({ isLoading: false });
             }
@@ -137,7 +138,7 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
             };
 
             const events = [...get().events, newEvent];
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+            await storageRepository.setItem(STORAGE_KEY, events);
             set({ events, isLoading: false });
           } catch {
             set({
@@ -164,7 +165,7 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
               return event;
             });
 
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+            await storageRepository.setItem(STORAGE_KEY, events);
             set({ events, isLoading: false });
           } catch {
             set({
@@ -181,7 +182,7 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
           set({ isLoading: true, error: null });
           try {
             const events = get().events.filter((event) => event.id !== id);
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+            await storageRepository.setItem(STORAGE_KEY, events);
             set({ events, isLoading: false });
           } catch {
             set({
@@ -294,7 +295,7 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
         clearAllEvents: async () => {
           set({ isLoading: true, error: null });
           try {
-            await AsyncStorage.removeItem(STORAGE_KEY);
+            await storageRepository.removeItem(STORAGE_KEY);
             set({ events: [], isLoading: false });
           } catch {
             set({
@@ -307,7 +308,7 @@ export const useCalendarStore = create<CalendarState & { actions: CalendarAction
     }),
     {
       name: 'calendar-storage',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => storageService),
       partialize: (state) => ({ events: state.events }),
     }
   )

@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.6.36",
+  "version": "2.6.37",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive and safe area utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -51,7 +51,6 @@
   "peerDependencies": {
     "@expo/vector-icons": ">=15.0.0",
     "@gorhom/bottom-sheet": ">=5.0.0",
-    "@react-native-async-storage/async-storage": ">=2.0.0",
     "@react-native-community/datetimepicker": ">=8.0.0",
     "@react-navigation/bottom-tabs": ">=7.0.0",
     "@react-navigation/native": ">=7.0.0",
@@ -98,7 +97,6 @@
     "@eslint/js": "^9.39.2",
     "@expo/vector-icons": "^15.0.0",
     "@gorhom/bottom-sheet": "^5.0.0",
-    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/datetimepicker": "^8.5.1",
     "@react-navigation/bottom-tabs": "^7.9.0",
     "@react-navigation/native": "^7.1.26",
@@ -113,7 +111,7 @@
     "@umituz/react-native-filesystem": "^2.1.7",
     "@umituz/react-native-haptics": "^1.0.2",
     "@umituz/react-native-localization": "^3.5.34",
-    "@umituz/react-native-storage": "latest",
+    "@umituz/react-native-storage": "^2.6.20",
     "@umituz/react-native-uuid": "*",
     "eslint": "^9.39.2",
     "eslint-plugin-react": "^7.37.5",
