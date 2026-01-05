@@ -240,6 +240,8 @@ export {
   type AtomicTouchableProps,
   AtomicStatusBar,
   type AtomicStatusBarProps,
+  AtomicKeyboardAvoidingView,
+  type AtomicKeyboardAvoidingViewProps,
 } from './atoms';
 
 // =============================================================================
