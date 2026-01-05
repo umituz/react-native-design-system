@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { ParamListBase } from "@react-navigation/native";
+import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import type { TabNavigatorConfig, TabScreen } from "./types";
 import { NavigationValidator } from "./utils/NavigationValidator";
 import { createTabScreen } from "./utils/ScreenFactory";
@@ -15,7 +16,7 @@ export interface TabsNavigatorProps<T extends ParamListBase> {
 
 /**
  * TabsNavigator Component
- * 
+ *
  * Reusable Bottom Tab Navigator component that handles configuration and rendering.
  * Integrates with design tokens for consistent themed styling.
  */
@@ -70,6 +71,21 @@ export function TabsNavigator<T extends ParamListBase>({
         [tokens]
     );
 
+    // Merge screen options properly (handle both function and object)
+    const mergedScreenOptions = useCallback(
+        (props: any): BottomTabNavigationOptions => {
+            const customOptions = typeof config.screenOptions === "function"
+                ? config.screenOptions(props)
+                : config.screenOptions || {};
+
+            return {
+                ...defaultScreenOptions,
+                ...customOptions,
+            };
+        },
+        [defaultScreenOptions, config.screenOptions]
+    );
+
     if (visibleScreens.length === 0) {
         return null;
     }
@@ -78,10 +94,7 @@ export function TabsNavigator<T extends ParamListBase>({
         <Tab.Navigator
             id={config.id}
             initialRouteName={config.initialRouteName as string}
-            screenOptions={{
-                ...defaultScreenOptions,
-                ...(config.screenOptions as any),
-            }}
+            screenOptions={mergedScreenOptions}
         >
             {visibleScreens.map((screen) =>
                 createTabScreen(screen as TabScreen<any>, config, Tab)

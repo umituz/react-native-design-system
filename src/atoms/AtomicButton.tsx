@@ -18,6 +18,7 @@ export interface AtomicButtonProps {
   disabled?: boolean;
   loading?: boolean;
   icon?: IconName;
+  iconPosition?: 'left' | 'right';
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
@@ -34,6 +35,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
   disabled = false,
   loading = false,
   icon,
+  iconPosition = 'left',
   fullWidth = false,
   style,
   textStyle,
@@ -197,19 +199,19 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
       disabled={isDisabled}
       testID={testID}
     >
-      <View style={styles.content}>
+      <View style={[styles.content, iconPosition === 'right' && styles.rowReverse]}>
         {loading ? (
           <AtomicSpinner
             size="sm"
             color={iconColor as string}
-            style={styles.icon}
+            style={iconPosition === 'right' ? styles.iconRight : styles.iconLeft}
           />
         ) : showIcon ? (
           <AtomicIcon
             name={icon}
             customSize={config.iconSize}
             customColor={iconColor as string | undefined}
-            style={styles.icon}
+            style={iconPosition === 'right' ? styles.iconRight : styles.iconLeft}
           />
         ) : null}
 
@@ -233,6 +235,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  rowReverse: {
+    flexDirection: 'row-reverse',
+  },
   fullWidth: {
     width: '100%',
   },
@@ -242,8 +247,11 @@ const styles = StyleSheet.create({
   disabledText: {
     opacity: 0.7,
   },
-  icon: {
+  iconLeft: {
     marginRight: 8,
+  },
+  iconRight: {
+    marginLeft: 8,
   },
 });
 

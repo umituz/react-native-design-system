@@ -1,8 +1,10 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import type { ParamListBase } from "@react-navigation/native";
 import type {
   BottomTabScreenProps,
   BottomTabNavigationOptions,
+  BottomTabBarButtonProps,
 } from "@react-navigation/bottom-tabs";
 import type {
   TabScreen,
@@ -13,7 +15,22 @@ import type {
 import { LabelProcessor } from "./LabelProcessor";
 import { IconRenderer } from "./IconRenderer";
 
+const TabBarButton: React.FC<BottomTabBarButtonProps> = (props) => {
+  const { children, onPress, onLongPress, accessibilityState, style } = props;
 
+  return React.createElement(
+    TouchableOpacity,
+    {
+      onPress: onPress ?? undefined,
+      onLongPress: onLongPress ?? undefined,
+      activeOpacity: 0.7,
+      accessibilityRole: "button",
+      accessibilityState,
+      style: [{ flex: 1, alignItems: "center", justifyContent: "center" }, style],
+    },
+    children
+  );
+};
 
 export function createTabScreen<T extends ParamListBase = ParamListBase>(
   screen: TabScreen<T>,
@@ -33,6 +50,8 @@ export function createTabScreen<T extends ParamListBase = ParamListBase>(
     const baseOptions: BottomTabNavigationOptions = {
       tabBarLabel: isFab ? "" : processedLabel,
       title: isFab ? "" : processedLabel,
+      tabBarShowLabel: isFab ? false : undefined,
+      tabBarButton: (buttonProps) => React.createElement(TabBarButton, buttonProps),
       tabBarIcon: ({ focused }: { focused: boolean }) => {
         const iconName = IconRenderer.getIconName(
           screen.name,
