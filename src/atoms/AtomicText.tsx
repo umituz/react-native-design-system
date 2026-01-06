@@ -3,7 +3,7 @@ import { Text, type StyleProp, type TextStyle, type TextProps } from 'react-nati
 import { useAppDesignTokens } from '../theme';
 import { getTextColor, type TextStyleVariant, type ColorVariant } from '../typography';
 
-export interface AtomicTextProps extends TextProps {
+export interface AtomicTextProps extends Omit<TextProps, 'style'> {
   /** Typographic style variant from tokens (alias for 'type') */
   variant?: TextStyleVariant;
 
@@ -15,6 +15,15 @@ export interface AtomicTextProps extends TextProps {
 
   /** Text alignment */
   align?: TextStyle['textAlign'];
+
+  /** Font weight - convenience prop */
+  fontWeight?: TextStyle['fontWeight'];
+
+  /** Margin top - convenience prop using spacing tokens */
+  marginTop?: keyof ReturnType<typeof import('../theme').useAppDesignTokens>['spacing'];
+
+  /** Margin bottom - convenience prop using spacing tokens */
+  marginBottom?: keyof ReturnType<typeof import('../theme').useAppDesignTokens>['spacing'];
 
   /** Content to render */
   children: React.ReactNode;
@@ -38,6 +47,9 @@ export const AtomicText = ({
   type = 'bodyMedium',
   color = 'textPrimary',
   align,
+  fontWeight,
+  marginTop,
+  marginBottom,
   children,
   style,
   testID,
@@ -50,13 +62,13 @@ export const AtomicText = ({
 
   // Get typography style from tokens
   const typographyStyle = tokens.typography[textType as keyof typeof tokens.typography] as TextStyle & { responsiveFontSize?: number };
-  
+
   // Use responsive font size if available
   const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;
 
   // Resolve color
-  const resolvedColor = typeof color === 'string' && !color.includes('.') 
-    ? getTextColor(color as ColorVariant, tokens) 
+  const resolvedColor = typeof color === 'string' && !color.includes('.')
+    ? getTextColor(color as ColorVariant, tokens)
     : color;
 
   const textStyle: StyleProp<TextStyle> = [
@@ -65,6 +77,9 @@ export const AtomicText = ({
       color: resolvedColor as string,
       ...(fontSize && { fontSize }),
       ...(align && { textAlign: align }),
+      ...(fontWeight && { fontWeight }),
+      ...(marginTop && { marginTop: tokens.spacing[marginTop] as number }),
+      ...(marginBottom && { marginBottom: tokens.spacing[marginBottom] as number }),
     },
     style,
   ];
