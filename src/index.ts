@@ -309,6 +309,7 @@ export {
   AlertModal,
   AlertContainer,
   AlertProvider,
+  AlertService,
   useAlert,
   alertService,
   AlertType,
