@@ -68,6 +68,9 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
   const handleSheetChange = useCallback(
     (index: number) => {
+      if (__DEV__) {
+        console.log('[BottomSheetModal] onChange triggered', { index });
+      }
       onChange?.(index);
       if (index === -1) onDismiss?.();
     },
@@ -99,6 +102,14 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
     }
   }, []);
 
+  React.useEffect(() => {
+    if (__DEV__) {
+      console.log('[BottomSheetModal] modalRef updated', {
+        hasModalRef: !!modalRef.current,
+      });
+    }
+  }, [modalRef.current]);
+
   return (
     <GorhomBottomSheetModal
       ref={modalRef}
@@ -111,6 +122,11 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       enablePanDownToClose={config.enablePanDownToClose}
       onChange={handleSheetChange}
       onDismiss={onDismiss}
+      onAnimate={(fromIndex, toIndex) => {
+        if (__DEV__) {
+          console.log('[BottomSheetModal] onAnimate', { fromIndex, toIndex });
+        }
+      }}
       backgroundStyle={[styles.background, { backgroundColor: backgroundColor || tokens.colors.surface }]}
       handleIndicatorStyle={[styles.handleIndicator, { backgroundColor: tokens.colors.border }]}
     >
