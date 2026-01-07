@@ -45,6 +45,7 @@ export interface BottomSheetProps {
     enableHandleIndicator?: boolean;
     enablePanDownToClose?: boolean;
     enableDynamicSizing?: boolean;
+    backgroundColor?: string;
     onChange?: (index: number) => void;
     onClose?: () => void;
 }
