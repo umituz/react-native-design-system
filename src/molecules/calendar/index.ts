@@ -55,17 +55,12 @@ export { DateUtilities } from './infrastructure/utils/DateUtilities';
 
 // Infrastructure Storage
 export {
-  useCalendarStore,
+  useCalendar,
+  useCalendarEvents,
+  useCalendarNavigation,
+  useCalendarView,
   type CalendarViewMode,
 } from './infrastructure/storage/CalendarStore';
-
-// Presentation Hooks
-export {
-  useCalendar,
-  useCalendarNavigation,
-  useCalendarEvents,
-  type UseCalendarReturn,
-} from './presentation/hooks/useCalendar';
 
 // Presentation Components
 export {

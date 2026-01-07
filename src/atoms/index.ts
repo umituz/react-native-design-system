@@ -25,11 +25,13 @@ export {
 // Input
 export {
     AtomicInput,
-    type AtomicInputProps,
-    type AtomicInputVariant,
-    type AtomicInputState,
-    type AtomicInputSize,
 } from './AtomicInput';
+export type {
+    AtomicInputProps,
+    AtomicInputVariant,
+    AtomicInputState,
+    AtomicInputSize,
+} from './input/types';
 
 // Icon
 export {

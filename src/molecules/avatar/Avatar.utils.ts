@@ -1,153 +1,11 @@
 /**
- * Avatar Domain - Entity Definitions
- *
- * Core types and interfaces for user avatars.
- * Supports images, initials, icons with Turkish character support.
+ * Avatar Utilities
+ * Utility class for avatar operations
+ * Supports images, initials, icons with Turkish character support
  */
 
-/**
- * Avatar size preset
- */
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-
-/**
- * Avatar shape
- */
-export type AvatarShape = 'circle' | 'square' | 'rounded';
-
-/**
- * Avatar type
- */
-export type AvatarType = 'image' | 'initials' | 'icon';
-
-/**
- * Avatar configuration
- */
-export interface AvatarConfig {
-  /** Avatar type */
-  type: AvatarType;
-  /** Size preset */
-  size: AvatarSize;
-  /** Shape */
-  shape: AvatarShape;
-  /** Image URI */
-  uri?: string;
-  /** User name for initials */
-  name?: string;
-  /** Icon name (if type is icon) */
-  icon?: string;
-  /** Custom background color */
-  backgroundColor?: string;
-  /** Show status indicator */
-  showStatus?: boolean;
-  /** Status (online/offline) */
-  status?: 'online' | 'offline' | 'away' | 'busy';
-}
-
-/**
- * Size configuration
- */
-export interface SizeConfig {
-  size: number;
-  fontSize: number;
-  iconSize: number;
-  statusSize: number;
-  borderWidth: number;
-}
-
-/**
- * Avatar group configuration
- */
-export interface AvatarGroupConfig {
-  maxVisible: number;
-  spacing: number;
-  size: AvatarSize;
-  shape: AvatarShape;
-}
-
-/**
- * Size configurations (px)
- */
-export const SIZE_CONFIGS: Record<AvatarSize, SizeConfig> = {
-  xs: {
-    size: 24,
-    fontSize: 10,
-    iconSize: 12,
-    statusSize: 6,
-    borderWidth: 1,
-  },
-  sm: {
-    size: 32,
-    fontSize: 12,
-    iconSize: 16,
-    statusSize: 8,
-    borderWidth: 1.5,
-  },
-  md: {
-    size: 40,
-    fontSize: 14,
-    iconSize: 20,
-    statusSize: 10,
-    borderWidth: 2,
-  },
-  lg: {
-    size: 56,
-    fontSize: 18,
-    iconSize: 28,
-    statusSize: 12,
-    borderWidth: 2,
-  },
-  xl: {
-    size: 80,
-    fontSize: 24,
-    iconSize: 40,
-    statusSize: 16,
-    borderWidth: 2.5,
-  },
-  xxl: {
-    size: 120,
-    fontSize: 36,
-    iconSize: 60,
-    statusSize: 20,
-    borderWidth: 3,
-  },
-};
-
-/**
- * Avatar background colors
- * Vibrant, accessible colors with good contrast
- */
-export const AVATAR_COLORS = [
-  '#EF4444', // Red
-  '#F59E0B', // Orange
-  '#10B981', // Green
-  '#3B82F6', // Blue
-  '#8B5CF6', // Purple
-  '#EC4899', // Pink
-  '#14B8A6', // Teal
-  '#F97316', // Orange-Red
-  '#06B6D4', // Cyan
-  '#84CC16', // Lime
-] as const;
-
-/**
- * Status indicator colors
- */
-export const STATUS_COLORS = {
-  online: '#10B981', // Green
-  offline: '#9CA3AF', // Gray
-  away: '#F59E0B', // Orange
-  busy: '#EF4444', // Red
-} as const;
-
-/**
- * Border radius configurations
- */
-export const SHAPE_CONFIGS = {
-  circle: 9999, // Full circle
-  square: 0, // No radius
-  rounded: 8, // Rounded corners
-} as const;
+import type { AvatarSize, AvatarShape, AvatarConfig, SizeConfig } from './Avatar.types';
+import { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, SIZE_CONFIGS } from './Avatar.constants';
 
 /**
  * Avatar utility class
@@ -275,16 +133,6 @@ export class AvatarUtils {
   }
 }
 
-/**
- * Avatar constants
- */
-export const AVATAR_CONSTANTS = {
-  DEFAULT_SIZE: 'md' as AvatarSize,
-  DEFAULT_SHAPE: 'circle' as AvatarShape,
-  DEFAULT_TYPE: 'initials' as AvatarType,
-  DEFAULT_ICON: 'user',
-  MAX_GROUP_VISIBLE: 3,
-  GROUP_SPACING: -8, // Negative for overlap
-  FALLBACK_INITIALS: '?',
-} as const;
-
+// Re-export types and constants for convenience
+export type { AvatarSize, AvatarShape, AvatarType, AvatarConfig, SizeConfig } from './Avatar.types';
+export { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';

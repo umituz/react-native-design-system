@@ -40,7 +40,7 @@
  * @module AtomicPicker
  */
 
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import {
   View,
   TouchableOpacity,
@@ -59,6 +59,7 @@ import {
   getPickerValueStyles,
   getPickerErrorStyles,
 } from './picker/styles/pickerStyles';
+import { usePickerState } from './picker/hooks/usePickerState';
 
 export type { AtomicPickerProps, PickerOption, PickerSize } from './picker/types';
 
@@ -92,8 +93,14 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const pickerState = usePickerState({
+    value,
+    multiple,
+    options,
+    placeholder,
+    autoClose,
+    onChange,
+  });
 
   // Get style helpers with design tokens
   const containerStyles = getPickerContainerStyles(tokens);
@@ -101,110 +108,6 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
   const placeholderStyles = getPickerPlaceholderStyles(tokens);
   const valueStyles = getPickerValueStyles(tokens);
   const errorStyles = getPickerErrorStyles(tokens);
-
-  /**
-   * Normalize value to array for consistent handling
-   */
-  const selectedValues = useMemo(() => {
-    if (multiple) {
-      return Array.isArray(value) ? value : [];
-    }
-    return value ? [value as string] : [];
-  }, [value, multiple]);
-
-  /**
-   * Get selected option objects
-   */
-  const selectedOptions = useMemo(() => {
-    return options.filter((opt) => selectedValues.includes(opt.value));
-  }, [options, selectedValues]);
-
-  /**
-   * Filter options based on search query
-   */
-  const filteredOptions = useMemo(() => {
-    if (!searchQuery.trim()) return options;
-
-    const query = searchQuery.toLowerCase();
-    return options.filter(
-      (opt) =>
-        opt.label.toLowerCase().includes(query) ||
-        opt.description?.toLowerCase().includes(query)
-    );
-  }, [options, searchQuery]);
-
-  /**
-   * Format display text for selected value(s)
-   */
-  const displayText = useMemo(() => {
-    if (selectedOptions.length === 0) {
-      return placeholder;
-    }
-
-    if (multiple) {
-      return selectedOptions.length === 1
-        ? selectedOptions[0]?.label || placeholder
-        : `${selectedOptions.length} selected`;
-    }
-    return selectedOptions[0]?.label || placeholder;
-  }, [selectedOptions, placeholder, multiple]);
-
-  /**
-   * Handle modal open
-   */
-  const openModal = () => {
-    if (disabled) return;
-    setModalVisible(true);
-    setSearchQuery('');
-  };
-
-  /**
-   * Handle modal close
-   */
-  const closeModal = () => {
-    setModalVisible(false);
-    setSearchQuery('');
-  };
-
-  /**
-   * Handle option selection
-   */
-  const handleSelect = (optionValue: string) => {
-    if (multiple) {
-      const newValues = selectedValues.includes(optionValue)
-        ? selectedValues.filter((v) => v !== optionValue)
-        : [...selectedValues, optionValue];
-      onChange(newValues);
-    } else {
-      onChange(optionValue);
-      if (autoClose) {
-        closeModal();
-      }
-    }
-  };
-
-  /**
-   * Handle clear selection
-   */
-  const handleClear = () => {
-    onChange(multiple ? [] : '');
-  };
-
-  /**
-   * Handle search query change
-   */
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
-
-
-
-  /**
-   * Handle chip removal
-   */
-  const handleChipRemove = (value: string) => {
-    handleSelect(value);
-  };
 
   const pickerContainerStyle = StyleSheet.flatten([
     containerStyles.base,
@@ -221,11 +124,16 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
   ]);
 
   const pickerValueStyle = StyleSheet.flatten([
-    selectedOptions.length > 0 ? valueStyles.base : placeholderStyles.base,
-    selectedOptions.length > 0
+    pickerState.selectedOptions.length > 0 ? valueStyles.base : placeholderStyles.base,
+    pickerState.selectedOptions.length > 0
       ? valueStyles.size[size]
       : placeholderStyles.size[size],
   ]);
+
+  const handleOpenModal = () => {
+    if (disabled) return;
+    pickerState.openModal();
+  };
 
   return (
     <View>
@@ -234,7 +142,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
       {/* Picker Button */}
       <TouchableOpacity
-        onPress={openModal}
+        onPress={handleOpenModal}
         disabled={disabled}
         accessibilityRole="button"
         accessibilityLabel={label || placeholder}
@@ -244,15 +152,15 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
       >
         {/* Display Text */}
         <AtomicText style={pickerValueStyle} numberOfLines={1}>
-          {displayText}
+          {pickerState.displayText}
         </AtomicText>
 
         {/* Icons */}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.xs }}>
           {/* Clear Button */}
-          {clearable && selectedOptions.length > 0 && !disabled && (
+          {clearable && pickerState.selectedOptions.length > 0 && !disabled && (
             <TouchableOpacity
-              onPress={handleClear}
+              onPress={pickerState.handleClear}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               accessibilityRole="button"
               accessibilityLabel={clearAccessibilityLabel}
@@ -264,7 +172,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
           {/* Dropdown Icon */}
           <AtomicIcon
-            name={modalVisible ? 'ChevronUp' : 'ChevronDown'}
+            name={pickerState.modalVisible ? 'ChevronUp' : 'ChevronDown'}
             size="sm"
             color={disabled ? 'surfaceVariant' : 'secondary'}
           />
@@ -273,8 +181,8 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
       {/* Selected Chips (Multi-select) */}
       <PickerChips
-        selectedOptions={selectedOptions}
-        onRemoveChip={handleChipRemove}
+        selectedOptions={pickerState.selectedOptions}
+        onRemoveChip={pickerState.handleChipRemove}
         testID={testID}
       />
 
@@ -283,16 +191,16 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
 
       {/* Selection Modal */}
       <PickerModal
-        visible={modalVisible}
-        onClose={closeModal}
+        visible={pickerState.modalVisible}
+        onClose={pickerState.closeModal}
         options={options}
-        selectedValues={selectedValues}
-        onSelect={handleSelect}
+        selectedValues={pickerState.selectedValues}
+        onSelect={pickerState.handleSelect}
         title={modalTitle || label}
         searchable={searchable}
-        searchQuery={searchQuery}
-        onSearchChange={handleSearch}
-        filteredOptions={filteredOptions}
+        searchQuery={pickerState.searchQuery}
+        onSearchChange={pickerState.handleSearch}
+        filteredOptions={pickerState.filteredOptions}
         multiple={multiple}
         emptyMessage={emptyMessage}
         searchPlaceholder={searchPlaceholder}

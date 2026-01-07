@@ -12,11 +12,12 @@ import Svg, { Path } from "react-native-svg";
 import { useAppDesignTokens } from '../theme';
 import {
   type IconSize as BaseIconSize,
-  type IoniconsName
+  type IconName,
 } from "./AtomicIcon.types";
 
 // Re-export IconSize for convenience
 export type IconSize = BaseIconSize;
+export type { IconName };
 
 const FALLBACK_ICON = "help-circle-outline";
 
@@ -37,11 +38,6 @@ export type IconColor =
   | "textSecondary"
   | "textTertiary"
   | "onSurfaceVariant";
-
-/**
- * IconName can be a valid Ionicons name or any string (for custom SVGs)
- */
-export type IconName = IoniconsName | string;
 
 export interface AtomicIconProps {
   /** Icon name (Ionicons) */

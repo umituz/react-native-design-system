@@ -1,315 +1,116 @@
 /**
- * Calendar Store (Zustand)
- *
- * Global state management for calendar functionality.
- * Manages calendar view state, selected date, and events.
- *
- * Design Philosophy:
- * - Zustand for lightweight state
- * - AsyncStorage for persistence
- * - Generic event handling
- * - Timezone-aware via CalendarService
+ * Calendar Store - Combined Hook
+ * Convenience hook that combines all calendar stores
  */
 
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { storageRepository, unwrap, storageService } from '@umituz/react-native-storage';
-import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
-import { CalendarService } from '../services/CalendarService';
+import { useMemo } from 'react';
+import { useCalendarEvents } from '../stores/useCalendarEvents';
+import { useCalendarNavigation } from '../stores/useCalendarNavigation';
+import { useCalendarView } from '../stores/useCalendarView';
+import { CalendarService } from '../../../services/CalendarService';
+import type { CalendarDay } from '../../../domain/entities/CalendarDay.entity';
 
-/**
- * Calendar view mode
- */
-export type CalendarViewMode = 'month' | 'week' | 'day' | 'list';
+// Export individual stores
+export { useCalendarEvents } from '../stores/useCalendarEvents';
+export { useCalendarNavigation } from '../stores/useCalendarNavigation';
+export { useCalendarView } from '../stores/useCalendarView';
+
+// Export types
+export type { CalendarViewMode } from '../stores/useCalendarView';
 
 /**
- * Storage key for calendar events
+ * Combined calendar hook
+ * Use this for convenience, or use individual stores for fine-grained control
  */
-const STORAGE_KEY = 'calendar_events';
+export const useCalendar = () => {
+  const events = useCalendarEvents();
+  const navigation = useCalendarNavigation();
+  const view = useCalendarView();
 
-/**
- * Generate unique ID for events
- */
-const generateId = (): string => {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  // Utility functions for backward compatibility
+  const getEventsForDate = (date: Date) => {
+    return events.events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.toDateString() === date.toDateString();
+    });
+  };
+
+  const getEventsForMonth = (year: number, month: number) => {
+    return events.events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+    });
+  };
+
+  return {
+    // Events state and actions
+    events: events.events,
+    isLoading: events.isLoading,
+    error: events.error,
+    loadEvents: events.loadEvents,
+    addEvent: events.addEvent,
+    updateEvent: events.updateEvent,
+    deleteEvent: events.deleteEvent,
+    completeEvent: events.completeEvent,
+    uncompleteEvent: events.uncompleteEvent,
+    clearError: events.clearError,
+    clearAllEvents: events.clearAllEvents,
+
+    // Navigation state and actions
+    selectedDate: navigation.selectedDate,
+    currentMonth: navigation.currentMonth,
+    setSelectedDate: navigation.setSelectedDate,
+    goToToday: navigation.goToToday,
+    navigateMonth: navigation.navigateMonth,
+    setCurrentMonth: navigation.setCurrentMonth,
+
+    // View state and actions
+    viewMode: view.viewMode,
+    setViewMode: view.setViewMode,
+
+    // Utility functions
+    getEventsForDate,
+    getEventsForMonth,
+  };
 };
 
 /**
- * Calendar state (data only)
+ * Legacy alias for backward compatibility
+ * @deprecated Use useCalendar instead
  */
-interface CalendarState {
-  events: CalendarEvent[];
-  selectedDate: Date;
-  currentMonth: Date;
-  viewMode: CalendarViewMode;
-  isLoading: boolean;
-  error: string | null;
-}
+export const useCalendarStore = () => {
+  const calendar = useCalendar();
 
-/**
- * Calendar actions
- */
-interface CalendarActions {
-  // Event CRUD
-  loadEvents: () => Promise<void>;
-  addEvent: (request: CreateCalendarEventRequest) => Promise<void>;
-  updateEvent: (request: UpdateCalendarEventRequest) => Promise<void>;
-  deleteEvent: (id: string) => Promise<void>;
-  completeEvent: (id: string) => Promise<void>;
-  uncompleteEvent: (id: string) => Promise<void>;
+  const days = useMemo(() => {
+    const year = calendar.currentMonth.getFullYear();
+    const month = calendar.currentMonth.getMonth();
+    return CalendarService.getMonthDays(year, month, calendar.events);
+  }, [calendar.currentMonth, calendar.events]);
 
-  // Navigation
-  setSelectedDate: (date: Date) => void;
-  goToToday: () => void;
-  navigateMonth: (direction: 'prev' | 'next') => void;
-  navigateWeek: (direction: 'prev' | 'next') => void;
-  setCurrentMonth: (date: Date) => void;
-
-  // View mode
-  setViewMode: (mode: CalendarViewMode) => void;
-
-  // Utilities
-  getEventsForDate: (date: Date) => CalendarEvent[];
-  getEventsForMonth: (year: number, month: number) => CalendarEvent[];
-  clearError: () => void;
-  clearAllEvents: () => Promise<void>;
-}
-
-/**
- * Initial state
- */
-const initialState: CalendarState = {
-  events: [],
-  selectedDate: new Date(),
-  currentMonth: new Date(),
-  viewMode: 'month',
-  isLoading: false,
-  error: null,
+  return {
+    events: calendar.events,
+    selectedDate: calendar.selectedDate,
+    currentMonth: calendar.currentMonth,
+    viewMode: calendar.viewMode,
+    isLoading: calendar.isLoading,
+    error: calendar.error,
+    actions: {
+      loadEvents: calendar.loadEvents,
+      addEvent: calendar.addEvent,
+      updateEvent: calendar.updateEvent,
+      deleteEvent: calendar.deleteEvent,
+      completeEvent: calendar.completeEvent,
+      uncompleteEvent: calendar.uncompleteEvent,
+      setSelectedDate: calendar.setSelectedDate,
+      goToToday: calendar.goToToday,
+      navigateMonth: calendar.navigateMonth,
+      setCurrentMonth: calendar.setCurrentMonth,
+      setViewMode: calendar.setViewMode,
+      getEventsForDate: calendar.getEventsForDate,
+      getEventsForMonth: calendar.getEventsForMonth,
+      clearError: calendar.clearError,
+      clearAllEvents: calendar.clearAllEvents,
+    },
+    days,
+  };
 };
-
-/**
- * Calendar Store
- */
-export const useCalendarStore = create<CalendarState & { actions: CalendarActions }>()(
-  persist(
-    (set, get) => ({
-      ...initialState,
-      actions: {
-        /**
-         * Load events from storage
-         */
-        loadEvents: async () => {
-          set({ isLoading: true, error: null });
-          try {
-            const result = await storageRepository.getItem<CalendarEvent[]>(STORAGE_KEY, []);
-            const events = unwrap(result, []);
-            
-            if (events && events.length > 0) {
-              // Restore Date objects
-              const hydratedEvents = events.map((event) => ({
-                ...event,
-                createdAt: new Date(event.createdAt),
-                updatedAt: new Date(event.updatedAt),
-              }));
-              set({ events: hydratedEvents, isLoading: false });
-            } else {
-              set({ isLoading: false });
-            }
-          } catch {
-            set({
-              error: 'Failed to load events',
-              isLoading: false,
-            });
-          }
-        },
-
-        /**
-         * Add a new event
-         */
-        addEvent: async (request: CreateCalendarEventRequest) => {
-          set({ isLoading: true, error: null });
-          try {
-            const newEvent: CalendarEvent = {
-              id: generateId(),
-              ...request,
-              isCompleted: false,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            };
-
-            const events = [...get().events, newEvent];
-            await storageRepository.setItem(STORAGE_KEY, events);
-            set({ events, isLoading: false });
-          } catch {
-            set({
-              error: 'Failed to add event',
-              isLoading: false,
-            });
-          }
-        },
-
-        /**
-         * Update an existing event
-         */
-        updateEvent: async (request: UpdateCalendarEventRequest) => {
-          set({ isLoading: true, error: null });
-          try {
-            const events = get().events.map((event) => {
-              if (event.id === request.id) {
-                return {
-                  ...event,
-                  ...request,
-                  updatedAt: new Date(),
-                };
-              }
-              return event;
-            });
-
-            await storageRepository.setItem(STORAGE_KEY, events);
-            set({ events, isLoading: false });
-          } catch {
-            set({
-              error: 'Failed to update event',
-              isLoading: false,
-            });
-          }
-        },
-
-        /**
-         * Delete an event
-         */
-        deleteEvent: async (id: string) => {
-          set({ isLoading: true, error: null });
-          try {
-            const events = get().events.filter((event) => event.id !== id);
-            await storageRepository.setItem(STORAGE_KEY, events);
-            set({ events, isLoading: false });
-          } catch {
-            set({
-              error: 'Failed to delete event',
-              isLoading: false,
-            });
-          }
-        },
-
-        /**
-         * Mark event as completed
-         */
-        completeEvent: async (id: string) => {
-          await get().actions.updateEvent({ id, isCompleted: true });
-        },
-
-        /**
-         * Mark event as incomplete
-         */
-        uncompleteEvent: async (id: string) => {
-          await get().actions.updateEvent({ id, isCompleted: false });
-        },
-
-        /**
-         * Set selected date
-         */
-        setSelectedDate: (date: Date) => {
-          set({ selectedDate: date });
-        },
-
-        /**
-         * Go to today's date
-         */
-        goToToday: () => {
-          const today = new Date();
-          set({
-            selectedDate: today,
-            currentMonth: today,
-          });
-        },
-
-        /**
-         * Navigate to previous/next month
-         */
-        navigateMonth: (direction: 'prev' | 'next') => {
-          const currentMonth = get().currentMonth;
-          const newMonth =
-            direction === 'prev'
-              ? CalendarService.getPreviousMonth(currentMonth)
-              : CalendarService.getNextMonth(currentMonth);
-
-          set({ currentMonth: newMonth });
-        },
-
-        /**
-         * Navigate to previous/next week
-         */
-        navigateWeek: (direction: 'prev' | 'next') => {
-          const selectedDate = get().selectedDate;
-          const newDate =
-            direction === 'prev'
-              ? CalendarService.getPreviousWeek(selectedDate)
-              : CalendarService.getNextWeek(selectedDate);
-
-          set({ selectedDate: newDate });
-        },
-
-        /**
-         * Set current month directly
-         */
-        setCurrentMonth: (date: Date) => {
-          set({ currentMonth: date });
-        },
-
-        /**
-         * Set view mode
-         */
-        setViewMode: (mode: CalendarViewMode) => {
-          set({ viewMode: mode });
-        },
-
-        /**
-         * Get events for a specific date
-         */
-        getEventsForDate: (date: Date) => {
-          const events = get().events;
-          return CalendarService.getEventsForDate(date, events);
-        },
-
-        /**
-         * Get events for a specific month
-         */
-        getEventsForMonth: (year: number, month: number) => {
-          const events = get().events;
-          const firstDay = new Date(year, month, 1);
-          const lastDay = new Date(year, month + 1, 0);
-          return CalendarService.getEventsInRange(firstDay, lastDay, events);
-        },
-
-        /**
-         * Clear error state
-         */
-        clearError: () => {
-          set({ error: null });
-        },
-
-        /**
-         * Clear all events (for testing/reset)
-         */
-        clearAllEvents: async () => {
-          set({ isLoading: true, error: null });
-          try {
-            await storageRepository.removeItem(STORAGE_KEY);
-            set({ events: [], isLoading: false });
-          } catch {
-            set({
-              error: 'Failed to clear events',
-              isLoading: false,
-            });
-          }
-        },
-      },
-    }),
-    {
-      name: 'calendar-storage',
-      storage: createJSONStorage(() => storageService),
-      partialize: (state) => ({ events: state.events }),
-    }
-  )
-);

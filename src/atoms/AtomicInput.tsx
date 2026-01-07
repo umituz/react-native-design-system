@@ -1,78 +1,12 @@
 import React from 'react';
-import { View, TextInput, Pressable, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, TextInput, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
-import { AtomicIcon } from './AtomicIcon';
-import { AtomicText } from './AtomicText';
 import { useInputState } from './input/hooks/useInputState';
 import { getSizeConfig, getVariantStyle, getTextColor } from './input/styles/inputStylesHelper';
-import type { IconName } from './AtomicIcon';
-
-export type AtomicInputVariant = 'outlined' | 'filled' | 'flat';
-export type AtomicInputState = 'default' | 'error' | 'success' | 'disabled';
-export type AtomicInputSize = 'sm' | 'md' | 'lg';
-
-export interface AtomicInputProps {
-  /** Input label */
-  label?: string;
-  /** Current input value */
-  value?: string;
-  /** Value change callback */
-  onChangeText?: (text: string) => void;
-  /** Input variant (outlined, filled, flat) */
-  variant?: AtomicInputVariant;
-  /** Input state (default, error, success, disabled) */
-  state?: AtomicInputState;
-  /** Input size (sm, md, lg) */
-  size?: AtomicInputSize;
-  /** Placeholder text */
-  placeholder?: string;
-  /** Helper text below input */
-  helperText?: string;
-  /** Leading icon (Ionicons name) */
-  leadingIcon?: IconName;
-  /** Trailing icon (Ionicons name) */
-  trailingIcon?: IconName;
-  /** Callback when trailing icon is pressed */
-  onTrailingIconPress?: () => void;
-  /** Show password toggle for secure inputs */
-  showPasswordToggle?: boolean;
-  /** Secure text entry (password field) */
-  secureTextEntry?: boolean;
-  /** Maximum character length */
-  maxLength?: number;
-  /** Show character counter */
-  showCharacterCount?: boolean;
-  /** Keyboard type */
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'url' | 'number-pad' | 'decimal-pad' | 'web-search' | 'twitter' | 'numeric' | 'visible-password';
-  /** Return key type */
-  returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
-  /** Callback when submit button is pressed */
-  onSubmitEditing?: () => void;
-  /** Blur on submit */
-  blurOnSubmit?: boolean;
-  /** Auto focus */
-  autoFocus?: boolean;
-  /** Auto-capitalize */
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  /** Auto-correct */
-  autoCorrect?: boolean;
-  /** Disabled state */
-  disabled?: boolean;
-  /** Container style */
-  style?: StyleProp<ViewStyle>;
-  /** Input text style */
-  inputStyle?: StyleProp<TextStyle>;
-  /** Test ID for E2E testing */
-  testID?: string;
-  /** Blur callback */
-  onBlur?: () => void;
-  /** Focus callback */
-  onFocus?: () => void;
-  /** Multiline input support */
-  multiline?: boolean;
-  /** Number of lines for multiline input */
-  numberOfLines?: number;
-}
+import type { AtomicInputProps } from './input/types';
+import { InputLabel } from './input/components/InputLabel';
+import { InputIcon } from './input/components/InputIcon';
+import { InputHelper } from './input/components/InputHelper';
 
 /**
  * AtomicInput - Pure React Native Text Input
@@ -188,25 +122,16 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
 
   return (
     <View testID={testID}>
-      {label && (
-        <AtomicText
-          type="labelMedium"
-          color={hasError ? 'error' : hasSuccess ? 'success' : 'secondary'}
-          style={styles.label}
-        >
-          {label}
-        </AtomicText>
-      )}
+      <InputLabel label={label} state={state} />
 
       <View style={containerStyle}>
         {leadingIcon && (
-          <View style={styles.leadingIcon}>
-            <AtomicIcon
-              name={leadingIcon}
-              customSize={sizeConfig.iconSize}
-              customColor={iconColor}
-            />
-          </View>
+          <InputIcon
+            name={leadingIcon}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+            position="leading"
+          />
         )}
 
         <TextInput
@@ -240,55 +165,36 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
         />
 
         {(showPasswordToggle && secureTextEntry) && (
-          <Pressable
+          <InputIcon
+            name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+            position="trailing"
             onPress={() => togglePasswordVisibility()}
-            style={styles.trailingIcon}
-          >
-            <AtomicIcon
-              name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
-              customSize={sizeConfig.iconSize}
-              customColor={iconColor}
-            />
-          </Pressable>
+            testID={testID ? `${testID}-toggle-password` : undefined}
+          />
         )}
 
         {trailingIcon && !showPasswordToggle && (
-          <Pressable
+          <InputIcon
+            name={trailingIcon}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+            position="trailing"
             onPress={onTrailingIconPress}
-            style={styles.trailingIcon}
-            disabled={!onTrailingIconPress}
-          >
-            <AtomicIcon
-              name={trailingIcon}
-              customSize={sizeConfig.iconSize}
-              customColor={iconColor}
-            />
-          </Pressable>
+            testID={testID ? `${testID}-trailing-icon` : undefined}
+          />
         )}
       </View>
 
-      {(helperText || showCharacterCount) && (
-        <View style={styles.helperRow}>
-          {helperText && (
-            <AtomicText
-              style={styles.helperText}
-              color={hasError ? 'error' : 'secondary'}
-              testID={testID ? `${testID}-helper` : undefined}
-            >
-              {helperText}
-            </AtomicText>
-          )}
-          {showCharacterCount && maxLength && (
-            <AtomicText
-              style={[styles.helperText, styles.characterCount]}
-              color="secondary"
-              testID={testID ? `${testID}-count` : undefined}
-            >
-              {characterCount}/{maxLength}
-            </AtomicText>
-          )}
-        </View>
-      )}
+      <InputHelper
+        helperText={helperText}
+        showCharacterCount={showCharacterCount}
+        characterCount={characterCount}
+        maxLength={maxLength}
+        state={state}
+        testID={testID}
+      />
     </View>
   );
 });
@@ -303,30 +209,4 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
-  label: {
-    marginBottom: 4,
-  },
-  leadingIcon: {
-    position: 'absolute',
-    left: 12,
-    zIndex: 1,
-  },
-  trailingIcon: {
-    position: 'absolute',
-    right: 12,
-    zIndex: 1,
-  },
-  helperRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 4,
-  },
-  helperText: {
-    flex: 1,
-  },
-  characterCount: {
-    marginLeft: 8,
-  },
 });
-
-export type { AtomicInputProps as InputProps };

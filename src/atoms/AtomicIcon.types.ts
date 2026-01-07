@@ -11,6 +11,11 @@ import type { Ionicons } from "@expo/vector-icons";
 export type IoniconsName = keyof typeof Ionicons.glyphMap;
 
 /**
+ * Icon name - either Ionicons or custom string
+ */
+export type IconName = IoniconsName | string;
+
+/**
  * Semantic icon size presets
  */
 export type IconSizePreset = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";

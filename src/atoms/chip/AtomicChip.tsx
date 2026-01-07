@@ -1,0 +1,112 @@
+/**
+ * AtomicChip Component
+ * Refactored: Extracted configs, styles, and types
+ */
+
+import React from 'react';
+import { View, ViewStyle, TouchableOpacity } from 'react-native';
+import { AtomicText } from '../AtomicText';
+import { AtomicIcon } from '../AtomicIcon';
+import { useAppDesignTokens } from '../../theme';
+import { getChipSizeConfig } from './configs/chipSizeConfig';
+import { getChipColorConfig } from './configs/chipColorConfig';
+import { getChipBorderStyle, getChipSelectedStyle } from './styles/chipStyles';
+import type { AtomicChipProps } from './types';
+
+export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
+  children,
+  variant = 'filled',
+  size = 'md',
+  color = 'primary',
+  backgroundColor,
+  textColor,
+  borderColor,
+  leadingIcon,
+  trailingIcon,
+  clickable = false,
+  onPress,
+  selected = false,
+  disabled = false,
+  style,
+  testID,
+  activeOpacity = 0.7,
+}) => {
+  const tokens = useAppDesignTokens();
+
+  const sizeConfig = getChipSizeConfig(size, tokens);
+  const colorConfig = getChipColorConfig(color, variant, tokens);
+  const borderStyle = getChipBorderStyle(variant, tokens);
+  const selectedStyle = getChipSelectedStyle(selected, tokens);
+
+  // Apply custom colors if provided
+  const finalBackgroundColor = backgroundColor || colorConfig.bg;
+  const finalTextColor = textColor || colorConfig.text;
+  const finalBorderColor = borderColor || colorConfig.border;
+
+  // Handle disabled state
+  const isDisabled = disabled || (!clickable && !onPress);
+  const opacity = isDisabled ? 0.5 : 1;
+
+  const chipStyle: ViewStyle = {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: sizeConfig.paddingHorizontal,
+    paddingVertical: sizeConfig.paddingVertical,
+    backgroundColor: finalBackgroundColor,
+    opacity,
+    ...borderStyle,
+    borderColor: finalBorderColor,
+    ...selectedStyle,
+  };
+
+  const textStyle = {
+    fontSize: sizeConfig.fontSize,
+    fontWeight: tokens.typography.medium,
+  };
+
+  const iconColor = finalTextColor;
+
+  const content = (
+    <View style={[chipStyle, style]} testID={testID}>
+      {leadingIcon && (
+        <AtomicIcon
+          name={leadingIcon}
+          size={sizeConfig.iconSize}
+          customColor={iconColor}
+          style={{ marginRight: tokens.spacing.xs }}
+        />
+      )}
+      <AtomicText
+        type="labelMedium"
+        color={finalTextColor}
+        style={textStyle}
+      >
+        {children}
+      </AtomicText>
+      {trailingIcon && (
+        <AtomicIcon
+          name={trailingIcon}
+          size={sizeConfig.iconSize}
+          customColor={iconColor}
+          style={{ marginLeft: tokens.spacing.xs }}
+        />
+      )}
+    </View>
+  );
+
+  if (clickable && onPress && !disabled) {
+    return (
+      <TouchableOpacity onPress={onPress} activeOpacity={activeOpacity}>
+        {content}
+      </TouchableOpacity>
+    );
+  }
+
+  return content;
+});
+
+AtomicChip.displayName = 'AtomicChip';
+
+// Re-export types for convenience
+export type { AtomicChipProps, ChipVariant, ChipSize, ChipColor } from './types';

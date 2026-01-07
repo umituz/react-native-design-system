@@ -28,7 +28,6 @@
 
 import { useMemo, useEffect } from 'react';
 import { useCalendarStore, type CalendarViewMode } from '../../infrastructure/storage/CalendarStore';
-import { CalendarService } from '../../infrastructure/services/CalendarService';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
 import type { CalendarEvent } from '../../domain/entities/CalendarEvent.entity';
 
@@ -62,7 +61,6 @@ export interface UseCalendarReturn {
     setSelectedDate: (date: Date) => void;
     goToToday: () => void;
     navigateMonth: (direction: 'prev' | 'next') => void;
-    navigateWeek: (direction: 'prev' | 'next') => void;
     setCurrentMonth: (date: Date) => void;
     setViewMode: (mode: CalendarViewMode) => void;
     getEventsForDate: (date: Date) => CalendarEvent[];
@@ -75,7 +73,7 @@ export interface UseCalendarReturn {
 /**
  * Main calendar hook
  */
-export const useCalendar = (): UseCalendarReturn => {
+export const useCalendarPresentation = (): UseCalendarReturn => {
   const store = useCalendarStore();
   const {
     events,
@@ -92,13 +90,6 @@ export const useCalendar = (): UseCalendarReturn => {
     actions.loadEvents();
   }, []);
 
-  // Generate calendar days for current month
-  const days = useMemo(() => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    return CalendarService.getMonthDays(year, month, events);
-  }, [currentMonth, events]);
-
   // Get events for selected date
   const selectedDateEvents = useMemo(() => {
     return actions.getEventsForDate(selectedDate);
@@ -112,7 +103,7 @@ export const useCalendar = (): UseCalendarReturn => {
   }, [currentMonth, events]);
 
   return {
-    days,
+    days: store.days,
     events,
     selectedDate,
     currentMonth,
@@ -181,3 +172,8 @@ export const useCalendarEvents = () => {
     clearError,
   };
 };
+
+// Re-export for convenience
+export { useCalendar, useCalendarStore } from '../../infrastructure/storage/CalendarStore';
+export type { CalendarViewMode } from '../../infrastructure/storage/CalendarStore';
+
