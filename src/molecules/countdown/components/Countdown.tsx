@@ -42,7 +42,7 @@ export const Countdown: React.FC<CountdownProps> = ({
         () => [target, ...alternateTargets],
         [target, alternateTargets]
     );
-    const currentTarget = allTargets[currentTargetIndex];
+    const currentTarget = allTargets[currentTargetIndex] ?? target;
 
     const { timeRemaining, setTarget: updateTarget } = useCountdown(currentTarget, {
         interval,
@@ -50,25 +50,28 @@ export const Countdown: React.FC<CountdownProps> = ({
     });
 
     React.useEffect(() => {
-        updateTarget(currentTarget);
+        if (currentTarget) {
+            updateTarget(currentTarget);
+        }
     }, [currentTarget, updateTarget]);
 
     const handleToggle = () => {
         const nextIndex = (currentTargetIndex + 1) % allTargets.length;
-        setCurrentTargetIndex(nextIndex);
-        if (onTargetChange) {
-            onTargetChange(allTargets[nextIndex]);
+        const nextTarget = allTargets[nextIndex];
+        if (nextTarget) {
+            setCurrentTargetIndex(nextIndex);
+            onTargetChange?.(nextTarget);
         }
     };
 
     const defaultFormatLabel = (unit: 'days' | 'hours' | 'minutes' | 'seconds') => {
-        const labels = {
-            days: 'DAYS',
-            hours: 'HOURS',
-            minutes: 'MINUTES',
-            seconds: 'SECONDS',
+        const labels: Record<string, string> = {
+            days: '',
+            hours: '',
+            minutes: '',
+            seconds: '',
         };
-        return labels[unit];
+        return labels[unit] ?? '';
     };
 
     const labelFormatter = formatLabel || defaultFormatLabel;
@@ -112,9 +115,9 @@ export const Countdown: React.FC<CountdownProps> = ({
 
     return (
         <View style={styles.container}>
-            {showLabel && (
+            {showLabel && currentTarget && (
                 <CountdownHeader
-                    title={currentTarget.label || 'Countdown'}
+                    title={currentTarget.label || ''}
                     icon={currentTarget.icon as IconName}
                     showToggle={showToggle}
                     onToggle={handleToggle}

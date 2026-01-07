@@ -64,17 +64,17 @@ export class AvatarUtils {
    * Same name always returns same color
    */
   static getColorForName(name: string): string {
-    if (!name) return AVATAR_COLORS[0];
+    if (!name) return AVATAR_COLORS[0] ?? '#7E57C2';
 
     const hash = this.hashString(name);
-    return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+    return AVATAR_COLORS[hash % AVATAR_COLORS.length] ?? AVATAR_COLORS[0] ?? '#7E57C2';
   }
 
   /**
    * Get size config
    */
   static getSizeConfig(size: AvatarSize): SizeConfig {
-    return SIZE_CONFIGS[size];
+    return SIZE_CONFIGS[size] ?? SIZE_CONFIGS.md;
   }
 
   /**
@@ -84,14 +84,14 @@ export class AvatarUtils {
     if (shape === 'circle') {
       return size / 2;
     }
-    return SHAPE_CONFIGS[shape];
+    return SHAPE_CONFIGS[shape] ?? 0;
   }
 
   /**
    * Get status color
    */
   static getStatusColor(status: 'online' | 'offline' | 'away' | 'busy'): string {
-    return STATUS_COLORS[status];
+    return STATUS_COLORS[status] ?? STATUS_COLORS.offline;
   }
 
   /**
@@ -132,7 +132,3 @@ export class AvatarUtils {
     return config.type === 'icon' && !!config.icon;
   }
 }
-
-// Re-export types and constants for convenience
-export type { AvatarSize, AvatarShape, AvatarType, AvatarConfig, SizeConfig } from './Avatar.types';
-export { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
