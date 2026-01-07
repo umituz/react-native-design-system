@@ -28,7 +28,7 @@ export const getVariantConfig = (
       };
     case 'success':
       return {
-        icon: 'check-circle',
+        icon: 'checkmark-circle-outline',
         iconColor: 'success',
       };
     case 'default':

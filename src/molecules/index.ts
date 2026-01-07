@@ -8,6 +8,14 @@ export * from './avatar';
 export * from './bottom-sheet';
 export { FormField, type FormFieldProps } from './FormField';
 export { ListItem, type ListItemProps } from './ListItem';
+
+// Media Card
+export { MediaCard } from './media-card';
+export type {
+  MediaCardProps,
+  MediaCardSize,
+  MediaCardOverlayPosition,
+} from './media-card';
 export { SearchBar, type SearchBarProps } from './SearchBar';
 export { IconContainer } from './IconContainer';
 export { BaseModal, type BaseModalProps } from './BaseModal';

@@ -90,17 +90,15 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         statusBarTranslucent
       >
         <Pressable style={styles.overlay} onPress={dismiss}>
-          <View style={styles.container}>
-            {/* Using a dummy Pressable that covers the container area to consume touches */}
-            <Pressable 
-              style={StyleSheet.absoluteFill} 
-              onPress={() => {}} // Consumer
-            />
+          <Pressable 
+            style={styles.container} 
+            onPress={() => {}} // Consumer to prevent bubbling to overlay
+          >
             <View style={{ flex: 1 }}>
               <View style={styles.handle} />
               {children}
             </View>
-          </View>
+          </Pressable>
         </Pressable>
       </Modal>
     );

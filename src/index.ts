@@ -287,6 +287,11 @@ export {
   type AvatarShape,
   type AvatarConfig,
   type AvatarType,
+  // Media Card
+  MediaCard,
+  type MediaCardProps,
+  type MediaCardSize,
+  type MediaCardOverlayPosition,
   // Bottom Sheet
   BottomSheet,
   BottomSheetModal,
