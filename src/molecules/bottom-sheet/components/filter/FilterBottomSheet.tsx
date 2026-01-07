@@ -17,10 +17,8 @@ export interface FilterBottomSheetProps {
     readonly categories: FilterCategory[];
     readonly selectedIds: string[];
     readonly onFilterPress: (id: string, categoryId: string) => void;
-    readonly onClearFilters: () => void;
     readonly onDismiss?: () => void;
     readonly title?: string;
-    readonly clearLabel?: string;
     readonly applyLabel?: string;
     readonly defaultId?: string;
 }
@@ -29,10 +27,8 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     categories,
     selectedIds,
     onFilterPress,
-    onClearFilters,
     onDismiss,
     title,
-    clearLabel = 'Clear',
     applyLabel = 'Apply',
     defaultId = 'all'
 }, ref) => {
@@ -170,11 +166,9 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
             <View style={styles.container}>
                 <View style={styles.header}>
                     <AtomicText type="headlineSmall">{title || 'Filter'}</AtomicText>
-                    {hasActiveFilters && (
-                        <TouchableOpacity onPress={onClearFilters}>
-                            <AtomicText type="labelLarge" color="error">{clearLabel}</AtomicText>
-                        </TouchableOpacity>
-                    )}
+                    <TouchableOpacity onPress={() => (ref as any).current?.dismiss()}>
+                        <AtomicIcon name="close" size="md" color="textPrimary" />
+                    </TouchableOpacity>
                 </View>
 
                 <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
