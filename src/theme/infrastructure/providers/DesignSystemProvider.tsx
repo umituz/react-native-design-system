@@ -30,33 +30,7 @@ interface DesignSystemProviderProps {
 
 /**
  * DesignSystemProvider
- * 
  * Initializes theme store and applies custom colors.
- * Wrap your app with this provider to enable design system features.
- * 
- * Features:
- * - Auto-initializes theme from storage
- * - Supports custom color overrides
- * - Optional loading state
- * - Error handling
- * - GestureHandlerRootView integration
- * - BottomSheetModalProvider integration
- * 
- * Usage:
- * ```tsx
- * import { DesignSystemProvider } from '@umituz/react-native-design-system';
- * 
- * export default function App() {
- *   return (
- *     <DesignSystemProvider
- *       customColors={{ primary: '#FF6B6B' }}
- *       showLoadingIndicator
- *     >
- *       <YourApp />
- *     </DesignSystemProvider>
- *   );
- * }
- * ```
  */
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   children,
