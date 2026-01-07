@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.6.67",
+  "version": "2.6.68",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive and safe area utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
