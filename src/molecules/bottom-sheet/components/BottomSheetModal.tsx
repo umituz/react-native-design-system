@@ -79,14 +79,41 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
   useImperativeHandle(ref, () => ({
     present: () => {
-      if (__DEV__) console.log('[BottomSheetModal] present() called', { refExists: !!modalRef.current });
-      modalRef.current?.present();
+      if (__DEV__) {
+        console.log('[BottomSheetModal] present() called', {
+          refExists: !!modalRef.current,
+          hasPresentMethod: typeof modalRef.current?.present === 'function',
+          refType: typeof modalRef.current,
+          refKeys: modalRef.current ? Object.keys(modalRef.current) : []
+        });
+      }
+      
+      try {
+        if (!modalRef.current) {
+          if (__DEV__) console.error('[BottomSheetModal] modalRef.current is null!');
+          return;
+        }
+        
+        if (typeof modalRef.current.present !== 'function') {
+          if (__DEV__) console.error('[BottomSheetModal] present is not a function!', typeof modalRef.current.present);
+          return;
+        }
+        
+        if (__DEV__) console.log('[BottomSheetModal] Calling modalRef.current.present()...');
+        modalRef.current.present();
+        if (__DEV__) console.log('[BottomSheetModal] modalRef.current.present() executed');
+      } catch (error) {
+        if (__DEV__) console.error('[BottomSheetModal] Error calling present():', error);
+      }
     },
     dismiss: () => {
       if (__DEV__) console.log('[BottomSheetModal] dismiss() called');
       modalRef.current?.dismiss();
     },
-    snapToIndex: (index: number) => modalRef.current?.snapToIndex(index),
+    snapToIndex: (index: number) => {
+      if (__DEV__) console.log('[BottomSheetModal] snapToIndex called', { index });
+      modalRef.current?.snapToIndex(index);
+    },
     snapToPosition: (pos: string | number) => modalRef.current?.snapToPosition(pos),
     expand: () => modalRef.current?.expand(),
     collapse: () => modalRef.current?.collapse(),
