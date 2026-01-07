@@ -76,6 +76,9 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         marginTop: 12,
         marginBottom: 8,
       },
+      content: {
+        flex: 1,
+      },
     });
 
     return (
@@ -88,7 +91,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       >
         <Pressable style={styles.overlay} onPress={dismiss}>
           <View style={styles.container}>
-            <Pressable onPress={(e) => e.stopPropagation()}>
+            <Pressable onPress={(e) => e.stopPropagation()} style={styles.content}>
               <View style={styles.handle} />
               {children}
             </Pressable>
