@@ -8,7 +8,7 @@ import { View, ScrollView } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
-import { ContentWrapper } from './components/ContentWrapper';
+import { AtomicKeyboardAvoidingView } from '../../atoms';
 import { getScreenLayoutStyles } from './styles/screenLayoutStyles';
 import type { ScreenLayoutProps } from './types';
 
@@ -24,7 +24,6 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   testID,
   hideScrollIndicator = false,
   keyboardAvoiding = false,
-  responsiveEnabled = true,
   maxWidth,
   refreshControl,
 }) => {
@@ -37,10 +36,10 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
     [insets]
   );
 
-  // Use provided maxWidth or responsive default
-  const finalMaxWidth = maxWidth || (responsiveEnabled ? layoutConfig.maxContentWidth : undefined);
-  const horizontalPadding = responsiveEnabled ? layoutConfig.horizontalPadding : tokens.spacing.md;
-  const verticalPadding = responsiveEnabled ? layoutConfig.verticalPadding : tokens.spacing.lg;
+  // Use centralized layout config for consistency
+  const finalMaxWidth = maxWidth || layoutConfig.maxContentWidth;
+  const horizontalPadding = layoutConfig.horizontalPadding;
+  const verticalPadding = layoutConfig.verticalPadding;
 
   // Pre-compute styles
   const styles = useMemo(
@@ -49,50 +48,44 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
   );
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
+  
+  const content = (
+    <View style={styles.responsiveWrapper}>
+      {header}
+      {scrollable ? (
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+          showsVerticalScrollIndicator={!hideScrollIndicator}
+          keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
+          refreshControl={refreshControl}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={[styles.content, contentContainerStyle]}>
+          {children}
+        </View>
+      )}
+      {footer}
+    </View>
+  );
 
-  // Non-scrollable layout
-  if (!scrollable) {
-    return (
-      <SafeAreaView
-        style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
-        edges={edges}
-        testID={testID}
-      >
-        <ContentWrapper keyboardAvoiding={keyboardAvoiding}>
-          <View style={styles.responsiveWrapper}>
-            {header}
-            <View style={[styles.content, contentContainerStyle]}>
-              {children}
-            </View>
-            {footer}
-          </View>
-        </ContentWrapper>
-      </SafeAreaView>
-    );
-  }
-
-  // Scrollable layout (default)
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
       edges={edges}
       testID={testID}
     >
-      <ContentWrapper keyboardAvoiding={keyboardAvoiding}>
-        <View style={styles.responsiveWrapper}>
-          {header}
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
-            showsVerticalScrollIndicator={!hideScrollIndicator}
-            keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
-            refreshControl={refreshControl}
-          >
-            {children}
-          </ScrollView>
-          {footer}
-        </View>
-      </ContentWrapper>
+      {keyboardAvoiding ? (
+         <AtomicKeyboardAvoidingView style={styles.keyboardAvoidingView}>
+           {content}
+         </AtomicKeyboardAvoidingView>
+      ) : (
+         <View style={styles.keyboardAvoidingView}>
+           {content}
+         </View>
+      )}
     </SafeAreaView>
   );
 };
