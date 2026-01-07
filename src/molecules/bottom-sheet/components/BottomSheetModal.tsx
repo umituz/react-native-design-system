@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState, useCallback } from 'react';
-import { Modal, View, StyleSheet, Pressable, Platform } from 'react-native';
+import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { getResponsiveBottomSheetLayout } from '../../../responsive';
@@ -66,17 +66,6 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
         paddingBottom: Math.max(insets.bottom, 8),
-        ...Platform.select({
-          ios: {
-            shadowColor: tokens.colors.black,
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.15,
-            shadowRadius: 12,
-          },
-          android: {
-            elevation: 8,
-          },
-        }),
       },
       handle: {
         width: 40,
