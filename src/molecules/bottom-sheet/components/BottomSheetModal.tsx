@@ -142,11 +142,11 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       ref={modalRef}
       index={-1}
       snapPoints={config.snapPoints}
-      enableDynamicSizing={config.enableDynamicSizing}
+      enableDynamicSizing={false}
       backdropComponent={renderBackdrop}
       keyboardBehavior={config.keyboardBehavior}
       enableHandlePanningGesture={config.enableHandleIndicator}
-      enablePanDownToClose={config.enablePanDownToClose}
+      enablePanDownToClose={config.enablePanDownToClose ?? true}
       onChange={handleSheetChange}
       onDismiss={onDismiss}
       onAnimate={(fromIndex, toIndex) => {
@@ -156,6 +156,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       }}
       backgroundStyle={[styles.background, { backgroundColor: backgroundColor || tokens.colors.surface }]}
       handleIndicatorStyle={[styles.handleIndicator, { backgroundColor: tokens.colors.border }]}
+      enableOverDrag={false}
     >
       <BottomSheetView style={styles.contentContainer}>
         {children}

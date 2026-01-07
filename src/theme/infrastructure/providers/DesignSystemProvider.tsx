@@ -1,11 +1,13 @@
 import React, { useEffect, useState, ReactNode } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
 import { useThemeStore } from '../stores/themeStore';
 import { useDesignSystemTheme } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
+import { SafeBottomSheetModalProvider } from '../../../molecules/bottom-sheet';
 
 declare const __DEV__: boolean;
 
@@ -37,6 +39,8 @@ interface DesignSystemProviderProps {
  * - Supports custom color overrides
  * - Optional loading state
  * - Error handling
+ * - GestureHandlerRootView integration
+ * - BottomSheetModalProvider integration
  * 
  * Usage:
  * ```tsx
@@ -157,9 +161,13 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   };
 
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      {renderContent()}
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <SafeBottomSheetModalProvider>
+          {renderContent()}
+        </SafeBottomSheetModalProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 
