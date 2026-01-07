@@ -9,12 +9,9 @@ import React from 'react';
 import { View, Image, StyleSheet, type StyleProp, type ViewStyle, type ImageStyle } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText, AtomicIcon } from '../../atoms';
-import type { AvatarSize, AvatarShape } from './Avatar.utils';
-import {
-  SIZE_CONFIGS,
-  AvatarUtils,
-  AVATAR_CONSTANTS,
-} from './Avatar.utils';
+import type { AvatarSize, AvatarShape } from './Avatar.types';
+import { SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
+import { AvatarUtils } from './Avatar.utils';
 
 /**
  * Avatar component props

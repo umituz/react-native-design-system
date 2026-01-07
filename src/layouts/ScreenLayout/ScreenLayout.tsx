@@ -43,8 +43,8 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 
   // Pre-compute styles
   const styles = useMemo(
-    () => getScreenLayoutStyles(tokens, { maxWidth: finalMaxWidth, horizontalPadding, verticalPadding }),
-    [tokens, finalMaxWidth, horizontalPadding, verticalPadding]
+    () => getScreenLayoutStyles({ maxWidth: finalMaxWidth, horizontalPadding, verticalPadding }),
+    [finalMaxWidth, horizontalPadding, verticalPadding]
   );
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;

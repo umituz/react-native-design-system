@@ -53,7 +53,7 @@ function getDeviceLocale(): string | undefined {
     const locales = Localization.getLocales();
     if (locales && locales.length > 0) {
       const locale = locales[0];
-      return locale.languageTag || undefined;
+      return locale?.languageTag || undefined;
     }
     return undefined;
   } catch {

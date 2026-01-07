@@ -10,11 +10,8 @@ import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText } from '../../atoms';
 import { Avatar } from './Avatar';
-import type { AvatarSize, AvatarShape } from './Avatar.utils';
-import {
-  SIZE_CONFIGS,
-  AVATAR_CONSTANTS,
-} from './Avatar.utils';
+import type { AvatarSize, AvatarShape } from './Avatar.types';
+import { SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
 
 /**
  * Avatar item for group
@@ -43,32 +40,6 @@ export interface AvatarGroupProps {
   style?: StyleProp<ViewStyle>;
 }
 
-/**
- * AvatarGroup Component
- *
- * Displays multiple avatars in a horizontal stack.
- * Shows "+N" indicator when exceeding max visible count.
- *
- * USAGE:
- * ```typescript
- * const users = [
- *   { name: 'Ümit Uz', uri: 'https://...' },
- *   { name: 'John Doe', uri: 'https://...' },
- *   { name: 'Jane Smith' },
- *   { name: 'Bob Johnson' },
- *   { name: 'Alice Brown' },
- * ];
- *
- * // Show 3 avatars + overflow
- * <AvatarGroup items={users} maxVisible={3} />
- *
- * // Custom spacing
- * <AvatarGroup items={users} spacing={-12} />
- *
- * // Different size
- * <AvatarGroup items={users} size="lg" />
- * ```
- */
 export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   items,
   maxVisible = AVATAR_CONSTANTS.MAX_GROUP_VISIBLE,
@@ -87,7 +58,6 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
 
   return (
     <View style={[styles.container, style]}>
-      {/* Render visible avatars */}
       {visibleItems.map((item, index) => (
         <View
           key={index}
@@ -113,7 +83,6 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
         </View>
       ))}
 
-      {/* Overflow indicator */}
       {hasOverflow && (
         <View
           style={[
@@ -158,12 +127,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  avatarWrapper: {
-    // Wrapper for easier spacing control
-  },
-  avatar: {
-    // Avatar styles
-  },
+  avatarWrapper: {},
+  avatar: {},
   overflow: {
     justifyContent: 'center',
     alignItems: 'center',

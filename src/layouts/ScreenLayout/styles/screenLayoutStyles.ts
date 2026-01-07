@@ -12,7 +12,6 @@ export interface ScreenLayoutStylesConfig {
 }
 
 export const getScreenLayoutStyles = (
-  tokens: DesignTokens,
   config: ScreenLayoutStylesConfig,
 ) => {
   const { maxWidth, horizontalPadding, verticalPadding } = config;

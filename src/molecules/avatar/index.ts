@@ -1,10 +1,5 @@
 export { Avatar, type AvatarProps } from './Avatar';
 export { AvatarGroup, type AvatarGroupProps, type AvatarGroupItem } from './AvatarGroup';
-export {
-    AvatarUtils,
-    AVATAR_CONSTANTS,
-    type AvatarSize,
-    type AvatarShape,
-    type AvatarConfig,
-    type AvatarType
-} from './Avatar.utils';
+export { AvatarUtils } from './Avatar.utils';
+export { AVATAR_CONSTANTS } from './Avatar.constants';
+export type { AvatarSize, AvatarShape, AvatarConfig, AvatarType } from './Avatar.types';
