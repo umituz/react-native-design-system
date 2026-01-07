@@ -1,21 +1,15 @@
 import React, { ReactNode } from 'react';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-interface SafeBottomSheetModalProviderProps {
+export interface SafeBottomSheetModalProviderProps {
   children: ReactNode;
 }
 
+/**
+ * SafeBottomSheetModalProvider
+ * 
+ * Simple wrapper for backward compatibility.
+ * No longer uses @gorhom/bottom-sheet provider.
+ */
 export const SafeBottomSheetModalProvider = ({ children }: SafeBottomSheetModalProviderProps) => {
-  React.useEffect(() => {
-    if (__DEV__) {
-      console.log('[SafeBottomSheetModalProvider] Mounted and providing context');
-    }
-  }, []);
-
-  if (__DEV__) {
-    console.log('[SafeBottomSheetModalProvider] Rendering');
-  }
-
-  return <BottomSheetModalProvider>{children}</BottomSheetModalProvider>;
+  return <>{children}</>;
 };
-

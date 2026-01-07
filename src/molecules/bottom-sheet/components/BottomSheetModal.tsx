@@ -1,192 +1,113 @@
-import React, { forwardRef, useCallback, useMemo, useImperativeHandle, useRef } from 'react';
-import { StyleSheet } from 'react-native';
-import {
-  BottomSheetModal as GorhomBottomSheetModal,
-  BottomSheetView,
-  BottomSheetBackdrop,
-  type BottomSheetBackdropProps,
-} from '@gorhom/bottom-sheet';
+import React, { forwardRef, useImperativeHandle, useState, useCallback } from 'react';
+import { Modal, View, StyleSheet, Pressable, Platform } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
-import type {
-  BottomSheetConfig,
-  BottomSheetModalRef,
-  BottomSheetModalProps,
-} from '../types/BottomSheet';
-import { BottomSheetUtils } from '../types/BottomSheet';
+import { useSafeAreaInsets } from '../../../safe-area';
+import { getResponsiveBottomSheetLayout } from '../../../responsive';
+import type { BottomSheetModalRef, BottomSheetModalProps } from '../types/BottomSheet';
 
-export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModalProps>((props, ref) => {
-  const {
-    children,
-    preset = 'medium',
-    snapPoints: customSnapPoints,
-    initialIndex,
-    enableBackdrop = true,
-    backdropAppearsOnIndex,
-    backdropDisappearsOnIndex,
-    keyboardBehavior = 'interactive',
-    enableHandleIndicator = true,
-    enablePanDownToClose = true,
-    enableDynamicSizing = false,
-    onChange,
-    onDismiss,
-    backgroundColor,
-  } = props;
+declare const __DEV__: boolean;
 
-  const tokens = useAppDesignTokens();
-  const modalRef = useRef<GorhomBottomSheetModal>(null);
+export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModalProps>(
+  (props, ref) => {
+    const {
+      children,
+      preset = 'medium',
+      onDismiss,
+      backgroundColor,
+    } = props;
 
-  const config: BottomSheetConfig = useMemo(() => {
-    if (customSnapPoints) {
-      return BottomSheetUtils.createConfig({
-        snapPoints: customSnapPoints,
-        initialIndex,
-        enableBackdrop,
-        backdropAppearsOnIndex,
-        backdropDisappearsOnIndex,
-        keyboardBehavior,
-        enableHandleIndicator,
-        enablePanDownToClose,
-        enableDynamicSizing,
-      });
-    }
-    return BottomSheetUtils.getPreset(preset);
-  }, [preset, customSnapPoints, initialIndex, enableBackdrop, backdropAppearsOnIndex, backdropDisappearsOnIndex, keyboardBehavior, enableHandleIndicator, enablePanDownToClose, enableDynamicSizing]);
+    const [visible, setVisible] = useState(false);
+    const tokens = useAppDesignTokens();
+    const insets = useSafeAreaInsets();
+    const { maxHeight, borderRadius } = getResponsiveBottomSheetLayout();
 
-  const renderBackdrop = useCallback(
-    (backdropProps: BottomSheetBackdropProps) =>
-      enableBackdrop ? (
-        <BottomSheetBackdrop
-          {...backdropProps}
-          appearsOnIndex={config.backdropAppearsOnIndex ?? 0}
-          disappearsOnIndex={config.backdropDisappearsOnIndex ?? -1}
-          opacity={0.5}
-          pressBehavior="close"
-        />
-      ) : null,
-    [enableBackdrop, config.backdropAppearsOnIndex, config.backdropDisappearsOnIndex]
-  );
+    const PRESET_HEIGHTS = {
+      small: maxHeight * 0.35,
+      medium: maxHeight * 0.6,
+      large: maxHeight * 0.85,
+      full: maxHeight,
+      custom: maxHeight * 0.6,
+    };
 
-  const handleSheetChange = useCallback(
-    (index: number) => {
-      if (__DEV__) {
-        console.log('[BottomSheetModal] onChange triggered', { index });
-      }
-      onChange?.(index);
-      if (index === -1) onDismiss?.();
-    },
-    [onChange, onDismiss]
-  );
+    const sheetHeight = PRESET_HEIGHTS[preset] || PRESET_HEIGHTS.medium;
 
-  useImperativeHandle(ref, () => ({
-    present: () => {
-      if (__DEV__) {
-        console.log('[BottomSheetModal] present() called', {
-          refExists: !!modalRef.current,
-          hasPresentMethod: typeof modalRef.current?.present === 'function',
-          refType: typeof modalRef.current,
-          refKeys: modalRef.current ? Object.keys(modalRef.current) : []
-        });
-      }
-      
-      try {
-        if (!modalRef.current) {
-          if (__DEV__) console.error('[BottomSheetModal] modalRef.current is null!');
-          return;
-        }
-        
-        if (typeof modalRef.current.present !== 'function') {
-          if (__DEV__) console.error('[BottomSheetModal] present is not a function!', typeof modalRef.current.present);
-          return;
-        }
-        
-        if (__DEV__) console.log('[BottomSheetModal] Calling modalRef.current.present()...');
-        modalRef.current.present();
-        if (__DEV__) console.log('[BottomSheetModal] modalRef.current.present() executed');
-        
-        // Fallback: Also try snapToIndex as a workaround
-        setTimeout(() => {
-          if (modalRef.current && typeof modalRef.current.snapToIndex === 'function') {
-            if (__DEV__) console.log('[BottomSheetModal] Fallback: calling snapToIndex(0)');
-            modalRef.current.snapToIndex(0);
-          }
-        }, 50);
-      } catch (error) {
-        if (__DEV__) console.error('[BottomSheetModal] Error calling present():', error);
-      }
-    },
-    dismiss: () => {
-      if (__DEV__) console.log('[BottomSheetModal] dismiss() called');
-      modalRef.current?.dismiss();
-    },
-    snapToIndex: (index: number) => {
-      if (__DEV__) console.log('[BottomSheetModal] snapToIndex called', { index });
-      modalRef.current?.snapToIndex(index);
-    },
-    snapToPosition: (pos: string | number) => modalRef.current?.snapToPosition(pos),
-    expand: () => modalRef.current?.expand(),
-    collapse: () => modalRef.current?.collapse(),
-  }));
+    const present = useCallback(() => {
+      if (__DEV__) console.log('[BottomSheetModal] Opening');
+      setVisible(true);
+    }, []);
 
-  React.useEffect(() => {
-    if (__DEV__) {
-      console.log('[BottomSheetModal] Component mounted', {
-        hasModalRef: !!modalRef.current,
-        snapPoints: config.snapPoints,
-        preset
-      });
-    }
-  }, []);
+    const dismiss = useCallback(() => {
+      if (__DEV__) console.log('[BottomSheetModal] Closing');
+      setVisible(false);
+      onDismiss?.();
+    }, [onDismiss]);
 
-  React.useEffect(() => {
-    if (__DEV__) {
-      console.log('[BottomSheetModal] modalRef updated', {
-        hasModalRef: !!modalRef.current,
-      });
-    }
-  }, [modalRef.current]);
+    useImperativeHandle(ref, () => ({
+      present,
+      dismiss,
+      snapToIndex: (index: number) => {
+        if (index >= 0) present();
+        else dismiss();
+      },
+      snapToPosition: () => present(),
+      expand: () => present(),
+      collapse: () => dismiss(),
+    }));
 
-  return (
-    <GorhomBottomSheetModal
-      ref={modalRef}
-      index={-1}
-      snapPoints={config.snapPoints}
-      enableDynamicSizing={false}
-      backdropComponent={renderBackdrop}
-      keyboardBehavior={config.keyboardBehavior}
-      enableHandlePanningGesture={config.enableHandleIndicator}
-      enablePanDownToClose={config.enablePanDownToClose ?? true}
-      onChange={handleSheetChange}
-      onDismiss={onDismiss}
-      onAnimate={(fromIndex, toIndex) => {
-        if (__DEV__) {
-          console.log('[BottomSheetModal] onAnimate', { fromIndex, toIndex });
-        }
-      }}
-      backgroundStyle={[styles.background, { backgroundColor: backgroundColor || tokens.colors.surface }]}
-      handleIndicatorStyle={[styles.handleIndicator, { backgroundColor: tokens.colors.border }]}
-      enableOverDrag={false}
-    >
-      <BottomSheetView style={styles.contentContainer}>
-        {children}
-      </BottomSheetView>
-    </GorhomBottomSheetModal>
-  );
-});
+    const styles = StyleSheet.create({
+      overlay: {
+        flex: 1,
+        backgroundColor: tokens.colors.modalOverlay,
+        justifyContent: 'flex-end',
+      },
+      container: {
+        height: sheetHeight,
+        backgroundColor: backgroundColor || tokens.colors.surface,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+        paddingBottom: Math.max(insets.bottom, 8),
+        ...Platform.select({
+          ios: {
+            shadowColor: tokens.colors.black,
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.15,
+            shadowRadius: 12,
+          },
+          android: {
+            elevation: 8,
+          },
+        }),
+      },
+      handle: {
+        width: 40,
+        height: 4,
+        backgroundColor: tokens.colors.border,
+        borderRadius: 2,
+        alignSelf: 'center',
+        marginTop: 12,
+        marginBottom: 8,
+      },
+    });
+
+    return (
+      <Modal
+        visible={visible}
+        transparent
+        animationType="slide"
+        onRequestClose={dismiss}
+        statusBarTranslucent
+      >
+        <Pressable style={styles.overlay} onPress={dismiss}>
+          <View style={styles.container}>
+            <Pressable onPress={(e) => e.stopPropagation()}>
+              <View style={styles.handle} />
+              {children}
+            </Pressable>
+          </View>
+        </Pressable>
+      </Modal>
+    );
+  }
+);
 
 BottomSheetModal.displayName = 'BottomSheetModal';
-
-const styles = StyleSheet.create({
-  background: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
-  handleIndicator: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-  },
-  contentContainer: {
-    flex: 1,
-  },
-});
-
