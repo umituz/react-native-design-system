@@ -3,7 +3,6 @@
  */
 
 import { StyleSheet } from 'react-native';
-import type { DesignTokens } from '../../../theme';
 
 export interface ScreenLayoutStylesConfig {
   readonly maxWidth?: number;
