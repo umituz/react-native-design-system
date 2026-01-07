@@ -55,17 +55,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     iconPlaceholder: `${tokens.colors.textPrimary}30`, // 30% opacity
   };
 
-  if (__DEV__) {
-    console.log('[SplashScreen] Component render:', {
-      visible,
-      appName,
-      tagline,
-      hasIcon: !!icon,
-      hasCustomColors: !!customColors,
-      resolvedColors: colors,
-      hasGradient: !!gradientColors,
-    });
-  }
+
 
   if (!visible) {
     if (__DEV__) {
@@ -159,13 +149,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "space-between",
-  },
+  container: { flex: 1 },
+  content: { flex: 1, justifyContent: "space-between" },
   center: {
     flex: 1,
     alignItems: "center",
@@ -183,26 +168,14 @@ const styles = StyleSheet.create({
     borderRadius: SPLASH_CONSTANTS.ICON_PLACEHOLDER_SIZE / 2,
     marginBottom: SPLASH_CONSTANTS.CONTENT_PADDING,
   },
-  title: {
-    textAlign: "center",
-    fontWeight: "800",
-    marginBottom: 8,
-  },
-  tagline: {
-    textAlign: "center",
-    opacity: 0.9,
-  },
+  title: { textAlign: "center", fontWeight: "800", marginBottom: 8 },
+  tagline: { textAlign: "center", opacity: 0.9 },
   loadingContainer: {
     marginTop: SPLASH_CONSTANTS.CONTENT_PADDING,
     alignItems: "center",
     justifyContent: "center",
     minHeight: 40,
   },
-  loadingIndicator: {
-    opacity: 0.8,
-  },
-  timeoutText: {
-    textAlign: "center",
-    marginTop: 16,
-  },
+  loadingIndicator: { opacity: 0.8 },
+  timeoutText: { textAlign: "center", marginTop: 16 },
 });

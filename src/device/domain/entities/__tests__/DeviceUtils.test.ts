@@ -2,7 +2,8 @@
  * Device Utils Tests
  */
 
-import { DeviceUtils, DEVICE_CONSTANTS } from '../Device';
+import { DEVICE_CONSTANTS } from '../Device';
+import { DeviceUtils } from '../DeviceUtils';
 
 describe('DeviceUtils', () => {
   const mockDeviceInfo = {

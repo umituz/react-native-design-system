@@ -11,7 +11,7 @@
 import * as Sharing from 'expo-sharing';
 import { FileSystemService } from '@umituz/react-native-filesystem';
 import type { ShareOptions, ShareResult } from '../../domain/entities/Share';
-import { SharingUtils } from '../../domain/entities/Share';
+import { SharingUtils } from '../../domain/entities/SharingUtils';
 
 /**
  * Sharing service for sharing files via system share sheet

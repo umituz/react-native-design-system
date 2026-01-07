@@ -60,8 +60,9 @@ export type {
 
 export {
     DEVICE_CONSTANTS,
-    DeviceUtils,
 } from './domain/entities/Device';
+
+export { DeviceUtils } from './domain/entities/DeviceUtils';
 
 export { DeviceTypeUtils } from './domain/entities/DeviceTypeUtils';
 export { DeviceMemoryUtils } from './domain/entities/DeviceMemoryUtils';
