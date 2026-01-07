@@ -21,7 +21,6 @@ export interface ScreenLayoutProps {
   readonly accessibilityLabel?: string;
   readonly accessibilityHint?: string;
   readonly accessible?: boolean;
-
   readonly maxWidth?: number;
   readonly refreshControl?: React.ReactElement<RefreshControlProps>;
 }

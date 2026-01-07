@@ -109,7 +109,6 @@ export const FormField: React.FC<FormFieldProps> = ({
 
       <AtomicInput
         {...inputProps}
-        label={label || ''}
         state={inputState}
       />
 
