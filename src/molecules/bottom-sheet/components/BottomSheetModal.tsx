@@ -89,17 +89,19 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         onRequestClose={dismiss}
         statusBarTranslucent
       >
-        <Pressable style={styles.overlay} onPress={dismiss}>
+        <View style={styles.overlay}>
           <Pressable 
-            style={styles.container} 
-            onPress={() => {}} // Consumer to prevent bubbling to overlay
-          >
+            style={StyleSheet.absoluteFill} 
+            onPress={dismiss}
+            accessibilityLabel="Close modal"
+          />
+          <View style={[styles.container, { width: '100%' }]}>
             <View style={{ flex: 1 }}>
               <View style={styles.handle} />
               {children}
             </View>
-          </Pressable>
-        </Pressable>
+          </View>
+        </View>
       </Modal>
     );
   }
