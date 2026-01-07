@@ -43,7 +43,7 @@
  * @module FormContainer
  */
 
-import React, { Children } from 'react';
+import React from 'react';
 import {
   ScrollView,
   View,
@@ -129,25 +129,8 @@ export const FormContainer: React.FC<FormContainerProps> = ({
       maxWidth: formContentWidth,
       alignSelf: 'center',
       width: '100%',
+      gap: formElementSpacing,
     },
-    formElementWrapper: {
-      marginBottom: formElementSpacing,
-    },
-  });
-
-  // Wrap each child with spacing View (universal gap replacement)
-  // Children.map() handles arrays, fragments, single elements correctly
-  const childrenWithSpacing = Children.map(children, (child, index) => {
-    const childArray = Children.toArray(children);
-    const childKey = (child as React.ReactElement)?.key || `child-${index}`;
-    return (
-      <View
-        key={childKey}
-        style={index < childArray.length - 1 ? styles.formElementWrapper : undefined}
-      >
-        {child}
-      </View>
-    );
   });
 
   return (
@@ -161,7 +144,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
           showsVerticalScrollIndicator={showsVerticalScrollIndicator}
           testID={testID ? `${testID}-scroll` : undefined}
         >
-          {childrenWithSpacing}
+          {children}
         </ScrollView>
       </View>
     </View>
