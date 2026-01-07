@@ -102,6 +102,14 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         if (__DEV__) console.log('[BottomSheetModal] Calling modalRef.current.present()...');
         modalRef.current.present();
         if (__DEV__) console.log('[BottomSheetModal] modalRef.current.present() executed');
+        
+        // Fallback: Also try snapToIndex as a workaround
+        setTimeout(() => {
+          if (modalRef.current && typeof modalRef.current.snapToIndex === 'function') {
+            if (__DEV__) console.log('[BottomSheetModal] Fallback: calling snapToIndex(0)');
+            modalRef.current.snapToIndex(0);
+          }
+        }, 50);
       } catch (error) {
         if (__DEV__) console.error('[BottomSheetModal] Error calling present():', error);
       }
