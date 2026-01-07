@@ -1,7 +1,7 @@
 /**
  * AtomicSkeleton - Skeleton Loader Component
  *
- * Skeleton placeholder loader with shimmer animation for loading states.
+ * Skeleton placeholder loader for loading states.
  * 
  * @example
  * ```tsx
@@ -22,23 +22,11 @@
  * ```
  */
 
-import React, { useEffect } from 'react';
-import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withSequence,
-  withTiming,
-  Easing,
-} from 'react-native-reanimated';
+import React from 'react';
+import { View, StyleSheet, type StyleProp, type ViewStyle, type DimensionValue } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import type { SkeletonPattern, SkeletonConfig } from './AtomicSkeleton.types';
 import { SKELETON_PATTERNS } from './AtomicSkeleton.types';
-
-const AnimatedView = (Animated as any).createAnimatedComponent(View);
-
-const SHIMMER_DURATION = 1200;
 
 export interface AtomicSkeletonProps {
   /** Skeleton pattern preset */
@@ -49,63 +37,32 @@ export interface AtomicSkeletonProps {
   count?: number;
   /** Custom container style */
   style?: StyleProp<ViewStyle>;
-  /** Disable shimmer animation */
-  disableAnimation?: boolean;
   /** Test ID for testing */
   testID?: string;
 }
 
 /**
- * Skeleton loader component with shimmer animation
+ * Skeleton loader component
  * 
  * Provides visual feedback during content loading with customizable patterns
  */
 const SkeletonItem: React.FC<{
   config: SkeletonConfig;
   baseColor: string;
-  highlightColor: string;
-  disableAnimation: boolean;
   multiplier: number;
-}> = ({ config, baseColor, highlightColor, disableAnimation, multiplier }) => {
-  const opacity = useSharedValue(0);
+}> = ({ config, baseColor, multiplier }) => {
+  const itemStyles = StyleSheet.create({
+    item: {
+      ...styles.skeleton,
+      width: (typeof config.width === 'number' ? config.width * multiplier : config.width) as DimensionValue,
+      height: config.height ? config.height * multiplier : undefined,
+      borderRadius: config.borderRadius ? config.borderRadius * multiplier : undefined,
+      marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
+      backgroundColor: baseColor,
+    },
+  });
 
-  useEffect(() => {
-    if (disableAnimation) return;
-
-    opacity.value = withRepeat(
-      withSequence(
-        withTiming(1, { duration: SHIMMER_DURATION / 2, easing: Easing.ease }),
-        withTiming(0, { duration: SHIMMER_DURATION / 2, easing: Easing.ease })
-      ),
-      -1,
-      false
-    );
-  }, [opacity, disableAnimation]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: disableAnimation
-      ? baseColor
-      : opacity.value === 0
-        ? baseColor
-        : highlightColor,
-    opacity: disableAnimation ? 1 : 0.5 + opacity.value * 0.5,
-  }));
-
-  return (
-    <AnimatedView
-      style={[
-        styles.skeleton,
-        {
-          width: typeof config.width === 'number' ? config.width * multiplier : config.width,
-          height: config.height ? config.height * multiplier : undefined,
-          borderRadius: config.borderRadius ? config.borderRadius * multiplier : undefined,
-          marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
-          backgroundColor: baseColor,
-        },
-        animatedStyle,
-      ]}
-    />
-  );
+  return <View style={itemStyles.item} />;
 };
 
 export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
@@ -113,7 +70,6 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
   custom,
   count = 1,
   style,
-  disableAnimation = false,
   testID,
 }) => {
   const tokens = useAppDesignTokens();
@@ -128,8 +84,6 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
           key={`skeleton-${index}-${configIndex}`}
           config={config}
           baseColor={tokens.colors.surfaceSecondary}
-          highlightColor={tokens.colors.border}
-          disableAnimation={disableAnimation}
           multiplier={tokens.spacingMultiplier}
         />
       ))}
