@@ -37,7 +37,7 @@
  * @module AtomicDatePicker
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -50,6 +50,8 @@ import { useAppDesignTokens } from '../theme';
 import { AtomicText } from './AtomicText';
 import { DatePickerModal } from './datepicker/components/DatePickerModal';
 import { DatePickerButton } from './datepicker/components/DatePickerButton';
+import { useDatePickerText } from './datepicker/hooks/useDatePickerText';
+import { getDatePickerStyles } from './datepicker/styles/datePickerStyles';
 
 /**
  * Props for AtomicDatePicker component
@@ -139,45 +141,8 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
     }
   };
 
-  /**
-   * Format date based on mode
-   * Uses native Date formatting (locale-aware)
-   */
-  const formatDate = useMemo(() => (date: Date): string => {
-    if (mode === 'time') {
-      return date.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-    if (mode === 'datetime') {
-      const dateStr = date.toLocaleDateString([], {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-      const timeStr = date.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-      return `${dateStr} ${timeStr}`;
-    }
-    return date.toLocaleDateString([], {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  }, [mode]);
-
-  /**
-   * Get display text for the button
-   */
-  const displayText = useMemo(() => {
-    if (!value) return placeholder;
-    return formatDate(value);
-  }, [value, placeholder, formatDate]);
-
-  const styles = getStyles(tokens);
+  const { displayText } = useDatePickerText({ value, placeholder, mode });
+  const styles = getDatePickerStyles(tokens);
 
   return (
     <View style={[styles.container, style]} testID={testID}>
@@ -228,27 +193,4 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
       )}
     </View>
   );
-};
-
-/**
- * Get component styles based on design tokens
- */
-const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) => {
-  return StyleSheet.create({
-    container: {
-      marginBottom: tokens.spacing.md,
-    },
-    label: {
-      fontSize: tokens.typography.bodyMedium.responsiveFontSize,
-      fontWeight: tokens.typography.semibold,
-      color: tokens.colors.onSurface,
-      marginBottom: tokens.spacing.sm,
-    },
-    errorText: {
-      fontSize: tokens.typography.bodySmall.responsiveFontSize,
-      color: tokens.colors.error,
-      marginTop: tokens.spacing.xs,
-      marginLeft: tokens.spacing.xs,
-    },
-  });
 };

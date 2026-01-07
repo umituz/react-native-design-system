@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, StyleProp, ViewStyle, TextStyle } from 're
 import { useAppDesignTokens } from '../theme';
 import { useInputState } from './input/hooks/useInputState';
 import { getSizeConfig, getVariantStyle, getTextColor } from './input/styles/inputStylesHelper';
+import { inputStyles } from './input/styles/inputStyles';
 import type { AtomicInputProps } from './input/types';
 import { InputLabel } from './input/components/InputLabel';
 import { InputIcon } from './input/components/InputIcon';
@@ -94,7 +95,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
   const iconColor = isDisabled ? tokens.colors.textDisabled : tokens.colors.textSecondary;
 
   const containerStyle: StyleProp<ViewStyle> = [
-    styles.container,
+    inputStyles.container,
     variantStyle,
     {
       paddingTop: sizeConfig.paddingVertical,
@@ -108,7 +109,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
   ];
 
   const textInputStyle: StyleProp<TextStyle> = [
-    styles.input,
+    inputStyles.input,
     {
       fontSize: sizeConfig.fontSize,
       lineHeight: (sizeConfig.fontSize || 16) * 1.2,
@@ -197,16 +198,4 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
       />
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    margin: 0,
-    padding: 0,
-  },
 });

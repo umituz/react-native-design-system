@@ -52,6 +52,7 @@ import { AtomicIcon } from './AtomicIcon';
 import { AtomicText } from './AtomicText';
 import { PickerModal } from './picker/components/PickerModal';
 import { PickerChips } from './picker/components/PickerChips';
+import { PickerIcons } from './picker/components/PickerIcons';
 import {
   getPickerContainerStyles,
   getPickerLabelStyles,
@@ -156,27 +157,15 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
         </AtomicText>
 
         {/* Icons */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.xs }}>
-          {/* Clear Button */}
-          {clearable && pickerState.selectedOptions.length > 0 && !disabled && (
-            <TouchableOpacity
-              onPress={pickerState.handleClear}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              accessibilityRole="button"
-              accessibilityLabel={clearAccessibilityLabel}
-              testID={`${testID}-clear`}
-            >
-              <AtomicIcon name="X" size="sm" color="secondary" />
-            </TouchableOpacity>
-          )}
-
-          {/* Dropdown Icon */}
-          <AtomicIcon
-            name={pickerState.modalVisible ? 'ChevronUp' : 'ChevronDown'}
-            size="sm"
-            color={disabled ? 'surfaceVariant' : 'secondary'}
-          />
-        </View>
+        <PickerIcons
+          clearable={clearable}
+          disabled={disabled}
+          modalVisible={pickerState.modalVisible}
+          selectedOptionsCount={pickerState.selectedOptions.length}
+          onClear={pickerState.handleClear}
+          clearAccessibilityLabel={clearAccessibilityLabel}
+          testID={testID}
+        />
       </TouchableOpacity>
 
       {/* Selected Chips (Multi-select) */}

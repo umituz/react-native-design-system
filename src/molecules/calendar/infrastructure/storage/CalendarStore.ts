@@ -7,8 +7,7 @@ import { useMemo } from 'react';
 import { useCalendarEvents } from '../stores/useCalendarEvents';
 import { useCalendarNavigation } from '../stores/useCalendarNavigation';
 import { useCalendarView } from '../stores/useCalendarView';
-import { CalendarService } from '../../../services/CalendarService';
-import type { CalendarDay } from '../../../domain/entities/CalendarDay.entity';
+import { CalendarService } from '../services/CalendarService';
 
 // Export individual stores
 export { useCalendarEvents } from '../stores/useCalendarEvents';
