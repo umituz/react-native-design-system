@@ -12,24 +12,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
 import type { DeviceInfo, ApplicationInfo, SystemInfo } from '../../domain/entities/Device';
 
+
 /**
  * useDeviceInfo hook for device and application information
- *
- * USAGE:
- * ```typescript
- * const { deviceInfo, appInfo, systemInfo, isLoading, refresh } = useDeviceInfo();
- *
- * // Display device info
- * <Text>Device: {deviceInfo?.modelName}</Text>
- * <Text>OS: {deviceInfo?.osName} {deviceInfo?.osVersion}</Text>
- *
- * // Display app info
- * <Text>App: {appInfo?.applicationName}</Text>
- * <Text>Version: {appInfo?.nativeApplicationVersion}</Text>
- *
- * // Refresh info
- * <AtomicButton onPress={refresh}>Refresh</AtomicButton>
- * ```
  */
 export const useDeviceInfo = () => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
@@ -127,18 +112,6 @@ export const useDeviceInfo = () => {
 
 /**
  * useDeviceCapabilities hook for device feature detection
- *
- * USAGE:
- * ```typescript
- * const { isDevice, isTablet, hasNotch, totalMemoryGB } = useDeviceCapabilities();
- *
- * // Conditional rendering
- * {isTablet && <TabletLayout />}
- * {hasNotch && <NotchSpacer />}
- *
- * // Performance optimization
- * {totalMemoryGB && totalMemoryGB < 2 && <LowMemoryWarning />}
- * ```
  */
 export const useDeviceCapabilities = () => {
   const [isDevice, setIsDevice] = useState(false);
@@ -183,16 +156,6 @@ export const useDeviceCapabilities = () => {
  * useDeviceId hook for device unique identifier
  *
  * WARNING: Use with caution - user privacy considerations!
- *
- * USAGE:
- * ```typescript
- * const { deviceId, isLoading } = useDeviceId();
- *
- * // Analytics, crash reporting (with user consent)
- * if (deviceId) {
- *   analytics.setUserId(deviceId);
- * }
- * ```
  */
 export const useDeviceId = () => {
   const [deviceId, setDeviceId] = useState<string | null>(null);

@@ -1,14 +1,6 @@
 /**
- * PickerModal Component
- *
- * Modal component for AtomicPicker that handles the selection interface.
- * Extracted from AtomicPicker to follow single responsibility principle.
- *
- * Features:
- * - Search functionality
- * - Option list rendering
- * - Multi-select support
- * - Empty state handling
+ * PickerModal - Selection modal for AtomicPicker
+ * Handles search, filtering, and option selection.
  */
 
 import React from 'react';
@@ -38,12 +30,6 @@ import {
   getEmptyStateTextStyles,
 } from '../styles/pickerStyles';
 
-/**
- * PickerModalProps
- *
- * IMPORTANT: String props are REQUIRED for proper i18n support.
- * Pass translated strings from your app's i18n system.
- */
 interface PickerModalProps {
   visible: boolean;
   onClose: () => void;
@@ -56,12 +42,9 @@ interface PickerModalProps {
   onSearchChange: (query: string) => void;
   filteredOptions: PickerOption[];
   multiple?: boolean;
-  /** Empty state message */
-  emptyMessage?: string;
-  /** Search placeholder */
-  searchPlaceholder?: string;
-  /** Close accessibility label */
-  closeAccessibilityLabel?: string;
+  emptyMessage?: string; // Translated string
+  searchPlaceholder?: string; // Translated string
+  closeAccessibilityLabel?: string; // Translated string
   testID?: string;
 }
 
@@ -220,4 +203,3 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
     </Modal>
   );
 });
-PickerModal.displayName = 'PickerModal';

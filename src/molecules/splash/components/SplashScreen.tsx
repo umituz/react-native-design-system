@@ -1,7 +1,3 @@
-/**
- * Splash Screen Component
- * Pure prop-driven component with theme-aware defaults
- */
 
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Image, StyleSheet } from "react-native";
@@ -26,7 +22,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   onReady,
   style,
 }: SplashScreenProps) => {
-  // ALL HOOKS MUST BE AT THE TOP (Rules of Hooks)
   const insets = useSafeAreaInsets();
   const tokens = useAppDesignTokens();
   const [timedOut, setTimedOut] = useState(false);
@@ -52,8 +47,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     const timer = setTimeout(handleTimeout, maxDuration);
     return () => clearTimeout(timer);
   }, [maxDuration, visible, handleTimeout]);
-
-  // ALL HOOKS ABOVE - NOW SAFE TO USE OTHER LOGIC
 
   // Derive colors from tokens if not provided (theme-aware defaults)
   const colors: SplashColors = customColors ?? {
