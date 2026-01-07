@@ -91,10 +91,15 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       >
         <Pressable style={styles.overlay} onPress={dismiss}>
           <View style={styles.container}>
-            <Pressable onPress={(e) => e.stopPropagation()} style={styles.content}>
+            {/* Using a dummy Pressable that covers the container area to consume touches */}
+            <Pressable 
+              style={StyleSheet.absoluteFill} 
+              onPress={() => {}} // Consumer
+            />
+            <View style={{ flex: 1 }}>
               <View style={styles.handle} />
               {children}
-            </Pressable>
+            </View>
           </View>
         </Pressable>
       </Modal>

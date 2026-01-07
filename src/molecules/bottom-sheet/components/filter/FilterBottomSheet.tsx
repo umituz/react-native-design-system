@@ -89,6 +89,9 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
         footer: {
             marginTop: 16,
             paddingBottom: 8,
+        },
+        scrollView: {
+            flex: 1,
         }
     }), [tokens]);
 
@@ -175,7 +178,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
                     )}
                 </View>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                     {categories.map(renderCategory)}
                 </ScrollView>
 
