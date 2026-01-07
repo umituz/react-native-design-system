@@ -1,6 +1,6 @@
 export * from './components/BottomSheet';
 export * from './components/BottomSheetModal';
-export * from './components/SafeBottomSheetModalProvider';
+
 export * from './components/filter/FilterBottomSheet';
 export * from './components/filter/FilterSheet';
 export * from './hooks/useBottomSheet';

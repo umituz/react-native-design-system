@@ -4,8 +4,7 @@ import { useAppDesignTokens } from '../theme';
 import { getTextColor, type TextStyleVariant, type ColorVariant } from '../typography';
 
 export interface AtomicTextProps extends Omit<TextProps, 'style'> {
-  /** Typographic style variant from tokens (alias for 'type') */
-  variant?: TextStyleVariant;
+
 
   /** Typographic style variant from tokens */
   type?: TextStyleVariant;
@@ -43,7 +42,6 @@ export interface AtomicTextProps extends Omit<TextProps, 'style'> {
  * ✅ SOLID, DRY, KISS
  */
 export const AtomicText = ({
-  variant,
   type = 'bodyMedium',
   color = 'textPrimary',
   align,
@@ -57,11 +55,8 @@ export const AtomicText = ({
 }: AtomicTextProps) => {
   const tokens = useAppDesignTokens();
 
-  // Support both 'variant' and 'type' props for backward compatibility
-  const textType = variant || type;
-
   // Get typography style from tokens
-  const typographyStyle = tokens.typography[textType as keyof typeof tokens.typography] as TextStyle & { responsiveFontSize?: number };
+  const typographyStyle = tokens.typography[type] as TextStyle & { responsiveFontSize?: number };
 
   // Use responsive font size if available
   const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;

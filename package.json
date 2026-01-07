@@ -81,9 +81,7 @@
     "@react-navigation/native": {
       "optional": true
     },
-    "expo-device": {
-      "optional": true
-    },
+
     "expo-application": {
       "optional": true
     }

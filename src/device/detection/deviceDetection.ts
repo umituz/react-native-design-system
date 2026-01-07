@@ -11,36 +11,9 @@
  */
 
 import { Dimensions } from 'react-native';
+import * as Device from 'expo-device';
 import { DEVICE_BREAKPOINTS, LAYOUT_CONSTANTS } from '../../responsive/config';
 import { validateScreenDimensions } from '../../responsive/validation';
-
-// Safely try to import expo-device
-let Device: any = null;
-let ExpoDeviceType: any = null;
-
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const ExpoDevice = require('expo-device');
-  Device = ExpoDevice;
-  ExpoDeviceType = ExpoDevice.DeviceType;
-} catch {
-  // Fallback if expo-device is not available
-  console.warn('[Design System] expo-device not found, using screen dimensions for device detection');
-}
-
-/**
- * Helper function for device detection with fallback
- */
-const withDeviceDetectionFallback = <T>(
-  operation: () => T,
-  fallback: T
-): T => {
-  try {
-    return operation();
-  } catch {
-    return fallback;
-  }
-};
 
 /**
  * Device type enum for conditional rendering
@@ -72,10 +45,7 @@ export const getScreenDimensions = () => {
  * Uses expo-device for accurate system-level detection
  */
 export const isTablet = (): boolean => {
-  return withDeviceDetectionFallback(
-    () => Device.deviceType === ExpoDeviceType.TABLET,
-    false
-  );
+  return Device.deviceType === Device.DeviceType.TABLET;
 };
 
 /**
@@ -83,10 +53,7 @@ export const isTablet = (): boolean => {
  * Uses expo-device for accurate system-level detection
  */
 export const isPhone = (): boolean => {
-  return withDeviceDetectionFallback(
-    () => Device.deviceType === ExpoDeviceType.PHONE,
-    true
-  );
+  return Device.deviceType === Device.DeviceType.PHONE;
 };
 
 /**
@@ -94,14 +61,9 @@ export const isPhone = (): boolean => {
  * Uses width breakpoint within phone category
  */
 export const isSmallPhone = (): boolean => {
-  return withDeviceDetectionFallback(
-    () => {
-      if (!isPhone()) return false;
-      const { width } = getScreenDimensions();
-      return width <= DEVICE_BREAKPOINTS.SMALL_PHONE;
-    },
-    false
-  );
+  if (!isPhone()) return false;
+  const { width } = getScreenDimensions();
+  return width <= DEVICE_BREAKPOINTS.SMALL_PHONE;
 };
 
 /**
@@ -109,27 +71,17 @@ export const isSmallPhone = (): boolean => {
  * Uses width breakpoint within phone category
  */
 export const isLargePhone = (): boolean => {
-  return withDeviceDetectionFallback(
-    () => {
-      if (!isPhone()) return false;
-      const { width } = getScreenDimensions();
-      return width >= DEVICE_BREAKPOINTS.MEDIUM_PHONE;
-    },
-    false
-  );
+  if (!isPhone()) return false;
+  const { width } = getScreenDimensions();
+  return width >= DEVICE_BREAKPOINTS.MEDIUM_PHONE;
 };
 
 /**
  * Check if device is in landscape mode
  */
 export const isLandscape = (): boolean => {
-  return withDeviceDetectionFallback(
-    () => {
-      const { width, height } = getScreenDimensions();
-      return width > height;
-    },
-    false
-  );
+  const { width, height } = getScreenDimensions();
+  return width > height;
 };
 
 /**
@@ -137,44 +89,34 @@ export const isLandscape = (): boolean => {
  * Uses expo-device for PHONE vs TABLET, width for phone size variants
  */
 export const getDeviceType = (): DeviceType => {
-  return withDeviceDetectionFallback(
-    () => {
-      // Use expo-device for primary detection
-      if (isTablet()) {
-        return DeviceType.TABLET;
-      }
+  // Use expo-device for primary detection
+  if (isTablet()) {
+    return DeviceType.TABLET;
+  }
 
-      // For phones, use width for size variants
-      const { width } = getScreenDimensions();
+  // For phones, use width for size variants
+  const { width } = getScreenDimensions();
 
-      if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
-        return DeviceType.SMALL_PHONE;
-      } else if (width <= DEVICE_BREAKPOINTS.MEDIUM_PHONE) {
-        return DeviceType.MEDIUM_PHONE;
-      }
+  if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
+    return DeviceType.SMALL_PHONE;
+  } else if (width <= DEVICE_BREAKPOINTS.MEDIUM_PHONE) {
+    return DeviceType.MEDIUM_PHONE;
+  }
 
-      return DeviceType.LARGE_PHONE;
-    },
-    DeviceType.MEDIUM_PHONE
-  );
+  return DeviceType.LARGE_PHONE;
 };
 
 /**
  * Responsive spacing multiplier based on device type
  */
 export const getSpacingMultiplier = (): number => {
-  return withDeviceDetectionFallback(
-    () => {
-      if (isTablet()) {
-        return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET;
-      }
+  if (isTablet()) {
+    return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET;
+  }
 
-      if (isSmallPhone()) {
-        return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_SMALL;
-      }
+  if (isSmallPhone()) {
+    return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_SMALL;
+  }
 
-      return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD;
-    },
-    LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD
-  );
+  return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_STANDARD;
 };

@@ -31,7 +31,7 @@ export {
   // Bottom Sheet
   BottomSheet,
   BottomSheetModal,
-  SafeBottomSheetModalProvider,
+
   FilterBottomSheet,
   FilterSheet,
   useBottomSheet,

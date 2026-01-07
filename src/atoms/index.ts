@@ -9,7 +9,7 @@ export {
     type AtomicButtonProps,
     type ButtonVariant,
     type ButtonSize,
-} from './AtomicButton';
+} from './button';
 
 // Text
 export { AtomicText, type AtomicTextProps } from './AtomicText';

@@ -7,7 +7,7 @@ import { useDesignSystemTheme } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
-import { SafeBottomSheetModalProvider } from '../../../molecules/bottom-sheet';
+
 
 declare const __DEV__: boolean;
 
@@ -163,9 +163,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <SafeBottomSheetModalProvider>
           {renderContent()}
-        </SafeBottomSheetModalProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
