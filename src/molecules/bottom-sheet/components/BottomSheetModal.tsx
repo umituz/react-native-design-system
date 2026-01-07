@@ -76,14 +76,28 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
   useImperativeHandle(ref, () => ({
     present: () => {
+      if (__DEV__) console.log('[BottomSheetModal] present() called', { refExists: !!modalRef.current });
       modalRef.current?.present();
     },
-    dismiss: () => modalRef.current?.dismiss(),
+    dismiss: () => {
+      if (__DEV__) console.log('[BottomSheetModal] dismiss() called');
+      modalRef.current?.dismiss();
+    },
     snapToIndex: (index: number) => modalRef.current?.snapToIndex(index),
     snapToPosition: (pos: string | number) => modalRef.current?.snapToPosition(pos),
     expand: () => modalRef.current?.expand(),
     collapse: () => modalRef.current?.collapse(),
   }));
+
+  React.useEffect(() => {
+    if (__DEV__) {
+      console.log('[BottomSheetModal] Component mounted', {
+        hasModalRef: !!modalRef.current,
+        snapPoints: config.snapPoints,
+        preset
+      });
+    }
+  }, []);
 
   return (
     <GorhomBottomSheetModal

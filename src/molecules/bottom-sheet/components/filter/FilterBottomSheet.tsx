@@ -38,6 +38,15 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
 }, ref) => {
     const tokens = useAppDesignTokens();
 
+    if (__DEV__) {
+        console.log('[FilterBottomSheet] Component mounted/rendered', { 
+            title, 
+            categoriesCount: categories?.length,
+            selectedIdsCount: selectedIds?.length,
+            hasRef: !!ref
+        });
+    }
+
     const styles = React.useMemo(() => StyleSheet.create({
         container: {
             flex: 1,
@@ -133,11 +142,27 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
 
     const hasActiveFilters = FilterUtils.hasActiveFilter(safeSelectedIds, defaultId);
 
+    React.useEffect(() => {
+        if (__DEV__) {
+            console.log('[FilterBottomSheet] useEffect - Component ready', {
+                refCurrent: !!(ref as any)?.current,
+                categoriesCount: categories.length
+            });
+        }
+    }, []);
+
+    if (__DEV__) {
+        console.log('[FilterBottomSheet] Rendering JSX', { title, hasActiveFilters, selectedIds });
+    }
+
     return (
         <BottomSheetModal
             ref={ref}
             preset="medium"
-            onDismiss={onDismiss}
+            onDismiss={() => {
+                if (__DEV__) console.log('[FilterBottomSheet] onDismiss callback triggered');
+                onDismiss?.();
+            }}
             backgroundColor={tokens.colors.surface}
         >
             <View style={styles.container}>
