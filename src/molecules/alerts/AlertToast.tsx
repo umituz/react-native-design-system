@@ -28,48 +28,32 @@ export function AlertToast({ alert }: AlertToastProps) {
     };
 
     const getBackgroundColor = (type: AlertType): string => {
-        switch (type) {
-            case AlertType.SUCCESS:
-                return tokens.colors.success;
-            case AlertType.ERROR:
-                return tokens.colors.error;
-            case AlertType.WARNING:
-                return tokens.colors.warning;
-            case AlertType.INFO:
-                return tokens.colors.info;
-            default:
-                return tokens.colors.backgroundSecondary;
-        }
+        const colors = {
+            [AlertType.SUCCESS]: tokens.colors.success,
+            [AlertType.ERROR]: tokens.colors.error,
+            [AlertType.WARNING]: tokens.colors.warning,
+            [AlertType.INFO]: tokens.colors.info,
+        };
+        return colors[type] || tokens.colors.backgroundSecondary;
     };
 
-    const getActionButtonStyle = (style: 'primary' | 'secondary' | 'destructive' | undefined): StyleProp<ViewStyle> => {
-        switch (style) {
-            case 'primary':
-                return { backgroundColor: tokens.colors.backgroundPrimary };
-            case 'secondary':
-                return {
-                    backgroundColor: undefined,
-                    borderWidth: 1,
-                    borderColor: tokens.colors.textInverse,
-                };
-            case 'destructive':
-                return { backgroundColor: tokens.colors.error };
-            default:
-                return { backgroundColor: tokens.colors.backgroundSecondary };
+    const getActionButtonStyle = (style?: 'primary' | 'secondary' | 'destructive'): StyleProp<ViewStyle> => {
+        if (style === 'secondary') {
+            return {
+                backgroundColor: undefined,
+                borderWidth: 1,
+                borderColor: tokens.colors.textInverse,
+            };
         }
+        const colors = {
+            primary: tokens.colors.backgroundPrimary,
+            destructive: tokens.colors.error,
+        };
+        return { backgroundColor: colors[style as keyof typeof colors] || tokens.colors.backgroundSecondary };
     };
 
-    const getActionTextColor = (style: 'primary' | 'secondary' | 'destructive' | undefined): string => {
-        switch (style) {
-            case 'primary':
-                return tokens.colors.textPrimary;
-            case 'secondary':
-                return tokens.colors.textInverse;
-            case 'destructive':
-                return tokens.colors.textInverse;
-            default:
-                return tokens.colors.textPrimary;
-        }
+    const getActionTextColor = (style?: 'primary' | 'secondary' | 'destructive'): string => {
+        return style === 'primary' ? tokens.colors.textPrimary : tokens.colors.textInverse;
     };
 
     const backgroundColor = getBackgroundColor(alert.type);

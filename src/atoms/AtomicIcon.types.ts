@@ -20,10 +20,31 @@ export type IconName = IoniconsName | string;
  */
 export type IconSizePreset = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
+
 /**
  * Icon size - preset name or custom number in pixels
  */
 export type IconSize = IconSizePreset | number;
+
+/**
+ * Semantic color names that map to theme tokens
+ */
+export type IconColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "error"
+  | "info"
+  | "onSurface"
+  | "surfaceVariant"
+  | "onPrimary"
+  | "onSecondary"
+  | "textInverse"
+  | "textPrimary"
+  | "textSecondary"
+  | "textTertiary"
+  | "onSurfaceVariant";
 
 /**
  * Icon size mapping to pixels

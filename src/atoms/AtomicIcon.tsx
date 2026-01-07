@@ -13,31 +13,14 @@ import { useAppDesignTokens } from '../theme';
 import {
   type IconSize as BaseIconSize,
   type IconName,
+  type IconColor,
 } from "./AtomicIcon.types";
 
 // Re-export IconSize for convenience
 export type IconSize = BaseIconSize;
-export type { IconName };
+export type { IconName, IconColor };
 
 const FALLBACK_ICON = "help-circle-outline";
-
-// Semantic color names that map to theme tokens
-export type IconColor =
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "error"
-  | "info"
-  | "onSurface"
-  | "surfaceVariant"
-  | "onPrimary"
-  | "onSecondary"
-  | "textInverse"
-  | "textPrimary"
-  | "textSecondary"
-  | "textTertiary"
-  | "onSurfaceVariant";
 
 export interface AtomicIconProps {
   /** Icon name (Ionicons) */

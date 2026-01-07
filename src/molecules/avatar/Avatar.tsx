@@ -46,33 +46,10 @@ export interface AvatarProps {
 
 /**
  * Avatar Component
- *
  * Displays user avatars with automatic fallback hierarchy:
  * 1. Image (if uri provided)
  * 2. Initials (if name provided)
  * 3. Icon (fallback)
- *
- * USAGE:
- * ```typescript
- * // Image avatar
- * <Avatar uri="https://..." name="Ümit Uz" size="lg" />
- *
- * // Initials avatar (no image)
- * <Avatar name="Ümit Uz" size="md" />
- *
- * // Icon avatar (fallback)
- * <Avatar size="sm" />
- *
- * // With status indicator
- * <Avatar
- *   name="Ümit Uz"
- *   showStatus
- *   status="online"
- * />
- *
- * // Custom shape
- * <Avatar name="John Doe" shape="rounded" />
- * ```
  */
 export const Avatar: React.FC<AvatarProps> = ({
   uri,
