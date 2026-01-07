@@ -48,7 +48,7 @@ import {
 } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicPickerProps } from './picker/types';
-import { AtomicIcon } from './AtomicIcon';
+
 import { AtomicText } from './AtomicText';
 import { PickerModal } from './picker/components/PickerModal';
 import { PickerChips } from './picker/components/PickerChips';

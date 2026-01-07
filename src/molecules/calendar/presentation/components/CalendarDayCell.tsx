@@ -6,14 +6,14 @@ import React from 'react';
 import { TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
 import { AtomicText, useAppDesignTokens } from '../../../../index';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
-import { CalendarService } from '../../infrastructure/services/CalendarService';
+
 import { calendarStyles } from './calendarStyles';
 
 interface CalendarDayCellProps {
   day: CalendarDay;
   index: number;
   isSelected: boolean;
-  selectedDate: Date;
+
   onDateSelect: (date: Date) => void;
   maxEventIndicators: number;
   showEventCount: boolean;
@@ -25,7 +25,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
   day,
   index,
   isSelected,
-  selectedDate,
+
   onDateSelect,
   maxEventIndicators,
   showEventCount,

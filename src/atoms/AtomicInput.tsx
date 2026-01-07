@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { View, TextInput, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useInputState } from './input/hooks/useInputState';
 import { getSizeConfig, getVariantStyle, getTextColor } from './input/styles/inputStylesHelper';

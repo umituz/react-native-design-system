@@ -31,7 +31,7 @@
  */
 
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleProp, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../../../index';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
 import { CalendarService } from '../../infrastructure/services/CalendarService';
@@ -123,7 +123,7 @@ export const AtomicCalendar: React.FC<AtomicCalendarProps> = ({
               day={day}
               index={index}
               isSelected={isSelected}
-              selectedDate={selectedDate}
+
               onDateSelect={onDateSelect}
               maxEventIndicators={maxEventIndicators}
               showEventCount={showEventCount}

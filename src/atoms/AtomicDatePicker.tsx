@@ -40,7 +40,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  StyleSheet,
   Platform,
   type StyleProp,
   type ViewStyle,

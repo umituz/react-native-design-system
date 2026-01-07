@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { useAppDesignTokens } from '../../theme';
-import { AtomicIcon } from '../AtomicIcon';
-import type { PickerOption } from '../picker/types';
+import { useAppDesignTokens } from '../../../theme';
+import { AtomicIcon } from '../../AtomicIcon';
+
 
 interface PickerIconsProps {
   clearable: boolean;

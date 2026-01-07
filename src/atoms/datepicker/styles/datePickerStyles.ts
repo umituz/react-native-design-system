@@ -4,7 +4,7 @@
  */
 
 import { StyleSheet } from 'react-native';
-import type { DesignTokens } from '../../theme';
+import type { DesignTokens } from '../../../theme';
 
 export const getDatePickerStyles = (tokens: DesignTokens) => {
   return StyleSheet.create({
