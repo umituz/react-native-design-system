@@ -7,8 +7,9 @@ export interface FilterGroupItem<T = string> {
 
 export interface FilterGroupProps<T = string> {
   items: FilterGroupItem<T>[];
-  selectedValue: T;
+  selectedValue: T | T[];
   onSelect: (value: T) => void;
+  multiSelect?: boolean;
   style?: any;
   contentContainerStyle?: any;
   itemStyle?: any;

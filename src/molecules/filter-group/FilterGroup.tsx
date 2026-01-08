@@ -9,6 +9,7 @@ export function FilterGroup<T = string>({
   items,
   selectedValue,
   onSelect,
+  multiSelect = false,
   style,
   contentContainerStyle,
   itemStyle,
@@ -37,7 +38,9 @@ export function FilterGroup<T = string>({
       contentContainerStyle={[styles.content, contentContainerStyle]}
     >
       {items.map((item) => {
-        const isSelected = item.value === selectedValue;
+        const isSelected = multiSelect
+          ? Array.isArray(selectedValue) && selectedValue.includes(item.value)
+          : item.value === selectedValue;
         return (
           <AtomicChip
             key={`${item.value}`}
