@@ -168,4 +168,9 @@ export {
   // GlowingCard
   GlowingCard,
   type GlowingCardProps,
+  // Filter Group
+  FilterGroup,
+  type FilterGroupProps,
+  type FilterItem,
 } from '../molecules';
+

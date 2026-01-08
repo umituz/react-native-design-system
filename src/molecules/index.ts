@@ -64,3 +64,5 @@ export * from './splash';
 
 // GlowingCard
 export { GlowingCard, type GlowingCardProps } from './GlowingCard';
+export * from './filter-group';
+
