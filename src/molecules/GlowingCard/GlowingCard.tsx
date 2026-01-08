@@ -33,16 +33,23 @@ export const GlowingCard: React.FC<GlowingCardProps> = ({
     shadowOpacity: 0.6 * intensity,
     shadowRadius: 10 * intensity,
     elevation: 8 * intensity, // Android elevation
-    backgroundColor: tokens.colors.surface, // Ensure bg is solid or it looks weird
+    // We allow the style prop to override backgroundColor, default to surface if not provided
+    backgroundColor: tokens.colors.surface, 
     borderRadius: tokens.borders.radius.md,
     borderColor: resolvedColor,
     borderWidth: 1,
   };
 
+  // Extract background color from style if present to override default
+  const styleObj = StyleSheet.flatten(style) || {};
+  const finalBackgroundColor = styleObj.backgroundColor || shadowStyle.backgroundColor;
+
   const containerStyle = [
     styles.container,
     shadowStyle,
     style,
+    // Ensure background color is consistent
+    { backgroundColor: finalBackgroundColor }
   ];
 
   if (onPress) {
