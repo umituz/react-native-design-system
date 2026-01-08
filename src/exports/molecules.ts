@@ -181,5 +181,9 @@ export {
   // Hero Section
   HeroSection,
   type HeroSectionProps,
+  // Info Grid
+  InfoGrid,
+  type InfoGridProps,
+  type InfoGridItem,
 } from '../molecules';
 

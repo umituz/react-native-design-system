@@ -68,4 +68,6 @@ export * from './filter-group';
 export * from './action-footer';
 export * from './info-card';
 export * from './hero-section';
+export * from './info-grid';
+
 
