@@ -77,7 +77,8 @@ export const MediaCard: React.FC<MediaCardProps> = ({
       bottom: 0,
       left: 0,
       right: 0,
-      backgroundColor: 'rgba(0,0,0,0.7)', // Darker solid overlay for better readability
+      backgroundColor: tokens.colors.surfaceVariant || 'rgba(0,0,0,0.7)',
+      opacity: 0.95,
       justifyContent: 'flex-end',
       paddingVertical: tokens.spacing.md,
       paddingHorizontal: tokens.spacing.sm,
@@ -94,7 +95,8 @@ export const MediaCard: React.FC<MediaCardProps> = ({
     },
     subtitle: {
       fontSize: 11,
-      color: 'rgba(255,255,255,0.8)',
+      color: tokens.colors.textSecondary || tokens.colors.textInverse,
+      opacity: 0.9,
       textAlign: 'left',
     },
     checkCircle: {
