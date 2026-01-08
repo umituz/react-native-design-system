@@ -1,201 +1,255 @@
 # AtomicPicker
 
-AtomicPicker, React Native için güçlü ve özelleştirilebilir bir seçim/dropdown bileşenidir. Tek ve çoklu seçim destekler, modal arayüz ile çalışır.
+Powerful and customizable selection/dropdown component with modal interface for React Native applications.
 
-## Özellikler
+## Import & Usage
 
-- ✨ **Single & Multi-Select**: Tek ve çoklu seçim desteği
-- 🔍 **Searchable**: Arama/filtreleme özelliği
-- 🎨 **Tam Özelleştirilebilir**: Tema ve stil desteği
-- 📱 **Modal Display**: Full-screen modal (mobile)
-- 🎭 **İkon Desteği**: Seçenekler için ikonlar
-- ✅ **Clearable**: Seçimi temizleme
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-- 📝 **Form Ready**: react-hook-form entegrasyonu hazır
-
-## Kurulum
-
-```tsx
-import { AtomicPicker } from 'react-native-design-system';
+```typescript
+import { AtomicPicker } from 'react-native-design-system/src/atoms/picker';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/picker/AtomicPicker.tsx`
+
+## Basic Usage
 
 ```tsx
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { AtomicPicker } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const [value, setValue] = useState('birthday');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicPicker
-        value={value}
-        onChange={setValue}
-        options={[
-          { label: 'Doğum Günü', value: 'birthday' },
-          { label: 'Düğün', value: 'wedding' },
-          { label: 'Kurumsal Etkinlik', value: 'corporate' },
-        ]}
-        label="Etkinlik Türü"
-        placeholder="Seçim yapın"
-      />
-    </View>
-  );
-};
-```
-
-## Single Select
-
-```tsx
-const [partyType, setPartyType] = useState('birthday');
-
 <AtomicPicker
-  value={partyType}
-  onChange={setPartyType}
+  value={selectedValue}
+  onChange={setSelectedValue}
   options={[
-    { label: 'Doğum Günü', value: 'birthday', icon: 'cake' },
-    { label: 'Düğün', value: 'wedding', icon: 'heart' },
-    { label: 'Kurumsal Etkinlik', value: 'corporate', icon: 'briefcase' },
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
   ]}
-  label="Parti Türü"
-  placeholder="Parti türünü seçin"
+  label="Select an option"
+  placeholder="Choose..."
 />
 ```
 
-## Multi Select
+## Strategy
+
+**Purpose**: Provide consistent, accessible, and performant selection interface with mobile-first modal display.
+
+**When to Use**:
+- Selecting from options (single or multiple)
+- Form fields with predefined choices
+- Filtering and sorting options
+- User role/category selection
+- Country/city selection
+
+**When NOT to Use**:
+- For boolean choices - use Switch or Checkbox
+- For date/time selection - use DateTimePicker
+- For very long lists (>100 items) - consider search-first approach
+- For custom selections - build custom modal
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide `value`, `onChange`, and `options` props
+2. **MUST** have proper `label` for accessibility
+3. **NEVER** use empty options array
+4. **ALWAYS** provide meaningful option labels
+5. **MUST** provide `placeholder` for unselected state
+
+### Options Structure
+
+1. **MUST** have unique `value` for each option
+2. **ALWAYS** provide human-readable `label`
+3. **SHOULD** include `icon` for better UX
+4. **MUST** keep labels short and clear
+
+### Single vs Multi-Select
+
+1. **Single**: Use for mutually exclusive choices
+2. **Multi**: Use for multiple selections
+3. **MUST** set `multiple` prop for multi-select
+4. **SHOULD** use `autoClose={false}` for multi-select
+
+### Searchable
+
+1. **MUST** use `searchable` for lists with 20+ options
+2. **ALWAYS** provide `searchPlaceholder`
+3. **SHOULD** provide `emptyMessage` for no results
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-const [guests, setGuests] = useState<string[]>([]);
+// ❌ Missing required props
+<AtomicPicker />
+<AtomicPicker options={options} />
+<AtomicPicker value={value} onChange={onChange} />
 
+// ❌ Empty options array
 <AtomicPicker
-  value={guests}
-  onChange={setGuests}
-  multiple
+  value={value}
+  onChange={setValue}
+  options={[]}
+/>
+
+// ❌ Options without labels
+<AtomicPicker
   options={[
-    { label: 'Ahmet Yılmaz', value: 'ahmet' },
-    { label: 'Ayşe Demir', value: 'ayse' },
-    { label: 'Mehmet Kaya', value: 'mehmet' },
+    { value: '1' }, // ❌ Missing label
+    { value: '2' },
   ]}
-  label="Davetliler"
-  placeholder="Davetli seçin"
-  modalTitle="Davetli Seçin"
+/>
+
+// ❌ Duplicate values
+<AtomicPicker
+  options={[
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '1' }, // ❌ Duplicate value
+  ]}
+/>
+
+// ❌ Hardcoded labels (use i18n)
+<AtomicPicker
+  options={[
+    { label: 'Select', value: 'select' }, // ❌ Use t()
+  ]}
+/>
+
+// ❌ Multi-select without multiple prop
+<AtomicPicker
+  value={[1, 2, 3]} // ❌ Array value but no multiple prop
+  onChange={setValue}
+  options={options}
+/>
+
+// ❌ Long lists without searchable
+<AtomicPicker
+  options={hundredOptions} // ❌ Add searchable prop
 />
 ```
 
-## Searchable Picker
+## Best Practices
 
+### Option Structure
+
+✅ **DO**:
+```tsx
+// With icons for better UX
+const roleOptions = [
+  { label: t('roles.admin'), value: 'admin', icon: 'shield-checkmark' },
+  { label: t('roles.moderator'), value: 'moderator', icon: 'person' },
+  { label: t('roles.user'), value: 'user', icon: 'person-outline' },
+];
+```
+
+❌ **DON'T**:
+```tsx
+// Don't use long labels
+{ label: 'This is a very long label that breaks the UI', value: '1' }
+
+// Don't use technical labels
+{ label: 'USR_ROLE_ADMIN', value: 'admin' }
+```
+
+### Searchable Usage
+
+✅ **DO**:
 ```tsx
 <AtomicPicker
-  value={selectedCountry}
-  onChange={setSelectedCountry}
-  options={countries} // Uzun liste
-  label="Ülke"
-  placeholder="Ülke seçin"
+  value={country}
+  onChange={setCountry}
+  options={countries} // 50+ options
   searchable
-  searchPlaceholder="Ülke ara..."
+  searchPlaceholder={t('search.country')}
+  emptyMessage={t('search.noResults')}
 />
 ```
 
-## Clearable
-
+❌ **DON'T**:
 ```tsx
+// Don't make searchable lists short
 <AtomicPicker
-  value={status}
-  onChange={setStatus}
-  options={statusOptions}
-  label="Durum"
-  placeholder="Durum seçin"
-  clearable
+  options={[{ label: 'Yes', value: 'yes' }]}
+  searchable // ❌ Unnecessary for 1 option
 />
 ```
 
-## Error State
+### Multi-Select
 
+✅ **DO**:
 ```tsx
 <AtomicPicker
-  value={category}
-  onChange={setCategory}
+  value={selectedCategories}
+  onChange={setSelectedCategories}
   options={categories}
-  label="Kategori"
-  placeholder="Kategori seçin"
-  error="Bu alan zorunludur"
-/>
-```
-
-## Disabled State
-
-```tsx
-<AtomicPicker
-  value={role}
-  onChange={setRole}
-  options={roles}
-  label="Rol"
-  placeholder="Rol seçin"
-  disabled
-/>
-```
-
-## Sizes
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Small */}
-  <AtomicPicker
-    size="sm"
-    value={value}
-    onChange={setValue}
-    options={options}
-    label="Small"
-  />
-
-  {/* Medium (Varsayılan) */}
-  <AtomicPicker
-    size="md"
-    value={value}
-    onChange={setValue}
-    options={options}
-    label="Medium"
-  />
-
-  {/* Large */}
-  <AtomicPicker
-    size="lg"
-    value={value}
-    onChange={setValue}
-    options={options}
-    label="Large"
-  />
-</View>
-```
-
-## Auto Close
-
-```tsx
-// Single select için otomatik kapanma
-<AtomicPicker
-  value={singleValue}
-  onChange={setSingleValue}
-  options={options}
-  autoClose // Varsayılan: true
-/>
-
-// Multi select için açık kalarak seçim yapma
-<AtomicPicker
-  value={multiValue}
-  onChange={setMultiValue}
-  options={options}
   multiple
-  autoClose={false}
+  autoClose={false} // Keep open for multiple selections
+  modalTitle={t('picker.selectCategories')}
 />
 ```
 
-## Örnek Kullanımlar
+❌ **DON'T**:
+```tsx
+// Don't use autoClose with multi-select
+<AtomicPicker
+  multiple
+  autoClose // ❌ Closes after each selection
+/>
+```
 
-### Kullanıcı Rolü Seçimi
+## AI Coding Guidelines
 
+### For AI Agents
+
+When generating AtomicPicker components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { AtomicPicker } from 'react-native-design-system/src/atoms/picker';
+   ```
+
+2. **Always provide all required props**:
+   ```tsx
+   <AtomicPicker
+     value="选定的值"
+     onChange="处理函数"
+     options="选项数组"
+     label="清晰的标签"
+     placeholder="适当的占位符"
+   />
+   ```
+
+3. **Always use i18n for labels**:
+   ```tsx
+   <AtomicPicker
+     label={t('form.country')}
+     placeholder={t('form.selectCountry')}
+     options={[
+       { label: t('countries.turkey'), value: 'tr' },
+       { label: t('countries.usa'), value: 'us' },
+     ]}
+   />
+   ```
+
+4. **Always enable searchable for long lists**:
+   ```tsx
+   <AtomicPicker
+     options={longOptionsList} // 20+ options
+     searchable
+     searchPlaceholder={t('search.placeholder')}
+     emptyMessage={t('search.noResults')}
+   />
+   ```
+
+5. **Always use autoClose={false} for multi-select**:
+   ```tsx
+   <AtomicPicker
+     multiple
+     autoClose={false}
+     modalTitle={t('picker.selectMultiple')}
+   />
+   ```
+
+### Common Patterns
+
+#### Single Select
 ```tsx
 const [role, setRole] = useState('user');
 
@@ -203,18 +257,16 @@ const [role, setRole] = useState('user');
   value={role}
   onChange={setRole}
   options={[
-    { label: 'Admin', value: 'admin', icon: 'shield-checkmark' },
-    { label: 'Moderatör', value: 'moderator', icon: 'person' },
-    { label: 'Kullanıcı', value: 'user', icon: 'person-outline' },
+    { label: t('roles.admin'), value: 'admin', icon: 'shield-checkmark' },
+    { label: t('roles.moderator'), value: 'moderator', icon: 'person' },
+    { label: t('roles.user'), value: 'user', icon: 'person-outline' },
   ]}
-  label="Rol"
-  placeholder="Rol seçin"
-  searchable={false}
+  label={t('form.role')}
+  placeholder={t('form.selectRole')}
 />
 ```
 
-### Ürün Kategorileri
-
+#### Multi Select
 ```tsx
 const [categories, setCategories] = useState<string[]>([]);
 
@@ -222,35 +274,45 @@ const [categories, setCategories] = useState<string[]>([]);
   value={categories}
   onChange={setCategories}
   multiple
-  options={productCategories}
-  label="Kategoriler"
-  placeholder="Kategori seçin"
-  modalTitle="Kategori Seçin"
+  autoClose={false}
+  options={categoryOptions}
+  label={t('form.categories')}
+  placeholder={t('form.selectCategories')}
+  modalTitle={t('picker.selectCategories')}
   searchable
-  searchPlaceholder="Kategori ara..."
-  emptyMessage="Kategori bulunamadı"
 />
 ```
 
-### Şehir Seçimi (Searchable)
-
+#### Searchable Picker
 ```tsx
 const [city, setCity] = useState('');
 
 <AtomicPicker
   value={city}
   onChange={setCity}
-  options={turkishCities}
-  label="Şehir"
-  placeholder="Şehir seçin"
+  options={cities}
+  label={t('form.city')}
+  placeholder={t('form.selectCity')}
   searchable
-  searchPlaceholder="Şehir ara..."
+  searchPlaceholder={t('search.searchCity')}
+  emptyMessage={t('search.noCityFound')}
   clearable
 />
 ```
 
-### Öncelik Seçimi
+#### With Error State
+```tsx
+<AtomicPicker
+  value={country}
+  onChange={setCountry}
+  options={countries}
+  label={t('form.country')}
+  placeholder={t('form.selectCountry')}
+  error={errors.country}
+/>
+```
 
+#### Priority Select
 ```tsx
 const [priority, setPriority] = useState('medium');
 
@@ -258,155 +320,62 @@ const [priority, setPriority] = useState('medium');
   value={priority}
   onChange={setPriority}
   options={[
-    { label: 'Düşük', value: 'low', icon: 'arrow-down' },
-    { label: 'Orta', value: 'medium', icon: 'remove' },
-    { label: 'Yüksek', value: 'high', icon: 'arrow-up' },
-    { label: 'Acil', value: 'urgent', icon: 'warning' },
+    { label: t('priority.low'), value: 'low', icon: 'arrow-down' },
+    { label: t('priority.medium'), value: 'medium', icon: 'remove' },
+    { label: t('priority.high'), value: 'high', icon: 'arrow-up' },
+    { label: t('priority.urgent'), value: 'urgent', icon: 'warning' },
   ]}
-  label="Öncelik"
-  placeholder="Öncelik seçin"
+  label={t('form.priority')}
 />
 ```
 
-## Props
+## Props Reference
 
-### AtomicPickerProps
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `value` | `string \| string[]` | Yes | - | Selected value(s) |
+| `onChange` | `(value: any) => void` | Yes | - | Change handler |
+| `options` | `PickerOption[]` | Yes | - | Options array |
+| `label` | `string` | No | - | Field label |
+| `placeholder` | `string` | No | - | Placeholder text |
+| `multiple` | `boolean` | No | `false` | Enable multi-select |
+| `searchable` | `boolean` | No | `false` | Enable search |
+| `clearable` | `boolean` | No | `false` | Show clear button |
+| `autoClose` | `boolean` | No | `true` | Auto-close on select |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Picker size |
+| `error` | `string` | No | - | Error message |
+| `disabled` | `boolean` | No | `false` | Disabled state |
+| `modalTitle` | `string` | No | - | Modal title |
+| `searchPlaceholder` | `string` | No | - | Search placeholder |
+| `emptyMessage` | `string` | No | - | Empty results message |
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `value` | `string \| string[]` | - **(Zorunlu)** | Seçili değer(ler) |
-| `onChange` | `(value: any) => void` | - **(Zorunlu)** | Değişiklik olayı |
-| `options` | `PickerOption[]` | - **(Zorunlu)** | Seçenek listesi |
-| `label` | `string` | - | Etiket metni |
-| `placeholder` | `string` | - | Placeholder metni |
-| `error` | `string` | - | Hata mesajı |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `multiple` | `boolean` | `false` | Çoklu seçim |
-| `searchable` | `boolean` | `false` | Arama özelliği |
-| `clearable` | `boolean` | `false` | Temizleme butonu |
-| `autoClose` | `boolean` | `true` | Otomatik kapanma |
-| `size` | `PickerSize` | `'md'` | Boyut |
-| `modalTitle` | `string` | - | Modal başlığı |
-| `emptyMessage` | `string` | - | Boş liste mesajı |
-| `searchPlaceholder` | `string` | - | Arama placeholder'ı |
-| `clearAccessibilityLabel` | `string` | - | Temizleme erişilebilirlik etiketi |
-| `closeAccessibilityLabel` | `string` | - | Kapatma erişilebilirlik etiketi |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `labelStyle` | `StyleProp<TextStyle>` | - | Etiket stili |
-| `testID` | `string` | - | Test ID'si |
+## Accessibility
 
-### PickerOption
+- ✅ Screen reader announces label and selection
+- ✅ Modal is fully accessible
+- ✅ Keyboard navigation support
+- ✅ Error state announced to screen readers
+- ✅ Test ID support for testing
 
-```typescript
-interface PickerOption {
-  label: string;      // Görüntülenecek metin
-  value: any;         // Değer
-  icon?: string;      // İkon ismi (opsiyonel)
-}
-```
+## Performance Tips
 
-### PickerSize
+1. **Limit options**: Keep under 100 options, use search for more
+2. **Memo options**: Don't recreate options array on every render
+3. **Stable onChange**: Use `useCallback` for onChange handler
+4. **Lazy loading**: For very large lists, consider pagination
 
-```typescript
-type PickerSize = 'sm' | 'md' | 'lg';
-```
+## Related Components
 
-## react-hook-form Entegrasyonu
+- [`AtomicChip`](./chip/README.md) - Display selected items as chips
+- [`FormField`](../../molecules/FormField/README.md) - Form field wrapper
+- [`AtomicInput`](./input/README.md) - Text input component
 
-```tsx
-import { useForm, Controller } from 'react-hook-form';
+## Version History
 
-function MyForm() {
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      country: 'turkey',
-    }
-  });
+- **2.6.0**: Added searchable and multi-select support
+- **2.5.0**: Added modal interface
+- **2.0.0**: Initial release
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  return (
-    <Controller
-      control={control}
-      name="country"
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <AtomicPicker
-          value={value}
-          onChange={onChange}
-          options={countries}
-          label="Ülke"
-          placeholder="Ülke seçin"
-          error={error?.message}
-        />
-      )}
-    />
-  );
-}
-```
-
-## Best Practices
-
-### 1. Option Yapısı
-
-```tsx
-// İyi - İkonlu seçenekler
-const options = [
-  { label: 'Admin', value: 'admin', icon: 'shield' },
-  { label: 'User', value: 'user', icon: 'person' },
-];
-
-// İyi - Basit seçenekler
-const options = [
-  { label: 'Evet', value: 'yes' },
-  { label: 'Hayır', value: 'no' },
-];
-```
-
-### 2. Multi-Select Kullanımı
-
-```tsx
-// AutoClose false - birden fazla seçim yapılabilir
-<AtomicPicker
-  multiple
-  autoClose={false}
-  // ...
-/>
-```
-
-### 3. Searchable Kullanımı
-
-```tsx
-// Uzun listelerde searchable kullanın
-<AtomicPicker
-  options={longList} // 50+ seçenek
-  searchable
-  // ...
-/>
-```
-
-## Erişilebilirlik
-
-AtomicPicker, tam erişilebilirlik desteği sunar:
-
-- ✅ Screen reader desteği
-- ✅ Keyboard navigation
-- ✅ Accessibility label desteği
-- ✅ Test ID desteği
-
-## Performans İpuçları
-
-1. **Uzun Listeler**: `searchable` özelliğini kullanın
-2. **Multi-Select**: `autoClose={false}` kullanarak UX'i iyileştirin
-3. **Re-renders**: `onChange` callback'ini stabilize edin
-
-## İlgili Bileşenler
-
-- [`FormField`](../../molecules/FormField/README.md) - Form alanı
-- [`AtomicInput`](../input/README.md) - Input bileşeni
-- [`AtomicChip`](../chip/README.md) - Chip bileşeni (seçili değerleri göstermek için)
-
-## Lisans
+## License
 
 MIT

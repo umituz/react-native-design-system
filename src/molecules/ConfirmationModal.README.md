@@ -1,370 +1,417 @@
 # ConfirmationModal
 
-ConfirmationModal, kritik işlemlerden önce kullanıcı onayı almak için kullanılan modal bileşenidir. Silme, kaydetme veya önemli değişiklikler için idealdir.
+A modal component for getting user confirmation before critical actions like delete, save, or important changes.
 
-## Özellikler
+## Import & Usage
 
-- ✅ **Onay Dialog'u**: Kritik işlemler için onay
-- 🎨 **Variant'lar**: Default, Danger, Warning, Info
-- 🎭 **İkon Desteği**: Görsel ikon gösterimi
-- ⬛ **Backdrop**: Opsiyonel backdrop
-- 🎯 **Customizable**: Buton metinleri ve stil
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { ConfirmationModal } from 'react-native-design-system';
+```typescript
+import { ConfirmationModal } from 'react-native-design-system/src/molecules/ConfirmationModal';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/ConfirmationModal.tsx`
+
+## Basic Usage
 
 ```tsx
-import React, { useState } from 'react';
-import { View, Button } from 'react-native';
-import { ConfirmationModal } from 'react-native-design-system';
+const [visible, setVisible] = useState(false);
 
-export const BasicExample = () => {
-  const [visible, setVisible] = useState(false);
-
-  return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Button title="Modalı Aç" onPress={() => setVisible(true)} />
-
-      <ConfirmationModal
-        visible={visible}
-        title="Emin misiniz?"
-        message="Bu işlem geri alınamaz"
-        confirmText="Onayla"
-        cancelText="İptal"
-        onConfirm={() => {
-          console.log('Onaylandı');
-          setVisible(false);
-        }}
-        onCancel={() => setVisible(false)}
-      />
-    </View>
-  );
-};
-```
-
-## Variant'lar
-
-```tsx
-{/* Default (Info) */}
 <ConfirmationModal
   visible={visible}
-  variant="default"
-  title="Bilgilendirme"
-  message="Devam etmek istiyor musunuz?"
+  title="Are you sure?"
+  message="This action cannot be undone"
+  confirmText="Confirm"
+  cancelText="Cancel"
+  onConfirm={() => {
+    handleAction();
+    setVisible(false);
+  }}
+  onCancel={() => setVisible(false)}
+/>
+```
+
+## Strategy
+
+**Purpose**: Provide a standardized, accessible confirmation dialog for critical and destructive actions.
+
+**When to Use**:
+- Deleting items (files, messages, accounts)
+- Destructive operations (cancel subscription, remove data)
+- Unsaved changes warnings
+- Navigation away from forms with unsaved changes
+- Critical settings changes
+- Irreversible actions
+
+**When NOT to Use**:
+- For simple alerts (use Alert/toast instead)
+- For non-critical confirmations (use inline confirmation)
+- For information display (use BaseModal instead)
+- For form submissions (use loading state instead)
+
+## Rules
+
+### Required
+
+1. **MUST** have `visible`, `onConfirm`, and `onCancel` props
+2. **ALWAYS** provide clear `title` and `message`
+3. **MUST** use appropriate variant for action severity
+4. **SHOULD** prevent accidental confirmation (consider backdropDismissible=false)
+5. **MUST** close modal after action
+6. **ALWAYS** provide specific button text (not just "OK")
+7. **SHOULD** mention consequence in message
+
+### Variant Selection
+
+1. **Danger**: For destructive, irreversible actions (delete, remove)
+2. **Warning**: For data loss or important changes (unsaved changes, logout)
+3. **Default/Info**: For non-critical confirmations
+
+### Message Guidelines
+
+1. **Be specific**: Clearly state what will happen
+2. **Mention consequences**: "This action cannot be undone"
+3. **Keep concise**: 1-2 sentences max
+4. **Use plain language**: Avoid technical jargon
+
+### Button Text
+
+1. **Confirm button**: Use action verbs (Delete, Save, Confirm)
+2. **Cancel button**: Use Cancel, Go Back, Stay
+3. **Be specific**: "Delete Account" not "OK"
+4. **Match action**: Button text should match the action
+
+## Forbidden
+
+❌ **NEVER** do these:
+
+```tsx
+// ❌ No close mechanism
+<ConfirmationModal
+  visible={true}
+  title="Confirm"
+  // Missing onConfirm and onCancel
+/>
+
+// ❌ Vague message
+<ConfirmationModal
+  title="Are you sure?"
+  message="Are you sure?" // ❌ Doesn't say what will happen
   onConfirm={handleConfirm}
   onCancel={handleCancel}
 />
 
-{/* Danger */}
+// ❌ Wrong variant
 <ConfirmationModal
-  visible={visible}
+  variant="default" // ❌ Should be danger for delete
+  title="Delete Account"
+  message="This cannot be undone"
+  onConfirm={deleteAccount}
+  onCancel={cancel}
+/>
+
+// ❌ Generic button text
+<ConfirmationModal
+  title="Delete Account"
+  confirmText="OK" // ❌ Not specific
+  cancelText="Cancel"
+  onConfirm={deleteAccount}
+  onCancel={cancel}
+/>
+
+// ❌ Doesn't close after action
+<ConfirmationModal
+  title="Delete Item"
+  onConfirm={() => deleteItem()} // ❌ Doesn't close modal
+  onCancel={cancel}
+/>
+
+// ❌ No consequence warning
+<ConfirmationModal
+  title="Delete Account"
+  message="Do you want to delete?" // ❌ Doesn't mention it's permanent
+  onConfirm={deleteAccount}
+  onCancel={cancel}
+/>
+
+// ❌ Dismissible critical action
+<ConfirmationModal
   variant="danger"
-  title="Öğeyi Sil"
-  message="Bu öğeyi silmek istediğinizden emin misiniz?"
-  confirmText="Sil"
-  cancelText="İptal"
-  onConfirm={handleDelete}
-  onCancel={handleCancel}
-/>
-
-{/* Warning */}
-<ConfirmationModal
-  visible={visible}
-  variant="warning"
-  title="Uyarı"
-  message="Bu işlem veri kaybına neden olabilir"
-  confirmText="Devam Et"
-  cancelText="Geri Dön"
-  onConfirm={handleProceed}
-  onCancel={handleCancel}
+  title="Delete Account"
+  backdropDismissible={true} // ❌ Should be false for critical
+  onConfirm={deleteAccount}
+  onCancel={cancel}
 />
 ```
-
-## İkonlu
-
-```tsx
-<ConfirmationModal
-  visible={visible}
-  variant="danger"
-  icon="warning"
-  title="Dikkat"
-  message="Bu işlem geri alınamaz"
-  onConfirm={handleConfirm}
-  onCancel={handleCancel}
-/>
-```
-
-## Backdrop Gizle
-
-```tsx
-<ConfirmationModal
-  visible={visible}
-  showBackdrop={false}
-  title="Modal"
-  message="Backdrop yok"
-  onConfirm={handleConfirm}
-  onCancel={handleCancel}
-/>
-```
-
-## Backdrop Dismissible Değil
-
-```tsx
-<ConfirmationModal
-  visible={visible}
-  backdropDismissible={false}
-  title="Onay Gerekli"
-  message="Lütfen onaylayın"
-  onConfirm={handleConfirm}
-  onCancel={handleCancel}
-/>
-```
-
-## Örnek Kullanımlar
-
-### Silme Onayı
-
-```tsx
-export const DeleteConfirmation = ({ item, onDelete }) => {
-  const [visible, setVisible] = useState(false);
-
-  return (
-    <>
-      <Button title="Sil" onPress={() => setVisible(true)} />
-
-      <ConfirmationModal
-        visible={visible}
-        variant="danger"
-        icon="trash-outline"
-        title="Öğeyi Sil"
-        message={`${item.title} öğesini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.`}
-        confirmText="Sil"
-        cancelText="İptal"
-        onConfirm={() => {
-          onDelete(item.id);
-          setVisible(false);
-        }}
-        onCancel={() => setVisible(false)}
-      />
-    </>
-  );
-};
-```
-
-### Çıkış Onayı
-
-```tsx
-export const LogoutConfirmation = () => {
-  const [visible, setVisible] = useState(false);
-
-  return (
-    <>
-      <Button title="Çıkış Yap" onPress={() => setVisible(true)} />
-
-      <ConfirmationModal
-        visible={visible}
-        variant="warning"
-        icon="log-out-outline"
-        title="Çıkış Yap"
-        message="Oturumunuzu sonlandırmak istediğinizden emin misiniz?"
-        confirmText="Çıkış"
-        cancelText="İptal"
-        onConfirm={() => {
-          logout();
-          setVisible(false);
-        }}
-        onCancel={() => setVisible(false)}
-      />
-    </>
-  );
-};
-```
-
-### Değişiklik Kaydetme
-
-```tsx
-export const UnsavedChangesModal = ({ onSave, onDiscard }) => {
-  const [visible, setVisible] = useState(false);
-
-  return (
-    <ConfirmationModal
-      visible={visible}
-      variant="warning"
-      icon="save-outline"
-      title="Kaydedilmemiş Değişiklikler"
-      message="Yaptığınız değişiklikleri kaydetmediniz. Ne yapmak istersiniz?"
-      confirmText="Kaydet"
-      cancelText="İptal"
-      onConfirm={() => {
-        onSave();
-        setVisible(false);
-      }}
-      onCancel={() => {
-        onDiscard();
-        setVisible(false);
-      }}
-    />
-  );
-};
-```
-
-### Formu Terk Etme
-
-```tsx
-export const LeaveFormModal = () => {
-  return (
-    <ConfirmationModal
-      visible={visible}
-      icon="warning"
-      title="Formu Terk Et"
-      message="Girdiğiniz bilgiler kaybolacak. Emin misiniz?"
-      confirmText="Terk Et"
-      cancelText="Formda Kal"
-      onConfirm={() => navigation.goBack()}
-      onCancel={() => setVisible(false)}
-    />
-  );
-};
-```
-
-### İptal Edilebilir İşlem
-
-```tsx
-export const CancelOperationModal = ({ operation }) => {
-  return (
-    <ConfirmationModal
-      visible={visible}
-      variant="warning"
-      icon="close-circle-outline"
-      title="İşlem İptal Edilsin"
-      message="Bu işlemi iptal etmek istediğinizden emin misiniz?"
-      confirmText="İptal Et"
-      cancelText="Devam Et"
-      onConfirm={() => {
-        cancelOperation();
-        setVisible(false);
-      }}
-      onCancel={() => setVisible(false)}
-    />
-  );
-};
-```
-
-### Abonelik İptali
-
-```tsx
-export const CancelSubscriptionModal = () => {
-  return (
-    <ConfirmationModal
-      visible={visible}
-      variant="danger"
-      icon="alert-circle-outline"
-      title="Aboneliği İptal Et"
-      message="Aboneliğinizi iptal ederseniz tüm özelliklere erişimi kaybedeceksiniz. Devam etmek istiyor musunuz?"
-      confirmText="İptal Et"
-      cancelText="Geri Dön"
-      onConfirm={handleCancelSubscription}
-      onCancel={() => setVisible(false)}
-    />
-  );
-};
-```
-
-### Kullanıcı Silme
-
-```tsx
-export const DeleteAccountModal = () => {
-  return (
-    <ConfirmationModal
-      visible={visible}
-      variant="danger"
-      icon="person-remove-outline"
-      title="Hesabı Sil"
-      message="Hesabınızı silmek istediğinizden emin misiniz? Tüm verileriniz kalıcı olarak silinecek ve bu işlem geri alınamaz."
-      confirmText="Hesabı Sil"
-      cancelText="Vazgeç"
-      onConfirm={handleDeleteAccount}
-      onCancel={() => setVisible(false)}
-    />
-  );
-};
-```
-
-## Props
-
-### ConfirmationModalProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `visible` | `boolean` | - **(Zorunlu)** | Modal görünürlüğü |
-| `title` | `string` | - | Modal başlığı |
-| `message` | `string` | - | Modal mesajı |
-| `variant` | `'default' \| 'danger' \| 'warning' \| 'info'` | `'default'` | Modal variant'ı |
-| `confirmText` | `string` | `'Confirm'` | Onay butonu metni |
-| `cancelText` | `string` | `'Cancel'` | İptal butonu metni |
-| `icon` | `string` | - | İkon ismi |
-| `onConfirm` | `() => void` | - | Onay callback'i |
-| `onCancel` | `() => void` | - | İptal callback'i |
-| `showBackdrop` | `boolean` | `true` | Backdrop göster |
-| `backdropDismissible` | `boolean` | `true` | Backdrop tıklama ile kapat |
-| `style` | `ViewStyle` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
 
 ## Best Practices
 
-### 1. Variant Seçimi
+### Delete Confirmation
 
+✅ **DO**:
 ```tsx
-// Kritik/Silme işlemleri
-variant="danger"
-
-// Uyarılar
-variant="warning"
-
-// Bilgilendirme
-variant="default" veya "info"
+<ConfirmationModal
+  visible={visible}
+  variant="danger"
+  icon="trash-outline"
+  title="Delete Item"
+  message="Are you sure you want to delete '{item.name}'? This action cannot be undone."
+  confirmText="Delete"
+  cancelText="Cancel"
+  onConfirm={() => {
+    deleteItem(item.id);
+    setVisible(false);
+  }}
+  onCancel={() => setVisible(false)}
+/>
 ```
 
-### 2. Açık Mesaj
-
+❌ **DON'T**:
 ```tsx
-// İyi
-message="Bu öğeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
-
-// Kötü
-message="Emin misiniz?"
+// ❌ Vague message, wrong variant
+<ConfirmationModal
+  visible={visible}
+  variant="default"
+  title="Delete"
+  message="Are you sure?"
+  confirmText="OK"
+  onConfirm={deleteItem}
+  onCancel={cancel}
+/>
 ```
 
-### 3. Buton Metinleri
+### Unsaved Changes Warning
 
+✅ **DO**:
 ```tsx
-// Açık ve eylem odaklı
-confirmText="Öğeyi Sil"
-cancelText="İptal"
+<ConfirmationModal
+  visible={hasUnsavedChanges}
+  variant="warning"
+  icon="save-outline"
+  title="Unsaved Changes"
+  message="You have unsaved changes. What would you like to do?"
+  confirmText="Save"
+  cancelText="Discard"
+  onConfirm={() => {
+    saveChanges();
+    setVisible(false);
+  }}
+  onCancel={() => {
+    discardChanges();
+    setVisible(false);
+  }}
+/>
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// ❌ No clear options
+<ConfirmationModal
+  visible={hasUnsavedChanges}
+  title="Changes"
+  message="You have changes"
+  confirmText="OK"
+  onConfirm={saveChanges}
+/>
+```
 
-ConfirmationModal, tam erişilebilirlik desteği sunar:
+### Logout Confirmation
 
-- ✅ Screen reader desteği
-- ✅ Focus trap
-- ✅ Keyboard navigation
-- ✅ Semantic role
-- ✅ Escape key desteği
+✅ **DO**:
+```tsx
+<ConfirmationModal
+  visible={showLogout}
+  variant="warning"
+  icon="log-out-outline"
+  title="Log Out"
+  message="Are you sure you want to log out of your account?"
+  confirmText="Log Out"
+  cancelText="Cancel"
+  onConfirm={() => {
+    logout();
+    setShowLogout(false);
+  }}
+  onCancel={() => setShowLogout(false)}
+/>
+```
 
-## İlgili Bileşenler
+## AI Coding Guidelines
 
-- [`BaseModal`](../BaseModal/README.md) - Base modal
-- [`AlertModal`](./alerts/README.md) - Alert modal
-- [`AtomicButton`](../../atoms/button/README.md) - Buton bileşeni
+### For AI Agents
 
-## Lisans
+When generating ConfirmationModal components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { ConfirmationModal } from 'react-native-design-system/src/molecules/ConfirmationModal';
+   ```
+
+2. **Always use appropriate variant**:
+   ```tsx
+   // ✅ Good - variant by severity
+   const getVariant = (action) => {
+     if (action === 'delete') return 'danger';
+     if (action === 'logout') return 'warning';
+     return 'default';
+   };
+
+   // ❌ Bad - always default
+   <ConfirmationModal variant="default" /> // Even for delete
+   ```
+
+3. **Always be specific in message**:
+   ```tsx
+   // ✅ Good - specific message
+   message={`Delete '${item.name}'? This cannot be undone.`}
+
+   // ❌ Bad - vague message
+   message="Are you sure?"
+   ```
+
+4. **Always match button text to action**:
+   ```tsx
+   // ✅ Good - specific button text
+   <ConfirmationModal
+     confirmText="Delete Account"
+     onConfirm={deleteAccount}
+   />
+
+   // ❌ Bad - generic button text
+   <ConfirmationModal
+     confirmText="OK"
+     onConfirm={deleteAccount}
+   />
+   ```
+
+5. **Always close modal after action**:
+   ```tsx
+   // ✅ Good - closes after action
+   const handleConfirm = () => {
+     deleteItem(id);
+     setVisible(false);
+   };
+
+   // ❌ Bad - doesn't close
+   const handleConfirm = () => {
+     deleteItem(id);
+     // Modal stays open
+   };
+   ```
+
+### Common Patterns
+
+#### Delete Confirmation
+```tsx
+<ConfirmationModal
+  visible={showDelete}
+  variant="danger"
+  icon="trash-outline"
+  title="Delete Item"
+  message={`Delete '${item.name}'? This action cannot be undone.`}
+  confirmText="Delete"
+  cancelText="Cancel"
+  onConfirm={() => {
+    deleteItem(item.id);
+    setShowDelete(false);
+  }}
+  onCancel={() => setShowDelete(false)}
+/>
+```
+
+#### Unsaved Changes
+```tsx
+<ConfirmationModal
+  visible={hasUnsavedChanges}
+  variant="warning"
+  icon="warning"
+  title="Unsaved Changes"
+  message="You have unsaved changes. Do you want to save them?"
+  confirmText="Save"
+  cancelText="Don't Save"
+  onConfirm={() => {
+    saveChanges();
+    setHasUnsavedChanges(false);
+  }}
+  onCancel={() => {
+    discardChanges();
+    setHasUnsavedChanges(false);
+  }}
+/>
+```
+
+#### Logout Confirmation
+```tsx
+<ConfirmationModal
+  visible={showLogout}
+  variant="warning"
+  icon="log-out-outline"
+  title="Log Out"
+  message="Are you sure you want to log out?"
+  confirmText="Log Out"
+  cancelText="Cancel"
+  onConfirm={() => {
+    logout();
+    setShowLogout(false);
+  }}
+  onCancel={() => setShowLogout(false)}
+/>
+```
+
+#### Critical Action (No Backdrop Dismiss)
+```tsx
+<ConfirmationModal
+  visible={showCritical}
+  variant="danger"
+  backdropDismissible={false} // Prevents accidental dismiss
+  title="Delete Account"
+  message="This will permanently delete your account and all data. This cannot be undone."
+  confirmText="Delete Account"
+  cancelText="Cancel"
+  onConfirm={() => {
+    deleteAccount();
+    setShowCritical(false);
+  }}
+  onCancel={() => setShowCritical(false)}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `visible` | `boolean` | Yes | - | Modal visibility |
+| `onConfirm` | `() => void` | Yes | - | Confirm callback |
+| `onCancel` | `() => void` | Yes | - | Cancel callback |
+| `title` | `string` | No | - | Modal title |
+| `message` | `string` | No | - | Modal message |
+| `variant` | `'default' \| 'danger' \| 'warning' \| 'info'` | No | `'default'` | Visual variant |
+| `confirmText` | `string` | No | `'Confirm'` | Confirm button text |
+| `cancelText` | `string` | No | `'Cancel'` | Cancel button text |
+| `icon` | `string` | No | - | Icon name (Ionicons) |
+| `showBackdrop` | `boolean` | No | `true` | Show backdrop |
+| `backdropDismissible` | `boolean` | No | `true` | Allow backdrop dismiss |
+| `style` | `ViewStyle` | No | - | Custom container style |
+
+## Accessibility
+
+- ✅ Screen reader announces title and message
+- ✅ Focus trap within modal
+- ✅ Keyboard navigation (Escape to cancel)
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Semantic dialog role
+- ✅ Proper button labeling
+
+## Performance Tips
+
+1. **State management**: Use local state for visibility
+2. **Cleanup**: Close modal after navigation
+3. **Memo callbacks**: Use useCallback for handlers
+4. **Prevent double-tap**: Disable confirm button during action
+
+## Related Components
+
+- [`BaseModal`](./BaseModal/README.md) - Base modal component
+- [`AlertModal`](./alerts/README.md) - Alert modal component
+- [`Button`](../atoms/button/README.md) - Button component
+
+## License
 
 MIT

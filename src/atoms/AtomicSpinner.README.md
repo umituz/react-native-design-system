@@ -1,433 +1,400 @@
 # AtomicSpinner
 
-AtomicSpinner, React Native için çok yönlü bir yükleme göstergesi bileşenidir. ActivityIndicator wrapper'ı olarak çalışır ve geniş özelleştirme seçenekleri sunar.
+A versatile loading indicator component for React Native. Wrapper around ActivityIndicator with extensive customization options.
 
-## Özellikler
-
-- ⏳ **4 Size**: Small, Medium, Large, Extra Large
-- 🎨 **6 Renk**: Primary, Secondary, Success, Error, Warning, White
-- 📝 **Metin Desteği**: Yükleme metni gösterimi
-- 🖼️ **Overlay**: Tam ekran overlay desteği
-- 📦 **Full Container**: Parent container'ı doldurma
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicSpinner } from 'react-native-design-system';
-```
-
-## Temel Kullanım
-
-```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { AtomicSpinner } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicSpinner />
-    </View>
-  );
-};
-```
-
-## Boyutlar
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Small */}
-  <AtomicSpinner size="sm" />
-
-  {/* Medium (Varsayılan) */}
-  <AtomicSpinner size="md" />
-
-  {/* Large */}
-  <AtomicSpinner size="lg" />
-
-  {/* Extra Large */}
-  <AtomicSpinner size="xl" />
-</View>
-```
-
-## Renkler
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 16 }}>
-  <AtomicSpinner color="primary" />
-  <AtomicSpinner color="secondary" />
-  <AtomicSpinner color="success" />
-  <AtomicSpinner color="warning" />
-  <AtomicSpinner color="error" />
-  <AtomicSpinner color="white" />
-</View>
-```
-
-## Custom Renk
-
-```tsx
-<AtomicSpinner color="#6366f1" />
-<AtomicSpinner color="rgb(99, 102, 241)" />
-```
-
-## Metin ile
-
-```tsx
-{/* Metin aşağıda (varsayılan) */}
-<AtomicSpinner
-  text="Yükleniyor..."
-  textPosition="bottom"
-/>
-
-{/* Metin sağda */}
-<AtomicSpinner
-  text="Yükleniyor..."
-  textPosition="right"
-/>
-```
-
-## Full Container
-
-```tsx
-<View style={{ height: 200 }}>
-  <AtomicSpinner fullContainer />
-</View>
-```
-
-## Overlay
-
-```tsx
-<View style={{ height: 200 }}>
-  {/* Overlay varsayılan renk */}
-  <AtomicSpinner overlay text="Yükleniyor..." />
-
-  {/* Custom overlay rengi */}
-  <AtomicSpinner
-    overlay
-    overlayColor="rgba(0, 0, 0, 0.7)"
-    text="Lütfen bekleyin..."
-    color="white"
-  />
-</View>
-```
-
-## Custom Size
-
-```tsx
-<AtomicSpinner size={32} />
-<AtomicSpinner size={48} />
-<AtomicSpinner size={64} />
-```
-
-## Örnek Kullanımlar
-
-### Sayfa Yükleniyor
-
-```tsx
-export const PageLoading = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <AtomicSpinner
-        fullContainer
-        size="lg"
-        text="Sayfa yükleniyor..."
-      />
-    </View>
-  );
-};
-```
-
-### Button Loading
-
-```tsx
-export const LoadingButton = ({ loading, onPress, children }) => {
-  return (
-    <Pressable onPress={onPress} disabled={loading}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        {loading ? (
-          <>
-            <AtomicSpinner size="sm" color="white" />
-            <AtomicText style={{ marginLeft: 8 }}>Yükleniyor...</AtomicText>
-          </>
-        ) : (
-          children
-        )}
-      </View>
-    </Pressable>
-  );
-};
-```
-
-### Veri Çekme
-
-```tsx
-export const DataLoading = ({ isLoading, children }) => {
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <AtomicSpinner
-          size="lg"
-          text="Veriler çekiliyor..."
-        />
-      </View>
-    );
-  }
-
-  return children;
-};
-```
-
-### Form Submit
-
-```tsx
-export const FormLoading = ({ isSubmitting }) => {
-  return (
-    <View style={{ padding: 24 }}>
-      {isSubmitting ? (
-        <View style={{ alignItems: 'center' }}>
-          <AtomicSpinner
-            size="md"
-            text="Form gönderiliyor..."
-            textPosition="bottom"
-          />
-        </View>
-      ) : (
-        <AtomicText>Form hazır</AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### İçerik Yenileme
-
-```tsx
-export const RefreshContent = ({ isRefreshing }) => {
-  return (
-    <View style={{ padding: 16, alignItems: 'center' }}>
-      {isRefreshing && (
-        <AtomicSpinner
-          size="sm"
-          text="Yenileniyor..."
-          textPosition="right"
-        />
-      )}
-    </View>
-  );
-};
-```
-
-### Modal Loading
-
-```tsx
-export const LoadingModal = ({ visible }) => {
-  return (
-    <Modal visible={visible} transparent>
-      <AtomicSpinner
-        overlay
-        overlayColor="rgba(0, 0, 0, 0.7)"
-        size="lg"
-        text="Lütfen bekleyin..."
-        color="white"
-      />
-    </Modal>
-  );
-};
-```
-
-### Liste Yükleme
-
-```tsx
-export const ListLoading = () => {
-  return (
-    <View style={{ padding: 24 }}>
-      <AtomicSpinner
-        size="md"
-        text="Öğeler yükleniyor..."
-      />
-    </View>
-  );
-};
-```
-
-### Görsel Yükleme
-
-```tsx
-export const ImageLoading = ({ isLoading, children }) => {
-  return (
-    <View style={{ width: 200, height: 200 }}>
-      {isLoading ? (
-        <AtomicSpinner
-          fullContainer
-          text="Görsel yükleniyor..."
-          color="primary"
-        />
-      ) : (
-        children
-      )}
-    </View>
-  );
-};
-```
-
-### Async Operasyon
-
-```tsx
-export const AsyncOperation = () => {
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleProcess = async () => {
-    setIsProcessing(true);
-    try {
-      await performAsyncOperation();
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  return (
-    <View>
-      {isProcessing ? (
-        <AtomicSpinner
-          size="md"
-          text="İşleniyor..."
-          textPosition="right"
-        />
-      ) : (
-        <Button title="İşle" onPress={handleProcess} />
-      )}
-    </View>
-  );
-};
-```
-
-### Infinity Scroll Yükleme
-
-```tsx
-export const InfiniteScrollLoading = ({ isLoading }) => {
-  if (!isLoading) return null;
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicSpinner
-        size="sm"
-        text="Daha fazla yükleniyor..."
-        textPosition="right"
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### AtomicSpinnerProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `size` | `SpinnerSize \| number` | `'md'` | Spinner boyutu |
-| `color` | `SpinnerColor \| string` | `'primary'` | Spinner rengi |
-| `text` | `string` | - | Yükleme metni |
-| `textPosition` | `'bottom' \| 'right'` | `'bottom'` | Metin konumu |
-| `fullContainer` | `boolean` | `false` | Container'ı doldur |
-| `overlay` | `boolean` | `false` | Overlay göster |
-| `overlayColor` | `string` | `'rgba(0, 0, 0, 0.5)'` | Overlay rengi |
-| `style` | `ViewStyle \| ViewStyle[]` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
-
-### SpinnerSize
+## Import & Usage
 
 ```typescript
-type SpinnerSize =
-  | 'sm'  // Small (16px)
-  | 'md'  // Medium (24px, varsayılan)
-  | 'lg'  // Large (36px)
-  | 'xl'; // Extra Large (48px)
+import { AtomicSpinner } from 'react-native-design-system/src/atoms/AtomicSpinner';
 ```
+
+**Location:** `src/atoms/AtomicSpinner.tsx`
+
+## Basic Usage
+
+```tsx
+<AtomicSpinner />
+```
+
+## Strategy
+
+**Purpose**: Provide a consistent, accessible loading indicator for async operations and content loading states.
+
+**When to Use**:
+- During data fetching (API calls, database queries)
+- For content loading states (images, videos, lists)
+- In forms during submission
+- For page transitions
+- During async operations (file uploads, processing)
+
+**When NOT to Use**:
+- For determinate progress (use AtomicProgress instead)
+- When progress percentage is known (use progress bar)
+- For static content that doesn't need loading indication
+- As a decorative element without loading context
+
+## Rules
+
+### Required
+
+1. **MUST** provide accessible loading state to screen readers
+2. **ALWAYS** show spinner during actual async operations
+3. **MUST** hide spinner when loading completes
+4. **SHOULD** provide context with `text` prop for longer operations
+5. **ALWAYS** use appropriate size for the context
+6. **MUST** not block user interaction unnecessarily (unless overlay)
+7. **SHOULD** use `fullContainer` for centered loading states
+
+### Usage Guidelines
+
+1. **Size selection**: Match size to context (sm for buttons, md-lg for content)
+2. **Text context**: Always provide text for operations taking > 3 seconds
+3. **Overlay use**: Only use overlay for blocking operations
+4. **Color semantics**: Use semantic colors (primary, success, error) when meaningful
+5. **Positioning**: Use `fullContainer` for centering, or handle positioning manually
+
+### Performance
+
+1. **Don't over-render**: Only show when actually loading
+2. **Avoid nested spinners**: One spinner per loading context
+3. **Clean up**: Always remove spinner when complete
+
+## Forbidden
+
+❌ **NEVER** do these:
+
+```tsx
+// ❌ Spinner without loading state
+<View>
+  <AtomicSpinner /> {/* ❌ Always visible, no loading state */}
+  <Content />
+</View>
+
+// ❌ Generic text without context
+<AtomicSpinner
+  text="Loading" {/* ❌ What is loading? */}
+/>
+
+// ❌ Wrong size for button
+<Button onPress={handleAction}>
+  {loading && <AtomicSpinner size="xl" />}
+  {/* ❌ Too large for button */}
+</Button>
+
+// ❌ Overlay for non-blocking operation
+<AtomicSpinner
+  overlay {/* ❌ Blocks UI for simple fetch */}
+  text="Fetching data"
+/>
+
+// ❌ Never removes spinner
+const [loading, setLoading] = useState(true);
+// ❌ Never sets to false
+
+// ❌ Spinner in static content
+<View>
+  <AtomicSpinner /> {/* ❌ Static content, not loading */}
+  <Text>Welcome</Text>
+</View>
+```
+
+## Best Practices
+
+### Loading States
+
+✅ **DO**:
+```tsx
+const [loading, setLoading] = useState(false);
+
+const fetchData = async () => {
+  setLoading(true);
+  try {
+    await apiCall();
+  } finally {
+    setLoading(false); // ✅ Always completes
+  }
+};
+
+{loading ? (
+  <AtomicSpinner fullContainer text="Loading data..." />
+) : (
+  <DataContent />
+)}
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ No cleanup
+const fetchData = async () => {
+  setLoading(true);
+  await apiCall();
+  // Forgot setLoading(false)
+};
+
+// ❌ Loading state not managed
+<AtomicSpinner /> {/* Always visible */}
+```
+
+### Context with Text
+
+✅ **DO**:
+```tsx
+// ✅ Specific context
+<AtomicSpinner
+  text="Uploading photo..."
+  size="md"
+/>
+
+// ✅ Progress indication
+<AtomicSpinner
+  text="Processing step 1 of 3..."
+  textPosition="bottom"
+/>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Generic text
+<AtomicSpinner text="Loading" />
+<AtomicSpinner text="Please wait" />
+
+// ❌ Unnecessary text for quick operation
+<AtomicSpinner text="Loading..." /> {/* < 1 second */}
+```
+
+### Size Selection
+
+✅ **DO**:
+```tsx
+// ✅ Button inline
+<Button>
+  {loading && <AtomicSpinner size="sm" color="white" />}
+</Button>
+
+// ✅ Content loading
+<AtomicSpinner size="md" fullContainer />
+
+// ✅ Page loading
+<AtomicSpinner size="lg" fullContainer text="Loading page..." />
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Too large for button
+<Button>
+  <AtomicSpinner size="xl" />
+</Button>
+
+// ❌ Too small for page
+<AtomicSpinner size="xs" fullContainer />
+```
+
+### Overlay Usage
+
+✅ **DO**:
+```tsx
+// ✅ Blocking operation
+<AtomicSpinner
+  overlay
+  text="Processing payment..."
+  color="white"
+/>
+
+// ✅ Modal loading
+<Modal visible={loading}>
+  <AtomicSpinner overlay />
+</Modal>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Overlay for non-blocking
+<AtomicSpinner
+  overlay {/* ❌ Blocks UI unnecessarily */}
+  text="Fetching list"
+/>
+
+// ❌ Missing color for dark overlay
+<AtomicSpinner
+  overlay
+  overlayColor="rgba(0, 0, 0, 0.7)"
+  color="primary" {/* ❌ Hard to see on dark */}
+/>
+```
+
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating AtomicSpinner components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { AtomicSpinner } from 'react-native-design-system/src/atoms/AtomicSpinner';
+   ```
+
+2. **Always manage loading state properly**:
+   ```tsx
+   // ✅ Good - proper state management
+   const [loading, setLoading] = useState(false);
+   const handleAction = async () => {
+     setLoading(true);
+     try {
+       await doSomething();
+     } finally {
+       setLoading(false);
+     }
+   };
+
+   // ❌ Bad - no cleanup
+   const [loading, setLoading] = useState(false);
+   const handleAction = async () => {
+     setLoading(true);
+     await doSomething();
+     // Forgot setLoading(false)
+   };
+   ```
+
+3. **Always provide context for long operations**:
+   ```tsx
+   // ✅ Good - specific context
+   <AtomicSpinner
+     text="Uploading profile photo..."
+     fullContainer
+   />
+
+   // ❌ Bad - generic text
+   <AtomicSpinner text="Loading..." />
+   ```
+
+4. **Always use appropriate sizes**:
+   ```tsx
+   // ✅ Good - size matches context
+   <Button>
+     {loading && <AtomicSpinner size="sm" color="white" />}
+   </Button>
+   <AtomicSpinner size="lg" fullContainer />
+
+   // ❌ Bad - wrong sizes
+   <Button>
+     <AtomicSpinner size="xl" /> {/* Too large */}
+   </Button>
+   ```
+
+5. **Always clean up spinner**:
+   ```tsx
+   // ✅ Good - always completes
+   try {
+     setLoading(true);
+     await operation();
+   } finally {
+     setLoading(false);
+   }
+
+   // ❌ Bad - doesn't complete on error
+   setLoading(true);
+   await operation(); // If this throws, spinner stays
+   setLoading(false);
+   ```
+
+### Common Patterns
+
+#### Basic Loading State
+```tsx
+{loading && <AtomicSpinner />}
+```
+
+#### Full Container Loading
+```tsx
+{loading ? (
+  <AtomicSpinner fullContainer text="Loading..." />
+) : (
+  <Content />
+)}
+```
+
+#### Button Loading
+```tsx
+<Button onPress={handleSubmit} disabled={loading}>
+  {loading ? (
+    <AtomicSpinner size="sm" color="white" />
+  ) : (
+    "Submit"
+  )}
+</Button>
+```
+
+#### Overlay Loading
+```tsx
+<AtomicSpinner
+  overlay
+  overlayColor="rgba(0, 0, 0, 0.7)"
+  text="Processing..."
+  color="white"
+/>
+```
+
+#### With Text Position
+```tsx
+<AtomicSpinner
+  text="Uploading..."
+  textPosition="right"
+  size="sm"
+/>
+```
+
+#### Custom Size
+```tsx
+<AtomicSpinner size={32} />
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| number` | No | `'md'` | Spinner size |
+| `color` | `SpinnerColor \| string` | No | `'primary'` | Spinner color |
+| `text` | `string` | No | - | Loading text |
+| `textPosition` | `'bottom' \| 'right'` | No | `'bottom'` | Text position |
+| `fullContainer` | `boolean` | No | `false` | Fill and center in container |
+| `overlay` | `boolean` | No | `false` | Show overlay background |
+| `overlayColor` | `string` | No | `'rgba(0, 0, 0, 0.5)'` | Overlay background color |
+| `style` | `ViewStyle \| ViewStyle[]` | No | - | Custom style |
+| `testID` | `string` | No | - | Test identifier |
 
 ### SpinnerColor
 
 ```typescript
 type SpinnerColor =
-  | 'primary'    // Ana renk
-  | 'secondary'  // İkincil renk
-  | 'success'    // Başarı rengi
-  | 'error'      // Hata rengi
-  | 'warning'    // Uyarı rengi
-  | 'white';     // Beyaz
+  | 'primary'    // Main theme color
+  | 'secondary'  // Secondary theme color
+  | 'success'    // Success color
+  | 'error'      // Error color
+  | 'warning'    // Warning color
+  | 'white';     // White
 ```
 
-## Best Practices
+## Accessibility
 
-### 1. Boyut Seçimi
-
-```tsx
-// Küçük alanlar için
-<AtomicSpinner size="sm" />
-
-// Normal kullanım
-<AtomicSpinner size="md" />
-
-// Vurgu için
-<AtomicSpinner size="lg" />
-
-// Tam ekran
-<AtomicSpinner size="xl" fullContainer />
-```
-
-### 2. Overlay Kullanımı
-
-```tsx
-// Tam ekran yükleme
-<AtomicSpinner overlay text="Yükleniyor..." />
-
-// Custom overlay
-<AtomicSpinner
-  overlay
-  overlayColor="rgba(255, 255, 255, 0.9)"
-  color="primary"
-/>
-```
-
-### 3. Metin Kullanımı
-
-```tsx
-// Açıklayıcı metin
-<AtomicSpinner text="Veriler yükleniyor..." />
-
-// Kısa metin
-<AtomicSpinner text="Yükleniyor..." />
-
-// Sağda metin (horizontal layout)
-<AtomicSpinner
-  text="İşleniyor..."
-  textPosition="right"
-/>
-```
-
-## Erişilebilirlik
-
-AtomicSpinner, tam erişilebilirlik desteği sunar:
-
-- ✅ Screen reader desteği
-- ✅ Accessibility label
+- ✅ Screen reader announces loading state
+- ✅ Accessibility label for context
 - ✅ Progress bar role
-- ✅ Live region anonsu
-- ✅ Test ID desteği
+- ✅ Live region announcements
+- ✅ Test ID support for testing
 
-## Performans İpuçları
+## Performance Tips
 
-1. **Conditional Rendering**: Gereksiz render'lardan kaçının
-2. **Size Selection**: Uygun boyutu seçin
-3. **Avoid Re-renders**: Spinner'ı stabilize edin
+1. **Conditional rendering**: Only render when loading
+2. **Size selection**: Use appropriate size for context
+3. **Avoid re-renders**: Stabilize spinner props
+4. **Clean up**: Always remove spinner when complete
 
-## İlgili Bileşenler
+## Related Components
 
-- [`AtomicProgress`](./AtomicProgress/README.md) - İlerleme çubuğu
-- [`AtomicSkeleton`](./skeleton/AtomicSkeleton/README.md) - Skeleton loading
-- [`EmptyState`](./EmptyState/README.md) - Boş durum
+- [`AtomicProgress`](./AtomicProgress.README.md) - Determinate progress bar
+- [`AtomicSkeleton`](./skeleton/AtomicSkeleton.README.md) - Skeleton placeholder
+- [`EmptyState`](./EmptyState.README.md) - Empty state component
 
-## Lisans
+## License
 
 MIT

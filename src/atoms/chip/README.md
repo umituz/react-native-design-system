@@ -1,117 +1,141 @@
 # AtomicChip
 
-AtomicChip, React Native için küçük, etiket benzeri bileşenlerdir. Kategorileri, durumları veya seçilebilir öğeleri göstermek için idealdir.
+Small, tag-like components for displaying categories, statuses, or selectable items in React Native applications.
 
-## Özellikler
+## Import & Usage
 
-- 🎨 **3 Variant**: Filled, Outlined, Ghost
-- 📏 **3 Size**: Small, Medium, Large
-- 🌈 **7 Renk**: Primary, Secondary, Success, Warning, Error, Info, Surface
-- 🎭 **İkon Desteği**: Leading ve trailing ikonlar
-- 👆 **Clickble**: Tıklanabilir chip'ler
-- ✅ **Selected**: Seçim durumu
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicChip } from 'react-native-design-system';
+```typescript
+import { AtomicChip } from 'react-native-design-system/src/atoms/chip';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/chip/AtomicChip.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { AtomicChip } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16, flexDirection: 'row', gap: 8 }}>
-      <AtomicChip>React Native</AtomicChip>
-      <AtomicChip>TypeScript</AtomicChip>
-      <AtomicChip>Material Design</AtomicChip>
-    </View>
-  );
-};
+<AtomicChip>React Native</AtomicChip>
 ```
 
-## Variant'lar
+## Strategy
+
+**Purpose**: Provide visually consistent, interactive tags for filtering, categorization, and status display.
+
+**When to Use**:
+- Category labels (tags, skills, topics)
+- Status indicators (active, pending, completed)
+- Filter chips (selectable options)
+- User attributes (roles, badges)
+- Removable items (tags with delete action)
+
+**When NOT to Use**:
+- For primary navigation - use Tabs or Navigation components
+- For complex selections - use Checkbox or Radio components
+- For long text content - use Card or List items
+- As standalone buttons - use Button component instead
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide `children` content (text or elements)
+2. **MUST** have appropriate color for semantic meaning
+3. **NEVER** use chips for critical actions without confirmation
+4. **ALWAYS** provide accessible label for screen readers
+5. **MUST** have adequate touch target (min 44x44pt) when clickable
+
+### Clickable Chips
+
+1. **MUST** set `clickable` prop if onPress is provided
+2. **ALWAYS** provide visual feedback for selected state
+3. **SHOULD** use `selected` prop for toggle behavior
+4. **MUST** have clear purpose for interaction
+
+### Variant Selection
+
+1. **Filled**: Primary categories, emphasized tags
+2. **Outlined**: Secondary categories, list items
+3. **Ghost**: Tertiary tags, background elements
+
+### Color Usage
+
+1. **Success**: Completed, verified, active states
+2. **Error**: Failed, rejected, inactive states
+3. **Warning**: Pending, attention needed
+4. **Info**: Neutral information
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  {/* Filled (Varsayılan) */}
-  <AtomicChip variant="filled">Filled</AtomicChip>
+// ❌ Empty chips
+<AtomicChip />
 
-  {/* Outlined */}
-  <AtomicChip variant="outlined">Outlined</AtomicChip>
+// ❌ Chips without content (children)
+<AtomicChip variant="filled" />
 
-  {/* Ghost */}
-  <AtomicChip variant="ghost">Ghost</AtomicChip>
+// ❌ Long text content (breaks layout)
+<AtomicChip>This is a very long text that will break the chip layout and make it look bad</AtomicChip>
+
+// ❌ Clickable without clickable prop
+<AtomicChip onPress={handlePress}>Click me</AtomicChip>
+{/* ❌ Add clickable prop */}
+
+// ❌ Wrong color semantics
+<AtomicChip color="error">Success</AtomicChip>
+{/* ❌ Use color="success" */}
+
+// ❌ Too many chips in one row
+<View style={{ flexDirection: 'row' }}>
+  <AtomicChip>1</AtomicChip>
+  <AtomicChip>2</AtomicChip>
+  {/* ... 20 more chips */} {/* ❌ Use wrap */}
 </View>
+
+// ❌ Hardcoded text (use i18n)
+<AtomicChip>Active</AtomicChip>
+{/* ❌ Use {t('status.active')} */}
 ```
 
-## Renkler
+## Best Practices
 
+### Chip Sizing
+
+✅ **DO**:
+- Use `sm` for dense content and lists
+- Use `md` (default) for normal usage
+- Use `lg` for emphasis or important tags
+
+❌ **DON'T**:
+- Mix sizes inconsistently in same context
+- Use `lg` for long lists (takes too much space)
+
+### Color Selection
+
+✅ **DO**:
 ```tsx
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <AtomicChip color="primary">Primary</AtomicChip>
-  <AtomicChip color="secondary">Secondary</AtomicChip>
-  <AtomicChip color="success">Success</AtomicChip>
-  <AtomicChip color="warning">Warning</AtomicChip>
-  <AtomicChip color="error">Error</AtomicChip>
-  <AtomicChip color="info">Info</AtomicChip>
-  <AtomicChip color="surface">Surface</AtomicChip>
-</View>
+// Status indicators
+<AtomicChip color="success">Active</AtomicChip>
+<AtomicChip color="warning">Pending</AtomicChip>
+<AtomicChip color="error">Inactive</AtomicChip>
+
+// Categories
+<AtomicChip color="primary">Technology</AtomicChip>
+<AtomicChip color="secondary">Design</AtomicChip>
 ```
 
-## Boyutlar
-
+❌ **DON'T**:
 ```tsx
-<View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-  {/* Small */}
-  <AtomicChip size="sm">Small</AtomicChip>
+// Don't use decorative colors without meaning
+<AtomicChip color="error">Just for fun</AtomicChip>
 
-  {/* Medium (Varsayılan) */}
-  <AtomicChip size="md">Medium</AtomicChip>
-
-  {/* Large */}
-  <AtomicChip size="lg">Large</AtomicChip>
-</View>
+// Don't mix colors randomly
+<AtomicChip color="success">Error</AtomicChip>
 ```
 
-## İkonlu Chip'ler
+### Interactive Chips
 
-```tsx
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  {/* Leading Icon */}
-  <AtomicChip
-    leadingIcon="checkmark-circle"
-    color="success"
-  >
-    Onaylandı
-  </AtomicChip>
-
-  {/* Trailing Icon */}
-  <AtomicChip
-    trailingIcon="close-outline"
-    color="error"
-  >
-    İptal
-  </AtomicChip>
-
-  {/* Both Icons */}
-  <AtomicChip
-    leadingIcon="person-outline"
-    trailingIcon="chevron-down"
-  >
-    Kullanıcı
-  </AtomicChip>
-</View>
-```
-
-## Tıklanabilir Chip'ler
-
+✅ **DO**:
 ```tsx
 const [selected, setSelected] = useState(false);
 
@@ -120,257 +144,185 @@ const [selected, setSelected] = useState(false);
   selected={selected}
   onPress={() => setSelected(!selected)}
 >
-  Seçilebilir Chip
+  {t('filter.option')}
 </AtomicChip>
 ```
 
-## Custom Renkler
+❌ **DON'T**:
+```tsx
+// Don't forget clickable prop
+<AtomicChip onPress={handlePress}>Click</AtomicChip>
 
+// Don't use selected without clickable
+<AtomicChip selected>Not clickable</AtomicChip>
+```
+
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating AtomicChip components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { AtomicChip } from 'react-native-design-system/src/atoms/chip';
+   ```
+
+2. **Always provide meaningful content**:
+   ```tsx
+   <AtomicChip>
+     {t('category.name')}
+   </AtomicChip>
+   ```
+
+3. **Always use appropriate variant**:
+   ```tsx
+   // Primary category
+   <AtomicChip variant="filled">主要类别</AtomicChip>
+
+   // Secondary category
+   <AtomicChip variant="outlined">次要类别</AtomicChip>
+
+   // Background tag
+   <AtomicChip variant="ghost">背景标签</AtomicChip>
+   ```
+
+4. **Always use semantic colors**:
+   ```tsx
+   // Success state
+   <AtomicChip color="success">成功</AtomicChip>
+
+   // Error state
+   <AtomicChip color="error">失败</AtomicChip>
+
+   // Warning state
+   <AtomicChip color="warning">警告</AtomicChip>
+   ```
+
+5. **Always enable clickable for interactive chips**:
+   ```tsx
+   <AtomicChip
+     clickable
+     selected={isSelected}
+     onPress={handleToggle}
+   >
+     可选择的标签
+   </AtomicChip>
+   ```
+
+### Common Patterns
+
+#### Category Tags
+```tsx
+<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <AtomicChip size="sm" variant="outlined">
+    {t('category.react')}
+  </AtomicChip>
+  <AtomicChip size="sm" variant="outlined">
+    {t('category.typescript')}
+  </AtomicChip>
+</View>
+```
+
+#### Status Indicators
 ```tsx
 <AtomicChip
-  variant="filled"
-  backgroundColor="#6366f1"
-  textColor="#ffffff"
-  borderColor="#6366f1"
+  size="sm"
+  color={status === 'active' ? 'success' : 'error'}
+  leadingIcon={status === 'active' ? 'checkmark-circle' : 'close-circle'}
 >
-  Custom Color
+  {t(`status.${status}`)}
 </AtomicChip>
 ```
 
-## Örnek Kullanımlar
-
-### Kategori Etiketleri
-
+#### Filter Chips
 ```tsx
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <AtomicChip size="sm" variant="outlined">React Native</AtomicChip>
-  <AtomicChip size="sm" variant="outlined">TypeScript</AtomicChip>
-  <AtomicChip size="sm" variant="outlined">Node.js</AtomicChip>
-  <AtomicChip size="sm" variant="outlined">GraphQL</AtomicChip>
-</View>
-```
+const [selectedFilters, setSelectedFilters] = useState<string[]>();
 
-### Durum Göstergeleri
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8 }}>
+{filters.map((filter) => (
   <AtomicChip
-    color="success"
-    leadingIcon="checkmark-circle"
-    size="sm"
+    key={filter.value}
+    clickable
+    selected={selectedFilters.includes(filter.value)}
+    onPress={() => toggleFilter(filter.value)}
+    variant="outlined"
   >
-    Aktif
+    {filter.label}
   </AtomicChip>
+))}
+```
 
+#### Removable Tags
+```tsx
+{tags.map((tag, index) => (
   <AtomicChip
-    color="warning"
-    leadingIcon="time"
-    size="sm"
+    key={index}
+    trailingIcon="close"
+    clickable
+    onPress={() => removeTag(index)}
+    variant="outlined"
   >
-    Beklemede
+    {tag}
   </AtomicChip>
-
-  <AtomicChip
-    color="error"
-    leadingIcon="close-circle"
-    size="sm"
-  >
-    İptal
-  </AtomicChip>
-</View>
+))}
 ```
 
-### Filtre Seçimi
-
+#### Skill Tags
 ```tsx
-const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
-const filters = ['Tümü', 'Aktif', 'Pasif', 'Beklemede'];
-
-<View style={{ flexDirection: 'row', gap: 8 }}>
-  {filters.map((filter) => (
-    <AtomicChip
-      key={filter}
-      clickable
-      selected={selectedFilters.includes(filter)}
-      onPress={() => {
-        if (selectedFilters.includes(filter)) {
-          setSelectedFilters(selectedFilters.filter(f => f !== filter));
-        } else {
-          setSelectedFilters([...selectedFilters, filter]);
-        }
-      }}
-      color="primary"
-    >
-      {filter}
-    </AtomicChip>
-  ))}
-</View>
+<AtomicChip
+  leadingIcon="code-slash"
+  color="info"
+  size="sm"
+>
+  React
+</AtomicChip>
 ```
 
-### Yetenek Etiketleri
+## Props Reference
 
-```tsx
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <AtomicChip
-    leadingIcon="code-slash"
-    color="info"
-    size="sm"
-  >
-    React
-  </AtomicChip>
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `children` | `ReactNode` | Yes | - | Chip content |
+| `variant` | `'filled' \| 'outlined' \| 'ghost'` | No | `'filled'` | Visual style |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Chip size |
+| `color` | `'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'surface'` | No | `'primary'` | Semantic color |
+| `leadingIcon` | `string` | No | - | Leading icon name |
+| `trailingIcon` | `string` | No | - | Trailing icon name |
+| `clickable` | `boolean` | No | `false` | Enable click interaction |
+| `onPress` | `() => void` | No | - | Press handler |
+| `selected` | `boolean` | No | `false` | Selected state |
+| `disabled` | `boolean` | No | `false` | Disabled state |
+| `backgroundColor` | `string` | No | - | Custom background color |
+| `textColor` | `string` | No | - | Custom text color |
+| `borderColor` | `string` | No | - | Custom border color |
 
-  <AtomicChip
-    leadingIcon="logo-javascript"
-    color="warning"
-    size="sm"
-  >
-    JavaScript
-  </AtomicChip>
+## Accessibility
 
-  <AtomicChip
-    leadingIcon="logo-python"
-    color="success"
-    size="sm"
-  >
-    Python
-  </AtomicChip>
-</View>
-```
+- ✅ Screen reader announces chip content
+- ✅ Selected state announced for clickable chips
+- ✅ Touch feedback for interactions
+- ✅ Minimum touch target: 44x44pt (when clickable)
+- ✅ Test ID support for testing
 
-### Silinebilir Etiketler
+## Performance Tips
 
-```tsx
-const [tags, setTags] = useState(['React', 'TypeScript', 'Node.js']);
+1. **Memo chips**: Component is already wrapped in `React.memo`
+2. **Stable callbacks**: Use `useCallback` for onPress handlers
+3. **Key prop**: Always provide key when rendering lists
+4. **Limit count**: Avoid rendering 50+ chips at once
 
-<View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  {tags.map((tag, index) => (
-    <AtomicChip
-      key={index}
-      trailingIcon="close"
-      clickable
-      onPress={() => setTags(tags.filter((_, i) => i !== index))}
-      variant="outlined"
-    >
-      {tag}
-    </AtomicChip>
-  ))}
-</View>
-```
+## Related Components
 
-## Props
+- [`AtomicPicker`](./picker/README.md) - Multi-select picker
+- [`AtomicButton`](./button/README.md) - Button component
+- [`FormField`](../../molecules/FormField/README.md) - Form field wrapper
 
-### AtomicChipProps
+## Version History
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `children` | `ReactNode` | - **(Zorunlu)** | Chip içeriği |
-| `variant` | `ChipVariant` | `'filled'` | Chip görünüm stili |
-| `size` | `ChipSize` | `'md'` | Chip boyutu |
-| `color` | `ChipColor` | `'primary'` | Semantic renk |
-| `backgroundColor` | `string` | - | Custom arka plan rengi |
-| `textColor` | `string` | - | Custom metin rengi |
-| `borderColor` | `string` | - | Custom çerçeve rengi |
-| `leadingIcon` | `string` | - | Sol ikon ismi |
-| `trailingIcon` | `string` | - | Sağ ikon ismi |
-| `clickable` | `boolean` | `false` | Tıklanabilir |
-| `onPress` | `() => void` | - | Tıklama olayı |
-| `selected` | `boolean` | `false` | Seçili durumu |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `activeOpacity` | `number` | `0.7` | Tıklama opaklığı |
-| `testID` | `string` | - | Test ID'si |
+- **2.6.0**: Added clickable and selected states
+- **2.5.0**: Added custom colors support
+- **2.0.0**: Initial release with 3 variants
 
-### ChipVariant
-
-```typescript
-type ChipVariant =
-  | 'filled'   // Dolgu (varsayılan)
-  | 'outlined' // Çerçeveli
-  | 'ghost';   // Hayalet
-```
-
-### ChipSize
-
-```typescript
-type ChipSize = 'sm' | 'md' | 'lg';
-```
-
-### ChipColor
-
-```typescript
-type ChipColor =
-  | 'primary'    // Ana renk
-  | 'secondary'  // İkincil renk
-  | 'success'    // Başarı rengi
-  | 'warning'    // Uyarı rengi
-  | 'error'      // Hata rengi
-  | 'info'       // Bilgi rengi
-  | 'surface';   // Yüzey rengi
-```
-
-## Best Practices
-
-### 1. Variant Seçimi
-
-```tsx
-// Ana etiketler için filled
-<AtomicChip variant="filled">React Native</AtomicChip>
-
-// Liste elemanları için outlined
-<AtomicChip variant="outlined">TypeScript</AtomicChip>
-
-// Arka plan için ghost
-<AtomicChip variant="ghost">Node.js</AtomicChip>
-```
-
-### 2. Renk Kullanımı
-
-```tsx
-// Başarı durumu
-<AtomicChip color="success">Başarılı</AtomicChip>
-
-// Hata durumu
-<AtomicChip color="error">Hatalı</AtomicChip>
-
-// Uyarı durumu
-<AtomicChip color="warning">Uyarı</AtomicChip>
-```
-
-### 3. Boyut Seçimi
-
-```tsx
-// Yoğun içerik için
-<AtomicChip size="sm">Small</AtomicChip>
-
-// Normal kullanım
-<AtomicChip size="md">Medium</AtomicChip>
-
-// Vurgu için
-<AtomicChip size="lg">Large</AtomicChip>
-```
-
-## Erişilebilirlik
-
-AtomicChip, tam erişilebilirlik desteği sunar:
-
-- ✅ Touch uygun boyut
-- ✅ Screen reader desteği
-- ✅ Selected state anonsu
-- ✅ Test ID desteği
-
-## Performans İpuçları
-
-1. **React.memo**: AtomicChip zaten `React.memo` ile sarılmış
-2. **Listelerde Kullanım**: `key` prop'unu kullanmayı unutmayın
-3. **OnPress Stabilization**: `onPress` callback'ini `useCallback` ile sarın
-
-## İlgili Bileşenler
-
-- [`AtomicPicker`](../picker/README.md) - Seçim bileşeni
-- [`AtomicButton`](../button/README.md) - Buton bileşeni
-- [`FormField`](../../molecules/FormField/README.md) - Form alanı
-
-## Lisans
+## License
 
 MIT

@@ -1,25 +1,24 @@
 # SplashScreen
 
-SplashScreen, uygulama başlatılırken gösterilen açılış ekranı bileşenidir. Logo, uygulama adı, slogan ve yükleme göstergesi içerir. Theme-aware renk desteği ve zaman aşımı kontrolü sunar.
+SplashScreen is a startup screen component displayed when the application is launching. It includes logo, app name, tagline, and loading indicator. Provides theme-aware color support and timeout control.
 
-## Özellikler
+## Features
 
-- 🎨 **Theme-Aware**: Tema bilinci renkler
-- 🎨 **Theme-Aware**: Tema bilinci renkler
-- ⏱️ **Timeout Kontrolü**: Maksimum süre ve timeout callback
-- 🖼️ **Logo/İkon**: Uygulama logosu gösterimi
-- 📝 **App Name & Tagline**: Uygulama adı ve sloganı
-- ⏳ **Loading Indicator**: Otomatik yükleme göstergesi
-- 🎭 **Özelleştirilebilir**: Renkler, stil, süre
-- ♿ **Erişilebilir**: Screen reader desteği
+- 🎨 **Theme-Aware**: Theme-conscious colors
+- ⏱️ **Timeout Control**: Maximum duration and timeout callback
+- 🖼️ **Logo/Icon**: App logo display
+- 📝 **App Name & Tagline**: App name and slogan
+- ⏳ **Loading Indicator**: Automatic loading indicator
+- 🎭 **Customizable**: Colors, style, duration
+- ♿ **Accessible**: Screen reader support
 
-## Kurulum
+## Installation
 
 ```tsx
 import { SplashScreen, useSplashFlow } from 'react-native-design-system';
 ```
 
-## Temel Kullanım
+## Basic Usage
 
 ```tsx
 import React, { useState } from 'react';
@@ -33,8 +32,8 @@ export const App = () => {
   if (!isInitialized) {
     return (
       <SplashScreen
-        appName="Uygulamam"
-        tagline="Hoş geldiniz"
+        appName="My App"
+        tagline="Welcome"
         visible={!isReady}
         onReady={() => setIsReady(true)}
       />
@@ -45,28 +44,28 @@ export const App = () => {
 };
 ```
 
-## Basit Splash
+## Simple Splash
 
 ```tsx
 <SplashScreen
   appName="My App"
-  tagline="Harika bir uygulama"
+  tagline="An amazing app"
   visible={true}
 />
 ```
 
-## Logo ile
+## With Logo
 
 ```tsx
 <SplashScreen
   icon={require('../assets/logo.png')}
   appName="My App"
-  tagline="Hoş geldiniz"
+  tagline="Welcome"
   visible={true}
 />
 ```
 
-## Custom Renkler
+## Custom Colors
 
 ```tsx
 <SplashScreen
@@ -81,14 +80,12 @@ export const App = () => {
 />
 ```
 
-
-
-## Zaman Aşımı
+## Timeout
 
 ```tsx
 <SplashScreen
   appName="My App"
-  tagline="Yükleniyor..."
+  tagline="Loading..."
   maxDuration={5000}
   onTimeout={() => {
     console.log('Splash timeout - showing error');
@@ -100,7 +97,7 @@ export const App = () => {
 
 ## useSplashFlow Hook
 
-### Temel Kullanım
+### Basic Usage
 
 ```tsx
 import { useSplashFlow } from 'react-native-design-system';
@@ -116,15 +113,15 @@ export const App = () => {
 };
 ```
 
-### Custom Süre
+### Custom Duration
 
 ```tsx
 const { isInitialized } = useSplashFlow({
-  duration: 3000, // 3 saniye
+  duration: 3000, // 3 seconds
 });
 ```
 
-### DeviceEventEmitter Dinleme
+### DeviceEventEmitter Listening
 
 ```tsx
 import { DeviceEventEmitter } from 'react-native';
@@ -142,9 +139,9 @@ useEffect(() => {
 }, []);
 ```
 
-## Örnek Kullanımlar
+## Example Usages
 
-### Temel App Boot
+### Basic App Boot
 
 ```tsx
 export const App = () => {
@@ -173,7 +170,7 @@ export const App = () => {
       <SplashScreen
         icon={require('./assets/logo.png')}
         appName="My App"
-        tagline="Yükleniyor..."
+        tagline="Loading..."
         visible
       />
     );
@@ -183,7 +180,7 @@ export const App = () => {
 };
 ```
 
-### Auth Flow ile
+### With Auth Flow
 
 ```tsx
 export const App = () => {
@@ -203,7 +200,7 @@ export const App = () => {
     return (
       <SplashScreen
         appName="My App"
-        tagline="Giriş yapılıyor..."
+        tagline="Signing in..."
         visible
       />
     );
@@ -213,7 +210,7 @@ export const App = () => {
 };
 ```
 
-### Remote Config ile
+### With Remote Config
 
 ```tsx
 export const App = () => {
@@ -232,7 +229,7 @@ export const App = () => {
       <SplashScreen
         icon={require('./assets/logo.png')}
         appName="My App"
-        tagline="Ayarlar yükleniyor..."
+        tagline="Loading settings..."
         maxDuration={5000}
         onTimeout={() => {
           // Fallback to default config
@@ -247,7 +244,7 @@ export const App = () => {
 };
 ```
 
-### Animasyonlu Splash
+### Animated Splash
 
 ```tsx
 export const AnimatedSplash = () => {
@@ -293,10 +290,10 @@ export const MultiStageSplash = () => {
   const allReady = Object.values(loadingStage).every(Boolean);
 
   const getTagline = () => {
-    if (!loadingStage.assets) return 'Varlıklar yükleniyor...';
-    if (!loadingStage.auth) return 'Giriş yapılıyor...';
-    if (!loadingStage.config) return 'Ayarlar alınıyor...';
-    return 'Hazır!';
+    if (!loadingStage.assets) return 'Loading assets...';
+    if (!loadingStage.auth) return 'Signing in...';
+    if (!loadingStage.config) return 'Getting settings...';
+    return 'Ready!';
   };
 
   if (!isInitialized || !allReady) {
@@ -313,7 +310,7 @@ export const MultiStageSplash = () => {
 };
 ```
 
-### Debug Modu
+### Debug Mode
 
 ```tsx
 export const DebugSplash = () => {
@@ -352,49 +349,48 @@ export const DebugSplash = () => {
 
 ### SplashScreenProps
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `icon` | `ImageSourcePropType` | - | Logo/ikon |
-| `appName` | `string` | - | Uygulama adı |
-| `tagline` | `string` | - | Slogan |
-| `colors` | `SplashColors` | - | Custom renkler |
-
-| `visible` | `boolean` | `true` | Görünürlük |
-| `maxDuration` | `number` | - | Maksimum süre (ms) |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ImageSourcePropType` | - | Logo/icon |
+| `appName` | `string` | - | App name |
+| `tagline` | `string` | - | Tagline/slogan |
+| `colors` | `SplashColors` | - | Custom colors |
+| `visible` | `boolean` | `true` | Visibility |
+| `maxDuration` | `number` | - | Maximum duration (ms) |
 | `onTimeout` | `() => void` | - | Timeout callback |
 | `onReady` | `() => void` | - | Ready callback |
-| `style` | `ViewStyle` | - | Özel stil |
+| `style` | `ViewStyle` | - | Custom style |
 
 ### SplashColors
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `background` | `string` | `tokens.colors.backgroundPrimary` | Arka plan rengi |
-| `text` | `string` | `tokens.colors.textPrimary` | Metin rengi |
-| `iconPlaceholder` | `string` | `text + 30% opacity` | İkon placeholder rengi |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `background` | `string` | `tokens.colors.backgroundPrimary` | Background color |
+| `text` | `string` | `tokens.colors.textPrimary` | Text color |
+| `iconPlaceholder` | `string` | `text + 30% opacity` | Icon placeholder color |
 
 ### useSplashFlow Options
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `duration` | `number` | `1500` | Splash süresi (ms) |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `duration` | `number` | `1500` | Splash duration (ms) |
 
 ## Best Practices
 
-### 1. Süre Ayarı
+### 1. Duration Settings
 
 ```tsx
-// Kısa
+// Short
 useSplashFlow({ duration: 1000 })
 
-// Orta (önerilen)
+// Medium (recommended)
 useSplashFlow({ duration: 2000 })
 
-// Uzun
+// Long
 useSplashFlow({ duration: 3000 })
 ```
 
-### 2. Timeout Kullanımı
+### 2. Timeout Usage
 
 ```tsx
 <SplashScreen
@@ -422,7 +418,7 @@ useEffect(() => {
 ### 4. Theme Awareness
 
 ```tsx
-// Theme-aware colors (önerilen)
+// Theme-aware colors (recommended)
 <SplashScreen appName="App" />
 
 // Custom colors
@@ -434,29 +430,29 @@ useEffect(() => {
 />
 ```
 
-## Erişilebilirlik
+## Accessibility
 
-SplashScreen, tam erişilebilirlik desteği sunar:
+SplashScreen provides full accessibility support:
 
-- ✅ Screen reader desteği
+- ✅ Screen reader support
 - ✅ Accessibility label
-- ✅ Loading state anonsu
-- ✅ Timeout bildirimi (DEV modunda)
+- ✅ Loading state announcement
+- ✅ Timeout notification (DEV mode)
 
-## Performans İpuçları
+## Performance Tips
 
-1. **Preload Assets**: Splash'ta asset'leri preload edin
-2. **Optimize**: Logo boyutunu optimize edin
-3. **Timeout**: Maksimum süre belirleyin
-4. **Async**: Asenkron işlemleri paralel yapın
-5. **Minimal**: Gereksiz component'lerden kaçının
+1. **Preload Assets**: Preload assets during splash
+2. **Optimize**: Optimize logo size
+3. **Timeout**: Set maximum duration
+4. **Async**: Run async operations in parallel
+5. **Minimal**: Avoid unnecessary components
 
-## İlgili Bileşenler
+## Related Components
 
-- [`AtomicSpinner`](../../atoms/AtomicSpinner/README.md) - Yükleme göstergesi
-- [`AtomicText`](../../atoms/AtomicText/README.md) - Metin bileşeni
-- [`BaseModal`](../BaseModal/README.md) - Modal bileşeni
+- [`AtomicSpinner`](../../atoms/AtomicSpinner/README.md) - Loading indicator
+- [`AtomicText`](../../atoms/AtomicText/README.md) - Text component
+- [`BaseModal`](../BaseModal/README.md) - Modal component
 
-## Lisans
+## License
 
 MIT

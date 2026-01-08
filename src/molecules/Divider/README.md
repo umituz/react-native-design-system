@@ -1,470 +1,387 @@
 # Divider
 
-Divider, içerik bölümleri arasında görsel ayırıcı göstermek için kullanılan bileşendir. Yatay, dikey ve metinli ayırıcıları destekler.
+A visual separator component for content sections with support for horizontal, vertical, and text dividers.
 
-## Özellikler
+## Import & Usage
 
-- 📏 **2 Orientasyon**: Yatay, dikey
-- 🎨 **3 Stil**: Solid, dashed, dotted
-- 📝 **Text Label**: Metinli ayırıcı
-- 🎯 **4 Spacing**: None, small, medium, large
-- 🎭 **Tema Bilinci**: Design token uyumlu
-- 🌈 **Custom Renk**: Özel renk desteği
-- 📐 **Custom Kalınlık**: Özel kalınlık
-
-## Kurulum
-
-```tsx
-import { Divider } from 'react-native-design-system';
+```typescript
+import { Divider } from 'react-native-design-system/src/molecules/Divider';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/Divider/Divider.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { Divider } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText>Bölüm 1</AtomicText>
-      <Divider />
-      <AtomicText>Bölüm 2</AtomicText>
-    </View>
-  );
-};
-```
-
-## Yatay Ayırıcı
-
-```tsx
-{/* Varsayılan yatay */}
 <Divider />
-
-{/* Custom spacing */}
-<Divider spacing="large" />
-
-{/* Custom color */}
-<Divider color="#6366f1" />
-
-{/* Custom thickness */}
-<Divider thickness={2} />
 ```
 
-## Dikey Ayırıcı
+## Strategy
+
+**Purpose**: Visually separate content sections, organize information, and improve content hierarchy.
+
+**When to Use**:
+- Between form sections
+- Separating list items
+- Content grouping
+- Visual separation in cards
+- Between related and unrelated items
+- "OR" separators in auth flows
+
+**When NOT to Use**:
+- For decorative purposes only
+- When spacing is sufficient
+- For active interactive elements
+- Too frequently (causes visual clutter)
+
+## Rules
+
+### Required
+
+1. **MUST** have semantic purpose (not decorative)
+2. **SHOULD** use appropriate spacing for context
+3. **MUST** maintain consistent thickness
+4. **ALWAYS** use theme colors unless custom color is intentional
+5. **SHOULD** keep spacing minimal and purposeful
+6. **NEVER** use for decorative purposes only
+
+### Spacing Guidelines
+
+1. **None**: Between tightly related items
+2. **Small**: Within content groups (8px)
+3. **Medium**: Default spacing (16px)
+4. **Large**: Between major sections (24px)
+
+### Orientation
+
+1. **Horizontal**: Most common, between sections
+2. **Vertical**: Between side-by-side content
+3. **Text**: For "OR" separators
+
+### Style Selection
+
+1. **Solid**: Default, most common
+2. **Dashed**: For emphasis or temporary sections
+3. **Dotted**: For subtle separation
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ flexDirection: 'row', height: 100 }}>
-  <View style={{ flex: 1, backgroundColor: '#f0f0f0' }} />
-  <Divider orientation="vertical" />
-  <View style={{ flex: 1, backgroundColor: '#e0e0e0' }} />
-</View>
-```
-
-## Çizgi Stilleri
-
-```tsx
+// ❌ Decorative only
 <View>
-  {/* Solid (varsayılan) */}
-  <Divider lineStyle="solid" />
-
-  {/* Dashed */}
-  <Divider lineStyle="dashed" />
-
-  {/* Dotted */}
-  <Divider lineStyle="dotted" />
+  <Content />
+  <Divider /> {/* ❌ No purpose, just decorative */}
+  <MoreContent />
 </View>
-```
 
-## Metinli Ayırıcı
-
-```tsx
-<Divider text="VEYA" />
-
-<Divider text="veya devam et" />
-
-<Divider
-  text="⭐ Özellikli ⭐"
-  lineStyle="dashed"
-/>
-```
-
-## Spacing Seçenekleri
-
-```tsx
+// ❌ Too many dividers
 <View>
-  {/* None */}
-  <Divider spacing="none" />
+  <Item1 />
+  <Divider />
+  <Item2 />
+  <Divider />
+  <Item3 />
+  <Divider />
+  <Item4 />
+  {/* ❌ Too many, use spacing instead */}
+</View>
 
-  {/* Small */}
-  <Divider spacing="small" />
-
-  {/* Medium (varsayılan) */}
-  <Divider spacing="medium" />
-
-  {/* Large */}
+// ❌ Inconsistent spacing
+<View>
+  <Section1 />
   <Divider spacing="large" />
+  <Section2 />
+  <Divider spacing="none" /> {/* ❌ Inconsistent */}
+  <Section3 />
+</View>
+
+// ❌ Random colors
+<Divider color="#ff00ff" /> {/* ❌ Not theme-compliant */}
+
+// ❌ Too thick
+<Divider thickness={10} /> {/* ❌ Too heavy */}
+
+// ❌ Wrong orientation for content
+<View style={{ flexDirection: 'row' }}>
+  <Content1 />
+  <Divider /> {/* ❌ Should be vertical */}
+  <Content2 />
+</View>
+
+// ❌ Nested dividers
+<View>
+  <Divider />
+  <Divider />
+  <Divider /> {/* ❌ Multiple dividers, use spacing */}
 </View>
 ```
-
-## Custom Renk ve Kalınlık
-
-```tsx
-<Divider
-  color="#6366f1"
-  thickness={2}
-  spacing="large"
-/>
-
-<Divider
-  color="#ef4444"
-  thickness={3}
-  lineStyle="dashed"
-/>
-```
-
-## Örnek Kullanımlar
-
-### Form Bölümleri
-
-```tsx
-export const FormSections = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <View>
-        <AtomicText type="titleMedium">Kişisel Bilgiler</AtomicText>
-        <FormField label="Ad" />
-        <FormField label="Soyad" />
-      </View>
-
-      <Divider spacing="large" />
-
-      <View>
-        <AtomicText type="titleMedium">İletişim Bilgileri</AtomicText>
-        <FormField label="E-posta" />
-        <FormField label="Telefon" />
-      </View>
-
-      <Divider spacing="large" />
-
-      <View>
-        <AtomicText type="titleMedium">Adres</AtomicText>
-        <FormField label="Şehir" />
-        <FormField label="Ülke" />
-      </View>
-    </View>
-  );
-};
-```
-
-### Menü Ayırıcıları
-
-```tsx
-export const MenuDivider = () => {
-  return (
-    <View>
-      <MenuItem title="Profil" icon="person-outline" />
-      <MenuItem title="Ayarlar" icon="settings-outline" />
-      <Divider />
-      <MenuItem title="Yardım" icon="help-circle-outline" />
-      <MenuItem title="Hakkında" icon="information-circle-outline" />
-      <Divider spacing="large" />
-      <MenuItem title="Çıkış" icon="log-out-outline" variant="danger" />
-    </View>
-  );
-};
-```
-
-### Kart İçeriği
-
-```tsx
-export const CardContent = () => {
-  return (
-    <AtomicCard variant="outlined">
-      <View style={{ padding: 16 }}>
-        <AtomicText type="titleLarge">Kart Başlığı</AtomicText>
-        <AtomicText type="bodyMedium" color="secondary">
-          Alt başlık veya açıklama
-        </AtomicText>
-      </View>
-
-      <Divider />
-
-      <View style={{ padding: 16 }}>
-        <AtomicText>İçerik buraya gelir</AtomicText>
-      </View>
-
-      <Divider />
-
-      <View style={{ padding: 16, flexDirection: 'row', justifyContent: 'flex-end' }}>
-        <Button title="İptal" variant="ghost" style={{ marginRight: 8 }} />
-        <Button title="Kaydet" />
-      </View>
-    </AtomicCard>
-  );
-};
-```
-
-### OR Ayırıcı
-
-```tsx
-export const OrSeparator = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <SocialLoginButton provider="google" label="Google ile devam et" />
-
-      <Divider text="VEYA" spacing="large" />
-
-      <FormField label="E-posta" />
-      <FormField label="Şifre" secureTextEntry />
-
-      <Button title="Giriş Yap" />
-    </View>
-  );
-};
-```
-
-### Tablo Ayırıcıları
-
-```tsx
-export const TableDivider = () => {
-  return (
-    <View>
-      {/* Header */}
-      <View style={{ flexDirection: 'row', padding: 12 }}>
-        <AtomicText style={{ flex: 1, fontWeight: '600' }}>Ad</AtomicText>
-        <AtomicText style={{ flex: 1, fontWeight: '600' }}>Soyad</AtomicText>
-        <AtomicText style={{ flex: 1, fontWeight: '600' }}>E-posta</AtomicText>
-      </View>
-
-      <Divider thickness={2} />
-
-      {/* Rows */}
-      <View style={{ flexDirection: 'row', padding: 12 }}>
-        <AtomicText style={{ flex: 1 }}>Ahmet</AtomicText>
-        <AtomicText style={{ flex: 1 }}>Yılmaz</AtomicText>
-        <AtomicText style={{ flex: 1 }}>ahmet@example.com</AtomicText>
-      </View>
-
-      <Divider />
-
-      <View style={{ flexDirection: 'row', padding: 12 }}>
-        <AtomicText style={{ flex: 1 }}>Ayşe</AtomicText>
-        <AtomicText style={{ flex: 1 }}>Demir</AtomicText>
-        <AtomicText style={{ flex: 1 }}>ayse@example.com</AtomicText>
-      </View>
-    </View>
-  );
-};
-```
-
-### Timeline
-
-```tsx
-export const TimelineDivider = () => {
-  const events = [
-    { time: '09:00', title: 'Kayıt', description: 'Kayıt işlemleri' },
-    { time: '10:00', title: 'Açılış', description: 'Konferans açılışı' },
-    { time: '12:00', title: 'Öğle Arası', description: 'Yemek molası' },
-  ];
-
-  return (
-    <View style={{ padding: 16 }}>
-      {events.map((event, index) => (
-        <View key={index}>
-          <View style={{ flexDirection: 'row' }}>
-            <AtomicText style={{ width: 60 }}>{event.time}</AtomicText>
-            <View style={{ flex: 1 }}>
-              <AtomicText fontWeight="600">{event.title}</AtomicText>
-              <AtomicText type="bodySmall" color="secondary">
-                {event.description}
-              </AtomicText>
-            </View>
-          </View>
-
-          {index < events.length - 1 && (
-            <Divider
-              orientation="vertical"
-              spacing="small"
-              style={{ marginLeft: 24 }}
-            />
-          )}
-        </View>
-      ))}
-    </View>
-  );
-};
-```
-
-### Yan Yana İçerik
-
-```tsx
-export const SideBySideContent = () => {
-  return (
-    <View style={{ flexDirection: 'row', height: 200 }}>
-      <View style={{ flex: 1, padding: 16, backgroundColor: '#f0f0f0' }}>
-        <AtomicText>Sol İçerik</AtomicText>
-      </View>
-
-      <Divider orientation="vertical" thickness={2} color="#6366f1" />
-
-      <View style={{ flex: 1, padding: 16, backgroundColor: '#e0e0e0' }}>
-        <AtomicText>Sağ İçerik</AtomicText>
-      </View>
-    </View>
-  );
-};
-```
-
-### Liste Grupları
-
-```tsx
-export const ListGroups = () => {
-  const groups = [
-    {
-      title: 'Favoriler',
-      items: ['Öğe 1', 'Öğe 2', 'Öğe 3'],
-    },
-    {
-      title: 'Son Eklenenler',
-      items: ['Öğe 4', 'Öğe 5'],
-    },
-  ];
-
-  return (
-    <View>
-      {groups.map((group, groupIndex) => (
-        <View key={groupIndex}>
-          <AtomicText
-            type="labelLarge"
-            style={{ padding: 16, paddingBottom: 8 }}
-          >
-            {group.title}
-          </AtomicText>
-
-          {group.items.map((item, itemIndex) => (
-            <View key={itemIndex} style={{ padding: 16 }}>
-              <AtomicText>{item}</AtomicText>
-            </View>
-          ))}
-
-          {groupIndex < groups.length - 1 && <Divider spacing="large" />}
-        </View>
-      ))}
-    </View>
-  );
-};
-```
-
-### Ayırıcı Menü
-
-```tsx
-export const SeparatorMenu = () => {
-  return (
-    <View>
-      <Pressable style={{ padding: 16 }}>
-        <AtomicText>Düzenle</AtomicText>
-      </Pressable>
-
-      <Divider spacing="small" />
-
-      <Pressable style={{ padding: 16 }}>
-        <AtomicText>Sil</AtomicText>
-      </Pressable>
-
-      <Divider text="Diğer İşlemler" />
-
-      <Pressable style={{ padding: 16 }}>
-        <AtomicText>Paylaş</AtomicText>
-      </Pressable>
-
-      <Divider spacing="small" />
-
-      <Pressable style={{ padding: 16 }}>
-        <AtomicText>Bağlantıyı Kopyala</AtomicText>
-      </Pressable>
-    </View>
-  );
-};
-```
-
-## Props
-
-### DividerProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Ayırıcı yönü |
-| `lineStyle` | `'solid' \| 'dashed' \| 'dotted'` | `'solid'` | Çizgi stili |
-| `spacing` | `'none' \| 'small' \| 'medium' \| 'large'` | `'medium'` | Boşluk |
-| `color` | `string` | `tokens.colors.border` | Çizgi rengi |
-| `thickness` | `number` | `1` | Çizgi kalınlığı |
-| `text` | `string` | - | Metin etiketi |
-| `style` | `ViewStyle` | - | Özel stil |
 
 ## Best Practices
 
-### 1. Orientasyon Seçimi
+### Form Sections
 
+✅ **DO**:
 ```tsx
-// Form bölümleri için
-<Divider /> // horizontal ✅
+<View>
+  <View>
+    <AtomicText type="titleMedium">Personal Information</AtomicText>
+    <FormField label="First Name" />
+    <FormField label="Last Name" />
+  </View>
 
-// Yan yana içerik için
-<Divider orientation="vertical" /> // vertical ✅
+  <Divider spacing="large" />
+
+  <View>
+    <AtomicText type="titleMedium">Contact Information</AtomicText>
+    <FormField label="Email" />
+    <FormField label="Phone" />
+  </View>
+</View>
 ```
 
-### 2. Spacing Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// İçerik içinde
-<Divider spacing="small" />
+// ❌ Dividers between every field
+<FormField label="First Name" />
+<Divider /> {/* ❌ Unnecessary */}
+<FormField label="Last Name" />
+<Divider /> {/* ❌ Unnecessary */}
+<FormField label="Email" />
+```
 
-// Bölüm arası
+### List Grouping
+
+✅ **DO**:
+```tsx
+<View>
+  <AtomicText type="labelLarge">Favorites</AtomicText>
+  <ListItem title="Item 1" />
+  <ListItem title="Item 2" />
+
+  <Divider spacing="large" />
+
+  <AtomicText type="labelLarge">Recent</AtomicText>
+  <ListItem title="Item 3" />
+  <ListItem title="Item 4" />
+</View>
+```
+
+### OR Separator
+
+✅ **DO**:
+```tsx
+<View>
+  <SocialLoginButton provider="google" label="Continue with Google" />
+
+  <Divider text="OR" spacing="large" />
+
+  <FormField label="Email" />
+  <FormField label="Password" />
+  <Button title="Sign In" />
+</View>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Plain divider without context
+<SocialLoginButton provider="google" />
+<Divider /> {/* ❌ Not clear what this separates */}
+<FormField label="Email" />
+```
+
+### Spacing Consistency
+
+✅ **DO**:
+```tsx
+// ✅ Consistent spacing
+<Divider spacing="large" />
+<Divider spacing="large" />
 <Divider spacing="large" />
 ```
 
-### 3. Stil Seçimi
-
+❌ **DON'T**:
 ```tsx
-// Varsayılan
-<Divider lineStyle="solid" />
-
-    // Vurgulu
-<Divider lineStyle="dashed" thickness={2} />
+// ❌ Inconsistent spacing
+<Divider spacing="large" />
+<Divider spacing="small" />
+<Divider spacing="medium" />
 ```
 
-### 4. Renk Kullanımı
+## AI Coding Guidelines
 
+### For AI Agents
+
+When generating Divider components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { Divider } from 'react-native-design-system/src/molecules/Divider';
+   ```
+
+2. **Always have semantic purpose**:
+   ```tsx
+   // ✅ Good - separates form sections
+   <View>
+     <PersonalInfoSection />
+     <Divider spacing="large" />
+     <ContactInfoSection />
+   </View>
+
+   // ❌ Bad - decorative only
+   <View>
+     <Content />
+     <Divider /> {/* No semantic purpose */}
+     <MoreContent />
+   </View>
+   ```
+
+3. **Always use appropriate spacing**:
+   ```tsx
+   // ✅ Good - spacing by context
+   <Divider spacing="large" /> // Between major sections
+   <Divider spacing="small" /> // Within content groups
+   <Divider spacing="none" /> // Tightly related items
+
+   // ❌ Bad - random spacing
+   <Divider spacing="large" />
+   <Divider spacing="small" />
+   <Divider spacing="large" />
+   ```
+
+4. **Always use theme colors unless intentional**:
+   ```tsx
+   // ✅ Good - theme color
+   <Divider /> // Uses token.colors.border
+
+   // ✅ Good - intentional custom color for emphasis
+   <Divider color="#6366f1" />
+
+   // ❌ Bad - random custom color
+   <Divider color="#ff00ff" />
+   ```
+
+5. **Always match orientation to layout**:
+   ```tsx
+   // ✅ Good - horizontal for vertical stacks
+   <View>
+     <Content1 />
+     <Divider /> {/* Horizontal */}
+     <Content2 />
+   </View>
+
+   // ✅ Good - vertical for horizontal layouts
+   <View style={{ flexDirection: 'row' }}>
+     <Content1 />
+     <Divider orientation="vertical" /> {/* Vertical */}
+     <Content2 />
+   </View>
+
+   // ❌ Bad - wrong orientation
+   <View style={{ flexDirection: 'row' }}>
+     <Content1 />
+     <Divider /> {/* Should be vertical */}
+     <Content2 />
+   </View>
+   ```
+
+### Common Patterns
+
+#### Form Section Separator
 ```tsx
-// Theme-aware (önerilen)
-<Divider />
+<View>
+  <View>
+    <AtomicText type="titleMedium">Personal Information</AtomicText>
+    <FormField label="First Name" />
+    <FormField label="Last Name" />
+  </View>
 
-// Custom (spesifik durumlarda)
-<Divider color="#6366f1" />
+  <Divider spacing="large" />
+
+  <View>
+    <AtomicText type="titleMedium">Contact Information</AtomicText>
+    <FormField label="Email" />
+    <FormField label="Phone" />
+  </View>
+</View>
 ```
 
-## Erişilebilirlik
+#### List Group Separator
+```tsx
+<View>
+  <AtomicText type="labelLarge">Favorites</AtomicText>
+  {favorites.map(item => <ListItem key={item.id} title={item.title} />)}
 
-Divider, erişilebilirlik desteği sunar:
+  <Divider spacing="large" />
 
-- ✅ Screen reader desteği
-- ✅ Semantic role
-- ✅ Görsel ayırıcı
+  <AtomicText type="labelLarge">Recent</AtomicText>
+  {recent.map(item => <ListItem key={item.id} title={item.title} />)}
+</View>
+```
 
-## Performans İpuçları
+#### OR Separator
+```tsx
+<View>
+  <SocialLoginButton provider="google" label="Continue with Google" />
 
-1. **Simplify**: Basit tutun, fazla prop kullanmayın
-2. **Theme-aware**: Token rengi kullanın
-3. **Minimal**: Gereksiz divider'lardan kaçının
+  <Divider text="OR" spacing="large" />
 
-## İlgili Bileşenler
+  <FormField label="Email" />
+  <FormField label="Password" />
+  <Button title="Sign In" />
+</View>
+```
 
-- [`AtomicText`](../../atoms/AtomicText/README.md) - Metin bileşeni
-- [`AtomicCard`](../../atoms/AtomicCard.README.md) - Kart bileşeni
-- [`ListItem`](../ListItem.tsx) - Liste öğesi
+#### Menu Separator
+```tsx
+<View>
+  <MenuItem title="Profile" icon="person-outline" />
+  <MenuItem title="Settings" icon="settings-outline" />
 
-## Lisans
+  <Divider />
+
+  <MenuItem title="Help" icon="help-circle-outline" />
+  <MenuItem title="About" icon="information-circle-outline" />
+
+  <Divider spacing="large" />
+
+  <MenuItem title="Logout" icon="log-out-outline" variant="danger" />
+</View>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `orientation` | `'horizontal' \| 'vertical'` | No | `'horizontal'` | Divider orientation |
+| `lineStyle` | `'solid' \| 'dashed' \| 'dotted'` | No | `'solid'` | Line style |
+| `spacing` | `'none' \| 'small' \| 'medium' \| 'large'` | No | `'medium'` | Spacing around divider |
+| `color` | `string` | No | `tokens.colors.border` | Line color |
+| `thickness` | `number` | No | `1` | Line thickness |
+| `text` | `string` | No | - | Text label for text divider |
+| `style` | `ViewStyle` | No | - | Custom container style |
+
+## Accessibility
+
+- ✅ Screen reader support with semantic role
+- ✅ Visual separator announced
+- ✅ Text divider accessible
+- ✅ Sufficient color contrast
+
+## Performance Tips
+
+1. **Keep it simple**: Avoid excessive props
+2. **Theme colors**: Use default theme colors
+3. **Minimal usage**: Don't overuse dividers
+4. **Consistency**: Keep styling consistent
+
+## Related Components
+
+- [`ListItem`](../listitem/README.md) - List item component
+- [`AtomicCard`](../../atoms/AtomicCard/README.md) - Card component
+- [`AtomicText`](../../atoms/AtomicText/README.md) - Text component
+
+## License
 
 MIT

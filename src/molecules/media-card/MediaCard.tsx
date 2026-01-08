@@ -74,7 +74,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
     },
     overlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0,0,0,0.3)',
+      backgroundColor: 'rgba(0,0,0,0.5)', // Increased from 0.3 for better readability without shadows
       justifyContent:
         overlayPosition === 'center' ? 'center' : 'flex-end',
       alignItems: 'center',
@@ -89,17 +89,12 @@ export const MediaCard: React.FC<MediaCardProps> = ({
       fontSize: 14,
       fontWeight: 'bold',
       color: tokens.colors.textInverse,
-      textShadowColor: 'rgba(0,0,0,0.75)',
-      textShadowOffset: { width: 0, height: 1 },
-      textShadowRadius: 3,
       textAlign: 'center',
     },
     subtitle: {
       fontSize: 12,
-      color: tokens.colors.textSecondary,
-      textShadowColor: 'rgba(0,0,0,0.75)',
-      textShadowOffset: { width: 0, height: 1 },
-      textShadowRadius: 3,
+      color: tokens.colors.textInverse,
+      opacity: 0.8,
       textAlign: 'center',
     },
     checkCircle: {

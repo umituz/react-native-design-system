@@ -1,413 +1,376 @@
 # BottomSheet
 
-BottomSheet, ekranın altından açılan modal benzeri bir bileşendir. Filtreleme, seçim veya ekranda kalıcı aksiyonlar için idealdir.
+A modal-like component that opens from the bottom of the screen, ideal for filtering, selection, or on-screen actions.
 
-## Özellikler
-
-- 📱 **4 Preset**: Small, Medium, Large, Full
-- 🎯 **Snap Points**: Birden fazla yükseklik noktası
-- 👆 **Gesture**: Kaydırma ile kapatma
-- 🎨 **Özelleştirilebilir**: Renk ve stil
-- 🔝 **Safe Area**: Safe area desteği
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { BottomSheet } from 'react-native-design-system';
-```
-
-## Temel Kullanım
-
-```tsx
-import React, { useRef } from 'react';
-import { View, Button } from 'react-native';
-import { BottomSheet } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-
-  const openSheet = () => {
-    bottomSheetRef.current?.expand();
-  };
-
-  return (
-    <View style={{ flex: 1 }}>
-      <Button title="Bottom Sheet Aç" onPress={openSheet} />
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        preset="medium"
-      >
-        <View style={{ padding: 24 }}>
-          <AtomicText>Bottom Sheet İçeriği</AtomicText>
-        </View>
-      </BottomSheet>
-    </View>
-  );
-};
-```
-
-## Preset Yükseklikler
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Small - %35 */}
-  <BottomSheet ref={ref1} preset="small">
-    <SmallContent />
-  </BottomSheet>
-
-  {/* Medium - %60 (Varsayılan) */}
-  <BottomSheet ref={ref2} preset="medium">
-    <MediumContent />
-  </BottomSheet>
-
-  {/* Large - %85 */}
-  <BottomSheet ref={ref3} preset="large">
-    <LargeContent />
-  </BottomSheet>
-
-  {/* Full - %100 */}
-  <BottomSheet ref={ref4} preset="full">
-    <FullContent />
-  </BottomSheet>
-</View>
-```
-
-## Custom Snap Points
-
-```tsx
-<BottomSheet
-  ref={bottomSheetRef}
-  snapPoints={['25%', '50%', '75%']}
-  initialIndex={1}
->
-  <Content />
-</BottomSheet>
-```
-
-## Custom Background Color
-
-```tsx
-<BottomSheet
-  ref={bottomSheetRef}
-  backgroundColor="#f8f9fa"
->
-  <Content />
-</BottomSheet>
-```
-
-## OnChange Callback
-
-```tsx
-const [sheetIndex, setSheetIndex] = useState(-1);
-
-<BottomSheet
-  ref={bottomSheetRef}
-  onChange={(index) => setSheetIndex(index)}
->
-  <Content />
-</BottomSheet>
-```
-
-## OnClose Callback
-
-```tsx
-<BottomSheet
-  ref={bottomSheetRef}
-  onClose={() => console.log('Sheet closed')}
->
-  <Content />
-</BottomSheet>
-```
-
-## Örnek Kullanımlar
-
-### Seçim Bottom Sheet
-
-```tsx
-export const SelectionBottomSheet = ({ ref, options, onSelect }) => {
-  return (
-    <BottomSheet ref={ref} preset="small">
-      <View style={{ padding: 24 }}>
-        <AtomicText type="titleLarge" style={{ marginBottom: 16 }}>
-          Seçim Yapın
-        </AtomicText>
-
-        {options.map((option) => (
-          <Pressable
-            key={option.id}
-            style={{ padding: 16 }}
-            onPress={() => {
-              onSelect(option);
-              ref.current?.close();
-            }}
-          >
-            <AtomicText type="bodyLarge">{option.label}</AtomicText>
-          </Pressable>
-        ))}
-      </View>
-    </BottomSheet>
-  );
-};
-```
-
-### Paylaşım Bottom Sheet
-
-```tsx
-export const ShareBottomSheet = ({ ref, item, onShare }) => {
-  const shareOptions = [
-    { id: 'copy', icon: 'copy-outline', label: 'Linki Kopyala' },
-    { id: 'whatsapp', icon: 'logo-whatsapp', label: 'WhatsApp' },
-    { id: 'twitter', icon: 'logo-twitter', label: 'Twitter' },
-    { id: 'facebook', icon: 'logo-facebook', label: 'Facebook' },
-  ];
-
-  return (
-    <BottomSheet ref={ref} preset="small">
-      <View style={{ padding: 24 }}>
-        <AtomicText type="titleLarge" style={{ marginBottom: 16 }}>
-          Paylaş
-        </AtomicText>
-
-        {shareOptions.map((option) => (
-          <Pressable
-            key={option.id}
-            style={{ flexDirection: 'row', alignItems: 'center', padding: 16 }}
-            onPress={() => onShare(option.id)}
-          >
-            <AtomicIcon name={option.icon} size="lg" style={{ marginRight: 16 }} />
-            <AtomicText type="bodyLarge">{option.label}</AtomicText>
-          </Pressable>
-        ))}
-      </View>
-    </BottomSheet>
-  );
-};
-```
-
-### Filtre Bottom Sheet
-
-```tsx
-export const FilterBottomSheet = ({ ref, filters, onApply }) => {
-  const [localFilters, setLocalFilters] = useState(filters);
-
-  return (
-    <BottomSheet ref={ref} preset="large">
-      <View style={{ padding: 24 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 24 }}>
-          <AtomicText type="titleLarge">Filtrele</AtomicText>
-          <Pressable onPress={() => ref.current?.close()}>
-            <AtomicIcon name="close" size="md" />
-          </Pressable>
-        </View>
-
-        {/* Filtre seçenekleri */}
-        <FilterOptions
-          filters={localFilters}
-          onChange={setLocalFilters}
-        />
-
-        <View style={{ flexDirection: 'row', gap: 16, marginTop: 24 }}>
-          <Button
-            title="Temizle"
-            mode="outlined"
-            style={{ flex: 1 }}
-            onPress={() => setLocalFilters({})}
-          />
-          <Button
-            title="Uygula"
-            mode="contained"
-            style={{ flex: 1 }}
-            onPress={() => onApply(localFilters)}
-          />
-        </View>
-      </View>
-    </BottomSheet>
-  );
-};
-```
-
-### Ayarlar Bottom Sheet
-
-```tsx
-export const SettingsBottomSheet = ({ ref }) => {
-  return (
-    <BottomSheet ref={ref} preset="medium">
-      <View style={{ padding: 24 }}>
-        <AtomicText type="titleLarge" style={{ marginBottom: 24 }}>
-          Ayarlar
-        </AtomicText>
-
-        <SettingItem icon="notifications-outline" label="Bildirimler" />
-        <SettingItem icon="moon-outline" label="Karanlık Mod" />
-        <SettingItem icon="globe-outline" label="Dil" />
-        <SettingItem icon="information-circle-outline" label="Hakkında" />
-      </View>
-    </BottomSheet>
-  );
-};
-```
-
-### Eylem Bottom Sheet
-
-```tsx
-export const ActionBottomSheet = ({ ref, item, onAction }) => {
-  const actions = [
-    { id: 'edit', icon: 'create-outline', label: 'Düzenle', color: 'primary' },
-    { id: 'share', icon: 'share-outline', label: 'Paylaş', color: 'primary' },
-    { id: 'archive', icon: 'archive-outline', label: 'Arşivle', color: 'primary' },
-    { id: 'delete', icon: 'trash-outline', label: 'Sil', color: 'error' },
-  ];
-
-  return (
-    <BottomSheet ref={ref} preset="small">
-      <View style={{ padding: 8 }}>
-        {actions.map((action) => (
-          <Pressable
-            key={action.id}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 16,
-              borderBottomWidth: 1,
-              borderBottomColor: '#e0e0e0',
-            }}
-            onPress={() => onAction(action.id)}
-          >
-            <AtomicIcon
-              name={action.icon}
-              size="md"
-              color={action.color}
-              style={{ marginRight: 16 }}
-            />
-            <AtomicText
-              type="bodyLarge"
-              color={action.color}
-            >
-              {action.label}
-            </AtomicText>
-          </Pressable>
-        ))}
-      </View>
-    </BottomSheet>
-  );
-};
-```
-
-## Ref Methods
-
-### BottomSheetRef
+## Import & Usage
 
 ```typescript
-interface BottomSheetRef {
-  snapToIndex(index: number): void;    // Index'e git
-  snapToPosition(): void;               // En üste git
-  expand(): void;                       // Genişlet
-  collapse(): void;                     // Daralt
-  close(): void;                        // Kapat
-}
+import { BottomSheet } from 'react-native-design-system/src/molecules/bottom-sheet';
 ```
 
-### Kullanım
+**Location:** `src/molecules/bottom-sheet/BottomSheet.tsx`
+
+## Basic Usage
 
 ```tsx
-const ref = useRef<BottomSheetRef>(null);
+const bottomSheetRef = useRef<BottomSheetRef>(null);
 
-// Aç
-ref.current?.expand();
-
-// Kapat
-ref.current?.close();
-
-// Snap point'e git
-ref.current?.snapToIndex(1);
+<BottomSheet ref={bottomSheetRef} preset="medium">
+  <View style={{ padding: 24 }}>
+    <YourContent />
+  </View>
+</BottomSheet>
 ```
 
-## Props
+## Strategy
 
-### BottomSheetProps
+**Purpose**: Provide a contextual, gesture-friendly interface for mobile-first interactions from the bottom of the screen.
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `children` | `ReactNode` | - **(Zorunlu)** | Sheet içeriği |
-| `preset` | `BottomSheetPreset` | `'medium'` | Yükseklik preset'i |
-| `snapPoints` | `(number \| string)[]` | - | Custom snap points |
-| `initialIndex` | `number` | - | Başlangıç index'i |
-| `backgroundColor` | `string` | - | Arka plan rengi |
-| `onChange` | `(index: number) => void` | - | Değişiklik callback'i |
-| `onClose` | `() => void` | - | Kapatma callback'i |
+**When to Use**:
+- Filtering and sorting options
+- Selection from lists (share, actions, options)
+- Form inputs and data entry
+- Contextual actions (edit, delete, share)
+- Multi-step wizards
+- Settings panels
 
-### BottomSheetPreset
+**When NOT to Use**:
+- For critical confirmations (use BaseModal instead)
+- For simple alerts (use Alert/toast instead)
+- For dropdown menus (use Dropdown/Popover instead)
+- For side panels (use Drawer instead)
+- For desktop-first interfaces (use Modal instead)
 
-```typescript
-type BottomSheetPreset =
-  | 'small'   // %35
-  | 'medium'  // %60 (varsayılan)
-  | 'large'   // %85
-  | 'full';   // %100
+## Rules
+
+### Required
+
+1. **MUST** provide a close mechanism (ref with close() or onClose callback)
+2. **ALWAYS** use appropriate preset for content length
+3. **MUST** handle back button (Android) and escape key (desktop)
+4. **NEVER** nest bottom sheets inside bottom sheets
+5. **SHOULD** have clear title at top
+6. **MUST** respect safe area insets
+
+### Preset Selection
+
+1. **Small (35%)**: Selections, short lists, simple forms
+2. **Medium (60%)**: Forms with multiple fields, medium lists
+3. **Large (85%)**: Long forms, complex filters, long lists
+4. **Full (100%)**: Full-screen content, complex wizards
+
+### Dismiss Behavior
+
+1. **Default**: Swipe down enabled
+2. **Critical actions**: Consider disabling swipe, require explicit action
+3. **Always provide close button** (don't rely only on swipe)
+
+### Content Guidelines
+
+1. **Scrollable content**: Use ScrollView for long content
+2. **Actions at bottom**: Place primary actions at bottom
+3. **Handle at top**: Optional visual drag handle
+
+## Forbidden
+
+❌ **NEVER** do these:
+
+```tsx
+// ❌ No close mechanism
+<BottomSheet ref={ref}>
+  <Content />
+</BottomSheet>
+
+// ❌ Nested bottom sheets
+<BottomSheet ref={ref1}>
+  <Content />
+  <BottomSheet ref={ref2}>
+    <NestedContent />
+  </BottomSheet>
+</BottomSheet>
+
+// ❌ Wrong preset choice
+<BottomSheet ref={ref} preset="full">
+  {/* ❌ Use small for simple selection */}
+  <Text>Select option</Text>
+</BottomSheet>
+
+// ❌ No title (accessibility issue)
+<BottomSheet ref={ref} onClose={onClose}>
+  <Content /> {/* ❌ Missing title */}
+</BottomSheet>
+
+// ❌ Hardcoded height without scroll
+<BottomSheet ref={ref} preset="small">
+  <View style={{ height: 1000 }}>
+    {/* ❌ Content too long, won't scroll */}
+    <LongContent />
+  </View>
+</BottomSheet>
+
+// ❌ Actions at top (bad UX)
+<BottomSheet ref={ref}>
+  <View style={{ padding: 16 }}>
+    <Button title="Save" /> {/* ❌ Should be at bottom */}
+  </View>
+  <Content />
+</BottomSheet>
 ```
 
 ## Best Practices
 
-### 1. Preset Seçimi
+### Selection Sheet
 
+✅ **DO**:
 ```tsx
-// Kısa içerik için
-<BottomSheet preset="small" />
-
-// Orta içerik için
-<BottomSheet preset="medium" />
-
-// Uzun içerik için
-<BottomSheet preset="large" />
-
-// Tam ekran için
-<BottomSheet preset="full" />
+<BottomSheet ref={ref} preset="small">
+  <View style={{ padding: 24 }}>
+    <AtomicText type="titleLarge" style={{ marginBottom: 16 }}>
+      Select Option
+    </AtomicText>
+    {options.map((option) => (
+      <Pressable
+        key={option.id}
+        style={{ padding: 16 }}
+        onPress={() => {
+          onSelect(option);
+          ref.current?.close();
+        }}
+      >
+        <AtomicText type="bodyLarge">{option.label}</AtomicText>
+      </Pressable>
+    ))}
+  </View>
+</BottomSheet>
 ```
 
-### 2. Snap Points
-
+❌ **DON'T**:
 ```tsx
-// Birden fazla nokta
-<BottomSheet
-  snapPoints={['25%', '50%', '75%']}
-  initialIndex={1}
-/>
+// ❌ No close after selection
+<BottomSheet ref={ref} preset="small">
+  {options.map((option) => (
+    <Pressable onPress={() => onSelect(option)}>
+      <AtomicText>{option.label}</AtomicText>
+    </Pressable>
+  ))}
+</BottomSheet>
 ```
 
-### 3. Kapatma
+### Filter Sheet
 
+✅ **DO**:
 ```tsx
-// Manuel kapatma
-ref.current?.close();
+<BottomSheet ref={ref} preset="large">
+  <View style={{ padding: 24 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <AtomicText type="titleLarge">Filter</AtomicText>
+      <Pressable onPress={() => ref.current?.close()}>
+        <AtomicIcon name="close" />
+      </Pressable>
+    </View>
 
-// Overlay tıklama ile otomatik
-<BottomSheet onClose={handleClose} />
+    <ScrollView style={{ marginTop: 16 }}>
+      <FilterOptions filters={filters} onChange={setFilters} />
+    </ScrollView>
+
+    <View style={{ flexDirection: 'row', gap: 16, marginTop: 24 }}>
+      <Button title="Clear" variant="ghost" style={{ flex: 1 }} onPress={handleClear} />
+      <Button title="Apply" style={{ flex: 1 }} onPress={handleApply} />
+    </View>
+  </View>
+</BottomSheet>
 ```
 
-## Erişilebilirlik
+### Preset Choice
 
-BottomSheet, tam erişilebilirlik desteği sunar:
+✅ **DO**:
+- Small: Simple selections (3-5 items)
+- Medium: Forms with 3-5 fields
+- Large: Long forms, complex filters
+- Full: Multi-step wizards, complex content
 
-- ✅ Screen reader desteği
-- ✅ Touch uygun boyut
-- ✅ Escape key (web)
-- ✅ Focus trap
-- ✅ Accessibility label
+❌ **DON'T**:
+- Use full preset for simple selection
+- Use small preset for long forms
+- Use same preset for all use cases
 
-## Performans İpuçları
+## AI Coding Guidelines
 
-1. **Lazy Loading**: İçeriği lazy load edin
-2. **Unmount**: Kapatıldığında unmount edin
-3. **Memoization**: İçeriği memo edin
+### For AI Agents
 
-## İlgili Bileşenler
+When generating BottomSheet components, follow these rules:
 
-- [`BaseModal`](../BaseModal/README.md) - Modal bileşeni
-- [`FilterBottomSheet`](./FilterBottomSheet/README.md) - Filtre sheet'i
-- [`AtomicButton`](../../atoms/button/README.md) - Buton bileşeni
+1. **Always import from correct path**:
+   ```typescript
+   import { BottomSheet } from 'react-native-design-system/src/molecules/bottom-sheet';
+   ```
 
-## Lisans
+2. **Always provide ref and close mechanism**:
+   ```tsx
+   const ref = useRef<BottomSheetRef>(null);
+
+   <BottomSheet ref={ref} onClose={handleClose}>
+     {content}
+   </BottomSheet>
+   ```
+
+3. **Always choose appropriate preset**:
+   ```tsx
+   // ✅ Good - preset by content type
+   const getPreset = (type: 'selection' | 'form' | 'filter') => {
+     switch (type) {
+       case 'selection': return 'small';
+       case 'form': return 'medium';
+       case 'filter': return 'large';
+       default: return 'medium';
+     }
+   };
+   ```
+
+4. **Always handle close actions**:
+   ```tsx
+   // ✅ Good - close after action
+   const handleSelect = (option) => {
+     onSelect(option);
+     ref.current?.close();
+   };
+
+   // ❌ Bad - no close
+   const handleSelect = (option) => {
+     onSelect(option);
+     // Sheet stays open
+   };
+   ```
+
+5. **Always use ScrollView for long content**:
+   ```tsx
+   // ✅ Good - scrollable content
+   <BottomSheet ref={ref} preset="medium">
+     <View style={{ padding: 24 }}>
+       <AtomicText type="titleLarge">Title</AtomicText>
+       <ScrollView style={{ marginTop: 16 }}>
+         <LongFormContent />
+       </ScrollView>
+       <View style={{ marginTop: 24 }}>
+         <Button title="Save" onPress={handleSave} />
+       </View>
+     </View>
+   </BottomSheet>
+   ```
+
+### Common Patterns
+
+#### Selection Bottom Sheet
+```tsx
+<BottomSheet ref={ref} preset="small">
+  <View style={{ padding: 24 }}>
+    <AtomicText type="titleLarge">Select Option</AtomicText>
+    <ScrollView style={{ marginTop: 16 }}>
+      {options.map((option) => (
+        <Pressable
+          key={option.id}
+          style={{ padding: 16 }}
+          onPress={() => {
+            onSelect(option);
+            ref.current?.close();
+          }}
+        >
+          <AtomicText>{option.label}</AtomicText>
+        </Pressable>
+      ))}
+    </ScrollView>
+  </View>
+</BottomSheet>
+```
+
+#### Filter Bottom Sheet
+```tsx
+<BottomSheet ref={ref} preset="large">
+  <View style={{ padding: 24 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
+      <AtomicText type="titleLarge">Filter</AtomicText>
+      <Pressable onPress={() => ref.current?.close()}>
+        <AtomicIcon name="close" size="md" />
+      </Pressable>
+    </View>
+
+    <ScrollView>
+      <FilterOptions filters={filters} onChange={setFilters} />
+    </ScrollView>
+
+    <View style={{ flexDirection: 'row', gap: 12, marginTop: 24 }}>
+      <Button title="Clear" variant="ghost" style={{ flex: 1 }} onPress={handleClear} />
+      <Button title="Apply" style={{ flex: 1 }} onPress={handleApply} />
+    </View>
+  </View>
+</BottomSheet>
+```
+
+#### Share Bottom Sheet
+```tsx
+<BottomSheet ref={ref} preset="small">
+  <View style={{ padding: 24 }}>
+    <AtomicText type="titleLarge" style={{ marginBottom: 16 }}>
+      Share
+    </AtomicText>
+    {shareOptions.map((option) => (
+      <Pressable
+        key={option.id}
+        style={{ flexDirection: 'row', alignItems: 'center', padding: 16 }}
+        onPress={() => {
+          onShare(option.id);
+          ref.current?.close();
+        }}
+      >
+        <AtomicIcon name={option.icon} size="lg" style={{ marginRight: 16 }} />
+        <AtomicText type="bodyLarge">{option.label}</AtomicText>
+      </Pressable>
+    ))}
+  </View>
+</BottomSheet>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `ref` | `BottomSheetRef` | Yes | - | Sheet ref for control |
+| `children` | `ReactNode` | Yes | - | Sheet content |
+| `preset` | `'small' \| 'medium' \| 'large' \| 'full'` | No | `'medium'` | Height preset |
+| `snapPoints` | `(number \| string)[]` | No | - | Custom snap points |
+| `initialIndex` | `number` | No | - | Initial snap index |
+| `backgroundColor` | `string` | No | - | Background color |
+| `onChange` | `(index: number) => void` | No | - | Index change callback |
+| `onClose` | `() => void` | No | - | Close callback |
+
+### Ref Methods
+
+- `expand()`: Open sheet
+- `close()`: Close sheet
+- `snapToIndex(index)`: Go to snap point
+
+## Accessibility
+
+- ✅ Screen reader announces sheet title and content
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Escape key handling (desktop)
+- ✅ Focus trap within sheet
+- ✅ Swipe gesture for dismiss
+- ✅ Back button handling (mobile)
+
+## Performance Tips
+
+1. **Lazy loading**: Load content only when sheet opens
+2. **Memoization**: Memo sheet content to prevent re-renders
+3. **Unmount**: Consider unmounting when closed for heavy content
+4. **ScrollView**: Always use ScrollView for long lists
+
+## Related Components
+
+- [`BaseModal`](../BaseModal/README.md) - Modal component for critical actions
+- [`FormField`](../FormField/README.md) - Form field component
+- [`Button`](../../atoms/button/README.md) - Button component
+
+## License
 
 MIT

@@ -1,533 +1,435 @@
 # SearchBar
 
-SearchBar, React Native için modern ve özelleştirilebilir bir arama çubuğu bileşenidir. Material Design prensiplerine uygun olarak tasarlanmıştır.
+A modern and customizable search input component for React Native with built-in loading state, clear button, and theme support.
 
-## Özellikler
+## Import & Usage
 
-- 🔍 **Arama İkonu**: Sol tarafta arama ikonu
-- ❌ **Clear Button**: Sağ tarafta temizleme butonu
-- ⏳ **Loading State**: Yükleme göstergesi
-- 🎨 **Tema Bilinci**: Tam tema entegrasyonu
-- ⌨️ **Klavye Desteği**: Return key olarak "search"
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { SearchBar } from 'react-native-design-system';
+```typescript
+import { SearchBar } from 'react-native-design-system/src/molecules/SearchBar';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/SearchBar/SearchBar.tsx`
+
+## Basic Usage
 
 ```tsx
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { SearchBar } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <SearchBar
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder="Ara..."
-      />
-    </View>
-  );
-};
-```
-
-## Basic Search
-
-```tsx
-const [query, setQuery] = useState('');
-
-<SearchBar
-  value={query}
-  onChangeText={setQuery}
-  placeholder="Ürün ara..."
-/>
-```
-
-## With Submit Handler
-
-```tsx
-const handleSearch = () => {
-  console.log('Searching for:', query);
-  // Arama yap
-};
-
-<SearchBar
-  value={query}
-  onChangeText={setQuery}
-  onSubmit={handleSearch}
-  placeholder="Ara..."
-  returnKeyType="search"
-/>
-```
-
-## Loading State
-
-```tsx
-const [isSearching, setIsSearching] = useState(false);
-
-const handleSearch = async () => {
-  setIsSearching(true);
-  await performSearch(query);
-  setIsSearching(false);
-};
-
-<SearchBar
-  value={query}
-  onChangeText={setQuery}
-  onSubmit={handleSearch}
-  loading={isSearching}
-  placeholder="Ara..."
-/>
-```
-
-## With Clear Handler
-
-```tsx
-const handleClear = () => {
-  setSearchQuery('');
-  // Ek işlemler (örn: sonuçları sıfırla)
-};
+const [searchQuery, setSearchQuery] = useState('');
 
 <SearchBar
   value={searchQuery}
   onChangeText={setSearchQuery}
-  onClear={handleClear}
-  placeholder="Ara..."
+  placeholder="Search..."
 />
 ```
 
-## Disabled State
+## Strategy
+
+**Purpose**: Provide a consistent, accessible, and performant search interface for filtering and finding content.
+
+**When to Use**:
+- Searching through lists or datasets
+- Filtering content by keywords
+- Finding specific items (users, products, posts)
+- Global search across multiple content types
+- Autocomplete and suggestion inputs
+
+**When NOT to Use**:
+- For simple filtering (use Filter controls instead)
+- For form inputs (use FormField instead)
+- For single-choice selection (use Dropdown/Select instead)
+- For URL navigation (use navigation components instead)
+
+## Rules
+
+### Required
+
+1. **MUST** have `value` and `onChangeText` props
+2. **ALWAYS** provide meaningful placeholder text
+3. **MUST** debounce search input (500ms recommended)
+4. **SHOULD** require minimum query length (2-3 chars)
+5. **ALWAYS** show loading state during search
+6. **MUST** handle empty results gracefully
+7. **SHOULD** provide clear button when input has value
+
+### Debouncing
+
+1. **MUST** debounce search input to avoid excessive API calls
+2. **Recommended delay**: 500ms
+3. **MUST** cancel pending requests on new input
+4. **ALWAYS** cleanup debounced timers
+
+### Minimum Query Length
+
+1. **Recommended**: 2-3 characters minimum
+2. **MUST** show feedback if query too short
+3. **SHOULD** not search with 1 character (too many results)
+4. **MUST** handle empty query (clear results)
+
+### Loading State
+
+1. **MUST** show loading indicator during search
+2. **SHOULD** disable input during search if needed
+3. **MUST** handle search errors gracefully
+4. **ALWAYS** reset loading state after search completes
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ No debouncing
 <SearchBar
   value={query}
-  onChangeText={setQuery}
-  disabled
-  placeholder="Arama devre dışı..."
-/>
-```
-
-## Auto Focus
-
-```tsx
-<SearchBar
-  value={query}
-  onChangeText={setQuery}
-  autoFocus
-  placeholder="Ara..."
-/>
-```
-
-## Örnek Kullanımlar
-
-### Ürün Arama
-
-```tsx
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Pressable, Text } from 'react-native';
-import { SearchBar } from 'react-native-design-system';
-
-export const ProductSearch = () => {
-  const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-
-  const handleSearch = async () => {
-    if (!query.trim()) return;
-
-    setLoading(true);
-    try {
-      const response = await fetchProducts(query);
-      setResults(response);
-    } catch (error) {
-      console.error('Search error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleClear = () => {
-    setQuery('');
-    setResults([]);
-  };
-
-  return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <SearchBar
-        value={query}
-        onChangeText={setQuery}
-        onSubmit={handleSearch}
-        onClear={handleClear}
-        loading={loading}
-        placeholder="Ürün ara..."
-      />
-
-      <FlatList
-        data={results}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Pressable style={{ padding: 16, borderBottomWidth: 1 }}>
-            <Text>{item.name}</Text>
-          </Pressable>
-        )}
-      />
-    </View>
-  );
-};
-```
-
-### Kullanıcı Arama
-
-```tsx
-export const UserSearch = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (searchQuery.length > 2) {
-      searchUsers(searchQuery);
-    } else {
-      setUsers([]);
-    }
-  }, [searchQuery]);
-
-  const searchUsers = async (query) => {
-    setLoading(true);
-    const results = await fetchUsers(query);
-    setUsers(results);
-    setLoading(false);
-  };
-
-  return (
-    <View style={{ padding: 16 }}>
-      <SearchBar
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        loading={loading}
-        placeholder="Kullanıcı ara..."
-      />
-
-      {users.map((user) => (
-        <View key={user.id} style={{ padding: 16 }}>
-          <Text>{user.name}</Text>
-        </View>
-      ))}
-    </View>
-  );
-};
-```
-
-### Filtreleme ile Arama
-
-```tsx
-export const FilterableSearch = () => {
-  const [query, setQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
-
-  const handleSearch = () => {
-    // Seçili filtreye göre arama
-    console.log(`Searching for "${query}" in ${selectedFilter}`);
-  };
-
-  return (
-    <View style={{ padding: 16 }}>
-      <SearchBar
-        value={query}
-        onChangeText={setQuery}
-        onSubmit={handleSearch}
-        placeholder={`${selectedFilter === 'all' ? 'Tümü' : selectedFilter} ara...`}
-      />
-
-      {/* Filtre seçimi */}
-      <View style={{ flexDirection: 'row', marginTop: 16, gap: 8 }}>
-        <Pressable onPress={() => setSelectedFilter('all')}>
-          <Text>Tümü</Text>
-        </Pressable>
-        <Pressable onPress={() => setSelectedFilter('users')}>
-          <Text>Kullanıcılar</Text>
-        </Pressable>
-        <Pressable onPress={() => setSelectedFilter('products')}>
-          <Text>Ürünler</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
-};
-```
-
-### Debounce ile Arama
-
-```tsx
-import { useCallback, useEffect } from 'react';
-
-export const DebouncedSearch = () => {
-  const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  // Debounce
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  // Arama
-  useEffect(() => {
-    if (debouncedQuery) {
-      performSearch(debouncedQuery);
-    }
-  }, [debouncedQuery]);
-
-  const performSearch = async (searchQuery) => {
-    setLoading(true);
-    await fetch(`/api/search?q=${searchQuery}`);
-    setLoading(false);
-  };
-
-  return (
-    <View style={{ padding: 16 }}>
-      <SearchBar
-        value={query}
-        onChangeText={setQuery}
-        loading={loading}
-        placeholder="Ara..."
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### SearchBarProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `value` | `string` | - **(Zorunlu)** | Arama sorgusu |
-| `onChangeText` | `(text: string) => void` | - **(Zorunlu)** | Değişiklik olayı |
-| `onSubmit` | `() => void` | - | Submit olayı |
-| `onClear` | `() => void` | - | Temizleme olayı |
-| `onFocus` | `() => void` | - | Focus olayı |
-| `onBlur` | `() => void` | - | Blur olayı |
-| `placeholder` | `string` | `'Search...'` | Placeholder metni |
-| `autoFocus` | `boolean` | `false` | Otomatik odak |
-| `loading` | `boolean` | `false` | Yükleme durumu |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `containerStyle` | `ViewStyle` | - | Container stil |
-| `inputStyle` | `TextStyle` | - | Input stil |
-| `testID` | `string` | - | Test ID'si |
-
-## Stil Özelleştirme
-
-```tsx
-<SearchBar
-  value={query}
-  onChangeText={setQuery}
-  containerStyle={{
-    backgroundColor: '#f5f5f5',
-    borderWidth: 2,
-    borderColor: '#e0e0e0',
+  onChangeText={(text) => {
+    setQuery(text);
+    searchAPI(text); // ❌ API call on every keystroke
   }}
-  inputStyle={{
-    fontSize: 16,
-    fontWeight: '500',
+/>
+
+// ❌ No minimum length check
+<SearchBar
+  value={query}
+  onChangeText={(text) => {
+    if (text.length > 0) { // ❌ Searches with 1 character
+      performSearch(text);
+    }
   }}
+/>
+
+// ❌ No loading state
+<SearchBar
+  value={query}
+  onChangeText={handleSearch}
+  // ❌ No loading indicator
+/>
+
+// ❌ Not handling empty results
+const results = await searchAPI(query);
+setResults(results); // ❌ Could be empty array
+
+// ❌ Not clearing results
+const handleClear = () => {
+  setQuery('');
+  // ❌ Results still showing
+};
+
+// ❌ No error handling
+const handleSearch = async (query) => {
+  setLoading(true);
+  const results = await searchAPI(query); // ❌ No try/catch
+  setResults(results);
+  setLoading(false);
+};
+
+// ❌ Auto-focus without context
+<SearchBar
+  value={query}
+  onChangeText={setQuery}
+  autoFocus // ❌ Auto-focuses on every render
 />
 ```
 
 ## Best Practices
 
-### 1. Debounce Kullanımı
+### Debounced Search
 
+✅ **DO**:
 ```tsx
-// API çağrılarını azaltmak için debounce kullanın
+const [query, setQuery] = useState('');
+
+// Debounce search input
 useEffect(() => {
   const timer = setTimeout(() => {
-    if (query.length > 2) {
+    if (query.length >= 2) {
       performSearch(query);
     }
   }, 500);
 
   return () => clearTimeout(timer);
 }, [query]);
-```
 
-### 2. Minimum Karakter
-
-```tsx
-// En az 3 karakter sonra ara
-useEffect(() => {
-  if (query.length > 2) {
-    performSearch(query);
-  } else {
-    setResults([]);
-  }
-}, [query]);
-```
-
-### 3. Loading State
-
-```tsx
-// Kullanıcıya geri bildirim verin
 <SearchBar
   value={query}
   onChangeText={setQuery}
-  loading={isSearching}
-  onSubmit={handleSearch}
+  placeholder="Search..."
 />
 ```
 
-### 4. Clear Handler
-
+❌ **DON'T**:
 ```tsx
-// Temizleme ile sonuçları sıfırlayın
+// ❌ No debouncing
+<SearchBar
+  value={query}
+  onChangeText={(text) => {
+    setQuery(text);
+    performSearch(text); // API call on every keystroke
+  }}
+/>
+```
+
+### Minimum Query Length
+
+✅ **DO**:
+```tsx
+const handleSearch = (text) => {
+  if (text.length < 2) {
+    setResults([]);
+    return;
+  }
+  performSearch(text);
+};
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Searches with 1 character
+const handleSearch = (text) => {
+  if (text.length > 0) {
+    performSearch(text); // Too many results
+  }
+};
+```
+
+### Clear Handler
+
+✅ **DO**:
+```tsx
 const handleClear = () => {
   setQuery('');
   setResults([]);
-  setFilters({});
+  onClear?.();
 };
+
+<SearchBar
+  value={query}
+  onChangeText={setQuery}
+  onClear={handleClear}
+/>
 ```
 
-## Erişilebilirlik
-
-SearchBar, tam erişilebilirlik desteği sunar:
-
-- ✅ Screen reader desteği
-- ✅ Accessibility label
-- ✅ Touch uygun boyut
-- ✅ Keyboard navigation
-- ✅ Test ID desteği
-
-## Performans İpuçları
-
-1. **Debouncing**: API çağrılarını azaltın
-2. **Minimum Length**: Gereksiz aramaları önleyin
-3. **Cancellation**: Async işlemleri iptal edin
-4. **Memoization**: Sonuçları memoize edin
-
-## İlgili Bileşenler
-
-- [`AtomicInput`](../../atoms/input/README.md) - Input bileşeni
-- [`BaseModal`](../BaseModal/README.md) - Modal arama sonuçları
-- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - İkon bileşeni
-
-## Örnek Proje
-
+❌ **DON'T**:
 ```tsx
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Pressable, Text, Image } from 'react-native';
-import { SearchBar } from 'react-native-design-system';
-
-export const AdvancedSearch = () => {
-  const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-  const [history, setHistory] = useState([]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (query.length > 2) {
-        performSearch(query);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  const performSearch = async (searchQuery) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/search?q=${searchQuery}`);
-      const data = await response.json();
-      setResults(data);
-
-      // Geçmişe ekle
-      setHistory(prev => [searchQuery, ...prev.slice(0, 9)]);
-    } catch (error) {
-      console.error('Search error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleClear = () => {
-    setQuery('');
-    setResults([]);
-  };
-
-  return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <SearchBar
-        value={query}
-        onChangeText={setQuery}
-        onClear={handleClear}
-        loading={loading}
-        placeholder="Ara..."
-      />
-
-      {/* Arama Geçmişi */}
-      {query.length === 0 && history.length > 0 && (
-        <View style={{ marginTop: 16 }}>
-          <Text style={{ marginBottom: 8, fontWeight: '600' }}>
-            Son Aramalar
-          </Text>
-          {history.map((item, index) => (
-            <Pressable
-              key={index}
-              onPress={() => setQuery(item)}
-              style={{ padding: 12 }}
-            >
-              <Text>{item}</Text>
-            </Pressable>
-          ))}
-        </View>
-      )}
-
-      {/* Arama Sonuçları */}
-      <FlatList
-        data={results}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Pressable
-            style={{
-              flexDirection: 'row',
-              padding: 16,
-              borderBottomWidth: 1,
-              borderBottomColor: '#e0e0e0',
-            }}
-          >
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 50, height: 50, borderRadius: 8 }}
-            />
-            <View style={{ marginLeft: 12, flex: 1 }}>
-              <Text style={{ fontSize: 16, fontWeight: '600' }}>
-                {item.title}
-              </Text>
-              <Text style={{ color: 'gray', marginTop: 4 }}>
-                {item.description}
-              </Text>
-            </View>
-          </Pressable>
-        )}
-      />
-    </View>
-  );
+// ❌ Doesn't clear results
+const handleClear = () => {
+  setQuery('');
+  // Results still showing
 };
 ```
 
-## Lisans
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating SearchBar components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { SearchBar } from 'react-native-design-system/src/molecules/SearchBar';
+   ```
+
+2. **Always debounce search input**:
+   ```tsx
+   // ✅ Good - debounced search
+   useEffect(() => {
+     const timer = setTimeout(() => {
+       if (query.length >= 2) {
+         performSearch(query);
+       }
+     }, 500);
+
+     return () => clearTimeout(timer);
+   }, [query]);
+
+   // ❌ Bad - no debouncing
+   const handleChange = (text) => {
+     setQuery(text);
+     performSearch(text); // API call on every keystroke
+   };
+   ```
+
+3. **Always require minimum query length**:
+   ```tsx
+   // ✅ Good - minimum length check
+   if (query.length < 2) {
+     setResults([]);
+     return;
+   }
+
+   // ❌ Bad - searches immediately
+   if (query.length > 0) {
+     performSearch(query);
+   }
+   ```
+
+4. **Always show loading state**:
+   ```tsx
+   // ✅ Good - loading state
+   const [loading, setLoading] = useState(false);
+
+   const handleSearch = async (query) => {
+     if (query.length < 2) return;
+
+     setLoading(true);
+     try {
+       const results = await searchAPI(query);
+       setResults(results);
+     } catch (error) {
+       console.error('Search failed:', error);
+     } finally {
+       setLoading(false);
+     }
+   };
+
+   <SearchBar
+     value={query}
+     onChangeText={setQuery}
+     loading={loading}
+   />;
+
+   // ❌ Bad - no loading state
+   const handleSearch = async (query) => {
+     const results = await searchAPI(query);
+     setResults(results);
+   };
+   ```
+
+5. **Always handle clear properly**:
+   ```tsx
+   // ✅ Good - clears everything
+   const handleClear = () => {
+     setQuery('');
+     setResults([]);
+     setError(null);
+   };
+
+   // ❌ Bad - only clears input
+   const handleClear = () => {
+     setQuery('');
+     // Results still showing
+   };
+   ```
+
+### Common Patterns
+
+#### Basic Search
+```tsx
+const [query, setQuery] = useState('');
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (query.length >= 2) {
+      performSearch(query);
+    }
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [query]);
+
+<SearchBar
+  value={query}
+  onChangeText={setQuery}
+  placeholder="Search..."
+/>
+```
+
+#### Search with Loading
+```tsx
+const [query, setQuery] = useState('');
+const [loading, setLoading] = useState(false);
+
+const handleSearch = async (text) => {
+  setQuery(text);
+
+  if (text.length < 2) {
+    setResults([]);
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const results = await searchAPI(text);
+    setResults(results);
+  } finally {
+    setLoading(false);
+  }
+};
+
+<SearchBar
+  value={query}
+  onChangeText={handleSearch}
+  loading={loading}
+  placeholder="Search..."
+/>
+```
+
+#### Search with Clear Handler
+```tsx
+const [query, setQuery] = useState('');
+const [results, setResults] = useState([]);
+
+const handleClear = () => {
+  setQuery('');
+  setResults([]);
+};
+
+<SearchBar
+  value={query}
+  onChangeText={setQuery}
+  onClear={handleClear}
+  placeholder="Search..."
+/>
+```
+
+#### Auto-Focus Search
+```tsx
+<SearchBar
+  value={query}
+  onChangeText={setQuery}
+  autoFocus
+  placeholder="Search..."
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `value` | `string` | Yes | - | Search query value |
+| `onChangeText` | `(text: string) => void` | Yes | - | Change callback |
+| `placeholder` | `string` | No | `'Search...'` | Placeholder text |
+| `onSubmit` | `() => void` | No | - | Submit callback |
+| `onClear` | `() => void` | No | - | Clear callback |
+| `onFocus` | `() => void` | No | - | Focus callback |
+| `onBlur` | `() => void` | No | - | Blur callback |
+| `autoFocus` | `boolean` | No | `false` | Auto focus input |
+| `loading` | `boolean` | No | `false` | Show loading indicator |
+| `disabled` | `boolean` | No | `false` | Disable input |
+| `containerStyle` | `ViewStyle` | No | - | Custom container style |
+| `inputStyle` | `TextStyle` | No | - | Custom input style |
+
+## Accessibility
+
+- ✅ Screen reader announces search input and placeholder
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Keyboard navigation (web)
+- ✅ Focus management
+- ✅ Semantic search role
+- ✅ Loading state announced to screen readers
+
+## Performance Tips
+
+1. **Debounce**: Always debounce with 500ms delay
+2. **Minimum length**: Require 2-3 characters minimum
+3. **Cancel requests**: Cancel pending requests on new input
+4. **Memo results**: Memo search results to prevent re-renders
+5. **Virtualization**: Use FlatList for large result sets
+
+## Related Components
+
+- [`FormField`](../FormField/README.md) - Form field component
+- [`ListItem`](../ListItem/README.md) - List item for search results
+- [`Button`](../../atoms/button/README.md) - Button component
+
+## License
 
 MIT

@@ -1,402 +1,407 @@
 # ListItem
 
-ListItem, liste elemanlarını göstermek için basit ve özelleştirilebilir bir molekül bileşenidir.
+A versatile list item component with title, subtitle, and optional icons for menus, settings, and navigation lists.
 
-## Özellikler
+## Import & Usage
 
-- 📝 **Title & Subtitle**: Ana başlık ve alt başlık desteği
-- 🎭 **İkon Desteği**: Sol ve sağ ikonlar
-- 👆 **Pressable**: Tıklanabilir öğeler
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-- 🎨 **Tema Bilinci**: Otomatik tema uyumu
-
-## Kurulum
-
-```tsx
-import { ListItem } from 'react-native-design-system';
+```typescript
+import { ListItem } from 'react-native-design-system/src/molecules/listitem';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/listitem/ListItem.tsx`
 
-```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { ListItem } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View>
-      <ListItem
-        title="Başlık"
-        subtitle="Alt başlık"
-      />
-    </View>
-  );
-};
-```
-
-## Basic Item
+## Basic Usage
 
 ```tsx
 <ListItem
-  title="Öğe Başlığı"
-/>
-```
-
-## Subtitle ile
-
-```tsx
-<ListItem
-  title="Başlık"
-  subtitle="Bu bir alt başlıktır"
-/>
-```
-
-## İkonlu
-
-```tsx
-<ListItem
-  title="Ayarlar"
-  subtitle="Uygulama ayarlarını yönetin"
+  title="Settings"
+  subtitle="Configure your preferences"
   leftIcon="settings-outline"
-  rightIcon="chevron-forward"
-  onPress={() => console.log('Ayarlar')}
+  rightIcon="chevron-forward-outline"
+  onPress={() => navigateTo('Settings')}
 />
 ```
 
-## Pressable
+## Strategy
+
+**Purpose**: Provide a consistent, accessible list item component for navigation, settings, and content display.
+
+**When to Use**:
+- Navigation menus and drawers
+- Settings pages
+- User lists and contacts
+- File/item listings
+- Action menus (edit, share, delete)
+- Selection lists (radio buttons, checkboxes)
+
+**When NOT to Use**:
+- For card-based content (use AtomicCard instead)
+- For complex row layouts (use custom View instead)
+- For table data (use Table component instead)
+- For simple dividers (use Divider instead)
+
+## Rules
+
+### Required
+
+1. **MUST** have a `title` prop
+2. **ALWAYS** provide `onPress` when item is interactive
+3. **SHOULD** have descriptive icons (leftIcon for context, rightIcon for navigation)
+4. **MUST** have proper touch feedback when pressable
+5. **SHOULD** keep subtitles concise (1 line max recommended)
+6. **ALWAYS** use unique `key` props when rendering lists
+7. **MUST** respect disabled state (no feedback)
+
+### Icon Usage
+
+1. **Left icon**: Use for context/category (settings, profile, notifications)
+2. **Right icon**: Use for navigation indication (chevron, checkmark)
+3. **Consistency**: Use same icon style within list
+4. **Size**: Use appropriate icon size (md recommended)
+
+### Press Behavior
+
+1. **Must have onPress**: Always provide when using rightIcon for navigation
+2. **Visual feedback**: Show press effect
+3. **Disabled state**: No press effect when disabled
+4. **Action delay**: Add confirmation for destructive actions
+
+### Content Guidelines
+
+1. **Title**: Clear, concise (1-2 words recommended)
+2. **Subtitle**: Additional context, max 1 line
+3. **Truncation**: Titles should not wrap awkwardly
+4. **Grouping**: Use dividers or section headers for groups
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ No title
 <ListItem
-  title="Profil"
-  subtitle="Profil bilgilerinizi görüntüleyin"
-  leftIcon="person-outline"
-  rightIcon="chevron-forward"
-  onPress={() => navigation.navigate('Profile')}
+  // Missing title prop
+  subtitle="No title"
 />
-```
 
-## Disabled
-
-```tsx
+// ❌ Right icon without press handler
 <ListItem
-  title="Devre Dışı Öğe"
-  subtitle="Bu öğe tıklanamaz"
-  leftIcon="lock-closed-outline"
+  title="Settings"
+  rightIcon="chevron-forward-outline" // ❌ Indicates navigation
+  // Missing onPress
+/>
+
+// ❌ Generic icons
+<ListItem
+  title="Settings"
+  leftIcon="ellipse-outline" // ❌ Not descriptive
+/>
+
+// ❌ Too long subtitle
+<ListItem
+  title="User"
+  subtitle="Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore" // ❌ Too long
+/>
+
+// ❌ Destructive action without confirmation
+<ListItem
+  title="Delete Account"
+  leftIcon="trash-outline"
+  onPress={() => deleteAccount()} // ❌ No confirmation
+/>
+
+// ❌ Missing keys in lists
+{items.map((item) => (
+  <ListItem
+    title={item.title} // ❌ No key prop
+  />
+))}
+
+// ❌ Disabled but pressable
+<ListItem
+  title="Premium Feature"
   disabled
+  onPress={() => {}} // ❌ Should not have onPress when disabled
 />
 ```
-
-## Örnek Kullanımlar
-
-### Ayarlar Listesi
-
-```tsx
-export const SettingsList = () => {
-  const settings = [
-    {
-      id: '1',
-      title: 'Profil',
-      subtitle: 'Profil bilgilerinizi yönetin',
-      icon: 'person-outline',
-      onPress: () => navigation.navigate('Profile'),
-    },
-    {
-      id: '2',
-      title: 'Bildirimler',
-      subtitle: 'Bildirim tercihlerinizi ayarlayın',
-      icon: 'notifications-outline',
-      onPress: () => navigation.navigate('Notifications'),
-    },
-    {
-      id: '3',
-      title: 'Gizlilik',
-      subtitle: 'Gizlilik ayarlarınızı yönetin',
-      icon: 'lock-closed-outline',
-      onPress: () => navigation.navigate('Privacy'),
-    },
-  ];
-
-  return (
-    <View>
-      {settings.map((setting) => (
-        <ListItem
-          key={setting.id}
-          title={setting.title}
-          subtitle={setting.subtitle}
-          leftIcon={setting.icon}
-          rightIcon="chevron-forward"
-          onPress={setting.onPress}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Menü Listesi
-
-```tsx
-export const MenuList = () => {
-  return (
-    <View>
-      <ListItem
-        title="Ana Sayfa"
-        leftIcon="home-outline"
-        onPress={() => navigation.navigate('Home')}
-      />
-
-      <ListItem
-        title="Arama"
-        leftIcon="search-outline"
-        onPress={() => navigation.navigate('Search')}
-      />
-
-      <ListItem
-        title="Profilim"
-        leftIcon="person-outline"
-        onPress={() => navigation.navigate('Profile')}
-      />
-
-      <ListItem
-        title="Ayarlar"
-        leftIcon="settings-outline"
-        onPress={() => navigation.navigate('Settings')}
-      />
-    </View>
-  );
-};
-```
-
-### Kullanıcı Listesi
-
-```tsx
-export const UserList = ({ users }) => {
-  return (
-    <FlatList
-      data={users}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ListItem
-          title={item.name}
-          subtitle={item.email}
-          leftIcon="person-outline"
-          onPress={() => navigation.navigate('UserDetail', { userId: item.id })}
-        />
-      )}
-    />
-  );
-};
-```
-
-### Seçim Listesi
-
-```tsx
-export const SelectionList = ({ options, selectedOption, onSelect }) => {
-  return (
-    <View>
-      {options.map((option) => (
-        <ListItem
-          key={option.id}
-          title={option.title}
-          subtitle={option.description}
-          leftIcon={selectedOption === option.id ? 'checkmark-circle' : 'ellipse-outline'}
-          onPress={() => onSelect(option.id)}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Navigasyon Listesi
-
-```tsx
-export const NavigationList = () => {
-  const routes = [
-    { id: '1', title: 'Dashboard', icon: 'grid-outline', screen: 'Dashboard' },
-    { id: '2', title: 'Products', icon: 'cube-outline', screen: 'Products' },
-    { id: '3', title: 'Orders', icon: 'cart-outline', screen: 'Orders' },
-    { id: '4', title: 'Customers', icon: 'people-outline', screen: 'Customers' },
-  ];
-
-  return (
-    <View>
-      {routes.map((route) => (
-        <ListItem
-          key={route.id}
-          title={route.title}
-          leftIcon={route.icon}
-          rightIcon="chevron-forward"
-          onPress={() => navigation.navigate(route.screen)}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Action Listesi
-
-```tsx
-export const ActionList = () => {
-  return (
-    <View>
-      <ListItem
-        title="Yeni Ekle"
-        subtitle="Yeni bir öğe oluşturun"
-        leftIcon="add-circle-outline"
-        onPress={() => console.log('Add')}
-      />
-
-      <ListItem
-        title="Düzenle"
-        subtitle="Öğeyi düzenleyin"
-        leftIcon="create-outline"
-        onPress={() => console.log('Edit')}
-      />
-
-      <ListItem
-        title="Sil"
-        subtitle="Öğeyi silin"
-        leftIcon="trash-outline"
-        onPress={() => console.log('Delete')}
-      />
-
-      <ListItem
-        title="Paylaş"
-        subtitle="Öğeyi paylaşın"
-        leftIcon="share-outline"
-        onPress={() => console.log('Share')}
-      />
-    </View>
-  );
-};
-```
-
-### Bağlantı Listesi
-
-```tsx
-export const LinkList = ({ links }) => {
-  return (
-    <View>
-      <ListItem
-        title="Web Sitesi"
-        subtitle="www.example.com"
-        leftIcon="globe-outline"
-        rightIcon="open-outline"
-        onPress={() => Linking.openURL('https://www.example.com')}
-      />
-
-      <ListItem
-        title="Twitter"
-        subtitle="@example"
-        leftIcon="logo-twitter"
-        rightIcon="open-outline"
-        onPress={() => Linking.openURL('https://twitter.com/example')}
-      />
-
-      <ListItem
-        title="GitHub"
-        subtitle="github.com/example"
-        leftIcon="logo-github"
-        rightIcon="open-outline"
-        onPress={() => Linking.openURL('https://github.com/example')}
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### ListItemProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `title` | `string` | - **(Zorunlu)** | Başlık metni |
-| `subtitle` | `string` | - | Alt başlık metni |
-| `leftIcon` | `string` | - | Sol ikon ismi |
-| `rightIcon` | `string` | - | Sağ ikon ismi |
-| `onPress` | `() => void` | - | Tıklama olayı |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `style` | `ViewStyle` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
 
 ## Best Practices
 
-### 1. İkon Seçimi
+### Navigation Items
 
+✅ **DO**:
 ```tsx
-// Navigasyon için
 <ListItem
-  leftIcon="chevron-forward"
-  rightIcon="chevron-back"
-/>
-
-// Aksiyon için
-<ListItem
-  leftIcon="add-circle"
-/>
-
-// Bilgi için
-<ListItem
-  leftIcon="information-circle"
+  title="Settings"
+  leftIcon="settings-outline"
+  rightIcon="chevron-forward-outline"
+  onPress={() => navigation.navigate('Settings')}
 />
 ```
 
-### 2. Subtitle Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// Açıklama için
+// ❌ Navigation indicator without action
 <ListItem
-  title="Başlık"
-  subtitle="Detaylı açıklama"
-/>
-
-// Ek bilgi için
-<ListItem
-  title="Kullanıcı Adı"
-  subtitle="@username"
+  title="Settings"
+  rightIcon="chevron-forward-outline"
+  // Missing onPress
 />
 ```
 
-### 3. Pressable Kullanımı
+### Icon Selection
 
+✅ **DO**:
 ```tsx
-// Navigasyon
+// Descriptive icons
 <ListItem
-  onPress={() => navigation.navigate('Screen')}
+  title="Notifications"
+  leftIcon="notifications-outline"
 />
-
-// Aksiyon
 <ListItem
-  onPress={() => handleAction()}
+  title="Profile"
+  leftIcon="person-outline"
 />
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// Generic icons
+<ListItem
+  title="Notifications"
+  leftIcon="ellipse-outline" // ❌ Not descriptive
+/>
+```
 
-ListItem, tam erişilebilirlik desteği sunar:
+### List Rendering
 
-- ✅ Touch uygun boyut
-- ✅ Screen reader desteği
-- ✅ Disabled state
-- ✅ Active opacity
-- ✅ Test ID desteği
+✅ **DO**:
+```tsx
+{users.map((user) => (
+  <ListItem
+    key={user.id} // ✅ Unique key
+    title={user.name}
+    subtitle={user.email}
+    onPress={() => navigateToUser(user.id)}
+  />
+))}
+```
 
-## Performans İpuçları
+❌ **DON'T**:
+```tsx
+{users.map((user, index) => (
+  <ListItem
+    key={index} // ❌ Index as key
+    title={user.name}
+  />
+))}
+```
 
-1. **FlatList ile**: Uzun listelerde `FlatList` kullanın
-2. **Key Prop**: `key` prop'unu unutmayın
-3. **OnPress Stabilization**: `onPress`'i `useCallback` ile sarın
+### Destructive Actions
 
-## İlgili Bileşenler
+✅ **DO**:
+```tsx
+<ListItem
+  title="Delete Account"
+  leftIcon="trash-outline"
+  onPress={() => {
+    showConfirmation({
+      title: 'Delete Account',
+      message: 'This action cannot be undone',
+      onConfirm: deleteAccount,
+    });
+  }}
+/>
+```
 
-- [`List`](../List/README.md) - Liste bileşeni
-- [`AtomicIcon`](../atoms/AtomicIcon/README.md) - İkon bileşeni
-- [`AtomicText`](../atoms/AtomicText/README.md) - Metin bileşeni
+❌ **DON'T**:
+```tsx
+<ListItem
+  title="Delete Account"
+  leftIcon="trash-outline"
+  onPress={() => deleteAccount()} // ❌ No confirmation
+/>
+```
 
-## Lisans
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating ListItem components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { ListItem } from 'react-native-design-system/src/molecules/listitem';
+   ```
+
+2. **Always provide a title**:
+   ```tsx
+   // ✅ Good
+   <ListItem
+     title="Settings"
+     onPress={handlePress}
+   />
+
+   // ❌ Bad - no title
+   <ListItem
+     onPress={handlePress}
+   />
+   ```
+
+3. **Always match icons with context**:
+   ```tsx
+   // ✅ Good - descriptive icons
+   const iconMap = {
+     settings: 'settings-outline',
+     profile: 'person-outline',
+     notifications: 'notifications-outline',
+     privacy: 'shield-checkmark-outline',
+   };
+
+   // ❌ Bad - generic icons
+   const icons = ['ellipse-outline', 'circle-outline'];
+   ```
+
+4. **Always use unique keys in lists**:
+   ```tsx
+   // ✅ Good - unique ID as key
+   {items.map((item) => (
+     <ListItem
+       key={item.id}
+       title={item.title}
+       onPress={() => handleItem(item)}
+     />
+   ))}
+
+   // ❌ Bad - index as key
+   {items.map((item, index) => (
+     <ListItem
+       key={index}
+       title={item.title}
+     />
+   ))}
+   ```
+
+5. **Always add confirmation for destructive actions**:
+   ```tsx
+   // ✅ Good - confirmation dialog
+   <ListItem
+     title="Delete"
+     leftIcon="trash-outline"
+     onPress={() => {
+       Alert.alert(
+         'Confirm Delete',
+         'This action cannot be undone',
+         [
+           { text: 'Cancel', style: 'cancel' },
+           { text: 'Delete', style: 'destructive', onPress: handleDelete },
+         ]
+       );
+     }}
+   />
+
+   // ❌ Bad - immediate action
+   <ListItem
+     title="Delete"
+     leftIcon="trash-outline"
+     onPress={handleDelete} // No confirmation
+   />
+   ```
+
+### Common Patterns
+
+#### Settings Menu Item
+```tsx
+<ListItem
+  title="Settings"
+  leftIcon="settings-outline"
+  rightIcon="chevron-forward-outline"
+  onPress={() => navigation.navigate('Settings')}
+/>
+```
+
+#### User List Item
+```tsx
+{users.map((user) => (
+  <ListItem
+    key={user.id}
+    title={user.name}
+    subtitle={user.email}
+    leftIcon="person-outline"
+    onPress={() => navigation.navigate('UserProfile', { userId: user.id })}
+  />
+))}
+```
+
+#### Selection List Item
+```tsx
+{options.map((option) => (
+  <ListItem
+    key={option.id}
+    title={option.title}
+    leftIcon={option.icon}
+    rightIcon={selectedId === option.id ? 'checkmark' : undefined}
+    onPress={() => setSelectedId(option.id)}
+  />
+))}
+```
+
+#### Action Menu Item
+```tsx
+<ListItem
+  title="Edit"
+  leftIcon="create-outline"
+  rightIcon="chevron-forward-outline"
+  onPress={() => onAction('edit')}
+/>
+```
+
+#### Contact Item
+```tsx
+<ListItem
+  title={contact.name}
+  subtitle={contact.phone}
+  leftIcon="person-outline"
+  rightIcon="call-outline"
+  onPress={() => Linking.openURL(`tel:${contact.phone}`)}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `title` | `string` | Yes | - | Primary text |
+| `subtitle` | `string` | No | - | Secondary text |
+| `leftIcon` | `string` | No | - | Left icon name (Ionicons) |
+| `rightIcon` | `string` | No | - | Right icon name (Ionicons) |
+| `onPress` | `() => void` | No | - | Press callback |
+| `disabled` | `boolean` | No | `false` | Disable the item |
+| `style` | `ViewStyle` | No | - | Custom container style |
+
+## Accessibility
+
+- ✅ Screen reader announces title and subtitle
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Press feedback for screen readers
+- ✅ Disabled state announced
+- ✅ Semantic list item role
+- ✅ Icon accessibility labels
+
+## Performance Tips
+
+1. **Memoization**: Memo ListItem components for large lists
+2. **Unique keys**: Always use unique IDs as keys (not index)
+3. **Avoid inline functions**: Use useCallback for onPress handlers
+4. **FlatList**: Use FlatList for long lists instead of map
+
+## Related Components
+
+- [`List`](../List/README.md) - List container component
+- [`Avatar`](../avatar/README.md) - User avatar component
+- [`Divider`](../Divider/README.md) - List divider component
+- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - Icon component
+
+## License
 
 MIT

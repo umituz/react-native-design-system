@@ -1,470 +1,234 @@
 # AtomicText
 
-AtomicText, React Native için tema bilinci yüksek, responsive ve özelleştirilebilir bir metin bileşenidir. Material Design 3 tipografi kurallarına uygun olarak tasarlanmıştır.
+A theme-aware text component with Material Design 3 typography system.
 
-## Özellikler
+## Import & Usage
 
-- 📝 **Typography System**: Material Design 3 tipografi
-- 🎨 **Tema Bilinci**: Otomatik renk uyumu
-- 📱 **Responsive**: Otomatik font boyutu
-- ⚙️ **Kolay Özelleştirme**: Convenience props
-- 🎯 **Semantic Colors**: Anlamlı renk seçenekleri
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicText } from 'react-native-design-system';
+```typescript
+import { AtomicText } from 'react-native-design-system/src/atoms/AtomicText';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/AtomicText.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { AtomicText } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText>Merhaba Dünya!</AtomicText>
-    </View>
-  );
-};
+<AtomicText>Hello World</AtomicText>
 ```
 
-## Typography Types
+## Strategy
+
+**Purpose**: Provide consistent, theme-integrated typography.
+
+**When to Use**:
+- ALL text display
+- Headlines, titles, body text
+- Labels, captions
+- Any text content
+
+**When NOT to Use**:
+- Never - use for all text display
+
+## Rules
+
+### Required
+
+1. **MUST** use appropriate `type` for hierarchy
+2. **ALWAYS** use semantic colors for meaning
+3. **SHOULD** maintain consistent spacing
+4. **MUST** be accessible (contrast, font scaling)
+5. **ALWAYS** use convenience props for spacing
+6. **SHOULD** follow content hierarchy
+
+### Typography Hierarchy
+
+1. **Display**: Hero content (rare)
+2. **Headline**: Page/section titles
+3. **Title**: Card titles, list items
+4. **Label**: Buttons, tags, fields
+5. **Body**: Main content (default)
+
+### Color Semantics
+
+1. **textPrimary**: Main content
+2. **textSecondary**: Supporting content
+3. **textTertiary**: Placeholder, disabled
+4. **primary/secondary/success/error**: Semantic meaning
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ gap: 8 }}>
-  {/* Display */}
-  <AtomicText type="displayLarge">Display Large</AtomicText>
-  <AtomicText type="displayMedium">Display Medium</AtomicText>
-  <AtomicText type="displaySmall">Display Small</AtomicText>
+// ❌ Wrong hierarchy
+<AtomicText type="displayLarge">Small note</AtomicText> {/* ❌ Too large */}
 
-  {/* Headline */}
-  <AtomicText type="headlineLarge">Headline Large</AtomicText>
-  <AtomicText type="headlineMedium">Headline Medium</AtomicText>
-  <AtomicText type="headlineSmall">Headline Small</AtomicText>
+<AtomicText type="bodySmall">Main Title</AtomicText> {/* ❌ Too small */}
 
-  {/* Title */}
-  <AtomicText type="titleLarge">Title Large</AtomicText>
-  <AtomicText type="titleMedium">Title Medium</AtomicText>
-  <AtomicText type="titleSmall">Title Small</AtomicText>
-
-  {/* Label */}
-  <AtomicText type="labelLarge">Label Large</AtomicText>
-  <AtomicText type="labelMedium">Label Medium</AtomicText>
-  <AtomicText type="labelSmall">Label Small</AtomicText>
-
-  {/* Body */}
-  <AtomicText type="bodyLarge">Body Large</AtomicText>
-  <AtomicText type="bodyMedium">Body Medium</AtomicText>
-  <AtomicText type="bodySmall">Body Small</AtomicText>
-</View>
-```
-
-## Semantic Colors
-
-```tsx
-<View style={{ gap: 8 }}>
-  <AtomicText color="primary">Primary Renk</AtomicText>
-  <AtomicText color="secondary">Secondary Renk</AtomicText>
-  <AtomicText color="success">Success Renk</AtomicText>
-  <AtomicText color="warning">Warning Renk</AtomicText>
-  <AtomicText color="error">Error Renk</AtomicText>
-  <AtomicText color="info">Info Renk</AtomicText>
-
-  {/* Text colors */}
-  <AtomicText color="textPrimary">Primary Text</AtomicText>
-  <AtomicText color="textSecondary">Secondary Text</AtomicText>
-  <AtomicText color="textTertiary">Tertiary Text</AtomicText>
-</View>
-```
-
-## Text Alignment
-
-```tsx
-<View style={{ gap: 16 }}>
-  <AtomicText align="left">Sola Hizalı</AtomicText>
-  <AtomicText align="center">Ortalanmış</AtomicText>
-  <AtomicText align="right">Sağa Hizalı</AtomicText>
-  <AtomicText align="justify">İki yana yaslı</AtomicText>
-</View>
-```
-
-## Font Weight
-
-```tsx
-<View style={{ gap: 8 }}>
-  <AtomicText fontWeight="100">Thin (100)</AtomicText>
-  <AtomicText fontWeight="300">Light (300)</AtomicText>
-  <AtomicText fontWeight="400">Regular (400)</AtomicText>
-  <AtomicText fontWeight="500">Medium (500)</AtomicText>
-  <AtomicText fontWeight="600">Semi Bold (600)</AtomicText>
-  <AtomicText fontWeight="700">Bold (700)</AtomicText>
-  <AtomicText fontWeight="900">Black (900)</AtomicText>
-</View>
-```
-
-## Spacing
-
-```tsx
-<View>
-  <AtomicText type="titleLarge" marginBottom="sm">
-    Başlık
-  </AtomicText>
-
-  <AtomicText marginTop="sm" marginBottom="md">
-    Açıklama metni
-  </AtomicText>
-
-  <AtomicText marginTop="lg">
-    Daha fazla içerik
-  </AtomicText>
-</View>
-```
-
-## Custom Colors
-
-```tsx
-<AtomicText color="#6366f1">Custom Renk</AtomicText>
-<AtomicText color="rgb(99, 102, 241)">RGB Renk</AtomicText>
-<AtomicText color="rgba(99, 102, 241, 0.5)">RGBA Renk</AtomicText>
-```
-
-## Custom Style
-
-```tsx
-<AtomicText
-  type="bodyLarge"
-  style={{
-    textDecorationLine: 'underline',
-    fontStyle: 'italic',
-    letterSpacing: 1,
-    lineHeight: 28,
-  }}
->
-  Özel Stilli Metin
+// ❌ Confusing colors
+<AtomicText type="headlineLarge" color="error">
+  Success Message {/* ❌ Confusing */}
 </AtomicText>
-```
 
-## Örnek Kullanımlar
+// ❌ Manual spacing
+<AtomicText type="titleLarge">
+  Title
+</AtomicText>
+<View style={{ height: 16 }} /> {/* ❌ Use marginTop */}
+<AtomicText>Content</AtomicText>
 
-### Sayfa Başlığı
-
-```tsx
-export const PageHeader = ({ title, subtitle }) => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="headlineLarge" marginBottom="sm">
-        {title}
-      </AtomicText>
-
-      {subtitle && (
-        <AtomicText type="bodyLarge" color="textSecondary">
-          {subtitle}
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Kart İçeriği
-
-```tsx
-export const CardContent = ({ title, description }) => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="titleLarge" marginBottom="xs">
-        {title}
-      </AtomicText>
-
-      <AtomicText type="bodyMedium" color="textSecondary">
-        {description}
-      </AtomicText>
-    </View>
-  );
-};
-```
-
-### Form Label
-
-```tsx
-export const FormLabel = ({ label, required }) => {
-  return (
-    <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-      <AtomicText type="labelLarge" color="textPrimary">
-        {label}
-      </AtomicText>
-
-      {required && (
-        <AtomicText type="labelLarge" color="error">
-          *
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Error Message
-
-```tsx
-export const ErrorMessage = ({ message }) => {
-  return (
-    <AtomicText
-      type="bodySmall"
-      color="error"
-      marginTop="xs"
-    >
-      {message}
-    </AtomicText>
-  );
-};
-```
-
-### Success Message
-
-```tsx
-export const SuccessMessage = ({ message }) => {
-  return (
-    <AtomicText
-      type="bodyMedium"
-      color="success"
-      align="center"
-    >
-      {message}
-    </AtomicText>
-  );
-};
-```
-
-### List Item
-
-```tsx
-export const ListItem = ({ title, subtitle, timestamp }) => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="bodyLarge" fontWeight="600">
-        {title}
-      </AtomicText>
-
-      {subtitle && (
-        <AtomicText
-          type="bodyMedium"
-          color="textSecondary"
-          marginTop="xs"
-        >
-          {subtitle}
-        </AtomicText>
-      )}
-
-      {timestamp && (
-        <AtomicText
-          type="bodySmall"
-          color="textTertiary"
-          marginTop="xs"
-        >
-          {timestamp}
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Pricing Card
-
-```tsx
-export const PricingCard = ({ plan, price, features }) => {
-  return (
-    <View style={{ padding: 24, alignItems: 'center' }}>
-      <AtomicText type="headlineSmall" marginBottom="md">
-        {plan}
-      </AtomicText>
-
-      <AtomicText
-        type="displayLarge"
-        color="primary"
-        fontWeight="700"
-        marginBottom="md"
-      >
-        ${price}
-        <AtomicText type="titleMedium">/ay</AtomicText>
-      </AtomicText>
-
-      {features.map((feature, index) => (
-        <AtomicText
-          key={index}
-          type="bodyMedium"
-          align="center"
-          marginTop="sm"
-        >
-          {feature}
-        </AtomicText>
-      ))}
-    </View>
-  );
-};
-```
-
-### Blog Post
-
-```tsx
-export const BlogPost = ({ title, author, date, content }) => {
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="headlineMedium" marginBottom="sm">
-        {title}
-      </AtomicText>
-
-      <View style={{ flexDirection: 'row', marginBottom: 16 }}>
-        <AtomicText type="bodySmall" color="textSecondary">
-          {author}
-        </AtomicText>
-        <AtomicText type="bodySmall" color="textTertiary">
-          • {date}
-        </AtomicText>
-      </View>
-
-      <AtomicText type="bodyMedium" lineHeight={24}>
-        {content}
-      </AtomicText>
-    </View>
-  );
-};
-```
-
-## Props
-
-### AtomicTextProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `type` | `TextStyleVariant` | `'bodyMedium'` | Tipografi stili |
-| `color` | `ColorVariant \| string` | `'textPrimary'` | Metin rengi |
-| `align` | `TextStyle['textAlign']` | - | Metin hizalaması |
-| `fontWeight` | `TextStyle['fontWeight']` | - | Font kalınlığı |
-| `marginTop` | `keyof Spacing` | - | Üst boşluk |
-| `marginBottom` | `keyof Spacing` | - | Alt boşluk |
-| `children` | `ReactNode` | - **(Zorunlu)** | İçerik |
-| `style` | `StyleProp<TextStyle>` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
-
-### TextStyleVariant
-
-```typescript
-type TextStyleVariant =
-  // Display
-  | 'displayLarge'
-  | 'displayMedium'
-  | 'displaySmall'
-  // Headline
-  | 'headlineLarge'
-  | 'headlineMedium'
-  | 'headlineSmall'
-  // Title
-  | 'titleLarge'
-  | 'titleMedium'
-  | 'titleSmall'
-  // Label
-  | 'labelLarge'
-  | 'labelMedium'
-  | 'labelSmall'
-  // Body
-  | 'bodyLarge'
-  | 'bodyMedium'
-  | 'bodySmall';
-```
-
-### ColorVariant
-
-```typescript
-type ColorVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'info'
-  | 'textPrimary'
-  | 'textSecondary'
-  | 'textTertiary'
-  | 'onPrimary'
-  | 'onSecondary'
-  | 'onSurface';
+// ❌ Inline styles for standard props
+<AtomicText
+  style={{ fontSize: 16, fontWeight: '600', color: 'blue' }}
+  // ❌ Should use type and color props
+/>
 ```
 
 ## Best Practices
 
-### 1. Type Hiyerarşisi
+### Typography Hierarchy
 
+✅ **DO**:
 ```tsx
-// Ana başlık
-<AtomicText type="headlineLarge">{title}</AtomicText>
-
-// Alt başlık
-<AtomicText type="titleLarge">{subtitle}</AtomicText>
-
-// Gövde metni
-<AtomicText type="bodyMedium">{content}</AtomicText>
-
-// Yardımcı metin
-<AtomicText type="bodySmall">{helper}</AtomicText>
+<AtomicText type="headlineLarge">Page Title</AtomicText>
+<AtomicText type="titleMedium">Card Title</AtomicText>
+<AtomicText type="bodyMedium">Body content</AtomicText>
+<AtomicText type="labelSmall">Button text</AtomicText>
 ```
 
-### 2. Renk Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// Ana içerik
-<AtomicText color="textPrimary">
-
-// İkincil içerik
-<AtomicText color="textSecondary">
-
-// Hata mesajı
-<AtomicText color="error">
-
-// Link
-<AtomicText color="primary">
+// ❌ Wrong types
+<AtomicText type="bodySmall">Page Title</AtomicText>
+<AtomicText type="displayLarge">Caption</AtomicText>
 ```
 
-### 3. Spacing
+### Semantic Colors
 
+✅ **DO**:
 ```tsx
-// Convenience props kullanın
-<AtomicText type="titleLarge" marginBottom="md">
-  Başlık
+<AtomicText color="textPrimary">Main content</AtomicText>
+<AtomicText color="textSecondary">Secondary info</AtomicText>
+<AtomicText color="error">Error message</AtomicText>
+<AtomicText color="success">Success message</AtomicText>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Hardcoded colors
+<AtomicText style={{ color: '#FF0000' }}>Error</AtomicText>
+
+// ❌ Confusing semantics
+<AtomicText color="success">Error occurred</AtomicText>
+```
+
+### Convenience Props
+
+✅ **DO**:
+```tsx
+<AtomicText type="titleLarge" marginBottom="sm">
+  Title
 </AtomicText>
-
 <AtomicText marginTop="sm">
-  İçerik
+  Content
 </AtomicText>
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// ❌ Manual spacing
+<AtomicText type="titleLarge">Title</AtomicText>
+<View style={{ height: 12 }} />
+<AtomicText>Content</AtomicText>
+```
 
-AtomicText, tam erişilebilirlik desteği sunar:
+## AI Coding Guidelines
 
-- ✅ Screen reader desteği
-- ✅ Semantic anlamlar
+### For AI Agents
+
+When generating AtomicText components, follow these rules:
+
+1. **Always use appropriate type**:
+   ```tsx
+   // ✅ Good - correct hierarchy
+   <AtomicText type="headlineLarge">Page Title</AtomicText>
+   <AtomicText type="bodyMedium">Content</AtomicText>
+
+   // ❌ Bad - wrong hierarchy
+   <AtomicText type="bodySmall">Page Title</AtomicText>
+   ```
+
+2. **Always use semantic colors**:
+   ```tsx
+   // ✅ Good - semantic colors
+   <AtomicText color="textPrimary">Main</AtomicText>
+   <AtomicText color="error">Error</AtomicText>
+
+   // ❌ Bad - hardcoded
+   <AtomicText style={{ color: '#000' }}>Text</AtomicText>
+   ```
+
+3. **Always use convenience props**:
+   ```tsx
+   // ✅ Good
+   <AtomicText type="titleLarge" marginBottom="md">Title</AtomicText>
+
+   // ❌ Bad
+   <AtomicText type="titleLarge" style={{ marginBottom: 16 }}>Title</AtomicText>
+   ```
+
+### Common Patterns
+
+#### Headline
+```tsx
+<AtomicText type="headlineLarge">Page Title</AtomicText>
+```
+
+#### Body with Color
+```tsx
+<AtomicText type="bodyMedium" color="textSecondary">
+  Description text
+</AtomicText>
+```
+
+#### With Spacing
+```tsx
+<AtomicText type="titleLarge" marginBottom="sm">
+  Title
+</AtomicText>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `type` | `TextStyleVariant` | No | `'bodyMedium'` | Typography style |
+| `color` | `ColorVariant \| string` | No | `'textPrimary'` | Text color |
+| `align` | `TextAlign` | No | - | Text alignment |
+| `fontWeight` | `TextStyle['fontWeight']` | No | - | Font weight |
+| `marginTop` | `keyof Spacing` | No | - | Top margin |
+| `marginBottom` | `keyof Spacing` | No | - | Bottom margin |
+| `children` | `ReactNode` | Yes | - | Text content |
+
+## Accessibility
+
+- ✅ Screen reader support
+- ✅ Semantic meaning
 - ✅ Contrast ratio
-- ✅ Font scaling desteği
+- ✅ Font scaling support
 
-## Performans İpuçları
+## Performance Tips
 
-1. **Avoid Re-renders**: `type` ve `color` props'unu stabilize edin
-2. **Memoization**: Uzun metinleri `React.memo` ile sarın
-3. **Custom Style**: Inline stil yerine StyleSheet kullanın
+1. **Stabilize props**: Memo text styles
+2. **Avoid inline styles**: Use type prop
+3. **Memo content**: Memo long text blocks
 
-## İlgili Bileşenler
+## Related Components
 
-- [`AtomicButton`](../button/README.md) - Buton bileşeni
-- [`FormField`](../../molecules/FormField/README.md) - Form alanı
-- [`AtomicInput`](../input/README.md) - Input bileşeni
+- [`AtomicButton`](./AtomicButton.README.md) - Button component
+- [`FormField`](../molecules/FormField) - Form wrapper
+- [`AtomicInput`](./AtomicInput.README.md) - Input component
 
-## Lisans
+## License
 
 MIT

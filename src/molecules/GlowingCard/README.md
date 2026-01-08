@@ -1,448 +1,306 @@
 # GlowingCard
 
-GlowingCard, neon benzeri parlama efekti ile özel bir kart bileşenidir. Özellikle vurgulanması gereken öğeler için idealdir.
+A card component with neon-like glowing shadow effect for highlighting important content and creating visual emphasis.
 
-## Özellikler
+## Import & Usage
 
-- ✨ **Neon Glow Efekti**: Parlama gölgesi efekti
-- 🎨 **Özelleştirilebilir Renk**: İstediğiniz renk
-- 💡 **Ayarlabilir Yoğunluk**: 0-1 arası yoğunluk
-- 👆 **Pressable**: Tıklanabilir kart desteği
-- 🎯 **Çerçeve**: Renkli çerçeve
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { GlowingCard } from 'react-native-design-system';
+```typescript
+import { GlowingCard } from 'react-native-design-system/src/molecules/GlowingCard';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/GlowingCard/GlowingCard.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View, Text } from 'react-native';
-import { GlowingCard } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <GlowingCard>
-        <Text style={{ padding: 24 }}>Parlak Kart</Text>
-      </GlowingCard>
-    </View>
-  );
-};
+<GlowingCard glowColor="#6366f1" intensity={0.5}>
+  <YourContent />
+</GlowingCard>
 ```
 
-## Basic Glow
+## Strategy
+
+**Purpose**: Create visual emphasis and draw attention to specific content through glowing effects.
+
+**When to Use**:
+- Featured products or items
+- Premium content highlighting
+- Important announcements
+- Achievement badges
+- Limited-time offers
+- User highlights (verified users, contributors)
+
+**When NOT to Use**:
+- Regular content cards (use AtomicCard instead)
+- Multiple items on same screen (causes visual clutter)
+- Background elements
+- Non-essential content
+
+## Rules
+
+### Required
+
+1. **MUST** provide a `glowColor` prop
+2. **MUST** keep `intensity` between 0.3 and 0.8
+3. **ALWAYS** use sparingly (max 1-2 per screen)
+4. **MUST** ensure sufficient contrast with glow color
+5. **SHOULD** have purpose (highlight featured content)
+
+### Intensity Guidelines
+
+1. **Subtle emphasis**: 0.3 - 0.5
+2. **Medium emphasis**: 0.5 - 0.7
+3. **Strong emphasis**: 0.7 - 0.8
+
+**Never use intensity > 0.8** (too distracting)
+
+### Color Selection
+
+1. **MUST** use theme colors when possible
+2. **SHOULD** match content purpose
+3. **NEVER** use pure neon colors (#00FF00, #FF00FF, etc.)
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ No glow color
 <GlowingCard>
-  <View style={{ padding: 24 }}>
-    <Text>Varsayılan parlama efekti</Text>
-  </View>
-</GlowingCard>
-```
-
-## Custom Glow Color
-
-```tsx
-<GlowingCard glowColor="#6366f1">
-  <View style={{ padding: 24 }}>
-    <Text>İndigo parlama</Text>
-  </View>
+  <Content />
 </GlowingCard>
 
-<GlowingCard glowColor="#10b981">
-  <View style={{ padding: 24 }}>
-    <Text>Yeşil parlama</Text>
-  </View>
+// ❌ Too high intensity
+<GlowingCard glowColor="#6366f1" intensity={1.0}>
+  <Content />
 </GlowingCard>
 
-<GlowingCard glowColor="#f59e0b">
-  <View style={{ padding: 24 }}>
-    <Text>Turuncu parlama</Text>
-  </View>
-</GlowingCard>
-```
-
-## Intensity
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Hafif parlama */}
-  <GlowingCard intensity={0.3}>
-    <View style={{ padding: 24 }}>
-      <Text>Hafif Parlama</Text>
-    </View>
-  </GlowingCard>
-
-  {/* Orta parlama */}
-  <GlowingCard intensity={0.6}>
-    <View style={{ padding: 24 }}>
-      <Text>Orta Parlama</Text>
-    </View>
-  </GlowingCard>
-
-  {/* Tam parlama (Varsayılan) */}
-  <GlowingCard intensity={1.0}>
-    <View style={{ padding: 24 }}>
-      <Text>Tam Parlama</Text>
-    </View>
-  </GlowingCard>
+// ❌ Too many glowing cards
+<View>
+  <GlowingCard glowColor="#6366f1"><Content1 /></GlowingCard>
+  <GlowingCard glowColor="#10b981"><Content2 /></GlowingCard>
+  <GlowingCard glowColor="#f59e0b"><Content3 /></GlowingCard>
+  {/* ❌ Max 1-2 per screen */}
 </View>
-```
 
-## Pressable
-
-```tsx
-<GlowingCard
-  glowColor="#6366f1"
-  onPress={() => console.log('Tıklandı!')}
->
-  <View style={{ padding: 24 }}>
-    <Text>Tıklanabilir Parlak Kart</Text>
-  </View>
+// ❌ Neon colors
+<GlowingCard glowColor="#00FF00" intensity={0.8}>
+  <Content />
 </GlowingCard>
-```
 
-## Custom Style
-
-```tsx
-<GlowingCard
-  glowColor="#ec4899"
-  intensity={0.8}
-  style={{
-    padding: 32,
-    backgroundColor: '#1e1e1e',
-  }}
->
-  <Text style={{ color: '#ffffff' }}>
-    Özel Stilli Parlak Kart
-  </Text>
+// ❌ Non-essential content
+<GlowingCard glowColor="#6366f1">
+  <RegularContent /> {/* ❌ Use AtomicCard instead */}
 </GlowingCard>
-```
 
-## Örnek Kullanımlar
-
-### Öne Çıkan Kart
-
-```tsx
-export const FeaturedCard = () => {
-  return (
-    <GlowingCard glowColor="#6366f1" intensity={0.8}>
-      <View style={{ padding: 24 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-          <AtomicIcon name="star" size="lg" color="#6366f1" />
-          <Text style={{ marginLeft: 8, fontWeight: '600' }}>
-            Öne Çıkan
-          </Text>
-        </View>
-
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
-          Özel İçerik
-        </Text>
-
-        <Text style={{ color: 'gray' }}>
-          Bu içerik özellikle vurgulanmıştır.
-        </Text>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Premium Ürün Kartı
-
-```tsx
-export const PremiumCard = ({ product }) => {
-  return (
-    <GlowingCard
-      glowColor="#f59e0b"
-      intensity={0.9}
-      onPress={() => navigate('ProductDetail', { id: product.id })}
-    >
-      <View style={{ padding: 24 }}>
-        <View style={{ alignItems: 'center', marginBottom: 16 }}>
-          <AtomicIcon name="diamond" size="xl" color="#f59e0b" />
-          <Text style={{ marginTop: 8, fontWeight: '600', color: '#f59e0b' }}>
-            Premium
-          </Text>
-        </View>
-
-        <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>
-          {product.name}
-        </Text>
-
-        <Text style={{ marginTop: 8, textAlign: 'center', color: 'gray' }}>
-          {product.description}
-        </Text>
-
-        <Text style={{ marginTop: 16, fontSize: 24, fontWeight: 'bold', textAlign: 'center' }}>
-          ${product.price}
-        </Text>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Başarı Kartı
-
-```tsx
-export const SuccessCard = ({ achievement }) => {
-  return (
-    <GlowingCard glowColor="#10b981" intensity={0.7}>
-      <View style={{ padding: 24, alignItems: 'center' }}>
-        <View
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            backgroundColor: '#d4edda',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 16,
-          }}
-        >
-          <AtomicIcon name="trophy" size="xl" color="#10b981" />
-        </View>
-
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
-          Başarı!
-        </Text>
-
-        <Text style={{ textAlign: 'center', color: 'gray' }}>
-          {achievement.title}
-        </Text>
-
-        <Text style={{ marginTop: 8, textAlign: 'center', fontSize: 14 }}>
-          {achievement.description}
-        </Text>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Uyarı Kartı
-
-```tsx
-export const WarningCard = () => {
-  return (
-    <GlowingCard glowColor="#f59e0b" intensity={0.8}>
-      <View style={{ padding: 24 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <AtomicIcon name="warning" size="lg" color="#f59e0b" />
-          <View style={{ marginLeft: 12, flex: 1 }}>
-            <Text style={{ fontWeight: '600', marginBottom: 4 }}>
-              Dikkat
-            </Text>
-            <Text style={{ fontSize: 14, color: 'gray' }}>
-              Bu işlem geri alınamaz. Devam etmek istediğinizden emin misiniz?
-            </Text>
-          </View>
-        </View>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Hata Kartı
-
-```tsx
-export const ErrorCard = ({ error }) => {
-  return (
-    <GlowingCard glowColor="#ef4444" intensity={0.7}>
-      <View style={{ padding: 24 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <AtomicIcon name="close-circle" size="lg" color="#ef4444" />
-          <View style={{ marginLeft: 12, flex: 1 }}>
-            <Text style={{ fontWeight: '600', marginBottom: 4 }}>
-              Hata Oluştu
-            </Text>
-            <Text style={{ fontSize: 14, color: 'gray' }}>
-              {error.message}
-            </Text>
-          </View>
-        </View>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Bilgi Kartı
-
-```tsx
-export const InfoCard = () => {
-  return (
-    <GlowingCard glowColor="#3b82f6" intensity={0.6}>
-      <View style={{ padding: 24 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <AtomicIcon name="information-circle" size="lg" color="#3b82f6" />
-          <View style={{ marginLeft: 12, flex: 1 }}>
-            <Text style={{ fontWeight: '600', marginBottom: 4 }}>
-              Bilgi
-            </Text>
-            <Text style={{ fontSize: 14, color: 'gray' }}>
-              Bu özellik premium kullanıcılar için geçerlidir.
-            </Text>
-          </View>
-        </View>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-### Kullanıcı Profil Kartı
-
-```tsx
-export const ProfileCard = ({ user }) => {
-  return (
-    <GlowingCard
-      glowColor="#8b5cf6"
-      intensity={0.7}
-      onPress={() => navigate('Profile', { id: user.id })}
-    >
-      <View style={{ padding: 24, alignItems: 'center' }}>
-        <Image
-          source={{ uri: user.avatar }}
-          style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 16 }}
-        />
-
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-          {user.name}
-        </Text>
-
-        <Text style={{ color: 'gray', marginBottom: 16 }}>
-          @{user.username}
-        </Text>
-
-        <View style={{ flexDirection: 'row', gap: 24 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-              {user.posts}
-            </Text>
-            <Text style={{ fontSize: 12, color: 'gray' }}>Gönderi</Text>
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-              {user.followers}
-            </Text>
-            <Text style={{ fontSize: 12, color: 'gray' }}>Takipçi</Text>
-          </View>
-
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-              {user.following}
-            </Text>
-            <Text style={{ fontSize: 12, color: 'gray' }}>Takip</Text>
-          </View>
-        </View>
-      </View>
-    </GlowingCard>
-  );
-};
-```
-
-## Props
-
-### GlowingCardProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `children` | `ReactNode` | - **(Zorunlu)** | Kart içeriği |
-| `glowColor` | `string` | Primary color | Parlama rengi |
-| `intensity` | `number` | `1` | Parlama yoğunluğu (0-1) |
-| `onPress` | `(event: GestureResponderEvent) => void` | - | Tıklama olayı |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
-
-## Stil Özelleştirme
-
-```tsx
-<GlowingCard
-  glowColor="#ec4899"
-  intensity={0.8}
-  style={{
-    padding: 32,
-    backgroundColor: '#1e1e1e',
-    borderWidth: 2,
-  }}
->
-  {/* İçerik */}
+// ❌ Nested GlowingCards
+<GlowingCard glowColor="#6366f1">
+  <GlowingCard glowColor="#10b981">
+    <Content />
+  </GlowingCard>
 </GlowingCard>
 ```
 
 ## Best Practices
 
-### 1. Renk Seçimi
+### Featured Content
 
+✅ **DO**:
 ```tsx
-// Marka rengi
-<GlowingCard glowColor="#6366f1">
-
-// Başarı durumu
-<GlowingCard glowColor="#10b981">
-
-// Hata durumu
-<GlowingCard glowColor="#ef4444">
-
-// Uyarı durumu
-<GlowingCard glowColor="#f59e0b">
-```
-
-### 2. Yoğunluk
-
-```tsx
-// Hafif vurgu
-<GlowingCard intensity={0.3}>
-
-// Orta vurgu
-<GlowingCard intensity={0.6}>
-
-// Güçlü vurgu
-<GlowingCard intensity={1.0}>
-```
-
-### 3. Pressable Kullanımı
-
-```tsx
-// İnteraktif kart
 <GlowingCard
-  glowColor="#6366f1"
-  onPress={handlePress}
+  glowColor={tokens.colors.primary}
+  intensity={0.6}
+  onPress={() => navigateTo(featuredItem)}
 >
-  {/* Tıklama efekti ile */}
+  <FeaturedProductCard product={featuredProduct} />
 </GlowingCard>
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+<GlowingCard glowColor="#ff0000" intensity={0.9}>
+  <RegularProduct />
+</GlowingCard>
+```
 
-GlowingCard, tam erişilebilirlik desteği sunar:
+### Achievement Badges
 
-- ✅ Touch uygun boyut
-- ✅ Screen reader desteği
-- ✅ Test ID desteği
-- ✅ Press state feedback
+✅ **DO**:
+```tsx
+<GlowingCard
+  glowColor="#f59e0b"
+  intensity={0.5}
+  style={{ width: 120, height: 120 }}
+>
+  <AchievementBadge achievement={achievement} />
+</GlowingCard>
+```
 
-## Performans İpuçları
+### User Highlights
 
-1. **Shadow Performance**: Çok sayıda kart kullanırken dikkatli olun
-2. **Intensity**: Düşük yoğunluk daha performanslıdır
-3. **Re-renders**: Gereksiz re-render'lardan kaçının
+✅ **DO**:
+```tsx
+<GlowingCard glowColor="#8b5cf6" intensity={0.4}>
+  <UserHighlight user={verifiedUser} />
+</GlowingCard>
+```
 
-## İlgili Bileşenler
+### Color by Purpose
 
-- [`AtomicCard`](../../atoms/AtomicCard.README.md) - Basit kart bileşeni
-- [`GlassView`](../../atoms/GlassView/README.md) - Glassmorphism efekti
-- [`MediaCard`](../media-card/README.md) - Medya kartı
+✅ **DO**:
+- Primary actions: Theme primary color
+- Success: Green (#10b981, #22c55e)
+- Warning: Orange/Amber (#f59e0b, #f97316)
+- Error: Red (#ef4444, #dc2626)
+- Info: Blue (#3b82f6, #2563eb)
 
-## Lisans
+❌ **DON'T**:
+```tsx
+// ❌ Random colors
+<GlowingCard glowColor="#123456" />
+
+// ❌ Too bright
+<GlowingCard glowColor="#00FF00" />
+```
+
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating GlowingCard components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { GlowingCard } from 'react-native-design-system/src/molecules/GlowingCard';
+   ```
+
+2. **Always specify glowColor**:
+   ```tsx
+   <GlowingCard
+     glowColor={根据内容选择合适的颜色}
+     intensity={0.5-0.7之间的值}
+   >
+     {content}
+   </GlowingCard>
+   ```
+
+3. **Never use without purpose**:
+   ```tsx
+   // ❌ Bad - arbitrary use
+   <GlowingCard glowColor="#6366f1">
+     <RegularContent />
+   </GlowingCard>
+
+   // ✅ Good - featured content
+   {isFeatured && (
+     <GlowingCard glowColor="#6366f1" intensity={0.6}>
+       <FeaturedContent />
+     </GlowingCard>
+   )}
+   ```
+
+4. **Always limit usage on screen**:
+   ```tsx
+   // ✅ Good - conditional highlighting
+   <View>
+     {items.map((item, index) =>
+       item.isFeatured ? (
+         <GlowingCard key={item.id} glowColor="#6366f1" intensity={0.6}>
+           <ItemCard item={item} />
+         </GlowingCard>
+       ) : (
+         <AtomicCard key={item.id}>
+           <ItemCard item={item} />
+         </AtomicCard>
+       )
+     )}
+   </View>
+   ```
+
+5. **Always use semantic colors**:
+   ```tsx
+   // ✅ Good - color by purpose
+   const getGlowColor = (type: 'success' | 'warning' | 'error') => {
+     switch (type) {
+       case 'success': return '#10b981';
+       case 'warning': return '#f59e0b';
+       case 'error': return '#ef4444';
+       default: return tokens.colors.primary;
+     }
+   };
+
+   <GlowingCard glowColor={getGlowColor(type)} />
+   ```
+
+### Common Patterns
+
+#### Featured Product
+```tsx
+<GlowingCard
+  glowColor="#6366f1"
+  intensity={0.6}
+  onPress={() => navigation.navigate('Product', { productId: product.id })}
+>
+  <ProductCard product={product} variant="featured" />
+</GlowingCard>
+```
+
+#### Achievement Badge
+```tsx
+<GlowingCard
+  glowColor="#f59e0b"
+  intensity={0.5}
+  style={{ margin: 8 }}
+>
+  <AchievementBadge achievement={achievement} />
+</GlowingCard>
+```
+
+#### Notification Card
+```tsx
+<GlowingCard
+  glowColor={notification.urgency === 'high' ? '#ef4444' : '#3b82f6'}
+  intensity={notification.urgency === 'high' ? 0.7 : 0.4}
+  onPress={() => markAsRead(notification.id)}
+>
+  <NotificationCard notification={notification} />
+</GlowingCard>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `glowColor` | `string` | **Yes** | Theme primary color | Glow color (hex) |
+| `intensity` | `number` | No | `0.5` | Glow intensity (0-1) |
+| `borderWidth` | `number` | No | `0` | Border width |
+| `borderColor` | `string` | No | Same as glowColor | Border color |
+| `onPress` | `() => void` | No | - | Press callback |
+| `style` | `ViewStyle` | No | - | Custom container style |
+| `children` | `ReactNode` | **Yes** | - | Card content |
+
+## Accessibility
+
+- ✅ Screen reader announces card content
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Focus indicators for pressable cards
+- ✅ Sufficient color contrast with glow
+- ✅ Semantic structure preserved
+
+## Performance Tips
+
+1. **Use sparingly**: Only for highlights (1-2 per screen max)
+2. **Lower intensity**: Better performance with 0.3-0.5
+3. **Avoid animation**: Static glow more performant
+4. **Conditional rendering**: Don't use for every card
+5. **Memo content**: Memo card content to prevent re-renders
+
+## Related Components
+
+- [`AtomicCard`](../../atoms/AtomicCard/README.md) - Base card component
+- [`MediaCard`](../media-card/README.md) - Media card component
+- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - Icon component
+
+## License
 
 MIT

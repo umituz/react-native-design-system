@@ -1,349 +1,316 @@
 # AtomicIcon
 
-AtomicIcon, React Native için tema bilinci yüksek bir ikon bileşenidir. Ionicons kütüphanesini kullanır ve tema ile tam entegre çalışır.
+A theme-aware icon component using Ionicons with semantic sizing and colors.
 
-## Özellikler
+## Import & Usage
 
-- 🎨 **Tema Bilinci**: Semantic renkler desteği
-- 📏 **Semantic Size**: xs, sm, md, lg, xl boyutları
-- 🎭 **Background Desteği**: Dairesel arka plan
-- 🖼️ **Custom SVG**: Özel SVG path desteği
-- ✅ **Validation**: Geçersiz ikon kontrolü
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicIcon } from 'react-native-design-system';
+```typescript
+import { AtomicIcon } from 'react-native-design-system/src/atoms/AtomicIcon';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/AtomicIcon.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { AtomicIcon } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16, flexDirection: 'row', gap: 16 }}>
-      <AtomicIcon name="heart-outline" />
-      <AtomicIcon name="star" />
-      <AtomicIcon name="settings" />
-    </View>
-  );
-};
+<AtomicIcon name="heart" />
 ```
 
-## Boyutlar
+## Strategy
+
+**Purpose**: Provide consistent, accessible icons with theme integration.
+
+**When to Use**:
+- Navigation icons (tabs, headers, buttons)
+- Action indicators (favorites, settings, search)
+- Status indicators (success, error, warning)
+- Decorative icons with semantic meaning
+
+**When NOT to Use**:
+- For images or photos (use Image component)
+- When custom icon graphics are needed (use SVG)
+- For non-icon graphics or illustrations
+
+## Rules
+
+### Required
+
+1. **MUST** provide `name` prop (valid Ionicons name)
+2. **ALWAYS** use appropriate size for context
+3. **SHOULD** use semantic colors when meaningful
+4. **MUST** provide accessibility label if not decorative
+5. **ALWAYS** validate icon name exists
+6. **SHOULD** use consistent sizing within context
+7. **MUST** handle invalid icon names gracefully
+
+### Size Guidelines
+
+1. **xs (16px)**: Inline text, tiny badges
+2. **sm (20px)**: List items, compact buttons
+3. **md (24px)**: Default, most use cases
+4. **lg (28px)**: Emphasis, large buttons
+5. **xl (32px)**: Headers, featured icons
+
+### Color Semantics
+
+1. **primary**: Primary actions, active states
+2. **success**: Success states, confirmations
+3. **warning**: Warning states, cautions
+4. **error**: Error states, destructive actions
+5. **secondary**: Secondary actions, inactive states
+
+### Background Usage
+
+1. **Use for**: Floating action buttons, avatar icons
+2. **Don't overuse**: Not every icon needs background
+3. **Match colors**: Background should complement icon
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ flexDirection: 'row', gap: 16, alignItems: 'center' }}>
-  {/* Extra Small */}
+// ❌ No icon name
+<AtomicIcon /> {/* ❌ Missing required prop */}
+
+// ❌ Invalid icon name
+<AtomicIcon name="invalid-icon-name" /> {/* ❌ Shows fallback */}
+
+// ❌ Wrong size for context
+<Button>
+  <AtomicIcon name="add" size="xxl" /> {/* ❌ Too large */}
+</Button>
+
+// ❌ Inconsistent sizes
+<View style={{ flexDirection: 'row' }}>
   <AtomicIcon name="home" size="xs" />
-
-  {/* Small */}
-  <AtomicIcon name="home" size="sm" />
-
-  {/* Medium (Varsayılan) */}
-  <AtomicIcon name="home" size="md" />
-
-  {/* Large */}
-  <AtomicIcon name="home" size="lg" />
-
-  {/* Extra Large */}
-  <AtomicIcon name="home" size="xl" />
-
-  {/* Custom Size */}
-  <AtomicIcon name="home" customSize={32} />
+  <AtomicIcon name="settings" size="xl" /> {/* ❌ Inconsistent */}
 </View>
-```
 
-## Semantic Renkler
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 16 }}>
-  <AtomicIcon name="checkmark-circle" size="lg" color="success" />
-  <AtomicIcon name="warning" size="lg" color="warning" />
-  <AtomicIcon name="close-circle" size="lg" color="error" />
-  <AtomicIcon name="information-circle" size="lg" color="info" />
-  <AtomicIcon name="heart" size="lg" color="primary" />
-  <AtomicIcon name="star" size="lg" color="secondary" />
-</View>
-```
-
-## Custom Renkler
-
-```tsx
+// ❌ Decorative icon not hidden
 <AtomicIcon
-  name="favorite"
-  size="lg"
-  customColor="#FF6B6B"
+  name="sparkles"
+  // ❌ Should have accessibilityElementsHidden
+/>
+
+// ❌ Confusing color semantics
+<AtomicIcon
+  name="trash"
+  color="success" {/* ❌ Trash should be error/danger */}
+/>
+
+// ❌ Background for every icon
+<AtomicIcon
+  name="home"
+  withBackground {/* ❌ Unnecessary */}
 />
 ```
-
-## Background ile Kullanım
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 16 }}>
-  <AtomicIcon
-    name="home"
-    size="md"
-    withBackground
-  />
-
-  <AtomicIcon
-    name="settings"
-    size="md"
-    withBackground
-    backgroundColor="#E3F2FD"
-  />
-
-  <AtomicIcon
-    name="favorite"
-    size="lg"
-    withBackground
-    color="error"
-  />
-</View>
-```
-
-## Custom SVG
-
-```tsx
-<AtomicIcon
-  size="md"
-  svgPath="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-  svgViewBox="0 0 24 24"
-  customColor="#6366f1"
-/>
-```
-
-## Örnek Kullanımlar
-
-### Navigation Icons
-
-```tsx
-<TabBar>
-  <TabIcon icon="home-outline" label="Home" />
-  <TabIcon icon="search-outline" label="Search" />
-  <TabIcon icon="person-outline" label="Profile" />
-</TabBar>
-```
-
-### Action Buttons
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 16 }}>
-  <AtomicIcon
-    name="call-outline"
-    size="lg"
-    color="success"
-    withBackground
-  />
-
-  <AtomicIcon
-    name="mail-outline"
-    size="lg"
-    color="primary"
-    withBackground
-  />
-
-  <AtomicIcon
-    name="videocam-outline"
-    size="lg"
-    color="secondary"
-    withBackground
-  />
-</View>
-```
-
-### Status Icons
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-  <AtomicIcon name="checkmark-circle" size="sm" color="success" />
-  <AtomicText>Online</AtomicText>
-</View>
-
-<View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-  <AtomicIcon name="time" size="sm" color="warning" />
-  <AtomicText>Away</AtomicText>
-</View>
-
-<View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-  <AtomicIcon name="close-circle" size="sm" color="error" />
-  <AtomicText>Offline</AtomicText>
-</View>
-```
-
-## Props
-
-### AtomicIconProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `name` | `IconName` | - | İkon ismi (Ionicons) |
-| `size` | `IconSize` | `'md'` | Semantic boyut |
-| `customSize` | `number` | - | Özel boyut (px) |
-| `color` | `IconColor` | - | Semantic renk |
-| `customColor` | `string` | - | Özel renk |
-| `svgPath` | `string` | - | Custom SVG path |
-| `svgViewBox` | `string` | `'0 0 24 24'` | SVG viewBox |
-| `withBackground` | `boolean` | `false` | Dairesel arka plan |
-| `backgroundColor` | `string` | - | Arka plan rengi |
-| `accessibilityLabel` | `string` | - | Erişilebilirlik etiketi |
-| `testID` | `string` | - | Test ID'si |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-
-### IconSize
-
-```typescript
-type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-```
-
-### IconColor
-
-```typescript
-type IconColor =
-  | 'primary'           // Ana tema rengi
-  | 'secondary'         // İkincil tema rengi
-  | 'success'           // Başarı rengi
-  | 'warning'           // Uyarı rengi
-  | 'error'             // Hata rengi
-  | 'info'              // Bilgi rengi
-  | 'onSurface'         // Yüzey üzerindeki metin
-  | 'surfaceVariant'    // Yüzey variant rengi
-  | 'onPrimary'         // Ana renk üzerindeki metin
-  | 'onSecondary'       // İkincil renk üzerindeki metin
-  | 'textInverse'       // Ters metin rengi
-  | 'textPrimary'       // Birincil metin rengi
-  | 'textSecondary'     // İkincil metin rengi
-  | 'textTertiary'      // Üçüncül metin rengi
-  | 'onSurfaceVariant'; // Yüzey variant üzerindeki metin
-```
-
-## Icon Name Listesi
-
-Ionicons kütüphanesinden popüler ikonlar:
-
-### Navigation
-- `home`, `home-outline`
-- `search`, `search-outline`
-- `settings`, `settings-outline`
-- `menu`, `menu-outline`
-- `arrow-back`, `arrow-forward`
-- `chevron-back`, `chevron-forward`
-
-### Action
-- `add`, `add-outline`
-- `checkmark`, `checkmark-circle`
-- `close`, `close-circle`
-- `trash`, `trash-outline`
-- `create`, `create-outline`
-- `heart`, `heart-outline`
-
-### Communication
-- `mail`, `mail-outline`
-- `call`, `call-outline`
-- `chatbubbles`, `chatbubbles-outline`
-- `videocam`, `videocam-outline`
-
-### Media
-- `image`, `image-outline`
-- `musical-note`, `musical-notes`
-- `camera`, `camera-outline`
-- `mic`, `mic-outline`
-
-### Status
-- `checkmark-circle`, `checkmark-circle-outline`
-- `warning`, `warning-outline`
-- `information-circle`, `information-circle-outline`
-- `close-circle`, `close-circle-outline`
-
-Daha fazla ikon için: [Ionicons Documentation](https://ionic.io/ionicons)
 
 ## Best Practices
 
-### 1. Size Kullanımı
+### Size Selection
 
+✅ **DO**:
 ```tsx
-// Küçük alanlar için
-<AtomicIcon name="checkmark" size="xs" />
+// ✅ Inline with text
+<AtomicText>
+  <AtomicIcon name="star" size="xs" /> Featured
+</AtomicText>
 
-// Normal kullanım
-<AtomicIcon name="checkmark" size="md" />
+// ✅ Button icons
+<Button>
+  <AtomicIcon name="add" size="sm" />
+</Button>
 
-// Vurgu için
-<AtomicIcon name="checkmark" size="xl" />
+// ✅ Tab icons
+<TabBar>
+  <TabIcon icon="home" size="md" />
+</TabBar>
 ```
 
-### 2. Renk Seçimi
-
+❌ **DON'T**:
 ```tsx
-// Ana aksiyon
-<AtomicIcon name="add" color="primary" />
+// ❌ Wrong sizes
+<Button>
+  <AtomicIcon name="add" size="xl" /> {/* Too large */}
+</Button>
 
-// Başarı durumu
-<AtomicIcon name="checkmark" color="success" />
-
-// Hata durumu
-<AtomicIcon name="warning" color="error" />
-
-// Bilgi durumu
-<AtomicIcon name="info" color="info" />
+<AtomicText>
+  <AtomicIcon name="star" size="xl" /> Featured {/* Too large */}
+</AtomicText>
 ```
 
-### 3. Background Kullanımı
+### Semantic Colors
 
+✅ **DO**:
 ```tsx
-// Buton ikonları
+// ✅ Meaningful colors
+<AtomicIcon name="checkmark-circle" color="success" />
+<AtomicIcon name="warning" color="warning" />
+<AtomicIcon name="close-circle" color="error" />
+<AtomicIcon name="heart" color="primary" />
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Confusing colors
+<AtomicIcon name="trash" color="success" />
+<AtomicIcon name="checkmark" color="error" />
+```
+
+### Background Usage
+
+✅ **DO**:
+```tsx
+// ✅ FAB icons
 <AtomicIcon
   name="add"
+  size="md"
   withBackground
   color="primary"
 />
 
-// Avatar ikonları
+// ✅ Status icons
 <AtomicIcon
-  name="person"
-  size="lg"
+  name="checkmark"
+  size="sm"
   withBackground
-  backgroundColor="#E3F2FD"
+  color="success"
+  backgroundColor="#d4edda"
 />
 ```
 
-## Erişilebilirlik
-
-AtomicIcon, tam erişilebilirlik desteği sunar:
-
-- ✅ Screen reader desteği
-- ✅ Accessibility label
-- ✅ Semantic anlamlar
-- ✅ Test ID desteği
-
-## Validation
-
-Geçersiz ikon isimleri otomatik olarak fallback'e yönlendirilir:
-
+❌ **DON'T**:
 ```tsx
-// Geçersiz ikon - console warning gösterir
-<AtomicIcon name="invalid-icon" />
-// → "help-circle-outline" gösterir
+// ❌ Unnecessary background
+<AtomicIcon
+  name="home"
+  withBackground {/* Not needed */}
+/>
 ```
 
-## Performans İpuçları
+## AI Coding Guidelines
 
-1. **React.memo**: AtomicIcon zaten `React.memo` ile sarılmış
-2. **Static Names**: İkon isimlerini değişmez olarak tanımlayın
-3. **Avoid Re-renders**: Parent component'te stabilization kullanın
+### For AI Agents
 
-## İlgili Bileşenler
+When generating AtomicIcon components, follow these rules:
 
-- [`AtomicButton`](../button/README.md) - Buton bileşeni
-- [`AtomicChip`](../chip/README.md) - Chip bileşeni
-- [`AtomicInput`](../input/README.md) - Input bileşeni
+1. **Always provide valid icon name**:
+   ```tsx
+   // ✅ Good - valid Ionicons
+   <AtomicIcon name="home" />
+   <AtomicIcon name="settings-outline" />
+   <AtomicIcon name="chevron-forward" />
 
-## Lisans
+   // ❌ Bad - invalid names
+   <AtomicIcon name="invalid-icon" />
+   <AtomicIcon name="home_icon" />
+   ```
+
+2. **Always use appropriate size**:
+   ```tsx
+   // ✅ Good - size matches context
+   <Button>
+     <AtomicIcon name="add" size="sm" />
+   </Button>
+   <TabIcon icon="home" size="md" />
+
+   // ❌ Bad - wrong size
+   <Button>
+     <AtomicIcon name="add" size="xl" />
+   </Button>
+   ```
+
+3. **Always use semantic colors meaningfully**:
+   ```tsx
+   // ✅ Good - meaningful colors
+   <AtomicIcon name="checkmark" color="success" />
+   <AtomicIcon name="warning" color="warning" />
+   <AtomicIcon name="trash" color="error" />
+
+   // ❌ Bad - confusing colors
+   <AtomicIcon name="trash" color="success" />
+   ```
+
+4. **Always provide accessibility context**:
+   ```tsx
+   // ✅ Good - accessible
+   <AtomicIcon
+     name="menu"
+     accessibilityLabel="Open menu"
+     accessibilityRole="button"
+   />
+
+   // ❌ Bad - not accessible
+   <AtomicIcon name="menu" />
+   ```
+
+### Common Patterns
+
+#### Basic Icon
+```tsx
+<AtomicIcon name="heart" />
+```
+
+#### With Text
+```tsx
+<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <AtomicIcon name="star" size="sm" color="warning" />
+  <AtomicText>Featured</AtomicText>
+</View>
+```
+
+#### Button Icon
+```tsx
+<Button onPress={handleAction}>
+  <AtomicIcon name="add" size="sm" color="white" />
+</Button>
+```
+
+#### Status Icon
+```tsx
+<AtomicIcon
+  name="checkmark-circle"
+  size="lg"
+  color="success"
+  accessibilityLabel="Completed"
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `name` | `IconName` | Yes | - | Ionicons icon name |
+| `size` | `IconSize` | No | `'md'` | Icon size |
+| `customSize` | `number` | No | - | Custom size (px) |
+| `color` | `IconColor` | No | - | Semantic color |
+| `customColor` | `string` | No | - | Custom color |
+| `svgPath` | `string` | No | - | Custom SVG path |
+| `svgViewBox` | `string` | No | `'0 0 24 24'` | SVG viewBox |
+| `withBackground` | `boolean` | No | `false` | Circular background |
+| `backgroundColor` | `string` | No | - | Background color |
+| `accessibilityLabel` | `string` | No | - | Accessibility label |
+
+## Accessibility
+
+- ✅ Screen reader support
+- ✅ Accessibility label
+- ✅ Semantic role
+- ✅ Test ID support
+
+## Performance Tips
+
+1. **React.memo**: Component is already memoized
+2. **Static names**: Use constant icon names
+3. **Avoid re-renders**: Stabilize icon props
+
+## Related Components
+
+- [`AtomicButton`](./AtomicButton.README.md) - Button component
+- [`AtomicChip`](./AtomicChip.README.md) - Chip component
+- [`AtomicText`](./AtomicText.README.md) - Text component
+
+## License
 
 MIT

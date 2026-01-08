@@ -76,6 +76,6 @@ export const GlowingCard: React.FC<GlowingCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'visible', // Needed for shadow
+    overflow: 'hidden', // Clip content to border radius
   },
 });

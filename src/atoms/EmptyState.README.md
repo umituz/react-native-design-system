@@ -1,372 +1,327 @@
 # EmptyState
 
-EmptyState, veri bulunmadığında gösterilen bir bileşendir. Kullanıcıya durumu açıklar ve aksiyon alması için rehberlik eder.
+A component displayed when no data is available. Explains the situation and guides users to take action.
 
-## Özellikler
+## Import & Usage
 
-- 🎭 **İkon veya Illustration**: Görsel destek
-- 📝 **Title & Description**: Açıklama metinleri
-- 👆 **Action Button**: Aksiyon butonu desteği
-- 🎨 **Tema Bilinci**: Otomatik tema uyumu
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { EmptyState } from 'react-native-design-system';
+```typescript
+import { EmptyState } from 'react-native-design-system/src/atoms/EmptyState';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/EmptyState.tsx`
 
-```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { EmptyState } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <EmptyState
-        title="Henüz öğe yok"
-        description="İlk öğeyi oluşturmak için başlayın"
-      />
-    </View>
-  );
-};
-```
-
-## Basic Empty State
+## Basic Usage
 
 ```tsx
 <EmptyState
-  title="Veri Bulunamadı"
+  title="No items yet"
+  description="Get started by creating your first item"
 />
 ```
 
-## Description ile
+## Strategy
+
+**Purpose**: Communicate empty states clearly and guide users to resolution.
+
+**When to Use**:
+- No data in lists/feeds (empty folders, no results)
+- Error states with recovery action
+- Zero-state onboarding (first-time users)
+- Search returned no results
+- Feature not available yet
+
+**When NOT to Use**:
+- Loading states (use AtomicSpinner or AtomicSkeleton)
+- Success states (use success-specific UI)
+- For decorative illustrations without context
+
+## Rules
+
+### Required
+
+1. **MUST** have a `title` prop explaining the state
+2. **SHOULD** provide `description` for clarity
+3. **MUST** provide actionable next step if applicable
+4. **ALWAYS** use appropriate icon for context
+5. **SHOULD** be concise and scannable
+6. **MUST** have accessible labeling
+7. **ALWAYS** provide action when user can resolve
+
+### Content Guidelines
+
+1. **Title**: Short, clear (3-5 words)
+2. **Description**: Helpful, not obvious
+3. **Action**: Clear, action-oriented text
+4. **Icon**: Contextually appropriate
+
+### Action Guidelines
+
+1. **Provide action**: If user can resolve
+2. **Skip action**: If informational only
+3. **Make primary**: When there's one clear action
+4. **Make optional**: When multiple actions possible
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ No title
+<EmptyState /> {/* ❌ Missing required context */}
+
+// ❌ Generic title
 <EmptyState
-  title="Henüz mesaj yok"
-  description="İlk mesajı gönderin ve sohbeti başlatın"
+  title="Empty" {/* ❌ Not helpful */}
 />
-```
 
-## Custom İkon
-
-```tsx
+// ❌ Obvious description
 <EmptyState
-  icon="mail-outline"
-  title="Mesaj Yok"
-  description="Henüz mesajınız bulunmuyor"
+  title="No items"
+  description="There are no items here" {/* ❌ States the obvious */}
 />
-```
 
-## Action Button ile
-
-```tsx
+// ❌ Action without handler
 <EmptyState
-  icon="document-text-outline"
-  title="Henüz içerik yok"
-  description="İlk içeriği oluşturmak için butona tıklayın"
-  actionLabel="İçerik Oluştur"
-  onAction={() => console.log('İçerik oluştur')}
+  actionLabel="Create item"
+  // ❌ Missing onAction
 />
-```
 
-## Custom Illustration
-
-```tsx
+// ❌ Wrong icon
 <EmptyState
-  title="Özelleştirilmiş İllüstrasyon"
-  illustration={
-    <Image
-      source={require('./empty-state.png')}
-      style={{ width: 200, height: 200 }}
-    />
-  }
-  description="Açıklama metni"
+  title="No results"
+  icon="checkmark-circle" {/* ❌ Confusing - suggests success */}
+/>
+
+// ❌ Too much text
+<EmptyState
+  title="No items found in your search"
+  description="You searched for something and we couldn't find it. Try searching again with different terms or checking your spelling." {/* ❌ Too long */}
 />
 ```
-
-## Örnek Kullanımlar
-
-### Boş Liste
-
-```tsx
-export const EmptyList = () => {
-  return (
-    <EmptyState
-      icon="list-outline"
-      title="Henüz liste boş"
-      description="Listeye öğe eklemek için butona tıklayın"
-      actionLabel="Öğe Ekle"
-      onAction={() => console.log('Ekle')}
-    />
-  );
-};
-```
-
-### Boş Arama
-
-```tsx
-export const EmptySearch = ({ query }) => {
-  return (
-    <EmptyState
-      icon="search-outline"
-      title="Sonuç Bulunamadı"
-      description={`"${query}" için sonuç bulunamadı`}
-      actionLabel="Aramayı Temizle"
-      onAction={() => setQuery('')}
-    />
-  );
-};
-```
-
-### Boş Bildirimler
-
-```tsx
-export const EmptyNotifications = () => {
-  return (
-    <EmptyState
-      icon="notifications-off-outline"
-      title="Bildirim Yok"
-      description="Henüz bildiriminiz bulunmuyor"
-    />
-  );
-};
-```
-
-### Boş Favoriler
-
-```tsx
-export const EmptyFavorites = () => {
-  return (
-    <EmptyState
-      icon="heart-outline"
-      title="Favori Yok"
-      description="Beğendiğiniz öğeleri favorilere ekleyin"
-      actionLabel="Keşfet"
-      onAction={() => navigation.navigate('Explore')}
-    />
-  );
-};
-```
-
-### Boş Sepet
-
-```tsx
-export const EmptyCart = () => {
-  return (
-    <EmptyState
-      icon="cart-outline"
-      title="Sepetiniz Boş"
-      description="Sepetinize ürün ekleyin ve alışverişe başlayın"
-      actionLabel="Alışverişe Başla"
-      onAction={() => navigation.navigate('Products')}
-    />
-  );
-};
-```
-
-### Boş İndirmeler
-
-```tsx
-export const EmptyDownloads = () => {
-  return (
-    <EmptyState
-      icon="download-outline"
-      title="İndirme Yok"
-      description="İndirilen içeriğiniz burada görünecek"
-    />
-  );
-};
-```
-
-### Boş Arama Geçmişi
-
-```tsx
-export const EmptySearchHistory = () => {
-  return (
-    <EmptyState
-      icon="time-outline"
-      title="Arama Geçmişi Yok"
-      description="Yaptığınız aramalar burada görünecek"
-    />
-  );
-};
-```
-
-### Bağlantı Hatası
-
-```tsx
-export const ConnectionError = () => {
-  return (
-    <EmptyState
-      icon="wifi-outline"
-      title="İnternet Bağlantısı Yok"
-      description="Lütfen internet bağlantınızı kontrol edin"
-      actionLabel="Tekrar Dene"
-      onAction={() => refetch()}
-    />
-  );
-};
-```
-
-### Hata Durumu
-
-```tsx
-export const ErrorState = ({ error, onRetry }) => {
-  return (
-    <EmptyState
-      icon="alert-circle-outline"
-      title="Bir Hata Oluştu"
-      description={error?.message || 'Beklenmeyen bir hata oluştu'}
-      actionLabel="Tekrar Dene"
-      onAction={onRetry}
-    />
-  );
-};
-```
-
-### İzin Gerekli
-
-```tsx
-export const PermissionRequired = () => {
-  return (
-    <EmptyState
-      icon="lock-closed-outline"
-      title="Kamera İzni Gerekli"
-      description="Fotoğraf çekmek için kamera izni vermeniz gerekiyor"
-      actionLabel="İzin Ver"
-      onAction={() => requestPermission()}
-    />
-  );
-};
-```
-
-### Giriş Gerekli
-
-```tsx
-export const LoginRequired = () => {
-  return (
-    <EmptyState
-      icon="person-outline"
-      title="Giriş Yapmalısınız"
-      description="Bu özelliği kullanmak için giriş yapmalısınız"
-      actionLabel="Giriş Yap"
-      onAction={() => navigation.navigate('Login')}
-    />
-  );
-};
-```
-
-### Özellik Yakında
-
-```tsx
-export const ComingSoon = () => {
-  return (
-    <EmptyState
-      icon="rocket-outline"
-      title="Yakında Burada"
-      description="Bu özellik yakında kullanıma sunulacak"
-    />
-  );
-};
-```
-
-### Bakım Modu
-
-```tsx
-export const MaintenanceMode = () => {
-  return (
-    <EmptyState
-      icon="construct-outline"
-      title="Bakım Modu"
-      description="Sistem bakımında, lütfen daha sonra tekrar deneyin"
-    />
-  );
-};
-```
-
-## Props
-
-### EmptyStateProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `icon` | `string` | `'file-tray-outline'` | İkon ismi |
-| `title` | `string` | - **(Zorunlu)** | Başlık metni |
-| `subtitle` | `string` | - | Alt başlık (deprecated, description kullanın) |
-| `description` | `string` | - | Açıklama metni |
-| `actionLabel` | `string` | - | Aksiyon butonu metni |
-| `onAction` | `() => void` | - | Aksiyon callback'i |
-| `illustration` | `ReactNode` | - | Custom illüstrasyon |
-| `style` | `ViewStyle` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
 
 ## Best Practices
 
-### 1. İkon Seçimi
+### Clear Messaging
 
+✅ **DO**:
 ```tsx
-// Genel boş durum
-<EmptyState icon="document-outline" />
-
-// Arama boş
-<EmptyState icon="search-outline" />
-
-// Hata durumu
-<EmptyState icon="alert-circle-outline" />
-
-// Başarı durumu
-<EmptyState icon="checkmark-circle-outline" />
-```
-
-### 2. Açıklama Metni
-
-```tsx
-// Kısa ve açıklayıcı
+// ✅ Specific and helpful
 <EmptyState
-  title="Boş Başlık"
-  description="Ne yapmanız gerektiğini açıklayın"
+  title="No conversations yet"
+  description="Start a conversation with your contacts"
+  icon="chatbubbles-outline"
+/>
+
+// ✅ Action-oriented
+<EmptyState
+  title="No search results"
+  description="Try adjusting your search terms"
+  actionLabel="Clear search"
+  onAction={() => setSearchQuery('')}
 />
 ```
 
-### 3. Action Button
-
+❌ **DON'T**:
 ```tsx
-// Aksiyon varsa
+// ❌ Generic
+<EmptyState title="Empty" />
+
+// ❌ Obvious description
 <EmptyState
-  actionLabel="Şimdi Ekle"
+  title="No items"
+  description="You have no items"
+/>
+```
+
+### Appropriate Actions
+
+✅ **DO**:
+```tsx
+// ✅ Clear action
+<EmptyState
+  title="No photos yet"
+  description="Take photos to see them here"
+  actionLabel="Take Photo"
+  onAction={handleTakePhoto}
+/>
+
+// ✅ Multiple options
+<View>
+  <EmptyState
+    title="No internet connection"
+    description="Check your connection and try again"
+    icon="wifi-outline"
+  />
+  <Button title="Retry" onPress={handleRetry} />
+</View>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Action without handler
+<EmptyState
+  actionLabel="Create"
+  // Missing onAction
+/>
+
+// ❌ Vague action
+<EmptyState
+  actionLabel="Click here"
   onAction={handleAction}
 />
-
-// Sadece bilgilendirme
-<EmptyState title="Bilgilendirme" />
 ```
 
-## Erişilebilirlik
+### Icon Selection
 
-EmptyState, tam erişilebilirlik desteği sunar:
+✅ **DO**:
+```tsx
+// ✅ Contextually appropriate
+<EmptyState icon="search-outline" title="No results" />
+<EmptyState icon="cart-outline" title="Cart is empty" />
+<EmptyState icon="notifications-off-outline" title="No notifications" />
+<EmptyState icon="wifi-outline" title="No connection" />
+```
 
-- ✅ Screen reader desteği
-- ✅ Semantic anlamlar
-- ✅ Touch uygun boyut
-- ✅ Action button erişilebilirliği
+❌ **DON'T**:
+```tsx
+// ❌ Confusing icons
+<EmptyState icon="checkmark-circle" title="No results" />
+<EmptyState icon="warning" title="Empty cart" />
+```
 
-## Performans İpuçları
+## AI Coding Guidelines
 
-1. **Lazy Load**: Illustration'ları lazy load edin
-2. **Memoization**: Component'i memo edin
-3. **Simple Icons**: Karmaşık illüstrasyonlar yerine basit ikonlar kullanın
+### For AI Agents
 
-## İlgili Bileşenler
+When generating EmptyState components, follow these rules:
 
-- [`AtomicSkeleton`](./skeleton/AtomicSkeleton/README.md) - Skeleton loading
-- [`AtomicSpinner`](./AtomicSpinner/README.md) - Yükleme göstergesi
-- [`AtomicIcon`](./AtomicIcon/README.md) - İkon bileşeni
+1. **Always provide clear title**:
+   ```tsx
+   // ✅ Good - specific and clear
+   <EmptyState title="No conversations yet" />
+   <EmptyState title="Search found no results" />
 
-## Lisans
+   // ❌ Bad - generic
+   <EmptyState title="Empty" />
+   <EmptyState title="No data" />
+   ```
+
+2. **Always provide helpful description**:
+   ```tsx
+   // ✅ Good - helpful guidance
+   <EmptyState
+     title="No items"
+     description="Get started by creating your first item"
+   />
+
+   // ❌ Bad - obvious or missing
+   <EmptyState
+     title="No items"
+     description="There are no items" // Obvious
+   />
+   ```
+
+3. **Always provide action when resolvable**:
+   ```tsx
+   // ✅ Good - actionable
+   <EmptyState
+     title="No photos"
+     actionLabel="Take Photo"
+     onAction={handleTakePhoto}
+   />
+
+   // ❌ Bad - action without handler
+   <EmptyState
+     actionLabel="Create"
+     // Missing onAction
+   />
+   ```
+
+4. **Always use appropriate icons**:
+   ```tsx
+   // ✅ Good - contextual
+   <EmptyState icon="search-outline" title="No results" />
+   <EmptyState icon="cart-outline" title="Cart empty" />
+
+   // ❌ Bad - wrong context
+   <EmptyState icon="checkmark-circle" title="No results" />
+   ```
+
+### Common Patterns
+
+#### Basic Empty State
+```tsx
+<EmptyState
+  title="No items yet"
+  description="Items will appear here when you add them"
+/>
+```
+
+#### With Action
+```tsx
+<EmptyState
+  title="No conversations"
+  description="Start messaging your contacts"
+  icon="chatbubbles-outline"
+  actionLabel="Start Chat"
+  onAction={handleStartChat}
+/>
+```
+
+#### Error State
+```tsx
+<EmptyState
+  title="Connection Error"
+  description="Check your internet connection"
+  icon="wifi-outline"
+  actionLabel="Retry"
+  onAction={handleRetry}
+/>
+```
+
+#### Search Results
+```tsx
+<EmptyState
+  title="No results found"
+  description={`No results for "${query}"`}
+  icon="search-outline"
+  actionLabel="Clear search"
+  onAction={() => setQuery('')}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `title` | `string` | Yes | - | State title |
+| `description` | `string` | No | - | State description |
+| `icon` | `string` | No | `'file-tray-outline'` | Icon name |
+| `actionLabel` | `string` | No | - | Action button text |
+| `onAction` | `() => void` | No | - | Action callback |
+| `illustration` | `ReactNode` | No | - | Custom illustration |
+| `style` | `ViewStyle` | No | - | Custom style |
+| `testID` | `string` | No | - | Test identifier |
+
+## Accessibility
+
+- ✅ Screen reader announces state and action
+- ✅ Semantic meaning from icon
+- ✅ Touch target for action button
+- ✅ Test ID support
+
+## Performance Tips
+
+1. **Lazy illustrations**: Load illustration images lazily
+2. **Memoization**: Memo empty state component
+3. **Simple icons**: Prefer icons over complex illustrations
+
+## Related Components
+
+- [`AtomicSkeleton`](./skeleton/AtomicSkeleton.README.md) - Skeleton loading
+- [`AtomicSpinner`](./AtomicSpinner.README.md) - Loading spinner
+- [`AtomicIcon`](./AtomicIcon.README.md) - Icon component
+
+## License
 
 MIT

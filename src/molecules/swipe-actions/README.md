@@ -1,671 +1,459 @@
 # Swipe Actions
 
-Swipe Actions system provides swipeable action buttons for list items. Users can swipe left or right to reveal quick actions like delete, edit, archive, etc.
+Swipeable action buttons for list items that reveal quick actions (delete, edit, archive, etc.) when users swipe left or right.
 
-## Features
+## Import & Usage
 
-- 👆 **Swipe Gestures**: Left and right swipe support
-- 🎨 **Customizable Colors**: Theme-aware or custom colors
-- 📳 **Haptic Feedback**: Built-in haptic feedback support
-- 🎯 **Multiple Actions**: Support for multiple actions
-- 🔄 **Animated**: Smooth swipe animations
-- ♿ **Accessible**: Full accessibility support
-- 🎭 **Icon & Label**: Visual icons and text labels
-
-## Installation
-
-```tsx
-import { SwipeActionButton } from 'react-native-design-system';
+```typescript
+import { SwipeActionButton } from 'react-native-design-system/src/molecules/swipe-actions';
 ```
+
+**Location:** `src/molecules/swipe-actions/SwipeActionButton.tsx`
 
 ## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { SwipeActionButton } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const deleteAction = {
+<SwipeActionButton
+  action={{
     label: 'Delete',
     icon: 'trash-outline',
     color: '#ef4444',
-    onPress: () => console.log('Deleted'),
-  };
-
-  return (
-    <SwipeActionButton
-      action={deleteAction}
-      position={0}
-      totalActions={1}
-      direction="right"
-    />
-  );
-};
-```
-
-## Action Button
-
-```tsx
-const deleteAction = {
-  label: 'Delete',
-  icon: 'trash-outline',
-  color: '#ef4444',
-  onPress: () => handleDelete(),
-};
-
-<SwipeActionButton
-  action={deleteAction}
+    onPress: handleDelete,
+  }}
   position={0}
   totalActions={1}
   direction="right"
 />
 ```
 
-## Theme Color
+## Strategy
+
+**Purpose**: Provide quick actions for list items through intuitive swipe gestures, improving efficiency in list interactions.
+
+**When to Use**:
+- Email clients (archive, delete, mark read)
+- Task management (complete, snooze, delete)
+- File managers (share, rename, delete)
+- Message threads (reply, forward, delete)
+- Contact lists (call, message, favorite)
+- Shopping cart (wishlist, remove)
+
+**When NOT to Use**:
+- For critical confirmations (use modal instead)
+- For complex multi-step actions
+- For actions that require additional input
+- For primary actions (use main buttons instead)
+
+## Rules
+
+### Required
+
+1. **MUST** provide an `action` object with label, icon, and onPress
+2. **MUST** specify `position` and `totalActions` for proper sizing
+3. **MUST** specify `direction` (left or right swipe)
+4. **ALWAYS** use haptic feedback for better UX
+5. **SHOULD** limit to 2-3 actions per direction
+6. **MUST** have clear, descriptive labels
+7. **NEVER** use swipe actions for critical destructive actions without confirmation
+
+### Action Placement
+
+1. **Right swipe**: Destructive actions (delete, remove)
+2. **Left swipe**: Common actions (edit, share, archive)
+3. **Most common**: Position closest to content
+4. **Color coding**: Red for destructive, themed for others
+
+### Haptic Feedback
+
+1. **Destructive actions**: Heavy intensity
+2. **Secondary actions**: Medium intensity
+3. **Always enable**: Haptics improve UX
+4. **Respect settings**: Follow system preferences
+
+### Color Guidelines
+
+1. **Destructive**: Red (#ef4444)
+2. **Success**: Green (#10b981)
+3. **Primary**: Theme primary color
+4. **Warning**: Orange/Amber (#f59e0b)
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-const editAction = {
-  label: 'Edit',
-  icon: 'create-outline',
-  colorKey: 'primary',
-  onPress: () => handleEdit(),
-};
-
+// ❌ Missing required props
 <SwipeActionButton
-  action={editAction}
+  action={{ label: 'Delete' }}
+  // Missing position, totalActions, direction
+/>
+
+// ❌ Destructive action without confirmation
+<SwipeActionButton
+  action={{
+    label: 'Delete',
+    icon: 'trash-outline',
+    onPress: () => deleteAccount() // ❌ No confirmation
+  }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
+
+// ❌ Too many actions
+<SwipeActionButton
+  action={action1}
+  position={0}
+  totalActions={5} // ❌ Too many
+  direction="left"
+/>
+
+// ❌ Vague labels
+<SwipeActionButton
+  action={{
+    label: 'OK', // ❌ Not descriptive
+    icon: 'checkmark-outline',
+    onPress: handleOK,
+  }}
   position={0}
   totalActions={1}
   direction="left"
 />
-```
 
-## With Haptics
-
-```tsx
-const archiveAction = {
-  label: 'Archive',
-  icon: 'archive-outline',
-  colorKey: 'tertiary',
-  enableHaptics: true,
-  hapticsIntensity: 'Medium',
-  onPress: () => handleArchive(),
-};
-
+// ❌ No haptic feedback
 <SwipeActionButton
-  action={archiveAction}
+  action={{
+    label: 'Delete',
+    icon: 'trash-outline',
+    enableHaptics: false, // ❌ Should have haptics
+    onPress: handleDelete,
+  }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
+
+// ❌ Wrong color semantics
+<SwipeActionButton
+  action={{
+    label: 'Delete',
+    color: '#10b981', // ❌ Green for delete
+    onPress: handleDelete,
+  }}
   position={0}
   totalActions={1}
   direction="right"
 />
 ```
 
-## Example Usages
+## Best Practices
 
 ### Email Actions
 
+✅ **DO**:
 ```tsx
-export const EmailSwipeActions = ({ emailId }) => {
-  const handleDelete = async () => {
-    await deleteEmail(emailId);
-  };
-
-  const handleArchive = async () => {
-    await archiveEmail(emailId);
-  };
-
-  const handleMarkRead = async () => {
-    await markAsRead(emailId);
-  };
-
-  return (
-    <>
-      {/* Right swipe actions */}
-      <SwipeActionButton
-        action={{
-          label: 'Archive',
-          icon: 'archive-outline',
-          colorKey: 'primary',
-          onPress: handleArchive,
-        }}
-        position={0}
-        totalActions={2}
-        direction="right"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Delete',
-          icon: 'trash-outline',
-          colorKey: 'error',
-          onPress: handleDelete,
-        }}
-        position={1}
-        totalActions={2}
-        direction="right"
-      />
-    </>
-  );
-};
+<SwipeActionButton
+  action={{
+    label: 'Archive',
+    icon: 'archive-outline',
+    colorKey: 'primary',
+    enableHaptics: true,
+    hapticsIntensity: 'Medium',
+    onPress: handleArchive,
+  }}
+  position={0}
+  totalActions={2}
+  direction="right"
+/>
 ```
 
-### Task Actions
-
+❌ **DON'T**:
 ```tsx
-export const TaskSwipeActions = ({ taskId }) => {
-  const handleComplete = async () => {
-    await completeTask(taskId);
-    showSuccessToast('Task completed!');
-  };
-
-  const handleSnooze = async () => {
-    await snoozeTask(taskId);
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Complete',
-          icon: 'checkmark-circle-outline',
-          colorKey: 'success',
-          enableHaptics: true,
-          hapticsIntensity: 'Heavy',
-          onPress: handleComplete,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Snooze',
-          icon: 'time-outline',
-          colorKey: 'warning',
-          onPress: handleSnooze,
-        }}
-        position={0}
-        totalActions={1}
-        direction="left"
-      />
-    </>
-  );
-};
+// ❌ Delete without confirmation
+<SwipeActionButton
+  action={{
+    label: 'Delete',
+    icon: 'trash-outline',
+    onPress: () => deleteEmail() // No confirmation
+  }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
 ```
 
-### Message Actions
+### Task Completion
 
+✅ **DO**:
 ```tsx
-export const MessageSwipeActions = ({ message }) => {
-  const handleReply = () => {
-    navigation.navigate('Reply', { messageId: message.id });
-  };
-
-  const handleForward = () => {
-    navigation.navigate('Forward', { messageId: message.id });
-  };
-
-  const handleDelete = async () => {
-    showAlert({
-      variant: 'error',
-      title: 'Delete Message',
-      message: 'Are you sure you want to delete this message?',
-      onConfirm: async () => {
-        await deleteMessage(message.id);
-      },
-    });
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Reply',
-          icon: 'arrow-undo-outline',
-          colorKey: 'primary',
-          onPress: handleReply,
-        }}
-        position={0}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Forward',
-          icon: 'arrow-redo-outline',
-          colorKey: 'primary',
-          onPress: handleForward,
-        }}
-        position={1}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Delete',
-          icon: 'trash-outline',
-          colorKey: 'error',
-          onPress: handleDelete,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-    </>
-  );
-};
+<SwipeActionButton
+  action={{
+    label: 'Complete',
+    icon: 'checkmark-circle-outline',
+    colorKey: 'success',
+    enableHaptics: true,
+    hapticsIntensity: 'Heavy',
+    onPress: handleComplete,
+  }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
 ```
 
-### Contact Actions
+### Action Organization
 
+✅ **DO**:
 ```tsx
-export const ContactSwipeActions = ({ contact }) => {
-  const handleCall = () => {
-    Linking.openURL(`tel:${contact.phone}`);
-  };
+// ✅ Right swipe - destructive
+<SwipeActionButton
+  action={{ label: 'Delete', icon: 'trash-outline', colorKey: 'error' }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
 
-  const handleMessage = () => {
-    navigation.navigate('Message', { contactId: contact.id });
-  };
-
-  const handleFavorite = async () => {
-    await toggleFavorite(contact.id);
-    showToast({
-      variant: 'success',
-      title: contact.isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-    });
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Call',
-          icon: 'call-outline',
-          colorKey: 'success',
-          onPress: handleCall,
-        }}
-        position={0}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Message',
-          icon: 'chatbubble-outline',
-          colorKey: 'primary',
-          onPress: handleMessage,
-        }}
-        position={1}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: contact.isFavorite ? 'Unfavorite' : 'Favorite',
-          icon: contact.isFavorite ? 'heart' : 'heart-outline',
-          colorKey: contact.isFavorite ? 'error' : 'error',
-          onPress: handleFavorite,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-    </>
-  );
-};
+// ✅ Left swipe - common actions
+<SwipeActionButton
+  action={{ label: 'Edit', icon: 'create-outline', colorKey: 'primary' }}
+  position={0}
+  totalActions={2}
+  direction="left"
+/>
+<SwipeActionButton
+  action={{ label: 'Share', icon: 'share-outline', colorKey: 'primary' }}
+  position={1}
+  totalActions={2}
+  direction="left"
+/>
 ```
 
-### File Actions
+## AI Coding Guidelines
 
+### For AI Agents
+
+When generating SwipeActionButton components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { SwipeActionButton } from 'react-native-design-system/src/molecules/swipe-actions';
+   ```
+
+2. **Always provide all required props**:
+   ```tsx
+   <SwipeActionButton
+     action={{
+       label: '具体的动作名称',
+       icon: '合适的图标',
+       colorKey: '根据动作类型选择颜色',
+       enableHaptics: true,
+       onPress: 具体处理函数,
+     }}
+     position={位置索引}
+     totalActions={该方向的总动作数}
+     direction="left 或 right"
+   />
+   ```
+
+3. **Always add confirmation for destructive actions**:
+   ```tsx
+   // ✅ Good - with confirmation
+   action={{
+     label: 'Delete',
+     icon: 'trash-outline',
+     colorKey: 'error',
+     onPress: () => {
+       Alert.alert(
+         'Confirm Delete',
+         'This action cannot be undone',
+         [
+           { text: 'Cancel', style: 'cancel' },
+           { text: 'Delete', style: 'destructive', onPress: handleDelete },
+         ]
+       );
+     },
+   }}
+
+   // ❌ Bad - immediate action
+   action={{
+     label: 'Delete',
+     onPress: handleDelete, // No confirmation
+   }}
+   ```
+
+4. **Always use semantic colors**:
+   ```tsx
+   // ✅ Good - semantic color mapping
+   const getColorByActionType = (type: 'delete' | 'edit' | 'archive') => {
+     switch (type) {
+       case 'delete': return 'error';
+       case 'edit': return 'primary';
+       case 'archive': return 'tertiary';
+       default: return 'primary';
+     }
+   };
+   ```
+
+5. **Always enable haptic feedback**:
+   ```tsx
+   // ✅ Good - haptics enabled
+   action={{
+     label: 'Complete',
+     icon: 'checkmark-circle-outline',
+     enableHaptics: true,
+     hapticsIntensity: 'Heavy',
+     onPress: handleComplete,
+   }}
+   ```
+
+### Common Patterns
+
+#### Email Swipe Actions
 ```tsx
-export const FileSwipeActions = ({ file }) => {
-  const handleShare = async () => {
-    await shareFile(file.uri);
-  };
+<>
+  {/* Right swipe - archive & delete */}
+  <SwipeActionButton
+    action={{
+      label: 'Archive',
+      icon: 'archive-outline',
+      colorKey: 'primary',
+      enableHaptics: true,
+      onPress: handleArchive,
+    }}
+    position={0}
+    totalActions={2}
+    direction="right"
+  />
+  <SwipeActionButton
+    action={{
+      label: 'Delete',
+      icon: 'trash-outline',
+      colorKey: 'error',
+      enableHaptics: true,
+      onPress: () => showDeleteConfirmation(emailId),
+    }}
+    position={1}
+    totalActions={2}
+    direction="right"
+  />
 
-  const handleRename = () => {
-    navigation.navigate('RenameFile', { fileId: file.id });
-  };
-
-  const handleDelete = async () => {
-    showAlert({
-      variant: 'error',
-      title: 'Delete File',
-      message: `Are you sure you want to delete ${file.name}?`,
-      onConfirm: async () => {
-        await deleteFile(file.id);
-      },
-    });
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Share',
-          icon: 'share-outline',
-          colorKey: 'primary',
-          onPress: handleShare,
-        }}
-        position={0}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Rename',
-          icon: 'create-outline',
-          colorKey: 'tertiary',
-          onPress: handleRename,
-        }}
-        position={1}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Delete',
-          icon: 'trash-outline',
-          colorKey: 'error',
-          onPress: handleDelete,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-    </>
-  );
-};
+  {/* Left swipe - mark read & mute */}
+  <SwipeActionButton
+    action={{
+      label: 'Mark Read',
+      icon: 'checkmark-done-outline',
+      colorKey: 'success',
+      enableHaptics: true,
+      onPress: handleMarkRead,
+    }}
+    position={0}
+    totalActions={2}
+    direction="left"
+  />
+</>
 ```
 
-### Notification Actions
-
+#### Task Swipe Actions
 ```tsx
-export const NotificationSwipeActions = ({ notification }) => {
-  const handleMarkRead = async () => {
-    await markAsRead(notification.id);
-  };
-
-  const handleMute = async () => {
-    await muteNotification(notification.id);
-    showToast({
-      variant: 'info',
-      title: 'Notification muted',
-    });
-  };
-
-  const handleDelete = async () => {
-    await deleteNotification(notification.id);
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Mark Read',
-          icon: 'checkmark-done-outline',
-          colorKey: 'success',
-          onPress: handleMarkRead,
-        }}
-        position={0}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Mute',
-          icon: 'volume-mute-outline',
-          colorKey: 'warning',
-          onPress: handleMute,
-        }}
-        position={1}
-        totalActions={2}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Delete',
-          icon: 'trash-outline',
-          colorKey: 'error',
-          onPress: handleDelete,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-    </>
-  );
-};
+<SwipeActionButton
+  action={{
+    label: 'Complete',
+    icon: 'checkmark-circle-outline',
+    colorKey: 'success',
+    enableHaptics: true,
+    hapticsIntensity: 'Heavy',
+    onPress: handleComplete,
+  }}
+  position={0}
+  totalActions={1}
+  direction="right"
+/>
 ```
 
-### Cart Item Actions
-
+#### File Swipe Actions
 ```tsx
-export const CartItemSwipeActions = ({ item }) => {
-  const handleMoveToWishlist = async () => {
-    await moveToWishlist(item.id);
-    showToast({
-      variant: 'success',
-      title: 'Moved to wishlist',
-    });
-  };
-
-  const handleRemove = async () => {
-    showAlert({
-      variant: 'warning',
-      title: 'Remove Item',
-      message: 'Remove this item from your cart?',
-      onConfirm: async () => {
-        await removeFromCart(item.id);
-      },
-    });
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Wishlist',
-          icon: 'heart-outline',
-          colorKey: 'error',
-          onPress: handleMoveToWishlist,
-        }}
-        position={0}
-        totalActions={1}
-        direction="left"
-      />
-
-      <SwipeActionButton
-        action={{
-          label: 'Remove',
-          icon: 'trash-outline',
-          colorKey: 'error',
-          onPress: handleRemove,
-        }}
-        position={0}
-        totalActions={1}
-        direction="right"
-      />
-    </>
-  );
-};
+<>
+  <SwipeActionButton
+    action={{
+      label: 'Share',
+      icon: 'share-outline',
+      colorKey: 'primary',
+      enableHaptics: true,
+      onPress: handleShare,
+    }}
+    position={0}
+    totalActions={2}
+    direction="left"
+  />
+  <SwipeActionButton
+    action={{
+      label: 'Rename',
+      icon: 'create-outline',
+      colorKey: 'tertiary',
+      enableHaptics: true,
+      onPress: handleRename,
+    }}
+    position={1}
+    totalActions={2}
+    direction="left"
+  />
+  <SwipeActionButton
+    action={{
+      label: 'Delete',
+      icon: 'trash-outline',
+      colorKey: 'error',
+      enableHaptics: true,
+      onPress: () => showDeleteConfirmation(fileId),
+    }}
+    position={0}
+    totalActions={1}
+    direction="right"
+  />
+</>
 ```
 
-### Order Actions
+## Props Reference
 
-```tsx
-export const OrderSwipeActions = ({ order }) => {
-  const handleTrack = () => {
-    navigation.navigate('OrderTracking', { orderId: order.id });
-  };
-
-  const handleReorder = async () => {
-    await reorderItems(order.items);
-    showToast({
-      variant: 'success',
-      title: 'Items added to cart',
-    });
-  };
-
-  const handleCancel = async () => {
-    if (order.canCancel) {
-      showAlert({
-        variant: 'error',
-        title: 'Cancel Order',
-        message: 'Are you sure you want to cancel this order?',
-        onConfirm: async () => {
-          await cancelOrder(order.id);
-        },
-      });
-    }
-  };
-
-  return (
-    <>
-      <SwipeActionButton
-        action={{
-          label: 'Track',
-          icon: 'locate-outline',
-          colorKey: 'primary',
-          onPress: handleTrack,
-        }}
-        position={0}
-        totalActions={2}
-        direction="left"
-      />
-
-      {order.canReorder && (
-        <SwipeActionButton
-          action={{
-            label: 'Reorder',
-            icon: 'refresh-outline',
-            colorKey: 'success',
-            onPress: handleReorder,
-          }}
-          position={1}
-          totalActions={2}
-          direction="left"
-        />
-      )}
-
-      {order.canCancel && (
-        <SwipeActionButton
-          action={{
-            label: 'Cancel',
-            icon: 'close-circle-outline',
-            colorKey: 'error',
-            onPress: handleCancel,
-          }}
-          position={0}
-          totalActions={1}
-          direction="right"
-        />
-      )}
-    </>
-  );
-};
-```
-
-## Props
-
-### SwipeActionButtonProps
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `action` | `SwipeActionConfig` | - **(Required)** | Action configuration |
-| `position` | `number` | - **(Required)** | Button position index |
-| `totalActions` | `number` | - **(Required)** | Total number of actions |
-| `direction` | `'left' \| 'right'` | - **(Required)** | Swipe direction |
-| `style` | `ViewStyle` | - | Custom container style |
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `action` | `SwipeActionConfig` | **Yes** | - | Action configuration |
+| `position` | `number` | **Yes** | - | Button position index (0-based) |
+| `totalActions` | `number` | **Yes** | - | Total number of actions in this direction |
+| `direction` | `'left' \| 'right'` | **Yes** | - | Swipe direction |
+| `style` | `ViewStyle` | No | - | Custom container style |
 
 ### SwipeActionConfig
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - **(Required)** | Button label |
-| `icon` | `string` | - **(Required)** | Icon name (Ionicons) |
-| `onPress` | `() => void` | - **(Required)** | Press callback |
-| `color` | `string` | - | Custom color |
-| `colorKey` | `string` | - | Theme color key |
-| `enableHaptics` | `boolean` | `true` | Enable haptic feedback |
-| `hapticsIntensity` | `'Light' \| 'Medium' \| 'Heavy'` | `'Medium'` | Haptic intensity |
-
-## Best Practices
-
-### 1. Action Placement
-
-```tsx
-// Destructive actions on right swipe
-<SwipeActionButton
-  action={{ label: 'Delete', icon: 'trash' }}
-  direction="right" // ✅
-/>
-
-// Common actions on left swipe
-<SwipeActionButton
-  action={{ label: 'Edit', icon: 'create' }}
-  direction="left" // ✅
-/>
-```
-
-### 2. Haptic Feedback
-
-```tsx
-// Important actions: Heavy haptics
-action={{
-  hapticsIntensity: 'Heavy',
-}}
-
-// Secondary actions: Medium haptics
-action={{
-  hapticsIntensity: 'Medium',
-}}
-```
-
-### 3. Clear Labels
-
-```tsx
-// ✅ Good: Clear action
-label: 'Delete'
-
-// ❌ Bad: Vague
-label: 'OK'
-```
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `label` | `string` | **Yes** | - | Button label |
+| `icon` | `string` | **Yes** | - | Icon name (Ionicons) |
+| `onPress` | `() => void` | **Yes** | - | Press callback |
+| `color` | `string` | No | - | Custom color (hex) |
+| `colorKey` | `string` | No | - | Theme color key |
+| `enableHaptics` | `boolean` | No | `true` | Enable haptic feedback |
+| `hapticsIntensity` | `'Light' \| 'Medium' \| 'Heavy'` | No | `'Medium'` | Haptic intensity |
 
 ## Accessibility
 
-SwipeActionButton provides full accessibility support:
-
-- ✅ Screen reader support
-- ✅ Accessibility labels
-- ✅ Touch target size
-- ✅ Semantic actions
+- ✅ Screen reader announces action label
+- ✅ Touch target size maintained (min 44x44pt)
+- ✅ Sufficient color contrast
+- ✅ Semantic action roles
+- ✅ Haptic feedback for tactile feedback
 
 ## Performance Tips
 
-1. **Memoization**: Memo action callbacks
-2. **Optimize**: Minimize re-renders
-3. **Debounce**: Debounce rapid actions
+1. **Memo action callbacks**: Use useCallback for onPress handlers
+2. **Limit actions**: Max 2-3 actions per direction
+3. **Debounce**: Debounce rapid swipe actions
+4. **Optimize re-renders**: Memo action configuration objects
 
 ## Related Components
 
 - [`ListItem`](../listitem/README.md) - List item component
-- [`BaseModal`](../BaseModal/README.md) - Modal component
+- [`BaseModal`](../BaseModal/README.md) - Modal for confirmations
 - [`AlertInline`](../alerts/README.md) - Alert components
-
-## Dependencies
-
-- `@umituz/react-native-haptics` - Haptic feedback service
 
 ## License
 

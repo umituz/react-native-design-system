@@ -1,399 +1,194 @@
 # AtomicDatePicker
 
-AtomicDatePicker, platforma özel native tarih/saat seçici bileşenidir. iOS ve Android'de tutarlı bir deneyim sunar.
+A platform-native date/time picker component for React Native.
 
-## Özellikler
+## Import & Usage
 
-- 📅 **Tarih Seçimi**: Native tarih picker
-- ⏰ **Saat Seçimi**: Native saat picker
-- 🌍 **Locale Desteği**: Otomatik dil entegrasyonu
-- 🎨 **Tema Bilinci**: Tema entegrasyonu
-- 📱 **Platform Spesifik**: iOS wheel, Android dialog
-- ⚙️ **Kısıtlamalar**: Min/Maks tarih
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicDatePicker } from 'react-native-design-system';
+```typescript
+import { AtomicDatePicker } from 'react-native-design-system/src/atoms/AtomicDatePicker';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/AtomicDatePicker.tsx`
+
+## Basic Usage
 
 ```tsx
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { AtomicDatePicker } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={selectedDate}
-        onChange={setSelectedDate}
-        label="Doğum Tarihi"
-        placeholder="Tarih seçin"
-      />
-    </View>
-  );
-};
-```
-
-## Date Picker
-
-```tsx
-const [date, setDate] = useState<Date | null>(null);
-
 <AtomicDatePicker
   value={date}
   onChange={setDate}
-  mode="date"
-  label="Tarih"
-  placeholder="Tarih seçin"
+  label="Birthday"
+  placeholder="Select date"
 />
 ```
 
-## Time Picker
+## Strategy
+
+**Purpose**: Provide native date/time selection with platform-appropriate UI.
+
+**When to Use**:
+- Date selection (birthdays, appointments, events)
+- Time selection (reminders, scheduling)
+- Date ranges (start/end dates)
+- Any date/time input
+
+**When NOT to Use**:
+- For custom calendar UI (build custom component)
+- When using non-standard calendars
+
+## Rules
+
+### Required
+
+1. **MUST** provide `value` and `onChange`
+2. **SHOULD** provide `label` for accessibility
+3. **MUST** show error messages clearly
+4. **ALWAYS** set appropriate `mode` (date, time, datetime)
+5. **SHOULD** use `minimumDate`/`maximumDate` for constraints
+6. **MUST** validate dates appropriately
+
+### Date Validation
+
+1. **Future dates**: Birthdays, events
+2. **Past dates**: Historical dates
+3. **Ranges**: Set min/max appropriately
+4. **Business rules**: Enforce date constraints
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-const [time, setTime] = useState<Date | null>(null);
-
+// ❌ No value or onChange
 <AtomicDatePicker
-  value={time}
-  onChange={setTime}
-  mode="time"
-  label="Saat"
-  placeholder="Saat seçin"
+  label="Birthday"
+  placeholder="Select date"
+  // ❌ Missing value and onChange
+/>
+
+// ❌ Wrong mode
+<AtomicDatePicker
+  mode="datetime" {/* ❌ Android doesn't support */}
+/>
+
+// ❌ No date constraints
+<AtomicDatePicker
+  label="Birthday"
+  // ❌ Should have maximumDate
+/>
+
+// ❌ Generic error
+<AtomicDatePicker
+  error="Invalid date" {/* ❌ Not actionable */}
 />
 ```
 
-## DateTime Picker (Sadece iOS)
+## Best Practices
 
-```tsx
-const [dateTime, setDateTime] = useState<Date | null>(null);
+### Date Constraints
 
-<AtomicDatePicker
-  value={dateTime}
-  onChange={setDateTime}
-  mode="datetime"
-  label="Tarih ve Saat"
-  placeholder="Tarih ve saat seçin"
-/>
-```
-
-## Min/Max Date
-
+✅ **DO**:
 ```tsx
 <AtomicDatePicker
+  label="Birthday"
   value={birthDate}
   onChange={setBirthDate}
-  label="Doğum Tarihi"
   minimumDate={new Date(1900, 0, 1)}
   maximumDate={new Date()}
 />
 ```
 
-## Error State
+❌ **DON'T**:
+```tsx
+// ❌ No constraints
+<AtomicDatePicker
+  label="Birthday"
+  value={birthDate}
+  onChange={setBirthDate}
+  // User can select any date
+/>
+```
 
+## AI Coding Guidelines
+
+### For AI Agents
+
+1. **Always provide value and onChange**:
+   ```tsx
+   // ✅ Good
+   const [date, setDate] = useState<Date | null>(null);
+   <AtomicDatePicker value={date} onChange={setDate} label="Date" />
+
+   // ❌ Bad
+   <AtomicDatePicker label="Date" />
+   ```
+
+2. **Always set date constraints**:
+   ```tsx
+   // ✅ Good
+   <AtomicDatePicker
+     label="Birthday"
+     maximumDate={new Date()}
+   />
+
+   // ❌ Bad
+   <AtomicDatePicker label="Birthday" />
+   ```
+
+3. **Always use appropriate mode**:
+   ```tsx
+   // ✅ Good - correct mode
+   <AtomicDatePicker mode="date" />
+   <AtomicDatePicker mode="time" />
+
+   // ❌ Bad - datetime on Android
+   <AtomicDatePicker mode="datetime" />
+   ```
+
+### Common Patterns
+
+#### Date Picker
 ```tsx
 <AtomicDatePicker
+  label="Date"
   value={date}
   onChange={setDate}
-  label="Tarih"
-  error="Lütfen geçerli bir tarih seçin"
+  mode="date"
 />
 ```
 
-## Disabled
-
+#### Time Picker
 ```tsx
 <AtomicDatePicker
-  value={date}
-  onChange={setDate}
-  label="Tarih"
-  disabled
+  label="Time"
+  value={time}
+  onChange={setTime}
+  mode="time"
 />
 ```
 
-## Örnek Kullanımlar
+## Props Reference
 
-### Doğum Tarihi
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `value` | `Date \| null` | Yes | - | Selected date |
+| `onChange` | `(date: Date) => void` | Yes | - | Change callback |
+| `label` | `string` | No | - | Field label |
+| `error` | `string` | No | - | Error message |
+| `mode` | `'date' \| 'time' \| 'datetime'` | No | `'date'` | Picker mode |
+| `minimumDate` | `Date` | No | - | Minimum date |
+| `maximumDate` | `Date` | No | - | Maximum date |
 
-```tsx
-export const BirthDateForm = () => {
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
+## Accessibility
 
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={birthDate}
-        onChange={setBirthDate}
-        label="Doğum Tarihi"
-        placeholder="Doğum tarihinizi seçin"
-        minimumDate={new Date(1900, 0, 1)}
-        maximumDate={new Date()}
-        mode="date"
-      />
+- ✅ Screen reader support
+- ✅ Native picker accessibility
+- ✅ Error state announcement
 
-      {birthDate && (
-        <AtomicText type="bodyMedium" marginTop="sm">
-          Seçilen Tarih: {birthDate.toLocaleDateString('tr-TR')}
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
+## Related Components
 
-### Randevu Tarihi
+- [`AtomicInput`](./AtomicInput.README.md) - Text input
+- [`FormField`](../molecules/FormField) - Form wrapper
 
-```tsx
-export const AppointmentForm = () => {
-  const [appointmentDate, setAppointmentDate] = useState<Date | null>(null);
-  const [error, setError] = useState('');
-
-  const handleDateChange = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (date < today) {
-      setError('Geçmiş tarih seçemezsiniz');
-      return;
-    }
-
-    setError('');
-    setAppointmentDate(date);
-  };
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={appointmentDate}
-        onChange={handleDateChange}
-        label="Randevu Tarihi"
-        placeholder="Randevu tarihi seçin"
-        minimumDate={new Date()}
-        error={error}
-        mode="date"
-      />
-    </View>
-  );
-};
-```
-
-### Etkinlik Tarihi ve Saati
-
-```tsx
-export const EventForm = () => {
-  const [eventDateTime, setEventDateTime] = useState<Date | null>(null);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={eventDateTime}
-        onChange={setEventDateTime}
-        label="Etkinlik Tarihi ve Saati"
-        placeholder="Tarih ve saat seçin"
-        minimumDate={new Date()}
-        mode="datetime"
-      />
-
-      {eventDateTime && (
-        <AtomicText type="bodyMedium" marginTop="sm">
-          {eventDateTime.toLocaleString('tr-TR')}
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Hatırlatıcı Saati
-
-```tsx
-export const ReminderForm = () => {
-  const [reminderTime, setReminderTime] = useState<Date | null>(null);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={reminderTime}
-        onChange={setReminderTime}
-        label="Hatırlatıcı Saati"
-        placeholder="Saat seçin"
-        mode="time"
-      />
-
-      {reminderTime && (
-        <AtomicText type="bodyMedium" marginTop="sm">
-          {reminderTime.toLocaleTimeString('tr-TR', {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Geçerlilik Tarihi
-
-```tsx
-export const ExpiryForm = () => {
-  const [expiryDate, setExpiryDate] = useState<Date | null>(null);
-
-  const today = new Date();
-  const nextYear = new Date();
-  nextYear.setFullYear(today.getFullYear() + 1);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={expiryDate}
-        onChange={setExpiryDate}
-        label="Geçerlilik Tarihi"
-        placeholder="Son kullanma tarihi"
-        minimumDate={today}
-        maximumDate={nextYear}
-        mode="date"
-      />
-    </View>
-  );
-};
-```
-
-### Tarih Aralığı
-
-```tsx
-export const DateRangeForm = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicDatePicker
-        value={startDate}
-        onChange={(date) => {
-          setStartDate(date);
-          if (endDate && date > endDate) {
-            setEndDate(null);
-          }
-        }}
-        label="Başlangıç Tarihi"
-        placeholder="Başlangıç tarihi"
-        mode="date"
-      />
-
-      <AtomicDatePicker
-        value={endDate}
-        onChange={setEndDate}
-        label="Bitiş Tarihi"
-        placeholder="Bitiş tarihi"
-        minimumDate={startDate || undefined}
-        mode="date"
-        style={{ marginTop: 16 }}
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### AtomicDatePickerProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `value` | `Date \| null` | - **(Zorunlu)** | Seçili tarih |
-| `onChange` | `(date: Date) => void` | - **(Zorunlu)** | Değişiklik olayı |
-| `label` | `string` | - | Etiket metni |
-| `error` | `string` | - | Hata mesajı |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `minimumDate` | `Date` | - | Minimum tarih |
-| `maximumDate` | `Date` | - | Maksimum tarih |
-| `mode` | `'date' \| 'time' \| 'datetime'` | `'date'` | Picker modu |
-| `placeholder` | `string` | `'Select date'` | Placeholder metni |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
-
-## Platform Davranışı
-
-### iOS
-- ✨ Bottom sheet modal açılır
-- 🎡 Wheel picker gösterir
-- ✅ "Done" butonu ile onaylar
-- 👆 Swipe down ile kapatılır
-
-### Android
-- 📱 Dialog açılır
-- 📅 Takvim view gösterir
-- ✅ Seçimde otomatik kapanır
-
-## Best Practices
-
-### 1. Mode Seçimi
-
-```tsx
-// Sadece tarih
-<AtomicDatePicker mode="date" />
-
-// Sadece saat
-<AtomicDatePicker mode="time" />
-
-// Tarih ve saat (sadece iOS)
-<AtomicDatePicker mode="datetime" />
-```
-
-### 2. Tarih Kısıtlamaları
-
-```tsx
-// Geçmiş tarih için
-<AtomicDatePicker
-  maximumDate={new Date()}
-/>
-
-// Gelecek tarih için
-<AtomicDatePicker
-  minimumDate={new Date()}
-/>
-
-// Belirli aralık
-<AtomicDatePicker
-  minimumDate={new Date(2024, 0, 1)}
-  maximumDate={new Date(2024, 11, 31)}
-/>
-```
-
-### 3. Error Handling
-
-```tsx
-const validateDate = (date: Date) => {
-  const today = new Date();
-  if (date < today) {
-    return 'Geçmiş tarih seçemezsiniz';
-  }
-  return '';
-};
-```
-
-## Erişilebilirlik
-
-AtomicDatePicker, tam erişilebilirlik desteği sunar:
-
-- ✅ Screen reader desteği
-- ✅ Native picker erişilebilirliği
-- ✅ Error state anonsu
-- ✅ Test ID desteği
-
-## İlgili Bileşenler
-
-- [`AtomicInput`](./input/README.md) - Input bileşeni
-- [`FormField`](../../molecules/FormField/README.md) - Form alanı
-- [`AtomicPicker`](./picker/README.md) - Seçim bileşeni
-
-## Lisans
+## License
 
 MIT

@@ -1,45 +1,45 @@
-# React Native Design System - Bileşenler
+# React Native Design System - Components
 
-Bu React Native Design System, Atomic Design prensiplerine dayalı olarak kapsamlı bir bileşen kütüphanesi sunar. Tüm bileşenler tamamen özelleştirilebilir, tema bilincine sahip ve erişilebilirdir.
+This React Native Design System provides a comprehensive component library based on Atomic Design principles. All components are fully customizable, theme-aware, and accessible.
 
-## 📦 İçindekiler
+## 📦 Table of Contents
 
-- [Atomlar](#atomlar)
-- [Moleküller](#moleküller)
-- [Organizmalar](#organizmalar)
-- [Layout'lar](#layoutlar)
+- [Atoms](#atoms)
+- [Molecules](#molecules)
+- [Organisms](#organisms)
+- [Layouts](#layouts)
 
-## ⚛️ Atomlar
+## ⚛️ Atoms
 
-Atomlar, tasarım sisteminin en temel yapı taşlarıdır. Tek bir amaca hizmet eden basit bileşenlerdir.
+Atoms are the most basic building blocks of the design system. They serve a single purpose and are simple components.
 
 ### Input & Button
 
-- **[AtomicButton](src/atoms/button/README.md)** - 6 variant'lı buton bileşeni
-- **[AtomicInput](src/atoms/input/README.md)** - Çok özellikli input bileşeni
-- **[AtomicTextArea](src/atoms/AtomicTextArea.README.md)** - Çok satırlı metin girişi
-- **[AtomicPicker](src/atoms/picker/README.md)** - Modal seçim bileşeni
-- **[AtomicDatePicker](src/atoms/AtomicDatePicker.README.md)** - Tarih seçici
+- **[Button](src/atoms/button/README.md)** - Button component with 6 variants
+- **[AtomicInput](src/atoms/input/README.md)** - Feature-rich input component
+- **[AtomicTextArea](src/atoms/AtomicTextArea.README.md)** - Multi-line text input
+- **[AtomicPicker](src/atoms/picker/README.md)** - Modal selection component
+- **[AtomicDatePicker](src/atoms/AtomicDatePicker.README.md)** - Date/time picker
 
 ### Display & Content
 
-- **[AtomicText](src/atoms/AtomicText.README.md)** - Tema bilincine sahip metin bileşeni
-- **[AtomicIcon](src/atoms/AtomicIcon.README.md)** - Ionicons wrapper'ı
-- **[AtomicImage](src/atoms/AtomicImage.README.md)** - Optimize edilmiş resim bileşeni
-- **[AtomicCard](src/atoms/AtomicCard.README.md)** - Basit kart container'ı
+- **[AtomicText](src/atoms/AtomicText.README.md)** - Theme-aware text component
+- **[AtomicIcon](src/atoms/AtomicIcon.README.md)** - Ionicons wrapper
+- **[AtomicImage](src/atoms/AtomicImage.README.md)** - Optimized image component
+- **[AtomicCard](src/atoms/AtomicCard.README.md)** - Simple card container
 
 ### Interactive Elements
 
-- **[AtomicChip](src/atoms/chip/README.md)** - Etiket/filtre bileşeni
-- **[AtomicBadge](src/atoms/AtomicBadge.README.md)** - Rozet bileşeni
+- **[AtomicChip](src/atoms/chip/README.md)** - Label/filter component
+- **[AtomicBadge](src/atoms/AtomicBadge.README.md)** - Badge component
 - **[AtomicSwitch](src/atoms/AtomicSwitch.README.md)** - Toggle switch
 - **[AtomicTouchable](src/atoms/AtomicTouchable.README.md)** - Touchable wrapper
 
 ### Feedback & Loading
 
-- **[AtomicSpinner](src/atoms/AtomicSpinner.README.md)** - Yükleme göstergesi
-- **[AtomicProgress](src/atoms/AtomicProgress.README.md)** - İlerleme çubuğu
-- **[AtomicSkeleton](src/atoms/skeleton/AtomicSkeleton.README.md)** - Skeleton loading
+- **[AtomicSpinner](src/atoms/AtomicSpinner.README.md)** - Loading indicator
+- **[AtomicProgress](src/atoms/AtomicProgress.README.md)** - Progress bar
+- **[AtomicSkeleton](src/atoms/skeleton/AtomicSkeleton.README.md)** - Skeleton loading placeholder
 
 ### Action Buttons
 
@@ -47,150 +47,120 @@ Atomlar, tasarım sisteminin en temel yapı taşlarıdır. Tek bir amaca hizmet 
 
 ### User Interface
 
-- **[AtomicAvatar](src/atoms/AtomicAvatar.README.md)** - Kullanıcı avatar'ı
-
-### Display & Content
-
-- **[AtomicText](src/atoms/AtomicText.README.md)** - Tema bilincine sahip metin bileşeni
-- **[AtomicIcon](src/atoms/AtomicIcon.README.md)** - Ionicons wrapper'ı
-- **[AtomicImage](src/atoms/AtomicImage.README.md)** - Optimize edilmiş resim bileşeni
-- **[AtomicCard](src/atoms/AtomicCard.README.md)** - Basit kart container'ı
-
-### Interactive Elements
-
-- **[AtomicChip](src/atoms/chip/README.md)** - Etiket/filtre bileşeni
-- **[AtomicBadge](src/atoms/AtomicBadge.README.md)** - Rozet bileşeni
-- **[AtomicSwitch](src/atoms/AtomicSwitch.README.md)** - Toggle switch
-- **[AtomicTouchable](src/atoms/AtomicTouchable.README.md)** - Touchable wrapper
-
-### Feedback & Loading
-
-- **[AtomicSpinner](src/atoms/AtomicSpinner.README.md)** - Yükleme göstergesi
-- **[AtomicProgress](src/atoms/AtomicProgress.README.md)** - İlerleme çubuğu
-- **[AtomicSkeleton](src/atoms/skeleton/AtomicSkeleton.README.md)** - Skeleton loading
-
-### Special Components
-
-- **[AtomicAvatar](src/atoms/AtomicAvatar.README.md)** - Kullanıcı avatar'ı
-- **[AtomicFab](src/atoms/AtomicFab.README.md)** - Floating action button
-- **[EmptyState](src/atoms/EmptyState.README.md)** - Boş durum gösterimi
-
-### Utility Components
-
-- **[AtomicStatusBar](src/atoms/AtomicStatusBar.README.md)** - Status bar wrapper
-- **[AtomicKeyboardAvoidingView](src/atoms/AtomicKeyboardAvoidingView.README.md)** - Klavye yönetimi
+- **[AtomicAvatar](src/atoms/AtomicAvatar.README.md)** - User profile avatar
+- **[EmptyState](src/atoms/EmptyState.README.md)** - Empty state display
 
 ### Effects
 
-- **[GlassView](src/atoms/GlassView/README.md)** - Glassmorphism efekti
+- **[GlassView](src/atoms/GlassView/README.md)** - Glassmorphism effect
 
-## 🧪 Moleküller
+## 🧪 Molecules
 
-Moleküller, birden fazla atomun birleşiminden oluşan daha karmaşık bileşenlerdir.
+Molecules are more complex components formed by combining multiple atoms.
 
 ### Form Components
 
-- **[FormField](src/molecules/FormField.README.md)** - Form alanı (label + input + error)
+- **[FormField](src/molecules/FormField.README.md)** - Form field (label + input + error)
 - **[FormContainer](src/organisms/FormContainer.README.md)** - Form container
 
 ### Navigation & Search
 
-- **[SearchBar](src/molecules/SearchBar/README.md)** - Arama çubuğu
-- **[ListItem](src/molecules/ListItem.README.md)** - Liste elemanı
+- **[SearchBar](src/molecules/SearchBar/README.md)** - Search bar component
+- **[ListItem](src/molecules/ListItem.README.md)** - List item component
 
 ### Modals & Overlays
 
-- **[BaseModal](src/molecules/BaseModal.README.md)** - Temel modal bileşeni
-- **[ConfirmationModal](src/molecules/ConfirmationModal.README.md)** - Onay modalı
-- **[BottomSheet](src/molecules/bottom-sheet/README.md)** - Alt sheet
-- **[FilterBottomSheet](src/molecules/FilterBottomSheet.README.md)** - Filtre sheet'i
+- **[BaseModal](src/molecules/BaseModal.README.md)** - Base modal component
+- **[ConfirmationModal](src/molecules/ConfirmationModal.README.md)** - Confirmation modal
+- **[BottomSheet](src/molecules/bottom-sheet/README.md)** - Bottom sheet
 
 ### Alerts & Notifications
 
-- **[AlertBanner](src/molecules/alerts/AlertBanner/README.md)** - Banner uyarısı
-- **[AlertToast](src/molecules/alerts/AlertToast/README.md)** - Toast bildirimi
-- **[AlertInline](src/molecules/alerts/AlertInline/README.md)** - Inline uyarı
-- **[AlertModal](src/molecules/alerts/AlertModal/README.md)** - Modal uyarı
-- **[AlertContainer](src/molecules/alerts/AlertContainer/README.md)** - Alert container
+- **[AlertBanner](src/molecules/alerts/README.md)** - Banner alert
+- **[AlertToast](src/molecules/alerts/README.md)** - Toast notification
+- **[AlertInline](src/molecules/alerts/README.md)** - Inline alert
+- **[AlertModal](src/molecules/alerts/README.md)** - Modal alert
+- **[AlertContainer](src/molecules/alerts/README.md)** - Alert container provider
 
 ### Cards & Media
 
-- **[MediaCard](src/molecules/media-card/MediaCard.README.md)** - Medya kartı
-- **[GlowingCard](src/molecules/GlowingCard/README.md)** - Parlak neon efekti kartı
-- **[Avatar](src/molecules/avatar/Avatar.README.md)** - Kullanıcı avatar'ı
-- **[AvatarGroup](src/molecules/avatar/AvatarGroup/README.md)** - Avatar grubu
+- **[MediaCard](src/molecules/media-card/README.md)** - Media card component
+- **[GlowingCard](src/molecules/GlowingCard/README.md)** - Glowing neon effect card
+- **[Avatar](src/molecules/avatar/README.md)** - User avatar
+- **[AvatarGroup](src/molecules/avatar/AvatarGroup/README.md)** - Avatar group
 
 ### Lists & Data
 
-- **[List](src/molecules/List/README.md)** - Liste bileşeni
-- **[StepProgress](src/molecules/StepProgress/README.md)** - Adım ilerlemesi
-- **[StepHeader](src/molecules/StepHeader/README.md)** - Adım başlığı
+- **[List](src/molecules/List/README.md)** - List component
+- **[StepProgress](src/molecules/StepProgress/README.md)** - Step progress indicator
+- **[StepHeader](src/molecules/StepHeader/README.md)** - Step header
 
 ### Advanced Components
 
-- **[AtomicCalendar](src/molecules/calendar/README.md)** - Takvim bileşeni
-- **[TabsNavigator](src/molecules/navigation/README.md)** - Tab navigasyonu
-- **[StackNavigator](src/molecules/navigation/StackNavigator/README.md)** - Stack navigasyonu
-- **[EmojiPicker](src/molecules/emoji/README.md)** - Emoji seçici
-- **[Countdown](src/molecules/countdown/README.md)** - Geri sayım sayacı
-- **[SwipeActionButton](src/molecules/swipe-actions/README.md)** - Kaydırma aksiyonu
+- **[AtomicCalendar](src/molecules/calendar/README.md)** - Calendar component
+- **[TabsNavigator](src/molecules/navigation/README.md)** - Tab navigation
+- **[StackNavigator](src/molecules/navigation/README.md)** - Stack navigation
+- **[EmojiPicker](src/molecules/emoji/README.md)** - Emoji picker
+- **[Countdown](src/molecules/countdown/README.md)** - Countdown timer
+- **[SwipeActionButton](src/molecules/swipe-actions/README.md)** - Swipe action buttons
+- **[Divider](src/molecules/Divider/README.md)** - Visual divider
 
 ### Utility
 
-- **[IconContainer](src/molecules/IconContainer.README.md)** - İkon container'ı
-- **[SplashScreen](src/molecules/splash/README.md)** - Açılış ekranı
+- **[IconContainer](src/molecules/IconContainer.README.md)** - Icon container
+- **[SplashScreen](src/molecules/splash/README.md)** - Splash screen
 
-## 🏢 Organizmalar
+## 🏢 Organisms
 
-Organizmalar, moleküllerin ve atomların birleşiminden oluşan karmaşık UI desenleridir.
+Organisms are complex UI patterns formed by combining molecules and atoms.
 
-- **[FormContainer](src/organisms/FormContainer.README.md)** - Tam özellikli form container
+- **[FormContainer](src/organisms/FormContainer.README.md)** - Full-featured form container
 
-## 📐 Layout'lar
+## 📐 Layouts
 
-Layout bileşenleri, sayfa düzenlerini ve container'ları yönetir.
+Layout components manage page layouts and containers.
 
-- **[ScreenLayout](src/layouts/ScreenLayout/README.md)** - Ekran düzeni
-- **[AppHeader](src/layouts/AppHeader/README.md)** - Uygulama başlığı
-- **[ScreenHeader](src/layouts/ScreenHeader/README.md)** - Ekran başlığı
-- **[Grid](src/layouts/Grid/README.md)** - Izgara düzeni
-- **[Container](src/layouts/Container/README.md)** - Container bileşeni
-- **[FormLayout](src/layouts/FormLayout/README.md)** - Form düzeni
+- **[ScreenLayout](src/layouts/ScreenLayout/README.md)** - Screen layout wrapper
+- **[AppHeader](src/layouts/AppHeader/README.md)** - Application header
+- **[ScreenHeader](src/layouts/ScreenHeader/README.md)** - Screen header
+- **[Grid](src/layouts/Grid/README.md)** - Grid layout
+- **[Container](src/layouts/Container/README.md)** - Container component
+- **[FormLayout](src/layouts/FormLayout/README.md)** - Form layout
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Quick Start
 
-### Kurulum
+### Installation
 
 ```bash
 npm install react-native-design-system
-# veya
+# or
 yarn add react-native-design-system
 ```
 
-### Temel Kullanım
+### Basic Usage
 
 ```tsx
-import { AtomicButton, AtomicInput, FormField } from 'react-native-design-system';
+import { Button, FormField } from 'react-native-design-system';
 
 function MyScreen() {
   return (
     <>
       <FormField
-        label="E-posta"
-        placeholder="ornek@email.com"
+        label="Email"
+        placeholder="example@email.com"
         keyboardType="email-address"
       />
 
-      <AtomicButton
-        title="Gönder"
-        onPress={() => console.log('Gönderildi')}
+      <Button
+        title="Submit"
+        onPress={() => console.log('Submitted')}
       />
     </>
   );
 }
 ```
 
-### Tema Sağlayıcı
+### Theme Provider
 
 ```tsx
 import { DesignSystemProvider } from 'react-native-design-system';
@@ -204,9 +174,9 @@ function App() {
 }
 ```
 
-## 🎨 Tema Özelleştirme
+## 🎨 Theme Customization
 
-Tüm bileşenler tema sistemi ile tam entegre çalışır:
+All components work seamlessly with the theme system:
 
 ```tsx
 import { useAppDesignTokens } from 'react-native-design-system';
@@ -217,70 +187,74 @@ function MyComponent() {
   return (
     <View style={{ backgroundColor: tokens.colors.primary }}>
       <Text style={{ color: tokens.colors.onPrimary }}>
-        Tema Bilinci
+        Theme Aware
       </Text>
     </View>
   );
 }
 ```
 
-## ♿ Erişilebilirlik
+## 📖 Component Documentation
 
-Tüm bileşenler tam erişilebilirlik desteği sunar:
+Each component has its own comprehensive README with:
 
-- ✅ Screen reader desteği
-- ✅ Touch uygun boyutlar
-- ✅ Semantic anlamlar
+- **Strategy** - Purpose, when to use, when NOT to use
+- **Rules** - Required behaviors with MUST/ALWAYS/NEVER
+- **Forbidden** - ❌ Anti-patterns with code examples
+- **Best Practices** - ✅ DO / ❌ DON'T comparisons
+- **AI Coding Guidelines** - AI-specific instructions
+- **Common Patterns** - Essential implementation patterns
+- **Props Reference** - Minimal props table
+- **Accessibility** - Screen reader and touch target support
+- **Performance Tips** - Optimization guidelines
+
+## ♿ Accessibility
+
+All components provide full accessibility support:
+
+- ✅ Screen reader support
+- ✅ Touch target sizes (min 44x44pt)
+- ✅ Semantic roles
 - ✅ Keyboard navigation (web)
-- ✅ Test ID desteği
+- ✅ Test ID support
 
-## 📱 Platform Desteği
+## 📱 Platform Support
 
-- ✅ iOS (tam destek)
-- ✅ Android (tam destek)
-- ⚠️ Web (çoğu bileşen)
+- ✅ iOS (full support)
+- ✅ Android (full support)
+- ⚠️ Web (most components)
 
-## 🔧 Geliştirme
+## 🔧 Development
 
 ```bash
-# Bağımlılıkları yükle
+# Install dependencies
 npm install
 
-# Storybook'u başlat
+# Run Storybook
 npm run storybook
 
-# Testleri çalıştır
+# Run tests
 npm test
 
 # Build
 npm run build
 ```
 
-## 📚 Dokümantasyon
+## 🤝 Contributing
 
-Her bileşenin kendi README dosyası vardır:
+We welcome contributions! Before submitting a pull request:
 
-- Kapsamlı kullanım örnekleri
-- Tüm props'ların açıklamaları
-- Best practices
-- Performans ipuçları
-- Erişilebilirlik bilgileri
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a pull request
 
-## 🤝 Katkıda Bulunma
+## 📄 License
 
-Katkılarınızı bekliyoruz! Lütfen pull request göndermeden önce:
+MIT License - see LICENSE file for details
 
-1. Fork'layın
-2. Feature branch oluşturun
-3. Değişikliklerinizi commit edin
-4. Push edin
-5. Pull request açın
-
-## 📄 Lisans
-
-MIT License - LICENSE dosyasına bakın
-
-## 🔗 Kaynaklar
+## 🔗 Resources
 
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
@@ -289,4 +263,4 @@ MIT License - LICENSE dosyasına bakın
 
 ---
 
-**Not**: Her bileşenin detaylı dökümantasyonu için kendi README dosyasına bakın.
+**Note:** For detailed documentation of each component, refer to its individual README file.

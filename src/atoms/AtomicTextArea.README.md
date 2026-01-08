@@ -1,352 +1,351 @@
 # AtomicTextArea
 
-AtomicTextArea, çok satırlı metin girişi için optimize edilmiş bir bileşendir. AtomicInput ile tutarlıdır ancak uzun metinler için özel olarak tasarlanmıştır.
+A multi-line text input component optimized for longer content.
 
-## Özellikler
+## Import & Usage
 
-- 📝 **Multiline**: Çok satırlı metin girişi
-- 🏷️ **Label Desteği**: Etiket gösterimi
-- ❌ **Error State**: Hata durumu
-- ℹ️ **Helper Text**: Yardımcı metin
-- 🔢 **Character Counter**: Karakter sayacı
-- ⚙️ **Özelleştirilebilir**: Satır sayısı, min yükseklik
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { AtomicTextArea } from 'react-native-design-system';
+```typescript
+import { AtomicTextArea } from 'react-native-design-system/src/atoms/AtomicTextArea';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/AtomicTextArea.tsx`
+
+## Basic Usage
 
 ```tsx
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { AtomicTextArea } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const [value, setValue] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Açıklama"
-        value={value}
-        onChangeText={setValue}
-        placeholder="Açıklamanızı girin..."
-        rows={4}
-      />
-    </View>
-  );
-};
+<AtomicTextArea
+  label="Description"
+  value={value}
+  onChangeText={setValue}
+  placeholder="Enter description"
+  rows={4}
+/>
 ```
 
-## Basic TextArea
+## Strategy
+
+**Purpose**: Provide accessible multi-line text input for longer content.
+
+**When to Use**:
+- Descriptions, comments, feedback
+- Addresses, bio information
+- Any text input needing multiple lines
+- Content exceeding single-line capacity
+
+**When NOT to Use**:
+- For single-line inputs (use AtomicInput instead)
+- For numeric input (use numeric keyboard input)
+- For passwords (use secure text entry on AtomicInput)
+
+## Rules
+
+### Required
+
+1. **MUST** provide `value` and `onChangeText` (controlled input)
+2. **SHOULD** provide `label` for accessibility
+3. **MUST** show error messages clearly
+4. **ALWAYS** provide helpful placeholder text
+5. **SHOULD** set appropriate `rows` for content
+6. **MUST** clear errors when user starts typing
+7. **ALWAYS** use `helperText` for format requirements
+
+### Validation Rules
+
+1. **Validate on blur**: Check validity when user leaves field
+2. **Clear on type**: Remove error when user starts typing
+3. **Show inline errors**: Display errors below textarea
+4. **Helper text**: Show format requirements
+
+### Character Limits
+
+1. **Set maxLength**: When there's a maximum
+2. **Show counter**: Display remaining characters
+3. **Enforce limits**: Prevent exceeding maximum
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ Uncontrolled input
+<AtomicTextArea
+  placeholder="Enter text"
+  // ❌ Missing value and onChangeText
+/>
+
+// ❌ No label
 <AtomicTextArea
   value={value}
   onChangeText={setValue}
-  placeholder="Metninizi buraya yazın..."
+  placeholder="Description" {/* ❌ Placeholder is not a label */}
 />
-```
 
-## Label ile
-
-```tsx
+// ❌ Generic error message
 <AtomicTextArea
-  label="Hakkımda"
-  value={value}
-  onChangeText={setValue}
-  placeholder="Kendinizden bahsedin"
+  error="Invalid" {/* ❌ Not actionable */}
 />
-```
 
-## Satır Sayısı
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* 2 satır */}
-  <AtomicTextArea
-    rows={2}
-    placeholder="Kısa metin"
-  />
-
-  {/* 4 satır (varsayılan) */}
-  <AtomicTextArea
-    rows={4}
-    placeholder="Normal metin"
-  />
-
-  {/* 8 satır */}
-  <AtomicTextArea
-    rows={8}
-    placeholder="Uzun metin"
-  />
-</View>
-```
-
-## Character Limit
-
-```tsx
+// ❌ Error persists after correction
 <AtomicTextArea
   value={value}
-  onChangeText={setValue}
-  maxLength={200}
-  placeholder="En az 200 karakter"
+  error={error}
+  onChangeText={setValue} {/* ❌ Error still shows when typing */}
 />
-```
 
-## Error State
-
-```tsx
+// ❌ Wrong number of rows
 <AtomicTextArea
-  label="Açıklama"
-  value={value}
-  onChangeText={setValue}
-  errorText="Bu alan zorunludur"
+  rows={20} {/* ❌ Too many rows, use 2-8 */}
 />
-```
 
-## Helper Text
-
-```tsx
+// ❌ Missing helper text for requirements
 <AtomicTextArea
-  label="Ürün Açıklaması"
-  value={value}
-  onChangeText={setValue}
-  helperText="Ürününüzü detaylı açıklayın"
-  placeholder="Ürün özellikleri, kullanım alanları vb."
+  label="Bio"
+  maxLength={150}
+  // ❌ Should show character limit
 />
 ```
-
-## Disabled
-
-```tsx
-<AtomicTextArea
-  label="Notlar"
-  value="Bu alan düzenlenemez"
-  disabled
-/>
-```
-
-## Min Height
-
-```tsx
-<AtomicTextArea
-  value={value}
-  onChangeText={setValue}
-  minHeight={120}
-  placeholder="Min 120px yükseklik"
-/>
-```
-
-## Örnek Kullanımlar
-
-### Form Alanı
-
-```tsx
-export const ProductForm = () => {
-  const [description, setDescription] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Ürün Açıklaması"
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Ürününüzü detaylı açıklayın..."
-        rows={6}
-        maxLength={500}
-        helperText="En az 50 karakter"
-      />
-    </View>
-  );
-};
-```
-
-### Yorum Formu
-
-```tsx
-export const CommentForm = () => {
-  const [comment, setComment] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = () => {
-    if (comment.length < 10) {
-      setError('Yorum en az 10 karakter olmalıdır');
-      return;
-    }
-    // Submit logic
-  };
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Yorumunuz"
-        value={comment}
-        onChangeText={setComment}
-        placeholder=" düşüncelerinizi paylaşın..."
-        rows={5}
-        maxLength={500}
-        errorText={error}
-      />
-
-      <Button title="Gönder" onPress={handleSubmit} />
-    </View>
-  );
-};
-```
-
-### Not Alma
-
-```tsx
-export const NotesForm = () => {
-  const [notes, setNotes] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Notlar"
-        value={notes}
-        onChangeText={setNotes}
-        placeholder="Notlarınızı buraya yazın..."
-        rows={10}
-        helperText="Kişisel notlarınız"
-      />
-    </View>
-  );
-};
-```
-
-### Bio Formu
-
-```tsx
-export const BioForm = () => {
-  const [bio, setBio] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Hakkımda"
-        value={bio}
-        onChangeText={setBio}
-        placeholder="Kendinizden bahsedin..."
-        rows={4}
-        maxLength={150}
-        helperText="Maksimum 150 karakter"
-      />
-
-      {bio.length > 0 && (
-        <AtomicText type="bodySmall" color="textSecondary">
-          {bio.length}/150 karakter
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Geri Bildirim
-
-```tsx
-export const FeedbackForm = () => {
-  const [feedback, setFeedback] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicTextArea
-        label="Geri Bildirim"
-        value={feedback}
-        onChangeText={setFeedback}
-        placeholder="Deneyiminiz hakkında bilgi verin..."
-        rows={6}
-        maxLength={1000}
-        helperText="Geribildiriminiz bizim için değerli"
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### AtomicTextAreaProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `label` | `string` | - | Etiket metni |
-| `value` | `string` | - | Textarea değeri |
-| `onChangeText` | `(text: string) => void` | - | Değişiklik olayı |
-| `placeholder` | `string` | - | Placeholder metni |
-| `helperText` | `string` | - | Yardımcı metin |
-| `errorText` | `string` | - | Hata mesajı |
-| `maxLength` | `number` | - | Maksimum karakter |
-| `numberOfLines` | `number` | - | Satır sayısı (alternatif) |
-| `rows` | `number` | `4` | Satır sayısı |
-| `minHeight` | `number` | - | Minimum yükseklik |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `autoFocus` | `boolean` | - | Otomatik odak |
-| `returnKeyType` | `ReturnKeyType` | - | Return tuşu |
-| `onSubmitEditing` | `() => void` | - | Submit olayı |
-| `blurOnSubmit` | `boolean` | - | Submit'te blur |
-| `style` | `StyleProp<ViewStyle>` | - | Container stil |
-| `inputStyle` | `StyleProp<TextStyle>` | - | Input stil |
-| `testID` | `string` | - | Test ID'si |
 
 ## Best Practices
 
-### 1. Satır Sayısı
+### Controlled Input
 
+✅ **DO**:
 ```tsx
-// Kısa metinler için
-<AtomicTextArea rows={2} />
+const [value, setValue] = useState('');
 
-// Normal kullanım
-<AtomicTextArea rows={4} />
-
-// Uzun metinler için
-<AtomicTextArea rows={8} />
-```
-
-### 2. Character Limit
-
-```tsx
-// Kısa limit
-<AtomicTextArea maxLength={100} />
-
-// Orta limit
-<AtomicTextArea maxLength={500} />
-
-// Uzun limit
-<AtomicTextArea maxLength={1000} />
-```
-
-### 3. Helper Text
-
-```tsx
-// Kullanıcıya rehberlik edin
 <AtomicTextArea
-  helperText="En az 50 karakter"
+  label="Description"
+  value={value}
+  onChangeText={setValue}
+  placeholder="Enter description"
+  rows={4}
 />
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// ❌ Uncontrolled
+<AtomicTextArea placeholder="Enter text" />
 
-AtomicTextArea, tam erişilebilirlik desteği sunar:
+// ❌ Missing handler
+<AtomicTextArea
+  value={value}
+  placeholder="Text" {/* No onChangeText */}
+/>
+```
 
-- ✅ Label ilişkilendirmesi
-- ✅ Error state anonsu
+### Error Handling
+
+✅ **DO**:
+```tsx
+const [value, setValue] = useState('');
+const [error, setError] = useState('');
+
+const handleChange = (text) => {
+  setValue(text);
+  if (error) setError(''); // Clear error on type
+};
+
+const handleBlur = () => {
+  if (!value) setError('Description is required');
+  else if (value.length < 10) setError('Minimum 10 characters');
+};
+
+<AtomicTextArea
+  label="Description"
+  value={value}
+  onChangeText={handleChange}
+  onBlur={handleBlur}
+  error={error}
+  rows={4}
+/>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Generic error
+<AtomicTextArea error="Invalid" />
+
+// ❌ Error persists
+<AtomicTextArea
+  value={value}
+  error={error}
+  onChangeText={setValue} {/* Error doesn't clear */}
+/>
+```
+
+### Character Limits
+
+✅ **DO**:
+```tsx
+<AtomicTextArea
+  label="Bio"
+  value={value}
+  onChangeText={setValue}
+  maxLength={150}
+  rows={3}
+  helperText="Maximum 150 characters"
+/>
+
+{value.length > 0 && (
+  <AtomicText type="bodySmall" color="textSecondary">
+    {value.length}/150 characters
+  </AtomicText>
+)}
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ No indication of limit
+<AtomicTextArea
+  maxLength={150}
+  // ❌ User doesn't know limit exists
+/>
+```
+
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating AtomicTextArea components, follow these rules:
+
+1. **Always use controlled input**:
+   ```tsx
+   // ✅ Good
+   const [value, setValue] = useState('');
+   <AtomicTextArea
+     value={value}
+     onChangeText={setValue}
+     label="Description"
+   />
+
+   // ❌ Bad
+   <AtomicTextArea placeholder="Enter text" />
+   ```
+
+2. **Always provide label**:
+   ```tsx
+   // ✅ Good
+   <AtomicTextArea
+     label="Description"
+     value={value}
+     onChangeText={setValue}
+   />
+
+   // ❌ Bad
+   <AtomicTextArea
+     value={value}
+     onChangeText={setValue}
+     placeholder="Description" // Not a label
+   />
+   ```
+
+3. **Always handle errors properly**:
+   ```tsx
+   // ✅ Good - clears error
+   const handleChange = (text) => {
+     setValue(text);
+     if (error) setError('');
+   };
+
+   // ❌ Bad - error persists
+   const handleChange = (text) => {
+     setValue(text);
+   };
+   ```
+
+4. **Always use appropriate row count**:
+   ```tsx
+   // ✅ Good - reasonable rows
+   <AtomicTextArea rows={2} />  // Short input
+   <AtomicTextArea rows={4} />  // Normal
+   <AtomicTextArea rows={8} />  // Long content
+
+   // ❌ Bad - too many
+   <AtomicTextArea rows={20} />
+   ```
+
+### Common Patterns
+
+#### Basic TextArea
+```tsx
+<AtomicTextArea
+  label="Description"
+  value={value}
+  onChangeText={setValue}
+  placeholder="Enter description"
+  rows={4}
+/>
+```
+
+#### With Validation
+```tsx
+const [value, setValue] = useState('');
+const [error, setError] = useState('');
+
+<AtomicTextArea
+  label="Description"
+  value={value}
+  onChangeText={(text) => {
+    setValue(text);
+    if (error) setError('');
+  }}
+  onBlur={() => {
+    if (!value) setError('Required');
+  }}
+  error={error}
+  rows={4}
+/>
+```
+
+#### With Character Limit
+```tsx
+<AtomicTextArea
+  label="Bio"
+  value={value}
+  onChangeText={setValue}
+  maxLength={150}
+  rows={3}
+  helperText="Maximum 150 characters"
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `label` | `string` | No | - | Field label |
+| `value` | `string` | Yes | - | Input value |
+| `onChangeText` | `(text: string) => void` | Yes | - | Change callback |
+| `placeholder` | `string` | No | - | Placeholder text |
+| `helperText` | `string` | No | - | Helper text |
+| `error` | `string` | No | - | Error message |
+| `maxLength` | `number` | No | - | Maximum characters |
+| `rows` | `number` | No | `4` | Number of rows |
+| `minHeight` | `number` | No | - | Minimum height |
+| `disabled` | `boolean` | No | `false` | Disabled state |
+| `autoFocus` | `boolean` | No | - | Auto focus |
+| `testID` | `string` | No | - | Test identifier |
+
+## Accessibility
+
+- ✅ Label association
+- ✅ Error state announcement
 - ✅ Character counter
-- ✅ Screen reader desteği
+- ✅ Screen reader support
 
-## İlgili Bileşenler
+## Performance Tips
 
-- [`AtomicInput`](./input/README.md) - Tek satırlı input
-- [`FormField`](../../molecules/FormField/README.md) - Form alanı
-- [`AtomicText`](./AtomicText/README.md) - Metin bileşeni
+1. **Controlled inputs**: Always use state
+2. **Memoization**: Memo validation functions
+3. **Debounce**: Debounce validation for better UX
 
-## Lisans
+## Related Components
+
+- [`AtomicInput`](./AtomicInput.README.md) - Single-line input
+- [`FormField`](../molecules/FormField) - Form field wrapper
+- [`AtomicText`](./AtomicText.README.md) - Text component
+
+## License
 
 MIT

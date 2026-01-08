@@ -1,431 +1,370 @@
-# Avatar (Molecule)
+# Avatar
 
-Avatar molecule bileşeni, kullanıcı profil resimlerini göstermek için gelişmiş bir bileşendir. Resim, isim baş harfleri veya ikon fallback'ları destekler. Ayrıca online durumu gösterebilir.
+Avatar is an advanced component for displaying user profile images with support for initials, icon fallbacks, and online status indicators.
 
-## Özellikler
+## Import & Usage
 
-- 🖼️ **Resim Desteği**: URI ile resim yükleme
-- 🔤 **Initials**: İsimden baş harfleri oluşturma
-- 🎭 **İkon Fallback**: Fallback ikon desteği
-- 🟢 **Status Indicator**: Online/offline durumu
-- 📏 **5 Size**: xs, sm, md, lg, xl
-- 🔲 **2 Shape**: Circle, Square
-- 🎨 **Özelleştirilebilir**: Renk ve stil
-- 👆 **Pressable**: Tıklanabilir avatar
-
-## Kurulum
-
-```tsx
-import { Avatar } from 'react-native-design-system';
+```typescript
+import { Avatar } from 'react-native-design-system/src/molecules/avatar';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/avatar/Avatar.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <Avatar
-        uri="https://example.com/avatar.jpg"
-        size="md"
-      />
-    </View>
-  );
-};
-```
-
-## Basic Avatar
-
-```tsx
-{/* Resim ile */}
 <Avatar
   uri="https://example.com/avatar.jpg"
   size="md"
 />
+```
 
-{/* İsim ile (initials) */}
+## Strategy
+
+**Purpose**: Provide a flexible, accessible avatar component that handles various content types (images, initials, icons) with consistent styling.
+
+**When to Use**:
+- User profile pictures
+- Team member displays
+- Chat/conversation lists
+- User selectors
+- Online status indicators
+
+**When NOT to Use**:
+- For decorative images - use Image component
+- For logos/branding - use dedicated logo component
+- For complex graphics - use custom component
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide at least one: `uri`, `name`, or `icon`
+2. **MUST** handle missing images gracefully
+3. **NEVER** use broken or invalid image URLs
+4. **ALWAYS** provide accessibility labels
+5. **MUST** maintain appropriate size for context
+
+### Content Priority
+
+1. **ALWAYS** prioritize: `uri` > `name` (initials) > `icon`
+2. **MUST** fallback gracefully if image fails
+3. **SHOULD** provide name for accessibility
+4. **NEVER** show empty avatar
+
+### Status Indicator
+
+1. **ALWAYS** set `showStatus` to enable status
+2. **MUST** provide valid `status` value when shown
+3. **SHOULD** reflect actual user status
+4. **NEVER** show status without `showStatus` prop
+
+## Forbidden
+
+❌ **NEVER** do these:
+
+```tsx
+// ❌ Empty avatar
+<Avatar /> {/* No content */}
+
+// ❌ Invalid URI
+<Avatar uri="not-a-valid-url" />
+
+// ❌ Too many props
 <Avatar
-  name="Ahmet Yılmaz"
-  size="md"
+  uri="image.jpg"
+  name="John"
+  icon="person" // ❌ URI takes priority
 />
 
-{/* İkon ile */}
+// ❌ Status without showStatus
 <Avatar
-  icon="person-outline"
-  size="md"
+  uri="image.jpg"
+  status="online" // ❌ Missing showStatus
 />
-```
 
-## Boyutlar
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-  <Avatar name="A" size="xs" />
-  <Avatar name="A" size="sm" />
-  <Avatar name="A" size="md" />
-  <Avatar name="A" size="lg" />
-  <Avatar name="A" size="xl" />
-</View>
-```
-
-## Shape
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8 }}>
-  {/* Circle (varsayılan) */}
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    shape="circle"
-    size="lg"
-  />
-
-  {/* Square */}
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    shape="square"
-    size="lg"
-  />
-</View>
-```
-
-## Status Indicator
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8 }}>
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    showStatus
-    status="online"
-    size="lg"
-  />
-
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    showStatus
-    status="offline"
-    size="lg"
-  />
-
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    showStatus
-    status="away"
-    size="lg"
-  />
-
-  <Avatar
-    uri="https://example.com/avatar.jpg"
-    showStatus
-    status="busy"
-    size="lg"
-  />
-</View>
-```
-
-## Custom Background
-
-```tsx
+// ❌ Wrong size for context
 <Avatar
-  name="Ahmet"
-  backgroundColor="#6366f1"
-  size="lg"
+  uri="image.jpg"
+  size="xl" // Too big for list item
 />
-```
 
-## Pressable
+// ❌ No accessibility
+<Avatar uri="image.jpg" /> {/* Missing accessibilityLabel */}
 
-```tsx
+// ❌ Hardcoded status
 <Avatar
-  uri="https://example.com/avatar.jpg"
-  size="lg"
-  onPress={() => navigation.navigate('Profile')}
+  uri="image.jpg"
+  showStatus
+  status="online" // ❌ Should reflect actual status
 />
-```
-
-## Örnek Kullanımlar
-
-### Kullanıcı Listesi
-
-```tsx
-export const UserList = ({ users }) => {
-  return (
-    <View style={{ padding: 16 }}>
-      {users.map((user) => (
-        <View key={user.id} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
-          <Avatar
-            uri={user.avatar}
-            name={user.name}
-            showStatus
-            status={user.status}
-            size="md"
-            style={{ marginRight: 12 }}
-          />
-
-          <View style={{ flex: 1 }}>
-            <AtomicText type="bodyLarge" fontWeight="600">
-              {user.name}
-            </AtomicText>
-            <AtomicText type="bodySmall" color="textSecondary">
-              @{user.username}
-            </AtomicText>
-          </View>
-        </View>
-      ))}
-    </View>
-  );
-};
-```
-
-### Avatar Group
-
-```tsx
-export const AvatarGroup = ({ users, max = 3 }) => {
-  const visibleUsers = users.slice(0, max);
-  const remainingCount = users.length - max;
-
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      {visibleUsers.map((user, index) => (
-        <Avatar
-          key={user.id}
-          uri={user.avatar}
-          name={user.name}
-          size="sm"
-          style={{
-            marginLeft: index > 0 ? -8 : 0,
-            borderWidth: 2,
-            borderColor: '#fff',
-          }}
-        />
-      ))}
-
-      {remainingCount > 0 && (
-        <View
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: '#e0e0e0',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: -8,
-            borderWidth: 2,
-            borderColor: '#fff',
-          }}
-        >
-          <AtomicText type="labelSmall">
-            +{remainingCount}
-          </AtomicText>
-        </View>
-      )}
-    </View>
-  );
-};
-```
-
-### Profil Header
-
-```tsx
-export const ProfileHeader = ({ user }) => {
-  return (
-    <View style={{ alignItems: 'center', padding: 24 }}>
-      <Avatar
-        uri={user.avatar}
-        name={user.name}
-        size="xl"
-        showStatus
-        status={user.status}
-        style={{ marginBottom: 16 }}
-      />
-
-      <AtomicText type="headlineSmall">
-        {user.name}
-      </AtomicText>
-
-      <AtomicText type="bodyMedium" color="textSecondary">
-        @{user.username}
-      </AtomicText>
-    </View>
-  );
-};
-```
-
-### Sohbet Listesi
-
-```tsx
-export const ChatList = ({ chats }) => {
-  return (
-    <FlatList
-      data={chats}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <Pressable
-          style={{ flexDirection: 'row', alignItems: 'center', padding: 16 }}
-          onPress={() => navigation.navigate('Chat', { chatId: item.id })}
-        >
-          <Avatar
-            uri={item.avatar}
-            name={item.name}
-            showStatus
-            status={item.online ? 'online' : 'offline'}
-            size="md"
-            style={{ marginRight: 12 }}
-          />
-
-          <View style={{ flex: 1 }}>
-            <AtomicText type="bodyLarge" fontWeight="600">
-              {item.name}
-            </AtomicText>
-            <AtomicText type="bodySmall" color="textSecondary" numberOfLines={1}>
-              {item.lastMessage}
-            </AtomicText>
-          </View>
-
-          <AtomicText type="bodySmall" color="textTertiary">
-            {item.time}
-          </AtomicText>
-        </Pressable>
-      )}
-    />
-  );
-};
-```
-
-### Takım Üyeleri
-
-```tsx
-export const TeamMembers = ({ members }) => {
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-      {members.map((member) => (
-        <View key={member.id} style={{ alignItems: 'center' }}>
-          <Avatar
-            uri={member.avatar}
-            name={member.name}
-            showStatus
-            status={member.status}
-            size="sm"
-          />
-
-          <AtomicText type="bodySmall" style={{ marginTop: 4 }}>
-            {member.firstName}
-          </AtomicText>
-        </View>
-      ))}
-    </View>
-  );
-};
-```
-
-## Props
-
-### AvatarProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `uri` | `string` | - | Resim URI'si |
-| `name` | `string` | - | Kullanıcı ismi |
-| `icon` | `string` | - | Fallback ikon |
-| `size` | `AvatarSize` | `'md'` | Avatar boyutu |
-| `shape` | `AvatarShape` | `'circle'` | Avatar şekli |
-| `backgroundColor` | `string` | - | Arka plan rengi |
-| `showStatus` | `boolean` | `false` | Status göster |
-| `status` | `StatusType` | `'offline'` | Durum |
-| `style` | `ViewStyle` | - | Özel stil |
-| `imageStyle` | `ImageStyle` | - | Resim stili |
-| `onPress` | `() => void` | - | Tıklama olayı |
-
-### AvatarSize
-
-```typescript
-type AvatarSize =
-  | 'xs'   // Extra small
-  | 'sm'   // Small
-  | 'md'   // Medium (varsayılan)
-  | 'lg'   // Large
-  | 'xl';  // Extra large
-```
-
-### AvatarShape
-
-```typescript
-type AvatarShape = 'circle' | 'square';
-```
-
-### StatusType
-
-```typescript
-type StatusType =
-  | 'online'   // Yeşil
-  | 'offline'  // Gri
-  | 'away'     // Sarı
-  | 'busy';     // Kırmızı
 ```
 
 ## Best Practices
 
-### 1. Boyut Seçimi
+### Size Selection
 
+✅ **DO**:
 ```tsx
-// Liste içinde
+// List items - small
 <Avatar size="sm" />
 
-// Profil sayfası
-<Avatar size="xl" />
-
-// Navigasyon
+// Standard display - medium
 <Avatar size="md" />
+
+// Profile page - large
+<Avatar size="xl" />
 ```
 
-### 2. Status Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// Kullanıcı durumu
-<Avatar showStatus status="online" />
-
-// Sohbet uygulaması
-<Avatar showStatus status={user.isOnline ? 'online' : 'offline'} />
+// Don't use wrong size for context
+<ListItem>
+  <Avatar size="xl" /> {/* ❌ Too big for list */}
+</ListItem>
 ```
 
-### 3. Fallback Hierarchy
+### Status Usage
 
+✅ **DO**:
 ```tsx
-// 1. Resim varsa
-<Avatar uri={avatarUri} />
-
-// 2. İsim varsa
-<Avatar name="Ahmet Yılmaz" /> {/* AY */}
-
-// 3. Hiçbiri yoksa
-<Avatar /> {/* İkon */}
+// Show actual status
+<Avatar
+  uri={user.avatar}
+  showStatus
+  status={user.isOnline ? 'online' : 'offline'}
+/>
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// Don't fake status
+<Avatar
+  uri="image.jpg"
+  showStatus
+  status="online" // ❌ Not real status
+/>
+```
 
-Avatar, tam erişilebilirlik desteği sunar:
+### Fallback Hierarchy
 
-- ✅ Screen reader desteği
-- ✅ Accessibility label
-- ✅ FaceID for status
-- ✅ Touch uygun boyut
-- ✅ Test ID desteği
+✅ **DO**:
+```tsx
+// 1. Image with name fallback
+<Avatar
+  uri={avatarUri}
+  name="John Doe"
+/>
 
-## Performans İpuçları
+// 2. Name only
+<Avatar name="John Doe" /> {/* Shows "JD" */}
 
-1. **Image Caching**: Resimleri cache'leyin
-2. **Lazy Loading**: Uzun listelerde lazy load kullanın
-3. **Resize**: Resimleri doğru boyutta yükleyin
+// 3. Icon fallback
+<Avatar icon="person-outline" />
+```
 
-## İlgili Bileşenler
+❌ **DON'T**:
+```tsx
+// Don't provide unnecessary props
+<Avatar
+  uri="image.jpg"
+  name="John Doe"
+  icon="person" // ❌ Unnecessary
+/>
+```
 
-- [`AvatarGroup`](./AvatarGroup/README.md) - Avatar grubu
-- [`AtomicAvatar`](../../atoms/AtomicAvatar/README.md) - Atom avatar
-- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - İkon bileşeni
+## AI Coding Guidelines
 
-## Lisans
+### For AI Agents
+
+When generating Avatar components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { Avatar } from 'react-native-design-system/src/molecules/avatar';
+   ```
+
+2. **Always provide content**:
+   ```tsx
+   // ✅ Good - With fallback
+   <Avatar
+     uri={user.avatar}
+     name={user.name}
+   />
+
+   // ❌ Bad - No fallback
+   <Avatar uri={user.avatar} />
+   ```
+
+3. **Always use appropriate size**:
+   ```tsx
+   // List items
+   <Avatar size="sm" />
+
+   // Standard
+   <Avatar size="md" />
+
+   // Profile
+   <Avatar size="lg" />
+
+   // Featured
+   <Avatar size="xl" />
+   ```
+
+4. **Always handle status correctly**:
+   ```tsx
+   // ❌ Bad
+   <Avatar
+     uri="image.jpg"
+     status="online" // Missing showStatus
+   />
+
+   // ✅ Good
+   <Avatar
+     uri="image.jpg"
+     showStatus
+     status={user.isOnline ? 'online' : 'offline'}
+   />
+   ```
+
+5. **Never forget accessibility**:
+   ```tsx
+   // ❌ Bad
+   <Avatar uri="image.jpg" />
+
+   // ✅ Good
+   <Avatar
+     uri="image.jpg}
+     name="John Doe"
+     accessibilityLabel="John Doe's profile picture"
+   />
+   ```
+
+### Common Patterns
+
+#### User List Item
+```tsx
+<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <Avatar
+    uri={user.avatar}
+    name={user.name}
+    size="md"
+    showStatus
+    status={user.isOnline ? 'online' : 'offline'}
+    style={{ marginRight: 12 }}
+  />
+
+  <View>
+    <Text type="bodyLarge">{user.name}</Text>
+    <Text type="bodySmall" color="secondary">@{user.username}</Text>
+  </View>
+</View>
+```
+
+#### Profile Header
+```tsx
+<View style={{ alignItems: 'center', padding: 24 }}>
+  <Avatar
+    uri={user.avatar}
+    name={user.name}
+    size="xl"
+    showStatus
+    status={user.status}
+    style={{ marginBottom: 16 }}
+  />
+
+  <Text type="headlineSmall">{user.name}</Text>
+  <Text type="bodyMedium" color="secondary">@{user.username}</Text>
+</View>
+```
+
+#### Avatar Group
+```tsx
+<View style={{ flexDirection: 'row' }}>
+  {users.slice(0, 3).map((user, index) => (
+    <Avatar
+      key={user.id}
+      uri={user.avatar}
+      name={user.name}
+      size="sm"
+      style={{ marginLeft: index > 0 ? -8 : 0 }}
+    />
+  ))}
+
+  {users.length > 3 && (
+    <View style={{ marginLeft: -8 }}>
+      <Avatar name={`+${users.length - 3}`} size="sm" />
+    </View>
+  )}
+</View>
+```
+
+#### Pressable Avatar
+```tsx
+<Avatar
+  uri={user.avatar}
+  name={user.name}
+  size="lg"
+  onPress={() => navigation.navigate('Profile', { userId: user.id })}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `uri` | `string` | No | - | Image URI |
+| `name` | `string` | No | - | User name (for initials) |
+| `icon` | `string` | No | - | Fallback icon name |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | No | `'md'` | Avatar size |
+| `shape` | `'circle' \| 'square'` | No | `'circle'` | Avatar shape |
+| `backgroundColor` | `string` | No | - | Custom background color |
+| `showStatus` | `boolean` | No | `false` | Show status indicator |
+| `status` | `'online' \| 'offline' \| 'away' \| 'busy'` | No | `'offline'` | Status type |
+| `onPress` | `() => void` | No | - | Press handler |
+| `accessibilityLabel` | `string` | No | - | Accessibility label |
+
+### Size Values
+
+| Size | Dimensions | Use Case |
+|------|------------|----------|
+| `xs` | 24x24pt | Compact lists |
+| `sm` | 32x32pt | Standard lists |
+| `md` | 40x40pt | Default size |
+| `lg` | 56x56pt | Featured items |
+| `xl` | 80x80pt | Profile pages |
+
+### Status Types
+
+| Status | Color | Meaning |
+|--------|-------|---------|
+| `online` | Green | Available |
+| `offline` | Gray | Offline |
+| `away` | Yellow | Away |
+| `busy` | Red | Busy |
+
+## Accessibility
+
+- ✅ Screen reader announces user name
+- ✅ FaceID support for status
+- ✅ Touch target: minimum 44x44pt
+- ✅ Accessibility label support
+- ✅ Test ID support for testing
+
+## Performance
+
+1. **Image caching**: Enable image caching
+2. **Lazy loading**: Use in long lists
+3. **Optimization**: Resize images appropriately
+4. **Memoization**: Memo avatar components in lists
+
+## Related Components
+
+- [`AvatarGroup`](./AvatarGroup/README.md) - Avatar group component
+- [`AtomicAvatar`](../../atoms/AtomicAvatar/README.md) - Atom avatar component
+- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - Icon component
+- [`MediaCard`](../media-card/README.md) - Media card component
+
+## License
 
 MIT

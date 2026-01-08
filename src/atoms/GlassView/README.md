@@ -1,521 +1,390 @@
 # GlassView
 
-GlassView, glassmorphism efekti oluşturmak için Expo BlurView wrapper'ıdır. Otomatik olarak tema moduna göre uyum sağlar.
+Glassmorphism effect component with Expo BlurView wrapper, automatically adapting to theme mode.
 
-## Özellikler
+## Import & Usage
 
-- 🌟 **Glassmorphism**: Modern cam efekti
-- 🎨 **Tema Bilinci**: Otomatik tema uyumu
-- 💧 **Blur Efekti**: Bulanık arka plan
-- ⚙️ **Ayarılabilir Yoğunluk**: 0-100 arası
-- 🌓 **Light/Dark Mod**: Otomatik tint
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { GlassView } from 'react-native-design-system';
+```typescript
+import { GlassView } from 'react-native-design-system/src/atoms/GlassView';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/GlassView/GlassView.tsx`
 
-```tsx
-import React from 'react';
-import { View, Text, Image } from 'react-native';
-import { GlassView } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      {/* Arka plan resmi veya içerik */}
-      <Image
-        source={{ uri: 'https://example.com/image.jpg' }}
-        style={{ ...StyleSheet.absoluteFillObject }}
-      />
-
-      {/* GlassView overlay */}
-      <GlassView style={{ flex: 1 }}>
-        <Text style={{ padding: 24 }}>
-          Glassmorphism Efekti
-        </Text>
-      </GlassView>
-    </View>
-  );
-};
-```
-
-## Basic Glass Effect
+## Basic Usage
 
 ```tsx
 <GlassView style={{ padding: 24, borderRadius: 16 }}>
-  <Text>Cam Efekti</Text>
+  <Text>Glassmorphism Effect</Text>
 </GlassView>
 ```
 
-## Blur Intensity
+## Strategy
+
+**Purpose**: Provide modern glassmorphism (frosted glass) visual effects for overlays, modals, and navigation elements.
+
+**When to Use**:
+- Navigation bars (headers, tab bars)
+- Modal overlays
+- Card overlays with background images
+- Floating elements (FAB, popup menus)
+- Bottom sheets
+- Hero sections with background content
+
+**When NOT to Use**:
+- For solid backgrounds - use View with backgroundColor instead
+- For simple transparency - use opacity instead
+- On solid backgrounds (no blur effect needed)
+- For performance-critical lists (use sparingly)
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide `style` prop with dimensions
+2. **MUST** have background content behind to show blur effect
+3. **NEVER** use on solid backgrounds (wastes performance)
+4. **ALWAYS** test on real devices (blur varies by platform)
+5. **MUST** use appropriate `intensity` for context
+
+### Intensity Guidelines
+
+1. **10-30**: Subtle blur, content visible
+2. **40-60**: Medium blur, balanced (default: 50)
+3. **70-100**: Strong blur, content-focused
+
+### Tint Selection
+
+1. **Light**: For light-themed overlays
+2. **Dark**: For dark-themed overlays
+3. **Auto**: Automatically adapts to theme (default)
+
+### Performance
+
+1. **MUST** limit usage on screen (max 2-3 instances)
+2. **SHOULD** use lower intensity when possible
+3. **ALWAYS** avoid nested GlassView components
+4. **MUST** test on low-end devices
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ gap: 16 }}>
-  {/* Hafif blur */}
-  <GlassView intensity={30} style={{ padding: 24 }}>
-    <Text>Hafif Blur</Text>
-  </GlassView>
+// ❌ Without dimensions (won't show anything)
+<GlassView>
+  <Text>No size</Text>
+</GlassView>
 
-  {/* Orta blur (Varsayılan) */}
-  <GlassView intensity={50} style={{ padding: 24 }}>
-    <Text>Orta Blur</Text>
-  </GlassView>
-
-  {/* Güçlü blur */}
-  <GlassView intensity={80} style={{ padding: 24 }}>
-    <Text>Güçlü Blur</Text>
-  </GlassView>
-
-  {/* Maksimum blur */}
-  <GlassView intensity={100} style={{ padding: 24 }}>
-    <Text>Maksimum Blur</Text>
-  </GlassView>
-</View>
-```
-
-## Custom Tint
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Light tint */}
-  <GlassView tint="light" style={{ padding: 24 }}>
-    <Text>Light Tint</Text>
-  </GlassView>
-
-  {/* Dark tint */}
-  <GlassView tint="dark" style={{ padding: 24 }}>
-    <Text>Dark Tint</Text>
-  </GlassView>
-
-  {/* Default tint (otomatik) */}
+// ❌ On solid background (no blur effect)
+<View style={{ backgroundColor: '#fff' }}>
   <GlassView style={{ padding: 24 }}>
-    <Text>Otomatik Tint</Text>
+    <Text>No background to blur</Text>
   </GlassView>
 </View>
+
+// ❌ Nested glass views (performance killer)
+<GlassView style={{ flex: 1 }}>
+  <GlassView style={{ padding: 24 }}>
+    <Text>Nested glass</Text>
+  </GlassView>
+</GlassView>
+
+// ❌ Too high intensity (performance issue)
+<GlassView intensity={100} style={{ flex: 1 }}>
+  {/* Too heavy for full screen */}
+</GlassView>
+
+// ❌ Multiple instances on same screen
+<View>
+  <GlassView style={{ position: 'absolute', top: 0 }} />
+  <GlassView style={{ position: 'absolute', bottom: 0 }} />
+  <GlassView style={{ position: 'absolute', left: 0 }} />
+  {/* ❌ Too many */}
+</View>
+
+// ❌ Without proper overflow handling
+<GlassView style={{ borderRadius: 16 }}>
+  {/* Content overflow breaks blur effect */}
+</GlassView>
 ```
-
-## Örnek Kullanımlar
-
-### Navigation Bar
-
-```tsx
-export const GlassNavbar = () => {
-  return (
-    <GlassView
-      intensity={50}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 60,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-      }}
-    >
-      <Text style={{ fontWeight: 'bold' }}>Logo</Text>
-
-      <View style={{ flexDirection: 'row', gap: 16 }}>
-        <Pressable>
-          <AtomicIcon name="home" />
-        </Pressable>
-        <Pressable>
-          <AtomicIcon name="search" />
-        </Pressable>
-        <Pressable>
-          <AtomicIcon name="person" />
-        </Pressable>
-      </View>
-    </GlassView>
-  );
-};
-```
-
-### Modal Overlay
-
-```tsx
-export const GlassModal = ({ visible, onClose }) => {
-  return (
-    <Modal visible={visible} transparent animationType="fade">
-      <GlassView
-        intensity={80}
-        tint="dark"
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 24,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: '#fff',
-            borderRadius: 16,
-            padding: 24,
-            width: '100%',
-          }}
-        >
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>
-            Modal Başlığı
-          </Text>
-
-          <Text style={{ marginBottom: 24 }}>
-            Modal içeriği buraya gelecek.
-          </Text>
-
-          <Button title="Kapat" onPress={onClose} />
-        </View>
-      </GlassView>
-    </Modal>
-  );
-};
-```
-
-### Card Overlay
-
-```tsx
-export const GlassCard = ({ title, description, image }) => {
-  return (
-    <View style={{ borderRadius: 16, overflow: 'hidden', height: 200 }}>
-      {/* Arka plan resmi */}
-      <Image
-        source={{ uri: image }}
-        style={{ ...StyleSheet.absoluteFillObject }}
-        resizeMode="cover"
-      />
-
-      {/* Glass overlay */}
-      <GlassView
-        intensity={60}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: 16,
-        }}
-      >
-        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>
-          {title}
-        </Text>
-
-        <Text style={{ color: 'rgba(255, 255, 255, 0.8)', marginTop: 4 }}>
-          {description}
-        </Text>
-      </GlassView>
-    </View>
-  );
-};
-```
-
-### Tab Bar
-
-```tsx
-export const GlassTabBar = ({ state, descriptors, navigation }) => {
-  return (
-    <GlassView
-      intensity={50}
-      style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 60,
-        flexDirection: 'row',
-        borderTopWidth: 1,
-        borderTopColor: 'rgba(255, 255, 255, 0.1)',
-      }}
-    >
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label = options.tabBarLabel !== undefined
-          ? options.tabBarLabel
-          : route.name;
-
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
-
-        return (
-          <Pressable
-            key={route.key}
-            onPress={onPress}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              opacity: isFocused ? 1 : 0.6,
-            }}
-          >
-            <AtomicIcon
-              name={options.tabBarIcon || 'circle'}
-              color={isFocused ? 'primary' : 'textSecondary'}
-            />
-            <Text style={{ fontSize: 12, marginTop: 4 }}>
-              {label}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </GlassView>
-  );
-};
-```
-
-### Floating Action Button
-
-```tsx
-export const GlassFAB = ({ icon, onPress }) => {
-  return (
-    <GlassView
-      intensity={70}
-      style={{
-        position: 'absolute',
-        bottom: 24,
-        right: 24,
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-      }}
-    >
-      <Pressable onPress={onPress} style={{ padding: 16 }}>
-        <AtomicIcon name={icon} size="lg" />
-      </Pressable>
-    </GlassView>
-  );
-};
-```
-
-### Header
-
-```tsx
-export const GlassHeader = ({ title, right }) => {
-  return (
-    <GlassView
-      intensity={50}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 100,
-        paddingTop: 44,
-        paddingHorizontal: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Pressable>
-        <AtomicIcon name="arrow-back" />
-      </Pressable>
-
-      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-        {title}
-      </Text>
-
-      {right || <View style={{ width: 24 }} />}
-    </GlassView>
-  );
-};
-```
-
-### Bottom Sheet
-
-```tsx
-export const GlassBottomSheet = ({ visible, onClose }) => {
-  return (
-    <Modal visible={visible} transparent animationType="slide">
-      <Pressable
-        style={{ flex: 1 }}
-        onPress={onClose}
-      >
-        <GlassView
-          intensity={80}
-          tint="dark"
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-            padding: 24,
-          }}
-        >
-          <View
-            style={{
-              width: 40,
-              height: 4,
-              backgroundColor: 'rgba(255, 255, 255, 0.3)',
-              borderRadius: 2,
-              alignSelf: 'center',
-              marginBottom: 24,
-            }}
-          />
-
-          <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
-            Bottom Sheet
-          </Text>
-
-          <Text style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-            İçerik buraya gelecek.
-          </Text>
-        </GlassView>
-      </Pressable>
-    </Modal>
-  );
-};
-```
-
-### Popup Menu
-
-```tsx
-export const GlassPopupMenu = ({ visible, onClose, options }) => {
-  if (!visible) return null;
-
-  return (
-    <Pressable
-      style={{ ...StyleSheet.absoluteFillObject }}
-      onPress={onClose}
-    >
-      <GlassView
-        intensity={80}
-        style={{
-          position: 'absolute',
-          top: 60,
-          right: 16,
-          borderRadius: 12,
-          padding: 8,
-          minWidth: 200,
-        }}
-      >
-        {options.map((option, index) => (
-          <Pressable
-            key={index}
-            onPress={() => {
-              option.onPress();
-              onClose();
-            }}
-            style={{
-              paddingVertical: 12,
-              paddingHorizontal: 16,
-              borderRadius: 8,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AtomicIcon name={option.icon} size="sm" />
-              <Text style={{ marginLeft: 12 }}>{option.label}</Text>
-            </View>
-          </Pressable>
-        ))}
-      </GlassView>
-    </Pressable>
-  );
-};
-```
-
-## Props
-
-### GlassViewProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `children` | `ReactNode` | - | İçerik |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `intensity` | `number` | `50` | Blur yoğunluğu (0-100) |
-| `tint` | `'light' \| 'dark'` | Otomatik | Renk tonu |
-| `experimentalBlurMethod` | `'dimezisBlurView' \| 'none'` | - | Deneysel blur yöntemi |
 
 ## Best Practices
 
-### 1. Intensity Seçimi
+### Intensity Selection
 
+✅ **DO**:
 ```tsx
-// Hafif blur - arka plan görünebilir
-<GlassView intensity={30}>
+// Subtle blur - navigation bars
+<GlassView intensity={30} style={{ height: 60 }} />
 
-// Orta blur - iyi denge
-<GlassView intensity={50}>
+// Medium blur - modals, cards
+<GlassView intensity={50} style={{ padding: 24 }} />
 
-// Güçlü blur - içerik odaklı
-<GlassView intensity={80}>
+// Strong blur - focused content
+<GlassView intensity={80} style={{ padding: 32 }} />
 ```
 
-### 2. Tint Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// Light tema - açık arka planlar
-<GlassView tint="light">
+// Don't use high intensity for large areas
+<GlassView intensity={100} style={{ flex: 1 }} />
 
-// Dark tema - koyu arka planlar
-<GlassView tint="dark">
-
-// Otomatik - tema moduna göre
-<GlassView> // Otomatik
+// Don't use zero intensity
+<GlassView intensity={0} /> {/* No effect */}
 ```
 
-### 3. Performans
+### Tint Usage
 
+✅ **DO**:
 ```tsx
-// Düşük intensity daha performanslıdır
-<GlassView intensity={30}>
+// Light theme overlay
+<GlassView
+  intensity={50}
+  tint="light"
+  style={{ padding: 24 }}
+/>
 
-// Sabit boyut kullanın
-<GlassView style={{ width: 200, height: 100 }}>
+// Dark theme overlay
+<GlassView
+  intensity={50}
+  tint="dark"
+  style={{ padding: 24 }}
+/>
 
-// Overflow hidden kullanın
-<GlassView style={{ overflow: 'hidden' }}>
+// Auto (recommended)
+<GlassView intensity={50} style={{ padding: 24 }} />
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// Don't mix tint inappropriately
+<GlassView tint="light" style={{ backgroundColor: '#000' }} />
+```
 
-GlassView, tam erişilebilirlik desteği sunar:
+### Performance Optimization
 
-- ✅ Screen reader desteği
-- ✅ Contrast ratio
-- ✅ Semantic meaning
+✅ **DO**:
+```tsx
+// Fixed dimensions
+<GlassView style={{ width: 200, height: 100 }} />
 
-## Performans İpuçları
+// Lower intensity
+<GlassView intensity={30} />
 
-1. **Intensity**: Daha düşük değerler daha performanslıdır
-2. **Static Size**: Sabit boyut kullanın
-3. **Limited Usage**: Gerektiğinde kullanın
-4. **Test**: Farklı cihazlarda test edin
+// Overflow hidden
+<GlassView style={{ overflow: 'hidden', borderRadius: 16 }} />
+```
 
-## Platform Desteği
+❌ **DON'T**:
+```tsx
+// Don't use flex with high intensity
+<GlassView intensity={100} style={{ flex: 1 }} />
 
-- ✅ iOS (tam destek)
-- ✅ Android (tam destek)
-- ⚠️ Web (kısmi destek)
+// Don't animate intensity
+<GlassView intensity={animatedValue} />
+```
 
-## İlgili Bileşenler
+## AI Coding Guidelines
 
-- [`BaseModal`](../../molecules/BaseModal/README.md) - Modal bileşeni
-- [`AtomicCard`](../AtomicCard.README.md) - Kart bileşeni
-- [`GlowingCard`](../../molecules/GlowingCard/README.md) - Parlak kart
+### For AI Agents
 
-## Lisans
+When generating GlassView components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { GlassView } from 'react-native-design-system/src/atoms/GlassView';
+   ```
+
+2. **Always provide dimensions**:
+   ```tsx
+   <GlassView
+     style={{
+       width: '100%',
+       height: 60,
+       padding: 16,
+     }}
+   >
+     内容
+   </GlassView>
+   ```
+
+3. **Always use appropriate intensity**:
+   ```tsx
+   // 轻微模糊 - 导航栏
+   <GlassView intensity={30} />
+
+   // 中等模糊 - 卡片、模态框
+   <GlassView intensity={50} />
+
+   // 强烈模糊 - 聚焦内容
+   <GlassView intensity={80} />
+   ```
+
+4. **Always ensure background content exists**:
+   ```tsx
+   <View style={{ flex: 1 }}>
+     <BackgroundImage />
+
+     <GlassView style={StyleSheet.absoluteFill}>
+       <Content />
+     </GlassView>
+   </View>
+   ```
+
+5. **Always test on real devices**:
+   ```tsx
+   // Blur effect varies by platform and device
+   // Test on both iOS and Android
+   ```
+
+### Common Patterns
+
+#### Navigation Bar
+```tsx
+<GlassView
+  intensity={30}
+  style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  }}
+>
+  <Text style={{ fontWeight: 'bold' }}>Logo</Text>
+</GlassView>
+```
+
+#### Modal Overlay
+```tsx
+<Modal visible={visible} transparent>
+  <GlassView
+    intensity={80}
+    tint="dark"
+    style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 24,
+    }}
+  >
+    <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 24 }}>
+      <Text>Modal Content</Text>
+    </View>
+  </GlassView>
+</Modal>
+```
+
+#### Card Overlay
+```tsx
+<View style={{ borderRadius: 16, overflow: 'hidden', height: 200 }}>
+  <BackgroundImage style={StyleSheet.absoluteFill} />
+
+  <GlassView
+    intensity={60}
+    style={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: 16,
+    }}
+  >
+    <Text style={{ color: '#fff' }}>{title}</Text>
+  </GlassView>
+</View>
+```
+
+#### Tab Bar
+```tsx
+<GlassView
+  intensity={40}
+  style={{
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+  }}
+>
+  {tabs.map((tab) => (
+    <TabItem key={tab.key} {...tab} />
+  ))}
+</GlassView>
+```
+
+#### Floating Action Button
+```tsx
+<GlassView
+  intensity={70}
+  style={{
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  }}
+>
+  <Pressable onPress={onPress}>
+    <Icon name="add" />
+  </Pressable>
+</GlassView>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `children` | `ReactNode` | No | - | Content |
+| `style` | `StyleProp<ViewStyle>` | Yes* | - | Container style (*must have dimensions) |
+| `intensity` | `number` | No | `50` | Blur intensity (0-100) |
+| `tint` | `'light' \| 'dark'` | No | Auto | Color tint |
+| `experimentalBlurMethod` | `'dimezisBlurView' \| 'none'` | No | - | Experimental blur method |
+
+## Accessibility
+
+- ✅ Screen reader accessible
+- ✅ Maintains contrast ratios
+- ✅ Semantic meaning preserved
+- ✅ Touch targets maintained
+
+## Performance Tips
+
+1. **Limit usage**: Max 2-3 instances per screen
+2. **Lower intensity**: Use 30-50 when possible
+3. **Fixed size**: Avoid flex when possible
+4. **Avoid nesting**: Never nest GlassView components
+5. **Test devices**: Verify on low-end devices
+6. **Platform testing**: Test on both iOS and Android
+
+## Platform Support
+
+- ✅ iOS: Full support with native blur
+- ✅ Android: Full support with hardware blur
+- ⚠️ Web: Partial support (fallback)
+
+## Related Components
+
+- [`BaseModal`](../../molecules/BaseModal/README.md) - Modal component
+- [`AtomicCard`](../AtomicCard/README.md) - Card component
+- [`GlowingCard`](../../molecules/GlowingCard/README.md) - Glowing card effect
+
+## Version History
+
+- **2.6.83**: Initial release with glassmorphism support
+- **2.6.84**: Added theme-aware auto tint
+
+## License
 
 MIT

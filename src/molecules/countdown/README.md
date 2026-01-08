@@ -1,558 +1,449 @@
 # Countdown
 
-Countdown, geri sayım sayacı bileşenidir. Belirli bir tarihe/hedefe kalan süreyi gösterir. Birden fazla hedef arasında geçiş yapabilir, gün, saat, dakika ve saniye olarak gösterebilir.
+A countdown timer component that displays remaining time to a specific date/target with support for multiple targets and custom time units.
 
-## Özellikler
+## Import & Usage
 
-- ⏰ **Geri Sayım**: Belirli bir tarihe kadar geri sayım
-- 🎯 **Çoklu Hedef**: Birden fazla hedef arasında geçiş
-- 📊 **Time Unit**: Gün, saat, dakika, saniye gösterimi
-- 🎨 **Özelleştirilebilir**: Boyut, etiket, görünüm
-- 🔄 **Hook**: useCountdown hook ile kontrol
-- 🎭 **Tema Bilinci**: Design token uyumlu
-- ♿ **Erişilebilir**: Screen reader desteği
-
-## Kurulum
-
-```tsx
-import { Countdown, useCountdown } from 'react-native-design-system';
+```typescript
+import { Countdown, useCountdown } from 'react-native-design-system/src/molecules/countdown';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/countdown/Countdown.tsx`
 
-```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { Countdown } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const targetDate = new Date('2025-12-31T23:59:59');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <Countdown
-        target={{
-          date: targetDate,
-          label: 'Yılbaşı',
-        }}
-      />
-    </View>
-  );
-};
-```
-
-## Basit Countdown
+## Basic Usage
 
 ```tsx
 <Countdown
   target={{
     date: new Date('2025-12-31'),
-    label: 'Yılbaşı',
+    label: 'New Year',
   }}
 />
 ```
 
-## Custom Görünüm
+## Strategy
+
+**Purpose**: Display time remaining to specific events or deadlines with real-time updates.
+
+**When to Use**:
+- Flash sales and limited-time offers
+- Event countdowns (concerts, conferences)
+- Competition deadlines
+- Daily reset timers
+- Game timers
+- Auction end times
+
+**When NOT to Use**:
+- For static time display (use regular text instead)
+- For past dates (validate before use)
+- For very short durations (<1 minute, use progress bar)
+- For simple clocks (use time display instead)
+
+## Rules
+
+### Required
+
+1. **MUST** provide a valid future `date` in target
+2. **MUST** provide a `label` for the target
+3. **SHOULD** set appropriate `interval` (1000ms recommended)
+4. **MUST** handle `onExpire` callback when needed
+5. **ALWAYS** validate date before passing to component
+6. **SHOULD** use memoization for performance
+7. **NEVER** use past dates
+
+### Time Display
+
+1. **Days**: Show for durations >24 hours
+2. **Hours**: Always show for durations <1 week
+3. **Minutes**: Always show
+4. **Seconds**: Optional, hide for long durations
+
+### Performance
+
+1. **Interval**: 1000ms (1 second) recommended
+2. **Cleanup**: Always cleanup in useEffect
+3. **Memoization**: Memo callback functions
+4. **Throttle**: Throttle onTick callbacks
+
+### Memory Management
+
+1. **Cleanup**: Clear intervals on unmount
+2. **Unmount**: Stop countdown when not visible
+3. **Throttle**: Don't update too frequently
+4. **Memo**: Memoize target objects
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ Past date
 <Countdown
   target={{
-    date: new Date('2025-06-30'),
-    label: 'Yaz Başlangıcı',
-    icon: 'sunny-outline',
-  }}
-  displayConfig={{
-    size: 'large',
-    showLabel: true,
-    showToggle: false,
+    date: new Date('2020-01-01'), // ❌ Past date
+    label: 'Expired Event',
   }}
 />
-```
 
-## Sadece Saat/Dakika/Saniye
+// ❌ Too frequent updates
+<Countdown
+  target={{ date: futureDate, label: 'Event' }}
+  interval={100} // ❌ Too frequent (100ms)
+/>
 
-```tsx
+// ❌ No cleanup
+useEffect(() => {
+  const { start } = useCountdown(target);
+  start(); // ❌ No cleanup function
+}, []);
+
+// ❌ Missing onExpire for critical actions
+<Countdown
+  target={{ date: deadline, label: 'Sale Ends' }}
+  // Missing onExpire - user won't know when it ends
+/>
+
+// ❌ Too many countdowns on screen
+<View>
+  <Countdown target={target1} />
+  <Countdown target={target2} />
+  <Countdown target={target3} />
+  <Countdown target={target4} />
+  <Countdown target={target5} />
+  {/* ❌ Too many, causes performance issues */}
+</View>
+
+// ❌ Invalid date format
 <Countdown
   target={{
-    date: new Date(Date.now() + 3600000), // 1 saat
-    label: 'Teklif Bitişi',
-  }}
-  displayConfig={{
-    showDays: false,
-    showHours: true,
-    showMinutes: true,
-    showSeconds: true,
+    date: '2025-12-31', // ❌ String instead of Date
+    label: 'Event',
   }}
 />
-```
 
-## Çoklu Hedef
-
-```tsx
+// ❌ Not handling timezone
 <Countdown
   target={{
-    date: new Date('2025-12-31'),
-    label: 'Yılbaşı',
-    icon: 'calendar-outline',
-  }}
-  alternateTargets={[
-    {
-      date: new Date('2025-06-30'),
-      label: 'Yaz Başlangıcı',
-      icon: 'sunny-outline',
-    },
-    {
-      date: new Date('2025-03-20'),
-      label: 'İlk Bahar',
-      icon: 'flower-outline',
-    },
-  ]}
-/>
-```
-
-## Custom Label Format
-
-```tsx
-<Countdown
-  target={{
-    date: new Date('2025-12-31'),
-    label: 'Yılbaşı',
-  }}
-  formatLabel={(unit, value) => {
-    const labels = {
-      days: 'gün',
-      hours: 'saat',
-      minutes: 'dakika',
-      seconds: 'saniye',
-    };
-    return labels[unit];
+    date: new Date('2025-12-31'), // ❌ Ambiguous timezone
+    label: 'Global Event',
   }}
 />
 ```
-
-## onExpire Callback
-
-```tsx
-<Countdown
-  target={{
-    date: new Date('2025-12-31'),
-    label: 'Yılbaşı',
-  }}
-  onExpire={() => {
-    console.log('Süre doldu!');
-    Alert.alert('Süre doldu!');
-  }}
-/>
-```
-
-## useCountdown Hook
-
-### Temel Kullanım
-
-```tsx
-import { useCountdown } from 'react-native-design-system';
-
-export const MyComponent = () => {
-  const { timeRemaining, isActive, isExpired, start, stop, reset } = useCountdown(
-    {
-      date: new Date('2025-12-31'),
-      label: 'Yılbaşı',
-    },
-    {
-      interval: 1000,
-      autoStart: true,
-    }
-  );
-
-  return (
-    <View>
-      <Text>{timeRemaining.days} gün {timeRemaining.hours} saat</Text>
-      <Button title={isActive ? 'Durdur' : 'Başlat'} onPress={isActive ? stop : start} />
-    </View>
-  );
-};
-```
-
-### Manual Kontrol
-
-```tsx
-const { timeRemaining, isActive, start, stop, reset } = useCountdown(
-  target,
-  { autoStart: false }
-);
-
-return (
-  <View>
-    <Text>{timeRemaining.totalSeconds} saniye</Text>
-    <Button title="Başlat" onPress={start} />
-    <Button title="Durdur" onPress={stop} />
-    <Button title="Sıfırla" onPress={reset} />
-  </View>
-);
-```
-
-### onTick Callback
-
-```tsx
-const { timeRemaining } = useCountdown(target, {
-  onTick: (time) => {
-    console.log('Kalan süre:', time.totalSeconds);
-  },
-});
-```
-
-## Örnek Kullanımlar
-
-### Flash Sale
-
-```tsx
-export const FlashSaleCountdown = () => {
-  const endDate = new Date(Date.now() + 3600000); // 1 saat
-
-  return (
-    <AtomicCard variant="elevated">
-      <Countdown
-        target={{
-          date: endDate,
-          label: 'Flash Sale Bitiş',
-          icon: 'flash-outline',
-        }}
-        displayConfig={{
-          showDays: false,
-          size: 'large',
-        }}
-        onExpire={() => {
-          Alert.alert('Satış bitti!');
-        }}
-      />
-    </AtomicCard>
-  );
-};
-```
-
-### Etkinlik Sayacı
-
-```tsx
-export const EventCountdown = () => {
-  const [events] = useState([
-    {
-      date: new Date('2025-06-30'),
-      label: 'Yaz Konseri',
-      icon: 'musical-notes-outline',
-    },
-    {
-      date: new Date('2025-09-15'),
-      label: 'Teknoloji Zirvesi',
-      icon: 'laptop-outline',
-    },
-    {
-      date: new Date('2025-12-25'),
-      label: 'Yılbaşı Partisi',
-      icon: 'gift-outline',
-    },
-  ]);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <Countdown
-        target={events[0]}
-        alternateTargets={events.slice(1)}
-        displayConfig={{
-          size: 'medium',
-          showToggle: true,
-        }}
-        onTargetChange={(target) => {
-          console.log('Hedef değişti:', target.label);
-        }}
-      />
-    </View>
-  );
-};
-```
-
-### Yarışma Sayacı
-
-```tsx
-export const CompetitionCountdown = () => {
-  const deadline = new Date('2025-03-31T23:59:59');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="headlineMedium" style={{ textAlign: 'center', marginBottom: 16 }}>
-        Yarışma Katılım Süresi
-      </AtomicText>
-
-      <Countdown
-        target={{
-          date: deadline,
-          label: 'Son Katılım Tarihi',
-          icon: 'trophy-outline',
-        }}
-        displayConfig={{
-          size: 'large',
-          showLabel: true,
-        }}
-        formatLabel={(unit) => {
-          const labels = {
-            days: 'GÜN',
-            hours: 'SAAT',
-            minutes: 'DAKİKA',
-            seconds: 'SANİYE',
-          };
-          return labels[unit];
-        }}
-        onExpire={() => {
-          Alert.alert('Yarışma sona erdi!');
-        }}
-      />
-    </View>
-  );
-};
-```
-
-### İndirim Sayacı
-
-```tsx
-export const DiscountTimer = ({ discountPercentage, validUntil }) => {
-  return (
-    <View style={{ backgroundColor: '#ff6b6b', padding: 16, borderRadius: 8 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-        <AtomicIcon name="pricetag-outline" size="sm" color="#fff" />
-        <AtomicText type="titleMedium" style={{ color: '#fff', marginLeft: 8 }}>
-          %{discountPercentage} İndirim
-        </AtomicText>
-      </View>
-
-      <Countdown
-        target={{
-          date: validUntil,
-          label: 'Teklif Bitişi',
-        }}
-        displayConfig={{
-          showDays: false,
-          size: 'medium',
-          showLabel: false,
-        }}
-      />
-    </View>
-  );
-};
-```
-
-### Oyun Sayacı
-
-```tsx
-export const GameTimer = ({ duration, onTimeUp }) => {
-  const targetDate = useMemo(() => new Date(Date.now() + duration), [duration]);
-  const [timeLeft, setTimeLeft] = useState(duration);
-
-  const { timeRemaining, isExpired } = useCountdown(
-    { date: targetDate },
-    {
-      onTick: (time) => {
-        setTimeLeft(time.totalSeconds * 1000);
-      },
-      onExpire: () => {
-        onTimeUp?.();
-      },
-    }
-  );
-
-  return (
-    <View style={{ alignItems: 'center' }}>
-      <Countdown
-        target={{ date: targetDate }}
-        displayConfig={{
-          showDays: false,
-          showHours: false,
-          showMinutes: true,
-          showSeconds: true,
-          showLabel: false,
-          size: 'large',
-        }}
-      />
-
-      {isExpired && (
-        <AtomicText type="headlineLarge" style={{ color: 'red' }}>
-          Süre Doldu!
-        </AtomicText>
-      )}
-    </View>
-  );
-};
-```
-
-### Günlük Hedef Sayacı
-
-```tsx
-export const DailyResetCountdown = () => {
-  const getNextMidnight = () => {
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
-    return tomorrow;
-  };
-
-  const [target] = useState(getNextMidnight);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicText type="titleMedium" style={{ marginBottom: 8 }}>
-        Günlük Hedefler Sıfırlanmasına:
-      </AtomicText>
-
-      <Countdown
-        target={{
-          date: target,
-          label: 'Yarın',
-        }}
-        displayConfig={{
-          showDays: false,
-          size: 'medium',
-          showLabel: false,
-        }}
-        onExpire={() => {
-          // Refresh targets
-          window.location.reload();
-        }}
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### CountdownProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `target` | `CountdownTarget` | - **(Zorunlu)** | Hedef tarih |
-| `alternateTargets` | `CountdownTarget[]` | `[]` | Alternatif hedefler |
-| `displayConfig` | `CountdownDisplayConfig` | `{}` | Görünüm konfigürasyonu |
-| `interval` | `number` | `1000` | Güncelleme aralığı (ms) |
-| `onExpire` | `() => void` | - | Süre dolunca |
-| `onTargetChange` | `(target) => void` | - | Hedef değişince |
-| `formatLabel` | `(unit, value) => string` | - | Label formatlama |
-
-### CountdownTarget
-
-| Prop | Tip | Açıklama |
-|------|-----|----------|
-| `date` | `Date` | Hedef tarih |
-| `label` | `string` | Hedef etiketi |
-| `icon` | `string` | İkon ismi |
-
-### CountdownDisplayConfig
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `showLabel` | `boolean` | `true` | Label göster |
-| `showToggle` | `boolean` | `alternateTargets.length > 0` | Toggle göster |
-| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Boyut |
-| `showDays` | `boolean` | `auto` | Gün göster |
-| `showHours` | `boolean` | `true` | Saat göster |
-| `showMinutes` | `boolean` | `true` | Dakika göster |
-| `showSeconds` | `boolean` | `true` | Saniye göster |
-
-### useCountdown Options
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `interval` | `number` | `1000` | Güncelleme aralığı (ms) |
-| `autoStart` | `boolean` | `true` | Otomatik başlat |
-| `onExpire` | `() => void` | - | Süre dolunca |
-| `onTick` | `(time) => void` | - | Her tick'te |
-
-### useCountdown Return
-
-| Prop | Tip | Açıklama |
-|------|-----|----------|
-| `timeRemaining` | `TimeRemaining` | Kalan süre |
-| `isActive` | `boolean` | Aktif mi |
-| `isExpired` | `boolean` | Doldu mu |
-| `start` | `() => void` | Başlat |
-| `stop` | `() => void` | Durdur |
-| `reset` | `() => void` | Sıfırla |
-| `setTarget` | `(target) => void` | Hedef belirle |
 
 ## Best Practices
 
-### 1. Hedef Seçimi
+### Flash Sale Countdown
 
+✅ **DO**:
 ```tsx
-// Gelecek tarih
-target={{ date: new Date('2025-12-31') }} // ✅
-
-// Geçmiş tarih
-target={{ date: new Date('2020-01-01') }} // ❌
+<Countdown
+  target={{
+    date: endDate,
+    label: 'Flash Sale Ends',
+    icon: 'flash-outline',
+  }}
+  displayConfig={{
+    showDays: false,
+    size: 'large',
+  }}
+  onExpire={() => {
+    Alert.alert('Sale ended!');
+    // Refresh UI or redirect
+  }}
+/>
 ```
 
-### 2. Performans
-
+❌ **DON'T**:
 ```tsx
-// Uygun interval
-interval={1000} // ✅ 1 saniye (önerilen)
-interval={100} // ❌ 100ms (çok sık)
+// ❌ No expire handler
+<Countdown
+  target={{ date: endDate, label: 'Sale Ends' }}
+  // User doesn't know what happens when it ends
+/>
 ```
 
-### 3. Memory Leak Önleme
+### Timezone Handling
 
+✅ **DO**:
 ```tsx
+// ✅ Good - explicit UTC timezone
+const targetDate = new Date('2025-12-31T23:59:59Z');
+
+<Countdown
+  target={{ date: targetDate, label: 'New Year' }}
+/>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Bad - ambiguous timezone
+const targetDate = new Date('2025-12-31');
+```
+
+### Performance
+
+✅ **DO**:
+```tsx
+// ✅ Good - appropriate interval
+<Countdown
+  target={{ date: futureDate, label: 'Event' }}
+  interval={1000} // 1 second
+/>
+```
+
+❌ **DON'T**:
+```tsx
+// ❌ Bad - too frequent
+<Countdown
+  target={{ date: futureDate, label: 'Event' }}
+  interval={100} // 100ms - causes performance issues
+/>
+```
+
+### Memory Cleanup
+
+✅ **DO**:
+```tsx
+const countdown = useCountdown(target, {
+  interval: 1000,
+  autoStart: true,
+});
+
 useEffect(() => {
   return () => {
-    // Cleanup
+    countdown.stop(); // ✅ Cleanup
   };
 }, []);
 ```
 
-### 4. Timezone
+## AI Coding Guidelines
 
+### For AI Agents
+
+When generating Countdown components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { Countdown, useCountdown } from 'react-native-design-system/src/molecules/countdown';
+   ```
+
+2. **Always validate date before use**:
+   ```tsx
+   // ✅ Good - validate date
+   const targetDate = new Date('2025-12-31');
+   if (targetDate <= new Date()) {
+     throw new Error('Target date must be in the future');
+   }
+
+   <Countdown
+     target={{ date: targetDate, label: 'Event' }}
+   />
+
+   // ❌ Bad - no validation
+   <Countdown
+     target={{ date: new Date('2020-01-01'), label: 'Event' }}
+   />
+   ```
+
+3. **Always use appropriate interval**:
+   ```tsx
+   // ✅ Good - 1 second interval
+   <Countdown
+     target={{ date: futureDate, label: 'Event' }}
+     interval={1000}
+   />
+
+   // ❌ Bad - too frequent
+   <Countdown
+     target={{ date: futureDate, label: 'Event' }}
+     interval={100}
+   />
+   ```
+
+4. **Always handle onExpire for critical events**:
+   ```tsx
+   // ✅ Good - handle expiry
+   <Countdown
+     target={{ date: deadline, label: 'Sale Ends' }}
+     onExpire={() => {
+       Alert.alert('Sale ended!', 'The flash sale has ended.');
+       // Refresh data or redirect
+     }}
+   />
+
+   // ❌ Bad - no expire handler
+   <Countdown
+     target={{ date: deadline, label: 'Sale Ends' }}
+   />
+   ```
+
+5. **Always use UTC for global events**:
+   ```tsx
+   // ✅ Good - explicit UTC
+   const targetDate = new Date('2025-12-31T23:59:59Z');
+
+   // ❌ Bad - local timezone
+   const targetDate = new Date('2025-12-31');
+   ```
+
+### Common Patterns
+
+#### Flash Sale Countdown
 ```tsx
-// UTC kullan
-const date = new Date('2025-12-31T23:59:59Z');
+const endDate = new Date(Date.now() + 3600000); // 1 hour from now
+
+<Countdown
+  target={{
+    date: endDate,
+    label: 'Flash Sale Ends',
+    icon: 'flash-outline',
+  }}
+  displayConfig={{
+    showDays: false,
+    showSeconds: true,
+    size: 'large',
+  }}
+  onExpire={() => {
+    Alert.alert('Sale ended!');
+    refreshProducts();
+  }}
+/>
 ```
 
-## Erişilebilirlik
+#### Event Countdown
+```tsx
+<Countdown
+  target={{
+    date: new Date('2025-06-30T20:00:00Z'),
+    label: 'Summer Concert',
+    icon: 'musical-notes-outline',
+  }}
+  displayConfig={{
+    size: 'medium',
+    showLabel: true,
+  }}
+/>
+```
 
-Countdown, tam erişilebilirlik desteği sunar:
+#### Game Timer
+```tsx
+const [timeLeft, setTimeLeft] = useState(0);
 
-- ✅ Screen reader desteği
-- ✅ Semantic anlamlar
-- ✅ Timer role
-- ✅ Live region
+useCountdown(
+  { date: gameEndTime },
+  {
+    interval: 1000,
+    onTick: (time) => {
+      setTimeLeft(time.totalSeconds);
+    },
+    onExpire: () => {
+      handleTimeUp();
+    },
+  }
+);
+```
 
-## Performans İpuçları
+#### Daily Reset Timer
+```tsx
+const getNextMidnight = () => {
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+  return tomorrow;
+};
 
-1. **Interval**: Uygun interval kullanın (1000ms önerilen)
-2. **Memoization**: Component'leri memo edin
-3. **Cleanup**: useEffect'te cleanup yapın
-4. **Throttle**: onTick callback'ini throttle edin
+<Countdown
+  target={{
+    date: getNextMidnight(),
+    label: 'Daily Reset',
+  }}
+  displayConfig={{
+    showDays: false,
+    showLabel: false,
+  }}
+  onExpire={() => {
+    window.location.reload();
+  }}
+/>
+```
 
-## İlgili Bileşenler
+## Props Reference
 
-- [`TimeUnit`](#timeunit) - Zaman birimi bileşeni
-- [`CountdownHeader`](#countdownheader) - Countdown başlığı
-- [`AtomicText`](../../atoms/AtomicText/README.md) - Metin bileşeni
-- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - İkon bileşeni
+### CountdownProps
 
-## Yardımcı Fonksiyonlar
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `target` | `CountdownTarget` | **Yes** | - | Target date and label |
+| `alternateTargets` | `CountdownTarget[]` | No | `[]` | Alternate targets to switch between |
+| `displayConfig` | `CountdownDisplayConfig` | No | `{}` | Display configuration |
+| `interval` | `number` | No | `1000` | Update interval in milliseconds |
+| `onExpire` | `() => void` | No | - | Callback when countdown expires |
+| `onTargetChange` | `(target) => void` | No | - | Callback when target changes |
+| `formatLabel` | `(unit, value) => string` | No | - | Custom label formatting |
+
+### CountdownTarget
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `date` | `Date` | **Yes** | - | Target date (must be in future) |
+| `label` | `string` | **Yes** | - | Target label |
+| `icon` | `string` | No | - | Icon name (Ionicons) |
+
+### CountdownDisplayConfig
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showLabel` | `boolean` | `true` | Show target label |
+| `showToggle` | `boolean` | Auto | Show target toggle button |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Display size |
+| `showDays` | `boolean` | Auto | Show days (auto based on duration) |
+| `showHours` | `boolean` | `true` | Show hours |
+| `showMinutes` | `boolean` | `true` | Show minutes |
+| `showSeconds` | `boolean` | `true` | Show seconds |
+
+### useCountdown Hook
 
 ```typescript
-// Kalan süreyi hesapla
-calculateTimeRemaining(targetDate: Date): TimeRemaining
-
-// Sayıyı padding yap
-padNumber(num: number): string
-
-// Sonraki gün başlangıcı
-getNextDayStart(): Date
-
-// Sonraki yıl başlangıcı
-getNextYearStart(): Date
+useCountdown(target: CountdownTarget, options?: {
+  interval?: number;        // Default: 1000
+  autoStart?: boolean;      // Default: true
+  onExpire?: () => void;
+  onTick?: (time: TimeRemaining) => void;
+}): {
+  timeRemaining: TimeRemaining;
+  isActive: boolean;
+  isExpired: boolean;
+  start: () => void;
+  stop: () => void;
+  reset: () => void;
+  setTarget: (target: CountdownTarget) => void;
+}
 ```
 
-## Lisans
+## Accessibility
+
+- ✅ Screen reader announces time remaining
+- ✅ Timer role for semantic meaning
+- ✅ Live region for updates
+- ✅ Label announces target event
+- ✅ Accessible toggle between targets
+
+## Performance Tips
+
+1. **Interval**: Use 1000ms (1 second) for most cases
+2. **Cleanup**: Always cleanup in useEffect
+3. **Throttle**: Throttle onTick callbacks
+4. **Memoization**: Memo target objects and callbacks
+5. **Visibility**: Stop countdown when not visible
+
+## Related Components
+
+- [`StepProgress`](../StepProgress/README.md) - Step progress indicator
+- [`AtomicText`](../../atoms/AtomicText/README.md) - Text component
+- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - Icon component
+- [`BaseModal`](../BaseModal/README.md) - Modal component
+
+## License
 
 MIT

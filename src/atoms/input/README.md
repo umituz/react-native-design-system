@@ -1,342 +1,348 @@
 # AtomicInput
 
-AtomicInput, React Native için güçlü ve özelleştirilebilir bir metin girişi bileşenidir. Material Design 3 prensiplerine uygun olarak tasarlanmış ve tamamen özelleştirilebilir.
+Customizable text input component with Material Design 3 principles for React Native applications.
 
-## Özellikler
+## Import & Usage
 
-- ✨ **Pure React Native**: Harici bağımlılık yok (Paper yok)
-- 🎨 **3 Variant**: Outlined, Filled, Flat
-- 📱 **3 Size**: Small, Medium, Large
-- 🎯 **Durumlar**: Default, Error, Success, Disabled, Focused
-- 🔒 **Password Toggle**: Göster/gizle özelliği
-- 🔢 **Character Counter**: Karakter sayacı
-- 🎭 **İkon Desteği**: Leading ve trailing ikonlar
-- ♿ **Erişilebilirlik**: Tam erişilebilirlik desteği
-- ⌨️ **Klavye Türleri**: Farklı klavye türleri desteği
-- 📝 **Multi-line**: Çok satırlı metin girişi
-
-## Kurulum
-
-```tsx
-import { AtomicInput } from 'react-native-design-system';
+```typescript
+import { AtomicInput } from 'react-native-design-system/src/atoms/input';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/input/AtomicInput.tsx`
 
-```tsx
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { AtomicInput } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const [value, setValue] = useState('');
-
-  return (
-    <View style={{ padding: 16 }}>
-      <AtomicInput
-        label="E-posta"
-        value={value}
-        onChangeText={setValue}
-        placeholder="ornek@email.com"
-        keyboardType="email-address"
-      />
-    </View>
-  );
-};
-```
-
-## Variant'lar
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Outlined (Varsayılan) */}
-  <AtomicInput
-    variant="outlined"
-    label="Outlined Input"
-    placeholder="Outlined variant"
-  />
-
-  {/* Filled */}
-  <AtomicInput
-    variant="filled"
-    label="Filled Input"
-    placeholder="Filled variant"
-  />
-
-  {/* Flat */}
-  <AtomicInput
-    variant="flat"
-    label="Flat Input"
-    placeholder="Flat variant"
-  />
-</View>
-```
-
-## Boyutlar
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Small */}
-  <AtomicInput
-    size="sm"
-    label="Small Input"
-    placeholder="Small size"
-  />
-
-  {/* Medium (Varsayılan) */}
-  <AtomicInput
-    size="md"
-    label="Medium Input"
-    placeholder="Medium size"
-  />
-
-  {/* Large */}
-  <AtomicInput
-    size="lg"
-    label="Large Input"
-    placeholder="Large size"
-  />
-</View>
-```
-
-## Durumlar
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Default */}
-  <AtomicInput
-    state="default"
-    label="Default"
-    placeholder="Default state"
-  />
-
-  {/* Error */}
-  <AtomicInput
-    state="error"
-    label="Error State"
-    placeholder="Error state"
-    helperText="Bu alan hatalı"
-  />
-
-  {/* Success */}
-  <AtomicInput
-    state="success"
-    label="Success State"
-    placeholder="Success state"
-    helperText="Başarılı"
-  />
-
-  {/* Disabled */}
-  <AtomicInput
-    state="disabled"
-    label="Disabled"
-    placeholder="Disabled state"
-    value="Değer girilemez"
-    disabled
-  />
-</View>
-```
-
-## Password Input
+## Basic Usage
 
 ```tsx
 <AtomicInput
-  label="Şifre"
-  placeholder="Şifrenizi girin"
+  label="Email"
+  value={email}
+  onChangeText={setEmail}
+  placeholder="Enter your email"
+  keyboardType="email-address"
+/>
+```
+
+## Strategy
+
+**Purpose**: Provide consistent, accessible, and performant text input with built-in validation states and Material Design aesthetics.
+
+**When to Use**:
+- Form inputs (name, email, password, etc.)
+- Search fields
+- Text entry for user data
+- Multi-line text areas (textarea)
+
+**When NOT to Use**:
+- For numeric-only input - use NumericInput instead
+- For selecting from options - use Picker component
+- For rich text editing - use a specialized rich text editor
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide a `label` prop for accessibility
+2. **MUST** have `value` and `onChangeText` for controlled input
+3. **NEVER** use without proper state management
+4. **ALWAYS** provide appropriate `keyboardType` for the input type
+5. **MUST** provide accessible labels and error messages
+
+### Validation
+
+1. **MUST** show error state with `state="error"` when validation fails
+2. **ALWAYS** provide `helperText` to explain error or constraints
+3. **SHOULD** show success state after valid input
+4. **MUST** indicate required fields clearly
+
+### Password Fields
+
+1. **MUST** use `secureTextEntry` for passwords
+2. **SHOULD** provide `showPasswordToggle` for better UX
+3. **ALWAYS** consider password strength indicators
+
+### Multi-line
+
+1. **MUST** use `multiline` prop for text areas
+2. **SHOULD** specify `numberOfLines` for better UX
+3. **ALWAYS** consider character limit with `showCharacterCount`
+
+## Forbidden
+
+❌ **NEVER** do these:
+
+```tsx
+// ❌ Uncontrolled input (no value/onChangeText)
+<AtomicInput label="Name" />
+
+// ❌ Input without label
+<AtomicInput value={value} onChangeText={setValue} />
+
+// ❌ Hardcoded placeholder text (use i18n)
+<AtomicInput label="Email" placeholder="Enter your email" />
+{/* ❌ Use placeholder={t('input.emailPlaceholder')} */}
+
+// ❌ Email input without email keyboard type
+<AtomicInput label="Email" keyboardType="default" />
+{/* ❌ Use keyboardType="email-address" */}
+
+// ❌ Password without secureTextEntry
+<AtomicInput label="Password" />
+{/* ❌ Use secureTextEntry */}
+
+// ❌ Nested inputs
+<AtomicInput label="Outer">
+  <AtomicInput label="Inner" />
+</AtomicInput>
+```
+
+## Best Practices
+
+### Input Types
+
+✅ **DO**:
+```tsx
+// Email input
+<AtomicInput
+  label={t('form.email')}
+  keyboardType="email-address"
+  autoCapitalize="none"
+/>
+
+// Password input
+<AtomicInput
+  label={t('form.password')}
   secureTextEntry
   showPasswordToggle
 />
+
+// Numeric input
+<AtomicInput
+  label={t('form.age')}
+  keyboardType="number-pad"
+/>
 ```
 
-## İkonlar
-
+❌ **DON'T**:
 ```tsx
-<View style={{ gap: 16 }}>
-  {/* Leading Icon */}
-  <AtomicInput
-    label="Kullanıcı Adı"
-    placeholder="Kullanıcı adınız"
-    leadingIcon="person-outline"
-  />
+// Don't use default keyboard for specific types
+<AtomicInput keyboardType="default" />
 
-  {/* Trailing Icon */}
-  <AtomicInput
-    label="Arama"
-    placeholder="Arama yapın"
-    trailingIcon="search-outline"
-    onTrailingIconPress={() => console.log('Arama')}
-  />
-
-  {/* Both Icons */}
-  <AtomicInput
-    label="Email"
-    placeholder="Email adresiniz"
-    leadingIcon="mail-outline"
-    trailingIcon="close-circle-outline"
-    onTrailingIconPress={() => console.log('Temizle')}
-  />
-</View>
+// Don't forget autoCapitalize for email
+<AtomicInput keyboardType="email-address" autoCapitalize="words" />
 ```
 
-## Character Counter
+### Validation
 
+✅ **DO**:
 ```tsx
 <AtomicInput
-  label="Bio"
-  placeholder="Kendinizi tanıtın"
-  maxLength={150}
-  showCharacterCount
+  label={t('form.email')}
+  value={email}
+  onChangeText={setEmail}
+  state={emailError ? 'error' : 'default'}
+  helperText={emailError || t('form.emailHint')}
+  onBlur={() => validateEmail(email)}
+/>
+```
+
+❌ **DON'T**:
+```tsx
+// Don't validate on every keystroke (use onBlur or debounce)
+<AtomicInput
+  onChangeText={(text) => {
+    setValue(text);
+    validate(text); // ❌ Too frequent validation
+  }}
+/>
+```
+
+### Character Counting
+
+✅ **DO**:
+```tsx
+<AtomicInput
+  label={t('form.bio')}
   multiline
   numberOfLines={4}
+  maxLength={150}
+  showCharacterCount
 />
 ```
 
-## Form Örneği
-
+❌ **DON'T**:
 ```tsx
-import React, { useState } from 'react';
-import { View, Button } from 'react-native';
-import { AtomicInput } from 'react-native-design-system';
-
-export const FormExample = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    bio: ''
-  });
-
-  const handleInputChange = (field: string) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  return (
-    <View style={{ padding: 16, gap: 16 }}>
-      <AtomicInput
-        label="Ad Soyad"
-        value={formData.name}
-        onChangeText={handleInputChange('name')}
-        placeholder="Adınız ve soyadınız"
-        leadingIcon="person-outline"
-        state="default"
-      />
-
-      <AtomicInput
-        label="E-posta"
-        value={formData.email}
-        onChangeText={handleInputChange('email')}
-        placeholder="ornek@email.com"
-        keyboardType="email-address"
-        leadingIcon="mail-outline"
-        autoCapitalize="none"
-      />
-
-      <AtomicInput
-        label="Şifre"
-        value={formData.password}
-        onChangeText={handleInputChange('password')}
-        placeholder="En az 8 karakter"
-        secureTextEntry
-        showPasswordToggle
-        leadingIcon="lock-closed-outline"
-        maxLength={20}
-        showCharacterCount
-      />
-
-      <AtomicInput
-        label="Hakkınızda"
-        value={formData.bio}
-        onChangeText={handleInputChange('bio')}
-        placeholder="Kendinizden bahsedin"
-        multiline
-        numberOfLines={4}
-        maxLength={200}
-        showCharacterCount
-      />
-
-      <Button title="Gönder" onPress={() => console.log(formData)} />
-    </View>
-  );
-};
+// Don't show character count without maxLength
+<AtomicInput showCharacterCount />
 ```
 
-## Props
+## AI Coding Guidelines
 
-### AtomicInputProps
+### For AI Agents
 
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `variant` | `'outlined' \| 'filled' \| 'flat'` | `'outlined'` | Input görünüm stili |
-| `state` | `'default' \| 'error' \| 'success' \| 'disabled'` | `'default'` | Input durumu |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input boyutu |
-| `label` | `string` | - | Input etiketi |
-| `value` | `string` | `''` | Input değeri |
-| `onChangeText` | `(text: string) => void` | - | Değişiklik olayı |
-| `placeholder` | `string` | - | Placeholder metni |
-| `helperText` | `string` | - | Yardımcı metin |
-| `leadingIcon` | `string` | - | Sol ikon ismi (Ionicons) |
-| `trailingIcon` | `string` | - | Sağ ikon ismi (Ionicons) |
-| `onTrailingIconPress` | `() => void` | - | Sağ ikon tıklama olayı |
-| `showPasswordToggle` | `boolean` | `false` | Şifre göster/gizle butonu |
-| `secureTextEntry` | `boolean` | `false` | Şifre girişi |
-| `maxLength` | `number` | - | Maksimum karakter sayısı |
-| `showCharacterCount` | `boolean` | `false` | Karakter sayacı göster |
-| `keyboardType` | `KeyboardType` | `'default'` | Klavye türü |
-| `returnKeyType` | `ReturnKeyType` | - | Return tuşu türü |
-| `onSubmitEditing` | `() => void` | - | Submit olayı |
-| `blurOnSubmit` | `boolean` | - | Submit'te blur |
-| `autoFocus` | `boolean` | - | Otomatik odak |
-| `autoCapitalize` | `AutoCapitalize` | `'sentences'` | Otomatik büyük harf |
-| `autoCorrect` | `boolean` | `true` | Otomatik düzeltme |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `multiline` | `boolean` | `false` | Çok satırlı |
-| `numberOfLines` | `number` | - | Satır sayısı |
-| `style` | `StyleProp<ViewStyle>` | - | Container stil |
-| `inputStyle` | `StyleProp<TextStyle>` | - | Input stil |
-| `testID` | `string` | - | Test ID'si |
-| `onBlur` | `() => void` | - | Blur olayı |
-| `onFocus` | `() => void` | - | Focus olayı |
+When generating AtomicInput components, follow these rules:
 
-## Stil Özelleştirme
+1. **Always import from correct path**:
+   ```typescript
+   import { AtomicInput } from 'react-native-design-system/src/atoms/input';
+   ```
 
+2. **Always use controlled input**:
+   ```tsx
+   const [value, setValue] = useState('');
+
+   <AtomicInput
+     label="明确的标签"
+     value={value}
+     onChangeText={setValue}
+     placeholder="适当的占位符"
+   />
+   ```
+
+3. **Always use i18n for labels**:
+   ```tsx
+   <AtomicInput
+     label={t('form.username')}
+     placeholder={t('form.usernamePlaceholder')}
+   />
+   ```
+
+4. **Always provide appropriate keyboard type**:
+   ```tsx
+   // Email
+   <AtomicInput keyboardType="email-address" autoCapitalize="none" />
+
+   // Password
+   <AtomicInput secureTextEntry showPasswordToggle />
+
+   // Phone
+   <AtomicInput keyboardType="phone-pad" />
+   ```
+
+5. **Always handle validation properly**:
+   ```tsx
+   const [error, setError] = useState('');
+
+   <AtomicInput
+     label={t('form.email')}
+     value={email}
+     onChangeText={setEmail}
+     state={error ? 'error' : 'default'}
+     helperText={error || t('form.emailHint')}
+     onBlur={() => setError(validateEmail(email))}
+   />
+   ```
+
+### Common Patterns
+
+#### Email Input
 ```tsx
 <AtomicInput
-  label="Özel Stilli Input"
-  placeholder="Özel stil"
-  style={{
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-  }}
-  inputStyle={{
-    fontSize: 16,
-    fontWeight: '600',
-  }}
+  label={t('form.email')}
+  value={email}
+  onChangeText={setEmail}
+  keyboardType="email-address"
+  autoCapitalize="none"
+  autoComplete="email"
+  state={emailError ? 'error' : 'default'}
+  helperText={emailError || t('form.emailHint')}
 />
 ```
 
-## Erişilebilirlik
+#### Password Input
+```tsx
+<AtomicInput
+  label={t('form.password')}
+  value={password}
+  onChangeText={setPassword}
+  secureTextEntry
+  showPasswordToggle
+  maxLength={20}
+  showCharacterCount
+  state={passwordError ? 'error' : 'default'}
+  helperText={passwordError || t('form.passwordHint')}
+/>
+```
 
-AtomicInput, tam erişilebilirlik desteği sunar:
+#### Search Input
+```tsx
+<AtomicInput
+  label={t('search.label')}
+  value={searchQuery}
+  onChangeText={setSearchQuery}
+  placeholder={t('search.placeholder')}
+  leadingIcon="search-outline"
+  keyboardType="web-search"
+  returnKeyType="search"
+  onSubmitEditing={handleSearch}
+/>
+```
 
-- ✅ Screen reader desteği
-- ✅ Focus management
-- ✅ Error state anonsu
-- ✅ Label ilişkilendirmesi
-- ✅ Test ID desteği
+#### Text Area
+```tsx
+<AtomicInput
+  label={t('form.bio')}
+  value={bio}
+  onChangeText={setBio}
+  multiline
+  numberOfLines={4}
+  maxLength={150}
+  showCharacterCount
+  placeholder={t('form.bioPlaceholder')}
+/>
+```
 
-## Önemli Notlar
+## Props Reference
 
-1. **Ionicons Kullanımı**: İkon isimleri Ionicons kütüphanesinden gelir
-2. **State Management**: `value` ve `onChangeText` kullanarak controlled component olarak kullanın
-3. **Form Validasyonu**: `FormField` molecule bileşeni ile birlikte kullanılması önerilir
-4. **Performance**: Uzun listelerde `key` prop'unu kullanmayı unutmayın
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `label` | `string` | Yes | - | Input label |
+| `value` | `string` | Yes | - | Input value (controlled) |
+| `onChangeText` | `(text: string) => void` | Yes | - | Change handler |
+| `placeholder` | `string` | No | - | Placeholder text |
+| `variant` | `'outlined' \| 'filled' \| 'flat'` | No | `'outlined'` | Visual style |
+| `state` | `'default' \| 'error' \| 'success' \| 'disabled'` | No | `'default'` | Input state |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Input size |
+| `helperText` | `string` | No | - | Helper or error text |
+| `leadingIcon` | `string` | No | - | Leading icon name |
+| `trailingIcon` | `string` | No | - | Trailing icon name |
+| `onTrailingIconPress` | `() => void` | No | - | Trailing icon press |
+| `secureTextEntry` | `boolean` | No | `false` | Password input |
+| `showPasswordToggle` | `boolean` | No | `false` | Show password toggle |
+| `keyboardType` | `KeyboardType` | No | `'default'` | Keyboard type |
+| `multiline` | `boolean` | No | `false` | Multi-line input |
+| `numberOfLines` | `number` | No | - | Number of lines |
+| `maxLength` | `number` | No | - | Max length |
+| `showCharacterCount` | `boolean` | No | `false` | Show character count |
+| `disabled` | `boolean` | No | `false` | Disabled state |
 
-## İlgili Bileşenler
+## Accessibility
 
-- [`FormField`](../../molecules/FormField/README.md) - Form input bileşeni
-- [`AtomicTextArea`](../AtomicTextArea/README.md) - Çok satırlı metin girişi
-- [`AtomicButton`](../button/README.md) - Form butonu
+- ✅ Screen reader announces label and value
+- ✅ Error state announced to screen readers
+- ✅ Helper text provides additional context
+- ✅ Keyboard type matches input type
+- ✅ Focus management for form navigation
+- ✅ Test ID support for testing
 
-## Lisans
+## Performance Tips
+
+1. **Avoid inline functions**: Use `useCallback` for onChangeText
+2. **Debounce validation**: Don't validate on every keystroke
+3. **Memoize handlers**: Prevent unnecessary re-renders
+4. **Lazy validation**: Validate on blur or submit
+
+## Related Components
+
+- [`AtomicPicker`](./picker/README.md) - Selection component
+- [`FormField`](../../molecules/FormField/README.md) - Form field wrapper
+- [`AtomicButton`](./button/README.md) - Form submit button
+
+## Version History
+
+- **2.6.0**: Added character count and password toggle
+- **2.5.0**: Added multi-line support
+- **2.0.0**: Initial release with Material Design 3
+
+## License
 
 MIT

@@ -1,384 +1,282 @@
 # MediaCard
 
-MediaCard, resim, video veya medya içeriği göstermek için optimize edilmiş bir kart bileşenidir. Overlay text, badge ve seçim durumu destekler.
+MediaCard is an optimized card component for displaying images, videos, and media content with overlay text, badges, and selection state support.
 
-## Özellikler
+## Import & Usage
 
-- 🖼️ **Görsel Odaklı**: Resim/video odaklı tasarım
-- 📝 **Overlay Text**: Üzerinde metin gösterimi
-- 🏷️ **Badge**: Rozet/badge desteği
-- ✅ **Selected State**: Seçim durumu
-- 📏 **3 Size**: Small, Medium, Large
-- 👆 **Pressable**: Tıklanabilir kart
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Kurulum
-
-```tsx
-import { MediaCard } from 'react-native-design-system';
+```typescript
+import { MediaCard } from 'react-native-design-system/src/molecules/media-card';
 ```
 
-## Temel Kullanım
+**Location:** `src/molecules/media-card/MediaCard.tsx`
 
-```tsx
-import React from 'react';
-import { View } from 'react-native';
-import { MediaCard } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  return (
-    <View style={{ padding: 16 }}>
-      <MediaCard
-        uri="https://example.com/image.jpg"
-        title="Görsel Başlığı"
-        subtitle="Alt başlık"
-      />
-    </View>
-  );
-};
-```
-
-## Basic Card
+## Basic Usage
 
 ```tsx
 <MediaCard
   uri="https://example.com/image.jpg"
+  title="Media Title"
+  subtitle="Description"
 />
 ```
 
-## Title & Subtitle
+## Strategy
+
+**Purpose**: Provide a visually appealing and interactive card component optimized for media content display.
+
+**When to Use**:
+- Photo galleries and image grids
+- Template/media selection interfaces
+- Product cards with images
+- Avatar/story selectors
+- Background pickers
+- Meme collections
+
+**When NOT to Use**:
+- For text-only content - use AtomicCard instead
+- For complex layouts - use custom components
+- For non-interactive displays - use Image component
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide a `uri` prop with valid image URL
+2. **MUST** have unique keys when rendering in lists
+3. **NEVER** use invalid or broken image URLs
+4. **ALWAYS** provide accessibility labels for screen readers
+5. **MUST** handle loading and error states appropriately
+
+### Content Guidelines
+
+1. **ALWAYS** use appropriate size for context (sm/md/lg)
+2. **MUST** maintain aspect ratio for images
+3. **SHOULD** provide meaningful titles and subtitles
+4. **NEVER** use text that overflows the card
+
+### Selection State
+
+1. **MUST** clearly indicate selected state
+2. **ALWAYS** provide visual feedback for selection
+3. **SHOULD** allow toggle behavior (select/deselect)
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
+// ❌ Missing URI
+<MediaCard />
+
+// ❌ Invalid URI
+<MediaCard uri="not-a-url" />
+
+// ❌ Text overflow
 <MediaCard
-  uri="https://example.com/image.jpg"
-  title="Manzara"
-  subtitle="Doğa harikası"
+  uri="image.jpg"
+  title="This is an extremely long title that will overflow"
 />
-```
 
-## Badge
-
-```tsx
+// ❌ Wrong aspect ratio
 <MediaCard
-  uri="https://example.com/image.jpg"
-  title="Yeni"
-  badge="YENİ"
+  uri="portrait.jpg"
+  aspectRatio={2} // Too wide for portrait image
 />
-```
 
-## Seçim Durumu
-
-```tsx
-<MediaCard
-  uri="https://example.com/image.jpg"
-  title="Seçili"
-  selected
-/>
-```
-
-## Boyutlar
-
-```tsx
-<View style={{ flexDirection: 'row', gap: 8 }}>
-  {/* Small */}
-  <MediaCard
-    uri="https://example.com/image.jpg"
-    size="sm"
-  />
-
-  {/* Medium */}
-  <MediaCard
-    uri="https://example.com/image.jpg"
-    size="md"
-  />
-
-  {/* Large */}
-  <MediaCard
-    uri="https://example.com/image.jpg"
-    size="lg"
-  />
+// ❌ Inconsistent sizes in grid
+<View>
+  <MediaCard size="sm" />
+  <MediaCard size="lg" /> {/* ❌ Inconsistent */}
 </View>
+
+// ❌ No accessibility
+<MediaCard uri="image.jpg" /> {/* Missing accessibilityLabel */}
 ```
-
-## Pressable
-
-```tsx
-<MediaCard
-  uri="https://example.com/image.jpg"
-  title="Tıkla"
-  onPress={() => console.log('Tıklandı')}
-/>
-```
-
-## Custom Genişlik
-
-```tsx
-<MediaCard
-  uri="https://example.com/image.jpg"
-  width={200}
-  size="lg"
-/>
-```
-
-## Overlay Pozisyonu
-
-```tsx
-<View style={{ gap: 8 }}>
-  {/* Altta */}
-  <MediaCard
-    uri="https://example.com/image.jpg"
-    overlayPosition="bottom"
-    title="Altta"
-  />
-
-  {/* Ortada */}
-  <MediaCard
-    uri="https://example.com/image.jpg"
-    overlayPosition="center"
-    title="Ortada"
-  />
-</View>
-```
-
-## Overlay Gizle
-
-```tsx
-<MediaCard
-  uri="https://example.com/image.jpg"
-  showOverlay={false}
-/>
-```
-
-## Örnek Kullanımlar
-
-### Fotoğraf Galeri
-
-```tsx
-export const PhotoGallery = ({ photos }) => {
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 16 }}>
-      {photos.map((photo) => (
-        <MediaCard
-          key={photo.id}
-          uri={photo.uri}
-          size="sm"
-          onPress={() => navigation.navigate('PhotoDetail', { photoId: photo.id })}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Şablon Seçimi
-
-```tsx
-export const TemplateGallery = ({ templates }) => {
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <FlatList
-        data={templates}
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <MediaCard
-            uri={item.thumbnail}
-            title={item.name}
-            selected={selectedTemplate?.id === item.id}
-            onPress={() => setSelectedTemplate(item)}
-            style={{ margin: 8 }}
-          />
-        )}
-      />
-
-      <Button
-        title="Şablonu Kullan"
-        onPress={() => applyTemplate(selectedTemplate)}
-      />
-    </View>
-  );
-};
-```
-
-### Ürün Kartları
-
-```tsx
-export const ProductGrid = ({ products }) => {
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
-      {products.map((product) => (
-        <MediaCard
-          key={product.id}
-          uri={product.image}
-          title={product.name}
-          subtitle={`${product.price} TL`}
-          badge={product.isNew ? 'YENİ' : ''}
-          onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Hikaye Seçimi
-
-```tsx
-export const StorySelector = ({ stories }) => {
-  return (
-    <ScrollView horizontal style={{ padding: 16 }}>
-      {stories.map((story) => (
-        <MediaCard
-          key={story.id}
-          uri={story.avatar}
-          size="sm"
-          aspectRatio={1}
-          onPress={() => openStory(story)}
-          style={{ marginRight: 8 }}
-        />
-      ))}
-    </ScrollView>
-  );
-};
-```
-
-### Meme Koleksiyonu
-
-```tsx
-export const MemeGallery = ({ memes }) => {
-  const [selectedMemes, setSelectedMemes] = useState(new Set());
-
-  const toggleSelection = (id) => {
-    const newSet = new Set(selectedMemes);
-    if (newSet.has(id)) {
-      newSet.delete(id);
-    } else {
-      newSet.add(id);
-    }
-    setSelectedMemes(newSet);
-  };
-
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-      {memes.map((meme) => (
-        <MediaCard
-          key={meme.id}
-          uri={meme.image}
-          selected={selectedMemes.has(meme.id)}
-          onPress={() => toggleSelection(meme.id)}
-        />
-      ))}
-    </View>
-  );
-};
-```
-
-### Arka Plan Seçimi
-
-```tsx
-export const BackgroundPicker = ({ backgrounds }) => {
-  const [selectedBg, setSelectedBg] = useState(backgrounds[0]);
-
-  return (
-    <View style={{ padding: 16 }}>
-      <FlatList
-        data={backgrounds}
-        numColumns={3}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <MediaCard
-            uri={item.thumbnail}
-            selected={selectedBg?.id === item.id}
-            onPress={() => setSelectedBg(item)}
-            style={{ margin: 4 }}
-          />
-        )}
-      />
-    </View>
-  );
-};
-```
-
-## Props
-
-### MediaCardProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `uri` | `string` | - **(Zorunlu)** | Resim URI'si |
-| `title` | `string` | - | Başlık metni |
-| `subtitle` | `string` | - | Alt başlık |
-| `badge` | `string \| number` | - | Badge içeriği |
-| `selected` | `boolean` | `false` | Seçili durumu |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Kart boyutu |
-| `aspectRatio` | `number` | `0.8` | En-boy oranı |
-| `overlayPosition` | `'top' \| 'bottom' \| 'center'` | `'bottom'` | Overlay pozisyonu |
-| `showOverlay` | `boolean` | `true` | Overlay göster |
-| `width` | `number` | - | Custom genişlik |
-| `onPress` | `() => void` | - | Tıklama olayı |
-| `testID` | `string` | - | Test ID'si |
 
 ## Best Practices
 
-### 1. Boyut Seçimi
+### Size Selection
 
+✅ **DO**:
+- Use `sm` for dense grids and galleries
+- Use `md` for standard product cards
+- Use `lg` for featured/hero items
+- Keep sizes consistent within grids
+
+❌ **DON'T**:
+- Mix sizes arbitrarily in the same grid
+- Use `lg` for small thumbnails
+- Use `sm` for hero/featured content
+
+### Aspect Ratio
+
+✅ **DO**:
 ```tsx
-// Yoğun grid
-<MediaCard size="sm" />
-
-// Normal grid
-<MediaCard size="md" />
-
-// Vurgu
-<MediaCard size="lg" />
-```
-
-### 2. Aspect Ratio
-
-```tsx
-// Kare
+// Square images
 <MediaCard aspectRatio={1} />
 
-// Dikdörtgen
+// Portrait images
 <MediaCard aspectRatio={0.8} />
 
-// Yatay
+// Landscape images
 <MediaCard aspectRatio={1.2} />
 ```
 
-### 3. Overlay Kullanımı
-
+❌ **DON'T**:
 ```tsx
-// Bilgi için
-<MediaCard title="Başlık" subtitle="Açıklama" />
+// Don't distort images
+<MediaCard aspectRatio={2} /> // For portrait image
+```
 
-// Sadece görsel
+### Overlay Usage
+
+✅ **DO**:
+```tsx
+// Provide context
+<MediaCard
+  title="Product Name"
+  subtitle="$29.99"
+/>
+
+// Clean display
 <MediaCard showOverlay={false} />
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+// Don't show overlay for no reason
+<MediaCard title="" subtitle="" />
+```
 
-MediaCard, tam erişilebilirlik desteği sunar:
+## AI Coding Guidelines
 
-- ✅ Touch uygun boyut
-- ✅ Screen reader desteği
-- ✅ Selected state anonsu
-- ✅ Test ID desteği
+### For AI Agents
 
-## Performans İpuçları
+When generating MediaCard components, follow these rules:
 
-1. **Optimization**: Resimleri optimize edin
-2. **Caching**: Resimleri cache'leyin
-3. **Lazy Loading**: Uzun listelerde lazy load kullanın
+1. **Always import from correct path**:
+   ```typescript
+   import { MediaCard } from 'react-native-design-system/src/molecules/media-card';
+   ```
 
-## İlgili Bileşenler
+2. **Always provide required props**:
+   ```tsx
+   <MediaCard
+     uri="有效的图片URL"
+     title="简洁的标题"
+     size="根据上下文选择合适尺寸"
+   />
+   ```
 
-- [`AtomicCard`](../../atoms/AtomicCard.README.md) - Basit kart
-- [`GlowingCard`](../GlowingCard/README.md) - Parlak kart
-- [`AtomicImage`](../../atoms/AtomicImage/README.md) - Resim bileşeni
+3. **Always handle press events**:
+   ```tsx
+   <MediaCard
+     uri="image.jpg"
+     onPress={() => navigation.navigate('Detail', { id })}
+   />
+   ```
 
-## Lisans
+4. **Always use appropriate sizes**:
+   ```tsx
+   // Dense grid
+   <MediaCard size="sm" />
+
+   // Standard card
+   <MediaCard size="md" />
+
+   // Featured item
+   <MediaCard size="lg" />
+   ```
+
+5. **Never forget accessibility**:
+   ```tsx
+   // ❌ Bad
+   <MediaCard uri="image.jpg" />
+
+   // ✅ Good
+   <MediaCard
+     uri="image.jpg"
+     accessibilityLabel="Product image"
+     title="Product Name"
+   />
+   ```
+
+### Common Patterns
+
+#### Photo Gallery
+```tsx
+<FlatList
+  numColumns={3}
+  data={photos}
+  renderItem={({ item }) => (
+    <MediaCard
+      uri={item.uri}
+      size="sm"
+      onPress={() => navigateToPhoto(item.id)}
+    />
+  )}
+/>
+```
+
+#### Template Selector
+```tsx
+<MediaCard
+  uri={template.thumbnail}
+  title={template.name}
+  selected={selectedId === template.id}
+  onPress={() => setSelectedTemplate(template)}
+/>
+```
+
+#### Product Card
+```tsx
+<MediaCard
+  uri={product.image}
+  title={product.name}
+  subtitle={`$${product.price}`}
+  badge={product.isNew ? 'NEW' : ''}
+  onPress={() => navigateToProduct(product.id)}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `uri` | `string` | Yes | - | Image URI |
+| `title` | `string` | No | - | Overlay title |
+| `subtitle` | `string` | No | - | Overlay subtitle |
+| `badge` | `string \| number` | No | - | Badge content |
+| `selected` | `boolean` | No | `false` | Selected state |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Card size |
+| `aspectRatio` | `number` | No | `0.8` | Aspect ratio |
+| `overlayPosition` | `'top' \| 'bottom' \| 'center'` | No | `'bottom'` | Overlay position |
+| `showOverlay` | `boolean` | No | `true` | Show overlay |
+| `width` | `number` | No | - | Custom width |
+| `onPress` | `() => void` | No | - | Press handler |
+
+## Accessibility
+
+- ✅ Screen reader announces title and subtitle
+- ✅ Touch target size: minimum 44x44pt
+- ✅ Selected state announced to screen readers
+- ✅ Test ID support for testing
+- ✅ Accessibility label support
+
+## Performance
+
+1. **Image optimization**: Use optimized image sizes
+2. **Caching**: Enable image caching
+3. **Lazy loading**: Use in long lists
+4. **Memoization**: Memo press handlers
+
+## Related Components
+
+- [`AtomicCard`](../../atoms/AtomicCard/README.md) - Basic card component
+- [`GlowingCard`](../GlowingCard/README.md) - Glowing effect card
+- [`AtomicImage`](../../atoms/AtomicImage/README.md) - Image component
+- [`Avatar`](../avatar/README.md) - User avatar component
+
+## License
 
 MIT

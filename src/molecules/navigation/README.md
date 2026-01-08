@@ -1,36 +1,23 @@
 # Navigation System
 
-React Native Design System, React Navigation ile entegre çalışan hazır navigator bileşenleri sunar. Tema bilinci ve özelleştirilebilir navigasyon çözümleri sağlar.
+React Native Design System provides ready-to-use navigator components that integrate with React Navigation. These components offer theme-aware and customizable navigation solutions.
 
-## Navigation Bileşenleri
+## Import & Usage
 
-- **TabsNavigator** - Bottom tab navigasyonu
-- **StackNavigator** - Stack tabanlı navigasyon
-- **FabButton** - Navigation ile entegre FAB
-
-## Kurulum
-
-```tsx
+```typescript
 import {
   TabsNavigator,
   StackNavigator
-} from 'react-native-design-system';
+} from 'react-native-design-system/src/molecules/navigation';
 ```
 
-## TabsNavigator
+**Location:** `src/molecules/navigation/`
 
-Bottom tab navigasyonu için kullanılır. Material Design 3 uyumlu, tema bilinci bir tab bar sağlar.
-
-### Temel Kullanım
+## Basic Usage
 
 ```tsx
-import { TabsNavigator } from 'react-native-design-system';
-import { HomeScreen } from './HomeScreen';
-import { ProfileScreen } from './ProfileScreen';
-import { SettingsScreen } from './SettingsScreen';
-
-export const MainTabs = () => {
-  const tabConfig = {
+<TabsNavigator
+  config={{
     id: 'main-tabs',
     initialRouteName: 'Home',
     screens: [
@@ -38,340 +25,332 @@ export const MainTabs = () => {
         name: 'Home',
         component: HomeScreen,
         options: {
-          tabBarLabel: 'Ana Sayfa',
+          tabBarLabel: 'Home',
           tabBarIcon: 'home-outline',
         },
       },
-      {
-        name: 'Profile',
-        component: ProfileScreen,
-        options: {
-          tabBarLabel: 'Profil',
-          tabBarIcon: 'person-outline',
-        },
-      },
-      {
-        name: 'Settings',
-        component: SettingsScreen,
-        options: {
-          tabBarLabel: 'Ayarlar',
-          tabBarIcon: 'settings-outline',
-        },
-      },
     ],
-  };
-
-  return <TabsNavigator config={tabConfig} />;
-};
+  }}
+/>
 ```
 
-### Badge Gösterimi
+## Strategy
+
+**Purpose**: Provide consistent, theme-aware navigation components that integrate seamlessly with React Navigation.
+
+**When to Use**:
+- Building app navigation structure
+- Creating bottom tab navigation
+- Implementing stack navigation
+- Managing nested navigation flows
+
+**When NOT to Use**:
+- For simple navigation - use React Navigation directly
+- For custom navigation patterns - build custom solution
+- For web-only apps - use web routing libraries
+
+## Rules
+
+### Required
+
+1. **ALWAYS** provide unique `id` for navigator config
+2. **MUST** have `name` and `component` for each screen
+3. **NEVER** use duplicate screen names in same navigator
+4. **ALWAYS** define `initialRouteName` explicitly
+5. **MUST** wrap app in NavigationContainer
+
+### Tab Navigator
+
+1. **ALWAYS** provide `tabBarLabel` for each tab
+2. **MUST** provide `tabBarIcon` using Ionicons names
+3. **SHOULD** limit to 3-5 tabs for optimal UX
+4. **NEVER** nest tabs more than 2 levels deep
+
+### Stack Navigator
+
+1. **ALWAYS** provide meaningful screen names
+2. **MUST** handle header configuration consistently
+3. **SHOULD** provide back button labels for navigation
+4. **NEVER** stack more than 10 screens deep
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-const tabConfig = {
-  id: 'main-tabs',
-  initialRouteName: 'Home',
-  screens: [
-    {
-      name: 'Home',
-      component: HomeScreen,
-      options: {
-        tabBarLabel: 'Ana Sayfa',
-        tabBarIcon: 'home-outline',
-        tabBarBadge: 3, // Badge sayısı
-      },
-    },
-    // ...
-  ],
-};
-```
+// ❌ Missing required props
+<TabsNavigator /> {/* Missing config */}
 
-### Gizli Tab
-
-```tsx
-screens: [
-  {
-    name: 'Home',
-    component: HomeScreen,
-    options: {
-      tabBarLabel: 'Ana Sayfa',
-      tabBarIcon: 'home-outline',
-    },
-  },
-  {
-    name: 'Admin',
-    component: AdminScreen,
-    visible: false, // Gizli tab
-  },
-]
-```
-
-### Custom Screen Options
-
-```tsx
-const tabConfig = {
-  id: 'main-tabs',
-  initialRouteName: 'Home',
-  screenOptions: {
-    headerShown: false,
-  },
-  screens: [
-    // ...
-  ],
-};
-```
-
-## StackNavigator
-
-Screen'ler arası geçiş için kullanılır. Push/pop animasyonları ve header yönetimi sağlar.
-
-### Temel Kullanım
-
-```tsx
-import { StackNavigator } from 'react-native-design-system';
-import { HomeScreen } from './HomeScreen';
-import { DetailsScreen } from './DetailsScreen';
-
-export const AppStack = () => {
-  const stackConfig = {
-    id: 'app-stack',
-    initialRouteName: 'Home',
+// ❌ Duplicate screen names
+<TabsNavigator
+  config={{
     screens: [
-      {
-        name: 'Home',
-        component: HomeScreen,
-        options: {
-          title: 'Ana Sayfa',
-          headerShown: true,
-        },
-      },
-      {
-        name: 'Details',
-        component: DetailsScreen,
-        options: {
-          title: 'Detaylar',
-        },
-      },
+      { name: 'Home', component: HomeScreen },
+      { name: 'Home', component: AboutScreen }, {/* ❌ Duplicate */}
     ],
-  };
+  }}
+/>
 
-  return <StackNavigator config={stackConfig} />;
-};
-```
+// ❌ Too many tabs
+<TabsNavigator
+  config={{
+    screens: [
+      // 10 tabs... ❌ Too many
+    ],
+  }}
+/>
 
-### Header Gizle
-
-```tsx
-screens: [
-  {
-    name: 'Home',
-    component: HomeScreen,
-    options: {
-      headerShown: false,
-    },
+// ❌ Missing icons
+{
+  name: 'Home',
+  component: HomeScreen,
+  options: {
+    tabBarLabel: 'Home',
+    // Missing tabBarIcon ❌
   },
-]
-```
-
-### Custom Header
-
-```tsx
-screens: [
-  {
-    name: 'Home',
-    component: HomeScreen,
-    options: {
-      headerTitle: () => <CustomHeader />,
-      headerStyle: {
-        backgroundColor: '#6366f1',
-      },
-      headerTintColor: '#ffffff',
-    },
-  },
-]
-```
-
-### Header Right
-
-```tsx
-screens: [
-  {
-    name: 'Profile',
-    component: ProfileScreen,
-    options: {
-      title: 'Profil',
-      headerRight: () => (
-        <Pressable onPress={handleSettings}>
-          <AtomicIcon name="settings-outline" size="md" />
-        </Pressable>
-      ),
-    },
-  },
-]
-```
-
-## Örnek Kullanımlar
-
-### Ana Navigasyon Yapısı
-
-```tsx
-export const AppNavigation = () => {
-  return (
-    <NavigationContainer>
-      <Stacks />
-    </NavigationContainer>
-  );
-};
-
-const Stacks = () => {
-  return (
-    <TabsNavigator config={mainTabConfig} />
-  );
-};
-```
-
-### İç içe Navigasyon
-
-```tsx
-export const NestedNavigation = () => {
-  return (
-    <TabsNavigator config={mainTabConfig}>
-      {/* Her tab içinde kendi stack'i olabilir */}
-    </TabsNavigator>
-  );
-};
-```
-
-### Auth Flow
-
-```tsx
-export const AuthNavigation = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-    </Stack.Navigator>
-  );
-};
-```
-
-### Modal Stack
-
-```tsx
-export const MainStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
-        name="Details"
-        component={DetailsScreen}
-        options={{ presentation: 'modal' }}
-      />
-    </Stack.Navigator>
-  );
-};
-```
-
-## Konfigürasyon
-
-### TabScreenConfig
-
-```typescript
-interface TabScreenConfig {
-  name: string;              // Screen adı (zorunlu)
-  component: React.ComponentType; // Component (zorunlu)
-  options?: {
-    tabBarLabel?: string;   // Tab label
-    tabBarIcon?: string;     // İkon ismi (Ionicons)
-    tabBarBadge?: string | number; // Badge
-    title?: string;          // Header başlığı
-    headerShown?: boolean;  // Header göster/gizle
-  };
-  visible?: boolean;        // Görünürlük
 }
-```
 
-### StackScreenConfig
-
-```typescript
-interface StackScreenConfig {
-  name: string;
-  component: React.ComponentType;
-  options?: {
-    title?: string;
-    headerShown?: boolean;
-    headerLeft?: React.ReactNode;
-    headerRight?: React.ReactNode;
-    headerStyle?: any;
-    headerTitleStyle?: any;
-    headerTintColor?: string;
-  };
+// ❌ Inconsistent headers
+{
+  name: 'Screen1',
+  options: { headerShown: true },
+},
+{
+  name: 'Screen2',
+  options: { headerShown: false }, {/* ❌ Inconsistent */}
 }
+
+// ❌ Hardcoded navigation
+navigation.navigate('Profile', { userId: '123' }); {/* ❌ Use params */}
 ```
 
 ## Best Practices
 
-### 1. Navigasyon Yapısı
+### Navigation Structure
 
+✅ **DO**:
+- Use tabs for top-level navigation
+- Use stacks for detail navigation
+- Keep navigation flat (max 2-3 levels)
+- Use descriptive screen names
+
+❌ **DON'T**:
+- Create deeply nested navigation
+- Use more than 5 tabs
+- Mix navigation patterns arbitrarily
+- Use abbreviations in screen names
+
+### Tab Configuration
+
+✅ **DO**:
 ```tsx
-// Ana tab navigasyonu
-<TabsNavigator config={mainTabs} />
-
-// Her tab içinde stack
-<StackNavigator config={homeStack} />
-```
-
-### 2. Screen Options
-
-```tsx
-// Header göster
-options: { headerShown: true }
-
-// Header gizle
-options: { headerShown: false }
-
-// Custom başlık
-options: { title: 'Başlık' }
-```
-
-### 3. İkon Seçimi
-
-```tsx
-// İkon isimleri (Ionicons)
 options: {
+  tabBarLabel: 'Home',
   tabBarIcon: 'home-outline',
+  tabBarBadge: 3, // For notifications
 }
 ```
 
-## Erişilebilirlik
+❌ **DON'T**:
+```tsx
+options: {
+  tabBarLabel: 'Hm', // ❌ Too abbreviated
+  tabBarIcon: 'invalid-icon-name', // ❌ Invalid icon
+}
+```
 
-Navigation bileşenleri, tam erişilebilirlik desteği sunar:
+### Screen Options
 
-- ✅ Screen reader desteği
-- ✅ Tab label anonsu
-- ✅ Focus management
-- ✅ Keyboard navigation
-- ✅ Semantic anlamlar
+✅ **DO**:
+```tsx
+// Show header
+options: {
+  headerShown: true,
+  title: 'Screen Title',
+}
 
-## Performans İpuçları
+// Hide header
+options: {
+  headerShown: false,
+}
+```
 
-1. **Lazy Loading**: Screen'leri lazy load edin
-2. **Memoization**: Screen options'ı memo edin
-3. **Unmount**: Kullanılmayan screen'leri unmount edin
+❌ **DON'T**:
+```tsx
+// Don't mix header styles inconsistently
+options: {
+  headerShown: true,
+  headerStyle: { backgroundColor: 'random-color' },
+}
+```
 
-## İlgili Bileşenler
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating Navigation components, follow these rules:
+
+1. **Always import from correct path**:
+   ```typescript
+   import { TabsNavigator, StackNavigator } from 'react-native-design-system/src/molecules/navigation';
+   ```
+
+2. **Always provide unique IDs**:
+   ```tsx
+   config={{
+     id: 'unique-navigator-id',
+     initialRouteName: 'Home',
+     screens: [...],
+   }}
+   ```
+
+3. **Always use valid icon names**:
+   ```tsx
+   options: {
+     tabBarIcon: 'home-outline', // Valid Ionicons name
+   }
+   ```
+
+4. **Always define initial route**:
+   ```tsx
+   config={{
+     initialRouteName: 'Home', // Always specify
+   }}
+   ```
+
+5. **Never create deeply nested navigation**:
+   ```tsx
+   // ❌ Bad - Too deep
+   Tabs -> Stack -> Stack -> Stack
+
+   // ✅ Good - Flat
+   Tabs -> Stack
+   ```
+
+### Common Patterns
+
+#### Main Navigation Structure
+```tsx
+export const AppNavigation = () => {
+  return (
+    <NavigationContainer>
+      <TabsNavigator
+        config={{
+          id: 'main-tabs',
+          initialRouteName: 'Home',
+          screens: [
+            {
+              name: 'Home',
+              component: HomeStack,
+              options: {
+                tabBarLabel: 'Home',
+                tabBarIcon: 'home-outline',
+              },
+            },
+            {
+              name: 'Profile',
+              component: ProfileStack,
+              options: {
+                tabBarLabel: 'Profile',
+                tabBarIcon: 'person-outline',
+              },
+            },
+          ],
+        }}
+      />
+    </NavigationContainer>
+  );
+};
+```
+
+#### Stack with Header
+```tsx
+<StackNavigator
+  config={{
+    id: 'home-stack',
+    initialRouteName: 'HomeList',
+    screens: [
+      {
+        name: 'HomeList',
+        component: HomeList,
+        options: {
+          title: 'Home',
+          headerShown: true,
+        },
+      },
+      {
+        name: 'Detail',
+        component: DetailScreen,
+        options: {
+          title: 'Details',
+        },
+      },
+    ],
+  }}
+/>
+```
+
+#### Hidden Tab
+```tsx
+{
+  name: 'Admin',
+  component: AdminScreen,
+  visible: false, // Hidden from UI
+}
+```
+
+## Props Reference
+
+### TabsNavigator
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `config` | `TabNavigatorConfig` | Yes | - | Navigator configuration |
+| `theme` | `Theme` | No | Default theme | Theme object |
+
+### StackNavigator
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `config` | `StackNavigatorConfig` | Yes | - | Navigator configuration |
+| `theme` | `Theme` | No | Default theme | Theme object |
+
+### TabScreenConfig
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `name` | `string` | Yes | Screen name (unique) |
+| `component` | `Component` | Yes | Screen component |
+| `options` | `object` | No | Tab options (label, icon, badge) |
+| `visible` | `boolean` | No | Show/hide tab |
+
+## Accessibility
+
+- ✅ Screen reader announces tab labels
+- ✅ Focus management for keyboard navigation
+- ✅ Semantic navigation structure
+- ✅ Proper tab order
+- ✅ Header titles announced
+
+## Performance
+
+1. **Lazy loading**: Load screens on demand
+2. **Memoization**: Memo screen options
+3. **Unmount**: Unmount unused screens
+4. **Optimization**: Use `navigation.addListener` wisely
+
+## Related Components
 
 - [`AtomicFab`](../../atoms/AtomicFab/README.md) - Floating action button
-- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - İkon bileşeni
-- [`BaseModal`](../BaseModal/README.md) - Modal bileşeni
+- [`AtomicIcon`](../../atoms/AtomicIcon/README.md) - Icon component
+- [`BaseModal`](../BaseModal/README.md) - Modal component
 
-## React Navigation Dokümantasyonu
+## External Resources
 
-Detaylı bilgi için:
-- [Bottom Tabs](https://reactnavigation.org/docs/bottom-tab-navigator/)
+- [React Navigation Docs](https://reactnavigation.org/)
+- [Bottom Tabs Navigator](https://reactnavigation.org/docs/bottom-tab-navigator/)
 - [Stack Navigator](https://reactnavigation.org/docs/stack-navigator/)
 
-## Lisans
+## License
 
 MIT

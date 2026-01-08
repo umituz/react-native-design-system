@@ -1,421 +1,263 @@
-# AtomicFab
+# AtomicFab (Floating Action Button)
 
-AtomicFab (Floating Action Button), Material Design 3 uyumlu bir yüzen aksiyon butonudur. Ekranın sağ alt köşesinde bulunur ve bir ekrandaki birincil eylemi temsil eder.
+A Material Design 3 floating action button for primary screen actions.
 
-## Özellikler
+## Import & Usage
 
-- 🎯 **Primary Action**: Ana eylem için buton
-- 📏 **3 Size**: Small (40px), Medium (56px), Large (72px)
-- 🎨 **3 Variant**: Primary, Secondary, Surface
-- 📍 **Responsive**: Otomatik pozisyonlama
-- 🔝 **Safe Area**: Tab bar ve safe area uyumlu
-- ♿ **Erişilebilir**: Tam erişilebilirlik desteği
-
-## Önemli Not
-
-⚠️ **FAB mutlaka ScreenLayout seviyesinde kullanılmalı, ScrollView içinde kullanılmamalıdır!**
-
-## Kurulum
-
-```tsx
-import { AtomicFab } from 'react-native-design-system';
+```typescript
+import { AtomicFab } from 'react-native-design-system/src/atoms/AtomicFab';
 ```
 
-## Temel Kullanım
+**Location:** `src/atoms/AtomicFab.tsx`
+
+## Basic Usage
 
 ```tsx
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { AtomicFab, ScreenLayout } from 'react-native-design-system';
-
-export const BasicExample = () => {
-  const handleAdd = () => {
-    console.log('Yeni öğe ekle');
-  };
-
-  return (
-    <ScreenLayout>
-      <ScrollView>
-        {/* İçerik */}
-      </ScrollView>
-
-      <AtomicFab
-        icon="add"
-        onPress={handleAdd}
-      />
-    </ScreenLayout>
-  );
-};
+<ScreenLayout>
+  <ScrollView>{/* Content */}</ScrollView>
+  <AtomicFab icon="add" onPress={handleAdd} />
+</ScreenLayout>
 ```
 
-## Variant'lar
+## Strategy
+
+**Purpose**: Promote the primary action on a screen.
+
+**When to Use**:
+- Primary screen action (add item, create new)
+- Frequently used action
+- Single positive action (create, add, share)
+- Destructive action when it's the only option
+
+**When NOT to Use**:
+- In ScrollView (MUST be at ScreenLayout level)
+- For multiple actions of equal importance
+- For non-primary actions
+- For actions that are context-specific to list items
+
+## Rules
+
+### Required
+
+1. **MUST** be at ScreenLayout level (NOT in ScrollView)
+2. **ALWAYS** provide `icon` and `onPress`
+3. **SHOULD** use `primary` variant for main action
+4. **MUST** have accessibility label
+5. **ALWAYS** use appropriate icon for action
+6. **SHOULD** be the only FAB on screen
+7. **MUST** not overlap important content
+
+### Positioning
+
+1. **Default**: Bottom-right corner
+2. **Safe area**: Respects safe area insets
+3. **Above navigation**: Above tab bar if present
+4. **Manual**: Can position manually with style
+
+### Variants
+
+1. **primary**: Main action (default)
+2. **secondary**: Secondary action
+3. **surface**: Surface-level action
+
+## Forbidden
+
+❌ **NEVER** do these:
 
 ```tsx
-<View style={{ gap: 16 }}>
-  {/* Primary (Varsayılan) */}
-  <AtomicFab
-    icon="add"
-    variant="primary"
-    onPress={() => {}}
-  />
+// ❌ FAB in ScrollView
+<ScrollView>
+  <Content />
+  <AtomicFab icon="add" onPress={handleAdd} /> {/* ❌ Wrong level */}
+</ScrollView>
 
-  {/* Secondary */}
-  <AtomicFab
-    icon="create"
-    variant="secondary"
-    onPress={() => {}}
-  />
-
-  {/* Surface */}
-  <AtomicFab
-    icon="share"
-    variant="surface"
-    onPress={() => {}}
-  />
-</View>
-```
-
-## Boyutlar
-
-```tsx
-<View style={{ gap: 16 }}>
-  {/* Small */}
-  <AtomicFab
-    icon="add"
-    size="sm"
-    onPress={() => {}}
-  />
-
-  {/* Medium (Varsayılan) */}
-  <AtomicFab
-    icon="add"
-    size="md"
-    onPress={() => {}}
-  />
-
-  {/* Large */}
-  <AtomicFab
-    icon="add"
-    size="lg"
-    onPress={() => {}}
-  />
-</View>
-```
-
-## Disabled State
-
-```tsx
-<AtomicFab
-  icon="add"
-  disabled
-  onPress={() => {}}
-/>
-```
-
-## Custom Style
-
-```tsx
+// ❌ Missing accessibility
 <AtomicFab
   icon="add"
   onPress={handleAdd}
-  style={{
-    bottom: 100,
-    right: 20,
-  }}
+  // ❌ No accessibilityLabel
 />
-```
 
-## Örnek Kullanımlar
+// ❌ Wrong icon for action
+<AtomicFab
+  icon="trash" {/* ❌ FAB should be positive action */}
+  onPress={handleDelete}
+/>
 
-### Yeni Öğe Ekleme
+// ❌ Multiple FABs
+<ScreenLayout>
+  <AtomicFab icon="add" onPress={handleAdd} />
+  <AtomicFab icon="edit" onPress={handleEdit} /> {/* ❌ Too many */}
+</ScreenLayout>
 
-```tsx
-export const ItemList = () => {
-  const navigation = useNavigation();
-
-  return (
-    <ScreenLayout>
-      <FlatList
-        data={items}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ItemCard item={item} />}
-      />
-
-      <AtomicFab
-        icon="add"
-        onPress={() => navigation.navigate('AddItem')}
-        accessibilityLabel="Yeni öğe ekle"
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-### Mesaj Oluşturma
-
-```tsx
-export const ChatList = () => {
-  return (
-    <ScreenLayout>
-      <FlatList
-        data={conversations}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ConversationCard item={item} />}
-      />
-
-      <AtomicFab
-        icon="chatbubble-outline"
-        onPress={() => console.log('Yeni mesaj')}
-        accessibilityLabel="Yeni mesaj"
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-### Fotoğraf Çekme
-
-```tsx
-export const PhotoGallery = () => {
-  const handleTakePhoto = () => {
-    launchCamera();
-  };
-
-  return (
-    <ScreenLayout>
-      <FlatList
-        data={photos}
-        numColumns={3}
-        renderItem={({ item }) => <PhotoItem photo={item} />}
-      />
-
-      <AtomicFab
-        icon="camera-outline"
-        onPress={handleTakePhoto}
-        accessibilityLabel="Fotoğraf çek"
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-### Konum Oluşturma
-
-```tsx
-export const MapScreen = () => {
-  const handleAddLocation = () => {
-    console.log('Konum ekle');
-  };
-
-  return (
-    <ScreenLayout>
-      <MapView style={{ flex: 1 }} />
-
-      <AtomicFab
-        icon="location-outline"
-        variant="secondary"
-        onPress={handleAddLocation}
-        accessibilityLabel="Konum ekle"
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-### Arama
-
-```tsx
-export const ContactList = () => {
-  const handleCall = () => {
-    console.log('Ara');
-  };
-
-  return (
-    <ScreenLayout>
-      <FlatList
-        data={contacts}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ContactCard contact={item} />}
-      />
-
-      <AtomicFab
-        icon="call-outline"
-        variant="surface"
-        onPress={handleCall}
-        accessibilityLabel="Ara"
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-### Farklı Eylemler
-
-```tsx
-export const Dashboard = () => {
-  return (
-    <ScreenLayout>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <DashboardCards />
-      </ScrollView>
-
-      {/* İlk FAB - Ana eylem */}
-      <AtomicFab
-        icon="add"
-        onPress={() => console.log('Ana eylem')}
-        style={{ right: 80 }}
-      />
-
-      {/* İkinci FAB - İkincil eylem */}
-      <AtomicFab
-        icon="settings-outline"
-        variant="secondary"
-        size="sm"
-        onPress={() => console.log('İkincil eylem')}
-      />
-    </ScreenLayout>
-  );
-};
-```
-
-## Props
-
-### AtomicFabProps
-
-| Prop | Tip | Varsayılan | Açıklama |
-|------|-----|------------|----------|
-| `icon` | `string` | - **(Zorunlu)** | İkon ismi (Ionicons) |
-| `onPress` | `() => void` | - **(Zorunlu)** | Tıklama olayı |
-| `variant` | `FabVariant` | `'primary'` | FAB variant'ı |
-| `size` | `FabSize` | `'md'` | FAB boyutu |
-| `disabled` | `boolean` | `false` | Devre dışı |
-| `activeOpacity` | `number` | `0.7` | Tıklama opaklığı |
-| `accessibilityLabel` | `string` | - | Erişilebilirlik etiketi |
-| `style` | `StyleProp<ViewStyle>` | - | Özel stil |
-| `testID` | `string` | - | Test ID'si |
-
-### FabVariant
-
-```typescript
-type FabVariant =
-  | 'primary'    // Ana eylem (varsayılan)
-  | 'secondary'  // İkincil eylem
-  | 'surface';   // Yüzey eylemi
-```
-
-### FabSize
-
-```typescript
-type FabSize =
-  | 'sm'  // Small (40px)
-  | 'md'  // Medium (56px, varsayılan)
-  | 'lg'; // Large (72px)
+// ❌ Unnecessary variant
+<AtomicFab
+  icon="share"
+  variant="surface" {/* Should use default primary */}
+  onPress={handleShare}
+/>
 ```
 
 ## Best Practices
 
-### 1. Doğru Kullanım
+### ScreenLayout Level
 
+✅ **DO**:
 ```tsx
-// ✅ DOĞRU - ScreenLayout seviyesinde
 <ScreenLayout>
   <ScrollView>
-    {/* İçerik */}
+    <Content />
   </ScrollView>
   <AtomicFab icon="add" onPress={handleAdd} />
 </ScreenLayout>
+```
 
-// ❌ YANLIŞ - ScrollView içinde
+❌ **DON'T**:
+```tsx
+// ❌ In ScrollView
 <ScrollView>
+  <Content />
   <AtomicFab icon="add" onPress={handleAdd} />
 </ScrollView>
 ```
 
-### 2. İkon Seçimi
+### Icon Selection
 
+✅ **DO**:
 ```tsx
-// Ekleme işlemi
-<AtomicFab icon="add" />
-
-// Düzenleme
-<AtomicFab icon="create" />
-
-// Mesajlaşma
-<AtomicFab icon="chatbubble-outline" />
-
-// Paylaşım
-<AtomicFab icon="share-outline" />
-
-// Arama
-<AtomicFab icon="call-outline" />
+// ✅ Positive, clear actions
+<AtomicFab icon="add" onPress={handleAdd} />
+<AtomicFab icon="create" onPress={handleEdit} />
+<AtomicFab icon="chatbubble" onPress={handleMessage} />
 ```
 
-### 3. Variant Seçimi
-
+❌ **DON'T**:
 ```tsx
-// Ana eylem
-<AtomicFab variant="primary" icon="add" />
-
-// İkincil eylem
-<AtomicFab variant="secondary" icon="create" />
-
-// Alternatif eylem
-<AtomicFab variant="surface" icon="share" />
+// ❌ Negative actions
+<AtomicFab icon="trash" onPress={handleDelete} />
+<AtomicFab icon="close" onPress={handleClose} />
 ```
 
-## Erişilebilirlik
+### Accessibility
 
-AtomicFab, tam erişilebilirlik desteği sunar:
+✅ **DO**:
+```tsx
+<AtomicFab
+  icon="add"
+  onPress={handleAdd}
+  accessibilityLabel="Add new item"
+/>
+```
 
-- ✅ Touch uygun boyut (minimum 40x40)
-- ✅ Screen reader desteği
+❌ **DON'T**:
+```tsx
+// ❌ No label
+<AtomicFab icon="add" onPress={handleAdd} />
+```
+
+## AI Coding Guidelines
+
+### For AI Agents
+
+When generating AtomicFab components, follow these rules:
+
+1. **Always place at ScreenLayout level**:
+   ```tsx
+   // ✅ Good
+   <ScreenLayout>
+     <ScrollView>{/* Content */}</ScrollView>
+     <AtomicFab icon="add" onPress={handleAdd} />
+   </ScreenLayout>
+
+   // ❌ Bad
+   <ScrollView>
+     <Content />
+     <AtomicFab icon="add" onPress={handleAdd} />
+   </ScrollView>
+   ```
+
+2. **Always use positive actions**:
+   ```tsx
+   // ✅ Good
+   <AtomicFab icon="add" onPress={handleAdd} />
+   <AtomicFab icon="create" onPress={handleCreate} />
+
+   // ❌ Bad
+   <AtomicFab icon="trash" onPress={handleDelete} />
+   <AtomicFab icon="close" onPress={handleClose} />
+   ```
+
+3. **Always provide accessibility label**:
+   ```tsx
+   // ✅ Good
+   <AtomicFab
+     icon="add"
+     onPress={handleAdd}
+     accessibilityLabel="Create new item"
+   />
+
+   // ❌ Bad
+   <AtomicFab icon="add" onPress={handleAdd} />
+   ```
+
+4. **Never use multiple FABs**:
+   ```tsx
+   // ❌ Bad - multiple FABs
+   <ScreenLayout>
+     <AtomicFab icon="add" />
+     <AtomicFab icon="edit" />
+   </ScreenLayout>
+   ```
+
+### Common Patterns
+
+#### Basic FAB
+```tsx
+<ScreenLayout>
+  <ScrollView>{/* Content */}</ScrollView>
+  <AtomicFab icon="add" onPress={handleAdd} />
+</ScreenLayout>
+```
+
+#### With Custom Position
+```tsx
+<AtomicFab
+  icon="add"
+  onPress={handleAdd}
+  style={{ bottom: 100 }}
+/>
+```
+
+## Props Reference
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `icon` | `string` | Yes | - | Icon name (Ionicons) |
+| `onPress` | `() => void` | Yes | - | Press callback |
+| `variant` | `'primary' \| 'secondary' \| 'surface'` | No | `'primary'` | FAB variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | FAB size |
+| `disabled` | `boolean` | No | `false` | Disabled state |
+| `accessibilityLabel` | `string` | No | - | Accessibility label |
+
+## Accessibility
+
+- ✅ Touch target size (min 40x40)
+- ✅ Screen reader support
 - ✅ Accessibility label
 - ✅ Semantic role (button)
-- ✅ Test ID desteği
 
-## Performans İpuçları
+## Performance Tips
 
-1. **OnPress Stabilization**: `onPress` callback'ini `useCallback` ile sarın
-2. **Avoid Re-renders**: FAB'ı gereksiz yere yeniden render etmeyin
-3. **Single FAB**: Genellikle bir ekranda tek FAB olmalıdır
+1. **Stabilize onPress**: Use useCallback
+2. **Single FAB**: Only one per screen
+3. **Avoid re-renders**: Memo FAB wrapper
 
-## Material Design 3 Uyumluluğu
+## Related Components
 
-Bu bileşen Material Design 3 spesifikasyonlarına uygun olarak tasarlanmıştır:
+- [`AtomicButton`](./AtomicButton.README.md) - Regular button
+- [`AtomicIcon`](./AtomicIcon.README.md) - Icon component
+- [`ScreenLayout`](../layouts/ScreenLayout) - Screen layout
 
-- ✅ Standart boyutlar (40px, 56px, 72px)
-- ✅ Variant renkleri
-- ✅ Border ile derinlik (gölge yok)
-- ✅ Responsive pozisyonlama
-- ✅ Safe area desteği
-
-## İlgili Bileşenler
-
-- [`AtomicButton`](./button/README.md) - Normal buton
-- [`AtomicIcon`](./AtomicIcon/README.md) - İkon bileşeni
-- [`ScreenLayout`](../layouts/ScreenLayout/README.md) - Ekran düzeni
-
-## Önemli Bilgiler
-
-### FAB Kullanımı
-
-1. **Birincil Eylem**: FAB, ekrandaki en önemli eylem olmalıdır
-2. **Sınırlı Sayı**: Bir ekranda genellikle tek FAB bulunur
-3. **Pozisyon**: Sağ alt köşededir
-4. **Scroll**: İçerik scroll olduğunda sabit kalır
-
-### FAB vs Extended FAB
-
-Standart FAB (bu bileşen):
-- Dairesel şekil
-- Sadece ikon
-- Compact tasarım
-
-Extended FAB (farklı bileşen):
-- Dikdörtgen/Pill şekil
-- İkon + metin
-- Daha fazla yer kaplar
-
-## Lisans
+## License
 
 MIT
