@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import { ViewStyle, StyleProp, ImageSourcePropType } from 'react-native';
 
 export interface HeroSectionProps {

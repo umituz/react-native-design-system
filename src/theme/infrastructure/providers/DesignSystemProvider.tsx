@@ -9,7 +9,6 @@ import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
 
-declare const __DEV__: boolean;
 
 interface DesignSystemProviderProps {
   /** App content */

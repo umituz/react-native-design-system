@@ -18,9 +18,9 @@ export { AtomicText, type AtomicTextProps } from './AtomicText';
 export {
     AtomicCard,
     type AtomicCardProps,
-    type AtomicCardVariant,
-    type AtomicCardPadding,
-} from './AtomicCard';
+    type CardVariant as AtomicCardVariant,
+    type CardPadding as AtomicCardPadding,
+} from './card';
 
 // Input
 export {
@@ -42,7 +42,6 @@ export {
     type IconName,
 } from './AtomicIcon';
 
-export * from './AtomicIcon.types';
 
 // Avatar
 export { AtomicAvatar, type AtomicAvatarProps } from './AtomicAvatar';

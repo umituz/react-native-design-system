@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms/AtomicIcon';
 import { useAppDesignTokens } from '../../theme';
-import type { InfoGridProps, InfoGridItem } from './types';
+import type { InfoGridProps } from './types';
 
 export const InfoGrid: React.FC<InfoGridProps> = ({
   title,

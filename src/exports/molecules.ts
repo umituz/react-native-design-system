@@ -23,11 +23,7 @@ export {
   type AvatarShape,
   type AvatarConfig,
   type AvatarType,
-  // Media Card
-  MediaCard,
-  type MediaCardProps,
-  type MediaCardSize,
-  type MediaCardOverlayPosition,
+
   // Bottom Sheet
   BottomSheet,
   BottomSheetModal,
@@ -165,9 +161,7 @@ export {
   type SplashColors,
   type UseSplashFlowOptions,
   type UseSplashFlowResult,
-  // GlowingCard
-  GlowingCard,
-  type GlowingCardProps,
+
   // Filter Group
   FilterGroup,
   type FilterGroupProps,
@@ -175,9 +169,7 @@ export {
   // Action Footer
   ActionFooter,
   type ActionFooterProps,
-  // Info Card
-  InfoCard,
-  type InfoCardProps,
+
   // Hero Section
   HeroSection,
   type HeroSectionProps,

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ScrollView, StyleSheet, ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { AtomicChip } from '../../atoms/chip';
 import { useAppDesignTokens } from '../../theme';
 import type { FilterGroupProps } from './types';
