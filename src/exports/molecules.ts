@@ -163,4 +163,7 @@ export {
   type SplashColors,
   type UseSplashFlowOptions,
   type UseSplashFlowResult,
+  // GlowingCard
+  GlowingCard,
+  type GlowingCardProps,
 } from '../molecules';

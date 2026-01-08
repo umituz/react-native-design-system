@@ -66,4 +66,6 @@ export {
   type AtomicStatusBarProps,
   AtomicKeyboardAvoidingView,
   type AtomicKeyboardAvoidingViewProps,
+  GlassView,
+  type GlassViewProps,
 } from '../atoms';
