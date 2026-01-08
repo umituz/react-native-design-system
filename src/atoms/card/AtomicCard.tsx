@@ -19,7 +19,7 @@ import { getCardVariantStyles, cardStyles } from './styles/cardStyles';
 import { getCardPadding } from './configs/cardPaddingConfig';
 import type { AtomicCardProps } from './types';
 
-export const AtomicCard: React.FC<AtomicCardProps> = ({
+const AtomicCardComponent: React.FC<AtomicCardProps> = ({
   children,
   variant = 'elevated',
   padding = 'md',
@@ -181,3 +181,5 @@ export const AtomicCard: React.FC<AtomicCardProps> = ({
     </View>
   );
 };
+
+export const AtomicCard = React.memo(AtomicCardComponent);
