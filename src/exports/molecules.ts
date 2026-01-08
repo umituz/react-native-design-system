@@ -98,8 +98,10 @@ export {
   NavigationCleanupManager,
   AppNavigation,
   TabLabel,
+  NavigationHeader, // Added
   useTabBarStyles,
   useTabConfig,
+  type NavigationHeaderProps, // Added
   type TabsNavigatorProps,
   type StackNavigatorProps,
   type FabButtonProps,
