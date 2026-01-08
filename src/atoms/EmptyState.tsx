@@ -57,7 +57,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <AtomicText
         type="headlineSmall"
         color="primary"
-        style={[styles.title, { textAlign: 'center' }]}
+        style={[styles.title, { textAlign: 'left' }]}
       >
         {title}
       </AtomicText>
@@ -66,7 +66,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <AtomicText
           type="bodyMedium"
           color="secondary"
-          style={[styles.description, { textAlign: 'center' }]}
+          style={[styles.description, { textAlign: 'left' }]}
         >
           {displayDescription}
         </AtomicText>
@@ -93,16 +93,16 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     padding: STATIC_TOKENS.spacing.xl,
   },
   iconContainer: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     marginBottom: STATIC_TOKENS.spacing.lg,
   },
   title: {
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: STATIC_TOKENS.spacing.lg,
-    maxWidth: 280,
   },
   actionButton: {
     paddingHorizontal: STATIC_TOKENS.spacing.lg,

@@ -25,7 +25,7 @@ export const getScreenLayoutStyles = (
     responsiveWrapper: {
       flex: 1,
       width: '100%',
-      ...(maxWidth ? { maxWidth, alignSelf: 'center' as const } : {}),
+      ...(maxWidth ? { maxWidth, alignSelf: 'flex-start' as const } : {}),
     },
     content: {
       flex: 1,

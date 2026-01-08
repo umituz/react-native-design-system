@@ -44,9 +44,10 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       backgroundColor: tokens.colors.primary,
       gap: tokens.spacing.sm,
+      paddingHorizontal: tokens.spacing.lg,
     },
     actionText: {
       color: tokens.colors.onPrimary,

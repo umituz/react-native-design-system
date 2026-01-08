@@ -7,13 +7,13 @@ import { StyleSheet } from 'react-native';
 export const buttonStyles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   rowReverse: {
     flexDirection: 'row-reverse',
