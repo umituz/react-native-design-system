@@ -1,5 +1,5 @@
 import type { ColorPalette, ThemeMode } from "./ColorPalette";
-import type { ExtendedColorPalette } from "./themes";
+
 
 /**
  * Font weight type compatible with React Navigation v7
@@ -51,7 +51,7 @@ export interface NavigationTheme {
  * Compatible with React Navigation v7+
  */
 export const createNavigationTheme = (
-  colors: ColorPalette | ExtendedColorPalette,
+  colors: ColorPalette,
   themeMode: ThemeMode
 ): NavigationTheme => ({
   dark: themeMode === "dark",

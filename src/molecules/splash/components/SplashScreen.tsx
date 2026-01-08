@@ -14,7 +14,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   appName,
   tagline,
   colors: customColors,
-  gradientColors,
   visible = true,
   maxDuration,
   onTimeout,

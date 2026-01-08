@@ -86,7 +86,6 @@ export {
   darkTheme,
   createResponsiveValue,
   type Theme,
-  type ExtendedColorPalette,
 } from './core/themes';
 
 // =============================================================================
