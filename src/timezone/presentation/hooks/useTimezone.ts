@@ -8,14 +8,14 @@
 import { useMemo, useCallback } from 'react';
 import { useLocalization } from '@umituz/react-native-localization';
 import { timezoneService } from '../../infrastructure/services/TimezoneService';
-import type { TimezoneInfo, CalendarDay } from '../../domain/entities/Timezone';
+import type { TimezoneInfo, TimezoneCalendarDay } from '../../domain/entities/Timezone';
 
 export interface UseTimezoneReturn {
   timezone: string;
   timezoneInfo: TimezoneInfo;
   formatDate: (date: Date, options?: Intl.DateTimeFormatOptions) => string;
   formatTime: (date: Date, options?: Intl.DateTimeFormatOptions) => string;
-  getCalendarDays: (year: number, month: number) => CalendarDay[];
+  getCalendarDays(year: number, month: number): TimezoneCalendarDay[];
   isToday: (date: Date) => boolean;
   isSameDay: (date1: Date, date2: Date) => boolean;
   addDays: (date: Date, days: number) => Date;

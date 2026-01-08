@@ -3,7 +3,7 @@
  * Pure business logic representation of errors and exceptions
  */
 
-import { generateUUID } from '@umituz/react-native-uuid';
+import { generateUUID } from '../../../uuid';
 
 export type ExceptionSeverity = 'fatal' | 'error' | 'warning' | 'info';
 export type ExceptionCategory = 'network' | 'validation' | 'authentication' | 'authorization' | 'business-logic' | 'system' | 'storage' | 'unknown';

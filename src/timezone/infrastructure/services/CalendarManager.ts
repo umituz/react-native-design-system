@@ -1,4 +1,4 @@
-import { CalendarDay } from '../../domain/entities/Timezone';
+import { TimezoneCalendarDay } from '../../domain/entities/Timezone';
 
 /**
  * CalendarManager
@@ -12,8 +12,8 @@ export class CalendarManager {
         year: number,
         month: number,
         formatDateFn: (date: Date) => string,
-    ): CalendarDay[] {
-        const days: CalendarDay[] = [];
+    ): TimezoneCalendarDay[] {
+        const days: TimezoneCalendarDay[] = [];
         const firstDay = new Date(year, month, 1);
         const firstDayOfWeek = firstDay.getDay();
         const lastDay = new Date(year, month + 1, 0);
@@ -57,7 +57,7 @@ export class CalendarManager {
         isCurrentMonth: boolean,
         today: Date,
         formatDateFn: (date: Date) => string,
-    ): CalendarDay {
+    ): TimezoneCalendarDay {
         return {
             date,
             day: date.getDate(),

@@ -6,7 +6,7 @@
 import {
   ITimezoneService,
   TimezoneInfo,
-  CalendarDay,
+  TimezoneCalendarDay,
 } from '../../domain/entities/Timezone';
 import { TimezoneProvider } from './TimezoneProvider';
 import { CalendarManager } from './CalendarManager';
@@ -40,7 +40,7 @@ export class TimezoneService implements ITimezoneService {
     return this.formatter.formatDateTime(date, locale, options);
   }
 
-  getCalendarDays(year: number, month: number): CalendarDay[] {
+  getCalendarDays(year: number, month: number): TimezoneCalendarDay[] {
     return this.calendar.getCalendarDays(year, month, (d) => this.formatter.formatDateToString(d));
   }
 

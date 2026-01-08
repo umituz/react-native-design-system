@@ -31,7 +31,7 @@ export interface TimezoneInfo {
  * Calendar day representation
  * Generic structure - can be extended by apps for app-specific data
  */
-export interface CalendarDay {
+export interface TimezoneCalendarDay {
   /** Date object for this day */
   date: Date;
 
@@ -86,7 +86,7 @@ export interface ITimezoneService {
   ): string;
 
   /** Get calendar days for a month */
-  getCalendarDays(year: number, month: number): CalendarDay[];
+  getCalendarDays(year: number, month: number): TimezoneCalendarDay[];
 
   /** Check if date is today */
   isToday(date: Date | string | number): boolean;

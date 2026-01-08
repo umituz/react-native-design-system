@@ -13,7 +13,7 @@
 
 export type {
   TimezoneInfo,
-  CalendarDay,
+  TimezoneCalendarDay,
   ITimezoneService,
 } from './domain/entities/Timezone';
 

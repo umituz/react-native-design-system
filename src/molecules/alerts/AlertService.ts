@@ -2,7 +2,7 @@
  * Alert Service
  */
 
-import { generateUUID } from '@umituz/react-native-uuid';
+import { generateUUID } from '../../uuid';
 import { Alert, AlertType, AlertMode, AlertOptions, AlertPosition } from './AlertTypes';
 
 export class AlertService {
