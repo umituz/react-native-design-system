@@ -41,6 +41,34 @@ Atomlar, tasarım sisteminin en temel yapı taşlarıdır. Tek bir amaca hizmet 
 - **[AtomicProgress](src/atoms/AtomicProgress.README.md)** - İlerleme çubuğu
 - **[AtomicSkeleton](src/atoms/skeleton/AtomicSkeleton.README.md)** - Skeleton loading
 
+### Action Buttons
+
+- **[AtomicFab](src/atoms/AtomicFab.README.md)** - Floating action button
+
+### User Interface
+
+- **[AtomicAvatar](src/atoms/AtomicAvatar.README.md)** - Kullanıcı avatar'ı
+
+### Display & Content
+
+- **[AtomicText](src/atoms/AtomicText.README.md)** - Tema bilincine sahip metin bileşeni
+- **[AtomicIcon](src/atoms/AtomicIcon.README.md)** - Ionicons wrapper'ı
+- **[AtomicImage](src/atoms/AtomicImage.README.md)** - Optimize edilmiş resim bileşeni
+- **[AtomicCard](src/atoms/AtomicCard.README.md)** - Basit kart container'ı
+
+### Interactive Elements
+
+- **[AtomicChip](src/atoms/chip/README.md)** - Etiket/filtre bileşeni
+- **[AtomicBadge](src/atoms/AtomicBadge.README.md)** - Rozet bileşeni
+- **[AtomicSwitch](src/atoms/AtomicSwitch.README.md)** - Toggle switch
+- **[AtomicTouchable](src/atoms/AtomicTouchable.README.md)** - Touchable wrapper
+
+### Feedback & Loading
+
+- **[AtomicSpinner](src/atoms/AtomicSpinner.README.md)** - Yükleme göstergesi
+- **[AtomicProgress](src/atoms/AtomicProgress.README.md)** - İlerleme çubuğu
+- **[AtomicSkeleton](src/atoms/skeleton/AtomicSkeleton.README.md)** - Skeleton loading
+
 ### Special Components
 
 - **[AtomicAvatar](src/atoms/AtomicAvatar.README.md)** - Kullanıcı avatar'ı
@@ -88,7 +116,7 @@ Moleküller, birden fazla atomun birleşiminden oluşan daha karmaşık bileşen
 ### Cards & Media
 
 - **[MediaCard](src/molecules/media-card/MediaCard.README.md)** - Medya kartı
-- **[GlowingCard](src/molecules/GlowingCard/README.md)** - Parlak kart
+- **[GlowingCard](src/molecules/GlowingCard/README.md)** - Parlak neon efekti kartı
 - **[Avatar](src/molecules/avatar/Avatar.README.md)** - Kullanıcı avatar'ı
 - **[AvatarGroup](src/molecules/avatar/AvatarGroup/README.md)** - Avatar grubu
 
