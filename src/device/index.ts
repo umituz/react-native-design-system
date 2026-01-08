@@ -64,6 +64,16 @@ export {
 
 export { DeviceUtils } from './domain/entities/DeviceUtils';
 
+export type {
+    DeviceFeatureConfig,
+    DeviceFeatureUsage,
+    DeviceFeatureAccess,
+    FeatureLimit,
+    ResetPeriod,
+} from './domain/entities/DeviceFeatureConfig';
+
+export { DEFAULT_FEATURE_CONFIG } from './domain/entities/DeviceFeatureConfig';
+
 export { DeviceTypeUtils } from './domain/entities/DeviceTypeUtils';
 export { DeviceMemoryUtils } from './domain/entities/DeviceMemoryUtils';
 
@@ -75,8 +85,11 @@ export { DeviceService } from './infrastructure/services/DeviceService';
 export { UserFriendlyIdService } from './infrastructure/services/UserFriendlyIdService';
 import { PersistentDeviceIdService } from './infrastructure/services/PersistentDeviceIdService';
 export { PersistentDeviceIdService };
+export { DeviceFeatureService } from './infrastructure/services/DeviceFeatureService';
 export { collectDeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
 export type { DeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
+export { SecureDeviceIdRepository } from './infrastructure/repositories/SecureDeviceIdRepository';
+export { LegacyDeviceIdRepository } from './infrastructure/repositories/LegacyDeviceIdRepository';
 
 // ============================================================================
 // PRESENTATION - Device hooks
@@ -96,6 +109,8 @@ export type {
     AnonymousUser,
     UseAnonymousUserOptions,
 } from './presentation/hooks/useAnonymousUser';
+
+export { useDeviceFeatures } from './presentation/hooks/useDeviceFeatures';
 
 // ============================================================================
 // UTILITIES

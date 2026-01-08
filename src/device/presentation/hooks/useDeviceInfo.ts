@@ -10,6 +10,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
+import { PersistentDeviceIdService } from '../../infrastructure/services/PersistentDeviceIdService';
 import type { DeviceInfo, ApplicationInfo, SystemInfo } from '../../domain/entities/Device';
 
 
@@ -153,8 +154,9 @@ export const useDeviceCapabilities = () => {
 };
 
 /**
- * useDeviceId hook for device unique identifier
+ * useDeviceId hook for persistent device identifier
  *
+ * Returns device ID that survives app reinstalls (SecureStore).
  * WARNING: Use with caution - user privacy considerations!
  */
 export const useDeviceId = () => {
@@ -166,7 +168,7 @@ export const useDeviceId = () => {
       setIsLoading(true);
 
       try {
-        const id = await DeviceService.getDeviceId();
+        const id = await PersistentDeviceIdService.getDeviceId();
         setDeviceId(id);
       } catch {
         setDeviceId(null);
