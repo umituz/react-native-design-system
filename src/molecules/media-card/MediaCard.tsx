@@ -73,34 +73,40 @@ export const MediaCard: React.FC<MediaCardProps> = ({
       fontWeight: 'bold',
     },
     overlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0,0,0,0.5)', // Increased from 0.3 for better readability without shadows
-      justifyContent:
-        overlayPosition === 'center' ? 'center' : 'flex-end',
-      alignItems: 'center',
-      paddingBottom:
-        overlayPosition === 'bottom' ? tokens.spacing.md : 0,
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.7)', // Darker solid overlay for better readability
+      justifyContent: 'flex-end',
+      paddingVertical: tokens.spacing.md,
+      paddingHorizontal: tokens.spacing.sm,
     },
     textContainer: {
-      paddingHorizontal: tokens.spacing.md,
       width: '100%',
     },
     title: {
       fontSize: 14,
       fontWeight: 'bold',
       color: tokens.colors.textInverse,
-      textAlign: 'center',
+      textAlign: 'left',
+      marginBottom: 2,
     },
     subtitle: {
-      fontSize: 12,
-      color: tokens.colors.textInverse,
-      opacity: 0.8,
-      textAlign: 'center',
+      fontSize: 11,
+      color: 'rgba(255,255,255,0.8)',
+      textAlign: 'left',
     },
     checkCircle: {
-      backgroundColor: 'rgba(0,0,0,0.6)',
+      position: 'absolute',
+      top: tokens.spacing.sm,
+      right: tokens.spacing.sm,
+      backgroundColor: tokens.colors.primary,
       borderRadius: 999,
-      padding: tokens.spacing.sm,
+      width: 24,
+      height: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
 
@@ -140,14 +146,8 @@ export const MediaCard: React.FC<MediaCardProps> = ({
       )}
 
       {selected && (
-        <View
-          style={[
-            styles.overlay,
-          ]}
-        >
-          <View style={styles.checkCircle}>
-            <AtomicIcon name="checkmark-outline" size="md" color="primary" />
-          </View>
+        <View style={styles.checkCircle}>
+          <AtomicIcon name="checkmark-outline" size="sm" color="onPrimary" />
         </View>
       )}
     </CardWrapper>
