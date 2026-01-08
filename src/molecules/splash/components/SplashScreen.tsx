@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Image, StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "../../../safe-area";
 import { AtomicText, AtomicSpinner } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
@@ -127,19 +126,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       </View>
     </View>
   );
-
-  if (gradientColors && gradientColors.length >= 2) {
-    return (
-      <LinearGradient
-        colors={gradientColors as [string, string, ...string[]]}
-        style={[styles.container, style]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-      >
-        {content}
-      </LinearGradient>
-    );
-  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }, style]}>
