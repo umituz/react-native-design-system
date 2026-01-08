@@ -37,6 +37,7 @@ export {
   type BottomSheetModalProps,
   type BottomSheetRef,
   type BottomSheetModalRef,
+  SafeBottomSheetModalProvider,
   type FilterOption,
   type FilterCategory,
   // Alerts
