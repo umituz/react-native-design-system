@@ -106,6 +106,12 @@
       ],
       "@timezone/*": [
         "src/timezone/*"
+      ],
+      "@offline": [
+        "src/offline/index.ts"
+      ],
+      "@offline/*": [
+        "src/offline/*"
       ]
     }
   },
