@@ -1,12 +1,12 @@
 
-export interface FilterItem<T = string> {
+export interface FilterGroupItem<T = string> {
   label: string;
   value: T;
   testID?: string;
 }
 
 export interface FilterGroupProps<T = string> {
-  items: FilterItem<T>[];
+  items: FilterGroupItem<T>[];
   selectedValue: T;
   onSelect: (value: T) => void;
   style?: any;

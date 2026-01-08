@@ -171,6 +171,6 @@ export {
   // Filter Group
   FilterGroup,
   type FilterGroupProps,
-  type FilterItem,
+  type FilterGroupItem,
 } from '../molecules';
 
