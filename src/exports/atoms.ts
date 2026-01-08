@@ -68,4 +68,6 @@ export {
   type AtomicKeyboardAvoidingViewProps,
   GlassView,
   type GlassViewProps,
+  AtomicImage,
+  type AtomicImageProps,
 } from '../atoms';

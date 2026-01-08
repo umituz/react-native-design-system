@@ -76,6 +76,30 @@
       ],
       "@safe-area/*": [
         "src/safe-area/*"
+      ],
+      "@exception": [
+        "src/exception/index.ts"
+      ],
+      "@exception/*": [
+        "src/exception/*"
+      ],
+      "@infinite-scroll": [
+        "src/infinite-scroll/index.ts"
+      ],
+      "@infinite-scroll/*": [
+        "src/infinite-scroll/*"
+      ],
+      "@uuid": [
+        "src/uuid/index.ts"
+      ],
+      "@uuid/*": [
+        "src/uuid/*"
+      ],
+      "@image": [
+        "src/image/index.ts"
+      ],
+      "@image/*": [
+        "src/image/*"
       ]
     }
   },

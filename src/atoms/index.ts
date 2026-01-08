@@ -118,3 +118,6 @@ export { AtomicKeyboardAvoidingView, type AtomicKeyboardAvoidingViewProps } from
 
 // GlassView
 export { GlassView, type GlassViewProps } from './GlassView';
+
+// Image
+export { AtomicImage, type AtomicImageProps } from './image/AtomicImage';

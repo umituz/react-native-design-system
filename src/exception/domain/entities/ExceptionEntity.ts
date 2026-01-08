@@ -1,0 +1,115 @@
+/**
+ * Exception Entity - Domain Layer
+ * Pure business logic representation of errors and exceptions
+ */
+
+import { generateUUID } from '@umituz/react-native-uuid';
+
+export type ExceptionSeverity = 'fatal' | 'error' | 'warning' | 'info';
+export type ExceptionCategory = 'network' | 'validation' | 'authentication' | 'authorization' | 'business-logic' | 'system' | 'storage' | 'unknown';
+
+export interface ExceptionContext {
+  userId?: string;
+  screen?: string;
+  action?: string;
+  componentStack?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface ExceptionEntity {
+  id: string;
+  message: string;
+  stackTrace?: string;
+  severity: ExceptionSeverity;
+  category: ExceptionCategory;
+  context: ExceptionContext;
+  timestamp: Date;
+  handled: boolean;
+  reported: boolean;
+}
+
+export interface ErrorLog {
+  id: string;
+  exceptionId: string;
+  userId?: string;
+  message: string;
+  stackTrace?: string;
+  severity: ExceptionSeverity;
+  category: ExceptionCategory;
+  context: ExceptionContext;
+  createdAt: Date;
+}
+
+/**
+ * Factory function to create an exception entity
+ */
+export function createException(
+  error: Error,
+  severity: ExceptionSeverity = 'error',
+  category: ExceptionCategory = 'unknown',
+  context: ExceptionContext = {}
+): ExceptionEntity {
+  return {
+    id: generateUUID(),
+    message: error.message,
+    stackTrace: error.stack,
+    severity,
+    category,
+    context,
+    timestamp: new Date(),
+    handled: false,
+    reported: false,
+  };
+}
+
+/**
+ * Factory function to create an error log
+ */
+export function createErrorLog(
+  exception: ExceptionEntity
+): ErrorLog {
+  return {
+    id: generateUUID(),
+    exceptionId: exception.id,
+    userId: exception.context.userId,
+    message: exception.message,
+    stackTrace: exception.stackTrace,
+    severity: exception.severity,
+    category: exception.category,
+    context: exception.context,
+    createdAt: new Date(),
+  };
+}
+
+/**
+ * Determine if exception should be reported
+ */
+export function shouldReportException(exception: ExceptionEntity): boolean {
+  // Don't report warnings or info
+  if (exception.severity === 'warning' || exception.severity === 'info') {
+    return false;
+  }
+
+  // Don't report validation errors (user errors)
+  if (exception.category === 'validation') {
+    return false;
+  }
+
+  // Report everything else
+  return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
