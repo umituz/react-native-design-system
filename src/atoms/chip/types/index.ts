@@ -2,7 +2,7 @@
  * AtomicChip Type Definitions
  */
 
-import type { ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import type { IconSize } from '../../AtomicIcon';
 
 export type ChipVariant = 'filled' | 'outlined' | 'soft';
@@ -23,7 +23,7 @@ export interface AtomicChipProps {
   readonly onPress?: () => void;
   readonly selected?: boolean;
   readonly disabled?: boolean;
-  readonly style?: ViewStyle;
+  readonly style?: StyleProp<ViewStyle>;
   readonly testID?: string;
   readonly activeOpacity?: number;
 }
