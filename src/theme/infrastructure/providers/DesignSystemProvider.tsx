@@ -22,7 +22,7 @@ interface DesignSystemProviderProps {
   /** Show loading indicator while initializing (default: true) */
   showLoadingIndicator?: boolean;
   /** Splash screen configuration (used when showLoadingIndicator is true) */
-  splashConfig?: Pick<SplashScreenProps, 'appName' | 'tagline' | 'icon' | 'colors' | 'gradientColors'>;
+  splashConfig?: Pick<SplashScreenProps, 'appName' | 'tagline' | 'icon' | 'colors'>;
   /** Custom loading component (overrides splash screen) */
   loadingComponent?: ReactNode;
   /** Callback when initialization completes */

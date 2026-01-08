@@ -9,18 +9,11 @@ import { lightColors, darkColors } from './ColorPalette';
 import type { ColorPalette } from './ColorPalette';
 
 /**
- * Extended color palette for theme customization
- */
-export interface ExtendedColorPalette extends ColorPalette {
-  customGradients?: Record<string, [string, string]>;
-}
-
-/**
  * Complete Theme Object
  * Combines colors, spacing, typography, borders, and design tokens
  */
 export interface Theme {
-  colors: ExtendedColorPalette;
+  colors: ColorPalette;
   spacing: typeof BASE_TOKENS.spacing;
   typography: typeof BASE_TOKENS.typography;
   borders: typeof BASE_TOKENS.borders;

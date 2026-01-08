@@ -141,7 +141,4 @@ export const darkColors = {
   cardOverlay: 'rgba(0, 0, 0, 0.15)',
 
   inputBackground_RGBA: 'rgba(248, 250, 252, 0.9)',
-
-  // GRADIENTS - Warm Orange Harmony (Dark Mode)
-  gradient: ['#FF8C42', '#FFCC99'],  // Orange to Peach gradient
 };

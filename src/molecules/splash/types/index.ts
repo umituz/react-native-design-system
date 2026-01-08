@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
  * All colors should be provided by the main app via design tokens
  */
 export interface SplashColors {
-  /** Background color when not using gradient */
+  /** Background color */
   background: string;
   /** Text color for app name and tagline */
   text: string;
@@ -25,7 +25,7 @@ export interface SplashColors {
 export interface SplashCustomColors {
   /** Text color for app name and tagline */
   textColor: string;
-  /** Background color when not using gradient */
+  /** Background color */
   backgroundColor?: string;
   /** Background color for icon placeholder circle */
   iconPlaceholderColor?: string;
@@ -37,8 +37,7 @@ export interface SplashCustomColors {
 export interface SplashThemeProviderProps {
   /** Children components */
   children: ReactNode;
-  /** Gradient colors for background */
-  gradientColors?: readonly [string, string, ...string[]];
+
   /** Custom color configuration */
   customColors?: SplashCustomColors;
 }
@@ -49,8 +48,7 @@ export interface SplashThemeProviderProps {
 export interface SplashThemeContextValue {
   /** Resolved colors for splash screen */
   colors: SplashColors;
-  /** Gradient colors if provided */
-  gradientColors?: readonly [string, string, ...string[]];
+
 }
 
 /**
@@ -87,8 +85,7 @@ export interface SplashScreenProps {
    */
   colors?: SplashColors;
 
-  /** Optional gradient colors (overrides background color) */
-  gradientColors?: readonly [string, string, ...string[]];
+
 
   /** Control visibility */
   visible?: boolean;
