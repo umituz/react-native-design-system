@@ -5,7 +5,7 @@ SplashScreen, uygulama başlatılırken gösterilen açılış ekranı bileşeni
 ## Özellikler
 
 - 🎨 **Theme-Aware**: Tema bilinci renkler
-- 🌈 **Gradient Desteği**: Arka plan gradient'i
+- 🎨 **Theme-Aware**: Tema bilinci renkler
 - ⏱️ **Timeout Kontrolü**: Maksimum süre ve timeout callback
 - 🖼️ **Logo/İkon**: Uygulama logosu gösterimi
 - 📝 **App Name & Tagline**: Uygulama adı ve sloganı
@@ -81,16 +81,7 @@ export const App = () => {
 />
 ```
 
-## Gradient Arka Plan
 
-```tsx
-<SplashScreen
-  appName="My App"
-  tagline="Welcome"
-  gradientColors={['#667eea', '#764ba2']}
-  visible={true}
-/>
-```
 
 ## Zaman Aşımı
 
@@ -213,7 +204,6 @@ export const App = () => {
       <SplashScreen
         appName="My App"
         tagline="Giriş yapılıyor..."
-        gradientColors={['#667eea', '#764ba2']}
         visible
       />
     );
@@ -283,7 +273,6 @@ export const AnimatedSplash = () => {
     <SplashScreen
       appName="My App"
       tagline="Welcome"
-      gradientColors={['#667eea', '#764ba2']}
       visible={!isInitialized}
     />
   );
@@ -315,7 +304,6 @@ export const MultiStageSplash = () => {
       <SplashScreen
         appName="My App"
         tagline={getTagline()}
-        gradientColors={['#667eea', '#764ba2']}
         visible
       />
     );
@@ -370,7 +358,7 @@ export const DebugSplash = () => {
 | `appName` | `string` | - | Uygulama adı |
 | `tagline` | `string` | - | Slogan |
 | `colors` | `SplashColors` | - | Custom renkler |
-| `gradientColors` | `string[]` | - | Gradient renkleri |
+
 | `visible` | `boolean` | `true` | Görünürlük |
 | `maxDuration` | `number` | - | Maksimum süre (ms) |
 | `onTimeout` | `() => void` | - | Timeout callback |

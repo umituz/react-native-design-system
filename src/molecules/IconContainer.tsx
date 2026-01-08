@@ -7,7 +7,7 @@
  * Features:
  * - Consistent sizing system
  * - Optional background circle
- * - Optional gradient background
+ * - Optional background circle
  * - Theme-aware colors
  * - Accessibility support
  *

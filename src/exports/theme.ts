@@ -42,6 +42,5 @@ export {
   type ResponsiveSpacing,
   type ResponsiveTypography,
   type Theme,
-  type ExtendedColorPalette,
   type NavigationTheme,
 } from '../theme';
