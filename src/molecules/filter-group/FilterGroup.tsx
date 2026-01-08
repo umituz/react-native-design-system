@@ -42,7 +42,7 @@ export function FilterGroup<T = string>({
           <AtomicChip
             key={`${item.value}`}
             variant={isSelected ? 'filled' : 'outlined'}
-            color={isSelected ? 'primary' : 'surface'}
+            color={isSelected ? 'primary' : 'secondary'}
             selected={isSelected}
             onPress={() => onSelect(item.value)}
             clickable
