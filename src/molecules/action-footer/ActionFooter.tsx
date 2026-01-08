@@ -1,0 +1,91 @@
+
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { AtomicText } from '../../atoms/AtomicText';
+import { AtomicIcon } from '../../atoms/AtomicIcon';
+import { useAppDesignTokens } from '../../theme';
+import type { ActionFooterProps } from './types';
+
+export const ActionFooter: React.FC<ActionFooterProps> = ({
+  onBack,
+  onAction,
+  actionLabel,
+  actionIcon = 'arrow-forward',
+  backIcon = 'chevron-back',
+  style,
+  loading = false,
+}) => {
+  const tokens = useAppDesignTokens();
+
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: tokens.spacing.md,
+      gap: tokens.spacing.md,
+    },
+    backButton: {
+      width: 56,
+      height: 56,
+      borderRadius: tokens.borders.radius.lg,
+      backgroundColor: tokens.colors.surface,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: tokens.colors.outlineVariant,
+    },
+    actionButton: {
+      flex: 1,
+      height: 56,
+      borderRadius: tokens.borders.radius.lg,
+      overflow: 'hidden',
+    },
+    actionContent: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: tokens.colors.primary,
+      gap: tokens.spacing.sm,
+    },
+    actionText: {
+      color: tokens.colors.onPrimary,
+      fontWeight: '800',
+      fontSize: 18,
+    },
+  });
+
+  return (
+    <View style={[styles.container, style]}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={onBack}
+        activeOpacity={0.7}
+        testID="action-footer-back"
+      >
+        <AtomicIcon
+          name={backIcon}
+          size="md"
+          color="textPrimary"
+        />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.actionButton}
+        onPress={onAction}
+        activeOpacity={0.9}
+        disabled={loading}
+        testID="action-footer-action"
+      >
+        <View style={styles.actionContent}>
+          <AtomicText style={styles.actionText}>{actionLabel}</AtomicText>
+          <AtomicIcon
+            name={actionIcon}
+            size="sm"
+            color="onPrimary"
+          />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};

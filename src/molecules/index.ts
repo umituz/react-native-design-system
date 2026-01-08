@@ -65,4 +65,7 @@ export * from './splash';
 // GlowingCard
 export { GlowingCard, type GlowingCardProps } from './GlowingCard';
 export * from './filter-group';
+export * from './action-footer';
+export * from './info-card';
+export * from './hero-section';
 

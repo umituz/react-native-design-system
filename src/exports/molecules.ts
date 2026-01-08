@@ -172,5 +172,14 @@ export {
   FilterGroup,
   type FilterGroupProps,
   type FilterGroupItem,
+  // Action Footer
+  ActionFooter,
+  type ActionFooterProps,
+  // Info Card
+  InfoCard,
+  type InfoCardProps,
+  // Hero Section
+  HeroSection,
+  type HeroSectionProps,
 } from '../molecules';
 
