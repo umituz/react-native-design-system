@@ -22,6 +22,17 @@ export interface CustomThemeColors {
   accentDark?: string;
   buttonPrimary?: string;
   buttonSecondary?: string;
+  
+  // Background overrides
+  backgroundPrimary?: string;
+  backgroundSecondary?: string;
+  surface?: string;
+  surfaceVariant?: string;
+  
+  // Text overrides
+  textPrimary?: string;
+  textSecondary?: string;
+  textTertiary?: string;
 }
 
 /**
@@ -111,6 +122,37 @@ export const applyCustomColors = (
     result.buttonSecondary = customColors.buttonSecondary;
   }
 
+  // Apply background override
+  if (customColors.backgroundPrimary) {
+    result.backgroundPrimary = customColors.backgroundPrimary;
+    result.background = customColors.backgroundPrimary; // Alias
+  }
+  if (customColors.backgroundSecondary) {
+    result.backgroundSecondary = customColors.backgroundSecondary;
+  }
+  
+  // Apply surface overrides
+  if (customColors.surface) {
+    result.surface = customColors.surface;
+    result.card = customColors.surface; // Alias
+    result.cardBackground = customColors.surface; // Alias
+  }
+  if (customColors.surfaceVariant) {
+    result.surfaceVariant = customColors.surfaceVariant;
+    result.surfaceSecondary = customColors.surfaceVariant; // Alias
+  }
+  
+  // Apply text overrides
+  if (customColors.textPrimary) {
+    result.textPrimary = customColors.textPrimary;
+    result.text = customColors.textPrimary; // Alias
+  }
+  if (customColors.textSecondary) {
+    result.textSecondary = customColors.textSecondary;
+  }
+  if (customColors.textTertiary) {
+    result.textTertiary = customColors.textTertiary;
+  }
+
   return result as ColorPalette;
 };
-

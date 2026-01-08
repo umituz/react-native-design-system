@@ -116,3 +116,6 @@ export { AtomicStatusBar, type AtomicStatusBarProps } from './status-bar';
 
 // Keyboard Avoiding
 export { AtomicKeyboardAvoidingView, type AtomicKeyboardAvoidingViewProps } from './AtomicKeyboardAvoidingView';
+
+// GlassView
+export { GlassView, type GlassViewProps } from './GlassView';

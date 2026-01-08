@@ -61,3 +61,6 @@ export * from './countdown';
 
 // Splash
 export * from './splash';
+
+// GlowingCard
+export { GlowingCard, type GlowingCardProps } from './GlowingCard';

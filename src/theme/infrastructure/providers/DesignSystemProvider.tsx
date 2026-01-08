@@ -1,6 +1,7 @@
 import React, { useEffect, useState, ReactNode } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useFonts } from 'expo-font';
 import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
 import { useThemeStore } from '../stores/themeStore';
 import { useDesignSystemTheme } from '../globalThemeStore';
@@ -16,6 +17,8 @@ interface DesignSystemProviderProps {
   children: ReactNode;
   /** Custom theme colors to override defaults */
   customColors?: CustomThemeColors;
+  /** Custom fonts to load (name -> source map) */
+  fonts?: Record<string, any>; 
   /** Show loading indicator while initializing (default: true) */
   showLoadingIndicator?: boolean;
   /** Splash screen configuration (used when showLoadingIndicator is true) */
@@ -35,6 +38,7 @@ interface DesignSystemProviderProps {
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   children,
   customColors,
+  fonts,
   showLoadingIndicator = true,
   splashConfig,
   loadingComponent,
@@ -44,6 +48,10 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   // ALL HOOKS MUST BE AT THE TOP (Rules of Hooks)
   const [isInitialized, setIsInitialized] = useState(false);
   const [minDisplayTimeMet, setMinDisplayTimeMet] = useState(false);
+  
+  // Load fonts if provided
+  const [fontsLoaded, fontError] = fonts ? useFonts(fonts) : [true, null];
+  
   const initialize = useThemeStore((state) => state.initialize);
   const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
 
@@ -66,44 +74,58 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     // Initialize theme store
     initialize()
       .then(() => {
-        if (__DEV__) console.log('[DesignSystemProvider] Initialized successfully - setting isInitialized to true');
+        if (__DEV__) console.log('[DesignSystemProvider] Theme initialized successfully');
         setIsInitialized(true);
-        if (__DEV__) console.log('[DesignSystemProvider] State updated - calling onInitialized callback');
-        onInitialized?.();
       })
       .catch((error) => {
         if (__DEV__) console.error('[DesignSystemProvider] Initialization failed:', error);
-        if (__DEV__) console.log('[DesignSystemProvider] Error occurred - setting isInitialized to true anyway');
         setIsInitialized(true); // Still render app even on error
         onError?.(error);
       });
 
     return () => clearTimeout(displayTimer);
-  }, [initialize, customColors, setCustomColors, onInitialized, onError]);
+  }, [initialize, customColors, setCustomColors, onError]);
+
+  // Handle initialization completion when both theme and fonts are ready
+  useEffect(() => {
+    if (isInitialized && fontsLoaded && minDisplayTimeMet) {
+      if (__DEV__) console.log('[DesignSystemProvider] All systems ready - calling onInitialized');
+      onInitialized?.();
+    }
+  }, [isInitialized, fontsLoaded, minDisplayTimeMet, onInitialized]);
+
+  // Handle font errors
+  useEffect(() => {
+    if (fontError) {
+      if (__DEV__) console.error('[DesignSystemProvider] Font loading failed:', fontError);
+      onError?.(fontError);
+    }
+  }, [fontError, onError]);
 
   // ALL HOOKS ABOVE - NOW SAFE TO USE OTHER LOGIC
 
   if (__DEV__) {
     console.log('[DesignSystemProvider] Component render:', {
       isInitialized,
+      fontsLoaded,
       minDisplayTimeMet,
       showLoadingIndicator,
       hasSplashConfig: !!splashConfig,
-      splashConfigKeys: splashConfig ? Object.keys(splashConfig) : [],
     });
   }
 
   const renderContent = () => {
-    const shouldShowSplash = showLoadingIndicator && (!isInitialized || !minDisplayTimeMet);
+    // Show splash if:
+    // 1. Loading indicator is enabled AND
+    // 2. Either theme not init OR fonts not loaded OR min time not met
+    const shouldShowSplash = showLoadingIndicator && (!isInitialized || !fontsLoaded || !minDisplayTimeMet);
 
     if (__DEV__) {
       console.log('[DesignSystemProvider] renderContent:', {
-        showLoadingIndicator,
-        isInitialized,
-        minDisplayTimeMet,
         shouldShowSplash,
-        hasSplashConfig: !!splashConfig,
-        hasLoadingComponent: !!loadingComponent,
+        isInitialized,
+        fontsLoaded,
+        minDisplayTimeMet
       });
     }
 
