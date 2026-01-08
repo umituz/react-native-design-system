@@ -1,47 +1,58 @@
 import React from 'react';
-import { StyleSheet, ViewStyle, StyleProp } from 'react-native';
-import { BlurView, BlurTint } from 'expo-blur';
+import { StyleSheet, ViewStyle, StyleProp, View } from 'react-native';
+// Remove expo-blur import to fix native module error
+// import { BlurView, BlurTint } from 'expo-blur';
 import { useDesignSystemTheme } from '../../theme';
+
+// Define a local type for tint to maintain API compatibility
+export type GlassTint = 'light' | 'dark' | 'default' | 'prominent' | 'regular' | 'extraLight' | 'systemThinMaterial' | 'systemMaterial' | 'systemThickMaterial' | 'systemChromeMaterial' | 'systemUltraThinMaterial' | 'systemThinMaterialLight' | 'systemMaterialLight' | 'systemThickMaterialLight' | 'systemChromeMaterialLight' | 'systemUltraThinMaterialLight' | 'systemThinMaterialDark' | 'systemMaterialDark' | 'systemThickMaterialDark' | 'systemChromeMaterialDark' | 'systemUltraThinMaterialDark';
 
 export interface GlassViewProps {
   children?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   intensity?: number;
-  tint?: BlurTint;
+  tint?: GlassTint; // Use local type instead of BlurTint
   experimentalBlurMethod?: 'dimezisBlurView' | 'none';
 }
 
 /**
  * GlassView
  * 
- * A wrapper around Expo BlurView to create glassmorphism effects.
- * Automatically adapts to current theme unless overridden.
+ * A wrapper component for glassmorphism effects.
+ * Currently uses a fallback transparency implementation to avoid native module issues with expo-blur.
  */
 export const GlassView: React.FC<GlassViewProps> = ({
   children,
   style,
   intensity = 50,
   tint,
-  experimentalBlurMethod,
-
 }) => {
   const { themeMode } = useDesignSystemTheme();
   const isDark = themeMode === 'dark';
   
-  // Default tint based on theme if not provided
-  // We explicitly cast the default strings to BlurTint to satisfy TS
-  const defaultTint = (isDark ? 'dark' : 'light') as BlurTint;
-  const resolvedTint = tint || defaultTint;
+  // Calculate background color opacity based on intensity
+  // Max intensity 100 -> 0.9 opacity (almost solid)
+  // Min intensity 0 -> 0.1 opacity (almost transparent)
+  const opacity = Math.min(0.95, Math.max(0.05, intensity / 100));
+  
+  // Choose base color based on tint or theme
+  const resolvedTint = tint || (isDark ? 'dark' : 'light');
+  const isDarkBase = resolvedTint === 'dark' || resolvedTint.includes('Dark') || (resolvedTint === 'default' && isDark);
+  
+  const backgroundColor = isDarkBase 
+    ? `rgba(34, 16, 26, ${opacity})` // Dark color from theme
+    : `rgba(255, 255, 255, ${opacity})`;
 
   return (
-    <BlurView
-      intensity={intensity}
-      tint={resolvedTint}
-      style={[styles.container, style]}
-      experimentalBlurMethod={experimentalBlurMethod}
+    <View
+      style={[
+        styles.container, 
+        { backgroundColor },
+        style
+      ]}
     >
       {children}
-    </BlurView>
+    </View>
   );
 };
 
