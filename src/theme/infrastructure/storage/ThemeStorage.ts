@@ -6,7 +6,7 @@
  * Apps should use this for theme persistence.
  */
 
-import { storageRepository, unwrap } from '@umituz/react-native-storage';
+import { storageRepository, unwrap } from '@storage';
 import type { ThemeMode } from '../../core/ColorPalette';
 import { DESIGN_CONSTANTS } from '../../core/constants/DesignConstants';
 

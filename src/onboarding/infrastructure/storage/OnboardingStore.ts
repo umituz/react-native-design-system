@@ -2,11 +2,11 @@
  * Onboarding Store
  *
  * Zustand store for managing onboarding completion state
- * Uses @umituz/react-native-storage for persistence
+ * Uses @storage for persistence
  */
 
 import { useMemo } from "react";
-import { createStore } from "@umituz/react-native-storage";
+import { createStore } from "@storage";
 import type { OnboardingStoreState } from "./OnboardingStoreState";
 import { initialOnboardingState } from "./OnboardingStoreState";
 import { createOnboardingStoreActions } from "./OnboardingStoreActions";

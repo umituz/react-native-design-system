@@ -3,7 +3,7 @@
  * Single Responsibility: Common storage operations and error handling
  */
 
-import { storageRepository, unwrap } from "@umituz/react-native-storage";
+import { storageRepository, unwrap } from "@storage";
 import type { OnboardingUserData } from "../../../domain/entities/OnboardingUserData";
 
 export const DEFAULT_STORAGE_KEY = "@onboarding:completed";

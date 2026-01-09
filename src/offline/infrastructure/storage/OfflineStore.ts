@@ -4,7 +4,7 @@
  * Uses expo-network for universal network detection
  */
 
-import { createStore } from '@umituz/react-native-storage';
+import { createStore } from '@storage';
 import type { NetworkState, OfflineState, OfflineActions } from '../../types';
 
 const initialState: OfflineState = {

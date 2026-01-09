@@ -2,7 +2,7 @@
  * Alert Store
  */
 
-import { createStore } from '@umituz/react-native-storage';
+import { createStore } from '@storage';
 import { Alert } from './AlertTypes';
 
 interface AlertState {

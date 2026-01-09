@@ -10,7 +10,7 @@
  * - Syncs with design system global theme store
  */
 
-import { createStore } from '@umituz/react-native-storage';
+import { createStore } from '@storage';
 import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
 import { useDesignSystemTheme } from '../globalThemeStore';

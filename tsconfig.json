@@ -26,6 +26,9 @@
       "@umituz/react-native-design-system": [
         "src/index.ts"
       ],
+      "@umituz/react-native-storage": [
+        "src/storage/index.ts"
+      ],
       "@atoms": [
         "src/atoms/index.ts"
       ],
@@ -115,6 +118,21 @@
       ],
       "@offline/*": [
         "src/offline/*"
+      ],
+      "@storage": [
+        "src/storage/index.ts"
+      ],
+      "@storage/*": [
+        "src/storage/*"
+      ],
+      "@umituz/react-native-filesystem": [
+        "src/filesystem/index.ts"
+      ],
+      "@filesystem": [
+        "src/filesystem/index.ts"
+      ],
+      "@filesystem/*": [
+        "src/filesystem/*"
       ]
     }
   },

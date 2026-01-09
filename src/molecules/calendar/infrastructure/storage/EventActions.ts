@@ -3,7 +3,7 @@
  * Event CRUD operations for calendar store
  */
 
-import { storageRepository, unwrap } from '@umituz/react-native-storage';
+import { storageRepository, unwrap } from '@storage';
 import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
 import { generateId, STORAGE_KEY, hydrateEvents, handleStorageError, handleStorageSuccess } from './CalendarStore.utils';
 import type { CalendarState } from './CalendarStore.types';

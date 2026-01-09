@@ -10,7 +10,7 @@
 
 import type { ExceptionEntity } from '../../domain/entities/ExceptionEntity';
 import { ExceptionHandler } from './ExceptionHandler';
-import { storageRepository } from '@umituz/react-native-storage';
+import { storageRepository } from '@storage';
 
 export class ExceptionLogger {
   private static readonly STORAGE_KEY = '@exceptions';

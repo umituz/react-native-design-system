@@ -25,7 +25,7 @@
  * ```
  */
 
-import { createStore } from '@umituz/react-native-storage';
+import { createStore } from '@storage';
 import type { ThemeMode } from '../core/ColorPalette';
 import type { CustomThemeColors } from '../core/CustomColors';
 

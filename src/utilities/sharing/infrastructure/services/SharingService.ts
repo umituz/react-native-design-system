@@ -9,7 +9,7 @@
  */
 
 import * as Sharing from 'expo-sharing';
-import { FileSystemService } from '@umituz/react-native-filesystem';
+import { FileSystemService } from '@filesystem';
 import type { ShareOptions, ShareResult } from '../../domain/entities/Share';
 import { SharingUtils } from '../../domain/entities/SharingUtils';
 

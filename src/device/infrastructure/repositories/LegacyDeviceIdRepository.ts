@@ -1,4 +1,4 @@
-import { storageRepository, unwrap } from '@umituz/react-native-storage';
+import { storageRepository, unwrap } from '@storage';
 
 const LEGACY_DEVICE_ID_KEY = '@device/persistent_id';
 

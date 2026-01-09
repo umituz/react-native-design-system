@@ -3,7 +3,7 @@
  * Zustand store for exception state management
  */
 
-import { createStore } from '@umituz/react-native-storage';
+import { createStore } from '@storage';
 import type { ExceptionEntity } from '../../domain/entities/ExceptionEntity';
 
 interface ExceptionState {

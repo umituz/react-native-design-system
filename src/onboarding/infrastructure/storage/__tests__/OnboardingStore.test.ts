@@ -6,7 +6,7 @@ import { renderHook, act } from '@testing-library/react-native';
 import { useOnboardingStore, useOnboarding } from '../OnboardingStore';
 
 // Mock storage repository
-jest.mock('@umituz/react-native-storage', () => ({
+jest.mock('@storage', () => ({
   storageRepository: {
     getString: jest.fn(),
     setString: jest.fn(),

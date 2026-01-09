@@ -4,7 +4,7 @@
  * Handles saving images to the device filesystem
  */
 
-import { FileSystemService } from '@umituz/react-native-filesystem';
+import { FileSystemService } from '@filesystem';
 import { ImageValidator } from '../utils/ImageValidator';
 import { ImageErrorHandler, IMAGE_ERROR_CODES } from '../utils/ImageErrorHandler';
 
