@@ -15,9 +15,9 @@ export class StyleFilters {
     const warmFactor = warmth / 100;
 
     for (let i = 0; i < result.length; i += 4) {
-      let r = result[i];
-      let g = result[i + 1];
-      let b = result[i + 2];
+      let r = result[i] ?? 0;
+      let g = result[i + 1] ?? 0;
+      let b = result[i + 2] ?? 0;
 
       const tr = 0.393 * r + 0.769 * g + 0.189 * b;
       const tg = 0.349 * r + 0.686 * g + 0.168 * b;
@@ -62,10 +62,10 @@ export class StyleFilters {
 
             if (ny >= 0 && ny < height && nx >= 0 && nx < width) {
               const idx = (ny * width + nx) * 4;
-              r += data[idx];
-              g += data[idx + 1];
-              b += data[idx + 2];
-              a += data[idx + 3];
+              r += data[idx] ?? 0;
+              g += data[idx + 1] ?? 0;
+              b += data[idx + 2] ?? 0;
+              a += data[idx + 3] ?? 0;
               count++;
             }
           }
