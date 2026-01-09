@@ -44,26 +44,3 @@ export const createScreenOptions = (params: ScreenOptionsParams): StackNavigatio
     }),
   };
 };
-
-/**
- * Creates screen options for centered header title
- */
-export const createCenteredHeaderOptions = (
-  title: string,
-  colors: ScreenOptionsParams['colors']
-): StackNavigationOptions => ({
-  headerShown: true,
-  headerTitle: title,
-  headerTitleAlign: 'center',
-  headerStyle: {
-    backgroundColor: colors.surface,
-    borderBottomColor: colors.borderLight,
-    borderBottomWidth: 1,
-  },
-  headerTitleStyle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.textPrimary,
-  },
-  headerTintColor: colors.textPrimary,
-});
