@@ -28,12 +28,12 @@
 import React, { useEffect, useRef, memo } from 'react';
 import {
   View,
-  Text,
   Animated,
   StyleSheet,
   type ViewStyle,
   type TextStyle,
 } from 'react-native';
+import { AtomicText } from '../../../atoms';
 
 export interface OfflineBannerProps {
   /** Whether the banner is visible */
@@ -126,11 +126,11 @@ export const OfflineBanner: React.FC<OfflineBannerProps> = memo(({
     >
       <View style={styles.content}>
         {typeof icon === 'string' ? (
-          <Text style={styles.icon}>{icon}</Text>
+          <AtomicText style={styles.icon}>{icon}</AtomicText>
         ) : (
           icon
         )}
-        <Text
+        <AtomicText
           style={[
             styles.message,
             { color: textColor },
@@ -139,7 +139,7 @@ export const OfflineBanner: React.FC<OfflineBannerProps> = memo(({
           numberOfLines={1}
         >
           {message}
-        </Text>
+        </AtomicText>
       </View>
     </Animated.View>
   );

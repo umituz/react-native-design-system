@@ -8,10 +8,10 @@
 import React, { useMemo } from 'react';
 import {
   View,
-  Image,
   Pressable,
   type GestureResponderEvent,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../AtomicIcon';
 import { useAppDesignTokens } from '../../theme';

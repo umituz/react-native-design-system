@@ -4,7 +4,8 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { AtomicText } from '../../../atoms';
 import { exceptionService } from '../../infrastructure/services/ExceptionService';
 import { useAppDesignTokens } from '../../../theme';
 
@@ -35,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Log error to exception service
     exceptionService.handleFatalError(error, {
       componentStack: errorInfo.componentStack ?? undefined,
@@ -55,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   };
 
-  render(): ReactNode {
+  override render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
@@ -81,12 +82,12 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onReset }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Something went wrong</Text>
-      <Text style={styles.message}>
+      <AtomicText style={styles.title}>Something went wrong</AtomicText>
+      <AtomicText style={styles.message}>
         {error?.message || 'An unexpected error occurred'}
-      </Text>
+      </AtomicText>
       <TouchableOpacity style={styles.button} onPress={onReset}>
-        <Text style={styles.buttonText}>Try Again</Text>
+        <AtomicText style={styles.buttonText}>Try Again</AtomicText>
       </TouchableOpacity>
     </View>
   );
