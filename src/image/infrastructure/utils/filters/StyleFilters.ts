@@ -1,10 +1,10 @@
 /**
- * Infrastructure - Special Image Filters
+ * Infrastructure - Style Filters
  *
- * Advanced filter operations: vintage, blur
+ * Vintage and blur effects
  */
 
-export class SpecialFilters {
+export class StyleFilters {
   static applyVintage(
     data: Uint8ClampedArray,
     intensity: number,

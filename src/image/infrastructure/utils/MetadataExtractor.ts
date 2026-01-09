@@ -7,7 +7,7 @@
 import { ImageErrorHandler } from './ImageErrorHandler';
 
 export class MetadataExtractor {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   static async getImageDimensions(_uri: string): Promise<{ width: number; height: number }> {
     try {
       // In a real implementation, we would use:
@@ -25,7 +25,7 @@ export class MetadataExtractor {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   static async getFileSize(_uri: string): Promise<number> {
     try {
       // In real implementation, use expo-file-system or similar
@@ -35,7 +35,7 @@ export class MetadataExtractor {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   static async extractExifData(_uri: string): Promise<any> {
     try {
       // Mock EXIF data extraction
@@ -54,7 +54,7 @@ export class MetadataExtractor {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   static async extractGPSData(_uri: string): Promise<{ latitude: number; longitude: number } | null> {
     try {
       // Mock GPS data extraction

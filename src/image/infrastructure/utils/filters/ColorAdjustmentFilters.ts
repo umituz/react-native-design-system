@@ -1,10 +1,10 @@
 /**
- * Infrastructure - Basic Image Filters
+ * Infrastructure - Color Adjustment Filters
  *
- * Core filter operations: brightness, contrast, saturation
+ * Brightness, contrast, and saturation adjustments
  */
 
-export class BasicFilters {
+export class ColorAdjustmentFilters {
   static applyBrightness(
     data: Uint8ClampedArray,
     brightness: number
@@ -29,9 +29,13 @@ export class BasicFilters {
     const factor = (259 * (contrast * 2.55 + 255)) / (255 * (259 - contrast * 2.55));
 
     for (let i = 0; i < result.length; i += 4) {
-      result[i] = Math.min(255, Math.max(0, factor * (result[i] - 128) + 128));
-      result[i + 1] = Math.min(255, Math.max(0, factor * (result[i + 1] - 128) + 128));
-      result[i + 2] = Math.min(255, Math.max(0, factor * (result[i + 2] - 128) + 128));
+      const r = result[i] ?? 0;
+      const g = result[i + 1] ?? 0;
+      const b = result[i + 2] ?? 0;
+      
+      result[i] = Math.min(255, Math.max(0, factor * (r - 128) + 128));
+      result[i + 1] = Math.min(255, Math.max(0, factor * (g - 128) + 128));
+      result[i + 2] = Math.min(255, Math.max(0, factor * (b - 128) + 128));
     }
 
     return result;
