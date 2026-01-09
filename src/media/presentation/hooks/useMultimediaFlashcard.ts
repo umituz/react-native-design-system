@@ -75,8 +75,8 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
 
   const updateMedia = React.useCallback(
     async (
-      cardId: string,
-      media: MediaAttachment[],
+      _cardId: string,
+      _media: MediaAttachment[],
     ): Promise<MultimediaFlashcard> => {
       // Mock implementation
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -86,7 +86,7 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
   );
 
   const deleteMedia = React.useCallback(
-    async (attachmentId: string): Promise<void> => {
+    async (_attachmentId: string): Promise<void> => {
       // Mock implementation
       await new Promise((resolve) => setTimeout(resolve, 500));
     },

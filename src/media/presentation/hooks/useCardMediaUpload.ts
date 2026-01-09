@@ -23,7 +23,7 @@ export const useCardMediaUpload = (): UseCardMediaUploadResult => {
   const [error, setError] = React.useState<string | null>(null);
 
   const uploadMedia = React.useCallback(
-    async (file: any, options?: CardMediaCompressionOptions) => {
+    async (file: any, _options?: CardMediaCompressionOptions) => {
       try {
         setIsUploading(true);
         setError(null);

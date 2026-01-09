@@ -23,7 +23,7 @@ export const useMediaUpload = (): UseMediaUploadResult => {
   const [error, setError] = React.useState<string | null>(null);
 
   const uploadMedia = React.useCallback(
-    async (file: any, options?: MediaCompressionOptions) => {
+    async (file: any, _options?: MediaCompressionOptions) => {
       try {
         setIsUploading(true);
         setError(null);
