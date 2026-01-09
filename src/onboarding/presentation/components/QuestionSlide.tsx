@@ -5,7 +5,7 @@
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AtomicText } from "@umituz/react-native-design-system";
+import { AtomicText } from "../../../atoms/AtomicText";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
 import { QuestionSlideHeader } from "./QuestionSlideHeader";
 import { QuestionRenderer } from "./QuestionRenderer";
@@ -24,7 +24,6 @@ export const QuestionSlide = ({
   slide,
   value,
   onChange,
-  variant: _variant = "default",
 }: QuestionSlideProps) => {
   const {
     theme: { colors },

@@ -14,7 +14,7 @@ import type {
 } from '../../domain/entities/ImageTypes';
 import { ImageUtils } from '../../domain/utils/ImageUtils';
 import { ImageValidator } from '../utils/ImageValidator';
-import { ImageErrorHandler, IMAGE_ERROR_CODES } from '../utils/ImageErrorHandler';
+import { ImageErrorHandler } from '../utils/ImageErrorHandler';
 import { ImageTransformUtils } from '../utils/ImageTransformUtils';
 
 export class ImageTransformService {

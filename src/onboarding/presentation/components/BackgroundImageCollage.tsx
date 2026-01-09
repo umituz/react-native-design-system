@@ -6,7 +6,7 @@
 import React, { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
-import { useSafeAreaInsets } from "@umituz/react-native-design-system";
+import { useSafeAreaInsets } from "../../../safe-area/hooks/useSafeAreaInsets";
 import {
   generateGridLayout,
   generateDenseGridLayout,

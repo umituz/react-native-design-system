@@ -84,7 +84,7 @@ export class TimezoneProvider {
                     displayName: namePart?.value || zone,
                     offset,
                 };
-            } catch (e) {
+            } catch {
                 return {
                     timezone: zone,
                     displayName: zone,
@@ -108,7 +108,7 @@ export class TimezoneProvider {
             const tzDate = new Date(d.toLocaleString('en-US', { timeZone: timezone }));
 
             return (tzDate.getTime() - utcDate.getTime()) / (1000 * 60);
-        } catch (e) {
+        } catch {
             return 0;
         }
     }

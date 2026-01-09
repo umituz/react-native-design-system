@@ -5,7 +5,7 @@
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AtomicText } from "@umituz/react-native-design-system";
+import { AtomicText } from "../../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../../providers/OnboardingProvider";
 import { ensureArray } from "../../../infrastructure/utils/arrayUtils";
 import type { OnboardingQuestion } from "../../../domain/entities/OnboardingQuestion";

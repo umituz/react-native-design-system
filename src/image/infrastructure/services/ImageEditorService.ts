@@ -4,12 +4,11 @@
  * Core editing functionality with layer and tool management
  */
 
-import { 
-  EditorTool, 
-  type EditorState, 
-  type EditorLayer, 
-  type EditorHistory, 
-  type EditorOptions 
+import {
+  EditorTool,
+  type EditorState,
+  type EditorLayer,
+  type EditorHistory
 } from '../../domain/entities/EditorTypes';
 import { ImageErrorHandler, IMAGE_ERROR_CODES } from '../utils/ImageErrorHandler';
 import { ImageEditorHistoryUtils } from '../utils/ImageEditorHistoryUtils';
@@ -21,8 +20,7 @@ export class ImageEditorService {
 
   static createInitialState(
     uri: string,
-    dimensions: { width: number; height: number },
-    options: EditorOptions = {}
+    dimensions: { width: number; height: number }
   ): EditorState {
     const defaultLayer: EditorLayer = {
       id: 'background',

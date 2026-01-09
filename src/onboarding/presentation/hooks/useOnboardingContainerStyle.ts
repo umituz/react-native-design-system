@@ -5,7 +5,7 @@
 
 import { useMemo } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAppDesignTokens } from "@umituz/react-native-design-system";
+import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 
 export interface UseOnboardingContainerStyleProps {
   useCustomBackground: boolean;

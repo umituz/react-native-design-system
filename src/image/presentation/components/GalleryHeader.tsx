@@ -8,8 +8,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDesignTokens } from '@umituz/react-native-design-system';
-import { AtomicText } from '@umituz/react-native-design-system';
+import { AtomicText } from '../../../atoms/AtomicText';
 
 interface GalleryHeaderProps {
     onEdit?: () => void;
@@ -19,7 +18,6 @@ interface GalleryHeaderProps {
 
 export function GalleryHeader({ onEdit, onClose, title }: GalleryHeaderProps) {
     const insets = useSafeAreaInsets();
-    const tokens = useAppDesignTokens();
 
     return (
         <View style={[

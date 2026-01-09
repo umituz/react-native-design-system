@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { AtomicText } from "@umituz/react-native-design-system";
+import { AtomicText } from "../../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../../providers/OnboardingProvider";
 import type { OnboardingQuestion } from "../../../domain/entities/OnboardingQuestion";
 

@@ -5,8 +5,8 @@
  * Replaces slow standard image components for instant loading.
  */
 
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { Modal, View, StyleSheet, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState, useEffect } from 'react';
+import { Modal, View, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ImageViewerItem, ImageGalleryOptions } from '../../domain/entities/ImageTypes';

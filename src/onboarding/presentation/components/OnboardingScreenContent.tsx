@@ -5,7 +5,7 @@
 
 import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
-import { useTheme } from "@umituz/react-native-design-system";
+import { useTheme } from "../../../theme/infrastructure/stores/themeStore";
 import { OnboardingHeader } from "./OnboardingHeader";
 import { OnboardingSlide as OnboardingSlideComponent } from "./OnboardingSlide";
 import { QuestionSlide } from "./QuestionSlide";

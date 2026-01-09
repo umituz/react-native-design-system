@@ -5,7 +5,8 @@
 
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { AtomicIcon, AtomicText } from "@umituz/react-native-design-system";
+import { AtomicIcon } from "../../../../atoms/AtomicIcon";
+import { AtomicText } from "../../../../atoms/AtomicText";
 import type { QuestionOption } from "../../../domain/entities/OnboardingQuestion";
 import type { OnboardingColors } from "../../types/OnboardingTheme";
 

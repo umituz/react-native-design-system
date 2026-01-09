@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalization } from "@umituz/react-native-localization";
-import { AtomicText } from "@umituz/react-native-design-system";
+import { AtomicText } from "../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
 
 export interface OnboardingFooterProps {

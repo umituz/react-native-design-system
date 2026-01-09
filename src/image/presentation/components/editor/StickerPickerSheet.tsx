@@ -4,12 +4,10 @@
 
 import React, { forwardRef } from 'react';
 import { View, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
-import { 
-  BottomSheetModal, 
-  AtomicText, 
-  useAppDesignTokens, 
-  BottomSheetModalRef 
-} from '@umituz/react-native-design-system';
+import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
+import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
+import { AtomicText } from '../../../../atoms/AtomicText';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 

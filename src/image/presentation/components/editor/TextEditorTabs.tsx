@@ -5,20 +5,22 @@
 import React from 'react';
 import { View, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { AtomicText, AtomicIcon, useAppDesignTokens } from '@umituz/react-native-design-system';
+import { AtomicText } from '../../../../atoms/AtomicText';
+import { AtomicIcon } from '../../../../atoms/AtomicIcon';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 
 interface TabProps {
   t: (key: string) => string;
 }
 
-export const TextContentTab: React.FC<TabProps & { text: string; onTextChange: (t: string) => void }> = ({ text, onTextChange, t }) => {
+export const TextContentTab: React.FC<TabProps & { text: string; onTextChange: (t: string) => void }> = ({ text, onTextChange, t: translate }) => {
   const tokens = useAppDesignTokens();
   return (
     <View style={{ gap: tokens.spacing.lg }}>
       <TextInput
         value={text}
         onChangeText={onTextChange}
-        placeholder={t('editor.text_placeholder')}
+        placeholder={translate('editor.text_placeholder')}
         style={{
           ...tokens.typography.bodyLarge,
           borderWidth: 1,
@@ -38,7 +40,7 @@ export const TextStyleTab: React.FC<TabProps & {
   fontSize: number; setFontSize: (s: number) => void;
   color: string; setColor: (c: string) => void;
   fontFamily: string; setFontFamily: (f: string) => void;
-}> = ({ fontSize, setFontSize, color, setColor, fontFamily, setFontFamily, t }) => {
+}> = ({ fontSize, setFontSize, color, setColor, fontFamily, setFontFamily }) => {
   const tokens = useAppDesignTokens();
   const colors = ['#FFFFFF', '#000000', '#FF0000', '#FFFF00', '#0000FF', '#00FF00', '#FF00FF', '#FFA500'];
   const fonts = ['System', 'serif', 'sans-serif', 'monospace'];
@@ -85,7 +87,7 @@ export const TextTransformTab: React.FC<TabProps & {
   rotation: number; setRotation: (r: number) => void;
   opacity: number; setOpacity: (o: number) => void;
   onDelete?: () => void;
-}> = ({ scale, setScale, rotation, setRotation, opacity, setOpacity, onDelete, t }) => {
+}> = ({ scale, setScale, rotation, setRotation, opacity, setOpacity, onDelete }) => {
   const tokens = useAppDesignTokens();
   return (
     <View style={{ gap: tokens.spacing.xl }}>
@@ -96,6 +98,10 @@ export const TextTransformTab: React.FC<TabProps & {
       <View>
         <AtomicText style={{ ...tokens.typography.labelMedium, marginBottom: tokens.spacing.xs }}>Rotation: {Math.round(rotation)}°</AtomicText>
         <Slider value={rotation} onValueChange={setRotation} minimumValue={0} maximumValue={360} step={1} minimumTrackTintColor={tokens.colors.primary} />
+      </View>
+      <View>
+        <AtomicText style={{ ...tokens.typography.labelMedium, marginBottom: tokens.spacing.xs }}>Opacity: {(opacity * 100).toFixed(0)}%</AtomicText>
+        <Slider value={opacity} onValueChange={setOpacity} minimumValue={0} maximumValue={1} step={0.05} minimumTrackTintColor={tokens.colors.primary} />
       </View>
       {onDelete && (
         <TouchableOpacity onPress={onDelete} style={{

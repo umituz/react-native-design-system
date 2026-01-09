@@ -3,7 +3,7 @@
  * Centralized screen dimension values using design system utilities
  */
 
-import { getScreenDimensions } from "@umituz/react-native-design-system";
+import { getScreenDimensions } from "../../../../device/detection/deviceDetection";
 
 const dimensions = getScreenDimensions();
 

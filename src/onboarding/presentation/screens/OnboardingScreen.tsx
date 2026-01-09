@@ -9,7 +9,7 @@
 
 import React, { useMemo } from "react";
 import { StyleSheet } from "react-native";
-import { useAppDesignTokens } from "@umituz/react-native-design-system";
+import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 import type { OnboardingOptions } from "../../domain/entities/OnboardingOptions";
 import { useOnboardingScreenState } from "../hooks/useOnboardingScreenState";
 import { OnboardingScreenContent } from "../components/OnboardingScreenContent";
@@ -74,7 +74,6 @@ export const OnboardingScreen = ({
   showDots = true,
   showProgressText = true,
   storageKey,
-  autoComplete: _autoComplete = false,
   renderHeader,
   renderFooter,
   renderSlide,

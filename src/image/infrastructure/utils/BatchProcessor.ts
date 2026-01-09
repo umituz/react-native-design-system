@@ -5,7 +5,7 @@
  */
 
 import type { ImageManipulationResult, ImageCropArea, SaveFormat } from '../../domain/entities/ImageTypes';
-import type { BatchOperation, BatchProcessingOptions } from '../services/ImageBatchService';
+import type { BatchOperation } from '../services/ImageBatchService';
 import { ImageTransformService } from '../services/ImageTransformService';
 import { ImageConversionService } from '../services/ImageConversionService';
 import { ImageValidator } from './ImageValidator';
@@ -13,8 +13,7 @@ import { ImageErrorHandler, IMAGE_ERROR_CODES } from './ImageErrorHandler';
 
 export class BatchProcessor {
   static async processBatchItem(
-    operation: BatchOperation,
-    options: BatchProcessingOptions = {}
+    operation: BatchOperation
   ): Promise<{ uri: string; result: ImageManipulationResult | null; error?: Error }> {
     try {
       const uriValidation = ImageValidator.validateUri(operation.uri);

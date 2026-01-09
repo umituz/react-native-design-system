@@ -13,7 +13,6 @@ import type {
   DeviceFeatureConfig,
   DeviceFeatureUsage,
   DeviceFeatureAccess,
-  FeatureLimit,
   ResetPeriod,
 } from '../../domain/entities/DeviceFeatureConfig';
 import { PersistentDeviceIdService } from './PersistentDeviceIdService';

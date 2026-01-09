@@ -10,7 +10,6 @@
 
 import * as Haptics from 'expo-haptics';
 import type { ImpactStyle, NotificationType, HapticPattern } from '../../domain/entities/Haptic';
-import { isImpactStyle, isNotificationType, isHapticPattern } from '../../domain/entities/Haptic';
 
 /**
  * Log error in development mode only

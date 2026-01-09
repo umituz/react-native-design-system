@@ -18,13 +18,11 @@ export const useOfflineWithMutations = (onOnline: () => Promise<void>) => {
     isProcessingRef.current = true;
     try {
       if (__DEV__) {
-        // eslint-disable-next-line no-console
         console.log('[react-native-offline] Executing online callback');
       }
       await onOnline();
     } catch (error) {
       if (__DEV__) {
-        // eslint-disable-next-line no-console
         console.error('[react-native-offline] Online callback failed:', error);
       }
     } finally {

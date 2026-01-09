@@ -1,6 +1,8 @@
 import React, { useCallback } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { AtomicIcon, AtomicText, useAppDesignTokens } from "@umituz/react-native-design-system";
+import { AtomicIcon } from "../../../atoms/AtomicIcon";
+import { AtomicText } from "../../../atoms/AtomicText";
+import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 
 export interface OnboardingResetSettingProps {
     onReset: () => void | Promise<void>;

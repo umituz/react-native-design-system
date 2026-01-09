@@ -5,7 +5,8 @@
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AtomicIcon, AtomicText } from "@umituz/react-native-design-system";
+import { AtomicIcon } from "../../../atoms/AtomicIcon";
+import { AtomicText } from "../../../atoms/AtomicText";
 import type { OnboardingSlide as OnboardingSlideType } from "../../domain/entities/OnboardingSlide";
 import { BaseSlide } from "./BaseSlide";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";

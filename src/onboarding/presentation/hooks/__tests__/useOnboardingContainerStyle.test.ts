@@ -6,7 +6,7 @@ import { renderHook } from '@testing-library/react-native';
 import { useOnboardingContainerStyle } from '../useOnboardingContainerStyle';
 
 // Mock theme hook
-jest.mock('@umituz/react-native-design-system', () => ({
+jest.mock('../../../../theme/hooks/useAppDesignTokens', () => ({
   useAppDesignTokens: jest.fn(),
 }));
 
@@ -15,7 +15,7 @@ jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: jest.fn(),
 }));
 
-import { useAppDesignTokens } from '@umituz/react-native-design-system';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const mockUseAppDesignTokens = useAppDesignTokens as jest.MockedFunction<typeof useAppDesignTokens>;

@@ -4,13 +4,11 @@
 
 import React, { forwardRef } from 'react';
 import { View, TouchableOpacity, ScrollView } from 'react-native';
-import { 
-  BottomSheetModal, 
-  AtomicText, 
-  AtomicIcon,
-  useAppDesignTokens, 
-  BottomSheetModalRef 
-} from '@umituz/react-native-design-system';
+import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
+import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
+import { AtomicText } from '../../../../atoms/AtomicText';
+import { AtomicIcon } from '../../../../atoms/AtomicIcon';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import { FilterProcessor, type FilterPreset } from '../../../infrastructure/utils/FilterProcessor';
 
 export interface FilterPickerSheetProps {

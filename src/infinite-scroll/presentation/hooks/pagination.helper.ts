@@ -3,7 +3,7 @@
  * SOLID: Single Responsibility - Handle pagination operations
  */
 
-import type { InfiniteScrollConfig, PaginatedResult } from "../../domain/types/infinite-scroll-config";
+import type { InfiniteScrollConfig } from "../../domain/types/infinite-scroll-config";
 import type { InfiniteScrollState } from "../../domain/types/infinite-scroll-state";
 
 export function isCursorMode<T>(

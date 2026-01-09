@@ -13,7 +13,7 @@ import type {
 import { IMAGE_CONSTANTS } from '../../domain/entities/ImageConstants';
 import { ImageTransformService } from './ImageTransformService';
 import { ImageValidator } from '../utils/ImageValidator';
-import { ImageErrorHandler, IMAGE_ERROR_CODES } from '../utils/ImageErrorHandler';
+import { ImageErrorHandler } from '../utils/ImageErrorHandler';
 import { ImageTransformUtils } from '../utils/ImageTransformUtils';
 
 export class ImageConversionService {

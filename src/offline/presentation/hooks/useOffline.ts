@@ -62,7 +62,6 @@ export const useOffline = (config?: OfflineConfig) => {
       })
       .catch((error: Error) => {
         if (__DEV__ || mergedConfig.debug) {
-          // eslint-disable-next-line no-console
           console.error('[react-native-offline] Failed to fetch network state:', error);
         }
       });

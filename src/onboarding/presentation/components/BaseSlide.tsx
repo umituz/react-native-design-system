@@ -5,7 +5,7 @@
 
 import React, { useMemo } from "react";
 import { View, ScrollView } from "react-native";
-import { useAppDesignTokens, useResponsive } from "@umituz/react-native-design-system";
+import { useResponsive } from "../../../responsive/useResponsive";
 import type { ContentPosition } from "../../domain/entities/OnboardingSlide";
 
 export interface BaseSlideProps {
@@ -17,7 +17,6 @@ export const BaseSlide = ({
   children,
   contentPosition = "center",
 }: BaseSlideProps) => {
-  const tokens = useAppDesignTokens();
   const { verticalPadding, horizontalPadding } = useResponsive();
   const isBottom = contentPosition === "bottom";
 

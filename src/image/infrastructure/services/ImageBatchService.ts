@@ -51,7 +51,7 @@ export class ImageBatchService {
       const chunk = operations.slice(i, i + concurrency);
 
       const chunkResults = await Promise.all(
-        chunk.map(operation => BatchProcessor.processBatchItem(operation, options))
+        chunk.map(operation => BatchProcessor.processBatchItem(operation))
       );
 
       // Process results

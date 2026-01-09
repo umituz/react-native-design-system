@@ -4,11 +4,11 @@
  * Helper functions for extracting metadata from images
  */
 
-import type { ImageMetadataExtractionOptions } from '../../infrastructure/services/ImageMetadataService';
 import { ImageErrorHandler } from './ImageErrorHandler';
 
 export class MetadataExtractor {
-  static async getImageDimensions(uri: string): Promise<{ width: number; height: number }> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async getImageDimensions(_uri: string): Promise<{ width: number; height: number }> {
     try {
       // In a real implementation, we would use:
       // - expo-image-manipulator for basic dimensions
@@ -25,7 +25,8 @@ export class MetadataExtractor {
     }
   }
 
-  static async getFileSize(uri: string): Promise<number> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async getFileSize(_uri: string): Promise<number> {
     try {
       // In real implementation, use expo-file-system or similar
       return Math.floor(Math.random() * 5000000) + 10000; // Random size between 10KB-5MB
@@ -34,7 +35,8 @@ export class MetadataExtractor {
     }
   }
 
-  static async extractExifData(uri: string): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async extractExifData(_uri: string): Promise<any> {
     try {
       // Mock EXIF data extraction
       return {
@@ -47,19 +49,20 @@ export class MetadataExtractor {
         ExposureTime: `1/${Math.floor(Math.random() * 1000) + 100}`,
         FNumber: Math.random() * 8 + 1.4,
       };
-    } catch (error) {
+    } catch {
       return null;
     }
   }
 
-  static async extractGPSData(uri: string): Promise<{ latitude: number; longitude: number } | null> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async extractGPSData(_uri: string): Promise<{ latitude: number; longitude: number } | null> {
     try {
       // Mock GPS data extraction
       return Math.random() > 0.7 ? {
         latitude: Math.random() * 180 - 90,
         longitude: Math.random() * 360 - 180,
       } : null;
-    } catch (error) {
+    } catch {
       return null;
     }
   }

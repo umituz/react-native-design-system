@@ -48,14 +48,12 @@ export class HealthCheck {
       const isHealthy = response.ok;
 
       if (this.config.debug) {
-        // eslint-disable-next-line no-console
         console.log('[HealthCheck] Result:', isHealthy ? 'HEALTHY' : 'UNHEALTHY');
       }
 
       return isHealthy;
     } catch (error) {
       if (this.config.debug) {
-        // eslint-disable-next-line no-console
         console.warn('[HealthCheck] Failed:', error);
       }
 
@@ -71,7 +69,6 @@ export class HealthCheck {
   start(callback: (isHealthy: boolean) => void): void {
     if (this.config.healthCheckInterval === 0) {
       if (this.config.debug) {
-        // eslint-disable-next-line no-console
         console.log('[HealthCheck] Disabled (interval = 0)');
       }
       return;
@@ -82,7 +79,6 @@ export class HealthCheck {
     }
 
     if (this.config.debug) {
-      // eslint-disable-next-line no-console
       console.log('[HealthCheck] Starting (interval:', this.config.healthCheckInterval + 'ms)');
     }
 
@@ -101,7 +97,6 @@ export class HealthCheck {
       this.intervalId = null;
 
       if (this.config.debug) {
-        // eslint-disable-next-line no-console
         console.log('[HealthCheck] Stopped');
       }
     }

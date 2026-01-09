@@ -23,6 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "@umituz/react-native-design-system": [
+        "src/index.ts"
+      ],
       "@atoms": [
         "src/atoms/index.ts"
       ],
@@ -120,8 +123,12 @@
   ],
   "exclude": [
     "node_modules",
+    "node_modules/**",
     "node_modules/**/*",
+    "**/node_modules",
     "**/node_modules/**",
+    "**/node_modules/**/*",
+    "./node_modules/**",
     "lib",
     "dist",
     "build",
