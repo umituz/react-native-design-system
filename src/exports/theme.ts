@@ -25,7 +25,6 @@ export {
   darkTheme,
   createResponsiveValue,
   ThemeStorage,
-  createNavigationTheme,
   applyCustomColors,
   type ColorPalette,
   type ThemeMode,
