@@ -19,7 +19,7 @@ export class MediaUploadService {
    */
   async uploadMedia(
     file: any,
-    options?: MediaCompressionOptions,
+    _options?: MediaCompressionOptions,
   ): Promise<MediaAttachment> {
     try {
       // Simulate upload process
