@@ -2,7 +2,7 @@
  * Alert Store
  */
 
-import { createStore } from '@storage';
+import { createStore } from '../../storage';
 import { Alert } from './AlertTypes';
 
 interface AlertState {

@@ -6,7 +6,7 @@
  */
 
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import { storageService } from '@umituz/react-native-storage';
+import { storageService } from '../../../storage';
 import { DEFAULT_GC_TIME } from '../../domain/constants/CacheDefaults';
 import type { Persister } from '@tanstack/react-query-persist-client';
 

@@ -8,7 +8,7 @@
  * @layer infrastructure/services
  */
 
-import { storageRepository, unwrap } from '@storage';
+import { storageRepository, unwrap } from '../../../storage';
 import type {
   DeviceFeatureConfig,
   DeviceFeatureUsage,

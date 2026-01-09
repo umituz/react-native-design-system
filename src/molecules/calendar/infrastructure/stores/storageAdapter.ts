@@ -3,7 +3,7 @@
  * Converts AsyncStorageRepository to Zustand-compatible storage
  */
 
-import { storageRepository } from '@storage';
+import { storageRepository } from '../../../../storage';
 
 export const zustandStorage = {
   getItem: async (name: string): Promise<string | null> => {

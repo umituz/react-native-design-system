@@ -1,4 +1,4 @@
-import { storageRepository, unwrap } from '@storage';
+import { storageRepository, unwrap } from '../../../storage';
 
 const LEGACY_DEVICE_ID_KEY = '@device/persistent_id';
 

@@ -6,7 +6,7 @@
  */
 
 import { useMemo } from "react";
-import { createStore } from "@storage";
+import { createStore } from "../../../storage";
 import type { OnboardingStoreState } from "./OnboardingStoreState";
 import { initialOnboardingState } from "./OnboardingStoreState";
 import { createOnboardingStoreActions } from "./OnboardingStoreActions";

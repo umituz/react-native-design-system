@@ -3,7 +3,7 @@
  * Single Responsibility: Save and update user answers
  */
 
-import { storageRepository } from "@storage";
+import { storageRepository } from "../../../../storage";
 import type { OnboardingUserData } from "../../../domain/entities/OnboardingUserData";
 import type { OnboardingStoreState } from "../OnboardingStoreState";
 import { USER_DATA_STORAGE_KEY, handleError, logSuccess } from "./storageHelpers";
