@@ -34,6 +34,10 @@ export { TabLabel, type TabLabelProps } from "./components/TabLabel";
 export * from './components/NavigationHeader';
 export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
 export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
+export { useAppNavigation } from "./hooks/useAppNavigation";
+export { useAppRoute, type RouteProp } from "./hooks/useAppRoute";
+export { useAppFocusEffect } from "./hooks/useAppFocusEffect";
+export { useAppIsFocused } from "./hooks/useAppIsFocused";
 
 // Navigation Theme
 export { createNavigationTheme } from "./utils/NavigationTheme";

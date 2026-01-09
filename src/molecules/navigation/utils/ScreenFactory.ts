@@ -87,6 +87,7 @@ export function createTabScreen<T extends ParamListBase = ParamListBase>(
     key: screen.name,
     name: screen.name,
     component: screen.component,
+    children: screen.children,
     options: screenOptions,
   });
 }
@@ -129,6 +130,7 @@ export function createStackScreen<T extends ParamListBase = ParamListBase>(
     key: screen.name,
     name: screen.name,
     component: screen.component,
+    children: screen.children,
     options: screenOptions,
   });
 }

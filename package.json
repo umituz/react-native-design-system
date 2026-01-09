@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.8.18",
+  "version": "2.8.20",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, and onboarding utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

@@ -100,6 +100,10 @@ export {
   createNavigationTheme,
   useTabBarStyles,
   useTabConfig,
+  useAppNavigation,
+  useAppRoute,
+  useAppFocusEffect,
+  useAppIsFocused,
   type NavigationHeaderProps,
   type ScreenOptionsParams,
   type TabsNavigatorProps,
@@ -118,6 +122,7 @@ export {
   type BottomTabNavigationOptions,
   type BottomTabScreenProps,
   type StackNavigationOptions,
+  type RouteProp,
   type TabLabelProps,
   type TabBarConfig,
   // Long Press Menu
