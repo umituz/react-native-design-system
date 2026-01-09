@@ -1,7 +1,7 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.6.128",
-  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone and offline utilities",
+  "version": "2.8.0",
+  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, and onboarding utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -22,6 +22,7 @@
     "./image": "./src/image/index.ts",
     "./timezone": "./src/timezone/index.ts",
     "./offline": "./src/offline/index.ts",
+    "./onboarding": "./src/onboarding/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -74,6 +75,7 @@
     "expo-network": ">=8.0.0",
     "expo-secure-store": ">=14.0.0",
     "expo-sharing": ">=12.0.0",
+    "expo-video": ">=3.0.0",
     "react": ">=19.0.0",
     "react-native": ">=0.81.0",
     "react-native-gesture-handler": ">=2.20.0",

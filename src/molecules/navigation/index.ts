@@ -37,3 +37,7 @@ export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
 
 // Navigation Theme
 export { createNavigationTheme } from "./utils/NavigationTheme";
+
+// Screen Options
+export { createScreenOptions, createCenteredHeaderOptions } from "./utils/createScreenOptions";
+export type { ScreenOptionsParams } from "./utils/createScreenOptions";
