@@ -25,6 +25,7 @@
     "./onboarding": "./src/onboarding/index.ts",
     "./storage": "./src/storage/index.ts",
     "./filesystem": "./src/filesystem/index.ts",
+    "./media": "./src/media/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -75,6 +76,8 @@
     "expo-font": ">=12.0.0",
     "expo-image": ">=3.0.0",
     "expo-image-manipulator": ">=12.0.0",
+    "expo-image-picker": ">=14.0.0",
+    "expo-media-library": ">=15.0.0",
     "expo-network": ">=8.0.0",
     "expo-secure-store": ">=14.0.0",
     "expo-sharing": ">=12.0.0",
@@ -129,6 +132,8 @@
     "expo-video": "~3.0.0",
     "expo-haptics": "~14.0.0",
     "expo-image-manipulator": "~13.0.0",
+    "expo-image-picker": "~16.0.0",
+    "expo-media-library": "~17.0.0",
     "expo-image": "~3.0.11",
     "expo-localization": "~16.0.1",
     "expo-secure-store": "~14.0.0",

@@ -133,6 +133,15 @@
       ],
       "@filesystem/*": [
         "src/filesystem/*"
+      ],
+      "@umituz/react-native-media": [
+        "src/media/index.ts"
+      ],
+      "@media": [
+        "src/media/index.ts"
+      ],
+      "@media/*": [
+        "src/media/*"
       ]
     }
   },

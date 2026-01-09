@@ -26,7 +26,7 @@ export class MediaOptimizerService {
   /**
    * Delete media attachment
    */
-  async deleteMedia(attachmentId: string): Promise<void> {
+  async deleteMedia(_attachmentId: string): Promise<void> {
     // Mock implementation
   }
 }
