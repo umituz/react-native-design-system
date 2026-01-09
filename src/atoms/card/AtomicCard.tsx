@@ -11,7 +11,7 @@ import {
   Pressable,
   type GestureResponderEvent,
 } from 'react-native';
-import { Image } from 'expo-image';
+import { AtomicImage } from '../image/AtomicImage';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../AtomicIcon';
 import { useAppDesignTokens } from '../../theme';
@@ -88,10 +88,10 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
 
       {/* Media */}
       {image && (
-        <Image
+        <AtomicImage
           source={typeof image === 'string' ? { uri: image } : image}
           style={[cardStyles.image, { aspectRatio: imageAspectRatio }]}
-          resizeMode="cover"
+          contentFit="cover"
         />
       )}
 
