@@ -95,10 +95,13 @@ export {
   NavigationCleanupManager,
   AppNavigation,
   TabLabel,
-  NavigationHeader, // Added
+  NavigationHeader,
+  createScreenOptions,
+  createNavigationTheme,
   useTabBarStyles,
   useTabConfig,
-  type NavigationHeaderProps, // Added
+  type NavigationHeaderProps,
+  type ScreenOptionsParams,
   type TabsNavigatorProps,
   type StackNavigatorProps,
   type FabButtonProps,
