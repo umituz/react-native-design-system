@@ -34,6 +34,7 @@ export const createScreenOptions = (params: ScreenOptionsParams): StackNavigatio
       fontWeight: '600',
       color: colors.textPrimary,
     },
+    headerTitleAlign: 'left',
     headerTintColor: colors.textPrimary,
     ...(backTitle && {
       headerBackTitle: backTitle,
