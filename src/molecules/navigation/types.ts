@@ -9,9 +9,6 @@ import type {
 } from "@react-navigation/stack";
 import type { IconName } from "../../atoms/AtomicIcon";
 
-// Re-export navigation types
-export type { StackScreenProps, BottomTabScreenProps, StackNavigationOptions, BottomTabNavigationOptions };
-
 export type NavigationParams = Record<string, unknown>;
 
 /**
