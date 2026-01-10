@@ -122,6 +122,7 @@ export {
   type BottomTabNavigationOptions,
   type BottomTabScreenProps,
   type StackNavigationOptions,
+  type StackScreenProps,
   type RouteProp,
   type TabLabelProps,
   type TabBarConfig,
