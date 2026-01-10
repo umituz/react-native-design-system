@@ -14,19 +14,16 @@ export type {
   IconRendererProps,
   LabelProcessorProps,
   FabConfig,
+  StackScreenProps,
+  BottomTabScreenProps,
+  StackNavigationOptions,
+  BottomTabNavigationOptions,
 } from "./types";
 
 export { DEFAULT_FAB_CONFIG } from "./types";
 
 export { NavigationCleanupManager } from "./utils/NavigationCleanup";
 export type { NavigationCleanup } from "./utils/NavigationCleanup";
-
-export type {
-  BottomTabNavigationOptions,
-  BottomTabScreenProps,
-} from "@react-navigation/bottom-tabs";
-
-export type { StackNavigationOptions } from "@react-navigation/stack";
 
 // Navigation Utilities
 export { AppNavigation } from "./utils/AppNavigation";
