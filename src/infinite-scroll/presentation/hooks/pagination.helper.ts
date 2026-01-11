@@ -6,6 +6,62 @@
 import type { InfiniteScrollConfig } from "../../domain/types/infinite-scroll-config";
 import type { InfiniteScrollState } from "../../domain/types/infinite-scroll-state";
 
+/**
+ * Sleep utility for retry delay
+ */
+export function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Retry logic with exponential backoff
+ */
+export async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number,
+  baseDelay: number,
+): Promise<T> {
+  let lastError: Error | undefined;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt < maxRetries) {
+        const delay = baseDelay * Math.pow(2, attempt);
+        if (__DEV__) {
+          console.log(
+            `[useInfiniteScroll] Retry attempt ${attempt + 1}/${maxRetries} after ${delay}ms`,
+          );
+        }
+        await sleep(delay);
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+export function createInitialState<T>(
+  initialPage: number,
+  totalItems?: number,
+): InfiniteScrollState<T> {
+  return {
+    items: [],
+    pages: [],
+    currentPage: initialPage,
+    cursor: null,
+    hasMore: true,
+    isLoading: true,
+    isLoadingMore: false,
+    isRefreshing: false,
+    error: null,
+    totalItems,
+  };
+}
+
 export function isCursorMode<T>(
   config: InfiniteScrollConfig<T>,
 ): config is Extract<InfiniteScrollConfig<T>, { paginationMode: "cursor" }> {

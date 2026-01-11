@@ -62,13 +62,13 @@ export {
 } from './domain/utils/ErrorHelpers';
 
 // Domain - Repositories
-export {
-  BaseRepository,
-  type CreateParams,
-  type UpdateParams,
-  type ListParams,
-  type RepositoryOptions,
-} from './domain/repositories/BaseRepository';
+export { BaseRepository } from './domain/repositories/BaseRepository';
+export type {
+  CreateParams,
+  UpdateParams,
+  ListParams,
+  RepositoryOptions,
+} from './domain/repositories/RepositoryTypes';
 
 export { RepositoryFactory } from './domain/repositories/RepositoryFactory';
 
@@ -95,12 +95,12 @@ export {
 } from './infrastructure/config/QueryClientSingleton';
 
 // Infrastructure - Monitoring
-export {
-  DevMonitor,
-  type QueryMetrics,
-  type CacheStats as QueryCacheStats,
-  type DevMonitorOptions,
-} from './infrastructure/monitoring/DevMonitor';
+export { DevMonitor } from './infrastructure/monitoring/DevMonitor';
+export type {
+  QueryMetrics,
+  CacheStats as QueryCacheStats,
+  DevMonitorOptions,
+} from './infrastructure/monitoring/DevMonitor.types';
 
 // Infrastructure - Providers
 export { TanstackProvider, type TanstackProviderProps } from './infrastructure/providers/TanstackProvider';

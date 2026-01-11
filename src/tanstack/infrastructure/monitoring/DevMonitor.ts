@@ -7,43 +7,8 @@
  */
 
 import type { Query, QueryClient } from '@tanstack/react-query';
-
-export interface QueryMetrics {
-  queryKey: readonly unknown[];
-  fetchCount: number;
-  totalFetchTime: number;
-  averageFetchTime: number;
-  slowFetchCount: number;
-  lastFetchTime: number | null;
-}
-
-export interface CacheStats {
-  totalQueries: number;
-  activeQueries: number;
-  cachedQueries: number;
-  staleQueries: number;
-  inactiveQueries: number;
-}
-
-export interface DevMonitorOptions {
-  /**
-   * Threshold for slow query detection (in ms)
-   * @default 1000
-   */
-  slowQueryThreshold?: number;
-
-  /**
-   * Enable console logging
-   * @default true
-   */
-  enableLogging?: boolean;
-
-  /**
-   * Log interval for stats (in ms)
-   * @default 30000 (30 seconds)
-   */
-  statsLogInterval?: number;
-}
+import type { QueryMetrics, CacheStats, DevMonitorOptions } from './DevMonitor.types';
+import { DevMonitorLogger } from './DevMonitorLogger';
 
 class DevMonitorClass {
   private metrics: Map<string, QueryMetrics> = new Map();
@@ -67,12 +32,9 @@ class DevMonitorClass {
 
   private init(): void {
     if (!this.isEnabled) return;
-
     if (this.options.enableLogging) {
-      
-      console.log('[TanStack DevMonitor] Monitoring initialized');
+      DevMonitorLogger.logInit();
     }
-
     this.startStatsLogging();
   }
 
@@ -106,12 +68,8 @@ class DevMonitorClass {
 
     if (fetchTime > this.options.slowQueryThreshold) {
       metrics.slowFetchCount++;
-
       if (this.options.enableLogging) {
-        
-        console.warn(
-          `[TanStack DevMonitor] Slow query detected: ${queryKeyString} (${fetchTime}ms)`,
-        );
+        DevMonitorLogger.logSlowQuery(queryKeyString, fetchTime);
       }
     }
   }
@@ -123,14 +81,12 @@ class DevMonitorClass {
     if (!this.isEnabled) return;
 
     this.queryClient = queryClient;
-
     queryClient.getQueryCache().subscribe((query) => {
       this.trackQuery(query as unknown as Query);
     });
 
     if (this.options.enableLogging) {
-      
-      console.log('[TanStack DevMonitor] Attached to QueryClient');
+      DevMonitorLogger.logAttached();
     }
   }
 
@@ -182,40 +138,7 @@ class DevMonitorClass {
    */
   logReport(): void {
     if (!this.isEnabled || !this.options.enableLogging) return;
-
-    const stats = this.getCacheStats();
-    const slowQueries = this.getSlowQueries();
-
-    
-    console.group('[TanStack DevMonitor] Performance Report');
-
-    if (stats) {
-      
-      console.table({
-        'Total Queries': stats.totalQueries,
-        'Active Queries': stats.activeQueries,
-        'Cached Queries': stats.cachedQueries,
-        'Stale Queries': stats.staleQueries,
-        'Inactive Queries': stats.inactiveQueries,
-      });
-    }
-
-    if (slowQueries.length > 0) {
-      
-      console.warn(`Found ${slowQueries.length} slow queries:`);
-      
-      console.table(
-        slowQueries.map((m) => ({
-          queryKey: JSON.stringify(m.queryKey),
-          fetchCount: m.fetchCount,
-          avgTime: `${m.averageFetchTime.toFixed(2)}ms`,
-          slowCount: m.slowFetchCount,
-        })),
-      );
-    }
-
-    
-    console.groupEnd();
+    DevMonitorLogger.logReport(this.getCacheStats(), this.getSlowQueries());
   }
 
   /**
@@ -223,7 +146,6 @@ class DevMonitorClass {
    */
   private startStatsLogging(): void {
     if (!this.isEnabled || this.statsInterval !== null) return;
-
     this.statsInterval = setInterval(() => {
       this.logReport();
     }, this.options.statsLogInterval);
@@ -245,10 +167,8 @@ class DevMonitorClass {
   clear(): void {
     if (!this.isEnabled) return;
     this.metrics.clear();
-
     if (this.options.enableLogging) {
-      
-      console.log('[TanStack DevMonitor] Metrics cleared');
+      DevMonitorLogger.logMethodsCleared();
     }
   }
 
@@ -260,10 +180,8 @@ class DevMonitorClass {
     this.stopStatsLogging();
     this.clear();
     this.queryClient = null;
-
     if (this.options.enableLogging) {
-      
-      console.log('[TanStack DevMonitor] Reset');
+      DevMonitorLogger.logReset();
     }
   }
 }

@@ -35,43 +35,16 @@
  * ```
  */
 
-import type { QueryClient } from '@tanstack/react-query';
+import type { QueryClient, QueryKey } from '@tanstack/react-query';
 import { getGlobalQueryClient } from '../../infrastructure/config/QueryClientSingleton';
-import type { CacheConfig } from '../types/CacheStrategy';
 import { CacheStrategies } from '../../infrastructure/config/QueryClientConfig';
-
-export interface CreateParams<TVariables> {
-  variables: TVariables;
-}
-
-export interface UpdateParams<TVariables> {
-  id: string | number;
-  variables: TVariables;
-}
-
-export interface ListParams {
-  page?: number;
-  limit?: number;
-  filter?: Record<string, unknown>;
-}
-
-export interface RepositoryOptions {
-  /**
-   * Cache strategy for queries
-   * @default CacheStrategies.PUBLIC_DATA
-   */
-  cacheStrategy?: CacheConfig;
-
-  /**
-   * Stale time override
-   */
-  staleTime?: number;
-
-  /**
-   * GC time override
-   */
-  gcTime?: number;
-}
+import { createQueryKeyFactory } from '../utils/QueryKeyFactory';
+import type {
+  CreateParams,
+  UpdateParams,
+  ListParams,
+  RepositoryOptions,
+} from './RepositoryTypes';
 
 /**
  * Base repository for CRUD operations
@@ -91,13 +64,7 @@ export abstract class BaseRepository<
   /**
    * Query key factory for this repository
    */
-  public readonly keys: {
-    all: () => readonly [string];
-    lists: () => readonly [string, 'list'];
-    list: (params: ListParams) => readonly [string, 'list', ListParams];
-    details: () => readonly [string, 'detail'];
-    detail: (id: string | number) => readonly [string, 'detail', string | number];
-  };
+  public readonly keys: ReturnType<typeof createQueryKeyFactory>;
 
   constructor(resource: string, options: RepositoryOptions = {}) {
     this.resource = resource;
@@ -106,13 +73,7 @@ export abstract class BaseRepository<
       ...options,
     };
 
-    this.keys = {
-      all: () => [this.resource] as const,
-      lists: () => [this.resource, 'list'] as const,
-      list: (params: ListParams) => [this.resource, 'list', params] as const,
-      details: () => [this.resource, 'detail'] as const,
-      detail: (id: string | number) => [this.resource, 'detail', id] as const,
-    };
+    this.keys = createQueryKeyFactory(this.resource);
   }
 
   /**
@@ -162,11 +123,11 @@ export abstract class BaseRepository<
    */
   async queryAll(params?: ListParams): Promise<TData[]> {
     const client = this.getClient();
-    const queryKey = params ? this.keys.list(params) : this.keys.lists();
+    const queryKey = params ? this.keys.list(params as Record<string, unknown>) : this.keys.lists();
     const cacheOptions = this.getCacheOptions();
 
     return client.fetchQuery({
-      queryKey,
+      queryKey: queryKey as QueryKey,
       queryFn: () => this.fetchAll(params),
       ...cacheOptions,
     });
@@ -182,7 +143,7 @@ export abstract class BaseRepository<
 
     try {
       return client.fetchQuery({
-        queryKey,
+        queryKey: queryKey as QueryKey,
         queryFn: () => this.fetchById(id),
         ...cacheOptions,
       });
@@ -196,11 +157,11 @@ export abstract class BaseRepository<
    */
   async prefetchAll(params?: ListParams): Promise<void> {
     const client = this.getClient();
-    const queryKey = params ? this.keys.list(params) : this.keys.lists();
+    const queryKey = params ? this.keys.list(params as Record<string, unknown>) : this.keys.lists();
     const cacheOptions = this.getCacheOptions();
 
     await client.prefetchQuery({
-      queryKey,
+      queryKey: queryKey as QueryKey,
       queryFn: () => this.fetchAll(params),
       ...cacheOptions,
     });
@@ -215,7 +176,7 @@ export abstract class BaseRepository<
     const cacheOptions = this.getCacheOptions();
 
     await client.prefetchQuery({
-      queryKey,
+      queryKey: queryKey as QueryKey,
       queryFn: () => this.fetchById(id),
       ...cacheOptions,
     });
