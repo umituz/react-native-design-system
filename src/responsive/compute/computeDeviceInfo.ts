@@ -13,10 +13,12 @@ export interface ComputedDeviceInfo {
   readonly spacingMultiplier: number;
 }
 
-export const computeDeviceInfo = (): ComputedDeviceInfo => ({
-  isSmallDevice: isSmallPhone(),
+export const computeDeviceInfo = (
+  dimensions?: { width: number; height: number }
+): ComputedDeviceInfo => ({
+  isSmallDevice: isSmallPhone(dimensions),
   isTabletDevice: isTablet(),
-  isLandscapeDevice: isLandscape(),
-  deviceType: getDeviceType(),
-  spacingMultiplier: getSpacingMultiplier(),
+  isLandscapeDevice: isLandscape(dimensions),
+  deviceType: getDeviceType(dimensions),
+  spacingMultiplier: getSpacingMultiplier(dimensions),
 });

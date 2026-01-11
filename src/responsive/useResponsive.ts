@@ -25,24 +25,24 @@ export const useResponsive = (): UseResponsiveReturn => {
 
   // Memoize utility functions
   const getLogoSize = useCallback(
-    (baseSize?: number) => getResponsiveLogoSize(baseSize),
-    [],
+    (baseSize?: number) => getResponsiveLogoSize(baseSize, { width }),
+    [width],
   );
   const getInputHeight = useCallback(
-    (baseHeight?: number) => getResponsiveInputHeight(baseHeight),
-    [],
+    (baseHeight?: number) => getResponsiveInputHeight(baseHeight, { height }),
+    [height],
   );
   const getIconSize = useCallback(
-    (baseSize?: number) => getResponsiveIconContainerSize(baseSize),
-    [],
+    (baseSize?: number) => getResponsiveIconContainerSize(baseSize, { width }),
+    [width],
   );
   const getMaxWidth = useCallback(
-    (baseWidth?: number) => getResponsiveMaxWidth(baseWidth),
-    [],
+    (baseWidth?: number) => getResponsiveMaxWidth(baseWidth, { width }),
+    [width],
   );
   const getFontSize = useCallback(
-    (baseFontSize: number) => getResponsiveFontSize(baseFontSize),
-    [],
+    (baseFontSize: number) => getResponsiveFontSize(baseFontSize, { width }),
+    [width],
   );
   const getGridCols = useCallback(
     (mobile?: number, tablet?: number) =>
@@ -53,8 +53,9 @@ export const useResponsive = (): UseResponsiveReturn => {
   // Compute all responsive values
   const responsiveValues = useMemo(
     () => {
-      const deviceInfo = computeDeviceInfo();
-      const sizes = computeResponsiveSizes();
+      const dimensions = { width, height };
+      const deviceInfo = computeDeviceInfo(dimensions);
+      const sizes = computeResponsiveSizes(dimensions);
       const positioning = computeResponsivePositioning(insets);
       const onboarding = computeOnboardingSizes(deviceInfo);
 
@@ -110,7 +111,7 @@ export const useResponsive = (): UseResponsiveReturn => {
         getGridCols,
       };
     },
-    [width, height, insets],
+    [width, height, insets, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols], // Added callbacks to dep array
   );
 
   return responsiveValues;

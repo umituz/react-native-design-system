@@ -46,9 +46,13 @@ export interface GridCellSizeConfig {
  * Calculates optimal square cell size for a grid that fills available space
  *
  * @param config - Grid configuration
+ * @param dimensions - Optional dimensions override
  * @returns Responsive cell size (width = height for square cells)
  */
-export const getResponsiveGridCellSize = (config: GridCellSizeConfig): number => {
+export const getResponsiveGridCellSize = (
+  config: GridCellSizeConfig,
+  dimensions?: { width: number; height: number }
+): number => {
   try {
     const {
       columns,
@@ -61,7 +65,7 @@ export const getResponsiveGridCellSize = (config: GridCellSizeConfig): number =>
       statusBarHeight = 50,
     } = config;
 
-    const { width, height } = getScreenDimensions();
+    const { width, height } = dimensions || getScreenDimensions();
 
     const totalHorizontalGap = gap * (columns - 1);
     const availableWidth = width - horizontalPadding - totalHorizontalGap;

@@ -25,14 +25,16 @@ export interface ComputedResponsiveSizes {
   readonly gridColumns: number;
 }
 
-export const computeResponsiveSizes = (): ComputedResponsiveSizes => ({
-  logoSize: getResponsiveLogoSize(),
-  inputHeight: getResponsiveInputHeight(),
-  iconContainerSize: getResponsiveIconContainerSize(),
-  maxContentWidth: getResponsiveMaxWidth(),
+export const computeResponsiveSizes = (
+  dimensions?: { width: number; height: number }
+): ComputedResponsiveSizes => ({
+  logoSize: getResponsiveLogoSize(undefined, dimensions),
+  inputHeight: getResponsiveInputHeight(undefined, dimensions),
+  iconContainerSize: getResponsiveIconContainerSize(undefined, dimensions),
+  maxContentWidth: getResponsiveMaxWidth(undefined, dimensions),
   minTouchTarget: getMinTouchTarget(),
-  modalMaxHeight: getResponsiveModalMaxHeight(),
-  modalMinHeight: getResponsiveMinModalHeight(),
+  modalMaxHeight: getResponsiveModalMaxHeight(dimensions),
+  modalMinHeight: getResponsiveMinModalHeight(dimensions),
   gridColumns: getResponsiveGridColumns(),
 });
 

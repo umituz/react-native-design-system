@@ -32,9 +32,9 @@ export interface ResponsiveDialogLayout {
   borderRadius: number;
 }
 
-export const getResponsiveModalMaxHeight = (): string => {
+export const getResponsiveModalMaxHeight = (dimensions?: { height: number }): string => {
   try {
-    const { height } = getScreenDimensions();
+    const { height } = dimensions || getScreenDimensions();
 
     if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
       return LAYOUT_CONSTANTS.MODAL_HEIGHT_SMALL;
@@ -48,9 +48,9 @@ export const getResponsiveModalMaxHeight = (): string => {
   }
 };
 
-export const getResponsiveMinModalHeight = (): number => {
+export const getResponsiveMinModalHeight = (dimensions?: { height: number }): number => {
   try {
-    const { height } = getScreenDimensions();
+    const { height } = dimensions || getScreenDimensions();
 
     if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
       const calculatedHeight = height * MODAL_CONFIG.MIN_HEIGHT_PERCENT_SMALL;

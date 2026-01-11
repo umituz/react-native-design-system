@@ -22,11 +22,19 @@ export {
  * Responsive logo/icon size
  * @param baseSize - Base logo size (default: 140)
  */
-export const getResponsiveLogoSize = (baseSize: number = 140): number => {
+/**
+ * Responsive logo/icon size
+ * @param baseSize - Base logo size (default: 140)
+ * @param dimensions - Optional dimensions override
+ */
+export const getResponsiveLogoSize = (
+  baseSize: number = 140,
+  dimensions?: { width: number }
+): number => {
   try {
     const validatedBaseSize = validateNumber(baseSize, 'baseSize', 50, 500);
-    const { width } = getScreenDimensions();
-    const isSmallPhoneDevice = isSmallPhone();
+    const { width } = dimensions || getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone(dimensions);
     const isTabletDevice = isTablet();
 
     if (isSmallPhoneDevice) {
@@ -46,11 +54,15 @@ export const getResponsiveLogoSize = (baseSize: number = 140): number => {
 /**
  * Responsive multiline input height
  * @param baseHeight - Base input height (default: 200)
+ * @param dimensions - Optional dimensions override
  */
-export const getResponsiveInputHeight = (baseHeight: number = 200): number => {
+export const getResponsiveInputHeight = (
+  baseHeight: number = 200,
+  dimensions?: { height: number }
+): number => {
   try {
     const validatedBaseHeight = validateNumber(baseHeight, 'baseHeight', 50, 500);
-    const { height } = getScreenDimensions();
+    const { height } = dimensions || getScreenDimensions();
 
     if (height <= HEIGHT_THRESHOLDS.SMALL_DEVICE) {
       const calculatedHeight = safePercentage(height, RESPONSIVE_PERCENTAGES.INPUT_SMALL_DEVICE);
@@ -69,12 +81,16 @@ export const getResponsiveInputHeight = (baseHeight: number = 200): number => {
 /**
  * Responsive icon container size
  * @param baseSize - Base container size (default: 140)
+ * @param dimensions - Optional dimensions override
  */
-export const getResponsiveIconContainerSize = (baseSize: number = 140): number => {
+export const getResponsiveIconContainerSize = (
+  baseSize: number = 140,
+  dimensions?: { width: number }
+): number => {
   try {
     const validatedBaseSize = validateNumber(baseSize, 'baseSize', 50, 300);
-    const { width } = getScreenDimensions();
-    const isSmallPhoneDevice = isSmallPhone();
+    const { width } = dimensions || getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone(dimensions);
     const isTabletDevice = isTablet();
 
     if (isSmallPhoneDevice) {
@@ -94,12 +110,16 @@ export const getResponsiveIconContainerSize = (baseSize: number = 140): number =
 /**
  * Responsive max width for content
  * @param baseWidth - Base content width (default: 400)
+ * @param dimensions - Optional dimensions override
  */
-export const getResponsiveMaxWidth = (baseWidth: number = 400): number => {
+export const getResponsiveMaxWidth = (
+  baseWidth: number = 400,
+  dimensions?: { width: number }
+): number => {
   try {
     const validatedBaseWidth = validateNumber(baseWidth, 'baseWidth', 100, 1000);
-    const { width } = getScreenDimensions();
-    const isSmallPhoneDevice = isSmallPhone();
+    const { width } = dimensions || getScreenDimensions();
+    const isSmallPhoneDevice = isSmallPhone(dimensions);
     const isTabletDevice = isTablet();
 
     if (isSmallPhoneDevice) {
@@ -119,11 +139,15 @@ export const getResponsiveMaxWidth = (baseWidth: number = 400): number => {
 /**
  * Responsive font size
  * @param baseFontSize - Base font size
+ * @param dimensions - Optional dimensions override
  */
-export const getResponsiveFontSize = (baseFontSize: number): number => {
+export const getResponsiveFontSize = (
+  baseFontSize: number,
+  dimensions?: { width: number }
+): number => {
   try {
     const validatedBaseSize = validateFontSize(baseFontSize);
-    const isSmallPhoneDevice = isSmallPhone();
+    const isSmallPhoneDevice = isSmallPhone(dimensions);
     const isTabletDevice = isTablet();
 
     if (isSmallPhoneDevice) {

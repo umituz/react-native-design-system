@@ -60,9 +60,9 @@ export const isPhone = (): boolean => {
  * Check if current device is a small phone (iPhone SE, 13 mini)
  * Uses width breakpoint within phone category
  */
-export const isSmallPhone = (): boolean => {
+export const isSmallPhone = (offset?: { width: number }): boolean => {
   if (!isPhone()) return false;
-  const { width } = getScreenDimensions();
+  const { width } = offset || getScreenDimensions();
   return width <= DEVICE_BREAKPOINTS.SMALL_PHONE;
 };
 
@@ -70,17 +70,17 @@ export const isSmallPhone = (): boolean => {
  * Check if current device is a large phone (Pro Max, Plus models)
  * Uses width breakpoint within phone category
  */
-export const isLargePhone = (): boolean => {
+export const isLargePhone = (offset?: { width: number }): boolean => {
   if (!isPhone()) return false;
-  const { width } = getScreenDimensions();
+  const { width } = offset || getScreenDimensions();
   return width >= DEVICE_BREAKPOINTS.MEDIUM_PHONE;
 };
 
 /**
  * Check if device is in landscape mode
  */
-export const isLandscape = (): boolean => {
-  const { width, height } = getScreenDimensions();
+export const isLandscape = (offset?: { width: number; height: number }): boolean => {
+  const { width, height } = offset || getScreenDimensions();
   return width > height;
 };
 
@@ -88,14 +88,14 @@ export const isLandscape = (): boolean => {
  * Get current device type with fine-grained phone distinctions
  * Uses expo-device for PHONE vs TABLET, width for phone size variants
  */
-export const getDeviceType = (): DeviceType => {
+export const getDeviceType = (offset?: { width: number }): DeviceType => {
   // Use expo-device for primary detection
   if (isTablet()) {
     return DeviceType.TABLET;
   }
 
   // For phones, use width for size variants
-  const { width } = getScreenDimensions();
+  const { width } = offset || getScreenDimensions();
 
   if (width <= DEVICE_BREAKPOINTS.SMALL_PHONE) {
     return DeviceType.SMALL_PHONE;
@@ -109,12 +109,12 @@ export const getDeviceType = (): DeviceType => {
 /**
  * Responsive spacing multiplier based on device type
  */
-export const getSpacingMultiplier = (): number => {
+export const getSpacingMultiplier = (offset?: { width: number }): number => {
   if (isTablet()) {
     return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_TABLET;
   }
 
-  if (isSmallPhone()) {
+  if (isSmallPhone(offset)) {
     return LAYOUT_CONSTANTS.SPACING_MULTIPLIER_SMALL;
   }
 
