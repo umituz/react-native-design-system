@@ -119,28 +119,41 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
     console.warn(`[DesignSystem] Invalid icon name: "${name}". Falling back to "${FALLBACK_ICON}"`);
   }
 
-  const iconElement = svgPath ? (
-    <Svg
-      viewBox={svgViewBox}
-      width={sizeInPixels}
-      height={sizeInPixels}
-      key="custom-svg-icon"
-    >
-      <Path
-        d={svgPath}
-        fill={iconColor}
-      />
-    </Svg>
-  ) : (
+  const iconProps = {
+    testID,
+    accessibilityLabel,
+    style: [
+      !svgPath && {
+        padding: 4, // Prevent font truncation
+        includeFontPadding: false, // Android specific
+      },
+      style,
+    ] as StyleProp<ViewStyle>,
+  };
+
+  if (svgPath) {
+    return (
+      <Svg
+        viewBox={svgViewBox}
+        width={sizeInPixels}
+        height={sizeInPixels}
+        key="custom-svg-icon"
+        {...iconProps}
+      >
+        <Path
+          d={svgPath}
+          fill={iconColor}
+        />
+      </Svg>
+    );
+  }
+
+  const iconElement = (
     <Ionicons
       name={iconName as keyof typeof Ionicons.glyphMap}
       size={sizeInPixels}
       color={iconColor}
-      testID={testID ? `${testID}-icon` : undefined}
-      style={{
-        padding: 4, // Prevent font truncation
-        includeFontPadding: false, // Android specific
-      }}
+      {...iconProps}
     />
   );
 
@@ -168,11 +181,7 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
     );
   }
 
-  return (
-    <View accessibilityLabel={accessibilityLabel} testID={testID} style={style}>
-      {iconElement}
-    </View>
-  );
+  return iconElement;
 });
 
 AtomicIcon.displayName = "AtomicIcon";

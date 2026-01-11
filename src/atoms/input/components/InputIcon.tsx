@@ -19,14 +19,24 @@ export const InputIcon: React.FC<InputIconProps> = ({
   onPress,
   testID,
 }) => {
-  const positionStyle = position === 'leading' ? styles.leadingIcon : styles.trailingIcon;
-  const Wrapper = onPress ? Pressable : View;
-  const wrapperProps = onPress ? { onPress, testID } : {};
+  const style = position === 'leading' ? styles.leadingIcon : styles.trailingIcon;
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} style={style} testID={testID}>
+        <AtomicIcon name={name as any} customSize={size} customColor={color} />
+      </Pressable>
+    );
+  }
 
   return (
-    <Wrapper style={positionStyle} {...wrapperProps}>
-      <AtomicIcon name={name} customSize={size} customColor={color} />
-    </Wrapper>
+    <AtomicIcon 
+      name={name as any} 
+      customSize={size} 
+      customColor={color} 
+      style={style}
+      testID={testID}
+    />
   );
 };
 
