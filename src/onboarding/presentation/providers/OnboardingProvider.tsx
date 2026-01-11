@@ -8,8 +8,15 @@
 import React, { createContext, useContext, useMemo } from "react";
 import type { OnboardingTheme, OnboardingColors } from "../types/OnboardingTheme";
 
+export interface OnboardingTranslations {
+  nextButton: string;
+  getStartedButton: string;
+  of: string;
+}
+
 interface OnboardingProviderValue {
   theme: OnboardingTheme;
+  translations: OnboardingTranslations;
 }
 
 const OnboardingScope = createContext<OnboardingProviderValue | undefined>(undefined);
@@ -18,12 +25,14 @@ export interface OnboardingProviderProps {
   children: React.ReactNode;
   useCustomBackground: boolean;
   colors: OnboardingColors;
+  translations: OnboardingTranslations;
 }
 
 export const OnboardingProvider = ({
   children,
   useCustomBackground,
   colors,
+  translations,
 }: OnboardingProviderProps) => {
   const value = useMemo(
     () => ({
@@ -31,8 +40,9 @@ export const OnboardingProvider = ({
         colors,
         useCustomBackground,
       },
+      translations,
     }),
-    [colors, useCustomBackground]
+    [colors, useCustomBackground, translations]
   );
 
   return (

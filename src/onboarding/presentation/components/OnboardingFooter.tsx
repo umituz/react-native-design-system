@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useLocalization } from "@umituz/react-native-localization";
 import { AtomicText } from "../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
 
@@ -13,8 +12,6 @@ export interface OnboardingFooterProps {
   showProgressBar?: boolean;
   showDots?: boolean;
   showProgressText?: boolean;
-  nextButtonText?: string;
-  getStartedButtonText?: string;
   disabled?: boolean;
 }
 
@@ -26,19 +23,14 @@ export const OnboardingFooter = ({
   showProgressBar = true,
   showDots = true,
   showProgressText = true,
-  nextButtonText,
-  getStartedButtonText,
   disabled = false,
 }: OnboardingFooterProps) => {
   const insets = useSafeAreaInsets();
-  const { t } = useLocalization();
-  const {
-    theme: { colors },
-  } = useOnboardingProvider();
+  const { theme: { colors }, translations } = useOnboardingProvider();
 
   const buttonText = isLastSlide
-    ? getStartedButtonText || t("onboarding.getStarted")
-    : nextButtonText || t("general.continue");
+    ? translations.getStartedButton
+    : translations.nextButton;
 
   const progressPercent = ((currentIndex + 1) / totalSlides) * 100;
 
@@ -95,7 +87,7 @@ export const OnboardingFooter = ({
           type="labelSmall"
           style={[styles.progressText, { color: colors.progressTextColor }]}
         >
-          {currentIndex + 1} {t("general.of")} {totalSlides}
+          {currentIndex + 1} {translations.of} {totalSlides}
         </AtomicText>
       )}
     </View>

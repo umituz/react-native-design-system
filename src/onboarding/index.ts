@@ -68,7 +68,7 @@ export {
 export { OnboardingScreen, type OnboardingScreenProps } from "./presentation/screens/OnboardingScreen";
 export { OnboardingHeader, type OnboardingHeaderProps } from "./presentation/components/OnboardingHeader";
 export { OnboardingFooter, type OnboardingFooterProps } from "./presentation/components/OnboardingFooter";
-export { OnboardingProvider, type OnboardingProviderProps, useOnboardingProvider } from "./presentation/providers/OnboardingProvider";
+export { OnboardingProvider, type OnboardingProviderProps, type OnboardingTranslations, useOnboardingProvider } from "./presentation/providers/OnboardingProvider";
 export { BackgroundImageCollage, type CollageLayout, type BackgroundImageCollageProps } from "./presentation/components/BackgroundImageCollage";
 export type { OnboardingTheme, OnboardingColors } from "./presentation/types/OnboardingTheme";
 

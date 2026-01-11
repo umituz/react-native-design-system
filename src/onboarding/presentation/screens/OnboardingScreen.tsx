@@ -13,7 +13,7 @@ import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 import type { OnboardingOptions } from "../../domain/entities/OnboardingOptions";
 import { useOnboardingScreenState } from "../hooks/useOnboardingScreenState";
 import { OnboardingScreenContent } from "../components/OnboardingScreenContent";
-import { OnboardingProvider } from "../providers/OnboardingProvider";
+import { OnboardingProvider, type OnboardingTranslations } from "../providers/OnboardingProvider";
 import type { OnboardingColors } from "../types/OnboardingTheme";
 
 export interface OnboardingScreenProps extends OnboardingOptions {
@@ -59,6 +59,11 @@ export interface OnboardingScreenProps extends OnboardingOptions {
    * Theme colors for the onboarding (Optional - will use design tokens if not provided)
    */
   themeColors?: OnboardingColors;
+
+  /**
+   * All translations for the onboarding (required)
+   */
+  translations: OnboardingTranslations;
 }
 
 export const OnboardingScreen = ({
@@ -82,6 +87,7 @@ export const OnboardingScreen = ({
   useCustomBackground: globalUseCustomBackground = false,
   themeVariant = "default",
   themeColors: providedThemeColors,
+  translations,
 }: OnboardingScreenProps) => {
   if (__DEV__) {
     console.log("[OnboardingScreen] Rendering with slides:", slides?.length);
@@ -147,7 +153,7 @@ export const OnboardingScreen = ({
   }
 
   return (
-    <OnboardingProvider useCustomBackground={useCustomBackground} colors={themeColors}>
+    <OnboardingProvider useCustomBackground={useCustomBackground} colors={themeColors} translations={translations}>
       <OnboardingScreenContent
         containerStyle={[styles.container, containerStyle]}
         useCustomBackground={useCustomBackground}

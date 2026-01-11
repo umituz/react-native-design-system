@@ -127,8 +127,6 @@ export const OnboardingScreenContent = ({
           showProgressBar={showProgressBar}
           showDots={showDots}
           showProgressText={showProgressText}
-          nextButtonText={nextButtonText}
-          getStartedButtonText={getStartedButtonText}
           disabled={!isAnswerValid}
         />
       )}
