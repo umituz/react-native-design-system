@@ -72,32 +72,33 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
 
   return (
     <TouchableOpacity
-      style={containerStyle}
+      style={[
+        containerStyle,
+        iconPosition === 'right' && buttonStyles.rowReverse,
+      ]}
       onPress={handlePress}
       activeOpacity={activeOpacity}
       disabled={isDisabled}
       testID={testID}
     >
-      <View style={[buttonStyles.content, iconPosition === 'right' && buttonStyles.rowReverse]}>
-        {loading ? (
-          <AtomicSpinner
-            size="sm"
-            color={iconColor as string}
-            style={iconPosition === 'right' ? buttonStyles.iconRight : buttonStyles.iconLeft}
-          />
-        ) : showIcon ? (
-          <AtomicIcon
-            name={icon}
-            customSize={config.iconSize}
-            customColor={iconColor as string | undefined}
-            style={iconPosition === 'right' ? buttonStyles.iconRight : buttonStyles.iconLeft}
-          />
-        ) : null}
+      {loading ? (
+        <AtomicSpinner
+          size="sm"
+          color={iconColor as string}
+          style={iconPosition === 'right' ? buttonStyles.iconRight : buttonStyles.iconLeft}
+        />
+      ) : (showIcon && icon) ? (
+        <AtomicIcon
+          name={icon}
+          customSize={config.iconSize}
+          customColor={iconColor as string | undefined}
+          style={iconPosition === 'right' ? buttonStyles.iconRight : buttonStyles.iconLeft}
+        />
+      ) : null}
 
-        <AtomicText style={buttonTextStyle}>
-          {buttonText}
-        </AtomicText>
-      </View>
+      <AtomicText style={buttonTextStyle}>
+        {buttonText}
+      </AtomicText>
     </TouchableOpacity>
   );
 });

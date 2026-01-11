@@ -67,8 +67,15 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
 
   const iconColor = finalTextColor;
 
-  const content = (
-    <View style={[chipStyle, style]} testID={testID}>
+  const Component = (clickable && onPress && !disabled) ? TouchableOpacity : View;
+  const componentProps = (clickable && onPress && !disabled) ? { onPress, activeOpacity } : {};
+
+  return (
+    <Component 
+      style={[chipStyle, style]} 
+      testID={testID}
+      {...componentProps}
+    >
       {leadingIcon && (
         <AtomicIcon
           name={leadingIcon}
@@ -92,18 +99,8 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
           style={{ marginLeft: tokens.spacing.xs }}
         />
       )}
-    </View>
+    </Component>
   );
-
-  if (clickable && onPress && !disabled) {
-    return (
-      <TouchableOpacity onPress={onPress} activeOpacity={activeOpacity}>
-        {content}
-      </TouchableOpacity>
-    );
-  }
-
-  return content;
 });
 
 AtomicChip.displayName = 'AtomicChip';

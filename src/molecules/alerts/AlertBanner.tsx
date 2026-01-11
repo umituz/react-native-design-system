@@ -74,13 +74,12 @@ export function AlertBanner({ alert }: AlertBannerProps) {
             <View style={styles.content}>
                 <View style={styles.row}>
                     {alert.icon && (
-                        <View style={[styles.iconContainer, { marginRight: tokens.spacing.sm }]}>
-                            <AtomicIcon
-                                name={alert.icon}
-                                customSize={20}
-                                customColor={textColor}
-                            />
-                        </View>
+                        <AtomicIcon
+                            name={alert.icon}
+                            customSize={20}
+                            customColor={textColor}
+                            style={{ marginRight: tokens.spacing.sm }}
+                        />
                     )}
 
                     <View style={styles.textContainer}>

@@ -12,7 +12,7 @@ export const getCardVariantStyles = (variant: CardVariant, tokens: DesignTokens)
       container: {
         backgroundColor: tokens.colors.surface,
         borderWidth: 1,
-        borderColor: tokens.colors.outlineVariant || '#E0E0E0',
+        borderColor: tokens.colors.outlineVariant || tokens.colors.border,
       },
     },
     outlined: {

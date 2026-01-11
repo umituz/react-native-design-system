@@ -11,6 +11,8 @@ export {
   BaseModal,
   ConfirmationModal,
   useConfirmationModal,
+  Divider,
+  type DividerProps,
   StepProgress,
   List,
   Avatar,
