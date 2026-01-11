@@ -32,8 +32,10 @@ export function TabsNavigator<T extends ParamListBase>({
             config.initialRouteName,
             config.screens
         );
-    } catch {
-        // Silent validation failure
+    } catch (error) {
+        if (__DEV__) {
+            console.error('[TabsNavigator] Validation failed:', error);
+        }
     }
 
     // Memoize filtered screens

@@ -26,8 +26,10 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
     try {
         NavigationValidator.validateScreens(config.screens, "stack");
         NavigationValidator.validateInitialRoute(config.initialRouteName, config.screens);
-    } catch {
-        // Silent validation failure
+    } catch (error) {
+        if (__DEV__) {
+            console.error('[StackNavigator] Validation failed:', error);
+        }
     }
 
     const { screens } = config;
