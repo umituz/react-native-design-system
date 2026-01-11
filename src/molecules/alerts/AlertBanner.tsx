@@ -3,15 +3,18 @@
  *
  * Displays a banner-style alert at the top or bottom of the screen.
  * Full-width notification bar for important messages.
+ * Auto-dismisses after duration (default 3 seconds).
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType, AlertPosition } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
+
+const DEFAULT_DURATION = 3000;
 
 interface AlertBannerProps {
     alert: Alert;
@@ -23,11 +26,18 @@ export function AlertBanner({ alert }: AlertBannerProps) {
     const tokens = useAppDesignTokens();
 
     const handleDismiss = () => {
-        if (alert.dismissible) {
-            dismissAlert(alert.id);
-            alert.onDismiss?.();
-        }
+        dismissAlert(alert.id);
+        alert.onDismiss?.();
     };
+
+    // Auto-dismiss after duration
+    useEffect(() => {
+        const duration = alert.duration ?? DEFAULT_DURATION;
+        if (duration <= 0) return;
+
+        const timer = setTimeout(handleDismiss, duration);
+        return () => clearTimeout(timer);
+    }, [alert.id, alert.duration]);
 
     const getBackgroundColor = (type: AlertType): string => {
         switch (type) {

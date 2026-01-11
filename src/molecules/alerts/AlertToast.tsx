@@ -5,12 +5,14 @@
  * Floats on top of content.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
+
+const DEFAULT_DURATION = 3000;
 
 interface AlertToastProps {
     alert: Alert;
@@ -20,12 +22,25 @@ export function AlertToast({ alert }: AlertToastProps) {
     const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const tokens = useAppDesignTokens();
 
+    const dismiss = () => {
+        dismissAlert(alert.id);
+        alert.onDismiss?.();
+    };
+
     const handleDismiss = () => {
         if (alert.dismissible) {
-            dismissAlert(alert.id);
-            alert.onDismiss?.();
+            dismiss();
         }
     };
+
+    // Auto-dismiss after duration
+    useEffect(() => {
+        const duration = alert.duration ?? DEFAULT_DURATION;
+        if (duration <= 0) return;
+
+        const timer = setTimeout(dismiss, duration);
+        return () => clearTimeout(timer);
+    }, [alert.id, alert.duration]);
 
     const getBackgroundColor = (type: AlertType): string => {
         const colors = {
@@ -125,7 +140,7 @@ export function AlertToast({ alert }: AlertToastProps) {
                                 onPress={async () => {
                                     await action.onPress();
                                     if (action.closeOnPress ?? true) {
-                                        handleDismiss();
+                                        dismiss();
                                     }
                                 }}
                                 style={[

@@ -1,4 +1,4 @@
-import type { StyleProp } from 'react-native';
+import type { StyleProp, TextInputProps } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native';
 import type { IconName } from '../AtomicIcon';
 
@@ -67,6 +67,8 @@ export interface AtomicInputProps {
   multiline?: boolean;
   /** Number of lines for multiline input */
   numberOfLines?: number;
+  /** iOS text content type for AutoFill */
+  textContentType?: TextInputProps['textContentType'];
 }
 
 export type { AtomicInputProps as InputProps };

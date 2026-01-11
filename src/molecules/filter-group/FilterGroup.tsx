@@ -22,7 +22,7 @@ export function FilterGroup<T = string>({
     },
     content: {
       paddingHorizontal: tokens.spacing.md,
-      gap: tokens.spacing.sm,
+      gap: tokens.spacing.md,
       alignItems: 'center',
     },
     item: {

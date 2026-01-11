@@ -52,6 +52,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
   onFocus,
   multiline = false,
   numberOfLines,
+  textContentType,
 }, ref) => {
   const tokens = useAppDesignTokens();
 
@@ -114,7 +115,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
       fontSize: sizeConfig.fontSize,
       lineHeight: (sizeConfig.fontSize || 16) * 1.2,
       color: textColor,
-      paddingVertical: 0,
+      paddingVertical: 4,
     },
     leadingIcon ? { paddingLeft: sizeConfig.iconSize + 8 } : undefined,
     (trailingIcon || showPasswordToggle) ? { paddingRight: sizeConfig.iconSize + 8 } : undefined,
@@ -153,6 +154,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
           editable={!isDisabled}
           multiline={multiline}
           numberOfLines={numberOfLines}
+          textContentType={textContentType}
           style={textInputStyle}
           onBlur={() => {
             setIsFocused(false);

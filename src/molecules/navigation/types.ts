@@ -3,10 +3,7 @@ import type {
   BottomTabNavigationOptions,
   BottomTabScreenProps,
 } from "@react-navigation/bottom-tabs";
-import type {
-  StackNavigationOptions,
-  StackScreenProps,
-} from "@react-navigation/stack";
+import type { StackNavigationOptions } from "@react-navigation/stack";
 import type { IconName } from "../../atoms/AtomicIcon";
 
 export type NavigationParams = Record<string, unknown>;

@@ -49,6 +49,7 @@ export {
   AlertProvider,
   AlertService,
   useAlert,
+  useAlertStore,
   alertService,
   AlertType,
   AlertMode,
