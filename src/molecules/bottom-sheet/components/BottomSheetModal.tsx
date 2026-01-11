@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useCallback } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useCallback, useEffect } from 'react';
 import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
@@ -30,6 +30,17 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
     };
 
     const sheetHeight = PRESET_HEIGHTS[preset] || PRESET_HEIGHTS.medium;
+
+    useEffect(() => {
+      if (__DEV__) {
+        console.log('[BottomSheetModal] Visible state changed:', {
+          visible,
+          preset,
+          hasChildren: !!children,
+          sheetHeight,
+        });
+      }
+    }, [visible, preset, children, sheetHeight]);
 
     const present = useCallback(() => {
       if (__DEV__) console.log('[BottomSheetModal] Opening');
