@@ -107,8 +107,7 @@ export class DateFormatter {
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
-
-        const parts = [];
+        const parts: string[] = [];
 
         if (days > 0) {
             parts.push(`${days}d`);

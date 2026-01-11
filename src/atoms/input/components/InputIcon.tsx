@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { AtomicIcon } from '../../AtomicIcon';
 
 interface InputIconProps {

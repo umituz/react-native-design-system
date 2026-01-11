@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleProp, ViewStyle, TextStyle, TouchableOpacity, View } from 'react-native';
+import { StyleProp, ViewStyle, TextStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../AtomicIcon';
 import { AtomicSpinner } from '../AtomicSpinner';
