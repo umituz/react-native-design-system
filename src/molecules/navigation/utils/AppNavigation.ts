@@ -1,155 +1,148 @@
 import { NavigationContainerRef, CommonActions, StackActions } from '@react-navigation/native';
 
 /**
- * AppNavigation - Global Navigation Utility
- * 
- * Provides static access to navigation methods from anywhere in the app.
- * Must be initialized with setRef in the root NavigationContainer.
+ * Global Navigation Implementation
+ * Single source of truth for all navigation actions.
  */
-export class AppNavigation {
-    private static navigationRef: NavigationContainerRef<any> | null = null;
 
-    static setRef(ref: NavigationContainerRef<any> | null): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Setting navigation ref', !!ref);
-        }
-        this.navigationRef = ref;
-    }
+let navigationRef: NavigationContainerRef<any> | null = null;
 
-    static getRef(): NavigationContainerRef<any> | null {
-        return this.navigationRef;
+/**
+ * Set the global navigation reference.
+ * Should be called in the root NavigationContainer.
+ */
+export const setRef = (ref: NavigationContainerRef<any> | null): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Setting navigation ref', !!ref);
     }
+    navigationRef = ref;
+};
 
-    static isReady(): boolean {
-        return this.navigationRef?.isReady() ?? false;
-    }
+/**
+ * Get the current navigation reference.
+ */
+export const getRef = (): NavigationContainerRef<any> | null => navigationRef;
 
-    static canGoBack(): boolean {
-        return this.navigationRef?.canGoBack() ?? false;
-    }
+/**
+ * Check if the navigator is ready.
+ */
+export const isReady = (): boolean => navigationRef?.isReady() ?? false;
 
-    static navigate(name: string, params?: object): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Navigating to:', name, params);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.navigate(name, params);
-        }
-    }
+/**
+ * Check if the navigator can go back.
+ */
+export const canGoBack = (): boolean => navigationRef?.canGoBack() ?? false;
 
-    static push(name: string, params?: object): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Pushing:', name, params);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.dispatch(StackActions.push(name, params));
-        }
+/**
+ * Navigate to a specific route.
+ */
+export const navigate = (name: string, params?: object): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Navigating to:', name, params);
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.navigate(name, params);
+    }
+};
 
-    static goBack(): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Going back');
-        }
-        if (this.navigationRef?.isReady() && this.navigationRef.canGoBack()) {
-            this.navigationRef.goBack();
-        }
+/**
+ * Push a new route onto the stack.
+ */
+export const push = (name: string, params?: object): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Pushing:', name, params);
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.dispatch(StackActions.push(name, params));
+    }
+};
 
-    static reset(name: string, params?: object): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Resetting to:', name, params);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name, params }],
-                })
-            );
-        }
+/**
+ * Go back to the previous screen.
+ */
+export const goBack = (): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Going back');
     }
+    if (navigationRef?.isReady() && navigationRef.canGoBack()) {
+        navigationRef.goBack();
+    }
+};
 
-    static replace(name: string, params?: object): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Replacing with:', name, params);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.dispatch(StackActions.replace(name, params));
-        }
+/**
+ * Reset the navigation state.
+ */
+export const reset = (name: string, params?: object): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Resetting to:', name, params);
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name, params }],
+            })
+        );
+    }
+};
 
-    static navigateToNested(parentParams: { screen: string; params?: any }): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Navigating to nested:', parentParams);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.navigate(parentParams.screen, parentParams.params);
-        }
+/**
+ * Replace the current route.
+ */
+export const replace = (name: string, params?: object): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Replacing with:', name, params);
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.dispatch(StackActions.replace(name, params));
+    }
+};
 
-    static navigateToParent(name: string, params?: object): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Navigating to parent:', name, params);
-        }
-        if (this.navigationRef?.isReady()) {
-            const parent = this.navigationRef.getParent();
-            if (parent) {
-                parent.navigate(name, params);
-            }
-        }
+/**
+ * Pop to the top of the stack.
+ */
+export const popToTop = (): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Popping to top');
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.dispatch(StackActions.popToTop());
+    }
+};
 
-    static popToTop(): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Popping to top');
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.dispatch(StackActions.popToTop());
-        }
+/**
+ * Pop specific number of screens.
+ */
+export const pop = (count: number = 1): void => {
+    if (__DEV__) {
+        console.log('[AppNavigation] Popping:', count);
     }
+    if (navigationRef?.isReady()) {
+        navigationRef.dispatch(StackActions.pop(count));
+    }
+};
 
-    static pop(count: number = 1): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Popping:', count);
-        }
-        if (this.navigationRef?.isReady()) {
-            this.navigationRef.dispatch(StackActions.pop(count));
-        }
-    }
+/**
+ * Get the current route name.
+ */
+export const getCurrentRoute = (): string | undefined => {
+    return navigationRef?.getCurrentRoute()?.name;
+};
 
-    static getCurrentRoute(): string | undefined {
-        return this.navigationRef?.getCurrentRoute()?.name;
-    }
-
-    static getCurrentParams<T extends object>(): T | undefined {
-        return this.navigationRef?.getCurrentRoute()?.params as T | undefined;
-    }
-
-    static goToSettings(): void {
-        this.navigate('Settings');
-    }
-
-    static goToProfile(): void {
-        this.navigate('Profile');
-    }
-
-    static goToHome(): void {
-        this.navigate('Home');
-    }
-
-    static openModal(name: string, params?: object): void {
-        this.navigateToParent(name, params);
-    }
-
-    static closeModal(): void {
-        if (__DEV__) {
-            console.log('[AppNavigation] Closing modal');
-        }
-        if (this.navigationRef?.isReady()) {
-            const parent = this.navigationRef.getParent();
-            if (parent?.canGoBack()) {
-                parent.goBack();
-            }
-        }
-    }
-}
+/**
+ * Unified AppNavigation Object for both static and hook-based usage.
+ */
+export const AppNavigation = {
+    setRef,
+    getRef,
+    isReady,
+    canGoBack,
+    navigate,
+    push,
+    goBack,
+    reset,
+    replace,
+    popToTop,
+    pop,
+    getCurrentRoute,
+};
