@@ -55,7 +55,7 @@ export function getPageSlice<T>(
  */
 export function hasMoreItems<T>(
   lastPage: T[],
-  allPages: T[][],
+  _allPages: T[][],
   pageSize: number,
 ): boolean {
   // If last page has fewer items than pageSize, we've reached the end

@@ -13,9 +13,12 @@ export class ColorAdjustmentFilters {
     const adjustment = brightness * 2.55;
 
     for (let i = 0; i < result.length; i += 4) {
-      result[i] = Math.min(255, Math.max(0, result[i] + adjustment));
-      result[i + 1] = Math.min(255, Math.max(0, result[i + 1] + adjustment));
-      result[i + 2] = Math.min(255, Math.max(0, result[i + 2] + adjustment));
+      const r = result[i] ?? 0;
+      const g = result[i + 1] ?? 0;
+      const b = result[i + 2] ?? 0;
+      result[i] = Math.min(255, Math.max(0, r + adjustment));
+      result[i + 1] = Math.min(255, Math.max(0, g + adjustment));
+      result[i + 2] = Math.min(255, Math.max(0, b + adjustment));
     }
 
     return result;
@@ -49,9 +52,9 @@ export class ColorAdjustmentFilters {
     const adjustment = 1 + (saturation / 100);
 
     for (let i = 0; i < result.length; i += 4) {
-      const r = result[i];
-      const g = result[i + 1];
-      const b = result[i + 2];
+      const r = result[i] ?? 0;
+      const g = result[i + 1] ?? 0;
+      const b = result[i + 2] ?? 0;
 
       const gray = 0.299 * r + 0.587 * g + 0.114 * b;
 

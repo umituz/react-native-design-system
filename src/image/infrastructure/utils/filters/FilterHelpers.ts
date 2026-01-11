@@ -13,7 +13,9 @@ export class FilterHelpers {
     const result = new Uint8ClampedArray(originalData.length);
 
     for (let i = 0; i < originalData.length; i++) {
-      result[i] = originalData[i] * (1 - intensity) + processedData[i] * intensity;
+      const original = originalData[i] ?? 0;
+      const processed = processedData[i] ?? 0;
+      result[i] = original * (1 - intensity) + processed * intensity;
     }
 
     return result;

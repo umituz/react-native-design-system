@@ -14,7 +14,7 @@ import {
  */
 export function getFileExtension(uri: string): string | null {
   const match = uri.match(/\.([a-z0-9]+)(?:\?|$)/i);
-  return match ? match[1].toLowerCase() : null;
+  return match?.[1]?.toLowerCase() ?? null;
 }
 
 /**
@@ -33,7 +33,7 @@ export function getMimeTypeFromExtension(uri: string): string | null {
  */
 export function getMimeTypeFromDataUrl(dataUrl: string): string | null {
   const match = dataUrl.match(/^data:([^;]+);/);
-  return match ? match[1] : null;
+  return match?.[1] ?? null;
 }
 
 /**
