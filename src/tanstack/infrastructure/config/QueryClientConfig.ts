@@ -125,9 +125,9 @@ export function createQueryClient(options: QueryClientFactoryOptions = {}): Quer
       },
       mutations: {
         retry: DEFAULT_RETRY.MINIMAL,
-        onError: (error) => {
+        onError: (error: Error) => {
           if (enableDevLogging) {
-            
+
             console.error('[TanStack Query] Mutation error:', error);
           }
         },

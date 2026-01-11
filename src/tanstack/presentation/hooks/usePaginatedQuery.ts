@@ -63,7 +63,7 @@ export function useCursorPagination<TData>(options: CursorPaginationOptions<TDat
 
   const result = useInfiniteQuery({
     queryKey,
-    queryFn: ({ pageParam }) => queryFn({ pageParam }),
+    queryFn: ({ pageParam }: { pageParam: string | undefined }) => queryFn({ pageParam }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage: CursorPaginatedResponse<TData>) =>
       lastPage.hasMore ? lastPage.nextCursor : undefined,
@@ -72,7 +72,7 @@ export function useCursorPagination<TData>(options: CursorPaginationOptions<TDat
 
   const flatData = useMemo(() => {
     if (!result.data?.pages) return [];
-    return result.data.pages.flatMap((page) => page.items);
+    return result.data.pages.flatMap((page: CursorPaginatedResponse<TData>) => page.items);
   }, [result.data]);
 
   return {
@@ -104,7 +104,7 @@ export function useOffsetPagination<TData>(options: OffsetPaginationOptions<TDat
 
   const result = useInfiniteQuery({
     queryKey,
-    queryFn: ({ pageParam }) => queryFn({ pageParam }),
+    queryFn: ({ pageParam }: { pageParam: OffsetPageParam }) => queryFn({ pageParam }),
     initialPageParam: { offset: 0, limit },
     getNextPageParam: (lastPage: OffsetPaginatedResponse<TData>) => {
       const nextOffset = lastPage.offset + lastPage.limit;
@@ -115,7 +115,7 @@ export function useOffsetPagination<TData>(options: OffsetPaginationOptions<TDat
 
   const flatData = useMemo(() => {
     if (!result.data?.pages) return [];
-    return result.data.pages.flatMap((page) => page.items);
+    return result.data.pages.flatMap((page: OffsetPaginatedResponse<TData>) => page.items);
   }, [result.data]);
 
   const total = result.data?.pages?.[result.data.pages.length - 1]?.total ?? 0;

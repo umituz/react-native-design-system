@@ -81,8 +81,10 @@ class DevMonitorClass {
     if (!this.isEnabled) return;
 
     this.queryClient = queryClient;
-    queryClient.getQueryCache().subscribe((query) => {
-      this.trackQuery(query as unknown as Query);
+    queryClient.getQueryCache().subscribe((event) => {
+      if (event.query) {
+        this.trackQuery(event.query as Query);
+      }
     });
 
     if (this.options.enableLogging) {
@@ -126,10 +128,10 @@ class DevMonitorClass {
 
     return {
       totalQueries: queries.length,
-      activeQueries: queries.filter((q) => q.observers.length > 0).length,
-      cachedQueries: queries.filter((q) => q.state.data !== undefined).length,
-      staleQueries: queries.filter((q) => q.isStale()).length,
-      inactiveQueries: queries.filter((q) => q.observers.length === 0).length,
+      activeQueries: queries.filter((q: Query) => q.observers.length > 0).length,
+      cachedQueries: queries.filter((q: Query) => q.state.data !== undefined).length,
+      staleQueries: queries.filter((q: Query) => q.isStale()).length,
+      inactiveQueries: queries.filter((q: Query) => q.observers.length === 0).length,
     };
   }
 

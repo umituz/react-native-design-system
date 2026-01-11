@@ -188,7 +188,7 @@ export abstract class BaseRepository<
   invalidateAll(): Promise<void> {
     const client = this.getClient();
     return client.invalidateQueries({
-      predicate: (query) => {
+      predicate: (query: { queryKey: readonly unknown[] }) => {
         const key = query.queryKey[0] as string;
         return key === this.resource;
       },

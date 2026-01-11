@@ -66,7 +66,7 @@ export function createPersister(options: PersisterFactoryOptions = {}): Persiste
     storage: storageService,
     key: `${keyPrefix}-cache`,
     throttleTime,
-    serialize: (data) => {
+    serialize: (data: unknown) => {
       // Add metadata for cache validation
       const persistData = {
         version: busterVersion,
@@ -75,7 +75,7 @@ export function createPersister(options: PersisterFactoryOptions = {}): Persiste
       };
       return JSON.stringify(persistData);
     },
-    deserialize: (cachedString) => {
+    deserialize: (cachedString: string) => {
       try {
         const parsed = JSON.parse(cachedString);
 
