@@ -40,7 +40,6 @@ export class HealthCheck {
       const response = await fetch(this.config.healthCheckUrl, {
         method: 'HEAD',
         signal: controller.signal,
-        cache: 'no-cache',
       });
 
       clearTimeout(timeoutId);

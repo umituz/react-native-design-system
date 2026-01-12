@@ -51,6 +51,8 @@ export interface AtomicInputProps {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   /** Auto-correct */
   autoCorrect?: boolean;
+  /** Auto-complete (Android/Web) */
+  autoComplete?: TextInputProps['autoComplete'];
   /** Disabled state */
   disabled?: boolean;
   /** Container style */

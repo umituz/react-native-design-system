@@ -82,7 +82,7 @@ export interface TabNavigatorConfig<T extends ParamListBase = ParamListBase>
   screens: TabScreen[];
   /** Custom icon renderer function */
   renderIcon?: (
-    iconName: string,
+    iconName: IconName,
     focused: boolean,
     routeName: string,
     isFab: boolean

@@ -44,6 +44,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
   autoFocus,
   autoCapitalize = 'sentences',
   autoCorrect = true,
+  autoComplete,
   disabled = false,
   style,
   inputStyle,
@@ -129,7 +130,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
       <View style={containerStyle}>
         {leadingIcon && (
           <InputIcon
-            name={leadingIcon}
+            name={leadingIcon as any}
             size={sizeConfig.iconSize}
             color={iconColor}
             position="leading"
@@ -151,6 +152,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
           autoFocus={autoFocus}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
+          autoComplete={autoComplete}
           editable={!isDisabled}
           multiline={multiline}
           numberOfLines={numberOfLines}
@@ -180,7 +182,7 @@ export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
 
         {trailingIcon && !showPasswordToggle && (
           <InputIcon
-            name={trailingIcon}
+            name={trailingIcon as any}
             size={sizeConfig.iconSize}
             color={iconColor}
             position="trailing"

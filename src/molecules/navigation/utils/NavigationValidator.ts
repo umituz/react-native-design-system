@@ -1,4 +1,4 @@
-import type { TabScreen, StackScreen } from "../types";
+import type { TabScreen, StackScreen, BaseScreen } from "../types";
 
 export class NavigationValidator {
   static validateScreens(screens: TabScreen[] | StackScreen[], type: "tab" | "stack"): void {
@@ -11,7 +11,7 @@ export class NavigationValidator {
     }
 
     const screenNames = new Set<string>();
-    
+
     screens.forEach((screen, index) => {
       if (!screen.name || typeof screen.name !== "string" || screen.name.trim() === "") {
         throw new Error(`Screen at index ${index} must have a valid non-empty name`);
@@ -23,8 +23,9 @@ export class NavigationValidator {
       }
       screenNames.add(screen.name);
 
-      if (!screen.component || typeof screen.component !== "function") {
-        throw new Error(`Screen '${screen.name}' must have a valid component`);
+      const baseScreen = screen as BaseScreen;
+      if (!baseScreen.component && !baseScreen.children) {
+        throw new Error(`Screen '${screen.name}' must have a valid component or children`);
       }
 
       if (type === "tab") {
