@@ -14,6 +14,28 @@ Universal design system for React Native apps following Domain-Driven Design (DD
 - 📦 **Zero Config** - Works out of the box
 - 🪶 **Lightweight** - Smaller bundle size (no Paper dependency)
 
+## 🚫 ABSOLUTE PROHIBITIONS (Zero Tolerance)
+
+### NO ANIMATIONS - EVER
+- ❌ `Animated` from react-native is FORBIDDEN
+- ❌ `Animated.View`, `Animated.Text`, `Animated.timing()` FORBIDDEN
+- ❌ `animationType="slide"` or `"fade"` on Modal FORBIDDEN
+- ❌ `InteractionManager.runAfterInteractions` FORBIDDEN (causes screen lock)
+- ❌ `react-native-reanimated` FORBIDDEN
+- ❌ `Lottie` animations FORBIDDEN
+- ✅ Use `animationType="none"` on all Modal components
+- ✅ Use `View` instead of `Animated.View`
+
+### NO GRADIENTS - EVER
+- ❌ `LinearGradient` component is FORBIDDEN
+- ❌ `expo-linear-gradient` package is FORBIDDEN
+- ✅ Use solid colors with transparency: `rgba(0,0,0,0.5)`
+
+### NO SHADOWS - EVER
+- ❌ `shadowColor`, `shadowOffset`, `shadowOpacity`, `shadowRadius` FORBIDDEN
+- ❌ `elevation` on Android FORBIDDEN
+- ✅ Use `borderWidth` and `borderColor` for depth
+
 ## 📦 Installation
 
 ```bash
@@ -23,10 +45,8 @@ npm install @umituz/react-native-design-system
 ### Peer Dependencies
 
 ```bash
-npm install react@18.3.1 react-native@0.76.3 react-native-reanimated@~3.10.1 react-native-svg@^15.0.0
+npm install react@19.1.0 react-native@0.81.5 react-native-svg@^15.0.0 react-native-gesture-handler@^2.30.0
 ```
-
-> **v1.3.0 Breaking Change**: React Native Paper dependency removed! All components now use pure React Native implementation for lighter bundle size and full control over styling.
 
 ## 🚀 Usage
 

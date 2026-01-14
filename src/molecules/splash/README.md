@@ -244,38 +244,6 @@ export const App = () => {
 };
 ```
 
-### Animated Splash
-
-```tsx
-export const AnimatedSplash = () => {
-  const [fadeAnim] = useState(new Animated.Value(0));
-  const { isInitialized } = useSplashFlow({ duration: 2000 });
-
-  useEffect(() => {
-    if (isInitialized) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        // Hide splash after animation
-        setTimeout(() => {
-          navigation.replace('Home');
-        }, 1000);
-      });
-    }
-  }, [isInitialized]);
-
-  return (
-    <SplashScreen
-      appName="My App"
-      tagline="Welcome"
-      visible={!isInitialized}
-    />
-  );
-};
-```
-
 ### Multi-Stage Loading
 
 ```tsx
