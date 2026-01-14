@@ -1,7 +1,7 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "2.9.13",
-  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, and onboarding utilities",
+  "version": "2.9.14",
+  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -27,6 +27,7 @@
     "./filesystem": "./src/filesystem/index.ts",
     "./media": "./src/media/index.ts",
     "./tanstack": "./src/tanstack/index.ts",
+    "./loading": "./src/loading/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -51,7 +52,8 @@
     "safe-area",
     "image",
     "timezone",
-    "offline"
+    "offline",
+    "loading"
   ],
   "author": "Ümit UZ <umit@umituz.com>",
   "license": "MIT",
