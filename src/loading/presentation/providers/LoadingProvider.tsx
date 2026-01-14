@@ -3,9 +3,8 @@
  * Global loading provider with auto-detection
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
-import { useLoadingStore } from '../../infrastructure/store/LoadingStore';
 import { LoadingOverlay } from '../components/LoadingOverlay';
 import type { LoadingProviderProps } from '../../domain/types/loading.types';
 
@@ -18,8 +17,8 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   detectFetching = true,
   minDisplayTime = 300,
 }) => {
-  const { isLoading, message, show, hide } = useLoadingStore();
   const isFetching = useIsFetching();
+  const [showFetchLoading, setShowFetchLoading] = useState(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showTimeRef = useRef<number>(0);
 
@@ -32,13 +31,13 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
         hideTimeoutRef.current = null;
       }
       showTimeRef.current = Date.now();
-      show(defaultMessage, 'fetch');
-    } else if (isLoading) {
+      setShowFetchLoading(true);
+    } else if (showFetchLoading) {
       const elapsed = Date.now() - showTimeRef.current;
       const remaining = Math.max(0, minDisplayTime - elapsed);
 
       hideTimeoutRef.current = setTimeout(() => {
-        hide();
+        setShowFetchLoading(false);
         hideTimeoutRef.current = null;
       }, remaining);
     }
@@ -48,14 +47,14 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, [isFetching, detectFetching, show, hide, defaultMessage, minDisplayTime, isLoading]);
+  }, [isFetching, detectFetching, minDisplayTime, showFetchLoading]);
 
   return (
     <>
       {children}
       <LoadingOverlay
-        visible={isLoading}
-        message={message || defaultMessage}
+        visible={detectFetching && showFetchLoading}
+        message={defaultMessage}
         spinnerColor={spinnerColor}
         spinnerSize={spinnerSize}
         overlayColor={overlayColor}
