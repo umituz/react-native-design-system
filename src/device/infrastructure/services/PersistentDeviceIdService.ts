@@ -1,13 +1,4 @@
-/**
- * Persistent Device ID Service
- *
- * Provides a stable device identifier that survives app reinstalls.
- * Priority: SecureStore (survives reinstall) > Native ID > Generated UUID
- *
- * @domain device
- * @layer infrastructure/services
- */
-
+import { generateUUID } from '../../../uuid';
 import { SecureDeviceIdRepository } from '../repositories/SecureDeviceIdRepository';
 import { LegacyDeviceIdRepository } from '../repositories/LegacyDeviceIdRepository';
 import { DeviceIdService } from './DeviceIdService';
@@ -15,18 +6,22 @@ import { DeviceIdService } from './DeviceIdService';
 let cachedDeviceId: string | null = null;
 let initializationPromise: Promise<string> | null = null;
 
-function generateUUID(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
+/**
+ * Persistent Device ID Service
+ *
+ * Provides a stable device identifier that survives app reinstalls.
+ * Priority: SecureStore (true keychain persistence) > Migration > Native ID > Generated UUID
+ *
+ * @domain device
+ * @layer infrastructure/services
+ */
 export class PersistentDeviceIdService {
   private static secureRepo = new SecureDeviceIdRepository();
   private static legacyRepo = new LegacyDeviceIdRepository();
 
+  /**
+   * Get device ID with caching and concurrent request handling
+   */
   static async getDeviceId(): Promise<string> {
     if (cachedDeviceId) {
       return cachedDeviceId;
@@ -40,34 +35,60 @@ export class PersistentDeviceIdService {
     return initializationPromise;
   }
 
+  /**
+   * Logic to establish a persistent ID
+   */
   private static async initializeDeviceId(): Promise<string> {
     try {
+      // 1. Try secure repository (Keychain)
       const secureId = await this.secureRepo.get();
 
       if (secureId) {
+        if (__DEV__) {
+          console.log('[PersistentDeviceIdService] Found secure device ID:', secureId);
+        }
         cachedDeviceId = secureId;
         return secureId;
       }
 
+      // 2. Try migration from legacy storage
       const migrated = await this.migrateFromLegacy();
       if (migrated) {
+        if (__DEV__) {
+          console.log('[PersistentDeviceIdService] Migrated ID from legacy storage:', migrated);
+        }
         cachedDeviceId = migrated;
         return migrated;
       }
 
+      // 3. Create brand new ID
       const newId = await this.createNewDeviceId();
-      await this.secureRepo.set(newId);
-      await this.legacyRepo.set(newId);
-      cachedDeviceId = newId;
+      
+      // Save to both for safety during transition
+      await Promise.all([
+        this.secureRepo.set(newId),
+        this.legacyRepo.set(newId),
+      ]);
 
+      if (__DEV__) {
+        console.log('[PersistentDeviceIdService] Created new persistent ID:', newId);
+      }
+
+      cachedDeviceId = newId;
       return newId;
-    } catch {
-      const fallbackId = generateUUID();
+    } catch (error) {
+      if (__DEV__) {
+        console.error('[PersistentDeviceIdService] Initialization failed, using fallback:', error);
+      }
+      const fallbackId = `fallback_${generateUUID()}`;
       cachedDeviceId = fallbackId;
       return fallbackId;
     }
   }
 
+  /**
+   * Handles migration while ensuring it only happens once
+   */
   private static async migrateFromLegacy(): Promise<string | null> {
     try {
       const hasMigrated = await this.secureRepo.hasMigrated();
@@ -81,6 +102,7 @@ export class PersistentDeviceIdService {
         return null;
       }
 
+      // Upgrade legacy to secure storage
       await this.secureRepo.set(legacyId);
       await this.secureRepo.setMigrated();
 
@@ -90,6 +112,9 @@ export class PersistentDeviceIdService {
     }
   }
 
+  /**
+   * Generates a new ID based on platform info if possible
+   */
   private static async createNewDeviceId(): Promise<string> {
     const nativeId = await DeviceIdService.getDeviceId();
 
@@ -97,9 +122,12 @@ export class PersistentDeviceIdService {
       return `device_${nativeId}`;
     }
 
-    return `generated_${generateUUID()}`;
+    return `gen_${generateUUID()}`;
   }
 
+  /**
+   * Check if an ID exists without initializing
+   */
   static async hasStoredId(): Promise<boolean> {
     try {
       const secureId = await this.secureRepo.get();
@@ -109,16 +137,28 @@ export class PersistentDeviceIdService {
     }
   }
 
+  /**
+   * Fully clear all stored identifiers
+   */
   static async clearStoredId(): Promise<void> {
     try {
-      await this.legacyRepo.remove();
+      await Promise.all([
+        this.secureRepo.remove(),
+        this.legacyRepo.remove(),
+      ]);
       cachedDeviceId = null;
       initializationPromise = null;
+      if (__DEV__) {
+        console.log('[PersistentDeviceIdService] All device identifiers cleared');
+      }
     } catch {
       // Silent fail
     }
   }
 
+  /**
+   * Get current cached ID synchronously
+   */
   static getCachedId(): string | null {
     return cachedDeviceId;
   }

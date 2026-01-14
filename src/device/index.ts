@@ -108,7 +108,8 @@ export {
 export type {
     AnonymousUser,
     UseAnonymousUserOptions,
-} from './presentation/hooks/useAnonymousUser';
+    UseAnonymousUserResult,
+} from './domain/types/AnonymousUserTypes';
 
 export { useDeviceFeatures } from './presentation/hooks/useDeviceFeatures';
 
