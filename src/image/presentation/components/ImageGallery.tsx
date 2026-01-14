@@ -62,7 +62,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 source={{ uri: item.uri }}
                 style={styles.fullImage}
                 contentFit="contain"
-                transition={200}
+                transition={0}
                 cachePolicy="memory-disk"
             />
         </View>
@@ -74,7 +74,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         <Modal
             visible={visible}
             transparent
-            animationType="fade"
+            animationType="none"
             onRequestClose={onDismiss}
             statusBarTranslucent
         >

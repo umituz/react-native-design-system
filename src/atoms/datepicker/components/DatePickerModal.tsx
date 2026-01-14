@@ -99,7 +99,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
     <Modal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="none"
       onRequestClose={onClose}
       testID={`${testID}-modal`}
     >

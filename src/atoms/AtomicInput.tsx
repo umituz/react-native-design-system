@@ -21,7 +21,7 @@ import { InputHelper } from './input/components/InputHelper';
  * - Responsive sizing
  * - Full accessibility support
  */
-export const AtomicInput = React.forwardRef<TextInput, AtomicInputProps>(({
+export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, AtomicInputProps>(({
   variant = 'outlined',
   state = 'default',
   size = 'md',

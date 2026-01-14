@@ -43,7 +43,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
   }, [onFilterPress, onClose]);
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose}>
         <Pressable
           style={[styles.sheet, { backgroundColor: tokens.colors.surface, paddingBottom: insets.bottom }]}

@@ -4,10 +4,12 @@
  * Used across all modals in the app for consistency
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
+
+declare const __DEV__: boolean;
 
 export interface BaseModalProps {
   visible: boolean;
@@ -29,6 +31,18 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   const tokens = useAppDesignTokens();
   const { modalLayout } = useResponsive();
 
+  // Debug logging for modal visibility
+  useEffect(() => {
+    if (typeof __DEV__ !== "undefined" && __DEV__) {
+      console.log("[BaseModal] Visibility changed:", {
+        visible,
+        testID,
+        modalWidth: modalLayout.width,
+        modalHeight: modalLayout.height,
+      });
+    }
+  }, [visible, testID, modalLayout.width, modalLayout.height]);
+
   const handleBackdropPress = React.useCallback(() => {
     if (dismissOnBackdrop) {
       onClose();
@@ -37,11 +51,15 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   if (!visible) return null;
 
+  if (typeof __DEV__ !== "undefined" && __DEV__) {
+    console.log("[BaseModal] Rendering modal content:", { testID });
+  }
+
   return (
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
       statusBarTranslucent
       testID={testID}

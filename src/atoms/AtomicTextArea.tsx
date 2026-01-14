@@ -46,7 +46,7 @@ export interface AtomicTextAreaProps {
  * AtomicTextArea - Multiline Text Input Component
  * Consistent with AtomicInput but optimized for multiline usage.
  */
-export const AtomicTextArea = forwardRef<TextInput, AtomicTextAreaProps>(({
+export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, AtomicTextAreaProps>(({
   label,
   value,
   onChangeText,

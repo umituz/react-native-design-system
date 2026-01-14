@@ -96,7 +96,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       <Modal
         visible={visible}
         transparent
-        animationType="slide"
+        animationType="none"
         onRequestClose={dismiss}
         statusBarTranslucent
       >

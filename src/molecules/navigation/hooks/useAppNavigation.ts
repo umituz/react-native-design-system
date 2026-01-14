@@ -30,7 +30,7 @@ export function useAppNavigation(): AppNavigationResult {
 
   const navigate = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      (navigation.navigate as (name: string, params?: object) => void)(screen, params);
+      (navigation.navigate as unknown as (name: string, params?: object) => void)(screen, params);
     },
     [navigation]
   );

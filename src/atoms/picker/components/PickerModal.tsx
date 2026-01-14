@@ -130,7 +130,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="none"
       transparent
       onRequestClose={onClose}
       testID={`${testID}-modal`}

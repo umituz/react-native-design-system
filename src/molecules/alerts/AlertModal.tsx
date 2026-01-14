@@ -36,7 +36,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
         <Modal
             visible
             transparent
-            animationType="fade"
+            animationType="none"
             onRequestClose={handleClose}
         >
             <View style={styles.overlay}>
