@@ -12,6 +12,7 @@ import { Dimensions } from 'react-native';
 import * as Localization from 'expo-localization';
 import { DeviceInfoService } from './DeviceInfoService';
 import { ApplicationInfoService } from './ApplicationInfoService';
+import { DeviceIdService } from './DeviceIdService';
 import { PersistentDeviceIdService } from './PersistentDeviceIdService';
 
 /**
@@ -21,7 +22,12 @@ import { PersistentDeviceIdService } from './PersistentDeviceIdService';
  */
 export interface DeviceExtras {
   [key: string]: string | number | boolean | undefined;
+  /** The stable ID stored in Keychain/SecureStore */
   deviceId?: string;
+  /** Alias for deviceId for clarity in Firestore */
+  persistentDeviceId?: string;
+  /** The raw native platform ID (IDFV on iOS, Android ID on Android) */
+  nativeDeviceId?: string;
   platform?: string;
   deviceModel?: string;
   deviceBrand?: string;
@@ -77,10 +83,11 @@ function getDeviceLocale(): string | undefined {
  */
 export async function collectDeviceExtras(): Promise<DeviceExtras> {
   try {
-    const [deviceInfo, appInfo, deviceId] = await Promise.all([
+    const [deviceInfo, appInfo, deviceId, nativeDeviceId] = await Promise.all([
       DeviceInfoService.getDeviceInfo(),
       ApplicationInfoService.getApplicationInfo(),
       PersistentDeviceIdService.getDeviceId(),
+      DeviceIdService.getDeviceId(),
     ]);
 
     const locale = getDeviceLocale();
@@ -88,6 +95,8 @@ export async function collectDeviceExtras(): Promise<DeviceExtras> {
 
     return {
       deviceId,
+      persistentDeviceId: deviceId, // Explicitly named for Firestore clarity
+      nativeDeviceId: nativeDeviceId || undefined,
       platform: deviceInfo.platform,
       deviceModel: deviceInfo.modelName || undefined,
       deviceBrand: deviceInfo.brand || undefined,
