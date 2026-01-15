@@ -102,7 +102,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
             }}>
               {title && (
                 <AtomicText 
-                  type="headingMedium"
+                  type="headlineMedium"
                   style={{ 
                     textAlign: 'center',
                     marginBottom: subtitle ? tokens.spacing.xs : 0,
