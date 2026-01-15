@@ -5,9 +5,10 @@
  */
 
 import React, { useEffect } from 'react';
-import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle, Text } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
+import { AtomicText } from '../atoms/AtomicText';
 
 declare const __DEV__: boolean;
 
@@ -100,25 +101,27 @@ export const BaseModal: React.FC<BaseModalProps> = ({
               paddingBottom: tokens.spacing.md,
             }}>
               {title && (
-                <Text style={{ 
-                  fontSize: 20, 
-                  fontWeight: '700', 
-                  color: tokens.colors.textPrimary, 
-                  textAlign: 'center',
-                  marginBottom: subtitle ? tokens.spacing.xs : 0,
-                }}>
+                <AtomicText 
+                  type="headingMedium"
+                  style={{ 
+                    textAlign: 'center',
+                    marginBottom: subtitle ? tokens.spacing.xs : 0,
+                  }}
+                >
                   {title}
-                </Text>
+                </AtomicText>
               )}
               {subtitle && (
-                <Text style={{ 
-                  fontSize: 15, 
-                  color: tokens.colors.textSecondary, 
-                  textAlign: 'center', 
-                  lineHeight: 20,
-                }}>
+                <AtomicText 
+                  type="bodyMedium"
+                  style={{ 
+                    color: tokens.colors.textSecondary, 
+                    textAlign: 'center', 
+                    lineHeight: 20,
+                  }}
+                >
                   {subtitle}
-                </Text>
+                </AtomicText>
               )}
             </View>
           )}
