@@ -5,11 +5,10 @@
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
-
-import { Image } from "expo-image";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
 import { BackgroundVideo } from "./BackgroundVideo";
 import { BackgroundImageCollage } from "./BackgroundImageCollage";
+import { AtomicImage } from "../../../atoms/image/AtomicImage";
 
 interface OnboardingBackgroundProps {
   currentSlide: OnboardingSlide | undefined;
@@ -50,11 +49,13 @@ export const OnboardingBackground: React.FC<OnboardingBackgroundProps> = ({
 
     if (currentSlide.backgroundImage) {
       return (
-        <Image
+        <AtomicImage
           source={currentSlide.backgroundImage}
           style={StyleSheet.absoluteFill}
           contentFit="cover"
           transition={500}
+          cachePolicy="memory-disk"
+          priority="high"
         />
       );
     }
