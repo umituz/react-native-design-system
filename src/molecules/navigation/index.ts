@@ -3,6 +3,7 @@ export { createStackNavigator } from "./createStackNavigator";
 export { TabsNavigator, type TabsNavigatorProps } from "./TabsNavigator";
 export { StackNavigator, type StackNavigatorProps } from "./StackNavigator";
 export { FabButton, type FabButtonProps } from "./components/FabButton";
+export { NavigationContainer } from "./components/NavigationContainer";
 
 export type {
   TabScreen,
@@ -34,7 +35,7 @@ export type { NavigationCleanup } from "./utils/NavigationCleanup";
 // Navigation Utilities
 export { AppNavigation } from "./utils/AppNavigation";
 export { TabLabel, type TabLabelProps } from "./components/TabLabel";
-export * from './components/NavigationHeader';
+export * from "./components/NavigationHeader";
 export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
 export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
 export { useAppNavigation } from "./hooks/useAppNavigation";

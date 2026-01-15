@@ -1,0 +1,151 @@
+import React, { useMemo } from "react";
+import {
+  View,
+  Modal,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  ViewStyle,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  ARC_BACKGROUND,
+  OVERLAY,
+  ROW_CONFIG,
+  LAYOUT,
+  getTopRowPosition,
+  getBottomRowPosition,
+} from "./constants";
+import { CircularMenuBackground } from "./CircularMenuBackground";
+import { CircularMenuItem } from "./CircularMenuItem";
+import { CircularMenuCloseButton } from "./CircularMenuCloseButton";
+
+export interface CircularMenuAction {
+  id: string;
+  label: string;
+  icon: string;
+  onPress: () => void;
+}
+
+export interface CircularMenuProps {
+  visible: boolean;
+  onClose: () => void;
+  actions: CircularMenuAction[];
+}
+
+export const CircularMenu: React.FC<CircularMenuProps> = ({
+  visible,
+  onClose,
+  actions,
+}) => {
+  const insets = useSafeAreaInsets();
+
+  /**
+   * Determine layout based on number of items.
+   * If strictly 3 items, use the specific "Top Triangle" layout requested.
+   * Otherwise, use a generic algorithm.
+   */
+  const layoutItems = useMemo(() => {
+    if (actions.length === 3) {
+      // Triangle Layout: Top Center (Index 1), Bottom Left (Index 0), Bottom Right (Index 2)
+      return [
+        { ...actions[1], position: getTopRowPosition(0, 1) }, // Text to Video (Top Center)
+        { ...actions[0], position: getBottomRowPosition("left") }, // Text to Image (Bottom Left)
+        { ...actions[2], position: getBottomRowPosition("right") }, // Image to Video (Bottom Right)
+      ];
+    } else {
+      // Default: 2 on top, 2 on-bottom, etc.
+      // This is a fallback if actions change.
+      // For now, implementing simple distribute:
+      const topCount = Math.min(actions.length, 2);
+      const bottomCount = Math.max(0, actions.length - 2);
+      
+      const mapped = [];
+      // Top row
+      for (let i = 0; i < topCount; i++) {
+        mapped.push({
+          ...actions[i],
+          position: getTopRowPosition(i, topCount),
+        });
+      }
+      // Bottom row (left/right)
+      if (bottomCount > 0) {
+        mapped.push({
+           ...actions[2],
+           position: getBottomRowPosition("left")
+        })
+      }
+      if (bottomCount > 1) {
+         mapped.push({
+            ...actions[3],
+            position: getBottomRowPosition("right")
+         })
+      }
+      return mapped;
+    }
+  }, [actions]);
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+      statusBarTranslucent
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback>
+            <View
+              style={[
+                styles.container,
+                {
+                  paddingBottom: insets.bottom + OVERLAY.PADDING_BOTTOM_OFFSET,
+                },
+              ]}
+            >
+              <CircularMenuBackground />
+
+              <View style={styles.itemsContainer}>
+                {layoutItems.map((item) => (
+                  <View key={item.id} style={item.position as ViewStyle}>
+                    <CircularMenuItem
+                      icon={item.icon}
+                      label={item.label}
+                      onPress={item.onPress}
+                    />
+                  </View>
+                ))}
+
+                <View style={styles.closeButton}>
+                  <CircularMenuCloseButton onPress={onClose} />
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
+  },
+  container: {
+    alignItems: "center",
+  },
+  itemsContainer: {
+    width: ARC_BACKGROUND.WIDTH,
+    height: ARC_BACKGROUND.HEIGHT,
+    position: "relative",
+  },
+  closeButton: {
+    position: "absolute",
+    left: ARC_BACKGROUND.WIDTH / 2 - LAYOUT.CLOSE_BUTTON_SIZE / 2,
+    top:
+      ROW_CONFIG.CENTER_Y + ROW_CONFIG.BOTTOM_Y - LAYOUT.CLOSE_BUTTON_SIZE / 2,
+  },
+});

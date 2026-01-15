@@ -64,3 +64,4 @@ export * from './hero-section';
 export * from './info-grid';
 
 
+export * from './circular-menu';
