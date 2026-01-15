@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
+import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle, Text } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
 
@@ -18,6 +18,8 @@ export interface BaseModalProps {
   dismissOnBackdrop?: boolean;
   contentStyle?: ViewStyle;
   testID?: string;
+  title?: string;
+  subtitle?: string;
 }
 
 export const BaseModal: React.FC<BaseModalProps> = ({
@@ -27,6 +29,8 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   dismissOnBackdrop = true,
   contentStyle,
   testID = 'base-modal',
+  title,
+  subtitle,
 }) => {
   const tokens = useAppDesignTokens();
   const { modalLayout } = useResponsive();
@@ -89,6 +93,35 @@ export const BaseModal: React.FC<BaseModalProps> = ({
           ]}
           testID={`${testID}-content`}
         >
+          {(title || subtitle) && (
+            <View style={{ 
+              paddingTop: tokens.spacing.lg,
+              paddingHorizontal: tokens.spacing.md,
+              paddingBottom: tokens.spacing.md,
+            }}>
+              {title && (
+                <Text style={{ 
+                  fontSize: 20, 
+                  fontWeight: '700', 
+                  color: tokens.colors.textPrimary, 
+                  textAlign: 'center',
+                  marginBottom: subtitle ? tokens.spacing.xs : 0,
+                }}>
+                  {title}
+                </Text>
+              )}
+              {subtitle && (
+                <Text style={{ 
+                  fontSize: 15, 
+                  color: tokens.colors.textSecondary, 
+                  textAlign: 'center', 
+                  lineHeight: 20,
+                }}>
+                  {subtitle}
+                </Text>
+              )}
+            </View>
+          )}
           {children}
         </View>
       </View>

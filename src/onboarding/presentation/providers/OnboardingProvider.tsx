@@ -11,7 +11,7 @@ import type { OnboardingTheme, OnboardingColors } from "../types/OnboardingTheme
 export interface OnboardingTranslations {
   nextButton: string;
   getStartedButton: string;
-  of: string;
+  of?: string;
 }
 
 interface OnboardingProviderValue {
