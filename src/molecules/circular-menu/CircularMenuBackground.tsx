@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { useAppDesignTokens } from "../../theme/useAppDesignTokens";
+import { useAppDesignTokens } from "../../theme";
 import { ARC_BACKGROUND } from "./constants";
 
 export const CircularMenuBackground: React.FC = () => {

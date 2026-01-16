@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import { AtomicIcon } from "../../atoms/AtomicIcon";
-import { useAppDesignTokens } from "../../theme/useAppDesignTokens";
+import { AtomicIcon } from "../../atoms";
+import { useAppDesignTokens } from "../../theme";
 import { LAYOUT } from "./constants";
 
 export interface CircularMenuCloseButtonProps {

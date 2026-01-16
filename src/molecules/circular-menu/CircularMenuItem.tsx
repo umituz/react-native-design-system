@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { AtomicIcon } from "../../atoms/AtomicIcon";
-import { AtomicText } from "../../atoms/AtomicText";
-import { useAppDesignTokens } from "../../theme/useAppDesignTokens";
+import { AtomicIcon } from "../../atoms";
+import { AtomicText } from "../../atoms";
+import { useAppDesignTokens } from "../../theme";
 import { LAYOUT } from "./constants";
 
 export interface CircularMenuItemProps {

@@ -68,17 +68,17 @@ export const CircularMenu: React.FC<CircularMenuProps> = ({
         });
       }
       // Bottom row (left/right)
-      if (bottomCount > 0) {
+      if (bottomCount > 0 && actions[2]) {
         mapped.push({
            ...actions[2],
            position: getBottomRowPosition("left")
-        })
+        });
       }
-      if (bottomCount > 1) {
+      if (bottomCount > 1 && actions[3]) {
          mapped.push({
             ...actions[3],
             position: getBottomRowPosition("right")
-         })
+         });
       }
       return mapped;
     }
@@ -106,15 +106,18 @@ export const CircularMenu: React.FC<CircularMenuProps> = ({
               <CircularMenuBackground />
 
               <View style={styles.itemsContainer}>
-                {layoutItems.map((item) => (
-                  <View key={item.id} style={item.position as ViewStyle}>
-                    <CircularMenuItem
-                      icon={item.icon}
-                      label={item.label}
-                      onPress={item.onPress}
-                    />
-                  </View>
-                ))}
+                {layoutItems.map((item) => {
+                  if (!item.icon || !item.label || !item.onPress) return null;
+                  return (
+                    <View key={item.id} style={item.position as ViewStyle}>
+                      <CircularMenuItem
+                        icon={item.icon}
+                        label={item.label}
+                        onPress={item.onPress}
+                      />
+                    </View>
+                  );
+                })}
 
                 <View style={styles.closeButton}>
                   <CircularMenuCloseButton onPress={onClose} />
