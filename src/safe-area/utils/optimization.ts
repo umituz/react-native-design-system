@@ -2,24 +2,27 @@
  * Performance optimization utilities for safe area hooks
  */
 
-import { useMemo, useRef } from 'react';
-import { clearValidationCache } from './validation';
+import { useMemo, useRef } from "react";
+import { clearValidationCache } from "./validation";
 
 /**
  * Memoize options object to prevent unnecessary re-renders
- * Uses deep comparison for better stability
+ * Uses shallow comparison for better performance
  */
-export const useStableOptions = <T extends Record<string, any>>(options: T): T => {
+export const useStableOptions = <T extends Record<string, any>>(
+  options: T,
+): T => {
   const prevOptionsRef = useRef<T | undefined>(undefined);
 
   return useMemo(() => {
-    if (!prevOptionsRef.current) {
+    const prev = prevOptionsRef.current;
+
+    if (!prev) {
       prevOptionsRef.current = options;
       return options;
     }
 
-    // Check if keys match first
-    const prevKeys = Object.keys(prevOptionsRef.current);
+    const prevKeys = Object.keys(prev);
     const currentKeys = Object.keys(options);
 
     if (prevKeys.length !== currentKeys.length) {
@@ -27,14 +30,13 @@ export const useStableOptions = <T extends Record<string, any>>(options: T): T =
       return options;
     }
 
-    // Check values
-    const hasChanged = prevKeys.some(key => prevOptionsRef.current![key] !== options[key]);
+    const hasChanged = prevKeys.some((key) => prev[key] !== options[key]);
 
     if (hasChanged) {
       prevOptionsRef.current = options;
     }
 
-    return prevOptionsRef.current;
+    return prevOptionsRef.current ?? options;
   }, [options]);
 };
 
