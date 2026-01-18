@@ -80,3 +80,47 @@ export const formatFileSize = (bytes: number): string => {
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
 };
+
+// URL-based media type detection constants
+const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov", ".avi", ".mkv", ".m4v"];
+const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg"];
+const AUDIO_EXTENSIONS = [".mp3", ".wav", ".ogg", ".m4a", ".aac", ".flac"];
+
+/**
+ * Get media type from URL based on file extension
+ */
+export const getMediaTypeFromUrl = (
+  url: string
+): "image" | "video" | "audio" | "unknown" => {
+  if (!url) return "unknown";
+
+  const lowercaseUrl = url.toLowerCase();
+
+  // Extract extension (handle query params)
+  const urlWithoutParams = lowercaseUrl.split("?")[0];
+  const lastDotIndex = urlWithoutParams.lastIndexOf(".");
+  if (lastDotIndex === -1) return "unknown";
+
+  const extension = urlWithoutParams.substring(lastDotIndex);
+
+  if (VIDEO_EXTENSIONS.includes(extension)) return "video";
+  if (IMAGE_EXTENSIONS.includes(extension)) return "image";
+  if (AUDIO_EXTENSIONS.includes(extension)) return "audio";
+
+  return "unknown";
+};
+
+/**
+ * Check if URL points to a video file
+ */
+export const isVideoUrl = (url: string): boolean => {
+  return getMediaTypeFromUrl(url) === "video";
+};
+
+/**
+ * Check if URL points to an image file
+ */
+export const isImageUrl = (url: string): boolean => {
+  const mediaType = getMediaTypeFromUrl(url);
+  return mediaType === "image" || mediaType === "unknown";
+};

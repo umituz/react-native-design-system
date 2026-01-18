@@ -44,6 +44,16 @@ export type { SaveResult, SaveOptions } from "./infrastructure/services/MediaSav
 // Presentation Layer - Original Media Hooks
 export { useMedia } from "./presentation/hooks/useMedia";
 
+// Media Helper Utilities
+export {
+  getMediaTypeFromUrl,
+  isVideoUrl,
+  isImageUrl,
+  getMediaType,
+  getCardMediaType,
+  formatFileSize,
+} from "./infrastructure/utils/mediaHelpers";
+
 // Multimedia Flashcard Support
 export type {
   CardMediaType,
