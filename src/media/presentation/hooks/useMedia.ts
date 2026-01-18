@@ -45,6 +45,10 @@ export const useMedia = () => {
       setError(null);
       try {
         const result = await MediaPickerService.pickSingleImage(options);
+        // Set error from validation result if present
+        if (result.errorMessage) {
+          setError(result.errorMessage);
+        }
         return result;
       } catch (err) {
         const errorMessage =

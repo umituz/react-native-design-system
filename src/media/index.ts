@@ -20,6 +20,7 @@ export {
   ImageFormat as MediaImageFormat,
   MediaQuality,
   MediaLibraryPermission,
+  MediaValidationError,
   MEDIA_CONSTANTS,
 } from "./domain/entities/Media";
 

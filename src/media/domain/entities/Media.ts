@@ -88,6 +88,16 @@ export interface MediaPickerOptions {
   quality?: MediaQuality;
   selectionLimit?: number;
   base64?: boolean;
+  maxFileSizeMB?: number;
+}
+
+/**
+ * Media validation error types
+ */
+export enum MediaValidationError {
+  FILE_TOO_LARGE = "FILE_TOO_LARGE",
+  INVALID_FORMAT = "INVALID_FORMAT",
+  PERMISSION_DENIED = "PERMISSION_DENIED",
 }
 
 /**
@@ -111,6 +121,8 @@ export interface MediaAsset {
 export interface MediaPickerResult {
   canceled: boolean;
   assets?: MediaAsset[];
+  error?: MediaValidationError;
+  errorMessage?: string;
 }
 
 /**
@@ -128,7 +140,9 @@ export interface CameraOptions {
  * Media constants
  */
 export const MEDIA_CONSTANTS = {
-  MAX_IMAGE_SIZE: 10 * 1024 * 1024,
+  MAX_IMAGE_SIZE_MB: 5,
+  MAX_VIDEO_SIZE_MB: 100,
+  MAX_IMAGE_SIZE: 5 * 1024 * 1024,
   MAX_VIDEO_SIZE: 100 * 1024 * 1024,
   DEFAULT_QUALITY: MediaQuality.HIGH,
   DEFAULT_FORMAT: ImageFormat.JPEG,

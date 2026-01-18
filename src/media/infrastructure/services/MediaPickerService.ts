@@ -14,6 +14,7 @@ import type {
 import {
   MediaLibraryPermission,
   MediaType,
+  MediaValidationError,
   MEDIA_CONSTANTS,
 } from "../../domain/entities/Media";
 import {
@@ -115,7 +116,11 @@ export class MediaPickerService {
       const permission =
         await MediaPickerService.requestMediaLibraryPermission();
       if (permission === MediaLibraryPermission.DENIED) {
-        return { canceled: true };
+        return {
+          canceled: true,
+          error: MediaValidationError.PERMISSION_DENIED,
+          errorMessage: "Permission to access media library was denied",
+        };
       }
 
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -129,7 +134,25 @@ export class MediaPickerService {
         base64: options?.base64 ?? false,
       });
 
-      return mapPickerResult(result);
+      const mappedResult = mapPickerResult(result);
+
+      // Validate file size if not canceled and has assets
+      if (!mappedResult.canceled && mappedResult.assets && mappedResult.assets.length > 0) {
+        const maxSizeMB = options?.maxFileSizeMB ?? MEDIA_CONSTANTS.MAX_IMAGE_SIZE_MB;
+        const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+        for (const asset of mappedResult.assets) {
+          if (asset.fileSize && asset.fileSize > maxSizeBytes) {
+            return {
+              canceled: true,
+              error: MediaValidationError.FILE_TOO_LARGE,
+              errorMessage: `File size exceeds ${maxSizeMB}MB limit`,
+            };
+          }
+        }
+      }
+
+      return mappedResult;
     } catch {
       return { canceled: true };
     }
