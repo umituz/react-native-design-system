@@ -3,9 +3,9 @@
  * Handles media file validation before upload
  */
 
-import { formatFileSize } from "../utils/mediaHelpers";
+import { formatFileSize } from "../utils/media-collection-utils";
+import { getMediaDuration } from "../utils/file-media-utils";
 import type { CardMediaValidation } from "../../domain/entities/CardMultimedia.types";
-import { getMediaDuration } from "../utils/mediaHelpers";
 
 export class CardMediaValidationService {
   /**

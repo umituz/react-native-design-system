@@ -3,7 +3,7 @@
  * Handles media file validation before upload
  */
 
-import { formatFileSize } from "../utils/mediaHelpers";
+import { formatFileSize } from "../utils/media-collection-utils";
 import type { MediaValidation } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export class MediaValidationService {

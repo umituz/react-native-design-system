@@ -7,11 +7,8 @@ import type {
   MediaAttachment,
   MediaCompressionOptions,
 } from "../../domain/entities/MultimediaFlashcardTypes";
-import {
-  generateThumbnail,
-  getMediaDuration,
-  getMediaType,
-} from "../utils/mediaHelpers";
+import { generateThumbnail, getMediaDuration } from "../utils/file-media-utils";
+import { getMediaTypeFromMime } from "../utils/mime-type-detector";
 
 export class MediaUploadService {
   /**
@@ -27,7 +24,7 @@ export class MediaUploadService {
 
       const attachment: MediaAttachment = {
         id: `media_${Date.now()}`,
-        type: getMediaType(file.type),
+        type: getMediaTypeFromMime(file.type),
         position: "both",
         url: `https://storage.example.com/media/${Date.now()}_${file.name}`,
         filename: file.name,

@@ -44,15 +44,44 @@ export type { SaveResult, SaveOptions } from "./infrastructure/services/MediaSav
 // Presentation Layer - Original Media Hooks
 export { useMedia } from "./presentation/hooks/useMedia";
 
-// Media Helper Utilities
+// URL Media Detection
 export {
   getMediaTypeFromUrl,
   isVideoUrl,
   isImageUrl,
-  getMediaType,
-  getCardMediaType,
+  isAudioUrl,
+  type UrlMediaType,
+} from "./infrastructure/utils/url-media-detector";
+
+// MIME Type Detection
+export {
+  getMediaTypeFromMime,
+  isVideoMime,
+  isImageMime,
+  isAudioMime,
+  type MimeMediaType,
+} from "./infrastructure/utils/mime-type-detector";
+
+// Media URL Extraction
+export {
+  extractMediaUrl,
+  extractVideoUrl,
+  extractImageUrl,
+  type MediaUrlResult,
+} from "./infrastructure/utils/media-url-extractor";
+
+// Media Collection Utilities
+export {
+  extractMediaTypes,
+  calculateTotalSize,
   formatFileSize,
-} from "./infrastructure/utils/mediaHelpers";
+} from "./infrastructure/utils/media-collection-utils";
+
+// File Media Utilities
+export {
+  getMediaDuration,
+  generateThumbnail,
+} from "./infrastructure/utils/file-media-utils";
 
 // Multimedia Flashcard Support
 export type {

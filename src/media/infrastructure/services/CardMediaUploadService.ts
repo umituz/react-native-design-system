@@ -9,11 +9,8 @@ import type {
   CardMediaAttachment,
   CardMediaCompressionOptions,
 } from "../../domain/entities/CardMultimedia.types";
-import {
-  generateThumbnail,
-  getCardMediaType,
-  getMediaDuration,
-} from "../utils/mediaHelpers";
+import { generateThumbnail, getMediaDuration } from "../utils/file-media-utils";
+import { getMediaTypeFromMime } from "../utils/mime-type-detector";
 
 export class CardMediaUploadService {
   /**
@@ -29,7 +26,7 @@ export class CardMediaUploadService {
 
       const attachment: CardMediaAttachment = {
         id: `card_media_${Date.now()}`,
-        type: getCardMediaType(file.type),
+        type: getMediaTypeFromMime(file.type),
         position: "both",
         url: `https://storage.example.com/media/${Date.now()}_${file.name}`,
         filename: file.name,

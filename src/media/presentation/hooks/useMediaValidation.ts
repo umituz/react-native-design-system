@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { formatFileSize } from "../../infrastructure/utils/mediaHelpers";
+import { formatFileSize } from "../../infrastructure/utils/media-collection-utils";
 import type { UseMediaValidationResult } from "./multimedia.types";
 import type { MediaValidation } from "../../domain/entities/MultimediaFlashcardTypes";
 

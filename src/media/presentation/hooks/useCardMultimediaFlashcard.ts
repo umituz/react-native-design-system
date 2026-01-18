@@ -4,10 +4,7 @@
  */
 
 import React from "react";
-import {
-  calculateTotalSize,
-  extractMediaTypes,
-} from "../../infrastructure/utils/mediaHelpers";
+import { calculateTotalSize, extractMediaTypes } from "../../infrastructure/utils/media-collection-utils";
 import type { UseCardMultimediaFlashcardResult } from "./card-multimedia.types";
 import type {
   CardMediaAttachment,

@@ -4,11 +4,8 @@
  */
 
 import React from "react";
-import {
-  generateThumbnail,
-  getCardMediaType,
-  getMediaDuration,
-} from "../../infrastructure/utils/mediaHelpers";
+import { generateThumbnail, getMediaDuration } from "../../infrastructure/utils/file-media-utils";
+import { getMediaTypeFromMime } from "../../infrastructure/utils/mime-type-detector";
 import type { UseCardMediaUploadResult } from "./card-multimedia.types";
 import type {
   CardMediaAttachment,
@@ -43,7 +40,7 @@ export const useCardMediaUpload = (): UseCardMediaUploadResult => {
 
         const attachment: CardMediaAttachment = {
           id: `card_media_${Date.now()}`,
-          type: getCardMediaType(file.type),
+          type: getMediaTypeFromMime(file.type),
           position: "both",
           url: `https://storage.example.com/media/${Date.now()}_${file.name}`,
           filename: file.name,
