@@ -21,3 +21,13 @@ export { clearCache } from "./infrastructure/services/cache.service";
 
 // Services - File Reading
 export { readFile, readFileAsBase64 } from "./infrastructure/services/file-reader.service";
+
+// Utils - Base64 and File Operations
+export {
+  extractBase64FromDataUri,
+  detectMimeType,
+  getExtensionFromMimeType,
+  base64ToTempFile,
+  deleteTempFile,
+  getFileSize,
+} from "./infrastructure/utils/blob.utils";

@@ -81,6 +81,11 @@ export {
 export {
   getMediaDuration,
   generateThumbnail,
+  isBase64DataUrl,
+  isRawBase64,
+  toDataUrl,
+  saveBase64ToFile,
+  downloadMediaToFile,
 } from "./infrastructure/utils/file-media-utils";
 
 // Multimedia Flashcard Support

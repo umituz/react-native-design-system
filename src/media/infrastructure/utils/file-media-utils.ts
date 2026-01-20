@@ -1,3 +1,10 @@
+/**
+ * File Media Utilities
+ * Utilities for handling media files (base64, downloads, file operations)
+ */
+
+import { File, Paths } from "expo-file-system/next";
+
 interface FileWithType {
   readonly type: string;
 }
@@ -15,3 +22,66 @@ export function generateThumbnail(file: FileWithType): string | undefined {
   }
   return undefined;
 }
+
+/**
+ * Check if a string is a base64 data URL
+ */
+export const isBase64DataUrl = (str: string): boolean => {
+  return str.startsWith("data:image/");
+};
+
+/**
+ * Check if a string is raw base64 (not a URL and not a data URL)
+ */
+export const isRawBase64 = (str: string): boolean => {
+  return !str.startsWith("http") && !str.startsWith("data:image/") && !str.startsWith("file://");
+};
+
+/**
+ * Convert raw base64 to data URL format
+ */
+export const toDataUrl = (str: string): string => {
+  if (isBase64DataUrl(str)) return str;
+  if (isRawBase64(str)) return `data:image/jpeg;base64,${str}`;
+  return str;
+};
+
+/**
+ * Save base64 image to file system
+ */
+export const saveBase64ToFile = async (base64Data: string): Promise<string> => {
+  const timestamp = Date.now();
+  const filename = `media_${timestamp}.jpg`;
+  const file = new File(Paths.cache, filename);
+
+  const pureBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
+  const binaryString = atob(pureBase64);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  file.write(bytes);
+  return file.uri;
+};
+
+/**
+ * Download media from URL to local file
+ */
+export const downloadMediaToFile = async (url: string, isVideo: boolean): Promise<string> => {
+  const timestamp = Date.now();
+  const extension = isVideo ? "mp4" : "jpg";
+  const filename = `media_${timestamp}.${extension}`;
+  const file = new File(Paths.cache, filename);
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to download media: ${response.statusText}`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  file.write(bytes);
+
+  return file.uri;
+};
