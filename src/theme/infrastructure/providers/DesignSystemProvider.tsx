@@ -85,26 +85,29 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   // Determine if we should show loading state
   const isLoading = showLoadingIndicator && (!isInitialized || !fontsLoaded);
 
+  // Determine content to render based on loading state
+  let content: ReactNode;
+
   if (isLoading) {
     if (loadingComponent) {
-      return <>{loadingComponent}</>;
+      content = loadingComponent;
+    } else if (splashConfig) {
+      content = <SplashScreen {...splashConfig} visible={true} />;
+    } else {
+      content = (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
     }
-
-    if (splashConfig) {
-      return <SplashScreen {...splashConfig} visible={true} />;
-    }
-
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
+  } else {
+    content = children;
   }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          {children}
+        {content}
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
