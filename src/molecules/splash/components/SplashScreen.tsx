@@ -1,13 +1,22 @@
 
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Image, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "../../../safe-area";
+import { View, Image, StyleSheet, Platform, StatusBar } from "react-native";
 import { AtomicText, AtomicSpinner } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
 import type { SplashScreenProps, SplashColors } from "../types";
 import { SPLASH_CONSTANTS } from "../constants";
 
 declare const __DEV__: boolean;
+
+// Fixed safe area values for splash screen (before SafeAreaProvider initializes)
+const FIXED_SAFE_AREA = {
+  top: Platform.select({
+    ios: StatusBar.currentHeight || 44,
+    android: StatusBar.currentHeight || 0,
+    default: 0,
+  }),
+  bottom: Platform.select({ ios: 34, default: 0 }),
+};
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   icon,
@@ -20,7 +29,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   onReady,
   style,
 }: SplashScreenProps) => {
-  const insets = useSafeAreaInsets();
   const tokens = useAppDesignTokens();
   const [timedOut, setTimedOut] = useState(false);
 
@@ -69,8 +77,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   const iconPlaceholderColor = colors.iconPlaceholder ?? `${colors.text}30`;
 
   const contentStyle = {
-    paddingTop: insets.top + SPLASH_CONSTANTS.CONTENT_PADDING,
-    paddingBottom: insets.bottom + SPLASH_CONSTANTS.CONTENT_PADDING,
+    paddingTop: FIXED_SAFE_AREA.top + SPLASH_CONSTANTS.CONTENT_PADDING,
+    paddingBottom: FIXED_SAFE_AREA.bottom + SPLASH_CONSTANTS.CONTENT_PADDING,
   };
 
   const content = (
