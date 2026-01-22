@@ -96,6 +96,7 @@ export {
   FabButton,
   NavigationCleanupManager,
   AppNavigation,
+  NavigationContainer,
   TabLabel,
   NavigationHeader,
   createScreenOptions,
