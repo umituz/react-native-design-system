@@ -5,7 +5,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "../safe-area";
+import { initialWindowMetrics } from "../safe-area";
 import {
   getResponsiveLogoSize,
   getResponsiveInputHeight,
@@ -19,9 +19,22 @@ import { computeResponsiveSizes, computeOnboardingSizes } from "./compute/comput
 import { computeResponsivePositioning } from "./compute/computeResponsivePositioning";
 import type { UseResponsiveReturn } from "./types/responsiveTypes";
 
+/**
+ * Get safe area insets from initial window metrics
+ * Used before SafeAreaProvider initializes
+ */
+const getInitialSafeAreaInsets = () => {
+  if (initialWindowMetrics?.insets) {
+    return initialWindowMetrics.insets;
+  }
+
+  // Fallback to zero insets if no metrics available
+  return { top: 0, bottom: 0, left: 0, right: 0 };
+};
+
 export const useResponsive = (): UseResponsiveReturn => {
   const { width, height } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
+  const insets = getInitialSafeAreaInsets();
 
   // Memoize utility functions
   const getLogoSize = useCallback(
@@ -111,7 +124,7 @@ export const useResponsive = (): UseResponsiveReturn => {
         getGridCols,
       };
     },
-    [width, height, insets, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols], // Added callbacks to dep array
+    [width, height, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols],
   );
 
   return responsiveValues;
