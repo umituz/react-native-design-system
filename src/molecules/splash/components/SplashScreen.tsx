@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Image, StyleSheet, Platform, StatusBar } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
+import { initialWindowMetrics } from "../../../safe-area";
 import { AtomicText, AtomicSpinner } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
 import type { SplashScreenProps, SplashColors } from "../types";
@@ -8,14 +9,17 @@ import { SPLASH_CONSTANTS } from "../constants";
 
 declare const __DEV__: boolean;
 
-// Fixed safe area values for splash screen (before SafeAreaProvider initializes)
-const FIXED_SAFE_AREA = {
-  top: Platform.select({
-    ios: StatusBar.currentHeight || 44,
-    android: StatusBar.currentHeight || 0,
-    default: 0,
-  }),
-  bottom: Platform.select({ ios: 34, default: 0 }),
+/**
+ * Get safe area insets from initial window metrics
+ * Used before SafeAreaProvider initializes
+ */
+const getInitialSafeAreaInsets = () => {
+  if (initialWindowMetrics?.insets) {
+    return initialWindowMetrics.insets;
+  }
+
+  // Fallback to zero insets if no metrics available
+  return { top: 0, bottom: 0, left: 0, right: 0 };
 };
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
@@ -30,6 +34,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   style,
 }: SplashScreenProps) => {
   const tokens = useAppDesignTokens();
+  const initialInsets = getInitialSafeAreaInsets();
   const [timedOut, setTimedOut] = useState(false);
 
   const handleTimeout = useCallback(() => {
@@ -77,8 +82,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   const iconPlaceholderColor = colors.iconPlaceholder ?? `${colors.text}30`;
 
   const contentStyle = {
-    paddingTop: FIXED_SAFE_AREA.top + SPLASH_CONSTANTS.CONTENT_PADDING,
-    paddingBottom: FIXED_SAFE_AREA.bottom + SPLASH_CONSTANTS.CONTENT_PADDING,
+    paddingTop: initialInsets.top + SPLASH_CONSTANTS.CONTENT_PADDING,
+    paddingBottom: initialInsets.bottom + SPLASH_CONSTANTS.CONTENT_PADDING,
   };
 
   const content = (
