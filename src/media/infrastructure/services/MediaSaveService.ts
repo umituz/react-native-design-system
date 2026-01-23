@@ -1,14 +1,15 @@
 /**
  * Media Save Service
- * Save images and videos to device gallery
+ * Saves media to device storage using expo-file-system
  */
 
-import * as MediaLibrary from "expo-media-library";
-import { MediaType, MediaLibraryPermission } from "../../domain/entities/Media";
+import * as FileSystem from "expo-file-system";
+import { Platform } from "react-native";
+import { MediaLibraryPermission } from "../../domain/entities/Media";
 
 export interface SaveResult {
   success: boolean;
-  assetId?: string;
+  path?: string;
   error?: string;
 }
 
@@ -24,24 +25,14 @@ export class MediaSaveService {
    * Request media library write permission
    */
   static async requestPermission(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      return MediaSaveService.mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
+    return MediaLibraryPermission.GRANTED;
   }
 
   /**
    * Get current permission status
    */
   static async getPermissionStatus(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } = await MediaLibrary.getPermissionsAsync();
-      return MediaSaveService.mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
+    return MediaLibraryPermission.GRANTED;
   }
 
   /**
@@ -49,9 +40,9 @@ export class MediaSaveService {
    */
   static async saveImage(
     uri: string,
-    options?: SaveOptions
+    options?: SaveOptions,
   ): Promise<SaveResult> {
-    return MediaSaveService.saveToGallery(uri, MediaType.IMAGE, options);
+    return MediaSaveService.saveToStorage(uri, "image", options);
   }
 
   /**
@@ -59,41 +50,42 @@ export class MediaSaveService {
    */
   static async saveVideo(
     uri: string,
-    options?: SaveOptions
+    options?: SaveOptions,
   ): Promise<SaveResult> {
-    return MediaSaveService.saveToGallery(uri, MediaType.VIDEO, options);
+    return MediaSaveService.saveToStorage(uri, "video", options);
   }
 
   /**
-   * Save media (image or video) to gallery
+   * Save media (image or video) to storage
    */
-  static async saveToGallery(
+  private static async saveToStorage(
     uri: string,
-    _mediaType: MediaType = MediaType.ALL,
-    options?: SaveOptions
+    mediaType: "image" | "video",
+    options?: SaveOptions,
   ): Promise<SaveResult> {
     try {
-      const permission = await MediaSaveService.requestPermission();
+      const timestamp = Date.now();
+      const extension = mediaType === "image" ? "jpg" : "mp4";
+      const filename = `${mediaType}_${timestamp}.${extension}`;
 
-      if (permission === MediaLibraryPermission.DENIED) {
+      const directory = FileSystem.documentDirectory;
+      if (!directory) {
         return {
           success: false,
-          error: "Permission denied to save media",
+          error: "Document directory not available",
         };
       }
 
-      const asset = await MediaLibrary.createAssetAsync(uri);
+      const destination = `${directory}${filename}`;
 
-      if (options?.album) {
-        const album = await MediaSaveService.getOrCreateAlbum(options.album);
-        if (album) {
-          await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-        }
-      }
+      await FileSystem.copyAsync({
+        from: uri,
+        to: destination,
+      });
 
       return {
         success: true,
-        assetId: asset.id,
+        path: destination,
       };
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error";
@@ -101,54 +93,6 @@ export class MediaSaveService {
         success: false,
         error: `Failed to save media: ${message}`,
       };
-    }
-  }
-
-  /**
-   * Get or create album
-   */
-  private static async getOrCreateAlbum(
-    albumName: string
-  ): Promise<MediaLibrary.Album | null> {
-    try {
-      const albums = await MediaLibrary.getAlbumsAsync();
-      const existingAlbum = albums.find((album) => album.title === albumName);
-
-      if (existingAlbum) {
-        return existingAlbum;
-      }
-
-      const asset = await MediaLibrary.getAssetsAsync({ first: 1 });
-      if (asset.assets.length > 0) {
-        const newAlbum = await MediaLibrary.createAlbumAsync(
-          albumName,
-          asset.assets[0],
-          false
-        );
-        return newAlbum;
-      }
-
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
-  /**
-   * Map permission status
-   */
-  private static mapPermissionStatus(
-    status: MediaLibrary.PermissionStatus
-  ): MediaLibraryPermission {
-    switch (status) {
-      case MediaLibrary.PermissionStatus.GRANTED:
-        return MediaLibraryPermission.GRANTED;
-      case MediaLibrary.PermissionStatus.DENIED:
-        return MediaLibraryPermission.DENIED;
-      case MediaLibrary.PermissionStatus.UNDETERMINED:
-        return MediaLibraryPermission.DENIED;
-      default:
-        return MediaLibraryPermission.DENIED;
     }
   }
 }
