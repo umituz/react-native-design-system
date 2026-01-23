@@ -53,7 +53,6 @@ export const OnboardingBackground: React.FC<OnboardingBackgroundProps> = ({
           source={currentSlide.backgroundImage}
           style={StyleSheet.absoluteFill}
           contentFit="cover"
-          transition={500}
           cachePolicy="memory-disk"
           priority="high"
         />

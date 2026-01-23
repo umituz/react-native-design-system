@@ -82,7 +82,6 @@ export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = ({
           source={item.source}
           style={item.style}
           contentFit="cover"
-          transition={300}
         />
       ))}
     </View>

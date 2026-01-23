@@ -62,7 +62,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 source={{ uri: item.uri }}
                 style={styles.fullImage}
                 contentFit="contain"
-                transition={0}
                 cachePolicy="memory-disk"
             />
         </View>
