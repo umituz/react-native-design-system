@@ -9,11 +9,11 @@ export const AtomicImage: React.FC<AtomicImageProps> = ({
   style,
   rounded,
   contentFit = 'cover',
-  transition = 300,
+  transition = 0,
   ...props
 }) => {
 
-  
+
   return (
     <ExpoImage
       style={[
