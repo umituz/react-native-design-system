@@ -5,6 +5,7 @@ import type { Persister } from '@tanstack/react-query-persist-client';
 import { createQueryClient, type QueryClientFactoryOptions } from '../config/QueryClientConfig';
 import { createPersister, type PersisterFactoryOptions } from '../config/PersisterConfig';
 import { setGlobalQueryClient } from '../config/QueryClientSingleton';
+import { DevMonitor } from '../monitoring/DevMonitor';
 
 /**
  * TanStack provider props
@@ -32,6 +33,12 @@ export interface TanstackProviderProps {
    * @default true
    */
   enablePersistence?: boolean;
+
+  /**
+   * Enable DevMonitor logging (development only)
+   * @default false
+   */
+  enableDevTools?: boolean;
 
   /**
    * Custom persister instance
@@ -64,6 +71,7 @@ export function TanstackProvider({
   queryClient: providedQueryClient,
   queryClientOptions,
   enablePersistence = true,
+  enableDevTools = false,
   persister: providedPersister,
   persisterOptions,
   onPersistSuccess,
@@ -73,6 +81,11 @@ export function TanstackProvider({
   const [queryClient] = React.useState(() => {
     const client = providedQueryClient ?? createQueryClient(queryClientOptions);
     setGlobalQueryClient(client);
+
+    if (enableDevTools && typeof __DEV__ !== 'undefined' && __DEV__) {
+      DevMonitor.attach(client);
+    }
+
     return client;
   });
 

@@ -21,7 +21,7 @@ class DevMonitorClass {
     this.isEnabled = __DEV__ ?? false;
     this.options = {
       slowQueryThreshold: options.slowQueryThreshold ?? 1000,
-      enableLogging: options.enableLogging ?? true,
+      enableLogging: options.enableLogging ?? false,
       statsLogInterval: options.statsLogInterval ?? 30000,
     };
 
