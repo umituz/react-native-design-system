@@ -28,6 +28,9 @@ export const configureOffline = (config: OfflineConfig): void => {
 };
 
 export const useOffline = (config?: OfflineConfig) => {
+  if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    console.log('[useOffline] Hook called');
+  }
   const store = useOfflineStore();
   const isInitialized = useRef(false);
   const previousStateRef = useRef<NetworkState | null>(null);

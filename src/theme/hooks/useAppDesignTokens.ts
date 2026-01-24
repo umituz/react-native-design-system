@@ -25,6 +25,9 @@ import { type DesignTokens } from '../types/ThemeTypes';
  * ```
  */
 export const useAppDesignTokens = (): DesignTokens => {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.log('[useAppDesignTokens] Hook called');
+    }
     const { themeMode, customColors } = useDesignSystemTheme();
     const { spacingMultiplier, getFontSize } = useResponsive();
 
