@@ -16,7 +16,7 @@ export interface OnboardingStoreState {
 export const initialOnboardingState: OnboardingStoreState = {
   isOnboardingComplete: false,
   currentStep: 0,
-  loading: true,
+  loading: false,
   error: null,
   userData: { answers: {} },
 };
