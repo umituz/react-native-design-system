@@ -4,6 +4,7 @@
  */
 
 import { Platform } from "react-native";
+import Constants from "expo-constants";
 import type {
   EnvConfig,
   EnvAccessor,
@@ -103,6 +104,18 @@ export function createEnvConfig(
   };
 
   const getRevenueCatApiKey = (): string => {
+    // Auto-select test store key in Expo Go (appOwnership === 'expo')
+    const isExpoGo = Constants.appOwnership === "expo";
+    const testStoreKey = config.revenueCat?.testStoreKey;
+
+    if (isExpoGo && testStoreKey) {
+      if (typeof __DEV__ !== "undefined" && __DEV__) {
+        console.log("[createEnvConfig] Using RevenueCat Test Store Key (Expo Go)");
+      }
+      return testStoreKey;
+    }
+
+    // Use platform-specific production key
     const platformKey =
       Platform.OS === "ios"
         ? config.revenueCat?.iosKey ||

@@ -3,7 +3,7 @@
  * Manages app initialization state in React components
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import type {
   UseAppInitializationOptions,
   UseAppInitializationReturn,
@@ -34,42 +34,60 @@ export function useAppInitialization(
   const [isLoading, setIsLoading] = useState(!skip);
   const [error, setError] = useState<Error | null>(null);
 
-  const initialize = useCallback(async () => {
+  // Store callbacks in refs to avoid re-running effect
+  const onReadyRef = useRef(onReady);
+  const onErrorRef = useRef(onError);
+
+  useEffect(() => {
+    onReadyRef.current = onReady;
+    onErrorRef.current = onError;
+  });
+
+  useEffect(() => {
     if (skip) {
       setIsReady(true);
       setIsLoading(false);
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setError(null);
+    let cancelled = false;
 
-      const result = await initializer();
+    const initialize = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
 
-      if (!result.success && result.failedModules.length > 0) {
-        const criticalFailed = result.failedModules.length > 0;
-        if (criticalFailed) {
+        const result = await initializer();
+
+        if (cancelled) return;
+
+        if (!result.success && result.failedModules.length > 0) {
           throw new Error(
             `Initialization failed: ${result.failedModules.join(", ")}`
           );
         }
+
+        setIsReady(true);
+        onReadyRef.current?.();
+      } catch (err) {
+        if (cancelled) return;
+
+        const error = err instanceof Error ? err : new Error(String(err));
+        setError(error);
+        onErrorRef.current?.(error);
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
       }
+    };
 
-      setIsReady(true);
-      onReady?.();
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      setError(error);
-      onError?.(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [initializer, skip, onReady, onError]);
-
-  useEffect(() => {
     initialize();
-  }, [initialize]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initializer, skip]);
 
   return { isReady, isLoading, error };
 }
