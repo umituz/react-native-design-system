@@ -68,7 +68,7 @@ export class MediaSaveService {
       const extension = mediaType === "image" ? "jpg" : "mp4";
       const filename = `${mediaType}_${timestamp}.${extension}`;
 
-      const directory = FileSystem.documentDirectory;
+      const directory = (FileSystem as { documentDirectory?: string | null }).documentDirectory;
       if (!directory) {
         return {
           success: false,
