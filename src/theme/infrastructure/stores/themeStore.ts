@@ -29,6 +29,11 @@ interface ThemeActions {
   initialize: () => Promise<void>;
 }
 
+// Mutex to prevent race condition in setThemeMode
+let themeUpdateInProgress = false;
+// Mutex to prevent race condition in initialize
+let themeInitInProgress = false;
+
 /**
  * Theme Store - Global state management for theme
  *
@@ -55,6 +60,14 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
   persist: false,
   actions: (set, get) => ({
     initialize: async () => {
+      // Atomic check with mutex
+      const { isInitialized } = get();
+      if (isInitialized || themeInitInProgress) {
+        return;
+      }
+
+      themeInitInProgress = true;
+
       try {
         const savedMode = await ThemeStorage.getThemeMode();
         if (savedMode) {
@@ -79,25 +92,38 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
         set({ isInitialized: true });
         // Ensure design system store is synced even on error
         useDesignSystemTheme.getState().setThemeMode('dark');
+      } finally {
+        themeInitInProgress = false;
       }
     },
 
     setThemeMode: async (mode: ThemeMode) => {
+      // Skip if another update is in progress
+      if (themeUpdateInProgress) {
+        return;
+      }
+
+      themeUpdateInProgress = true;
+
       try {
         const theme = mode === 'light' ? lightTheme : darkTheme;
 
+        // Set state first
         set({
           themeMode: mode,
           theme,
           isDark: mode === 'dark',
         });
 
+        // Then persist (even if this fails, UI is already updated)
         await ThemeStorage.setThemeMode(mode);
 
         // Sync with design system global theme
         useDesignSystemTheme.getState().setThemeMode(mode);
       } catch {
-        // Silent failure
+        // Silent failure - UI already updated, just storage failed
+      } finally {
+        themeUpdateInProgress = false;
       }
     },
 
