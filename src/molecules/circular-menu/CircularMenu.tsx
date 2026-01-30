@@ -52,13 +52,17 @@ export const CircularMenu: React.FC<CircularMenuProps> = ({
         { ...actions[0], position: getBottomRowPosition("left") }, // Text to Image (Bottom Left)
         { ...actions[2], position: getBottomRowPosition("right") }, // Image to Video (Bottom Right)
       ];
+    } else if (actions.length === 2) {
+      // 2 items: place on bottom left and right of close button
+      return [
+        { ...actions[0], position: getBottomRowPosition("left") },
+        { ...actions[1], position: getBottomRowPosition("right") },
+      ];
     } else {
-      // Default: 2 on top, 2 on-bottom, etc.
-      // This is a fallback if actions change.
-      // For now, implementing simple distribute:
+      // Default: distribute items - top row first, then bottom
       const topCount = Math.min(actions.length, 2);
       const bottomCount = Math.max(0, actions.length - 2);
-      
+
       const mapped = [];
       // Top row
       for (let i = 0; i < topCount; i++) {

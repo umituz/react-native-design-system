@@ -2,6 +2,7 @@
  * OfflineBanner Component
  *
  * Displays a banner when the device is offline.
+ * Respects safe area insets for proper display on all devices.
  * Simple conditional rendering - NO animations per CLAUDE.md
  *
  * @example
@@ -22,7 +23,8 @@
 
 import React, { memo } from 'react';
 import { View, StyleSheet, type ViewStyle, type TextStyle } from 'react-native';
-import { AtomicText } from '../../../atoms';
+import { useSafeAreaInsets } from '../../../safe-area';
+import { AtomicText, AtomicIcon } from '../../../atoms';
 
 export interface OfflineBannerProps {
   /** Whether the banner is visible */
@@ -33,53 +35,58 @@ export interface OfflineBannerProps {
   backgroundColor?: string;
   /** Text color */
   textColor?: string;
-  /** Icon to display (emoji or custom element) */
-  icon?: string | React.ReactNode;
+  /** Icon name from design system icons */
+  iconName?: string;
   /** Position of the banner */
   position?: 'top' | 'bottom';
   /** Custom container style */
   style?: ViewStyle;
   /** Custom text style */
   textStyle?: TextStyle;
-  /** Height of the banner */
-  height?: number;
 }
 
-const DEFAULT_HEIGHT = 44;
+const CONTENT_HEIGHT = 44;
+const HORIZONTAL_PADDING = 16;
+const ICON_SIZE = 18;
 
 export const OfflineBanner: React.FC<OfflineBannerProps> = memo(({
   visible,
   message = 'No internet connection',
-  backgroundColor = '#FF6B6B',
+  backgroundColor = '#DC2626',
   textColor = '#FFFFFF',
-  icon = '📡',
+  iconName = 'wifi-off',
   position = 'top',
   style,
   textStyle,
-  height = DEFAULT_HEIGHT,
 }) => {
-  // Simple conditional rendering - no animations
+  const insets = useSafeAreaInsets();
+
   if (!visible) {
     return null;
   }
 
-  const positionStyle: ViewStyle = position === 'top' ? { top: 0 } : { bottom: 0 };
+  const isTop = position === 'top';
+  const safeAreaPadding = isTop ? insets.top : insets.bottom;
 
   return (
     <View
       style={[
         styles.container,
-        positionStyle,
-        { backgroundColor, height },
+        isTop ? styles.positionTop : styles.positionBottom,
+        {
+          backgroundColor,
+          paddingTop: isTop ? safeAreaPadding : 0,
+          paddingBottom: isTop ? 0 : safeAreaPadding,
+        },
         style,
       ]}
     >
       <View style={styles.content}>
-        {typeof icon === 'string' ? (
-          <AtomicText style={styles.icon}>{icon}</AtomicText>
-        ) : (
-          icon
-        )}
+        <AtomicIcon
+          name={iconName}
+          customSize={ICON_SIZE}
+          customColor={textColor}
+        />
         <AtomicText
           style={[styles.message, { color: textColor }, textStyle]}
           numberOfLines={1}
@@ -100,19 +107,22 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 9999,
   },
+  positionTop: {
+    top: 0,
+  },
+  positionBottom: {
+    bottom: 0,
+  },
   content: {
-    flex: 1,
+    height: CONTENT_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: HORIZONTAL_PADDING,
     gap: 8,
-  },
-  icon: {
-    fontSize: 16,
   },
   message: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });

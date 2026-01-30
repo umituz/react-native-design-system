@@ -3,7 +3,7 @@
  * Utilities for handling media files (base64, downloads, file operations)
  */
 
-import { File, Paths } from "expo-file-system/next";
+import { File as ExpoFile, Paths } from "expo-file-system/next";
 
 interface FileWithType {
   readonly type: string;
@@ -52,7 +52,7 @@ export const toDataUrl = (str: string): string => {
 export const saveBase64ToFile = async (base64Data: string): Promise<string> => {
   const timestamp = Date.now();
   const filename = `media_${timestamp}.jpg`;
-  const file = new File(Paths.cache, filename);
+  const file = new ExpoFile(Paths.cache, filename);
 
   const pureBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
   const binaryString = atob(pureBase64);
@@ -72,7 +72,7 @@ export const downloadMediaToFile = async (url: string, isVideo: boolean): Promis
   const timestamp = Date.now();
   const extension = isVideo ? "mp4" : "jpg";
   const filename = `media_${timestamp}.${extension}`;
-  const file = new File(Paths.cache, filename);
+  const file = new ExpoFile(Paths.cache, filename);
 
   const response = await fetch(url);
   if (!response.ok) {
