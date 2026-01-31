@@ -1,12 +1,4 @@
-/**
- * useTimezone Hook
- *
- * React hook for timezone operations with automatic locale integration
- * Integrates with localization package for locale-aware date/time formatting
- */
-
 import { useMemo, useCallback } from 'react';
-import { useLocalization } from '@umituz/react-native-localization';
 import { timezoneService } from '../../infrastructure/services/TimezoneService';
 import type { TimezoneInfo, TimezoneCalendarDay } from '../../domain/entities/Timezone';
 
@@ -51,24 +43,28 @@ export interface UseTimezoneReturn {
   fromNow: (date: Date) => string;
 }
 
-export const useTimezone = (): UseTimezoneReturn => {
-  const { currentLanguage } = useLocalization();
+export interface UseTimezoneOptions {
+  locale?: string;
+}
+
+export const useTimezone = (options?: UseTimezoneOptions): UseTimezoneReturn => {
+  const locale = options?.locale ?? 'en';
   const timezoneInfo = useMemo(() => timezoneService.getTimezoneInfo(), []);
 
   const formatDate = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatDate(date, currentLanguage, options), [currentLanguage]);
+    timezoneService.formatDate(date, locale, options), [locale]);
 
   const formatTime = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatTime(date, currentLanguage, options), [currentLanguage]);
+    timezoneService.formatTime(date, locale, options), [locale]);
 
   const formatDateTime = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatDateTime(date, currentLanguage, options), [currentLanguage]);
+    timezoneService.formatDateTime(date, locale, options), [locale]);
 
   const formatRelativeTime = useCallback((date: Date) =>
-    timezoneService.formatRelativeTime(date, currentLanguage), [currentLanguage]);
+    timezoneService.formatRelativeTime(date, locale), [locale]);
 
   const fromNow = useCallback((date: Date) =>
-    timezoneService.fromNow(date, currentLanguage), [currentLanguage]);
+    timezoneService.fromNow(date, locale), [locale]);
 
   const getCalendarDays = useCallback((year: number, month: number) =>
     timezoneService.getCalendarDays(year, month), []);

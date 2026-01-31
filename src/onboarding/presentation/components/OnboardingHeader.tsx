@@ -2,7 +2,6 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { AtomicIcon, useIconName } from "../../../atoms";
 import { AtomicText } from "../../../atoms/AtomicText";
-import { useLocalization } from "@umituz/react-native-localization";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
 
 export interface OnboardingHeaderProps {
@@ -22,13 +21,10 @@ export const OnboardingHeader = ({
   showSkipButton = true,
   skipButtonText,
 }: OnboardingHeaderProps) => {
-  const { t } = useLocalization();
   const {
     theme: { colors },
   } = useOnboardingProvider();
   const chevronLeftIcon = useIconName('chevronLeft');
-
-  const skipText = skipButtonText || t("onboarding.skip");
 
   return (
     <View style={styles.header}>
@@ -52,13 +48,13 @@ export const OnboardingHeader = ({
       ) : (
         <View style={styles.headerButton} />
       )}
-      {showSkipButton ? (
+      {showSkipButton && skipButtonText ? (
         <TouchableOpacity onPress={onSkip} activeOpacity={0.7}>
           <AtomicText
             type="labelLarge"
             style={[styles.skipText, { color: colors.textColor }]}
           >
-            {skipText}
+            {skipButtonText}
           </AtomicText>
         </TouchableOpacity>
       ) : <View />}

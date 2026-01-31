@@ -1,8 +1,3 @@
-/**
- * QuestionSlide Component
- * Single Responsibility: Render a question-type slide
- */
-
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { AtomicText } from "../../../atoms/AtomicText";
@@ -11,24 +6,24 @@ import { QuestionSlideHeader } from "./QuestionSlideHeader";
 import { QuestionRenderer } from "./QuestionRenderer";
 import { BaseSlide } from "./BaseSlide";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
-import { useLocalization } from "@umituz/react-native-localization";
 
 export interface QuestionSlideProps {
   slide: OnboardingSlide;
   value: any;
   onChange: (value: any) => void;
   variant?: "default" | "card" | "minimal" | "fullscreen";
+  fieldRequiredText?: string;
 }
 
 export const QuestionSlide = ({
   slide,
   value,
   onChange,
+  fieldRequiredText,
 }: QuestionSlideProps) => {
   const {
     theme: { colors },
   } = useOnboardingProvider();
-  const { t } = useLocalization();
   const { question } = slide;
 
   if (!question) return null;
@@ -41,12 +36,12 @@ export const QuestionSlide = ({
         <QuestionRenderer question={question} value={value} onChange={onChange} />
       </View>
 
-      {question.validation?.required && !value && (
+      {question.validation?.required && !value && fieldRequiredText && (
         <AtomicText
           type="labelSmall"
           style={[styles.requiredHint, { color: colors.errorColor }]}
         >
-          {t("onboarding.fieldRequired")}
+          {fieldRequiredText}
         </AtomicText>
       )}
     </BaseSlide>
