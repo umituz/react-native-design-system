@@ -1,30 +1,42 @@
 /**
- * AtomicIcon - Theme-aware Icon Component
+ * AtomicIcon - Agnostic Icon Component
  *
- * Uses @expo/vector-icons/Ionicons internally
- * Adds theme-aware semantic colors and background support
+ * This component is completely icon-library agnostic.
+ * Apps MUST provide their own icon renderer via DesignSystemProvider.
+ *
+ * @example
+ * // In your app, provide an icon renderer:
+ * import { MaterialIcons } from '@expo/vector-icons';
+ *
+ * <DesignSystemProvider
+ *   iconRenderer={({ name, size, color }) => (
+ *     <MaterialIcons name={name} size={size} color={color} />
+ *   )}
+ * >
+ *   <App />
+ * </DesignSystemProvider>
+ *
+ * // Then use AtomicIcon anywhere:
+ * <AtomicIcon name="favorite" size="md" color="primary" />
  */
 
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Svg, { Path } from "react-native-svg";
-import { useAppDesignTokens } from '../theme';
+import { useAppDesignTokens } from "../theme";
+import { useIconRenderer, type IconRenderProps } from "./IconRegistry";
 import {
   type IconSize as BaseIconSize,
-  type IconName,
   type IconColor,
 } from "./AtomicIcon.types";
 
-// Re-export IconSize for convenience
 export type IconSize = BaseIconSize;
-export type { IconName, IconColor };
-
-const FALLBACK_ICON = "help-circle-outline";
+export type IconName = string;
+export type { IconColor, IconRenderProps };
 
 export interface AtomicIconProps {
-  /** Icon name (Ionicons) */
-  name?: IconName;
+  /** Icon name - interpreted by the app's icon renderer */
+  name?: string;
   /** Semantic size preset */
   size?: IconSize;
   /** Custom size in pixels (overrides size) */
@@ -33,7 +45,7 @@ export interface AtomicIconProps {
   color?: IconColor;
   /** Custom color (overrides color) */
   customColor?: string;
-  /** Custom SVG path for generic icons */
+  /** Custom SVG path for inline SVG icons */
   svgPath?: string;
   /** ViewBox for custom SVG (default: 0 0 24 24) */
   svgViewBox?: string;
@@ -74,117 +86,147 @@ const getSemanticColor = (
 };
 
 /**
- * Theme-aware icon component
- *
- * @example
- * <AtomicIcon name="heart-outline" size="md" color="primary" />
- * <AtomicIcon name="star" customSize={32} customColor="#FFD700" />
- * <AtomicIcon name="settings" size="lg" withBackground />
+ * Agnostic icon component - requires iconRenderer in DesignSystemProvider
  */
-export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(({
-  name,
-  size = "md",
-  customSize,
-  color,
-  customColor,
-  withBackground = false,
-  backgroundColor,
-  svgPath,
-  svgViewBox = "0 0 24 24",
-  accessibilityLabel,
-  testID,
-  style,
-}) => {
-  const tokens = useAppDesignTokens();
-
-  // Calculate size
-  const baseSize = customSize ?? size;
-  const iconSizesMap = tokens.iconSizes as Record<string, number>;
-  const sizeInPixels: number = typeof baseSize === 'number'
-    ? baseSize * tokens.spacingMultiplier
-    : iconSizesMap[baseSize] ?? iconSizesMap['md'] ?? 24;
-
-  // Calculate color
-  const iconColor = customColor
-    ? customColor
-    : color
-      ? getSemanticColor(color, tokens)
-      : tokens.colors.textPrimary;
-
-  // Validate icon - use fallback and log warning in DEV if invalid
-  const isInvalidIcon = name && !(name in Ionicons.glyphMap);
-  const iconName = name && !isInvalidIcon ? name : FALLBACK_ICON;
-
-  if (__DEV__ && isInvalidIcon) {
-    console.warn(`[DesignSystem] Invalid icon name: "${name}". Falling back to "${FALLBACK_ICON}"`);
-  }
-
-  const iconProps = {
-    testID,
+export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
+  ({
+    name,
+    size = "md",
+    customSize,
+    color,
+    customColor,
+    withBackground = false,
+    backgroundColor,
+    svgPath,
+    svgViewBox = "0 0 24 24",
     accessibilityLabel,
-    style: [
-      !svgPath && {
-        padding: 4, // Prevent font truncation
-        includeFontPadding: false, // Android specific
-      },
-      style,
-    ] as StyleProp<ViewStyle>,
-  };
+    testID,
+    style,
+  }) => {
+    const tokens = useAppDesignTokens();
+    const iconRenderer = useIconRenderer();
 
-  if (svgPath) {
-    return (
-      <Svg
-        viewBox={svgViewBox}
-        width={sizeInPixels}
-        height={sizeInPixels}
-        key="custom-svg-icon"
-        {...iconProps}
-      >
-        <Path
-          d={svgPath}
-          fill={iconColor}
-        />
-      </Svg>
-    );
-  }
+    // Calculate size
+    const baseSize = customSize ?? size;
+    const iconSizesMap = tokens.iconSizes as Record<string, number>;
+    const sizeInPixels: number =
+      typeof baseSize === "number"
+        ? baseSize * tokens.spacingMultiplier
+        : iconSizesMap[baseSize] ?? iconSizesMap["md"] ?? 24;
 
-  const iconElement = (
-    <Ionicons
-      name={iconName as keyof typeof Ionicons.glyphMap}
-      size={sizeInPixels}
-      color={iconColor}
-      {...iconProps}
-    />
-  );
+    // Calculate color
+    const iconColor = customColor
+      ? customColor
+      : color
+        ? getSemanticColor(color, tokens)
+        : tokens.colors.textPrimary;
 
-  if (withBackground) {
-    const bgColor = backgroundColor || tokens.colors.surfaceVariant;
-    const containerSize = sizeInPixels + 16;
+    // SVG path rendering (built-in, no external dependency)
+    if (svgPath) {
+      const svgElement = (
+        <Svg
+          viewBox={svgViewBox}
+          width={sizeInPixels}
+          height={sizeInPixels}
+          key="custom-svg-icon"
+          testID={testID}
+          accessibilityLabel={accessibilityLabel}
+        >
+          <Path d={svgPath} fill={iconColor} />
+        </Svg>
+      );
 
-    return (
-      <View
-        style={[
-          styles.backgroundContainer,
-          {
-            width: containerSize,
-            height: containerSize,
-            borderRadius: containerSize / 2,
-            backgroundColor: bgColor,
-          },
+      if (withBackground) {
+        return renderWithBackground(
+          svgElement,
+          sizeInPixels,
+          backgroundColor || tokens.colors.surfaceVariant,
           style,
-        ]}
-        testID={testID}
-        accessibilityLabel={accessibilityLabel}
-      >
-        {iconElement}
-      </View>
-    );
-  }
+          testID,
+          accessibilityLabel
+        );
+      }
 
-  return iconElement;
-});
+      return svgElement;
+    }
+
+    // No icon renderer provided - warn in dev and render nothing
+    if (!iconRenderer) {
+      if (__DEV__) {
+        console.warn(
+          "[DesignSystem] AtomicIcon requires an iconRenderer in DesignSystemProvider.\n" +
+            "Example:\n" +
+            "<DesignSystemProvider\n" +
+            '  iconRenderer={({ name, size, color }) => (\n' +
+            '    <YourIconLibrary name={name} size={size} color={color} />\n' +
+            "  )}\n" +
+            ">"
+        );
+      }
+      return null;
+    }
+
+    // Build render props
+    const renderProps: IconRenderProps = {
+      name: name || "",
+      size: sizeInPixels,
+      color: iconColor,
+      style: style as StyleProp<ViewStyle>,
+      testID,
+      accessibilityLabel,
+    };
+
+    const iconElement = iconRenderer(renderProps);
+
+    if (withBackground) {
+      return renderWithBackground(
+        iconElement,
+        sizeInPixels,
+        backgroundColor || tokens.colors.surfaceVariant,
+        style,
+        testID,
+        accessibilityLabel
+      );
+    }
+
+    return <>{iconElement}</>;
+  }
+);
 
 AtomicIcon.displayName = "AtomicIcon";
+
+/**
+ * Helper to render icon with circular background
+ */
+function renderWithBackground(
+  iconElement: React.ReactNode,
+  sizeInPixels: number,
+  bgColor: string,
+  style: StyleProp<ViewStyle> | undefined,
+  testID: string | undefined,
+  accessibilityLabel: string | undefined
+): React.ReactElement {
+  const containerSize = sizeInPixels + 16;
+
+  return (
+    <View
+      style={[
+        styles.backgroundContainer,
+        {
+          width: containerSize,
+          height: containerSize,
+          borderRadius: containerSize / 2,
+          backgroundColor: bgColor,
+        },
+        style,
+      ]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+    >
+      {iconElement}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   backgroundContainer: {
@@ -192,5 +234,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-

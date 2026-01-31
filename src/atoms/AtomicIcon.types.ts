@@ -1,25 +1,17 @@
 /**
  * Icon Type Definitions
- * Centralized icon types for @expo/vector-icons Ionicons
+ * Agnostic icon types - no dependency on any icon library
  */
-
-import type { Ionicons } from "@expo/vector-icons";
 
 /**
- * All available Ionicons names (type-safe)
+ * Icon name - just a string, interpreted by app's icon renderer
  */
-export type IoniconsName = keyof typeof Ionicons.glyphMap;
-
-/**
- * Icon name - either Ionicons or custom string
- */
-export type IconName = IoniconsName | string;
+export type IconName = string;
 
 /**
  * Semantic icon size presets
  */
 export type IconSizePreset = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-
 
 /**
  * Icon size - preset name or custom number in pixels
@@ -50,25 +42,25 @@ export type IconColor =
  * Icon size mapping to pixels
  */
 export const ICON_SIZES: Record<IconSizePreset, number> = {
-    xs: 12,
-    sm: 16,
-    md: 20,
-    lg: 24,
-    xl: 32,
-    xxl: 48,
+  xs: 12,
+  sm: 16,
+  md: 20,
+  lg: 24,
+  xl: 32,
+  xxl: 48,
 } as const;
 
 /**
  * Get icon size in pixels
  */
 export function getIconSize(size: IconSize): number {
-    if (typeof size === "number") return size;
-    return ICON_SIZES[size];
+  if (typeof size === "number") return size;
+  return ICON_SIZES[size];
 }
 
 /**
  * Check if size is a preset
  */
 export function isIconSizePreset(size: IconSize): size is IconSizePreset {
-    return typeof size === "string" && size in ICON_SIZES;
+  return typeof size === "string" && size in ICON_SIZES;
 }

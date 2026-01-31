@@ -40,7 +40,16 @@ export {
     type IconSize,
     type IconColor,
     type IconName,
+    type IconRenderProps,
 } from './AtomicIcon';
+
+// Icon Registry (for custom icon renderers)
+export {
+    IconProvider,
+    useIconRenderer,
+    useHasCustomIconRenderer,
+    type IconRenderer,
+} from './IconRegistry';
 
 
 // Avatar

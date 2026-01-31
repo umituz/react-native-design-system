@@ -19,7 +19,7 @@ export interface AtomicBadgeProps {
     variant?: BadgeVariant;
     /** Size preset */
     size?: BadgeSize;
-    /** Optional icon name (Ionicons) */
+    /** Optional icon name (interpreted by app's icon renderer) */
     icon?: IconName;
     /** Icon position */
     iconPosition?: "left" | "right";

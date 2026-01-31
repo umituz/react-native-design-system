@@ -77,6 +77,9 @@ export { useCommonStyles } from './hooks/useCommonStyles';
 
 export { DesignSystemProvider } from './infrastructure/providers/DesignSystemProvider';
 
+// Re-export icon types for convenience
+export type { IconRenderer, IconRenderProps } from '../atoms/IconRegistry';
+
 // =============================================================================
 // THEME OBJECTS
 // =============================================================================

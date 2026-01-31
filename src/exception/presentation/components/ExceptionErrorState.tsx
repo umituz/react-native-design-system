@@ -16,7 +16,7 @@ import {
 } from "../../../theme";
 
 export interface ExceptionErrorStateProps {
-  /** Icon name from Ionicons */
+  /** Icon name (interpreted by app's icon renderer) */
   icon?: string;
   /** Error title */
   title: string;

@@ -14,7 +14,7 @@ import { InputHelper } from './input/components/InputHelper';
  *
  * Features:
  * - Pure React Native implementation (no Paper dependency)
- * - Ionicons for password toggle and custom icons
+ * - Icon support via AtomicIcon (app provides renderer)
  * - Outlined/filled/flat variants
  * - Error, success, disabled states
  * - Character counter

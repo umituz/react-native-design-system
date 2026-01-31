@@ -8,6 +8,7 @@ import { useDesignSystemTheme } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
+import { IconProvider, type IconRenderer } from '../../../atoms/IconRegistry';
 
 
 interface DesignSystemProviderProps {
@@ -16,7 +17,7 @@ interface DesignSystemProviderProps {
   /** Custom theme colors to override defaults */
   customColors?: CustomThemeColors;
   /** Custom fonts to load (name -> source map) */
-  fonts?: Record<string, any>; 
+  fonts?: Record<string, any>;
   /** Show loading indicator while initializing (default: true) */
   showLoadingIndicator?: boolean;
   /** Splash screen configuration (used when showLoadingIndicator is true) */
@@ -27,6 +28,15 @@ interface DesignSystemProviderProps {
   onInitialized?: () => void;
   /** Callback when initialization fails */
   onError?: (error: unknown) => void;
+  /**
+   * Custom icon renderer function
+   * Allows apps to use their own icon library instead of Ionicons
+   * @example
+   * iconRenderer={({ name, size, color }) => (
+   *   <MaterialIcons name={name} size={size} color={color} />
+   * )}
+   */
+  iconRenderer?: IconRenderer;
 }
 
 /**
@@ -42,6 +52,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   loadingComponent,
   onInitialized,
   onError,
+  iconRenderer,
 }: DesignSystemProviderProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
   
@@ -104,10 +115,17 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     content = children;
   }
 
+  // Wrap with IconProvider if custom renderer provided
+  const wrappedContent = iconRenderer ? (
+    <IconProvider renderIcon={iconRenderer}>{content}</IconProvider>
+  ) : (
+    content
+  );
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        {content}
+        {wrappedContent}
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

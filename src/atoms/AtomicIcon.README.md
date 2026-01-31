@@ -1,316 +1,185 @@
 # AtomicIcon
 
-A theme-aware icon component using Ionicons with semantic sizing and colors.
+A theme-aware, **icon-library agnostic** icon component with semantic sizing and colors.
+
+## Setup - Icon Renderer (Required)
+
+AtomicIcon requires an icon renderer to be provided via `DesignSystemProvider`. This allows your app to use ANY icon library.
+
+```tsx
+// App.tsx or your root component
+import { Ionicons } from '@expo/vector-icons';
+// OR MaterialIcons, Feather, FontAwesome, etc.
+
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <Ionicons name={name} size={size} color={color} />
+  )}
+>
+  <App />
+</DesignSystemProvider>
+```
 
 ## Import & Usage
 
 ```typescript
-import { AtomicIcon } from 'react-native-design-system/src/atoms/AtomicIcon';
+import { AtomicIcon } from '@umituz/react-native-design-system';
 ```
-
-**Location:** `src/atoms/AtomicIcon.tsx`
 
 ## Basic Usage
 
 ```tsx
 <AtomicIcon name="heart" />
+<AtomicIcon name="heart" size="lg" color="primary" />
+<AtomicIcon name="settings" customSize={32} customColor="#FF0000" />
 ```
 
 ## Strategy
 
-**Purpose**: Provide consistent, accessible icons with theme integration.
+**Purpose**: Provide consistent, accessible icons with theme integration while allowing apps to choose their icon library.
 
-**When to Use**:
-- Navigation icons (tabs, headers, buttons)
-- Action indicators (favorites, settings, search)
-- Status indicators (success, error, warning)
-- Decorative icons with semantic meaning
-
-**When NOT to Use**:
-- For images or photos (use Image component)
-- When custom icon graphics are needed (use SVG)
-- For non-icon graphics or illustrations
-
-## Rules
-
-### Required
-
-1. **MUST** provide `name` prop (valid Ionicons name)
-2. **ALWAYS** use appropriate size for context
-3. **SHOULD** use semantic colors when meaningful
-4. **MUST** provide accessibility label if not decorative
-5. **ALWAYS** validate icon name exists
-6. **SHOULD** use consistent sizing within context
-7. **MUST** handle invalid icon names gracefully
-
-### Size Guidelines
-
-1. **xs (16px)**: Inline text, tiny badges
-2. **sm (20px)**: List items, compact buttons
-3. **md (24px)**: Default, most use cases
-4. **lg (28px)**: Emphasis, large buttons
-5. **xl (32px)**: Headers, featured icons
-
-### Color Semantics
-
-1. **primary**: Primary actions, active states
-2. **success**: Success states, confirmations
-3. **warning**: Warning states, cautions
-4. **error**: Error states, destructive actions
-5. **secondary**: Secondary actions, inactive states
-
-### Background Usage
-
-1. **Use for**: Floating action buttons, avatar icons
-2. **Don't overuse**: Not every icon needs background
-3. **Match colors**: Background should complement icon
-
-## Forbidden
-
-❌ **NEVER** do these:
-
-```tsx
-// ❌ No icon name
-<AtomicIcon /> {/* ❌ Missing required prop */}
-
-// ❌ Invalid icon name
-<AtomicIcon name="invalid-icon-name" /> {/* ❌ Shows fallback */}
-
-// ❌ Wrong size for context
-<Button>
-  <AtomicIcon name="add" size="xxl" /> {/* ❌ Too large */}
-</Button>
-
-// ❌ Inconsistent sizes
-<View style={{ flexDirection: 'row' }}>
-  <AtomicIcon name="home" size="xs" />
-  <AtomicIcon name="settings" size="xl" /> {/* ❌ Inconsistent */}
-</View>
-
-// ❌ Decorative icon not hidden
-<AtomicIcon
-  name="sparkles"
-  // ❌ Should have accessibilityElementsHidden
-/>
-
-// ❌ Confusing color semantics
-<AtomicIcon
-  name="trash"
-  color="success" {/* ❌ Trash should be error/danger */}
-/>
-
-// ❌ Background for every icon
-<AtomicIcon
-  name="home"
-  withBackground {/* ❌ Unnecessary */}
-/>
-```
-
-## Best Practices
-
-### Size Selection
-
-✅ **DO**:
-```tsx
-// ✅ Inline with text
-<AtomicText>
-  <AtomicIcon name="star" size="xs" /> Featured
-</AtomicText>
-
-// ✅ Button icons
-<Button>
-  <AtomicIcon name="add" size="sm" />
-</Button>
-
-// ✅ Tab icons
-<TabBar>
-  <TabIcon icon="home" size="md" />
-</TabBar>
-```
-
-❌ **DON'T**:
-```tsx
-// ❌ Wrong sizes
-<Button>
-  <AtomicIcon name="add" size="xl" /> {/* Too large */}
-</Button>
-
-<AtomicText>
-  <AtomicIcon name="star" size="xl" /> Featured {/* Too large */}
-</AtomicText>
-```
-
-### Semantic Colors
-
-✅ **DO**:
-```tsx
-// ✅ Meaningful colors
-<AtomicIcon name="checkmark-circle" color="success" />
-<AtomicIcon name="warning" color="warning" />
-<AtomicIcon name="close-circle" color="error" />
-<AtomicIcon name="heart" color="primary" />
-```
-
-❌ **DON'T**:
-```tsx
-// ❌ Confusing colors
-<AtomicIcon name="trash" color="success" />
-<AtomicIcon name="checkmark" color="error" />
-```
-
-### Background Usage
-
-✅ **DO**:
-```tsx
-// ✅ FAB icons
-<AtomicIcon
-  name="add"
-  size="md"
-  withBackground
-  color="primary"
-/>
-
-// ✅ Status icons
-<AtomicIcon
-  name="checkmark"
-  size="sm"
-  withBackground
-  color="success"
-  backgroundColor="#d4edda"
-/>
-```
-
-❌ **DON'T**:
-```tsx
-// ❌ Unnecessary background
-<AtomicIcon
-  name="home"
-  withBackground {/* Not needed */}
-/>
-```
-
-## AI Coding Guidelines
-
-### For AI Agents
-
-When generating AtomicIcon components, follow these rules:
-
-1. **Always provide valid icon name**:
-   ```tsx
-   // ✅ Good - valid Ionicons
-   <AtomicIcon name="home" />
-   <AtomicIcon name="settings-outline" />
-   <AtomicIcon name="chevron-forward" />
-
-   // ❌ Bad - invalid names
-   <AtomicIcon name="invalid-icon" />
-   <AtomicIcon name="home_icon" />
-   ```
-
-2. **Always use appropriate size**:
-   ```tsx
-   // ✅ Good - size matches context
-   <Button>
-     <AtomicIcon name="add" size="sm" />
-   </Button>
-   <TabIcon icon="home" size="md" />
-
-   // ❌ Bad - wrong size
-   <Button>
-     <AtomicIcon name="add" size="xl" />
-   </Button>
-   ```
-
-3. **Always use semantic colors meaningfully**:
-   ```tsx
-   // ✅ Good - meaningful colors
-   <AtomicIcon name="checkmark" color="success" />
-   <AtomicIcon name="warning" color="warning" />
-   <AtomicIcon name="trash" color="error" />
-
-   // ❌ Bad - confusing colors
-   <AtomicIcon name="trash" color="success" />
-   ```
-
-4. **Always provide accessibility context**:
-   ```tsx
-   // ✅ Good - accessible
-   <AtomicIcon
-     name="menu"
-     accessibilityLabel="Open menu"
-     accessibilityRole="button"
-   />
-
-   // ❌ Bad - not accessible
-   <AtomicIcon name="menu" />
-   ```
-
-### Common Patterns
-
-#### Basic Icon
-```tsx
-<AtomicIcon name="heart" />
-```
-
-#### With Text
-```tsx
-<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <AtomicIcon name="star" size="sm" color="warning" />
-  <AtomicText>Featured</AtomicText>
-</View>
-```
-
-#### Button Icon
-```tsx
-<Button onPress={handleAction}>
-  <AtomicIcon name="add" size="sm" color="white" />
-</Button>
-```
-
-#### Status Icon
-```tsx
-<AtomicIcon
-  name="checkmark-circle"
-  size="lg"
-  color="success"
-  accessibilityLabel="Completed"
-/>
-```
+**Key Benefits**:
+- ✅ Use ANY icon library (Ionicons, MaterialIcons, Feather, FontAwesome, etc.)
+- ✅ Theme-aware semantic colors
+- ✅ Consistent sizing across the app
+- ✅ No forced dependencies
 
 ## Props Reference
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
-| `name` | `IconName` | Yes | - | Ionicons icon name |
-| `size` | `IconSize` | No | `'md'` | Icon size |
-| `customSize` | `number` | No | - | Custom size (px) |
-| `color` | `IconColor` | No | - | Semantic color |
-| `customColor` | `string` | No | - | Custom color |
-| `svgPath` | `string` | No | - | Custom SVG path |
+| `name` | `string` | Yes | - | Icon name (interpreted by your renderer) |
+| `size` | `IconSize` | No | `'md'` | Semantic size preset |
+| `customSize` | `number` | No | - | Custom size in pixels |
+| `color` | `IconColor` | No | - | Semantic color from theme |
+| `customColor` | `string` | No | - | Custom color (hex, rgba, etc.) |
+| `svgPath` | `string` | No | - | Custom SVG path (built-in rendering) |
 | `svgViewBox` | `string` | No | `'0 0 24 24'` | SVG viewBox |
-| `withBackground` | `boolean` | No | `false` | Circular background |
+| `withBackground` | `boolean` | No | `false` | Add circular background |
 | `backgroundColor` | `string` | No | - | Background color |
 | `accessibilityLabel` | `string` | No | - | Accessibility label |
+| `testID` | `string` | No | - | Test ID |
+| `style` | `StyleProp<ViewStyle>` | No | - | Additional styles |
+
+## Size Presets
+
+| Size | Pixels | Use Case |
+|------|--------|----------|
+| `xs` | 12px | Inline text, tiny badges |
+| `sm` | 16px | List items, compact buttons |
+| `md` | 20px | Default, most use cases |
+| `lg` | 24px | Emphasis, large buttons |
+| `xl` | 32px | Headers, featured icons |
+| `xxl` | 48px | Hero icons, large displays |
+
+## Semantic Colors
+
+| Color | Use Case |
+|-------|----------|
+| `primary` | Primary actions, active states |
+| `secondary` | Secondary actions, inactive states |
+| `success` | Success states, confirmations |
+| `warning` | Warning states, cautions |
+| `error` | Error states, destructive actions |
+| `info` | Information states |
+| `textPrimary` | Default text color |
+| `textSecondary` | Subdued text |
+
+## Examples
+
+### Different Icon Libraries
+
+```tsx
+// Ionicons
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <Ionicons name={name} size={size} color={color} />
+  )}
+/>
+
+// Material Icons
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <MaterialIcons name={name} size={size} color={color} />
+  )}
+/>
+
+// Feather Icons
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <Feather name={name} size={size} color={color} />
+  )}
+/>
+
+// Custom SVG Icons
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <MySvgIcon name={name} width={size} height={size} fill={color} />
+  )}
+/>
+```
+
+### With Background
+
+```tsx
+<AtomicIcon
+  name="add"
+  size="md"
+  color="primary"
+  withBackground
+  backgroundColor="#E3F2FD"
+/>
+```
+
+### Custom SVG Path (No Renderer Needed)
+
+```tsx
+<AtomicIcon
+  svgPath="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+  svgViewBox="0 0 24 24"
+  color="primary"
+/>
+```
 
 ## Accessibility
 
-- ✅ Screen reader support
-- ✅ Accessibility label
-- ✅ Semantic role
-- ✅ Test ID support
+```tsx
+<AtomicIcon
+  name="menu"
+  accessibilityLabel="Open navigation menu"
+/>
+```
 
-## Performance Tips
+## Migration from Ionicons-specific
 
-1. **React.memo**: Component is already memoized
-2. **Static names**: Use constant icon names
-3. **Avoid re-renders**: Stabilize icon props
+If you were using the old Ionicons-specific AtomicIcon:
 
-## Related Components
+1. Add `iconRenderer` to your `DesignSystemProvider`
+2. Install your preferred icon library
+3. Icon names remain the same if using Ionicons
 
-- [`AtomicButton`](./AtomicButton.README.md) - Button component
-- [`AtomicChip`](./AtomicChip.README.md) - Chip component
-- [`AtomicText`](./AtomicText.README.md) - Text component
+```tsx
+// Before (implicit Ionicons)
+<AtomicIcon name="heart" />
 
-## License
+// After (explicit Ionicons via renderer)
+<DesignSystemProvider
+  iconRenderer={({ name, size, color }) => (
+    <Ionicons name={name} size={size} color={color} />
+  )}
+>
+  <AtomicIcon name="heart" /> {/* Same usage */}
+</DesignSystemProvider>
+```
 
-MIT
+## Performance
+
+- Component is memoized with `React.memo`
+- Use stable icon names (avoid dynamic strings when possible)
+- Icon renderer is cached via Provider
+
+## Related
+
+- [`IconProvider`](./IconRegistry.tsx) - Icon registry for custom renderers
+- [`AtomicButton`](./button/README.md) - Button with icon support
+- [`AtomicBadge`](./AtomicBadge.tsx) - Badge with icon support
