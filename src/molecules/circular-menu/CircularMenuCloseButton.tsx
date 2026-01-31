@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import { AtomicIcon } from "../../atoms";
+import { AtomicIcon, useIconName } from "../../atoms";
 import { useAppDesignTokens } from "../../theme";
 import { LAYOUT } from "./constants";
 
@@ -12,6 +12,7 @@ export const CircularMenuCloseButton: React.FC<CircularMenuCloseButtonProps> = (
   onPress,
 }) => {
   const tokens = useAppDesignTokens();
+  const closeIcon = useIconName('close');
 
   return (
     <TouchableOpacity
@@ -31,7 +32,7 @@ export const CircularMenuCloseButton: React.FC<CircularMenuCloseButtonProps> = (
       accessibilityRole="button"
       accessibilityLabel="Close menu"
     >
-      <AtomicIcon name="close" size="md" color="secondary" />
+      <AtomicIcon name={closeIcon} size="md" color="secondary" />
     </TouchableOpacity>
   );
 };

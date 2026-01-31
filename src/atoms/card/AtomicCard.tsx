@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { AtomicImage } from '../image/AtomicImage';
 import { AtomicText } from '../AtomicText';
-import { AtomicIcon } from '../AtomicIcon';
+import { AtomicIcon, useIconName } from '../icon';
 import { useAppDesignTokens } from '../../theme';
 import { getCardVariantStyles, cardStyles } from './styles/cardStyles';
 import { getCardPadding } from './configs/cardPaddingConfig';
@@ -43,6 +43,7 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
   testID,
 }) => {
   const tokens = useAppDesignTokens();
+  const checkCircleIcon = useIconName('checkCircle');
   
   const variantStyles = useMemo(() => {
     const base = getCardVariantStyles(variant, tokens);
@@ -98,7 +99,7 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
       {/* Selected Indicator */}
       {selected && (
         <View style={cardStyles.selectedOverlay}>
-          <AtomicIcon name="checkmark-circle" color="primary" size="md" />
+          <AtomicIcon name={checkCircleIcon} color="primary" size="md" />
         </View>
       )}
 

@@ -23,8 +23,8 @@
 import React from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { useAppDesignTokens } from "../theme";
-import { useIconRenderer, type IconRenderProps } from "./IconRegistry";
+import { useAppDesignTokens } from "../../theme";
+import { useIconRenderer, type IconRenderProps } from "./iconStore";
 import {
   type IconSize as BaseIconSize,
   type IconColor,

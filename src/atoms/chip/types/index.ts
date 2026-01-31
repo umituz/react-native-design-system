@@ -3,7 +3,7 @@
  */
 
 import type { StyleProp, ViewStyle } from 'react-native';
-import type { IconSize } from '../../AtomicIcon';
+import type { IconSize } from '../../icon';
 
 export type ChipVariant = 'filled' | 'outlined' | 'soft';
 export type ChipSize = 'sm' | 'md' | 'lg';

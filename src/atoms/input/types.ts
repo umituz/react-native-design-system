@@ -1,6 +1,6 @@
 import type { StyleProp, TextInputProps } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native';
-import type { IconName } from '../AtomicIcon';
+import type { IconName } from '../icon';
 
 export type AtomicInputVariant = 'outlined' | 'filled' | 'flat';
 export type AtomicInputState = 'default' | 'error' | 'success' | 'disabled';

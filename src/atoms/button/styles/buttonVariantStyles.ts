@@ -14,10 +14,6 @@ export const getVariantStyles = (
     borderWidth: 0,
   };
 
-  const baseTextStyle = {
-    color: tokens.colors.textInverse,
-  };
-
   switch (variant) {
     case 'primary':
       return {
@@ -26,8 +22,7 @@ export const getVariantStyles = (
           backgroundColor: tokens.colors.primary,
         },
         text: {
-          ...baseTextStyle,
-          color: tokens.colors.textInverse,
+          color: tokens.colors.onPrimary,
         },
       };
 
@@ -38,7 +33,6 @@ export const getVariantStyles = (
           backgroundColor: tokens.colors.surfaceSecondary,
         },
         text: {
-          ...baseTextStyle,
           color: tokens.colors.textPrimary,
         },
       };
@@ -51,7 +45,6 @@ export const getVariantStyles = (
           borderColor: tokens.colors.border,
         },
         text: {
-          ...baseTextStyle,
           color: tokens.colors.textPrimary,
         },
       };
@@ -62,7 +55,6 @@ export const getVariantStyles = (
           backgroundColor: undefined,
         },
         text: {
-          ...baseTextStyle,
           color: tokens.colors.primary,
         },
       };
@@ -74,15 +66,16 @@ export const getVariantStyles = (
           backgroundColor: tokens.colors.error,
         },
         text: {
-          ...baseTextStyle,
-          color: tokens.colors.textInverse,
+          color: tokens.colors.onError,
         },
       };
 
     default:
       return {
         container: baseStyle,
-        text: baseTextStyle,
+        text: {
+          color: tokens.colors.onPrimary,
+        },
       };
   }
 };

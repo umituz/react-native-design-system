@@ -7,7 +7,7 @@ import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
 import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
 import { AtomicText } from '../../../../atoms/AtomicText';
-import { AtomicIcon } from '../../../../atoms/AtomicIcon';
+import { AtomicIcon, useIconName } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import { FilterProcessor, type FilterPreset } from '../../../infrastructure/utils/FilterProcessor';
 
@@ -23,6 +23,7 @@ export const FilterPickerSheet = forwardRef<BottomSheetModalRef, FilterPickerShe
   ({ onSelectFilter, onDismiss, activeFilterId, snapPoints = ['50%'], title = 'Filters' }, ref) => {
     const tokens = useAppDesignTokens();
     const presets = FilterProcessor.getPresets();
+    const colorFilterIcon = useIconName('colorFilter');
 
     return (
       <BottomSheetModal ref={ref} snapPoints={snapPoints} onDismiss={onDismiss}>
@@ -48,10 +49,10 @@ export const FilterPickerSheet = forwardRef<BottomSheetModalRef, FilterPickerShe
                     borderColor: activeFilterId === preset.id ? tokens.colors.primary : 'transparent',
                   }}
                 >
-                  <AtomicIcon 
-                    name="color-filter" 
-                    size={32} 
-                    color={activeFilterId === preset.id ? 'primary' : 'secondary'} 
+                  <AtomicIcon
+                    name={colorFilterIcon}
+                    size={32}
+                    color={activeFilterId === preset.id ? 'primary' : 'secondary'}
                   />
                   <AtomicText style={{ 
                     ...tokens.typography.labelSmall, 

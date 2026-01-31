@@ -9,7 +9,7 @@ import React from 'react';
 import { View, TouchableOpacity, GestureResponderEvent } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
-import { AtomicIcon } from '../../AtomicIcon';
+import { AtomicIcon, useIconName } from '../../icon';
 import { AtomicText } from '../../AtomicText';
 import {
   getChipContainerStyles,
@@ -28,6 +28,7 @@ export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
   onRemoveChip,
 }) => {
   const tokens = useAppDesignTokens();
+  const closeIcon = useIconName('close');
 
   const chipContainerStyles = getChipContainerStyles(tokens);
   const chipStyles = getChipStyles(tokens);
@@ -47,7 +48,7 @@ export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
             }}
             hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
           >
-            <AtomicIcon name="X" size="sm" color="primary" />
+            <AtomicIcon name={closeIcon} size="sm" color="primary" />
           </TouchableOpacity>
         </View>
       ))}

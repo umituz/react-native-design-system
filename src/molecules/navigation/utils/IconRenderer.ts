@@ -1,7 +1,6 @@
 import React from "react";
 import type { IconRendererProps } from "../types";
-import { AtomicIcon } from "../../../atoms/AtomicIcon";
-import type { IconName } from "../../../atoms/AtomicIcon";
+import { AtomicIcon, type IconName } from "../../../atoms";
 
 type RenderIconFn = (
   iconName: IconName,

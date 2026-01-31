@@ -7,7 +7,7 @@ import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
 import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
 import { AtomicText } from '../../../../atoms/AtomicText';
-import { AtomicIcon } from '../../../../atoms/AtomicIcon';
+import { AtomicIcon } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import { TextContentTab, TextStyleTab, TextTransformTab } from './TextEditorTabs';
 

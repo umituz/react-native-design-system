@@ -4,7 +4,7 @@
 
 import type { StyleProp } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native';
-import type { IconName } from '../../AtomicIcon';
+import type { IconName } from '../../icon';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';

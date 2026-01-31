@@ -7,7 +7,7 @@
 
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Pressable, StyleProp, ViewStyle } from 'react-native';
-import { AtomicText, AtomicIcon } from '../../atoms';
+import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
@@ -21,6 +21,7 @@ interface AlertToastProps {
 export function AlertToast({ alert }: AlertToastProps) {
     const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const tokens = useAppDesignTokens();
+    const closeIcon = useIconName('close');
 
     const dismiss = () => {
         dismissAlert(alert.id);
@@ -126,7 +127,7 @@ export function AlertToast({ alert }: AlertToastProps) {
                             style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
                             hitSlop={8}
                         >
-                            <AtomicIcon name="close" customSize={20} customColor={textColor} />
+                            <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
                         </Pressable>
                     )}
                 </View>

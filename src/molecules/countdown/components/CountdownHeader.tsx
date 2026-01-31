@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { AtomicText, AtomicIcon } from '../../../atoms';
+import { AtomicText, AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
-import type { IconName } from '../../../atoms/AtomicIcon';
+import type { IconName } from '../../../atoms';
 
 export interface CountdownHeaderProps {
     title: string;
@@ -20,6 +20,7 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
     onToggle,
 }) => {
     const tokens = useAppDesignTokens();
+    const swapIcon = useIconName('swap');
 
     return (
         <View style={[styles.container, { marginBottom: tokens.spacing.md }]}>
@@ -54,7 +55,7 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
                     onPress={onToggle}
                 >
                     <AtomicIcon
-                        name="swap-horizontal"
+                        name={swapIcon}
                         size="sm"
                         color="onSurface"
                     />

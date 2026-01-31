@@ -70,4 +70,13 @@ export {
   type GlassViewProps,
   AtomicImage,
   type AtomicImageProps,
+  // Icon Store
+  useIconStore,
+  useIconRenderer,
+  useIconName,
+  useHasIconConfig,
+  type IconRenderProps,
+  type IconRenderer,
+  type IconNames,
+  REQUIRED_ICON_KEYS,
 } from '../atoms';

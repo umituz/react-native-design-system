@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
-import { AtomicText, AtomicIcon } from '../../atoms';
+import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType, AlertPosition } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
@@ -24,6 +24,7 @@ export function AlertBanner({ alert }: AlertBannerProps) {
     const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const insets = useSafeAreaInsets();
     const tokens = useAppDesignTokens();
+    const closeIcon = useIconName('close');
 
     const handleDismiss = () => {
         dismissAlert(alert.id);
@@ -111,7 +112,7 @@ export function AlertBanner({ alert }: AlertBannerProps) {
                             style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
                             hitSlop={8}
                         >
-                            <AtomicIcon name="close" customSize={20} customColor={textColor} />
+                            <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
                         </Pressable>
                     )}
                 </View>

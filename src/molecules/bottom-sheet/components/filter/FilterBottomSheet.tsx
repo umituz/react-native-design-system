@@ -8,7 +8,7 @@ import React, { forwardRef, useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { BottomSheetModal } from '../BottomSheetModal';
 import type { BottomSheetModalRef } from '../../types/BottomSheet';
-import { AtomicText, AtomicIcon, AtomicButton } from '../../../../atoms';
+import { AtomicText, AtomicIcon, AtomicButton, useIconName } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme';
 import type { FilterOption, FilterCategory } from '../../types/Filter';
 import { FilterUtils } from '../../types/Filter';
@@ -33,6 +33,8 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     defaultId = 'all'
 }, ref) => {
     const tokens = useAppDesignTokens();
+    const checkIcon = useIconName('check');
+    const closeIcon = useIconName('close');
 
     if (__DEV__) {
         console.log('[FilterBottomSheet] Component mounted/rendered', { 
@@ -120,7 +122,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
                     </AtomicText>
                 </View>
                 {isSelected && (
-                    <AtomicIcon name="checkmark" size="sm" color="primary" />
+                    <AtomicIcon name={checkIcon} size="sm" color="primary" />
                 )}
             </TouchableOpacity>
         );
@@ -167,7 +169,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
                 <View style={styles.header}>
                     <AtomicText type="headlineSmall">{title || 'Filter'}</AtomicText>
                     <TouchableOpacity onPress={() => (ref as any).current?.dismiss()}>
-                        <AtomicIcon name="close" size="md" color="textPrimary" />
+                        <AtomicIcon name={closeIcon} size="md" color="textPrimary" />
                     </TouchableOpacity>
                 </View>
 

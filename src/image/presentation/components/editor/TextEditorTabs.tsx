@@ -10,8 +10,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { AtomicText } from "../../../../atoms/AtomicText";
-import { AtomicIcon } from "../../../../atoms/AtomicIcon";
+import { AtomicText, AtomicIcon } from "../../../../atoms";
 import { useAppDesignTokens } from "../../../../theme/hooks/useAppDesignTokens";
 
 interface TabProps {

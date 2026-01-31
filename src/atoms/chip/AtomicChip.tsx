@@ -6,7 +6,7 @@
 import React from 'react';
 import { View, ViewStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
-import { AtomicIcon } from '../AtomicIcon';
+import { AtomicIcon } from '../icon';
 import { useAppDesignTokens } from '../../theme';
 import { getChipSizeConfig } from './configs/chipSizeConfig';
 import { getChipColorConfig } from './configs/chipColorConfig';

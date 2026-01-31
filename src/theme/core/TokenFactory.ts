@@ -5,7 +5,7 @@ import { type DesignTokens, type ResponsiveTypography } from '../types/ThemeType
 
 /**
  * Create complete design tokens for a specific theme mode
- * 
+ *
  * ✅ Responsive by default
  * ✅ SINGLE SOURCE OF TRUTH
  *

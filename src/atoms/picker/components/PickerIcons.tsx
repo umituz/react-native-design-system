@@ -6,7 +6,7 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
-import { AtomicIcon } from '../../AtomicIcon';
+import { AtomicIcon, useIconName } from '../../icon';
 
 
 interface PickerIconsProps {
@@ -29,6 +29,9 @@ export const PickerIcons: React.FC<PickerIconsProps> = ({
   testID,
 }) => {
   const tokens = useAppDesignTokens();
+  const closeIcon = useIconName('close');
+  const chevronUpIcon = useIconName('chevronUp');
+  const chevronDownIcon = useIconName('chevronDown');
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.xs }}>
@@ -41,13 +44,13 @@ export const PickerIcons: React.FC<PickerIconsProps> = ({
           accessibilityLabel={clearAccessibilityLabel}
           testID={`${testID}-clear`}
         >
-          <AtomicIcon name="X" size="sm" color="secondary" />
+          <AtomicIcon name={closeIcon} size="sm" color="secondary" />
         </TouchableOpacity>
       )}
 
       {/* Dropdown Icon */}
       <AtomicIcon
-        name={modalVisible ? 'ChevronUp' : 'ChevronDown'}
+        name={modalVisible ? chevronUpIcon : chevronDownIcon}
         size="sm"
         color={disabled ? 'surfaceVariant' : 'secondary'}
       />

@@ -6,7 +6,7 @@ import {
     StyleSheet,
 } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
-import { AtomicIcon } from '../../atoms/AtomicIcon';
+import { AtomicIcon, useIconName } from '../../atoms';
 import { AtomicSpinner } from '../../atoms/AtomicSpinner';
 import type { SearchBarProps } from './types';
 
@@ -26,6 +26,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     testID,
 }) => {
     const tokens = useAppDesignTokens();
+    const searchIcon = useIconName('search');
+    const closeCircleIcon = useIconName('closeCircle');
 
     const handleClear = () => {
         onChangeText('');
@@ -51,7 +53,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         >
             <View style={styles.iconContainer}>
                 <AtomicIcon
-                    name="search"
+                    name={searchIcon}
                     size="md"
                     customColor={tokens.colors.textSecondary}
                 />
@@ -99,7 +101,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                             accessibilityLabel="Clear search"
                         >
                             <AtomicIcon
-                                name="close-circle"
+                                name={closeCircleIcon}
                                 size="md"
                                 customColor={tokens.colors.textSecondary}
                             />

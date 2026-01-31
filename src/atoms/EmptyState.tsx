@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
-import { AtomicIcon } from './AtomicIcon';
+import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
 import { useAppDesignTokens, STATIC_TOKENS } from '../theme';
 

@@ -10,6 +10,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import {
   AtomicIcon,
   AtomicText,
+  useIconName,
 } from "../../../atoms";
 import {
   useAppDesignTokens,
@@ -31,7 +32,7 @@ export interface ExceptionErrorStateProps {
 }
 
 export const ExceptionErrorState: React.FC<ExceptionErrorStateProps> = ({
-  icon = "alert-circle-outline",
+  icon,
   title,
   description,
   actionLabel,
@@ -39,6 +40,9 @@ export const ExceptionErrorState: React.FC<ExceptionErrorStateProps> = ({
   illustration,
 }) => {
   const tokens = useAppDesignTokens();
+  const alertCircleIcon = useIconName('alertCircle');
+  const refreshIcon = useIconName('refresh');
+  const displayIcon = icon || alertCircleIcon;
 
   const styles = React.useMemo(
     () =>
@@ -87,7 +91,7 @@ export const ExceptionErrorState: React.FC<ExceptionErrorStateProps> = ({
         <View
           style={[styles.iconContainer, { backgroundColor: tokens.colors.surface }]}
         >
-          <AtomicIcon name={icon as never} size="xxl" color="secondary" />
+          <AtomicIcon name={displayIcon as never} size="xxl" color="secondary" />
         </View>
       )}
 
@@ -107,7 +111,7 @@ export const ExceptionErrorState: React.FC<ExceptionErrorStateProps> = ({
           onPress={onAction}
           activeOpacity={0.8}
         >
-          <AtomicIcon name="refresh-outline" size="sm" color="onPrimary" />
+          <AtomicIcon name={refreshIcon} size="sm" color="onPrimary" />
           <AtomicText type="labelLarge" color="onPrimary">
             {actionLabel}
           </AtomicText>

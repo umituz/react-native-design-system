@@ -5,7 +5,7 @@ import { useCountdown } from '../hooks/useCountdown';
 import { CountdownHeader } from './CountdownHeader';
 import { TimeUnit } from './TimeUnit';
 import type { CountdownTarget, CountdownDisplayConfig } from '../types/CountdownTypes';
-import type { IconName } from '../../../atoms/AtomicIcon';
+import type { IconName } from '../../../atoms';
 
 export interface CountdownProps {
     target: CountdownTarget;

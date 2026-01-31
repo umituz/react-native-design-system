@@ -4,48 +4,33 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
 import { useThemeStore } from '../stores/themeStore';
-import { useDesignSystemTheme } from '../globalThemeStore';
+import { useDesignSystemTheme, type ThemeMode } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
-import { IconProvider, type IconRenderer } from '../../../atoms/IconRegistry';
+import { useIconStore, type IconRenderer, type IconNames } from '../../../atoms/icon';
 
 
 interface DesignSystemProviderProps {
-  /** App content */
   children: ReactNode;
-  /** Custom theme colors to override defaults */
   customColors?: CustomThemeColors;
-  /** Custom fonts to load (name -> source map) */
+  initialThemeMode?: ThemeMode;
   fonts?: Record<string, any>;
-  /** Show loading indicator while initializing (default: true) */
   showLoadingIndicator?: boolean;
-  /** Splash screen configuration (used when showLoadingIndicator is true) */
   splashConfig?: Pick<SplashScreenProps, 'appName' | 'tagline' | 'icon' | 'colors'>;
-  /** Custom loading component (overrides splash screen) */
   loadingComponent?: ReactNode;
-  /** Callback when initialization completes */
   onInitialized?: () => void;
-  /** Callback when initialization fails */
   onError?: (error: unknown) => void;
-  /**
-   * Custom icon renderer function
-   * Allows apps to use their own icon library instead of Ionicons
-   * @example
-   * iconRenderer={({ name, size, color }) => (
-   *   <MaterialIcons name={name} size={size} color={color} />
-   * )}
-   */
-  iconRenderer?: IconRenderer;
+  /** Icon renderer - REQUIRED */
+  iconRenderer: IconRenderer;
+  /** Icon names mapping - REQUIRED */
+  iconNames: IconNames;
 }
 
-/**
- * DesignSystemProvider
- * Initializes theme store and applies custom colors.
- */
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   children,
   customColors,
+  initialThemeMode = 'light',
   fonts,
   showLoadingIndicator = true,
   splashConfig,
@@ -53,50 +38,54 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   onInitialized,
   onError,
   iconRenderer,
-}: DesignSystemProviderProps) => {
+  iconNames,
+}) => {
   const [isInitialized, setIsInitialized] = useState(false);
-  
-  // Load fonts if provided
   const [fontsLoaded, fontError] = fonts ? useFonts(fonts) : [true, null];
-  
+
   const initialize = useThemeStore((state) => state.initialize);
+  const setThemeMode = useThemeStore((state) => state.setThemeMode);
   const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
+  const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
+  const setIconConfig = useIconStore((state) => state.setConfig);
 
   useEffect(() => {
-    // Apply custom colors if provided
+    // Set icon config (required)
+    if (iconRenderer && iconNames) {
+      setIconConfig(iconNames, iconRenderer);
+    }
+
     if (customColors) {
       setCustomColors(customColors);
     }
 
-    // Initialize theme store
+    setGlobalThemeMode(initialThemeMode);
+
     initialize()
-      .then(() => {
+      .then(async () => {
+        await setThemeMode(initialThemeMode);
         setIsInitialized(true);
       })
       .catch((error) => {
-        setIsInitialized(true); // Still render app even on error
+        setIsInitialized(true);
         onError?.(error);
       });
-  }, [initialize, customColors, setCustomColors, onError]);
+  }, [initialize, customColors, iconNames, iconRenderer, initialThemeMode, setCustomColors, setGlobalThemeMode, setThemeMode, setIconConfig, onError]);
 
-  // Handle initialization completion when both theme and fonts are ready
   useEffect(() => {
     if (isInitialized && fontsLoaded) {
       onInitialized?.();
     }
   }, [isInitialized, fontsLoaded, onInitialized]);
 
-  // Handle font errors
   useEffect(() => {
     if (fontError) {
       onError?.(fontError);
     }
   }, [fontError, onError]);
 
-  // Determine if we should show loading state
   const isLoading = showLoadingIndicator && (!isInitialized || !fontsLoaded);
 
-  // Determine content to render based on loading state
   let content: ReactNode;
 
   if (isLoading) {
@@ -115,17 +104,10 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     content = children;
   }
 
-  // Wrap with IconProvider if custom renderer provided
-  const wrappedContent = iconRenderer ? (
-    <IconProvider renderIcon={iconRenderer}>{content}</IconProvider>
-  ) : (
-    content
-  );
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        {wrappedContent}
+        {content}
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

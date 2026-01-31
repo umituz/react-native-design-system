@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { AtomicIcon } from "../../../atoms/AtomicIcon";
+import { AtomicIcon, useIconName } from "../../../atoms";
 import { AtomicText } from "../../../atoms/AtomicText";
 import { useLocalization } from "@umituz/react-native-localization";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
@@ -26,6 +26,7 @@ export const OnboardingHeader = ({
   const {
     theme: { colors },
   } = useOnboardingProvider();
+  const chevronLeftIcon = useIconName('chevronLeft');
 
   const skipText = skipButtonText || t("onboarding.skip");
 
@@ -46,7 +47,7 @@ export const OnboardingHeader = ({
           activeOpacity={0.7}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <AtomicIcon name="chevron-back" customSize={20} customColor={colors.iconColor} />
+          <AtomicIcon name={chevronLeftIcon} customSize={20} customColor={colors.iconColor} />
         </TouchableOpacity>
       ) : (
         <View style={styles.headerButton} />

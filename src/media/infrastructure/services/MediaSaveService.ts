@@ -4,7 +4,6 @@
  */
 
 import * as FileSystem from "expo-file-system";
-import { Platform } from "react-native";
 import { MediaLibraryPermission } from "../../domain/entities/Media";
 
 export interface SaveResult {
@@ -61,7 +60,7 @@ export class MediaSaveService {
   private static async saveToStorage(
     uri: string,
     mediaType: "image" | "video",
-    options?: SaveOptions,
+    _options?: SaveOptions,
   ): Promise<SaveResult> {
     try {
       const timestamp = Date.now();

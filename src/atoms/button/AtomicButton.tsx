@@ -6,7 +6,7 @@
 import React from 'react';
 import { StyleProp, ViewStyle, TextStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
-import { AtomicIcon } from '../AtomicIcon';
+import { AtomicIcon } from '../icon';
 import { AtomicSpinner } from '../AtomicSpinner';
 import { useAppDesignTokens } from '../../theme';
 import { getButtonSizeConfig } from './configs/buttonSizeConfig';

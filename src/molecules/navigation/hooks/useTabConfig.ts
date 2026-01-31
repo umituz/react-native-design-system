@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import type { ParamListBase } from "@react-navigation/native";
-import { AtomicIcon } from "../../../atoms/AtomicIcon";
+import { AtomicIcon } from "../../../atoms";
 import { useAppDesignTokens } from "../../../theme";
 import { useResponsive } from "../../../responsive";
 import type { TabNavigatorConfig, TabScreen } from "../types";

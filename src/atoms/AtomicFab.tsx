@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
-import { AtomicIcon } from './AtomicIcon';
+import { AtomicIcon } from './icon';
 import { AtomicFabProps } from './fab/types';
 import {
   FAB_SIZES,

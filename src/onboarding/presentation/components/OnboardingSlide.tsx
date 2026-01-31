@@ -5,7 +5,7 @@
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AtomicIcon } from "../../../atoms/AtomicIcon";
+import { AtomicIcon, useIconName } from "../../../atoms";
 import { AtomicText } from "../../../atoms/AtomicText";
 import type { OnboardingSlide as OnboardingSlideType } from "../../domain/entities/OnboardingSlide";
 import { BaseSlide } from "./BaseSlide";
@@ -23,6 +23,7 @@ export const OnboardingSlide = ({
   const {
     theme: { colors },
   } = useOnboardingProvider();
+  const checkCircleIcon = useIconName('checkCircle');
 
   const shouldShowIcon = slide.icon && !slide.hideIcon;
   const isEmoji = slide.iconType === 'emoji';
@@ -72,7 +73,7 @@ export const OnboardingSlide = ({
               ]}
             >
               <AtomicIcon
-                name="checkmark-circle"
+                name={checkCircleIcon}
                 size="sm"
                 customColor={colors.iconColor}
               />

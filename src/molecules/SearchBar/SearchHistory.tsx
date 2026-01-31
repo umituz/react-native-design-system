@@ -5,7 +5,7 @@ import {
     StyleSheet,
 } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
-import { AtomicIcon } from '../../atoms/AtomicIcon';
+import { AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { SearchHistoryProps } from './types';
 
@@ -20,6 +20,8 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
     clearLabel = 'Clear All',
 }) => {
     const tokens = useAppDesignTokens();
+    const clockIcon = useIconName('clock');
+    const closeIcon = useIconName('close');
 
     if (!history || history.length === 0) {
         return null;
@@ -58,7 +60,7 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
                 >
                     <View style={styles.itemLeft}>
                         <AtomicIcon
-                            name="time-outline"
+                            name={clockIcon}
                             size="sm"
                             customColor={tokens.colors.textSecondary}
                         />
@@ -80,7 +82,7 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
                         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                     >
                         <AtomicIcon
-                            name="close"
+                            name={closeIcon}
                             size="sm"
                             customColor={tokens.colors.textSecondary}
                         />

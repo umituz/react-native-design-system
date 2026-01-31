@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import { AtomicIcon } from '../../AtomicIcon';
+import { AtomicIcon } from '../../icon';
 
 interface InputIconProps {
   name: string;

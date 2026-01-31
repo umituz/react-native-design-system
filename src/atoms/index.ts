@@ -33,7 +33,7 @@ export type {
     AtomicInputSize,
 } from './input/types';
 
-// Icon
+// Icon (Zustand-based icon system)
 export {
     AtomicIcon,
     type AtomicIconProps,
@@ -41,15 +41,20 @@ export {
     type IconColor,
     type IconName,
     type IconRenderProps,
-} from './AtomicIcon';
-
-// Icon Registry (for custom icon renderers)
-export {
-    IconProvider,
+    // Icon Store
+    useIconStore,
     useIconRenderer,
-    useHasCustomIconRenderer,
+    useIconName,
+    useHasIconConfig,
     type IconRenderer,
-} from './IconRegistry';
+    type IconNames,
+    REQUIRED_ICON_KEYS,
+    // Type utilities
+    type IconSizePreset,
+    ICON_SIZES,
+    getIconSize,
+    isIconSizePreset,
+} from './icon';
 
 
 // Avatar
@@ -96,7 +101,7 @@ export {
     type AtomicBadgeProps,
     type BadgeVariant,
     type BadgeSize,
-} from './AtomicBadge';
+} from './badge';
 
 // Spinner
 export {

@@ -14,7 +14,7 @@ import {
 import { useSafeAreaInsets } from '../../../safe-area';
 import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
-import { AtomicIcon } from '../../AtomicIcon';
+import { AtomicIcon, useIconName } from '../../icon';
 import { AtomicText } from '../../AtomicText';
 import {
   getModalOverlayStyles,
@@ -65,6 +65,10 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
+  const checkCircleIcon = useIconName('checkCircle');
+  const searchIcon = useIconName('search');
+  const closeIcon = useIconName('close');
+  const infoIcon = useIconName('info');
 
   const modalOverlayStyles = getModalOverlayStyles();
   const modalContainerStyles = getModalContainerStyles(tokens, 0);
@@ -121,7 +125,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
 
         {/* Selected Indicator */}
         {selected && (
-          <AtomicIcon name="CircleCheck" size="md" color="primary" />
+          <AtomicIcon name={checkCircleIcon} size="md" color="primary" />
         )}
       </TouchableOpacity>
     );
@@ -157,14 +161,14 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
               accessibilityLabel={closeAccessibilityLabel}
               testID={`${testID}-close`}
             >
-              <AtomicIcon name="X" size="md" color="primary" />
+              <AtomicIcon name={closeIcon} size="md" color="primary" />
             </TouchableOpacity>
           </View>
 
           {/* Search Bar */}
           {searchable && (
             <View style={searchContainerStyles}>
-              <AtomicIcon name="Search" size="sm" color="secondary" />
+              <AtomicIcon name={searchIcon} size="sm" color="secondary" />
               <TextInput
                 value={searchQuery}
                 onChangeText={onSearchChange}
@@ -175,7 +179,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
               />
               {searchQuery.length > 0 && (
                 <TouchableOpacity onPress={() => onSearchChange('')}>
-                  <AtomicIcon name="X" size="sm" color="secondary" />
+                  <AtomicIcon name={closeIcon} size="sm" color="secondary" />
                 </TouchableOpacity>
               )}
             </View>
@@ -192,7 +196,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
             />
           ) : (
             <View style={emptyStateStyles}>
-              <AtomicIcon name="Info" size="xl" color="secondary" />
+              <AtomicIcon name={infoIcon} size="xl" color="secondary" />
               <AtomicText style={emptyStateTextStyles}>
                 {emptyMessage}
               </AtomicText>

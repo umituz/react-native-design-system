@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
-import { AtomicIcon } from '../../atoms/AtomicIcon';
+import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { InfoGridProps } from './types';
 

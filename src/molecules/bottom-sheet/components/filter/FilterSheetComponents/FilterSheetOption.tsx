@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { AtomicText, AtomicIcon } from '../../../../../atoms';
+import { AtomicText, AtomicIcon, useIconName } from '../../../../../atoms';
 import type { useAppDesignTokens } from '../../../../../theme';
 import type { FilterOption } from '../../../types/Filter';
 
@@ -11,7 +11,10 @@ interface FilterSheetOptionProps {
     tokens: ReturnType<typeof useAppDesignTokens>;
 }
 
-export const FilterSheetOption = ({ option, isSelected, onPress, tokens }: FilterSheetOptionProps) => (
+export const FilterSheetOption = ({ option, isSelected, onPress, tokens }: FilterSheetOptionProps) => {
+    const checkCircleIcon = useIconName('checkCircle');
+
+    return (
     <TouchableOpacity
         onPress={() => onPress(option.id)}
         style={[
@@ -35,9 +38,10 @@ export const FilterSheetOption = ({ option, isSelected, onPress, tokens }: Filte
                 {option.label}
             </AtomicText>
         </View>
-        {isSelected && <AtomicIcon name="checkmark-circle" size="md" color="primary" />}
+        {isSelected && <AtomicIcon name={checkCircleIcon} size="md" color="primary" />}
     </TouchableOpacity>
-);
+    );
+};
 
 const styles = StyleSheet.create({
     option: {

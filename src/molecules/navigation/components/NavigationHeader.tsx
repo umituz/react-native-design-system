@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../../atoms';
-import { AtomicIcon } from '../../../atoms';
+import { AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
 
@@ -18,6 +18,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
+  const arrowLeftIcon = useIconName('arrowLeft');
 
   const styles = StyleSheet.create({
     container: {
@@ -51,7 +52,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       {onBackPress && (
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
           <AtomicIcon
-            name="arrow-back"
+            name={arrowLeftIcon}
             size="md"
             color="textPrimary"
           />

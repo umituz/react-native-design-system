@@ -12,7 +12,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
-import { AtomicIcon } from '../../AtomicIcon';
+import { AtomicIcon, useIconName } from '../../icon';
 import { AtomicText } from '../../AtomicText';
 
 interface DatePickerButtonProps {
@@ -33,6 +33,7 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
   testID,
 }) => {
   const tokens = useAppDesignTokens();
+  const calendarIcon = useIconName('calendar');
 
   const buttonStyles = StyleSheet.create({
     container: {
@@ -102,7 +103,7 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
 
       <View style={buttonStyles.iconContainer}>
         <AtomicIcon
-          name="Calendar"
+          name={calendarIcon}
           size="md"
           color={disabled ? 'surfaceVariant' : 'secondary'}
         />
