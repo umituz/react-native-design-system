@@ -44,12 +44,12 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const [fontsLoaded, fontError] = fonts ? useFonts(fonts) : [true, null];
 
   const initialize = useThemeStore((state) => state.initialize);
-  const setThemeMode = useThemeStore((state) => state.setThemeMode);
-  const setCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
+  const setCustomColors = useThemeStore((state) => state.setCustomColors);
+  const setDefaultColors = useThemeStore((state) => state.setDefaultColors);
+  const setGlobalCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
   const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
 
   // Set icon config SYNCHRONOUSLY before first render
-  // This ensures icons are available immediately
   if (iconRenderer && iconNames) {
     const store = useIconStore.getState();
     if (!store.isConfigured) {
@@ -58,22 +58,24 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   }
 
   useEffect(() => {
+    // Register app's default colors for reset feature
     if (customColors) {
+      setDefaultColors(customColors);
       setCustomColors(customColors);
+      setGlobalCustomColors(customColors);
     }
 
     setGlobalThemeMode(initialThemeMode);
 
     initialize()
-      .then(async () => {
-        await setThemeMode(initialThemeMode);
+      .then(() => {
         setIsInitialized(true);
       })
       .catch((error) => {
         setIsInitialized(true);
         onError?.(error);
       });
-  }, [initialize, customColors, initialThemeMode, setCustomColors, setGlobalThemeMode, setThemeMode, onError]);
+  }, []);
 
   useEffect(() => {
     if (isInitialized && fontsLoaded) {

@@ -16,6 +16,7 @@ interface ThemeState {
   theme: Theme;
   themeMode: ThemeMode;
   customColors?: CustomThemeColors;
+  defaultColors?: CustomThemeColors;
   isDark: boolean;
   isInitialized: boolean;
 }
@@ -23,6 +24,8 @@ interface ThemeState {
 interface ThemeActions {
   setThemeMode: (mode: ThemeMode) => Promise<void>;
   setCustomColors: (colors?: CustomThemeColors) => Promise<void>;
+  setDefaultColors: (colors: CustomThemeColors) => void;
+  resetToDefaults: () => Promise<void>;
   toggleTheme: () => Promise<void>;
   initialize: () => Promise<void>;
 }
@@ -36,13 +39,14 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     theme: lightTheme,
     themeMode: 'light',
     customColors: undefined,
+    defaultColors: undefined,
     isDark: false,
     isInitialized: false,
   },
   persist: false,
   actions: (set, get) => ({
     initialize: async () => {
-      const { isInitialized } = get();
+      const { isInitialized, customColors: currentColors } = get();
       if (isInitialized || themeInitInProgress) return;
 
       themeInitInProgress = true;
@@ -55,19 +59,20 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
 
         const mode = savedMode || 'light';
         const theme = mode === 'light' ? lightTheme : darkTheme;
+        // Only use savedColors if they exist, otherwise keep current (prop-based) colors
+        const colors = savedColors !== undefined ? savedColors : currentColors;
 
         set({
           themeMode: mode,
           theme,
-          customColors: savedColors,
+          customColors: colors,
           isDark: mode === 'dark',
           isInitialized: true,
         });
 
-        // Sync with design system global theme
         const dsTheme = useDesignSystemTheme.getState();
         dsTheme.setThemeMode(mode);
-        dsTheme.setCustomColors(savedColors);
+        dsTheme.setCustomColors(colors);
       } catch {
         set({ isInitialized: true });
         useDesignSystemTheme.getState().setThemeMode('light');
@@ -96,6 +101,20 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
       set({ customColors: colors });
       await ThemeStorage.setCustomColors(colors);
       useDesignSystemTheme.getState().setCustomColors(colors);
+    },
+
+    setDefaultColors: (colors: CustomThemeColors) => {
+      set({ defaultColors: colors });
+    },
+
+    resetToDefaults: async () => {
+      const { defaultColors } = get();
+      set({ themeMode: 'light', theme: lightTheme, isDark: false, customColors: defaultColors });
+      await ThemeStorage.clearThemeMode();
+      await ThemeStorage.clearCustomColors();
+      const dsTheme = useDesignSystemTheme.getState();
+      dsTheme.setThemeMode('light');
+      dsTheme.setCustomColors(defaultColors);
     },
 
     toggleTheme: async () => {
