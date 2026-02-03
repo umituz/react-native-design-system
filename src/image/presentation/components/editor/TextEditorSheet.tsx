@@ -9,7 +9,7 @@ import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/typ
 import { AtomicText } from '../../../../atoms/AtomicText';
 import { AtomicIcon } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
-import { TextContentTab, TextStyleTab, TextTransformTab } from './TextEditorTabs';
+import { TextContentTab, TextStyleTab, TextTransformTab } from './text-editor';
 
 export interface TextEditorSheetProps {
   text: string;
