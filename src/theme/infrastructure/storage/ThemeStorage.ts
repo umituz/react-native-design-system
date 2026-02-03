@@ -1,70 +1,77 @@
 /**
  * Theme Storage
- * Persists theme preference using AsyncStorage
- *
- * CRITICAL: This is a standalone storage utility for theme package.
- * Apps should use this for theme persistence.
+ * Persists theme mode and custom colors using AsyncStorage
  */
 
 import { storageRepository, unwrap } from '../../../storage';
 import type { ThemeMode } from '../../core/ColorPalette';
+import type { CustomThemeColors } from '../../core/CustomColors';
 import { DESIGN_CONSTANTS } from '../../core/constants/DesignConstants';
 
-const STORAGE_KEY = `${DESIGN_CONSTANTS.STORAGE_NAMESPACE}/mode`;
+const MODE_KEY = `${DESIGN_CONSTANTS.STORAGE_NAMESPACE}/mode`;
+const COLORS_KEY = `${DESIGN_CONSTANTS.STORAGE_NAMESPACE}/colors`;
 
 export class ThemeStorage {
-  /**
-   * Get stored theme mode
-   */
   static async getThemeMode(): Promise<ThemeMode | null> {
     try {
-      const result = await storageRepository.getString(STORAGE_KEY, '');
+      const result = await storageRepository.getString(MODE_KEY, '');
       const value = unwrap(result, '');
-      
-      if (!value) {
-        return null;
-      }
-
-      // Validate theme mode value
-      if (value === 'light' || value === 'dark') {
-        return value as ThemeMode;
-      }
-
+      if (!value) return null;
+      if (value === 'light' || value === 'dark') return value as ThemeMode;
       return null;
     } catch {
-      // Return null instead of throwing to prevent app crashes
       return null;
     }
   }
 
-  /**
-   * Save theme mode
-   */
   static async setThemeMode(mode: ThemeMode): Promise<void> {
     try {
-      // Validate input
       if (!mode || (mode !== 'light' && mode !== 'dark')) {
         throw new Error(`Invalid theme mode: ${mode}`);
       }
-
-      await storageRepository.setString(STORAGE_KEY, mode);
+      await storageRepository.setString(MODE_KEY, mode);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      // Re-throw validation errors but swallow storage errors to prevent app crashes
-      if (errorMessage.includes('Invalid theme mode')) {
-        throw error;
-      }
+      const msg = error instanceof Error ? error.message : '';
+      if (msg.includes('Invalid theme mode')) throw error;
     }
   }
 
-  /**
-   * Clear stored theme mode
-   */
   static async clearThemeMode(): Promise<void> {
     try {
-      await storageRepository.removeItem(STORAGE_KEY);
+      await storageRepository.removeItem(MODE_KEY);
     } catch {
-      // Don't throw - clearing storage is not critical
+      // Silent fail
+    }
+  }
+
+  static async getCustomColors(): Promise<CustomThemeColors | undefined> {
+    try {
+      const result = await storageRepository.getString(COLORS_KEY, '');
+      const value = unwrap(result, '');
+      if (!value) return undefined;
+      return JSON.parse(value) as CustomThemeColors;
+    } catch {
+      return undefined;
+    }
+  }
+
+  static async setCustomColors(colors?: CustomThemeColors): Promise<void> {
+    try {
+      if (!colors || Object.keys(colors).length === 0) {
+        await storageRepository.removeItem(COLORS_KEY);
+        return;
+      }
+      await storageRepository.setString(COLORS_KEY, JSON.stringify(colors));
+    } catch {
+      // Silent fail
+    }
+  }
+
+  static async clearCustomColors(): Promise<void> {
+    try {
+      await storageRepository.removeItem(COLORS_KEY);
+    } catch {
+      // Silent fail
     }
   }
 }

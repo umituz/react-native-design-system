@@ -1,13 +1,8 @@
 /**
  * Theme Store - Zustand State Management
  *
- * CRITICAL: NO Context Provider pattern - uses Zustand for global state
- *
- * Architecture:
- * - Zustand for state management (NOT Context API)
- * - AsyncStorage for persistence via ThemeStorage
- * - Automatic initialization on app launch
- * - Syncs with design system global theme store
+ * Single source of truth for theme mode AND custom colors.
+ * Uses AsyncStorage for persistence via ThemeStorage.
  */
 
 import { createStore } from '../../../storage';
@@ -15,82 +10,66 @@ import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
 import { useDesignSystemTheme } from '../globalThemeStore';
 import type { ThemeMode } from '../../core/ColorPalette';
+import type { CustomThemeColors } from '../../core/CustomColors';
 
 interface ThemeState {
   theme: Theme;
   themeMode: ThemeMode;
+  customColors?: CustomThemeColors;
   isDark: boolean;
   isInitialized: boolean;
 }
 
 interface ThemeActions {
   setThemeMode: (mode: ThemeMode) => Promise<void>;
+  setCustomColors: (colors?: CustomThemeColors) => Promise<void>;
   toggleTheme: () => Promise<void>;
   initialize: () => Promise<void>;
 }
 
-// Mutex to prevent race condition in setThemeMode
 let themeUpdateInProgress = false;
-// Mutex to prevent race condition in initialize
 let themeInitInProgress = false;
 
-/**
- * Theme Store - Global state management for theme
- *
- * Usage:
- * ```typescript
- * import { useTheme } from '@umituz/react-native-design-system';
- *
- * const MyComponent = () => {
- *   const { theme, themeMode, setThemeMode, toggleTheme } = useTheme();
- *   // ...
- * };
- * ```
- * 
- * NOTE: Make sure to wrap your app with DesignSystemProvider for auto-initialization
- */
 export const useTheme = createStore<ThemeState, ThemeActions>({
   name: 'theme-store',
   initialState: {
     theme: lightTheme,
     themeMode: 'light',
+    customColors: undefined,
     isDark: false,
     isInitialized: false,
   },
   persist: false,
   actions: (set, get) => ({
     initialize: async () => {
-      // Atomic check with mutex
       const { isInitialized } = get();
-      if (isInitialized || themeInitInProgress) {
-        return;
-      }
+      if (isInitialized || themeInitInProgress) return;
 
       themeInitInProgress = true;
 
       try {
-        const savedMode = await ThemeStorage.getThemeMode();
-        if (savedMode) {
-          const theme = savedMode === 'light' ? lightTheme : darkTheme;
-          set({
-            themeMode: savedMode,
-            theme,
-            isDark: savedMode === 'dark',
-            isInitialized: true,
-          });
+        const [savedMode, savedColors] = await Promise.all([
+          ThemeStorage.getThemeMode(),
+          ThemeStorage.getCustomColors(),
+        ]);
 
-          // Sync with design system global theme
-          useDesignSystemTheme.getState().setThemeMode(savedMode);
-        } else {
-          // No saved mode - use default 'light' and sync to design system store
-          set({ isInitialized: true });
-          // Ensure design system store is synced even if no saved mode exists
-          useDesignSystemTheme.getState().setThemeMode('light');
-        }
+        const mode = savedMode || 'light';
+        const theme = mode === 'light' ? lightTheme : darkTheme;
+
+        set({
+          themeMode: mode,
+          theme,
+          customColors: savedColors,
+          isDark: mode === 'dark',
+          isInitialized: true,
+        });
+
+        // Sync with design system global theme
+        const dsTheme = useDesignSystemTheme.getState();
+        dsTheme.setThemeMode(mode);
+        dsTheme.setCustomColors(savedColors);
       } catch {
-        // Silent failure - still mark as initialized to prevent blocking
         set({ isInitialized: true });
-        // Ensure design system store is synced even on error
         useDesignSystemTheme.getState().setThemeMode('light');
       } finally {
         themeInitInProgress = false;
@@ -98,44 +77,34 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     },
 
     setThemeMode: async (mode: ThemeMode) => {
-      // Skip if another update is in progress
-      if (themeUpdateInProgress) {
-        return;
-      }
-
+      if (themeUpdateInProgress) return;
       themeUpdateInProgress = true;
 
       try {
         const theme = mode === 'light' ? lightTheme : darkTheme;
-
-        // Set state first
-        set({
-          themeMode: mode,
-          theme,
-          isDark: mode === 'dark',
-        });
-
-        // Then persist (even if this fails, UI is already updated)
+        set({ themeMode: mode, theme, isDark: mode === 'dark' });
         await ThemeStorage.setThemeMode(mode);
-
-        // Sync with design system global theme
         useDesignSystemTheme.getState().setThemeMode(mode);
       } catch {
-        // Silent failure - UI already updated, just storage failed
+        // Silent failure
       } finally {
         themeUpdateInProgress = false;
       }
     },
 
+    setCustomColors: async (colors?: CustomThemeColors) => {
+      set({ customColors: colors });
+      await ThemeStorage.setCustomColors(colors);
+      useDesignSystemTheme.getState().setCustomColors(colors);
+    },
+
     toggleTheme: async () => {
       const { themeMode, setThemeMode } = get();
-      const newMode: ThemeMode = themeMode === 'light' ? 'dark' : 'light';
-      await setThemeMode(newMode);
+      await setThemeMode(themeMode === 'light' ? 'dark' : 'light');
     },
   }),
 });
 
-// Export internal store for DesignSystemProvider
 export const useThemeStore = useTheme;
 
 
