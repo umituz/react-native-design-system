@@ -52,7 +52,7 @@ interface GlobalThemeActions {
 export const useDesignSystemTheme = createStore<GlobalThemeState, GlobalThemeActions>({
   name: 'design-system-theme',
   initialState: {
-    themeMode: 'dark',
+    themeMode: 'light',
     customColors: undefined,
   },
   persist: false,

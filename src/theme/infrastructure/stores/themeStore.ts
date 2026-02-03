@@ -52,9 +52,9 @@ let themeInitInProgress = false;
 export const useTheme = createStore<ThemeState, ThemeActions>({
   name: 'theme-store',
   initialState: {
-    theme: darkTheme,
-    themeMode: 'dark',
-    isDark: true,
+    theme: lightTheme,
+    themeMode: 'light',
+    isDark: false,
     isInitialized: false,
   },
   persist: false,
@@ -82,16 +82,16 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
           // Sync with design system global theme
           useDesignSystemTheme.getState().setThemeMode(savedMode);
         } else {
-          // No saved mode - use default 'dark' and sync to design system store
+          // No saved mode - use default 'light' and sync to design system store
           set({ isInitialized: true });
           // Ensure design system store is synced even if no saved mode exists
-          useDesignSystemTheme.getState().setThemeMode('dark');
+          useDesignSystemTheme.getState().setThemeMode('light');
         }
       } catch {
         // Silent failure - still mark as initialized to prevent blocking
         set({ isInitialized: true });
         // Ensure design system store is synced even on error
-        useDesignSystemTheme.getState().setThemeMode('dark');
+        useDesignSystemTheme.getState().setThemeMode('light');
       } finally {
         themeInitInProgress = false;
       }
