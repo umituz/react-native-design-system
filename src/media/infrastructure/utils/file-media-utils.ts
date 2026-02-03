@@ -85,3 +85,58 @@ export const downloadMediaToFile = async (url: string, isVideo: boolean): Promis
 
   return file.uri;
 };
+
+export interface SaveToGalleryResult {
+  readonly success: boolean;
+  readonly error?: string;
+}
+
+/**
+ * Save image to device gallery
+ * Downloads from URL if needed, then saves to media library
+ */
+export const saveImageToGallery = async (uri: string): Promise<SaveToGalleryResult> => {
+  try {
+    const MediaLibrary = require("expo-media-library");
+
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== "granted") {
+      return { success: false, error: "Permission denied" };
+    }
+
+    // Download if URL, otherwise use local path
+    const localUri = uri.startsWith("http") ? await downloadMediaToFile(uri, false) : uri;
+    await MediaLibrary.saveToLibraryAsync(localUri);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to save",
+    };
+  }
+};
+
+/**
+ * Save video to device gallery
+ */
+export const saveVideoToGallery = async (uri: string): Promise<SaveToGalleryResult> => {
+  try {
+    const MediaLibrary = require("expo-media-library");
+
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== "granted") {
+      return { success: false, error: "Permission denied" };
+    }
+
+    const localUri = uri.startsWith("http") ? await downloadMediaToFile(uri, true) : uri;
+    await MediaLibrary.saveToLibraryAsync(localUri);
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to save",
+    };
+  }
+};

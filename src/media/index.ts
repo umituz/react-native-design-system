@@ -86,6 +86,9 @@ export {
   toDataUrl,
   saveBase64ToFile,
   downloadMediaToFile,
+  saveImageToGallery,
+  saveVideoToGallery,
+  type SaveToGalleryResult,
 } from "./infrastructure/utils/file-media-utils";
 
 // Multimedia Flashcard Support
