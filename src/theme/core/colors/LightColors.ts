@@ -112,7 +112,7 @@ export const lightColors = {
 
   cardBackground: '#FFFFFF',
 
-  // COLOR ALIASES (for backward compatibility and convenience)
+  // COLOR ALIASES
   text: '#1E293B',                    // Alias for textPrimary
   background: '#FFFFFF',              // Alias for backgroundPrimary
   card: '#FFFFFF',                    // Alias for cardBackground

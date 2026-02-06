@@ -10,6 +10,7 @@ import type { UseCardMediaUploadResult } from "./card-multimedia.types";
 import type {
   CardMediaAttachment,
   CardMediaCompressionOptions,
+  CardMediaFile,
   CardMediaUploadProgress,
 } from "../../domain/entities/CardMultimedia.types";
 
@@ -20,7 +21,7 @@ export const useCardMediaUpload = (): UseCardMediaUploadResult => {
   const [error, setError] = React.useState<string | null>(null);
 
   const uploadMedia = React.useCallback(
-    async (file: any, _options?: CardMediaCompressionOptions) => {
+    async (file: CardMediaFile, _options?: CardMediaCompressionOptions) => {
       try {
         setIsUploading(true);
         setError(null);

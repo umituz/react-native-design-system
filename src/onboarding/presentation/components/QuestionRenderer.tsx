@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import type { OnboardingQuestion } from "../../domain/entities/OnboardingQuestion";
+import type { OnboardingQuestion, OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 import { SingleChoiceQuestion } from "./questions/SingleChoiceQuestion";
 import { MultipleChoiceQuestion } from "./questions/MultipleChoiceQuestion";
 import { TextInputQuestion } from "./questions/TextInputQuestion";
@@ -12,8 +12,8 @@ import { RatingQuestion } from "./questions/RatingQuestion";
 
 export interface QuestionRendererProps {
   question: OnboardingQuestion;
-  value: any;
-  onChange: (value: any) => void;
+  value: OnboardingAnswerValue;
+  onChange: (value: OnboardingAnswerValue) => void;
 }
 
 export const QuestionRenderer = ({
@@ -26,32 +26,32 @@ export const QuestionRenderer = ({
       return (
         <SingleChoiceQuestion
           question={question}
-          value={value}
-          onChange={onChange}
+          value={value as string | undefined}
+          onChange={onChange as (value: string) => void}
         />
       );
     case "multiple_choice":
       return (
         <MultipleChoiceQuestion
           question={question}
-          value={value}
-          onChange={onChange}
+          value={value as string[] | undefined}
+          onChange={onChange as (value: string[]) => void}
         />
       );
     case "text_input":
       return (
         <TextInputQuestion
           question={question}
-          value={value}
-          onChange={onChange}
+          value={value as string | undefined}
+          onChange={onChange as (value: string) => void}
         />
       );
     case "rating":
       return (
         <RatingQuestion
           question={question}
-          value={value}
-          onChange={onChange}
+          value={value as number | undefined}
+          onChange={onChange as (value: number) => void}
         />
       );
     default:

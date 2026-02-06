@@ -4,6 +4,8 @@
  * Domain entity representing collected user data from onboarding
  */
 
+import type { OnboardingAnswerValue } from "./OnboardingQuestion";
+
 /**
  * User data collected during onboarding
  */
@@ -12,7 +14,7 @@ export interface OnboardingUserData {
    * User's answers to questions
    * Key: question ID, Value: answer
    */
-  answers: Record<string, any>;
+  answers: Record<string, OnboardingAnswerValue>;
 
   /**
    * Timestamp when onboarding was completed
@@ -27,7 +29,7 @@ export interface OnboardingUserData {
   /**
    * User preferences derived from answers
    */
-  preferences?: Record<string, any>;
+  preferences?: Record<string, unknown>;
 
   /**
    * User profile data
@@ -37,7 +39,7 @@ export interface OnboardingUserData {
     email?: string;
     age?: number;
     gender?: string;
-    [key: string]: any;
+    [key: string]: string | number | undefined;
   };
 }
 

@@ -16,8 +16,7 @@ export interface UseSplashFlowOptions {
    */
   isAppReady?: boolean;
   /**
-   * @deprecated Use isAppReady instead. Artificial delays cause poor UX.
-   * Only use for fallback/timeout scenarios.
+   * Splash duration in ms. Use isAppReady for real initialization tracking.
    */
   duration?: number;
 }
@@ -40,7 +39,7 @@ export const useSplashFlow = (options: UseSplashFlowOptions = {}): UseSplashFlow
       return undefined;
     }
 
-    // Fallback: Use duration timer if isAppReady not provided (legacy support)
+    // Timer-based fallback when isAppReady is not provided
     if (duration !== undefined) {
       const timer = setTimeout(() => {
         setIsInitialized(true);

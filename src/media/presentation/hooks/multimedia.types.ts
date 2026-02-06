@@ -5,17 +5,19 @@
 
 import type {
   MediaAttachment,
+  MediaFile,
   MediaGenerationRequest,
   MediaGenerationResult,
   MediaCompressionOptions,
   MediaValidation,
   MediaUploadProgress,
   MultimediaFlashcard,
+  CreateMultimediaCardData,
 } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export interface UseMediaUploadResult {
   uploadMedia: (
-    file: any,
+    file: MediaFile,
     options?: MediaCompressionOptions,
   ) => Promise<MediaAttachment>;
   isUploading: boolean;
@@ -33,14 +35,14 @@ export interface UseMediaGenerationResult {
 }
 
 export interface UseMediaValidationResult {
-  validateMedia: (file: any) => Promise<MediaValidation>;
+  validateMedia: (file: MediaFile) => Promise<MediaValidation>;
   isValidating: boolean;
   validation: MediaValidation | null;
   error: string | null;
 }
 
 export interface UseMultimediaFlashcardResult {
-  createMultimediaCard: (cardData: any) => Promise<MultimediaFlashcard>;
+  createMultimediaCard: (cardData: CreateMultimediaCardData) => Promise<MultimediaFlashcard>;
   updateMedia: (
     cardId: string,
     media: MediaAttachment[],

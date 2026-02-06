@@ -9,6 +9,7 @@ import type { UseMultimediaFlashcardResult } from "./multimedia.types";
 import type {
   MediaAttachment,
   MultimediaFlashcard,
+  CreateMultimediaCardData,
 } from "../../domain/entities/MultimediaFlashcardTypes";
 
 // Export individual hooks
@@ -32,7 +33,7 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
   const [error, setError] = React.useState<string | null>(null);
 
   const createMultimediaCard = React.useCallback(
-    async (cardData: any): Promise<MultimediaFlashcard> => {
+    async (cardData: CreateMultimediaCardData): Promise<MultimediaFlashcard> => {
       try {
         setIsProcessing(true);
         setError(null);
@@ -50,7 +51,7 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
           hasMedia: (cardData.media || []).length > 0,
           mediaType: extractMediaTypes(cardData.media || []),
           isDownloaded: (cardData.media || []).every(
-            (m: any) => m.isDownloaded,
+            (m: MediaAttachment) => m.isDownloaded,
           ),
           estimatedSize: calculateTotalSize(cardData.media || []),
           createdAt: new Date().toISOString(),

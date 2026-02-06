@@ -4,6 +4,9 @@
  * Manages editor layers with composition and rendering
  */
 
+import type { EditorLayer } from '../../domain/entities/EditorTypes';
+
+type LayerElement = EditorLayer['elements'][number];
 export type LayerOperation = 'add' | 'remove' | 'move' | 'merge' | 'duplicate';
 
 export interface LayerComposition {
@@ -19,13 +22,13 @@ export class LayerManager {
     layers: Array<{
       id: string;
       name: string;
-      elements: any[];
+      elements: LayerElement[];
     }>,
     targetIds: string[]
   ): Array<{
     id: string;
     name: string;
-    elements: any[];
+    elements: LayerElement[];
   }> {
     const targetLayers = layers.filter(layer => targetIds.includes(layer.id));
     const otherLayers = layers.filter(layer => !targetIds.includes(layer.id));
@@ -47,12 +50,12 @@ export class LayerManager {
     layer: {
       id: string;
       name: string;
-      elements: any[];
+      elements: LayerElement[];
     }
   ): {
     id: string;
     name: string;
-    elements: any[];
+    elements: LayerElement[];
   } {
     return {
       id: Math.random().toString(36).substr(2, 9),

@@ -29,7 +29,7 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
                     <AtomicIcon
                         name={icon}
                         size="sm"
-                        color={iconColor as any}
+                        customColor={iconColor}
                     />
                 )}
                 <AtomicText

@@ -36,18 +36,18 @@ export class TTLCache<T = unknown> extends Cache<T> {
     const now = Date.now();
 
     for (const key of keys) {
-      const entry = (this as any).store.get(key);
+      const entry = this.store.get(key);
       if (entry && (now - entry.timestamp) > entry.ttl) {
-        (this as any).store.delete(key);
+        this.store.delete(key);
         cleanedCount++;
       }
     }
 
     if (cleanedCount > 0) {
-      (this as any).statsTracker.updateSize((this as any).store.size);
-      (this as any).statsTracker.recordExpiration();
+      this.statsTracker.updateSize(this.store.size);
+      this.statsTracker.recordExpiration();
 
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      if (__DEV__) {
         console.log(`TTLCache: Cleaned up ${cleanedCount} expired entries`);
       }
     }
@@ -68,7 +68,7 @@ export class TTLCache<T = unknown> extends Cache<T> {
 
   override set(key: string, value: T, ttl?: number): void {
     if (this.isDestroyed) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      if (__DEV__) {
         console.warn('TTLCache: Attempted to set value on destroyed cache');
       }
       return;
@@ -78,7 +78,7 @@ export class TTLCache<T = unknown> extends Cache<T> {
 
   override get(key: string): T | undefined {
     if (this.isDestroyed) {
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      if (__DEV__) {
         console.warn('TTLCache: Attempted to get value from destroyed cache');
       }
       return undefined;

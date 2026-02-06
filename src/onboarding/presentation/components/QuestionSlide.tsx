@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { AtomicText } from "../../../atoms/AtomicText";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
+import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 import { QuestionSlideHeader } from "./QuestionSlideHeader";
 import { QuestionRenderer } from "./QuestionRenderer";
 import { BaseSlide } from "./BaseSlide";
@@ -9,8 +10,8 @@ import { useOnboardingProvider } from "../providers/OnboardingProvider";
 
 export interface QuestionSlideProps {
   slide: OnboardingSlide;
-  value: any;
-  onChange: (value: any) => void;
+  value: OnboardingAnswerValue;
+  onChange: (value: OnboardingAnswerValue) => void;
   variant?: "default" | "card" | "minimal" | "fullscreen";
   fieldRequiredText?: string;
 }

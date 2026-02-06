@@ -10,6 +10,7 @@ import type { UseMediaUploadResult } from "./multimedia.types";
 import type {
   MediaAttachment,
   MediaCompressionOptions,
+  MediaFile,
   MediaUploadProgress,
 } from "../../domain/entities/MultimediaFlashcardTypes";
 
@@ -20,7 +21,7 @@ export const useMediaUpload = (): UseMediaUploadResult => {
   const [error, setError] = React.useState<string | null>(null);
 
   const uploadMedia = React.useCallback(
-    async (file: any, _options?: MediaCompressionOptions) => {
+    async (file: MediaFile, _options?: MediaCompressionOptions) => {
       try {
         setIsUploading(true);
         setError(null);

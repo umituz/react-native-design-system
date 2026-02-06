@@ -47,7 +47,7 @@ export function useOptimisticUpdate<TData = unknown, TVariables = unknown, TErro
     },
     onError: (error: TError, variables: TVariables, context: unknown) => {
       
-      const ctx = context as any;
+      const ctx = context as { previousData?: TData } | undefined;
       if (ctx?.previousData !== undefined) {
         queryClient.setQueryData(queryKey, ctx.previousData);
 

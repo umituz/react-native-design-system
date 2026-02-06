@@ -6,6 +6,7 @@
 import type {
   MediaAttachment,
   MediaCompressionOptions,
+  MediaFile,
 } from "../../domain/entities/MultimediaFlashcardTypes";
 import { generateThumbnail, getMediaDuration } from "../utils/file-media-utils";
 import { getMediaTypeFromMime } from "../utils/mime-type-detector";
@@ -15,7 +16,7 @@ export class MediaUploadService {
    * Upload media file with optional compression
    */
   async uploadMedia(
-    file: any,
+    file: MediaFile,
     _options?: MediaCompressionOptions,
   ): Promise<MediaAttachment> {
     try {

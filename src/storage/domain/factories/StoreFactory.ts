@@ -37,8 +37,8 @@ export function createStore<
       name: config.name,
       storage: createJSONStorage(() => storageService),
       version: config.version || 1,
-      partialize: config.partialize
-        ? (state: Store) => config.partialize!(state as any) as any
+      partialize: (config.partialize
+        ? (state: Store) => config.partialize!(state)
         : (state: Store) => {
             const persisted: Record<string, unknown> = {};
             for (const key of Object.keys(state)) {
@@ -46,14 +46,14 @@ export function createStore<
                 persisted[key] = state[key as keyof Store];
               }
             }
-            return persisted as any;
-          },
+            return persisted;
+          }) as (state: Store) => Store,
       onRehydrateStorage: () => (state: Store | undefined) => {
         if (state && config.onRehydrate) {
-          config.onRehydrate(state as any);
+          config.onRehydrate(state);
         }
       },
-      migrate: config.migrate as any,
+      migrate: config.migrate as ((persistedState: unknown, version: number) => Store | Promise<Store>),
     })
   );
 }

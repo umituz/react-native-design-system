@@ -38,7 +38,7 @@ export const OnboardingSlide = ({
             <AtomicText style={{ fontSize: iconSize }}>{slide.icon}</AtomicText>
           ) : (
             <AtomicIcon
-              name={slide.icon as any}
+              name={slide.icon}
               customSize={iconSize}
               customColor={colors.iconColor}
             />

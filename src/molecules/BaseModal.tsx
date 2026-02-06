@@ -10,7 +10,6 @@ import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
 import { AtomicText } from '../atoms/AtomicText';
 
-declare const __DEV__: boolean;
 
 export interface BaseModalProps {
   visible: boolean;
@@ -38,7 +37,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   // Debug logging for modal visibility
   useEffect(() => {
-    if (typeof __DEV__ !== "undefined" && __DEV__) {
+    if (__DEV__) {
       console.log("[BaseModal] Visibility changed:", {
         visible,
         testID,
@@ -56,7 +55,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 
   if (!visible) return null;
 
-  if (typeof __DEV__ !== "undefined" && __DEV__) {
+  if (__DEV__) {
     console.log("[BaseModal] Rendering modal content:", { testID });
   }
 

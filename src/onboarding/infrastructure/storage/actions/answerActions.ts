@@ -4,6 +4,7 @@
  */
 
 import { storageRepository } from "../../../../storage";
+import type { OnboardingAnswerValue } from "../../../domain/entities/OnboardingQuestion";
 import type { OnboardingUserData } from "../../../domain/entities/OnboardingUserData";
 import type { OnboardingStoreState } from "../OnboardingStoreState";
 import { USER_DATA_STORAGE_KEY, handleError, logSuccess } from "./storageHelpers";
@@ -19,7 +20,7 @@ export async function saveAnswerAction(
       ...get().userData,
       answers: {
         ...get().userData.answers,
-        [questionId]: answer,
+        [questionId]: answer as OnboardingAnswerValue,
       },
     };
 

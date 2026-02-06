@@ -29,7 +29,7 @@
 import { useMemo, useEffect } from 'react';
 import { useCalendarStore, type CalendarViewMode } from '../../infrastructure/storage/CalendarStore';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
-import type { CalendarEvent } from '../../domain/entities/CalendarEvent.entity';
+import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
 
 /**
  * Calendar hook return type
@@ -53,8 +53,8 @@ export interface UseCalendarReturn {
   // Actions
   actions: {
     loadEvents: () => Promise<void>;
-    addEvent: (request: any) => Promise<void>;
-    updateEvent: (request: any) => Promise<void>;
+    addEvent: (request: CreateCalendarEventRequest) => Promise<void>;
+    updateEvent: (request: UpdateCalendarEventRequest) => Promise<void>;
     deleteEvent: (id: string) => Promise<void>;
     completeEvent: (id: string) => Promise<void>;
     uncompleteEvent: (id: string) => Promise<void>;

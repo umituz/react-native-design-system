@@ -112,7 +112,7 @@ export const darkColors = {
 
   cardBackground: '#1E293B',         // Dark card background
 
-  // COLOR ALIASES (for backward compatibility and convenience)
+  // COLOR ALIASES
   text: '#F1F5F9',                    // Alias for textPrimary
   background: '#0F172A',              // Alias for backgroundPrimary
   card: '#1E293B',                    // Alias for cardBackground

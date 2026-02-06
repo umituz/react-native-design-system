@@ -5,6 +5,11 @@
  */
 
 /**
+ * Possible answer value types for onboarding questions
+ */
+export type OnboardingAnswerValue = string | string[] | number | undefined;
+
+/**
  * Question types for different input methods
  */
 export type QuestionType =
@@ -92,7 +97,7 @@ export interface QuestionValidation {
   /**
    * Custom validation function
    */
-  customValidator?: (value: any) => boolean | string;
+  customValidator?: (value: OnboardingAnswerValue) => boolean | string;
 }
 
 /**
@@ -138,7 +143,7 @@ export interface OnboardingQuestion {
   /**
    * Default value
    */
-  defaultValue?: any;
+  defaultValue?: OnboardingAnswerValue;
 
   /**
    * Storage key for saving the answer
@@ -160,6 +165,6 @@ export interface OnboardingQuestion {
    * @param answers - Previous answers
    * @returns true to skip, false to show
    */
-  skipIf?: (answers: Record<string, any>) => boolean;
+  skipIf?: (answers: Record<string, OnboardingAnswerValue>) => boolean;
 }
 

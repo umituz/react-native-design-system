@@ -35,7 +35,7 @@ const TabBarButton: React.FC<BottomTabBarButtonProps> = (props) => {
 export function createTabScreen<T extends ParamListBase = ParamListBase>(
   screen: TabScreen<T>,
   config: TabNavigatorConfig<T>,
-  Tab: any
+  Tab: { Screen: React.ElementType }
 ): React.ReactElement {
   const screenOptions = (
     props: BottomTabScreenProps<T>
@@ -95,7 +95,7 @@ export function createTabScreen<T extends ParamListBase = ParamListBase>(
 export function createStackScreen<T extends ParamListBase = ParamListBase>(
   screen: StackScreen<T>,
   config: StackNavigatorConfig<T>,
-  Stack: any
+  Stack: { Screen: React.ElementType }
 ): React.ReactElement {
   const screenOptions = (props: { navigation: unknown; route: unknown }) => {
     if (screen.options) {

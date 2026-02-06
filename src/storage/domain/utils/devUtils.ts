@@ -6,14 +6,14 @@
  * Check if running in development mode
  */
 export const isDev = (): boolean => {
-  return (globalThis as any).__DEV__ === true;
+  return __DEV__;
 };
 
 /**
  * Log warning in development mode only
  */
-export const devWarn = (message: string, ...args: any[]): void => {
-  if (isDev()) {
+export const devWarn = (message: string, ...args: unknown[]): void => {
+  if (__DEV__) {
     console.warn(message, ...args);
   }
 };
@@ -21,8 +21,8 @@ export const devWarn = (message: string, ...args: any[]): void => {
 /**
  * Log error in development mode only
  */
-export const devError = (message: string, ...args: any[]): void => {
-  if (isDev()) {
+export const devError = (message: string, ...args: unknown[]): void => {
+  if (__DEV__) {
     console.error(message, ...args);
   }
 };
@@ -30,8 +30,8 @@ export const devError = (message: string, ...args: any[]): void => {
 /**
  * Log info in development mode only
  */
-export const devLog = (message: string, ...args: any[]): void => {
-  if (isDev()) {
+export const devLog = (message: string, ...args: unknown[]): void => {
+  if (__DEV__) {
     console.log(message, ...args);
   }
 };

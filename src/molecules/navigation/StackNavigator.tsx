@@ -46,7 +46,7 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
         headerTitleStyle: {
             color: tokens.colors.onSurface,
             fontSize: 18,
-            fontWeight: "600" as any,
+            fontWeight: "600" as const,
         },
         headerTintColor: tokens.colors.primary,
         cardStyle: {
@@ -64,11 +64,11 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
             initialRouteName={config.initialRouteName as string}
             screenOptions={{
                 ...defaultScreenOptions,
-                ...(config.screenOptions as any),
+                ...config.screenOptions,
             }}
         >
             {screens.map((screen) =>
-                createStackScreen(screen as StackScreen<any>, config, Stack)
+                createStackScreen(screen as StackScreen<ParamListBase>, config, Stack)
             )}
         </Stack.Navigator>
     );

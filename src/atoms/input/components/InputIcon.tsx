@@ -24,14 +24,14 @@ export const InputIcon: React.FC<InputIconProps> = ({
   if (onPress) {
     return (
       <Pressable onPress={onPress} style={style} testID={testID}>
-        <AtomicIcon name={name as any} customSize={size} customColor={color} />
+        <AtomicIcon name={name} customSize={size} customColor={color} />
       </Pressable>
     );
   }
 
   return (
     <AtomicIcon 
-      name={name as any} 
+      name={name} 
       customSize={size} 
       customColor={color} 
       style={style}

@@ -4,13 +4,13 @@
  */
 
 import { formatFileSize } from "../utils/media-collection-utils";
-import type { MediaValidation } from "../../domain/entities/MultimediaFlashcardTypes";
+import type { MediaValidation, MediaFile } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export class MediaValidationService {
   /**
    * Validate media file before upload
    */
-  async validateMedia(file: any): Promise<MediaValidation> {
+  async validateMedia(file: MediaFile): Promise<MediaValidation> {
     try {
       const errors: string[] = [];
       const warnings: string[] = [];

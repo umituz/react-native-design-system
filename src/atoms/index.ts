@@ -61,7 +61,7 @@ export {
 export { AtomicAvatar, type AtomicAvatarProps } from './AtomicAvatar';
 
 // Chip
-export { AtomicChip, type AtomicChipProps } from './AtomicChip';
+export { AtomicChip, type AtomicChipProps } from './chip';
 
 // Progress
 export { AtomicProgress, type AtomicProgressProps } from './AtomicProgress';

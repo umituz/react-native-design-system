@@ -46,7 +46,7 @@ export const SingleChoiceQuestion = ({
               <AtomicText style={{ fontSize: 24 }}>{option.icon}</AtomicText>
             ) : (
               <AtomicIcon
-                name={option.icon as any}
+                name={option.icon}
                 customSize={20}
                 customColor={isSelected ? colors.buttonTextColor : colors.subTextColor}
               />

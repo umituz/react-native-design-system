@@ -1,5 +1,3 @@
-export { createTabNavigator } from "./createTabNavigator";
-export { createStackNavigator } from "./createStackNavigator";
 export { TabsNavigator, type TabsNavigatorProps } from "./TabsNavigator";
 export { StackNavigator, type StackNavigatorProps } from "./StackNavigator";
 export { FabButton, type FabButtonProps } from "./components/FabButton";

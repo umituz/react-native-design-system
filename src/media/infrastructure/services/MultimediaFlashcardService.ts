@@ -5,6 +5,7 @@
 
 import type {
   MediaAttachment,
+  MediaFile,
   MediaGenerationRequest,
   MediaGenerationResult,
   MediaCompressionOptions,
@@ -40,7 +41,7 @@ export class MultimediaFlashcardService {
    * Upload media file with optional compression
    */
   async uploadMedia(
-    file: any,
+    file: MediaFile,
     options?: MediaCompressionOptions,
   ): Promise<MediaAttachment> {
     return this.uploadService.uploadMedia(file, options);
@@ -58,7 +59,7 @@ export class MultimediaFlashcardService {
   /**
    * Validate media file before upload
    */
-  async validateMedia(file: any): Promise<MediaValidation> {
+  async validateMedia(file: MediaFile): Promise<MediaValidation> {
     return this.validationService.validateMedia(file);
   }
 

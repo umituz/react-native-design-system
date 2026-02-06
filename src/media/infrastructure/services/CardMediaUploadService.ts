@@ -3,11 +3,10 @@
  * Handles media upload, download, and URL operations
  */
 
-declare var __DEV__: boolean;
-
 import type {
   CardMediaAttachment,
   CardMediaCompressionOptions,
+  CardMediaFile,
 } from "../../domain/entities/CardMultimedia.types";
 import { generateThumbnail, getMediaDuration } from "../utils/file-media-utils";
 import { getMediaTypeFromMime } from "../utils/mime-type-detector";
@@ -17,7 +16,7 @@ export class CardMediaUploadService {
    * Upload media file with optional compression
    */
   async uploadMedia(
-    file: any,
+    file: CardMediaFile,
     _options?: CardMediaCompressionOptions,
   ): Promise<CardMediaAttachment> {
     try {

@@ -10,7 +10,7 @@ export interface TabLabelProps {
     fontSize?: number;
     focusedWeight?: '400' | '500' | '600' | '700' | '800' | '900';
     unfocusedWeight?: '400' | '500' | '600' | '700' | '800' | '900';
-    textStyle?: any;
+    textStyle?: import('react-native').TextStyle;
     textType?: 'labelSmall' | 'labelMedium' | 'labelLarge' | 'bodySmall';
 }
 

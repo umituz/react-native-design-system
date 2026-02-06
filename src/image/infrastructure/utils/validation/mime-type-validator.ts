@@ -47,7 +47,7 @@ export function validateImageMimeType(
     return { isValid: false, error: `${fieldName} MIME type is required` };
   }
 
-  if (!SUPPORTED_IMAGE_MIME_TYPES.includes(mimeType as any)) {
+  if (!(SUPPORTED_IMAGE_MIME_TYPES as readonly string[]).includes(mimeType)) {
     return {
       isValid: false,
       error: `${fieldName} must be an image (JPEG, PNG, WEBP, or GIF)`,

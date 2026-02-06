@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { ParamListBase } from "@react-navigation/native";
-import type { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import type { BottomTabNavigationOptions, BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { TabNavigatorConfig, TabScreen } from "./types";
 import { NavigationValidator } from "./utils/NavigationValidator";
 import { createTabScreen } from "./utils/ScreenFactory";
@@ -52,7 +52,7 @@ export function TabsNavigator<T extends ParamListBase>({
             tabBarStyle: {
                 backgroundColor: tokens.colors.surface,
                 borderTopColor: tokens.colors.surfaceVariant,
-                height: (tokens.spacing as any).tabBarHeight || 60,
+                height: 60,
                 paddingBottom: 8,
                 paddingTop: 8,
             },
@@ -66,7 +66,7 @@ export function TabsNavigator<T extends ParamListBase>({
             headerTitleStyle: {
                 color: tokens.colors.onSurface,
                 fontSize: 18,
-                fontWeight: "600" as any,
+                fontWeight: "600" as const,
             },
             headerTintColor: tokens.colors.primary,
         }),
@@ -75,7 +75,7 @@ export function TabsNavigator<T extends ParamListBase>({
 
     // Merge screen options properly (handle both function and object)
     const mergedScreenOptions = useCallback(
-        (props: any): BottomTabNavigationOptions => {
+        (props: BottomTabScreenProps<T>): BottomTabNavigationOptions => {
             const customOptions = typeof config.screenOptions === "function"
                 ? config.screenOptions(props)
                 : config.screenOptions || {};
@@ -96,10 +96,10 @@ export function TabsNavigator<T extends ParamListBase>({
         <Tab.Navigator
             id={config.id}
             initialRouteName={config.initialRouteName as string}
-            screenOptions={mergedScreenOptions}
+            screenOptions={mergedScreenOptions as (props: BottomTabScreenProps<ParamListBase>) => BottomTabNavigationOptions}
         >
             {visibleScreens.map((screen) =>
-                createTabScreen(screen as TabScreen<any>, config, Tab)
+                createTabScreen(screen as unknown as TabScreen<ParamListBase>, config as unknown as TabNavigatorConfig<ParamListBase>, Tab)
             )}
         </Tab.Navigator>
     );

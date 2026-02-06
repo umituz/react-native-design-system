@@ -4,7 +4,7 @@
  * Advanced filtering UI using @umituz/react-native-bottom-sheet
  */
 
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { BottomSheetModal } from '../BottomSheetModal';
 import type { BottomSheetModalRef } from '../../types/BottomSheet';
@@ -35,6 +35,15 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     const tokens = useAppDesignTokens();
     const checkIcon = useIconName('check');
     const closeIcon = useIconName('close');
+    const internalRef = useRef<BottomSheetModalRef>(null);
+    useImperativeHandle(ref, () => ({
+        present: () => internalRef.current?.present(),
+        dismiss: () => internalRef.current?.dismiss(),
+        snapToIndex: (index: number) => internalRef.current?.snapToIndex(index),
+        snapToPosition: (position: string | number) => internalRef.current?.snapToPosition(position),
+        expand: () => internalRef.current?.expand(),
+        collapse: () => internalRef.current?.collapse(),
+    }));
 
     if (__DEV__) {
         console.log('[FilterBottomSheet] Component mounted/rendered', { 
@@ -109,7 +118,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
                 <View style={styles.optionLeft}>
                     {option.icon && (
                         <AtomicIcon
-                            name={option.icon as any}
+                            name={option.icon}
                             size="sm"
                             color={isSelected ? 'primary' : 'secondary'}
                         />
@@ -145,7 +154,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     React.useEffect(() => {
         if (__DEV__) {
             console.log('[FilterBottomSheet] useEffect - Component ready', {
-                refCurrent: !!(ref as any)?.current,
+                refCurrent: !!internalRef.current,
                 categoriesCount: categories.length
             });
         }
@@ -157,7 +166,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
 
     return (
         <BottomSheetModal
-            ref={ref}
+            ref={internalRef}
             preset="medium"
             onDismiss={() => {
                 if (__DEV__) console.log('[FilterBottomSheet] onDismiss callback triggered');
@@ -168,7 +177,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
             <View style={styles.container}>
                 <View style={styles.header}>
                     <AtomicText type="headlineSmall">{title || 'Filter'}</AtomicText>
-                    <TouchableOpacity onPress={() => (ref as any).current?.dismiss()}>
+                    <TouchableOpacity onPress={() => internalRef.current?.dismiss()}>
                         <AtomicIcon name={closeIcon} size="md" color="textPrimary" />
                     </TouchableOpacity>
                 </View>
@@ -179,7 +188,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
 
                 <View style={styles.footer}>
                     <AtomicButton
-                        onPress={() => (ref as any).current?.dismiss()}
+                        onPress={() => internalRef.current?.dismiss()}
                         fullWidth
                     >
                         {applyLabel}

@@ -4,6 +4,7 @@
  */
 
 import { useMemo } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 
@@ -12,7 +13,7 @@ export interface UseOnboardingContainerStyleProps {
 }
 
 export interface UseOnboardingContainerStyleReturn {
-  containerStyle: any;
+  containerStyle: StyleProp<ViewStyle>;
 }
 
 export function useOnboardingContainerStyle({

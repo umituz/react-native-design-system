@@ -82,7 +82,7 @@ export function TanstackProvider({
     const client = providedQueryClient ?? createQueryClient(queryClientOptions);
     setGlobalQueryClient(client);
 
-    if (enableDevTools && typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (enableDevTools && __DEV__) {
       DevMonitor.attach(client);
     }
 

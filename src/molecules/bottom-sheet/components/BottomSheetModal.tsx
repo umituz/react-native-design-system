@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from '../../../safe-area';
 import { getResponsiveBottomSheetLayout } from '../../../responsive';
 import type { BottomSheetModalRef, BottomSheetModalProps } from '../types/BottomSheet';
 
-declare const __DEV__: boolean;
 
 export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModalProps>(
   (props, ref) => {

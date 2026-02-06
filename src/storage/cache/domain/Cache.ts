@@ -11,9 +11,9 @@ import { FIFOStrategy } from './strategies/FIFOStrategy';
 import { TTLStrategy } from './strategies/TTLStrategy';
 
 export class Cache<T = unknown> {
-  private store = new Map<string, CacheEntry<T>>();
+  protected store = new Map<string, CacheEntry<T>>();
   private config: Required<CacheConfig>;
-  private statsTracker = new CacheStatsTracker();
+  protected statsTracker = new CacheStatsTracker();
   private strategies = {
     lru: new LRUStrategy<T>(),
     lfu: new LFUStrategy<T>(),
@@ -46,7 +46,7 @@ export class Cache<T = unknown> {
     this.store.set(key, entry);
     this.statsTracker.updateSize(this.store.size);
 
-    if (typeof __DEV__ !== 'undefined' && __DEV__ && typeof console !== 'undefined' && console.log) {
+    if (__DEV__) {
       console.log(`Cache: Set key "${key}" with TTL ${entry.ttl}ms`);
     }
   }
@@ -134,7 +134,7 @@ export class Cache<T = unknown> {
       this.statsTracker.recordEviction();
       this.statsTracker.updateSize(this.store.size);
 
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      if (__DEV__) {
         console.log(`Cache: Evicted key "${keyToEvict}" using ${strategy} strategy`);
       }
 

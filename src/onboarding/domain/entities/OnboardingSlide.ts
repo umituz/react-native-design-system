@@ -4,7 +4,9 @@
  * Domain entity representing a single onboarding slide
  */
 
-import type { OnboardingQuestion } from "./OnboardingQuestion";
+import type { VideoSource } from "expo-video";
+import type { ImageSourceType } from "../../infrastructure/utils/layouts/layoutTypes";
+import type { OnboardingQuestion, OnboardingAnswerValue } from "./OnboardingQuestion";
 
 /**
  * Slide type - determines the content and behavior
@@ -76,20 +78,20 @@ export interface OnboardingSlide {
   /**
    * Optional image URL (alternative to icon)
    */
-  image?: any;
+  image?: ImageSourceType;
 
   /**
    * Optional background image (URL or require path)
    * Stretches to fill the screen behind content
    */
-  backgroundImage?: any;
+  backgroundImage?: ImageSourceType;
 
   /**
    * Optional multiple background images (URLs or require paths)
    * Displayed in a collage/grid pattern behind content
    * If provided, takes precedence over single backgroundImage
    */
-  backgroundImages?: any[];
+  backgroundImages?: ImageSourceType[];
 
   /**
    * Layout pattern for multiple background images
@@ -124,7 +126,7 @@ export interface OnboardingSlide {
    * Optional background video (URL or require path)
    * Plays in loop behind content
    */
-  backgroundVideo?: any;
+  backgroundVideo?: VideoSource;
 
   /**
    * Opacity of the overlay color on top of background media
@@ -148,5 +150,5 @@ export interface OnboardingSlide {
    * @param answers - Previous answers
    * @returns true to skip, false to show
    */
-  skipIf?: (answers: Record<string, any>) => boolean;
+  skipIf?: (answers: Record<string, OnboardingAnswerValue>) => boolean;
 }

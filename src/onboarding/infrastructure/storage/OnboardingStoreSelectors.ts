@@ -3,10 +3,11 @@
  * Single Responsibility: Store state selectors
  */
 
+import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 import type { OnboardingStoreState } from "./OnboardingStoreState";
 
 export interface OnboardingStoreSelectors {
-  getAnswer: (questionId: string) => any;
+  getAnswer: (questionId: string) => OnboardingAnswerValue;
   getUserData: () => OnboardingStoreState['userData'];
 }
 

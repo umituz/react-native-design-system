@@ -5,6 +5,7 @@
 
 import type {
   CardMediaAttachment,
+  CardMediaFile,
   CardMediaGenerationRequest,
   CardMediaGenerationResult,
   CardMediaCompressionOptions,
@@ -42,7 +43,7 @@ export class CardMultimediaFlashcardService implements ICardMultimediaFlashcardS
    * Upload media file with optional compression
    */
   async uploadMedia(
-    file: any,
+    file: CardMediaFile,
     options?: CardMediaCompressionOptions,
   ): Promise<CardMediaAttachment> {
     return this.uploadService.uploadMedia(file, options);
@@ -60,7 +61,7 @@ export class CardMultimediaFlashcardService implements ICardMultimediaFlashcardS
   /**
    * Validate media file before upload
    */
-  async validateMedia(file: any): Promise<CardMediaValidation> {
+  async validateMedia(file: CardMediaFile): Promise<CardMediaValidation> {
     return this.validationService.validateMedia(file);
   }
 

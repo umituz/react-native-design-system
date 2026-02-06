@@ -6,9 +6,6 @@ import { type DesignTokens, type ResponsiveTypography } from '../types/ThemeType
 /**
  * Create complete design tokens for a specific theme mode
  *
- * ✅ Responsive by default
- * ✅ SINGLE SOURCE OF TRUTH
- *
  * @param mode - Theme mode ('light' or 'dark')
  * @param customColors - Optional custom colors to override default colors
  * @param multiplier - Device-based spacing multiplier
@@ -25,48 +22,59 @@ export const createDesignTokens = (
   const colors = applyCustomColors(baseColors, customColors);
 
   // Responsive Spacing
-  const spacing = Object.keys(BASE_TOKENS.spacing).reduce((acc, key) => {
-    const value = BASE_TOKENS.spacing[key as keyof typeof BASE_TOKENS.spacing];
-    acc[key as keyof typeof BASE_TOKENS.spacing] = typeof value === 'number' ? value * multiplier : value;
-    return acc;
-  }, {} as any);
+  type SpacingKeys = keyof typeof BASE_TOKENS.spacing;
+  const spacing: Record<string, number | string> = {};
+  for (const key of Object.keys(BASE_TOKENS.spacing) as SpacingKeys[]) {
+    const value = BASE_TOKENS.spacing[key];
+    spacing[key] = typeof value === 'number' ? value * multiplier : value;
+  }
 
   // Responsive Typography
-  const typography = Object.keys(BASE_TOKENS.typography).reduce((acc, key) => {
-    const style = BASE_TOKENS.typography[key as keyof typeof BASE_TOKENS.typography];
-    if (typeof style === 'object' && style.fontSize) {
-      acc[key as keyof typeof BASE_TOKENS.typography] = {
-        ...(style as any),
+  type TypographyKeys = keyof typeof BASE_TOKENS.typography;
+  const typography: Record<string, unknown> = {};
+  for (const key of Object.keys(BASE_TOKENS.typography) as TypographyKeys[]) {
+    const style = BASE_TOKENS.typography[key];
+    if (typeof style === 'object' && 'fontSize' in style) {
+      typography[key] = {
+        ...style,
         responsiveFontSize: getFontSize(style.fontSize as number),
       };
     } else {
-      acc[key as keyof typeof BASE_TOKENS.typography] = style as any;
+      typography[key] = style;
     }
-    return acc;
-  }, {} as any) as ResponsiveTypography;
+  }
 
   // Responsive Borders
-  const borderRadius = Object.keys(BASE_TOKENS.borders.radius).reduce((acc, key) => {
-    const value = BASE_TOKENS.borders.radius[key as keyof typeof BASE_TOKENS.borders.radius];
-    acc[key as keyof typeof BASE_TOKENS.borders.radius] = value === 0 || key === 'full' ? value : Math.round(value * multiplier);
+  type RadiusKeys = keyof typeof BASE_TOKENS.borders.radius;
+  const borderRadius = (Object.keys(BASE_TOKENS.borders.radius) as RadiusKeys[]).reduce<Record<RadiusKeys, number>>((acc, key) => {
+    const value = BASE_TOKENS.borders.radius[key];
+    acc[key] = value === 0 || key === 'full' ? value : Math.round(value * multiplier);
     return acc;
-  }, {} as any);
+  }, {} as Record<RadiusKeys, number>);
+
+  // Responsive Icon Sizes
+  type IconKeys = keyof typeof BASE_TOKENS.iconSizes;
+  const iconSizes = (Object.keys(BASE_TOKENS.iconSizes) as IconKeys[]).reduce<Record<IconKeys, number>>((acc, key) => {
+    acc[key] = BASE_TOKENS.iconSizes[key] * multiplier;
+    return acc;
+  }, {} as Record<IconKeys, number>);
+
+  // Responsive Avatar Sizes
+  type AvatarKeys = keyof typeof BASE_TOKENS.avatarSizes;
+  const avatarSizes = (Object.keys(BASE_TOKENS.avatarSizes) as AvatarKeys[]).reduce<Record<AvatarKeys, number>>((acc, key) => {
+    acc[key] = BASE_TOKENS.avatarSizes[key] * multiplier;
+    return acc;
+  }, {} as Record<AvatarKeys, number>);
 
   return {
     colors,
-    spacing,
-    typography,
-    iconSizes: Object.keys(BASE_TOKENS.iconSizes).reduce((acc, key) => {
-      acc[key as keyof typeof BASE_TOKENS.iconSizes] = BASE_TOKENS.iconSizes[key as keyof typeof BASE_TOKENS.iconSizes] * multiplier;
-      return acc;
-    }, {} as any),
+    spacing: spacing as DesignTokens['spacing'],
+    typography: typography as ResponsiveTypography,
+    iconSizes: iconSizes as DesignTokens['iconSizes'],
     opacity: BASE_TOKENS.opacity,
-    avatarSizes: Object.keys(BASE_TOKENS.avatarSizes).reduce((acc, key) => {
-      acc[key as keyof typeof BASE_TOKENS.avatarSizes] = BASE_TOKENS.avatarSizes[key as keyof typeof BASE_TOKENS.avatarSizes] * multiplier;
-      return acc;
-    }, {} as any),
-    radius: borderRadius,
-    borderRadius: borderRadius,
+    avatarSizes: avatarSizes as DesignTokens['avatarSizes'],
+    radius: borderRadius as DesignTokens['radius'],
+    borderRadius: borderRadius as DesignTokens['borderRadius'],
     borders: {
       ...BASE_TOKENS.borders,
       radius: borderRadius,
@@ -88,4 +96,3 @@ export const createDesignTokens = (
 
 export { withAlpha };
 export type { ThemeMode, ColorPalette };
-

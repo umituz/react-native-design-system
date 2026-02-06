@@ -37,7 +37,7 @@ export const TextEditorSheet = forwardRef<BottomSheetModalRef, TextEditorSheetPr
   const [activeTab, setActiveTab] = useState<'content' | 'style' | 'transform'>('content');
   const { onDismiss, snapPoints = ['75%'], t } = props;
 
-  const tabs = [
+  const tabs: { id: 'content' | 'style' | 'transform'; label: string; icon: string }[] = [
     { id: 'content', label: 'Text', icon: 'text' },
     { id: 'style', label: 'Style', icon: 'color-palette' },
     { id: 'transform', label: 'Edit', icon: 'options' },
@@ -50,13 +50,13 @@ export const TextEditorSheet = forwardRef<BottomSheetModalRef, TextEditorSheetPr
           {tabs.map(tab => (
             <TouchableOpacity
               key={tab.id}
-              onPress={() => setActiveTab(tab.id as any)}
+              onPress={() => setActiveTab(tab.id)}
               style={{
                 flex: 1, alignItems: 'center', paddingVertical: tokens.spacing.sm,
                 borderBottomWidth: 3, borderBottomColor: activeTab === tab.id ? tokens.colors.primary : 'transparent'
               }}
             >
-              <AtomicIcon name={tab.icon as any} size={20} color={activeTab === tab.id ? 'primary' : 'secondary'} />
+              <AtomicIcon name={tab.icon} size={20} color={activeTab === tab.id ? 'primary' : 'secondary'} />
               <AtomicText style={{ 
                 ...tokens.typography.labelSmall, 
                 color: activeTab === tab.id ? tokens.colors.primary : tokens.colors.textSecondary,

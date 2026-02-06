@@ -5,13 +5,13 @@
 
 import { formatFileSize } from "../utils/media-collection-utils";
 import { getMediaDuration } from "../utils/file-media-utils";
-import type { CardMediaValidation } from "../../domain/entities/CardMultimedia.types";
+import type { CardMediaValidation, CardMediaFile } from "../../domain/entities/CardMultimedia.types";
 
 export class CardMediaValidationService {
   /**
    * Validate media file before upload
    */
-  async validateMedia(file: any): Promise<CardMediaValidation> {
+  async validateMedia(file: CardMediaFile): Promise<CardMediaValidation> {
     try {
       const errors: string[] = [];
       const warnings: string[] = [];

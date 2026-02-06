@@ -26,7 +26,7 @@ export const useCalendar = () => {
   const navigation = useCalendarNavigation();
   const view = useCalendarView();
 
-  // Utility functions for backward compatibility
+  // Utility functions
   const getEventsForDate = (date: Date) => {
     return events.events.filter(event => {
       const eventDate = new Date(event.date);
@@ -74,8 +74,7 @@ export const useCalendar = () => {
 };
 
 /**
- * Legacy alias for backward compatibility
- * @deprecated Use useCalendar instead
+ * Combined calendar store hook with computed days
  */
 export const useCalendarStore = () => {
   const calendar = useCalendar();

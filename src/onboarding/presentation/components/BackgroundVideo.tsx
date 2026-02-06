@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import type { VideoSource, VideoPlayer } from 'expo-video';
 
 interface BackgroundVideoProps {
-    source: any;
+    source: VideoSource;
     overlayOpacity?: number;
 }
 
 export const BackgroundVideo = ({ source, overlayOpacity = 0.5 }: BackgroundVideoProps) => {
-    const player = useVideoPlayer(source, (p: any) => {
+    const player = useVideoPlayer(source, (p: VideoPlayer) => {
         p.loop = true;
         p.play();
         p.muted = true;

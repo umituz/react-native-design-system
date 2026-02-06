@@ -79,7 +79,7 @@ export class ImageEditorService {
     return ImageEditorService.commitHistory(state, newLayers);
   }
 
-  static addElementToLayer(state: EditorState, layerId: string, element: any): EditorState {
+  static addElementToLayer(state: EditorState, layerId: string, element: EditorLayer['elements'][number]): EditorState {
     const layer = state.layers.find(l => l.id === layerId);
     if (!layer || layer.locked) {
       throw ImageErrorHandler.createError('Invalid layer operation', IMAGE_ERROR_CODES.VALIDATION_ERROR, 'addElementToLayer');

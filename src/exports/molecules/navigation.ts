@@ -5,8 +5,6 @@
 export {
   TabsNavigator,
   StackNavigator,
-  createTabNavigator,
-  createStackNavigator,
   FabButton,
   NavigationCleanupManager,
   AppNavigation,

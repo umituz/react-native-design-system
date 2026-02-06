@@ -52,7 +52,7 @@ interface BaseConfig<T> {
 }
 
 /**
- * Page-based pagination configuration (default, backward compatible)
+ * Page-based pagination configuration (default)
  */
 export interface PageBasedConfig<T> extends BaseConfig<T> {
   /**

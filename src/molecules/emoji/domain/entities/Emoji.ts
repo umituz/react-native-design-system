@@ -15,6 +15,20 @@
  */
 
 /**
+ * Emoji category types compatible with rn-emoji-keyboard
+ */
+export type EmojiCategoryType =
+  | 'smileys_emotion' | 'people_body' | 'animals_nature'
+  | 'food_drink' | 'travel_places' | 'activities'
+  | 'objects' | 'symbols' | 'flags'
+  | 'recently_used' | 'search';
+
+/**
+ * Category translation map compatible with rn-emoji-keyboard
+ */
+export type EmojiCategoryTranslation = { [key in EmojiCategoryType]: string };
+
+/**
  * Emoji object returned by the picker
  * Conforms to rn-emoji-keyboard EmojiType structure
  */
@@ -49,13 +63,10 @@ export interface EmojiPickerConfig {
   enableRecentlyUsed?: boolean;
 
   /** Custom category order */
-  categoryOrder?: string[];
+  categoryOrder?: EmojiCategoryType[];
 
-  /** Translation object for labels */
-  translation?: {
-    search: string;
-    categories: Record<string, string>;
-  };
+  /** Translation object for category labels */
+  translation?: EmojiCategoryTranslation;
 }
 
 /**

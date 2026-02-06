@@ -2,17 +2,19 @@
  * Onboarding Screen Content Props
  */
 
+import type { StyleProp, ViewStyle } from "react-native";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
+import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 
 export interface OnboardingScreenContentProps {
-  containerStyle?: any;
+  containerStyle?: StyleProp<ViewStyle>;
   useCustomBackground: boolean;
   currentSlide: OnboardingSlide | undefined;
   isFirstSlide: boolean;
   isLastSlide: boolean;
   currentIndex: number;
   totalSlides: number;
-  currentAnswer: any;
+  currentAnswer: OnboardingAnswerValue;
   isAnswerValid: boolean;
   showBackButton: boolean;
   showSkipButton: boolean;
@@ -25,7 +27,7 @@ export interface OnboardingScreenContentProps {
   onBack: () => void;
   onSkip: () => void;
   onNext: () => void;
-  onAnswerChange: (value: any) => void;
+  onAnswerChange: (value: OnboardingAnswerValue) => void;
   renderHeader?: (props: {
     isFirstSlide: boolean;
     onBack: () => void;

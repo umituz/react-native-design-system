@@ -5,7 +5,7 @@
  * Follows Single Responsibility Principle
  */
 
-import type { OnboardingQuestion } from "../../domain/entities/OnboardingQuestion";
+import type { OnboardingQuestion, OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 
 /**
  * ValidationManager
@@ -19,7 +19,7 @@ export class ValidationManager {
    */
   static validateAnswer(
     question: OnboardingQuestion,
-    answer: any,
+    answer: OnboardingAnswerValue,
   ): boolean {
     const { validation } = question;
     if (!validation) {
@@ -56,7 +56,7 @@ export class ValidationManager {
    * Validate multiple choice answer
    */
   private static validateMultipleChoice(
-    answer: any,
+    answer: OnboardingAnswerValue,
     validation: OnboardingQuestion["validation"],
   ): boolean {
     if (!validation) return true;
@@ -80,7 +80,7 @@ export class ValidationManager {
    * Validate text input answer
    */
   private static validateTextInput(
-    answer: any,
+    answer: OnboardingAnswerValue,
     validation: OnboardingQuestion["validation"],
   ): boolean {
     if (!validation) return true;
@@ -104,7 +104,7 @@ export class ValidationManager {
    * Validate numeric answer (rating)
    */
   private static validateNumeric(
-    answer: any,
+    answer: OnboardingAnswerValue,
     validation: OnboardingQuestion["validation"],
   ): boolean {
     if (!validation) return true;

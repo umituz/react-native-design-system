@@ -3,7 +3,7 @@ import { DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkThem
 /**
  * Create a navigation theme based on design tokens and mode
  */
-export const createNavigationTheme = (colors: any, mode: 'light' | 'dark'): Theme => {
+export const createNavigationTheme = (colors: Record<string, string>, mode: 'light' | 'dark'): Theme => {
     const baseTheme = mode === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme;
 
     return {

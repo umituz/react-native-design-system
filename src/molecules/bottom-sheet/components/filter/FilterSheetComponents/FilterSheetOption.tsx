@@ -26,7 +26,7 @@ export const FilterSheetOption = ({ option, isSelected, onPress, tokens }: Filte
         <View style={styles.optionContent}>
             {option.icon && (
                 <AtomicIcon
-                    name={option.icon as any}
+                    name={option.icon}
                     size="md"
                     color={isSelected ? 'primary' : 'secondary'}
                 />

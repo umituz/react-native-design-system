@@ -26,7 +26,7 @@ export const QuestionSlideHeader = ({ slide }: QuestionSlideHeaderProps) => {
         {isEmoji ? (
           <AtomicText style={{ fontSize: 48 }}>{slide.icon}</AtomicText>
         ) : (
-          <AtomicIcon name={slide.icon as any} customSize={48} customColor={colors.textColor} />
+          <AtomicIcon name={slide.icon} customSize={48} customColor={colors.textColor} />
         )}
       </View>
 

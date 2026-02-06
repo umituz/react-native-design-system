@@ -1,10 +1,12 @@
 /**
  * Infrastructure - Filter Processor
- * 
+ *
  * Filter processing with preset management
  */
 
-import { ImageFilterUtils } from './ImageFilterUtils';
+import { ColorAdjustmentFilters } from './filters/ColorAdjustmentFilters';
+import { StyleFilters } from './filters/StyleFilters';
+import { FilterHelpers } from './filters/FilterHelpers';
 
 export interface FilterPreset {
   id: string;
@@ -27,7 +29,7 @@ export interface FilterParameter {
 export interface FilterState {
   id: string;
   intensity: number;
-  parameters: Record<string, any>;
+  parameters: Record<string, number>;
   enabled: boolean;
 }
 
@@ -80,8 +82,8 @@ export class FilterProcessor {
     const preset = this.getPreset(presetId);
     if (!preset) throw new Error(`Filter preset not found: ${presetId}`);
 
-    const parameters: Record<string, any> = {};
-    preset.parameters.forEach(param => { parameters[param.name] = param.value; });
+    const parameters: Record<string, number> = {};
+    preset.parameters.forEach(param => { parameters[param.name] = param.value as number; });
 
     return { id: presetId, intensity: 100, parameters, enabled: true };
   }
@@ -95,30 +97,30 @@ export class FilterProcessor {
     const preset = this.getPreset(filterState.id);
     if (!preset || !filterState.enabled) return imageData;
 
-    let processedData = new Uint8ClampedArray(imageData);
+    let processedData: Uint8ClampedArray = new Uint8ClampedArray(imageData);
 
     switch (filterState.id) {
       case 'brightness':
-        processedData = ImageFilterUtils.applyBrightness(processedData, filterState.parameters.brightness) as any;
+        processedData = new Uint8ClampedArray(ColorAdjustmentFilters.applyBrightness(processedData, filterState.parameters.brightness ?? 0));
         break;
       case 'contrast':
-        processedData = ImageFilterUtils.applyContrast(processedData, filterState.parameters.contrast) as any;
+        processedData = new Uint8ClampedArray(ColorAdjustmentFilters.applyContrast(processedData, filterState.parameters.contrast ?? 0));
         break;
       case 'saturation':
-        processedData = ImageFilterUtils.applySaturation(processedData, filterState.parameters.saturation) as any;
+        processedData = new Uint8ClampedArray(ColorAdjustmentFilters.applySaturation(processedData, filterState.parameters.saturation ?? 0));
         break;
       case 'vintage':
-        processedData = ImageFilterUtils.applyVintage(processedData, filterState.parameters.intensity, filterState.parameters.warmth) as any;
+        processedData = new Uint8ClampedArray(StyleFilters.applyVintage(processedData, filterState.parameters.intensity ?? 50, filterState.parameters.warmth ?? 30));
         break;
       case 'blur':
-        processedData = ImageFilterUtils.applyBlur(processedData, filterState.parameters.radius, width, height) as any;
+        processedData = new Uint8ClampedArray(StyleFilters.applyBlur(processedData, filterState.parameters.radius ?? 0, width, height));
         break;
     }
 
     if (filterState.intensity < 100) {
-      processedData = ImageFilterUtils.applyIntensity(imageData, processedData, filterState.intensity / 100) as any;
+      processedData = new Uint8ClampedArray(FilterHelpers.applyIntensity(imageData, processedData, filterState.intensity / 100));
     }
 
-    return processedData as any;
+    return processedData;
   }
 }

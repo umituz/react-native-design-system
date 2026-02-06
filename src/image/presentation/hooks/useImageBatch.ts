@@ -12,7 +12,7 @@ export const useImageBatch = () => {
     const processBatch = useCallback((operations: BatchOperation[], options?: BatchProcessingOptions) =>
         execute(() => ImageBatchService.processBatch(operations, options), 'Failed to process batch'), [execute]);
 
-    const resizeBatch = useCallback((uris: string[], width?: number, height?: number, options?: BatchProcessingOptions & { saveOptions?: any }) =>
+    const resizeBatch = useCallback((uris: string[], width?: number, height?: number, options?: BatchProcessingOptions & { saveOptions?: Record<string, unknown> }) =>
         execute(() => ImageBatchService.resizeBatch(uris, width, height, options), 'Failed to resize batch'), [execute]);
 
     const compressBatch = useCallback((uris: string[], quality?: number, options?: BatchProcessingOptions) =>

@@ -49,7 +49,7 @@ export function FilterGroup<T = string>({
             selected={isSelected}
             onPress={() => onSelect(item.value)}
             clickable
-            style={[styles.item, itemStyle] as any}
+            style={[styles.item, itemStyle]}
             testID={item.testID}
           >
             {item.label}

@@ -1,3 +1,4 @@
+import type { StyleProp, ViewStyle } from 'react-native';
 
 export interface FilterGroupItem<T = string> {
   label: string;
@@ -10,7 +11,7 @@ export interface FilterGroupProps<T = string> {
   selectedValue: T | T[];
   onSelect: (value: T) => void;
   multiSelect?: boolean;
-  style?: any;
-  contentContainerStyle?: any;
-  itemStyle?: any;
+  style?: StyleProp<ViewStyle>;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+  itemStyle?: StyleProp<ViewStyle>;
 }

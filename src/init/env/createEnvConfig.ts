@@ -12,7 +12,6 @@ import type {
   FirebaseEnvConfig,
 } from "./types";
 
-declare const __DEV__: boolean;
 
 /**
  * Default key mappings for environment variables
@@ -109,7 +108,7 @@ export function createEnvConfig(
     const testStoreKey = config.revenueCat?.testStoreKey;
 
     if (isExpoGo && testStoreKey) {
-      if (typeof __DEV__ !== "undefined" && __DEV__) {
+      if (__DEV__) {
         console.log("[createEnvConfig] Using RevenueCat Test Store Key (Expo Go)");
       }
       return testStoreKey;
@@ -130,7 +129,7 @@ export function createEnvConfig(
 
   const getRevenueCatTestStoreKey = (): string | undefined => {
     // Only return test store key in development
-    if (typeof __DEV__ !== "undefined" && __DEV__) {
+    if (__DEV__) {
       return config.revenueCat?.testStoreKey;
     }
     return undefined;

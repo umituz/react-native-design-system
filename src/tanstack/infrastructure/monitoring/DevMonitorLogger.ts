@@ -7,13 +7,13 @@ import type { QueryMetrics, CacheStats } from './DevMonitor.types';
 
 export class DevMonitorLogger {
   static logInit(): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.log('[TanStack DevMonitor] Monitoring initialized');
     }
   }
 
   static logSlowQuery(queryKeyString: string, fetchTime: number): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.warn(
         `[TanStack DevMonitor] Slow query detected: ${queryKeyString} (${fetchTime}ms)`,
       );
@@ -21,25 +21,25 @@ export class DevMonitorLogger {
   }
 
   static logAttached(): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.log('[TanStack DevMonitor] Attached to QueryClient');
     }
   }
 
   static logMethodsCleared(): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.log('[TanStack DevMonitor] Metrics cleared');
     }
   }
 
   static logReset(): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.log('[TanStack DevMonitor] Reset');
     }
   }
 
   static logReport(stats: CacheStats | null, slowQueries: QueryMetrics[]): void {
-    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+    if (__DEV__) {
       console.group('[TanStack DevMonitor] Performance Report');
 
       if (stats) {

@@ -130,7 +130,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       <View style={containerStyle}>
         {leadingIcon && (
           <InputIcon
-            name={leadingIcon as any}
+            name={leadingIcon }
             size={sizeConfig.iconSize}
             color={iconColor}
             position="leading"
@@ -182,7 +182,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
 
         {trailingIcon && !showPasswordToggle && (
           <InputIcon
-            name={trailingIcon as any}
+            name={trailingIcon }
             size={sizeConfig.iconSize}
             color={iconColor}
             position="trailing"

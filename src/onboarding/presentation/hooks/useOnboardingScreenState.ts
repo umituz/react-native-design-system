@@ -4,7 +4,9 @@
  */
 
 import { useMemo, useEffect } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
+import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 import { useOnboarding } from "../../infrastructure/storage/OnboardingStore";
 import { useOnboardingNavigation } from "../../infrastructure/hooks/useOnboardingNavigation";
 import { useOnboardingAnswers } from "../../infrastructure/hooks/useOnboardingAnswers";
@@ -28,14 +30,14 @@ export interface UseOnboardingScreenStateReturn {
   currentIndex: number;
   isFirstSlide: boolean;
   isLastSlide: boolean;
-  currentAnswer: unknown;
+  currentAnswer: OnboardingAnswerValue;
   isAnswerValid: boolean;
   useCustomBackground: boolean;
-  containerStyle: unknown;
+  containerStyle: StyleProp<ViewStyle>;
   handleNext: () => Promise<void>;
   handlePrevious: () => void;
   handleSkip: () => Promise<void>;
-  setCurrentAnswer: (value: unknown) => void;
+  setCurrentAnswer: (value: OnboardingAnswerValue) => void;
 }
 
 export function useOnboardingScreenState({

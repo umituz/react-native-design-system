@@ -70,6 +70,5 @@ export const useDesignSystemTheme = createStore<GlobalThemeState, GlobalThemeAct
   }),
 });
 
-// Re-export ThemeMode for backward compatibility
 export type { ThemeMode };
 

@@ -93,8 +93,8 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
       enableRecentlyUsed={config?.enableRecentlyUsed ?? true}
       enableSearchBar={config?.enableSearch ?? true}
       enableCategoryChangeGesture={config?.enableCategoryTabs ?? true}
-      categoryOrder={config?.categoryOrder as any}
-      translation={config?.translation as any}
+      categoryOrder={config?.categoryOrder}
+      translation={config?.translation}
     />
   );
 };

@@ -7,11 +7,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
+import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
 import { useOnboarding } from "../storage/OnboardingStore";
 
 export interface UseOnboardingAnswersReturn {
-  currentAnswer: any;
-  setCurrentAnswer: (answer: any) => void;
+  currentAnswer: OnboardingAnswerValue;
+  setCurrentAnswer: (answer: OnboardingAnswerValue) => void;
   loadAnswerForSlide: (slide: OnboardingSlide | undefined) => void;
   saveCurrentAnswer: (slide: OnboardingSlide | undefined) => Promise<void>;
 }
@@ -25,7 +26,7 @@ export function useOnboardingAnswers(
   currentSlide: OnboardingSlide | undefined,
 ): UseOnboardingAnswersReturn {
   const onboardingStore = useOnboarding();
-  const [currentAnswer, setCurrentAnswer] = useState<any>(undefined);
+  const [currentAnswer, setCurrentAnswer] = useState<OnboardingAnswerValue>(undefined);
 
   /**
    * Load answer for a specific slide

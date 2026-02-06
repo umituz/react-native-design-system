@@ -39,7 +39,7 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = ({
           },
         ]}
       >
-        <AtomicIcon name={icon as any} size="lg" color="primary" />
+        <AtomicIcon name={icon} size="lg" color="primary" />
       </View>
       <AtomicText
         type="labelSmall"

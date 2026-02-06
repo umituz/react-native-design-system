@@ -7,7 +7,6 @@ import { useAppDesignTokens } from "../../../theme";
 import type { SplashScreenProps, SplashColors } from "../types";
 import { SPLASH_CONSTANTS } from "../constants";
 
-declare const __DEV__: boolean;
 
 /**
  * Get safe area insets from initial window metrics

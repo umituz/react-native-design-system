@@ -79,6 +79,21 @@ export interface MediaCompressionOptions {
   format?: "jpeg" | "png" | "webp";
 }
 
+export interface MediaFile {
+  name: string;
+  type: string;
+  size: number;
+  uri?: string;
+}
+
+export interface CreateMultimediaCardData {
+  front: string;
+  back: string;
+  difficulty?: "easy" | "medium" | "hard";
+  tags?: string[];
+  media?: MediaAttachment[];
+}
+
 export interface MediaValidation {
   isValid: boolean;
   errors: string[];
@@ -88,13 +103,13 @@ export interface MediaValidation {
 
 export interface MultimediaFlashcardService {
   uploadMedia(
-    file: any,
+    file: MediaFile,
     options?: MediaCompressionOptions,
   ): Promise<MediaAttachment>;
   generateMedia(
     request: MediaGenerationRequest,
   ): Promise<MediaGenerationResult>;
-  validateMedia(file: any): Promise<MediaValidation>;
+  validateMedia(file: MediaFile): Promise<MediaValidation>;
   optimizeMedia(
     attachment: MediaAttachment,
     options: MediaCompressionOptions,

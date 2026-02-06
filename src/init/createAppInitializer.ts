@@ -9,7 +9,6 @@ import type {
   InitModule,
 } from "./types";
 
-declare const __DEV__: boolean;
 
 /**
  * Create an app initializer with singleton pattern
@@ -33,7 +32,7 @@ export function createAppInitializer(
 ): () => Promise<AppInitializerResult> {
   const {
     modules,
-    debug = typeof __DEV__ !== "undefined" && __DEV__,
+    debug = __DEV__,
     continueOnError = true,
     onComplete,
     onError,

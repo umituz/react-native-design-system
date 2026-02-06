@@ -6,7 +6,7 @@
  */
 
 import React, { useCallback, useState, useEffect } from 'react';
-import { Modal, View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { Modal, View, StyleSheet, FlatList, Dimensions, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ImageViewerItem, ImageGalleryOptions } from '../../domain/entities/ImageTypes';
@@ -48,7 +48,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         await onImageChange(currentImage.uri, currentIndex);
     }, [images, currentIndex, onImageChange]);
 
-    const handleScroll = useCallback((event: any) => {
+    const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const nextIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
         if (nextIndex !== currentIndex) {
             setCurrentIndex(nextIndex);
