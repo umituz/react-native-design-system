@@ -52,9 +52,8 @@ export class ImageAnalysisUtils {
     return noiseLevel / (sampleCount * 3 * 255);
   }
 
-  static applySharpening(imageData: Uint8ClampedArray): Uint8ClampedArray {
+  static applySharpening(imageData: Uint8ClampedArray, width: number, height: number): Uint8ClampedArray {
     const result = new Uint8ClampedArray(imageData.length);
-    const width = Math.sqrt(imageData.length / 4);
     const kernel = [
       0, -1, 0,
       -1, 5, -1,
@@ -73,7 +72,7 @@ export class ImageAnalysisUtils {
             const nx = x + kx;
             const ny = y + ky;
 
-            if (nx >= 0 && nx < width && ny >= 0 && ny < width) {
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
               const neighborIndex = (ny * width + nx) * 4 + c;
               sum += (imageData[neighborIndex] ?? 0) * (kernel[(ky + 1) * 3 + (kx + 1)] ?? 0);
             }
@@ -87,9 +86,8 @@ export class ImageAnalysisUtils {
     return result;
   }
 
-  static applyNoiseReduction(imageData: Uint8ClampedArray): Uint8ClampedArray {
+  static applyNoiseReduction(imageData: Uint8ClampedArray, width: number, height: number): Uint8ClampedArray {
     const result = new Uint8ClampedArray(imageData.length);
-    const width = Math.sqrt(imageData.length / 4);
 
     for (let i = 0; i < imageData.length; i += 4) {
       const pixelIndex = i / 4;
@@ -104,7 +102,7 @@ export class ImageAnalysisUtils {
             const nx = x + dx;
             const ny = y + dy;
 
-            if (nx >= 0 && nx < width && ny >= 0 && ny < width) {
+            if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
               const neighborIndex = (ny * width + nx) * 4 + c;
               values.push(imageData[neighborIndex] ?? 0);
             }

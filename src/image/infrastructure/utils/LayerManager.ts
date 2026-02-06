@@ -5,6 +5,7 @@
  */
 
 import type { EditorLayer } from '../../domain/entities/EditorTypes';
+import { ImageEditorService } from '../services/ImageEditorService';
 
 type LayerElement = EditorLayer['elements'][number];
 export type LayerOperation = 'add' | 'remove' | 'move' | 'merge' | 'duplicate';
@@ -19,46 +20,31 @@ export class LayerManager {
 
 
   static mergeLayers(
-    layers: Array<{
-      id: string;
-      name: string;
-      elements: LayerElement[];
-    }>,
+    layers: EditorLayer[],
     targetIds: string[]
-  ): Array<{
-    id: string;
-    name: string;
-    elements: LayerElement[];
-  }> {
+  ): EditorLayer[] {
     const targetLayers = layers.filter(layer => targetIds.includes(layer.id));
     const otherLayers = layers.filter(layer => !targetIds.includes(layer.id));
 
     if (targetLayers.length === 0) return layers;
 
-    // Merge elements from target layers
     const mergedElements = targetLayers.flatMap(layer => layer.elements);
-    const mergedLayer = {
-      id: Math.random().toString(36).substr(2, 9),
+    const mergedLayer: EditorLayer = {
+      id: ImageEditorService.generateId(),
       name: targetLayers.map(l => l.name).join(' + '),
+      visible: true,
+      opacity: 1,
+      locked: false,
       elements: mergedElements,
     };
 
     return [...otherLayers, mergedLayer];
   }
 
-  static duplicateLayer(
-    layer: {
-      id: string;
-      name: string;
-      elements: LayerElement[];
-    }
-  ): {
-    id: string;
-    name: string;
-    elements: LayerElement[];
-  } {
+  static duplicateLayer(layer: EditorLayer): EditorLayer {
     return {
-      id: Math.random().toString(36).substr(2, 9),
+      ...layer,
+      id: ImageEditorService.generateId(),
       name: `${layer.name} Copy`,
       elements: [...layer.elements],
     };

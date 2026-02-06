@@ -14,8 +14,8 @@ import { ImageErrorHandler, IMAGE_ERROR_CODES } from '../utils/ImageErrorHandler
 import { ImageEditorHistoryUtils } from '../utils/ImageEditorHistoryUtils';
 
 export class ImageEditorService {
-  private static generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
+  static generateId(): string {
+    return Math.random().toString(36).substring(2, 11);
   }
 
   static createInitialState(

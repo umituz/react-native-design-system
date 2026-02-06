@@ -46,11 +46,11 @@ export const CircularMenu: React.FC<CircularMenuProps> = ({
    */
   const layoutItems = useMemo(() => {
     if (actions.length === 3) {
-      // Triangle Layout: Top Center (Index 1), Bottom Left (Index 0), Bottom Right (Index 2)
+      // Triangle layout: middle item on top, first and last on bottom
       return [
-        { ...actions[1], position: getTopRowPosition(0, 1) }, // Text to Video (Top Center)
-        { ...actions[0], position: getBottomRowPosition("left") }, // Text to Image (Bottom Left)
-        { ...actions[2], position: getBottomRowPosition("right") }, // Image to Video (Bottom Right)
+        { ...actions[1], position: getTopRowPosition(0, 1) },
+        { ...actions[0], position: getBottomRowPosition("left") },
+        { ...actions[2], position: getBottomRowPosition("right") },
       ];
     } else if (actions.length === 2) {
       // 2 items: place on bottom left and right of close button
