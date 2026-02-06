@@ -7,7 +7,6 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { StoreApi } from 'zustand';
 import type { StoreConfig } from '../types/Store';
-import { storageService } from '../../infrastructure/adapters/StorageService';
 
 /**
  * Create a Zustand store with optional persistence and actions
@@ -35,7 +34,7 @@ export function createStore<
   return create<Store>()(
     persist<Store>(stateCreator, {
       name: config.name,
-      storage: createJSONStorage(() => storageService),
+      storage: config.storage ? createJSONStorage(() => config.storage!) : undefined,
       version: config.version || 1,
       partialize: (config.partialize
         ? (state: Store) => config.partialize!(state)

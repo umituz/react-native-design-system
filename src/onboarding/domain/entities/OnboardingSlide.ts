@@ -5,7 +5,7 @@
  */
 
 import type { VideoSource } from "expo-video";
-import type { ImageSourceType } from "../../infrastructure/utils/layouts/layoutTypes";
+import type { ImageSourceType } from "../types/ImageSourceType";
 import type { OnboardingQuestion, OnboardingAnswerValue } from "./OnboardingQuestion";
 
 /**

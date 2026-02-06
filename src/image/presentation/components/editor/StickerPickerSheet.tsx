@@ -26,7 +26,7 @@ export const StickerPickerSheet = forwardRef<BottomSheetModalRef, StickerPickerS
     return (
       <BottomSheetModal ref={ref} snapPoints={snapPoints} onDismiss={onDismiss}>
         <View style={{ padding: tokens.spacing.lg, flex: 1 }}>
-          <AtomicText style={{ ...tokens.typography.headingSmall, marginBottom: tokens.spacing.md }}>
+          <AtomicText style={{ ...tokens.typography.titleLarge, fontWeight: tokens.typography.semibold, marginBottom: tokens.spacing.md }}>
             {title}
           </AtomicText>
 

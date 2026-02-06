@@ -8,4 +8,3 @@ export * from './hooks/useBottomSheetModal';
 export * from './hooks/useListFilters';
 export * from './types/BottomSheet';
 export * from './types/Filter';
-export * from './SafeBottomSheetModalProvider';

@@ -16,7 +16,6 @@ export {
   getColorPalette,
   withAlpha,
   BASE_TOKENS,
-  BASE_TOKENS as STATIC_TOKENS,
   spacing,
   typography,
   borders,

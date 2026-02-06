@@ -117,25 +117,6 @@ export const typography: Typography = {
     letterSpacing: 1.5,
     textTransform: 'uppercase',
   } as TextStyle,
-    // Legacy compatibility aliases
-  headingLarge: {
-    fontSize: 32,
-    fontWeight: '700',
-    lineHeight: 40,
-    letterSpacing: 0,
-  } as TextStyle,
-  headingMedium: {
-    fontSize: 24,
-    fontWeight: '600',
-    lineHeight: 32,
-    letterSpacing: 0,
-  } as TextStyle,
-  headingSmall: {
-    fontSize: 20,
-    fontWeight: '600',
-    lineHeight: 28,
-    letterSpacing: 0,
-  } as TextStyle,
   // Font weight helpers (for inline fontWeight usage)
   semibold: '600' as const,
   medium: '500' as const,

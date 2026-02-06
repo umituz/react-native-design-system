@@ -3,9 +3,9 @@
  * Type definitions for image layout generators
  */
 
-import type { ImageSource } from "expo-image";
+import type { ImageSourceType } from "../../../domain/types/ImageSourceType";
 
-export type ImageSourceType = ImageSource | number | string;
+export type { ImageSourceType };
 
 export interface SafeAreaInsets {
   top: number;

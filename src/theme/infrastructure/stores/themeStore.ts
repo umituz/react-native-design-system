@@ -124,7 +124,5 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
   }),
 });
 
-export const useThemeStore = useTheme;
-
 
 

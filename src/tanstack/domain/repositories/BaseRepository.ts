@@ -36,7 +36,7 @@
  */
 
 import type { QueryClient, QueryKey } from '@tanstack/react-query';
-import { getGlobalQueryClient } from '../../infrastructure/config/QueryClientSingleton';
+import { getGlobalQueryClient } from '../config/QueryClientAccessor';
 import { CacheStrategies } from '../../infrastructure/config/QueryClientConfig';
 import { createQueryKeyFactory } from '../utils/QueryKeyFactory';
 import type {

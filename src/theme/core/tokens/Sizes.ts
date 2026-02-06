@@ -5,6 +5,7 @@
  */
 
 import type { IconSizes, Opacity, AvatarSizes, ComponentSizes } from './BaseTokens';
+import { DESIGN_CONSTANTS } from '../constants/DesignConstants';
 
 export const iconSizes: IconSizes = {
   xs: 16,
@@ -34,7 +35,7 @@ export const avatarSizes: AvatarSizes = {
 };
 
 export const sizes: ComponentSizes = {
-  touchTarget: 44, // TODO: Use DESIGN_CONSTANTS.MINIMUM_TOUCH_TARGET
+  touchTarget: DESIGN_CONSTANTS.MINIMUM_TOUCH_TARGET,
   progressBar: {
     normal: 4,
     thick: 8,

@@ -17,13 +17,6 @@ export interface Theme {
   spacing: typeof BASE_TOKENS.spacing;
   typography: typeof BASE_TOKENS.typography;
   borders: typeof BASE_TOKENS.borders;
-  borderRadius: {
-    sm: number;
-    md: number;
-    lg: number;
-    xl: number;
-    full: number;
-  };
   iconSizes: {
     xs: number;
     sm: number;
@@ -53,15 +46,6 @@ export const lightTheme: Theme = {
   spacing: BASE_TOKENS.spacing,
   typography: BASE_TOKENS.typography,
   borders: BASE_TOKENS.borders,
-
-  // Legacy compatibility mappings
-  borderRadius: {
-    sm: BASE_TOKENS.borders.radius.sm,
-    md: BASE_TOKENS.borders.radius.md,
-    lg: BASE_TOKENS.borders.radius.lg,
-    xl: BASE_TOKENS.borders.radius.xl,
-    full: BASE_TOKENS.borders.radius.full,
-  },
 
   // Icon sizes from spacing
   iconSizes: {

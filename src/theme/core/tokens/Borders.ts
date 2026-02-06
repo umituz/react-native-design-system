@@ -6,6 +6,7 @@
 
 import type { ViewStyle } from 'react-native';
 import type { Borders } from './BaseTokens';
+import { DESIGN_CONSTANTS } from '../constants/DesignConstants';
 
 export const borders: Borders = {
   radius: {
@@ -16,7 +17,7 @@ export const borders: Borders = {
     lg: 12,
     xl: 16,
     xxl: 24,
-    full: 9999, // TODO: Use DESIGN_CONSTANTS.FULL_BORDER_RADIUS
+    full: DESIGN_CONSTANTS.FULL_BORDER_RADIUS,
   },
   width: {
     none: 0,
@@ -37,7 +38,7 @@ export const borders: Borders = {
     borderWidth: 1,
   } as ViewStyle,
   pill: {
-    borderRadius: 9999,
+    borderRadius: DESIGN_CONSTANTS.FULL_BORDER_RADIUS,
     borderWidth: 0,
   } as ViewStyle,
 };

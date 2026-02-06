@@ -106,7 +106,6 @@ export {
 // Spinner
 export {
     AtomicSpinner,
-    AtomicSpinner as LoadingSpinner,
     type AtomicSpinnerProps,
     type SpinnerSize,
     type SpinnerColor,

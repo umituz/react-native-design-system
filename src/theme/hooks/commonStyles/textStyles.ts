@@ -7,13 +7,15 @@ import type { DesignTokens } from '../../types/ThemeTypes';
 
 export const createTextStyles = (tokens: DesignTokens) => ({
   screenTitle: {
-    ...tokens.typography.headingLarge,
+    ...tokens.typography.headlineLarge,
+    fontWeight: tokens.typography.bold,
     color: tokens.colors.textPrimary,
     marginBottom: tokens.spacing.sm,
   } as TextStyle,
 
   sectionTitle: {
-    ...tokens.typography.headingMedium,
+    ...tokens.typography.headlineSmall,
+    fontWeight: tokens.typography.semibold,
     color: tokens.colors.textPrimary,
     marginBottom: tokens.spacing.md,
   } as TextStyle,

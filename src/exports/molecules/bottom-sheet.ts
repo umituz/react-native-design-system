@@ -10,7 +10,6 @@ export {
   useBottomSheet,
   useBottomSheetModal,
   useListFilters,
-  SafeBottomSheetModalProvider,
   type BottomSheetProps,
   type BottomSheetModalProps,
   type BottomSheetRef,

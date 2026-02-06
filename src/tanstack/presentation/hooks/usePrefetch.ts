@@ -115,6 +115,7 @@ export function usePrefetchInfiniteQuery<
 >(
   queryKey: QueryKey,
   queryFn: QueryFunction<TQueryFnData, QueryKey, TPageParam>,
+  initialPageParam: TPageParam,
   options: PrefetchOptions = {},
 ) {
   const queryClient = useQueryClient();
@@ -133,7 +134,7 @@ export function usePrefetchInfiniteQuery<
         queryFn,
         staleTime: options.staleTime,
         gcTime: options.gcTime,
-        initialPageParam: undefined as unknown as TPageParam,
+        initialPageParam,
       });
 
       if (__DEV__) {

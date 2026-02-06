@@ -124,10 +124,8 @@ export {
   storageRepository,
 } from './infrastructure/repositories/AsyncStorageRepository';
 
-export {
-  storageService,
-  type StateStorage,
-} from './infrastructure/adapters/StorageService';
+export { storageService } from './infrastructure/adapters/StorageService';
+export type { StateStorage } from './domain/types/Store';
 
 // =============================================================================
 // PRESENTATION LAYER - Hooks

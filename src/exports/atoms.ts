@@ -18,7 +18,6 @@ export {
   AtomicSkeleton,
   AtomicBadge,
   AtomicSpinner,
-  LoadingSpinner,
   EmptyState,
   type IconName,
   type IconSize,

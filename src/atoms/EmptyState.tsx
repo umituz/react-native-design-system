@@ -11,7 +11,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
-import { useAppDesignTokens, STATIC_TOKENS } from '../theme';
+import { useAppDesignTokens, BASE_TOKENS } from '../theme';
 
 export interface EmptyStateProps {
   icon?: string;
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    padding: STATIC_TOKENS.spacing.xl,
+    padding: BASE_TOKENS.spacing.xl,
   },
   iconContainer: {
     width: 120,
@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginBottom: STATIC_TOKENS.spacing.lg,
+    marginBottom: BASE_TOKENS.spacing.lg,
   },
   title: {
-    marginBottom: STATIC_TOKENS.spacing.sm,
+    marginBottom: BASE_TOKENS.spacing.sm,
   },
   description: {
-    marginBottom: STATIC_TOKENS.spacing.lg,
+    marginBottom: BASE_TOKENS.spacing.lg,
   },
   actionButton: {
-    paddingHorizontal: STATIC_TOKENS.spacing.lg,
-    paddingVertical: STATIC_TOKENS.spacing.md,
-    borderRadius: STATIC_TOKENS.borders.radius.md,
-    marginTop: STATIC_TOKENS.spacing.sm,
+    paddingHorizontal: BASE_TOKENS.spacing.lg,
+    paddingVertical: BASE_TOKENS.spacing.md,
+    borderRadius: BASE_TOKENS.borders.radius.md,
+    marginTop: BASE_TOKENS.spacing.sm,
   },
 });

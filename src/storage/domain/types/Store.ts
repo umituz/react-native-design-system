@@ -5,6 +5,13 @@
 
 import type { StoreApi } from 'zustand';
 
+/** StateStorage interface for Zustand persist middleware */
+export interface StateStorage {
+  getItem: (name: string) => string | null | Promise<string | null>;
+  setItem: (name: string, value: string) => void | Promise<void>;
+  removeItem: (name: string) => void | Promise<void>;
+}
+
 /** Set function type for Zustand */
 export type SetState<T> = StoreApi<T>['setState'];
 
@@ -35,6 +42,8 @@ export interface StoreConfig<TState extends object, TActions extends object = ob
   onRehydrate?: (state: TState & TActions) => void;
   /** Migration function for version changes */
   migrate?: (persistedState: unknown, version: number) => TState;
+  /** Custom storage adapter (required when persist is true) */
+  storage?: StateStorage;
 }
 
 /** Persisted state wrapper */

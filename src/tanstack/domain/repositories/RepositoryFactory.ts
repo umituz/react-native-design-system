@@ -24,7 +24,7 @@
  */
 
 import type { BaseRepository } from './BaseRepository';
-import { getGlobalQueryClient } from '../../infrastructure/config/QueryClientSingleton';
+import { getGlobalQueryClient } from '../config/QueryClientAccessor';
 
 type RepositoryMap = Map<string, BaseRepository<unknown, unknown, unknown>>;
 

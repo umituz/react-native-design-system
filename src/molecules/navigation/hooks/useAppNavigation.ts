@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import type { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { useCallback, useMemo } from "react";
 
@@ -30,7 +30,7 @@ export function useAppNavigation(): AppNavigationResult {
 
   const navigate = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      (navigation.navigate as unknown as (name: string, params?: object) => void)(screen, params);
+      navigation.dispatch(CommonActions.navigate({ name: screen, params }));
     },
     [navigation]
   );

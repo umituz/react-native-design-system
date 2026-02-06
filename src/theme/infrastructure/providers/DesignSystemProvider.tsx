@@ -3,7 +3,7 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
-import { useThemeStore } from '../stores/themeStore';
+import { useTheme } from '../stores/themeStore';
 import { useDesignSystemTheme, type ThemeMode } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { SplashScreen } from '../../../molecules/splash';
@@ -43,9 +43,9 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const [isInitialized, setIsInitialized] = useState(false);
   const [fontsLoaded, fontError] = fonts ? useFonts(fonts) : [true, null];
 
-  const initialize = useThemeStore((state) => state.initialize);
-  const setCustomColors = useThemeStore((state) => state.setCustomColors);
-  const setDefaultColors = useThemeStore((state) => state.setDefaultColors);
+  const initialize = useTheme((state) => state.initialize);
+  const setCustomColors = useTheme((state) => state.setCustomColors);
+  const setDefaultColors = useTheme((state) => state.setDefaultColors);
   const setGlobalCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
   const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
 

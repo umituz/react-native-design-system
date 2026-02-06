@@ -7,15 +7,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { devWarn } from '../../domain/utils/devUtils';
-
-/**
- * StateStorage interface for Zustand persist middleware
- */
-export interface StateStorage {
-  getItem: (name: string) => string | null | Promise<string | null>;
-  setItem: (name: string, value: string) => void | Promise<void>;
-  removeItem: (name: string) => void | Promise<void>;
-}
+import type { StateStorage } from '../../domain/types/Store';
 
 /**
  * Storage service for Zustand persist middleware

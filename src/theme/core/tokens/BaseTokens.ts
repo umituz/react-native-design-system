@@ -56,10 +56,6 @@ export type Typography = {
   button: TextStyle;
   caption: TextStyle;
   overline: TextStyle;
-  // Legacy compatibility
-  headingLarge: TextStyle;
-  headingMedium: TextStyle;
-  headingSmall: TextStyle;
   // Font weight helpers (for inline fontWeight usage)
   semibold: '600';
   medium: '500';
