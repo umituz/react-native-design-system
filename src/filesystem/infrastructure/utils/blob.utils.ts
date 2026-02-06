@@ -13,7 +13,7 @@ export function extractBase64FromDataUri(dataUri: string): string {
     return dataUri;
   }
   const parts = dataUri.split(",");
-  return parts.length > 1 ? parts[1] : dataUri;
+  return parts.length > 1 ? parts[1]! : dataUri;
 }
 
 /**
@@ -30,9 +30,9 @@ export function detectMimeType(base64: string): string {
  * Get file extension from MIME type
  */
 export function getExtensionFromMimeType(mimeType: string): string {
-  const ext = mimeType.split("/")[1];
+  const ext = mimeType.split("/")[1] ?? "jpg";
   if (ext === "jpeg") return "jpg";
-  return ext ?? "jpg";
+  return ext;
 }
 
 /**

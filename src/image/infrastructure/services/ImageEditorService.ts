@@ -70,7 +70,7 @@ export class ImageEditorService {
 
     const newLayers = state.layers.filter(layer => layer.id !== layerId);
     return ImageEditorService.commitHistory(state, newLayers, {
-      selectedLayer: newLayers[0].id,
+      selectedLayer: newLayers[0]!.id,
     });
   }
 

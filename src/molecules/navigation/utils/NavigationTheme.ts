@@ -10,12 +10,12 @@ export const createNavigationTheme = (colors: Record<string, string>, mode: 'lig
         ...baseTheme,
         colors: {
             ...baseTheme.colors,
-            primary: colors.primary,
-            background: colors.backgroundPrimary,
-            card: colors.surface,
-            text: colors.textPrimary,
-            border: colors.border,
-            notification: colors.error,
+            primary: colors.primary ?? baseTheme.colors.primary,
+            background: colors.backgroundPrimary ?? baseTheme.colors.background,
+            card: colors.surface ?? baseTheme.colors.card,
+            text: colors.textPrimary ?? baseTheme.colors.text,
+            border: colors.border ?? baseTheme.colors.border,
+            notification: colors.error ?? baseTheme.colors.notification,
         },
     };
 };

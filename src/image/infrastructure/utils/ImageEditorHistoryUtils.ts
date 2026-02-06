@@ -29,7 +29,7 @@ export class ImageEditorHistoryUtils {
     if (state.historyIndex <= 0) return state;
 
     const newIndex = state.historyIndex - 1;
-    const historyState = state.history[newIndex];
+    const historyState = state.history[newIndex]!;
 
     return {
       ...state,
@@ -43,7 +43,7 @@ export class ImageEditorHistoryUtils {
     if (state.historyIndex >= state.history.length - 1) return state;
 
     const newIndex = state.historyIndex + 1;
-    const historyState = state.history[newIndex];
+    const historyState = state.history[newIndex]!;
 
     return {
       ...state,

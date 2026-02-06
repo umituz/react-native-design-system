@@ -63,11 +63,13 @@ export const CircularMenu: React.FC<CircularMenuProps> = ({
       const topCount = Math.min(actions.length, 2);
       const bottomCount = Math.max(0, actions.length - 2);
 
-      const mapped = [];
+      const mapped: Array<CircularMenuAction & { position: ViewStyle }> = [];
       // Top row
       for (let i = 0; i < topCount; i++) {
+        const action = actions[i];
+        if (!action) continue;
         mapped.push({
-          ...actions[i],
+          ...action,
           position: getTopRowPosition(i, topCount),
         });
       }

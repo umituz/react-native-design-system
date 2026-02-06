@@ -70,7 +70,7 @@ export class LayerManager {
     toIndex: number
   ): Array<{ id: string; index?: number }> {
     const result = [...layers];
-    const [moved] = result.splice(fromIndex, 1);
+    const [moved] = result.splice(fromIndex, 1) as [{ id: string; index?: number }];
     result.splice(toIndex, 0, moved);
     
     return result.map((layer, index) => ({ ...layer, index }));

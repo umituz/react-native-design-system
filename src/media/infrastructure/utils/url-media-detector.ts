@@ -6,7 +6,7 @@ const AUDIO_EXTENSIONS = [".mp3", ".wav", ".ogg", ".m4a", ".aac", ".flac"];
 
 function getExtensionFromUrl(url: string): string | null {
   if (!url) return null;
-  const urlWithoutParams = url.toLowerCase().split("?")[0];
+  const urlWithoutParams = url.toLowerCase().split("?")[0]!;
   const lastDotIndex = urlWithoutParams.lastIndexOf(".");
   if (lastDotIndex === -1) return null;
   return urlWithoutParams.substring(lastDotIndex);
