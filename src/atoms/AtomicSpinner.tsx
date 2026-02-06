@@ -166,9 +166,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  containerRow: {
-    flexDirection: 'row',
-  },
   fullContainer: {
     flex: 1,
   },
@@ -178,12 +175,6 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-  },
-  textBottom: {
-    marginTop: 12,
-  },
-  textRight: {
-    marginLeft: 12,
   },
 });
 
