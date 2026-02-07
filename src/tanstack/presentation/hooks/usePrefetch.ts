@@ -56,15 +56,15 @@ export function usePrefetchQuery<
   options: PrefetchOptions = {},
 ) {
   const queryClient = useQueryClient();
-  const prefetchingRef = new Set<TVariables>();
+  const prefetchingRef = useRef(new Set<TVariables>());
 
   const prefetch = useCallback(
     async (variables: TVariables) => {
-      if (prefetchingRef.has(variables)) {
+      if (prefetchingRef.current.has(variables)) {
         return;
       }
 
-      prefetchingRef.add(variables);
+      prefetchingRef.current.add(variables);
 
       try {
         await queryClient.prefetchQuery({
@@ -79,7 +79,7 @@ export function usePrefetchQuery<
           console.log('[TanStack Query] Prefetched:', [...queryKey, variables]);
         }
       } finally {
-        prefetchingRef.delete(variables);
+        prefetchingRef.current.delete(variables);
       }
     },
     [queryClient, queryKey, queryFn, options.staleTime, options.gcTime],

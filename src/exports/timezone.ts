@@ -5,5 +5,3 @@
  */
 
 export * from "../timezone";
-
-export { timezoneService } from "../timezone/infrastructure/services/TimezoneService";

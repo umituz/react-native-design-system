@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import { timezoneService } from '../../infrastructure/services/TimezoneService';
 import type { TimezoneInfo, TimezoneCalendarDay } from '../../domain/entities/Timezone';
 
@@ -51,101 +51,57 @@ export const useTimezone = (options?: UseTimezoneOptions): UseTimezoneReturn => 
   const locale = options?.locale ?? 'en';
   const timezoneInfo = useMemo(() => timezoneService.getTimezoneInfo(), []);
 
-  const formatDate = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatDate(date, locale, options), [locale]);
-
-  const formatTime = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatTime(date, locale, options), [locale]);
-
-  const formatDateTime = useCallback((date: Date, options?: Intl.DateTimeFormatOptions) =>
-    timezoneService.formatDateTime(date, locale, options), [locale]);
-
-  const formatRelativeTime = useCallback((date: Date) =>
-    timezoneService.formatRelativeTime(date, locale), [locale]);
-
-  const fromNow = useCallback((date: Date) =>
-    timezoneService.fromNow(date, locale), [locale]);
-
-  const getCalendarDays = useCallback((year: number, month: number) =>
-    timezoneService.getCalendarDays(year, month), []);
-
-  const isToday = useCallback((date: Date) => timezoneService.isToday(date), []);
-  const isSameDay = useCallback((date1: Date, date2: Date) => timezoneService.isSameDay(date1, date2), []);
-  const addDays = useCallback((date: Date, days: number) => timezoneService.addDays(date, days), []);
-  const startOfDay = useCallback((date: Date) => timezoneService.startOfDay(date), []);
-  const endOfDay = useCallback((date: Date) => timezoneService.endOfDay(date), []);
-  const formatDateToString = useCallback((date: Date) => timezoneService.formatDateToString(date), []);
-  const getCurrentISOString = useCallback(() => timezoneService.getCurrentISOString(), []);
-  const formatToISOString = useCallback((date: Date) => timezoneService.formatToISOString(date), []);
-  const getTimezones = useCallback(() => timezoneService.getTimezones(), []);
-  const isValid = useCallback((date: Date) => timezoneService.isValid(date), []);
-  const getAge = useCallback((birthDate: Date) => timezoneService.getAge(birthDate), []);
-  const isBetween = useCallback((date: Date, start: Date, end: Date) =>
-    timezoneService.isBetween(date, start, end), []);
-  const min = useCallback((dates: Date[]) => timezoneService.min(dates), []);
-  const max = useCallback((dates: Date[]) => timezoneService.max(dates), []);
-  const getWeek = useCallback((date: Date) => timezoneService.getWeek(date), []);
-  const getQuarter = useCallback((date: Date) => timezoneService.getQuarter(date), []);
-  const getTimezoneOffsetFor = useCallback((timezone: string, date?: Date) =>
-    timezoneService.getTimezoneOffsetFor(timezone, date), []);
-  const convertTimezone = useCallback((date: Date, fromTimezone: string, toTimezone: string) =>
-    timezoneService.convertTimezone(date, fromTimezone, toTimezone), []);
-  const formatDuration = useCallback((milliseconds: number) => timezoneService.formatDuration(milliseconds), []);
-  const isWeekend = useCallback((date: Date) => timezoneService.isWeekend(date), []);
-  const addBusinessDays = useCallback((date: Date, days: number) =>
-    timezoneService.addBusinessDays(date, days), []);
-  const isFirstDayOfMonth = useCallback((date: Date) => timezoneService.isFirstDayOfMonth(date), []);
-  const isLastDayOfMonth = useCallback((date: Date) => timezoneService.isLastDayOfMonth(date), []);
-  const getDaysInMonth = useCallback((date: Date) => timezoneService.getDaysInMonth(date), []);
-  const getDateRange = useCallback((start: Date, end: Date) => timezoneService.getDateRange(start, end), []);
-  const areRangesOverlapping = useCallback((start1: Date, end1: Date, start2: Date, end2: Date) =>
-    timezoneService.areRangesOverlapping(start1, end1, start2, end2), []);
-  const clampDate = useCallback((date: Date, min: Date, max: Date) =>
-    timezoneService.clampDate(date, min, max), []);
-  const areSameHour = useCallback((date1: Date, date2: Date) =>
-    timezoneService.areSameHour(date1, date2), []);
-  const areSameMinute = useCallback((date1: Date, date2: Date) =>
-    timezoneService.areSameMinute(date1, date2), []);
-  const getMiddleOfDay = useCallback((date: Date) => timezoneService.getMiddleOfDay(date), []);
-
-  return {
-    timezone: timezoneInfo.timezone || '',
-    timezoneInfo,
-    formatDate,
-    formatTime,
-    getCalendarDays,
-    isToday,
-    isSameDay,
-    addDays,
-    startOfDay,
-    endOfDay,
-    formatDateToString,
-    getCurrentISOString,
-    formatToISOString,
-    formatRelativeTime,
-    formatDateTime,
-    getTimezones,
-    isValid,
-    getAge,
-    isBetween,
-    min,
-    max,
-    getWeek,
-    getQuarter,
-    getTimezoneOffsetFor,
-    convertTimezone,
-    formatDuration,
-    isWeekend,
-    addBusinessDays,
-    isFirstDayOfMonth,
-    isLastDayOfMonth,
-    getDaysInMonth,
-    getDateRange,
-    areRangesOverlapping,
-    clampDate,
-    areSameHour,
-    areSameMinute,
-    getMiddleOfDay,
-    fromNow,
-  };
+  // timezoneService is a singleton with pure functions - no need for individual useCallbacks.
+  // Only locale-dependent functions need to be memoized when locale changes.
+  return useMemo(
+    () => ({
+      timezone: timezoneInfo.timezone || '',
+      timezoneInfo,
+      // Locale-dependent formatters
+      formatDate: (date: Date, opts?: Intl.DateTimeFormatOptions) =>
+        timezoneService.formatDate(date, locale, opts),
+      formatTime: (date: Date, opts?: Intl.DateTimeFormatOptions) =>
+        timezoneService.formatTime(date, locale, opts),
+      formatDateTime: (date: Date, opts?: Intl.DateTimeFormatOptions) =>
+        timezoneService.formatDateTime(date, locale, opts),
+      formatRelativeTime: (date: Date) =>
+        timezoneService.formatRelativeTime(date, locale),
+      fromNow: (date: Date) =>
+        timezoneService.fromNow(date, locale),
+      // Locale-independent delegates
+      getCalendarDays: (year: number, month: number) => timezoneService.getCalendarDays(year, month),
+      isToday: (date: Date) => timezoneService.isToday(date),
+      isSameDay: (date1: Date, date2: Date) => timezoneService.isSameDay(date1, date2),
+      addDays: (date: Date, days: number) => timezoneService.addDays(date, days),
+      startOfDay: (date: Date) => timezoneService.startOfDay(date),
+      endOfDay: (date: Date) => timezoneService.endOfDay(date),
+      formatDateToString: (date: Date) => timezoneService.formatDateToString(date),
+      getCurrentISOString: () => timezoneService.getCurrentISOString(),
+      formatToISOString: (date: Date) => timezoneService.formatToISOString(date),
+      getTimezones: () => timezoneService.getTimezones(),
+      isValid: (date: Date) => timezoneService.isValid(date),
+      getAge: (birthDate: Date) => timezoneService.getAge(birthDate),
+      isBetween: (date: Date, start: Date, end: Date) => timezoneService.isBetween(date, start, end),
+      min: (dates: Date[]) => timezoneService.min(dates),
+      max: (dates: Date[]) => timezoneService.max(dates),
+      getWeek: (date: Date) => timezoneService.getWeek(date),
+      getQuarter: (date: Date) => timezoneService.getQuarter(date),
+      getTimezoneOffsetFor: (tz: string, date?: Date) => timezoneService.getTimezoneOffsetFor(tz, date),
+      convertTimezone: (date: Date, from: string, to: string) => timezoneService.convertTimezone(date, from, to),
+      formatDuration: (ms: number) => timezoneService.formatDuration(ms),
+      isWeekend: (date: Date) => timezoneService.isWeekend(date),
+      addBusinessDays: (date: Date, days: number) => timezoneService.addBusinessDays(date, days),
+      isFirstDayOfMonth: (date: Date) => timezoneService.isFirstDayOfMonth(date),
+      isLastDayOfMonth: (date: Date) => timezoneService.isLastDayOfMonth(date),
+      getDaysInMonth: (date: Date) => timezoneService.getDaysInMonth(date),
+      getDateRange: (start: Date, end: Date) => timezoneService.getDateRange(start, end),
+      areRangesOverlapping: (s1: Date, e1: Date, s2: Date, e2: Date) =>
+        timezoneService.areRangesOverlapping(s1, e1, s2, e2),
+      clampDate: (date: Date, mn: Date, mx: Date) => timezoneService.clampDate(date, mn, mx),
+      areSameHour: (d1: Date, d2: Date) => timezoneService.areSameHour(d1, d2),
+      areSameMinute: (d1: Date, d2: Date) => timezoneService.areSameMinute(d1, d2),
+      getMiddleOfDay: (date: Date) => timezoneService.getMiddleOfDay(date),
+    }),
+    [locale, timezoneInfo],
+  );
 };

@@ -27,11 +27,26 @@ export class DeviceCapabilityService {
     return {
       isDevice: info.isDevice,
       isTablet: info.deviceType === DeviceType.TABLET,
-      hasNotch: await this.hasNotch(),
+      hasNotch: this.hasNotchFromInfo(info),
       totalMemoryGB: info.totalMemory
         ? info.totalMemory / (1024 * 1024 * 1024)
         : null,
     };
+  }
+
+  /**
+   * Check if device has notch/dynamic island from existing info
+   */
+  private static hasNotchFromInfo(info: { modelName?: string | null }): boolean {
+    if (Platform.OS !== 'ios') {
+      return false;
+    }
+    const modelName = info.modelName?.toLowerCase() ?? '';
+    return (
+      modelName.includes('iphone x') ||
+      modelName.includes('iphone 1') ||
+      modelName.includes('pro')
+    );
   }
 
   /**

@@ -11,7 +11,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
-import { useAppDesignTokens, BASE_TOKENS } from '../theme';
+import { useAppDesignTokens } from '../theme';
 
 export interface EmptyStateProps {
   icon?: string;
@@ -39,14 +39,47 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   const tokens = useAppDesignTokens();
   const displayDescription = description || subtitle;
 
+  const themedStyles = React.useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          padding: tokens.spacing.xl,
+        },
+        iconContainer: {
+          width: 120,
+          height: 120,
+          borderRadius: 60,
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          marginBottom: tokens.spacing.lg,
+        },
+        title: {
+          marginBottom: tokens.spacing.sm,
+        },
+        description: {
+          marginBottom: tokens.spacing.lg,
+        },
+        actionButton: {
+          paddingHorizontal: tokens.spacing.lg,
+          paddingVertical: tokens.spacing.md,
+          borderRadius: tokens.borders.radius.md,
+          marginTop: tokens.spacing.sm,
+        },
+      }),
+    [tokens],
+  );
+
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View style={[themedStyles.container, style]} testID={testID}>
       {illustration ? (
         illustration
       ) : (
         <View
           style={[
-            styles.iconContainer,
+            themedStyles.iconContainer,
             { backgroundColor: tokens.colors.surface },
           ]}
         >
@@ -57,7 +90,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <AtomicText
         type="headlineSmall"
         color="primary"
-        style={[styles.title, { textAlign: 'left' }]}
+        style={[themedStyles.title, { textAlign: 'left' }]}
       >
         {title}
       </AtomicText>
@@ -66,7 +99,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <AtomicText
           type="bodyMedium"
           color="secondary"
-          style={[styles.description, { textAlign: 'left' }]}
+          style={[themedStyles.description, { textAlign: 'left' }]}
         >
           {displayDescription}
         </AtomicText>
@@ -75,7 +108,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {actionLabel && onAction && (
         <TouchableOpacity
           style={[
-            styles.actionButton,
+            themedStyles.actionButton,
             { backgroundColor: tokens.colors.primary },
           ]}
           onPress={onAction}
@@ -90,31 +123,3 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    padding: BASE_TOKENS.spacing.xl,
-  },
-  iconContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    marginBottom: BASE_TOKENS.spacing.lg,
-  },
-  title: {
-    marginBottom: BASE_TOKENS.spacing.sm,
-  },
-  description: {
-    marginBottom: BASE_TOKENS.spacing.lg,
-  },
-  actionButton: {
-    paddingHorizontal: BASE_TOKENS.spacing.lg,
-    paddingVertical: BASE_TOKENS.spacing.md,
-    borderRadius: BASE_TOKENS.borders.radius.md,
-    marginTop: BASE_TOKENS.spacing.sm,
-  },
-});

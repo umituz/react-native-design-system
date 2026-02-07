@@ -138,10 +138,10 @@ export function usePersistentCache<T>(
     await loadFromStorage();
   }, [loadFromStorage]);
 
-  // Prevent infinite loops by only running when key or enabled changes
+  // Load from storage when key, enabled, or version changes
   useEffect(() => {
     loadFromStorage();
-  }, [key, enabled]);
+  }, [loadFromStorage]);
 
   return {
     data: state.data,

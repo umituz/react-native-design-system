@@ -105,33 +105,37 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   const formBottomPadding = bottomPosition;
   const formElementSpacing = tokens.spacing.lg;
 
-  // Create styles for form container
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: tokens.colors.backgroundPrimary,
-    },
-    surface: {
-      flex: 1,
-      backgroundColor: tokens.colors.surface,
-      borderWidth: showBorder ? 1 : 0,
-      borderColor: tokens.colors.border,
-      borderRadius: tokens.borders.radius.md,
-    },
-    scrollView: {
-      flex: 1,
-    },
-    contentContainer: {
-      flexGrow: 1,
-      padding: tokens.spacing.lg,
-      paddingTop: tokens.spacing.xl,
-      paddingBottom: formBottomPadding + insets.bottom,
-      maxWidth: formContentWidth,
-      alignSelf: 'center',
-      width: '100%',
-      gap: formElementSpacing,
-    },
-  });
+  // Create styles for form container (memoized to avoid re-creation on every render)
+  const styles = React.useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: tokens.colors.backgroundPrimary,
+        },
+        surface: {
+          flex: 1,
+          backgroundColor: tokens.colors.surface,
+          borderWidth: showBorder ? 1 : 0,
+          borderColor: tokens.colors.border,
+          borderRadius: tokens.borders.radius.md,
+        },
+        scrollView: {
+          flex: 1,
+        },
+        contentContainer: {
+          flexGrow: 1,
+          padding: tokens.spacing.lg,
+          paddingTop: tokens.spacing.xl,
+          paddingBottom: formBottomPadding + insets.bottom,
+          maxWidth: formContentWidth,
+          alignSelf: 'center',
+          width: '100%',
+          gap: formElementSpacing,
+        },
+      }),
+    [tokens, showBorder, formBottomPadding, insets.bottom, formContentWidth, formElementSpacing],
+  );
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>

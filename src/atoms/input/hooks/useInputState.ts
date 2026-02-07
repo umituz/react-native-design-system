@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface UseInputStateProps {
   value?: string;
@@ -33,6 +33,11 @@ export const useInputState = ({
   const [localValue, setLocalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);
+
+  // Sync localValue when controlled value prop changes externally
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const handleTextChange = useCallback((text: string) => {
     setLocalValue(text);

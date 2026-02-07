@@ -5,5 +5,3 @@
  */
 
 export * from "../exception";
-
-export { ErrorBoundary } from "../exception/presentation/components/ErrorBoundary";

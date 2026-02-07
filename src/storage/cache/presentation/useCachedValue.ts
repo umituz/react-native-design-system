@@ -48,16 +48,37 @@ export function useCachedValue<T>(
   useEffect(() => {
     let isMounted = true;
 
-    loadValue().then(() => {
-      if (!isMounted) {
-        setValue(undefined);
+    const doLoad = async () => {
+      const cache = cacheManager.getCache<T>(cacheName, configRef.current);
+      const cached = cache.get(key);
+
+      if (cached !== undefined) {
+        if (isMounted) setValue(cached);
+        return;
       }
-    });
+
+      if (isMounted) {
+        setIsLoading(true);
+        setError(null);
+      }
+
+      try {
+        const data = await fetcherRef.current!();
+        cache.set(key, data, configRef.current?.ttl);
+        if (isMounted) setValue(data);
+      } catch (err) {
+        if (isMounted) setError(err as Error);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    doLoad();
 
     return () => {
       isMounted = false;
     };
-  }, [loadValue]);
+  }, [cacheName, key]);
 
   const invalidate = useCallback(() => {
     const cache = cacheManager.getCache<T>(cacheName);
