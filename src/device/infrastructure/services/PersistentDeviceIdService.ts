@@ -1,6 +1,5 @@
 import { generateUUID } from '../../../uuid';
 import { SecureDeviceIdRepository } from '../repositories/SecureDeviceIdRepository';
-import { LegacyDeviceIdRepository } from '../repositories/LegacyDeviceIdRepository';
 import { DeviceIdService } from './DeviceIdService';
 
 let cachedDeviceId: string | null = null;
@@ -17,7 +16,6 @@ let initializationPromise: Promise<string> | null = null;
  */
 export class PersistentDeviceIdService {
   private static secureRepo = new SecureDeviceIdRepository();
-  private static legacyRepo = new LegacyDeviceIdRepository();
 
   /**
    * Get device ID with caching and concurrent request handling
@@ -51,24 +49,9 @@ export class PersistentDeviceIdService {
         return secureId;
       }
 
-      // 2. Try migration from legacy storage
-      const migrated = await this.migrateFromLegacy();
-      if (migrated) {
-        if (__DEV__) {
-          console.log('[PersistentDeviceIdService] Migrated ID from legacy storage:', migrated);
-        }
-        cachedDeviceId = migrated;
-        return migrated;
-      }
-
-      // 3. Create brand new ID
+      // 2. Create brand new ID
       const newId = await this.createNewDeviceId();
-      
-      // Save to both for safety during transition
-      await Promise.all([
-        this.secureRepo.set(newId),
-        this.legacyRepo.set(newId),
-      ]);
+      await this.secureRepo.set(newId);
 
       if (__DEV__) {
         console.log('[PersistentDeviceIdService] Created new persistent ID:', newId);
@@ -83,32 +66,6 @@ export class PersistentDeviceIdService {
       const fallbackId = `fallback_${generateUUID()}`;
       cachedDeviceId = fallbackId;
       return fallbackId;
-    }
-  }
-
-  /**
-   * Handles migration while ensuring it only happens once
-   */
-  private static async migrateFromLegacy(): Promise<string | null> {
-    try {
-      const hasMigrated = await this.secureRepo.hasMigrated();
-      if (hasMigrated) {
-        return null;
-      }
-
-      const legacyId = await this.legacyRepo.get();
-      if (!legacyId) {
-        await this.secureRepo.setMigrated();
-        return null;
-      }
-
-      // Upgrade legacy to secure storage
-      await this.secureRepo.set(legacyId);
-      await this.secureRepo.setMigrated();
-
-      return legacyId;
-    } catch {
-      return null;
     }
   }
 
@@ -142,10 +99,7 @@ export class PersistentDeviceIdService {
    */
   static async clearStoredId(): Promise<void> {
     try {
-      await Promise.all([
-        this.secureRepo.remove(),
-        this.legacyRepo.remove(),
-      ]);
+      await this.secureRepo.remove();
       cachedDeviceId = null;
       initializationPromise = null;
       if (__DEV__) {

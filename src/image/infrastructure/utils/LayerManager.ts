@@ -7,7 +7,6 @@
 import type { EditorLayer } from '../../domain/entities/EditorTypes';
 import { ImageEditorService } from '../services/ImageEditorService';
 
-type LayerElement = EditorLayer['elements'][number];
 export type LayerOperation = 'add' | 'remove' | 'move' | 'merge' | 'duplicate';
 
 export interface LayerComposition {

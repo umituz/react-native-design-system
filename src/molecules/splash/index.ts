@@ -3,11 +3,11 @@
  * Provides splash screen component for app initialization
  */
 
-export { SplashScreen } from './components';
+export { SplashScreen } from './components/SplashScreen';
 export type {
   SplashScreenProps,
   SplashColors,
 } from './types';
 
-export { useSplashFlow } from './hooks';
-export type { UseSplashFlowOptions, UseSplashFlowResult } from './hooks';
+export { useSplashFlow } from './hooks/useSplashFlow';
+export type { UseSplashFlowOptions, UseSplashFlowResult } from './hooks/useSplashFlow';

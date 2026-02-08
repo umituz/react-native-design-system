@@ -89,7 +89,6 @@ export { DeviceFeatureService } from './infrastructure/services/DeviceFeatureSer
 export { collectDeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
 export type { DeviceExtras } from './infrastructure/services/DeviceExtrasCollector';
 export { SecureDeviceIdRepository } from './infrastructure/repositories/SecureDeviceIdRepository';
-export { LegacyDeviceIdRepository } from './infrastructure/repositories/LegacyDeviceIdRepository';
 
 // ============================================================================
 // PRESENTATION - Device hooks

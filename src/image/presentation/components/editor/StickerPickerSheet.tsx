@@ -2,14 +2,12 @@
  * Presentation - Sticker Picker Sheet
  */
 
-import React, { forwardRef } from 'react';
-import { View, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
+import React, { forwardRef, useMemo } from 'react';
+import { View, TouchableOpacity, ScrollView, Image, useWindowDimensions } from 'react-native';
 import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
 import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
 import { AtomicText } from '../../../../atoms/AtomicText';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export interface StickerPickerSheetProps {
   stickers: string[];
@@ -22,6 +20,12 @@ export interface StickerPickerSheetProps {
 export const StickerPickerSheet = forwardRef<BottomSheetModalRef, StickerPickerSheetProps>(
   ({ stickers, onSelectSticker, onDismiss, title = 'Select Sticker', snapPoints = ['60%'] }, ref) => {
     const tokens = useAppDesignTokens();
+    const { width: SCREEN_WIDTH } = useWindowDimensions();
+
+    const stickerSize = useMemo(
+      () => (SCREEN_WIDTH - 64) / 3,
+      [SCREEN_WIDTH]
+    );
 
     return (
       <BottomSheetModal ref={ref} snapPoints={snapPoints} onDismiss={onDismiss}>
@@ -37,7 +41,7 @@ export const StickerPickerSheet = forwardRef<BottomSheetModalRef, StickerPickerS
                   key={index}
                   onPress={() => onSelectSticker(uri)}
                   style={{
-                    width: (SCREEN_WIDTH - 64) / 3,
+                    width: stickerSize,
                     aspectRatio: 1,
                     backgroundColor: tokens.colors.surfaceVariant,
                     borderRadius: tokens.radius.md,

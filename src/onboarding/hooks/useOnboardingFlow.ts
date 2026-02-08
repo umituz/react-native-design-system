@@ -19,9 +19,13 @@ export const useOnboardingFlow = (): UseOnboardingFlowResult => {
 
   // Load persisted state
   useEffect(() => {
+    const isMounted = { current: true };
+
     const loadPersistedState = async () => {
       const value = await AsyncStorage.getItem(ONBOARDING_KEY);
-      setIsOnboardingComplete(value === 'true');
+      if (isMounted.current) {
+        setIsOnboardingComplete(value === 'true');
+      }
     };
 
     loadPersistedState();
@@ -29,12 +33,17 @@ export const useOnboardingFlow = (): UseOnboardingFlowResult => {
     const subscription = DeviceEventEmitter.addListener(
       'onboarding-complete',
       () => {
-        setIsOnboardingComplete(true);
-        AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+        if (isMounted.current) {
+          setIsOnboardingComplete(true);
+          AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+        }
       },
     );
 
-    return () => subscription.remove();
+    return () => {
+      isMounted.current = false;
+      subscription.remove();
+    };
   }, []);
 
   const completeOnboarding = useCallback(async () => {

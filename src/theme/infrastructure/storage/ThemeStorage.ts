@@ -7,6 +7,7 @@ import { storageRepository, unwrap } from '../../../storage';
 import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import { DESIGN_CONSTANTS } from '../../core/constants/DesignConstants';
+import { validateCustomColors } from '../../core/CustomColors';
 
 const MODE_KEY = `${DESIGN_CONSTANTS.STORAGE_NAMESPACE}/mode`;
 const COLORS_KEY = `${DESIGN_CONSTANTS.STORAGE_NAMESPACE}/colors`;
@@ -49,7 +50,22 @@ export class ThemeStorage {
       const result = await storageRepository.getString(COLORS_KEY, '');
       const value = unwrap(result, '');
       if (!value) return undefined;
-      return JSON.parse(value) as CustomThemeColors;
+
+      const parsed = JSON.parse(value) as unknown;
+
+      // Runtime validation to ensure type safety
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        const customColors = parsed as CustomThemeColors;
+        if (validateCustomColors(customColors)) {
+          return customColors;
+        }
+      }
+
+      if (__DEV__) {
+        console.warn('[ThemeStorage] Invalid or corrupted custom colors data - ignoring');
+      }
+
+      return undefined;
     } catch {
       return undefined;
     }

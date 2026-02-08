@@ -81,7 +81,12 @@ export class BaseStorageOperations {
       const value = await AsyncStorage.getItem(key);
       return value !== null;
     } catch (error) {
-      devWarn(`BaseStorageOperations: Failed to check if key "${key}" exists`, error);
+      const errorMessage = `BaseStorageOperations: Failed to check if key "${key}" exists`;
+      devWarn(errorMessage, error);
+      // Also log in production for debugging
+      if (!__DEV__) {
+        console.error(errorMessage, error);
+      }
       return false;
     }
   }

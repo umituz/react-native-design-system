@@ -81,7 +81,6 @@ export { ImageGallery, type ImageGalleryProps } from './presentation/components/
 export { TextEditorSheet, type TextEditorSheetProps } from './presentation/components/editor/TextEditorSheet';
 export { StickerPickerSheet, type StickerPickerSheetProps } from './presentation/components/editor/StickerPickerSheet';
 export { FilterPickerSheet, type FilterPickerSheetProps } from './presentation/components/editor/FilterPickerSheet';
-export { AtomicImage, type AtomicImageProps } from './presentation/components/image/AtomicImage';
 
 export { useImage } from './presentation/hooks/useImage';
 export { useImageTransform } from './presentation/hooks/useImageTransform';

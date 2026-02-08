@@ -19,9 +19,6 @@ export function useCachedValue<T>(
   const fetcherRef = useRef(fetcher);
   const configRef = useRef(config);
 
-  fetcherRef.current = fetcher;
-  configRef.current = config;
-
   const loadValue = useCallback(async () => {
     const cache = cacheManager.getCache<T>(cacheName, configRef.current);
     const cached = cache.get(key);

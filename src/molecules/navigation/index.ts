@@ -41,9 +41,6 @@ export { useAppRoute, type RouteProp } from "./hooks/useAppRoute";
 export { useAppFocusEffect } from "./hooks/useAppFocusEffect";
 export { useAppIsFocused } from "./hooks/useAppIsFocused";
 
-// Navigation Theme
-export { createNavigationTheme } from "./utils/NavigationTheme";
-
 // Screen Options
 export { createScreenOptions } from "./utils/createScreenOptions";
 export type { ScreenOptionsParams } from "./utils/createScreenOptions";

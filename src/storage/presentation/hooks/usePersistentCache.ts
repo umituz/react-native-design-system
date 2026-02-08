@@ -5,7 +5,7 @@
  * General-purpose cache hook for any app
  */
 
-import { useEffect, useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useCacheState } from './useCacheState';
 import { CacheStorageOperations } from './CacheStorageOperations';
 import { isCacheExpired } from '../../domain/entities/CachedValue';
@@ -92,32 +92,45 @@ export function usePersistentCache<T>(
 ): PersistentCacheResult<T> {
   const { ttl = DEFAULT_TTL.MEDIUM, version, enabled = true } = options;
   const [state, actions] = useCacheState<T>();
-  
+
   // Use singleton pattern to prevent memory leaks
   const cacheOps = useMemo(() => CacheStorageOperations.getInstance(), []);
 
+  // Track if component is mounted to prevent state updates after unmount
+  const isMountedRef = useRef(true);
+
   const loadFromStorage = useCallback(async () => {
     if (!enabled) {
-      actions.setLoading(false);
+      if (isMountedRef.current) {
+        actions.setLoading(false);
+      }
       return;
     }
 
-    actions.setLoading(true);
+    if (isMountedRef.current) {
+      actions.setLoading(true);
+    }
 
     try {
       const cached = await cacheOps.loadFromStorage<T>(key);
 
-      if (cached) {
-        const expired = isCacheExpired(cached, version);
-        actions.setData(cached.value);
-        actions.setExpired(expired);
-      } else {
-        actions.clearData();
+      if (isMountedRef.current) {
+        if (cached) {
+          const expired = isCacheExpired(cached, version);
+          actions.setData(cached.value);
+          actions.setExpired(expired);
+        } else {
+          actions.clearData();
+        }
       }
     } catch {
-      actions.clearData();
+      if (isMountedRef.current) {
+        actions.clearData();
+      }
     } finally {
-      actions.setLoading(false);
+      if (isMountedRef.current) {
+        actions.setLoading(false);
+      }
     }
   }, [key, version, enabled, actions, cacheOps]);
 
@@ -140,7 +153,12 @@ export function usePersistentCache<T>(
 
   // Load from storage when key, enabled, or version changes
   useEffect(() => {
+    isMountedRef.current = true;
     loadFromStorage();
+
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [loadFromStorage]);
 
   return {

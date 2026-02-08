@@ -65,7 +65,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     close: () => dismiss(),
   }));
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     overlay: {
       flex: 1,
       backgroundColor: tokens.colors.modalOverlay,
@@ -90,7 +90,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     content: {
       flex: 1,
     }
-  });
+  }), [sheetHeight, backgroundColor, tokens.colors, borderRadius, insets.bottom]);
 
   return (
     <Modal

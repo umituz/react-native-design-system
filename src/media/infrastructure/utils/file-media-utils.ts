@@ -97,6 +97,7 @@ export interface SaveToGalleryResult {
  */
 export const saveImageToGallery = async (uri: string): Promise<SaveToGalleryResult> => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const MediaLibrary = require("expo-media-library");
 
     const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -122,6 +123,7 @@ export const saveImageToGallery = async (uri: string): Promise<SaveToGalleryResu
  */
 export const saveVideoToGallery = async (uri: string): Promise<SaveToGalleryResult> => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const MediaLibrary = require("expo-media-library");
 
     const { status } = await MediaLibrary.requestPermissionsAsync();

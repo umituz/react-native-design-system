@@ -8,6 +8,7 @@ import { storageRepository } from '../../infrastructure/repositories/AsyncStorag
 import type { CachedValue } from '../../domain/entities/CachedValue';
 import { createCachedValue } from '../../domain/entities/CachedValue';
 import { devWarn } from '../../domain/utils/devUtils';
+import { isValidCachedValue } from '../../domain/utils/ValidationUtils';
 
 export interface CacheStorageOptions {
   ttl?: number;
@@ -48,8 +49,18 @@ export class CacheStorageOperations {
       const result = await storageRepository.getString(key, '');
 
       if (result.success && result.data) {
-        const cached = JSON.parse(result.data) as CachedValue<T>;
-        return cached;
+        const parsed = JSON.parse(result.data) as unknown;
+
+        // Runtime validation to ensure type safety
+        if (isValidCachedValue(parsed)) {
+          return parsed as CachedValue<T>;
+        }
+
+        if (__DEV__) {
+          devWarn(`CacheStorageOperations: Invalid cached data structure for key "${key}"`);
+        }
+
+        return null;
       }
 
       return null;

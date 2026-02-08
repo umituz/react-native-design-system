@@ -18,7 +18,12 @@ export const storageService: StateStorage = {
     try {
       return await AsyncStorage.getItem(name);
     } catch (error) {
-      devWarn(`StorageService: Failed to get item "${name}"`, error);
+      const errorMessage = `StorageService: Failed to get item "${name}"`;
+      devWarn(errorMessage, error);
+      // Also log in production for debugging
+      if (!__DEV__) {
+        console.error(errorMessage, error);
+      }
       return null;
     }
   },
@@ -27,7 +32,12 @@ export const storageService: StateStorage = {
     try {
       await AsyncStorage.setItem(name, value);
     } catch (error) {
-      devWarn(`StorageService: Failed to set item "${name}"`, error);
+      const errorMessage = `StorageService: Failed to set item "${name}"`;
+      devWarn(errorMessage, error);
+      // Also log in production for debugging
+      if (!__DEV__) {
+        console.error(errorMessage, error);
+      }
     }
   },
 
@@ -35,7 +45,12 @@ export const storageService: StateStorage = {
     try {
       await AsyncStorage.removeItem(name);
     } catch (error) {
-      devWarn(`StorageService: Failed to remove item "${name}"`, error);
+      const errorMessage = `StorageService: Failed to remove item "${name}"`;
+      devWarn(errorMessage, error);
+      // Also log in production for debugging
+      if (!__DEV__) {
+        console.error(errorMessage, error);
+      }
     }
   },
 };

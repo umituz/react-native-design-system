@@ -6,10 +6,12 @@
 // Button
 export {
     AtomicButton,
-    type AtomicButtonProps,
-    type ButtonVariant,
-    type ButtonSize,
-} from './button';
+} from './button/AtomicButton';
+export type {
+    AtomicButtonProps,
+    ButtonVariant,
+    ButtonSize,
+} from './button/types';
 
 // Text
 export { AtomicText, type AtomicTextProps } from './AtomicText';
@@ -17,10 +19,12 @@ export { AtomicText, type AtomicTextProps } from './AtomicText';
 // Card
 export {
     AtomicCard,
-    type AtomicCardProps,
-    type CardVariant as AtomicCardVariant,
-    type CardPadding as AtomicCardPadding,
-} from './card';
+} from './card/AtomicCard';
+export type {
+    AtomicCardProps,
+    CardVariant as AtomicCardVariant,
+    CardPadding as AtomicCardPadding,
+} from './card/types';
 
 // Input
 export {
@@ -54,14 +58,22 @@ export {
     ICON_SIZES,
     getIconSize,
     isIconSizePreset,
-} from './icon';
+} from './icon/index';
 
 
 // Avatar
 export { AtomicAvatar, type AtomicAvatarProps } from './AtomicAvatar';
 
 // Chip
-export { AtomicChip, type AtomicChipProps } from './chip';
+export {
+    AtomicChip,
+} from './chip/AtomicChip';
+export type {
+    AtomicChipProps,
+    ChipVariant,
+    ChipSize,
+    ChipColor,
+} from './chip/types';
 
 // Progress
 export { AtomicProgress, type AtomicProgressProps } from './AtomicProgress';
@@ -90,10 +102,12 @@ export { AtomicDatePicker, type AtomicDatePickerProps } from './AtomicDatePicker
 export {
     AtomicSkeleton,
     type AtomicSkeletonProps,
-    type SkeletonPattern,
-    type SkeletonConfig,
-    SKELETON_PATTERNS,
-} from './skeleton';
+} from './skeleton/AtomicSkeleton';
+export type {
+    SkeletonPattern,
+    SkeletonConfig,
+} from './skeleton/AtomicSkeleton.types';
+export { SKELETON_PATTERNS } from './skeleton/AtomicSkeleton.types';
 
 // Badge
 export {
@@ -101,7 +115,7 @@ export {
     type AtomicBadgeProps,
     type BadgeVariant,
     type BadgeSize,
-} from './badge';
+} from './badge/AtomicBadge';
 
 // Spinner
 export {
@@ -124,13 +138,13 @@ export { AtomicSwitch, type AtomicSwitchProps } from './AtomicSwitch';
 export { AtomicTouchable, type AtomicTouchableProps } from './AtomicTouchable';
 
 // StatusBar
-export { AtomicStatusBar, type AtomicStatusBarProps } from './status-bar';
+export { AtomicStatusBar, type AtomicStatusBarProps } from './status-bar/AtomicStatusBar';
 
 // Keyboard Avoiding
 export { AtomicKeyboardAvoidingView, type AtomicKeyboardAvoidingViewProps } from './AtomicKeyboardAvoidingView';
 
 // GlassView
-export { GlassView, type GlassViewProps } from './GlassView';
+export { GlassView, type GlassViewProps } from './GlassView/GlassView';
 
 // Image
 export { AtomicImage, type AtomicImageProps } from './image/AtomicImage';

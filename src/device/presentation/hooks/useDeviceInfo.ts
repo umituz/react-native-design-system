@@ -8,7 +8,7 @@
  * @layer presentation/hooks
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
 import { PersistentDeviceIdService } from '../../infrastructure/services/PersistentDeviceIdService';
 import type { DeviceInfo, ApplicationInfo, SystemInfo } from '../../domain/entities/Device';
@@ -24,23 +24,34 @@ export const useDeviceInfo = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const isMountedRef = useRef(true);
+
   /**
    * Load all device and app information
    */
   const loadInfo = useCallback(async () => {
+    if (!isMountedRef.current) return;
+
     setIsLoading(true);
     setError(null);
 
     try {
       const system = await DeviceService.getSystemInfo();
-      setSystemInfo(system);
-      setDeviceInfo(system.device);
-      setAppInfo(system.application);
+
+      if (isMountedRef.current) {
+        setSystemInfo(system);
+        setDeviceInfo(system.device);
+        setAppInfo(system.application);
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load device info';
-      setError(errorMessage);
+      if (isMountedRef.current) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load device info';
+        setError(errorMessage);
+      }
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -48,17 +59,26 @@ export const useDeviceInfo = () => {
    * Load device info only
    */
   const loadDeviceInfo = useCallback(async () => {
+    if (!isMountedRef.current) return;
+
     setIsLoading(true);
     setError(null);
 
     try {
       const info = await DeviceService.getDeviceInfo();
-      setDeviceInfo(info);
+
+      if (isMountedRef.current) {
+        setDeviceInfo(info);
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load device info';
-      setError(errorMessage);
+      if (isMountedRef.current) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load device info';
+        setError(errorMessage);
+      }
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -66,17 +86,26 @@ export const useDeviceInfo = () => {
    * Load app info only
    */
   const loadAppInfo = useCallback(async () => {
+    if (!isMountedRef.current) return;
+
     setIsLoading(true);
     setError(null);
 
     try {
       const info = await DeviceService.getApplicationInfo();
-      setAppInfo(info);
+
+      if (isMountedRef.current) {
+        setAppInfo(info);
+      }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load app info';
-      setError(errorMessage);
+      if (isMountedRef.current) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load app info';
+        setError(errorMessage);
+      }
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -91,7 +120,12 @@ export const useDeviceInfo = () => {
    * Load info on mount
    */
   useEffect(() => {
+    isMountedRef.current = true;
     loadInfo();
+
+    return () => {
+      isMountedRef.current = false;
+    };
   }, [loadInfo]);
 
   return {

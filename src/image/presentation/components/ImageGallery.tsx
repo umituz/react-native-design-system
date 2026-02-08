@@ -5,14 +5,12 @@
  * Replaces slow standard image components for instant loading.
  */
 
-import React, { useCallback, useState, useEffect } from 'react';
-import { Modal, View, StyleSheet, FlatList, Dimensions, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import { Modal, View, StyleSheet, FlatList, useWindowDimensions, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { ImageViewerItem, ImageGalleryOptions } from '../../domain/entities/ImageTypes';
 import { GalleryHeader } from './GalleryHeader';
-
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export interface ImageGalleryProps extends ImageGalleryOptions {
     images: ImageViewerItem[];
@@ -36,7 +34,34 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     title,
 }) => {
     const insets = useSafeAreaInsets();
+    const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
     const [currentIndex, setCurrentIndex] = useState(index);
+
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            flex: 1,
+        },
+        list: {
+            flex: 1,
+        },
+        imageWrapper: {
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        fullImage: {
+            width: '100%',
+            height: '100%',
+        },
+        footer: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            alignItems: 'center',
+        }
+    }), [SCREEN_WIDTH, SCREEN_HEIGHT]);
 
     useEffect(() => {
         if (visible) setCurrentIndex(index);
@@ -54,7 +79,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             setCurrentIndex(nextIndex);
             onIndexChange?.(nextIndex);
         }
-    }, [currentIndex, onIndexChange]);
+    }, [currentIndex, onIndexChange, SCREEN_WIDTH]);
 
     const renderItem = useCallback(({ item }: { item: ImageViewerItem }) => (
         <View style={styles.imageWrapper}>
@@ -65,7 +90,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 cachePolicy="memory-disk"
             />
         </View>
-    ), []);
+    ), [styles]);
+
+    const getItemLayout = useCallback((_: unknown, i: number) => ({
+        length: SCREEN_WIDTH,
+        offset: SCREEN_WIDTH * i,
+        index: i,
+    }), [SCREEN_WIDTH]);
 
     if (!visible && !currentIndex) return null;
 
@@ -91,11 +122,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
                     initialScrollIndex={index}
-                    getItemLayout={(_, i) => ({
-                        length: SCREEN_WIDTH,
-                        offset: SCREEN_WIDTH * i,
-                        index: i,
-                    })}
+                    getItemLayout={getItemLayout}
                     onScroll={handleScroll}
                     scrollEventThrottle={16}
                     keyExtractor={(item, i) => `${item.uri}-${i}`}
@@ -109,29 +136,3 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    list: {
-        flex: 1,
-    },
-    imageWrapper: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    fullImage: {
-        width: '100%',
-        height: '100%',
-    },
-    footer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        alignItems: 'center',
-    }
-});

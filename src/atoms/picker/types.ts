@@ -1,5 +1,5 @@
 import { ViewStyle, TextStyle } from 'react-native';
-import { IconColor } from '../../icon';
+import { IconColor } from '../icon';
 
 /**
  * Picker option item

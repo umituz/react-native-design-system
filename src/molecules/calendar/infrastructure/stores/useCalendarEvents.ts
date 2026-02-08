@@ -7,6 +7,7 @@
 import { create } from 'zustand';
 import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
 import { zustandStorage } from './storageAdapter';
+import { isValidArray, isValidCalendarEvent } from '../../../../storage/domain/utils/ValidationUtils';
 
 const STORAGE_KEY = 'calendar_events';
 
@@ -53,10 +54,22 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
         return;
       }
 
-      const events = JSON.parse(json) as CalendarEvent[];
+      const parsed = JSON.parse(json) as unknown;
 
-      if (events && events.length > 0) {
-        const hydratedEvents = events.map((event) => ({
+      // Runtime validation
+      if (!isValidArray(parsed)) {
+        if (__DEV__) {
+          console.warn('[useCalendarEvents] Invalid events data: not an array');
+        }
+        set({ error: 'Invalid data format', isLoading: false });
+        return;
+      }
+
+      // Validate each event structure
+      const validEvents = parsed.filter(isValidCalendarEvent) as CalendarEvent[];
+
+      if (validEvents.length > 0) {
+        const hydratedEvents = validEvents.map((event) => ({
           ...event,
           createdAt: new Date(event.createdAt),
           updatedAt: new Date(event.updatedAt),

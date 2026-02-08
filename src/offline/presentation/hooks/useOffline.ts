@@ -4,7 +4,7 @@
  * Automatically subscribes to network changes via expo-network
  */
 
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useMemo } from 'react';
 import * as Network from 'expo-network';
 import type { NetworkState as ExpoNetworkState } from 'expo-network';
 import type { NetworkState, OfflineConfig } from '../../types';
@@ -31,7 +31,13 @@ export const useOffline = (config?: OfflineConfig) => {
   const store = useOfflineStore();
   const isInitialized = useRef(false);
   const previousStateRef = useRef<NetworkState | null>(null);
-  const mergedConfig = { ...globalConfig, ...config };
+  const isMountedRef = useRef(true);
+
+  // Memoize merged config to prevent unnecessary effect re-runs
+  const mergedConfig = useMemo(
+    () => ({ ...globalConfig, ...config }),
+    [config]
+  );
 
   const handleNetworkStateChange = useCallback((state: ExpoNetworkState) => {
     const networkState = toNetworkState(state);
@@ -55,13 +61,17 @@ export const useOffline = (config?: OfflineConfig) => {
   useEffect(() => {
     if (isInitialized.current) return;
 
+    isMountedRef.current = true;
+
     Network.getNetworkStateAsync()
       .then((state: ExpoNetworkState) => {
-        handleNetworkStateChange(state);
-        isInitialized.current = true;
+        if (isMountedRef.current) {
+          handleNetworkStateChange(state);
+          isInitialized.current = true;
+        }
       })
       .catch((error: Error) => {
-        if (__DEV__ || mergedConfig.debug) {
+        if (isMountedRef.current && (__DEV__ || mergedConfig.debug)) {
           console.error('[react-native-offline] Failed to fetch network state:', error);
         }
       });
@@ -69,6 +79,7 @@ export const useOffline = (config?: OfflineConfig) => {
     const subscription = Network.addNetworkStateListener(handleNetworkStateChange);
 
     return () => {
+      isMountedRef.current = false;
       subscription.remove();
       isInitialized.current = false;
     };
