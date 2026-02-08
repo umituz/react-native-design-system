@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  override componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Log error to exception service
     exceptionService.handleFatalError(error, {
       componentStack: errorInfo.componentStack ?? undefined,
@@ -56,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   };
 
-  override render(): ReactNode {
+  render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
