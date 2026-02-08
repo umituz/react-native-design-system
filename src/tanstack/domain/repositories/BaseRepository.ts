@@ -35,9 +35,8 @@
  * ```
  */
 
-import type { QueryClient, QueryKey } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 import { getGlobalQueryClient } from '../config/QueryClientAccessor';
-import { CacheStrategies } from '../../infrastructure/config/QueryClientConfig';
 import { createQueryKeyFactory } from '../utils/QueryKeyFactory';
 import type {
   CreateParams,
@@ -45,6 +44,9 @@ import type {
   ListParams,
   RepositoryOptions,
 } from './RepositoryTypes';
+import { mergeRepositoryOptions, getCacheOptions } from './helpers/repositoryHelpers';
+import * as queryMethods from './mixins/repositoryQueryMethods';
+import * as invalidationMethods from './mixins/repositoryInvalidationMethods';
 
 /**
  * Base repository for CRUD operations
@@ -68,11 +70,7 @@ export abstract class BaseRepository<
 
   constructor(resource: string, options: RepositoryOptions = {}) {
     this.resource = resource;
-    this.options = {
-      cacheStrategy: options.cacheStrategy ?? CacheStrategies.PUBLIC_DATA,
-      ...options,
-    };
-
+    this.options = mergeRepositoryOptions(options);
     this.keys = createQueryKeyFactory(this.resource);
   }
 
@@ -87,10 +85,7 @@ export abstract class BaseRepository<
    * Get cache options for queries
    */
   protected getCacheOptions(): { staleTime: number; gcTime: number } {
-    return {
-      staleTime: this.options.staleTime ?? (this.options.cacheStrategy?.staleTime ?? CacheStrategies.PUBLIC_DATA.staleTime),
-      gcTime: this.options.gcTime ?? (this.options.cacheStrategy?.gcTime ?? CacheStrategies.PUBLIC_DATA.gcTime),
-    };
+    return getCacheOptions(this.options);
   }
 
   /**
@@ -122,120 +117,69 @@ export abstract class BaseRepository<
    * Query all items with caching
    */
   async queryAll(params?: ListParams): Promise<TData[]> {
-    const client = this.getClient();
-    const queryKey = params ? this.keys.list(params as Record<string, unknown>) : this.keys.lists();
-    const cacheOptions = this.getCacheOptions();
-
-    return client.fetchQuery({
-      queryKey: queryKey as QueryKey,
-      queryFn: () => this.fetchAll(params),
-      ...cacheOptions,
-    });
+    return queryMethods.queryAll(this, params);
   }
 
   /**
    * Query item by ID with caching
    */
   async queryById(id: string | number): Promise<TData | undefined> {
-    const client = this.getClient();
-    const queryKey = this.keys.detail(id);
-    const cacheOptions = this.getCacheOptions();
-
-    try {
-      return client.fetchQuery({
-        queryKey: queryKey as QueryKey,
-        queryFn: () => this.fetchById(id),
-        ...cacheOptions,
-      });
-    } catch {
-      return undefined;
-    }
+    return queryMethods.queryById(this, id);
   }
 
   /**
    * Prefetch all items
    */
   async prefetchAll(params?: ListParams): Promise<void> {
-    const client = this.getClient();
-    const queryKey = params ? this.keys.list(params as Record<string, unknown>) : this.keys.lists();
-    const cacheOptions = this.getCacheOptions();
-
-    await client.prefetchQuery({
-      queryKey: queryKey as QueryKey,
-      queryFn: () => this.fetchAll(params),
-      ...cacheOptions,
-    });
+    return queryMethods.prefetchAll(this, params);
   }
 
   /**
    * Prefetch item by ID
    */
   async prefetchById(id: string | number): Promise<void> {
-    const client = this.getClient();
-    const queryKey = this.keys.detail(id);
-    const cacheOptions = this.getCacheOptions();
-
-    await client.prefetchQuery({
-      queryKey: queryKey as QueryKey,
-      queryFn: () => this.fetchById(id),
-      ...cacheOptions,
-    });
+    return queryMethods.prefetchById(this, id);
   }
 
   /**
    * Invalidate all queries for this resource
    */
   invalidateAll(): Promise<void> {
-    const client = this.getClient();
-    return client.invalidateQueries({
-      predicate: (query: { queryKey: readonly unknown[] }) => {
-        const key = query.queryKey[0] as string;
-        return key === this.resource;
-      },
-    });
+    return invalidationMethods.invalidateAll(this);
   }
 
   /**
    * Invalidate list queries
    */
   invalidateLists(): Promise<void> {
-    const client = this.getClient();
-    return client.invalidateQueries({
-      queryKey: this.keys.lists(),
-    });
+    return invalidationMethods.invalidateLists(this);
   }
 
   /**
    * Invalidate detail query
    */
   invalidateDetail(id: string | number): Promise<void> {
-    const client = this.getClient();
-    return client.invalidateQueries({
-      queryKey: this.keys.detail(id),
-    });
+    return invalidationMethods.invalidateDetail(this, id);
   }
 
   /**
    * Set query data (optimistic update)
    */
   setData(id: string | number, data: TData): void {
-    const client = this.getClient();
-    client.setQueryData(this.keys.detail(id), data);
+    invalidationMethods.setData(this, id, data);
   }
 
   /**
    * Get query data from cache
    */
   getData(id: string | number): TData | undefined {
-    const client = this.getClient();
-    return client.getQueryData<TData>(this.keys.detail(id));
+    return invalidationMethods.getData(this, id);
   }
 
   /**
    * Remove query data from cache
    */
   clearData(id: string | number): void {
-    const client = this.getClient();
-    client.setQueryData(this.keys.detail(id), undefined);
+    invalidationMethods.clearData(this, id);
   }
 }

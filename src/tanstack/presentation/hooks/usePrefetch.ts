@@ -8,18 +8,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import type { QueryKey, QueryFunction } from '@tanstack/react-query';
+import type { PrefetchOptions } from './types/prefetchTypes';
+import { logPrefetch, logPrefetchMultiple } from './utils/prefetchLogger';
 
-export interface PrefetchOptions {
-  /**
-   * Time in ms that the prefetched data should stay fresh
-   */
-  staleTime?: number;
-
-  /**
-   * Time in ms that unused data stays in cache
-   */
-  gcTime?: number;
-}
+export type { PrefetchOptions };
 
 /**
  * Hook for prefetching query data
@@ -74,10 +66,7 @@ export function usePrefetchQuery<
           gcTime: options.gcTime,
         });
 
-        if (__DEV__) {
-          
-          console.log('[TanStack Query] Prefetched:', [...queryKey, variables]);
-        }
+        logPrefetch('Prefetched:', [...queryKey, variables]);
       } finally {
         prefetchingRef.current.delete(variables);
       }
@@ -137,14 +126,11 @@ export function usePrefetchInfiniteQuery<
         initialPageParam,
       });
 
-      if (__DEV__) {
-        
-        console.log('[TanStack Query] Prefetched infinite:', queryKey);
-      }
+      logPrefetch('Prefetched infinite:', queryKey);
     } catch {
       hasPrefetchedRef.current = false;
     }
-  }, [queryClient, queryKey, queryFn, options.staleTime, options.gcTime]);
+  }, [queryClient, queryKey, queryFn, options.staleTime, options.gcTime, initialPageParam]);
 
   return prefetch;
 }
@@ -182,10 +168,7 @@ export function usePrefetchOnMount<TData = unknown>(
       gcTime: options.gcTime,
     });
 
-    if (__DEV__) {
-      
-      console.log('[TanStack Query] Prefetched on mount:', queryKey);
-    }
+    logPrefetch('Prefetched on mount:', queryKey);
   }, [queryClient, queryKey, queryFn, options.staleTime, options.gcTime]);
 }
 
@@ -228,10 +211,7 @@ export function usePrefetchMultiple<TData = unknown>() {
         ),
       );
 
-      if (__DEV__) {
-        
-        console.log('[TanStack Query] Prefetched multiple:', queries.length);
-      }
+      logPrefetchMultiple(queries.length);
     },
     [queryClient],
   );

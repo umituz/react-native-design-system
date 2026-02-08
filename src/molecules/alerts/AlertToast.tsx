@@ -6,209 +6,180 @@
  */
 
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Pressable, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
-import { Alert, AlertType } from './AlertTypes';
+import { Alert } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
-
-const DEFAULT_DURATION = 3000;
+import {
+  getAlertBackgroundColor,
+  getActionButtonStyle,
+  getActionTextColor,
+  DEFAULT_TOAST_DURATION,
+} from './utils/alertToastHelpers';
 
 interface AlertToastProps {
-    alert: Alert;
+  alert: Alert;
 }
 
 export function AlertToast({ alert }: AlertToastProps) {
-    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
-    const tokens = useAppDesignTokens();
-    const closeIcon = useIconName('close');
+  const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
+  const tokens = useAppDesignTokens();
+  const closeIcon = useIconName('close');
 
-    const dismiss = () => {
-        dismissAlert(alert.id);
-        alert.onDismiss?.();
-    };
+  const dismiss = () => {
+    dismissAlert(alert.id);
+    alert.onDismiss?.();
+  };
 
-    const handleDismiss = () => {
-        if (alert.dismissible) {
-            dismiss();
-        }
-    };
+  const handleDismiss = () => {
+    if (alert.dismissible) {
+      dismiss();
+    }
+  };
 
-    // Auto-dismiss after duration
-    useEffect(() => {
-        const duration = alert.duration ?? DEFAULT_DURATION;
-        if (duration <= 0) return;
+  // Auto-dismiss after duration
+  useEffect(() => {
+    const duration = alert.duration ?? DEFAULT_TOAST_DURATION;
+    if (duration <= 0) return;
 
-        const timer = setTimeout(dismiss, duration);
-        return () => clearTimeout(timer);
-    }, [alert.id, alert.duration]);
+    const timer = setTimeout(dismiss, duration);
+    return () => clearTimeout(timer);
+  }, [alert.id, alert.duration]);
 
-    const getBackgroundColor = (type: AlertType): string => {
-        const colors = {
-            [AlertType.SUCCESS]: tokens.colors.success,
-            [AlertType.ERROR]: tokens.colors.error,
-            [AlertType.WARNING]: tokens.colors.warning,
-            [AlertType.INFO]: tokens.colors.info,
-        };
-        return colors[type] || tokens.colors.backgroundSecondary;
-    };
+  const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
+  const textColor = tokens.colors.textInverse;
 
-    const getActionButtonStyle = (style?: 'primary' | 'secondary' | 'destructive'): StyleProp<ViewStyle> => {
-        if (style === 'secondary') {
-            return {
-                backgroundColor: undefined,
-                borderWidth: 1,
-                borderColor: tokens.colors.textInverse,
-            };
-        }
-        const colors = {
-            primary: tokens.colors.backgroundPrimary,
-            destructive: tokens.colors.error,
-        };
-        return { backgroundColor: colors[style as keyof typeof colors] || tokens.colors.backgroundSecondary };
-    };
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor,
+          padding: tokens.spacing.md,
+          borderRadius: tokens.borders.radius.md,
+        },
+      ]}
+      testID={alert.testID}
+    >
+      <Pressable onPress={handleDismiss} style={styles.content}>
+        <View style={styles.row}>
+          {alert.icon && (
+            <AtomicIcon
+              name={alert.icon}
+              customSize={20}
+              customColor={textColor}
+              style={{ marginRight: tokens.spacing.sm }}
+            />
+          )}
 
-    const getActionTextColor = (style?: 'primary' | 'secondary' | 'destructive'): string => {
-        return style === 'primary' ? tokens.colors.textPrimary : tokens.colors.textInverse;
-    };
+          <View style={styles.textContainer}>
+            <AtomicText
+              type="bodyMedium"
+              style={[styles.title, { color: textColor }]}
+              numberOfLines={2}
+            >
+              {alert.title}
+            </AtomicText>
 
-    const backgroundColor = getBackgroundColor(alert.type);
-    const textColor = tokens.colors.textInverse;
+            {alert.message && (
+              <AtomicText
+                type="bodySmall"
+                style={[
+                  styles.message,
+                  { color: textColor, marginTop: tokens.spacing.xs },
+                ]}
+                numberOfLines={3}
+              >
+                {alert.message}
+              </AtomicText>
+            )}
+          </View>
 
-    return (
-        <View
-            style={[
-                styles.container,
-                {
-                    backgroundColor,
-                    padding: tokens.spacing.md,
-                    borderRadius: tokens.borders.radius.md,
-                },
-            ]}
-            testID={alert.testID}
-        >
-            <Pressable onPress={handleDismiss} style={styles.content}>
-                <View style={styles.row}>
-                    {alert.icon && (
-                        <AtomicIcon
-                            name={alert.icon}
-                            customSize={20}
-                            customColor={textColor}
-                            style={{ marginRight: tokens.spacing.sm }}
-                        />
-                    )}
-
-                    <View style={styles.textContainer}>
-                        <AtomicText
-                            type="bodyMedium"
-                            style={[styles.title, { color: textColor }]}
-                            numberOfLines={2}
-                        >
-                            {alert.title}
-                        </AtomicText>
-
-                        {alert.message && (
-                            <AtomicText
-                                type="bodySmall"
-                                style={[
-                                    styles.message,
-                                    { color: textColor, marginTop: tokens.spacing.xs },
-                                ]}
-                                numberOfLines={3}
-                            >
-                                {alert.message}
-                            </AtomicText>
-                        )}
-                    </View>
-
-                    {alert.dismissible && (
-                        <Pressable
-                            onPress={handleDismiss}
-                            style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
-                            hitSlop={8}
-                        >
-                            <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
-                        </Pressable>
-                    )}
-                </View>
-
-                {alert.actions && alert.actions.length > 0 && (
-                    <View style={[styles.actionsContainer, { marginTop: tokens.spacing.sm }]}>
-                        {alert.actions.map((action) => (
-                            <Pressable
-                                key={action.id}
-                                onPress={async () => {
-                                    await action.onPress();
-                                    if (action.closeOnPress ?? true) {
-                                        dismiss();
-                                    }
-                                }}
-                                style={[
-                                    styles.actionButton,
-                                    {
-                                        paddingVertical: tokens.spacing.xs,
-                                        paddingHorizontal: tokens.spacing.sm,
-                                        marginRight: tokens.spacing.xs,
-                                        borderRadius: tokens.borders.radius.sm,
-                                    },
-                                    getActionButtonStyle(action.style),
-                                ]}
-                            >
-                                <AtomicText
-                                    type="bodySmall"
-                                    style={[
-                                        styles.actionText,
-                                        { color: getActionTextColor(action.style) },
-                                    ]}
-                                >
-                                    {action.label}
-                                </AtomicText>
-                            </Pressable>
-                        ))}
-                    </View>
-                )}
+          {alert.dismissible && (
+            <Pressable
+              onPress={handleDismiss}
+              style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
+              hitSlop={8}
+            >
+              <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
             </Pressable>
+          )}
         </View>
-    );
+
+        {alert.actions && alert.actions.length > 0 && (
+          <View style={[styles.actionsContainer, { marginTop: tokens.spacing.sm }]}>
+            {alert.actions.map((action) => (
+              <Pressable
+                key={action.id}
+                onPress={async () => {
+                  await action.onPress();
+                  if (action.closeOnPress ?? true) {
+                    dismiss();
+                  }
+                }}
+                style={[
+                  styles.actionButton,
+                  {
+                    paddingVertical: tokens.spacing.xs,
+                    paddingHorizontal: tokens.spacing.sm,
+                    marginRight: tokens.spacing.xs,
+                    borderRadius: tokens.borders.radius.sm,
+                  },
+                  getActionButtonStyle(action.style, tokens),
+                ]}
+              >
+                <AtomicText
+                  type="bodySmall"
+                  style={[
+                    styles.actionText,
+                    { color: getActionTextColor(action.style, tokens) },
+                  ]}
+                >
+                  {action.label}
+                </AtomicText>
+              </Pressable>
+            ))}
+          </View>
+        )}
+      </Pressable>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-    },
-    content: {
-        flex: 1,
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    iconContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    textContainer: {
-        flex: 1,
-    },
-    title: {
-        fontWeight: '700',
-    },
-    message: {
-        opacity: 0.9,
-    },
-    closeButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    actionsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    actionButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    actionText: {
-        fontWeight: '700',
-    },
+  container: {
+    width: '100%',
+  },
+  content: {
+    flex: 1,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    fontWeight: '700',
+  },
+  message: {
+    opacity: 0.9,
+  },
+  closeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  actionButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionText: {
+    fontWeight: '700',
+  },
 });
