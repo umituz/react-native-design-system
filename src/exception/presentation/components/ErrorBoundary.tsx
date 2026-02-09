@@ -1,9 +1,9 @@
 /**
  * Error Boundary Component
- * Catches React errors and provides fallback UI
+ * React 19 compatible - Functional component with hooks
  */
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { exceptionService } from '../../infrastructure/services/ExceptionService';
@@ -15,130 +15,115 @@ interface Props {
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
 }
 
-interface State {
-  hasError: boolean;
-  error: Error | null;
+interface ErrorInfo {
+  error: Error;
+  componentStack: string | null;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-    };
-  }
+export const ErrorBoundary: React.FC<Props> = ({
+  children,
+  fallback,
+  onError
+}) => {
+  const [errorState, setErrorState] = useState<{
+    hasError: boolean;
+    error: Error | null;
+  }>({
+    hasError: false,
+    error: null,
+  });
 
-  static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error,
-    };
-  }
+  const tokens = useAppDesignTokens();
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  // Global error handler for React 19
+  useCallback((error: Error, errorInfo: React.ErrorInfo) => {
     // Log error to exception service
     exceptionService.handleFatalError(error, {
       componentStack: errorInfo.componentStack ?? undefined,
       screen: 'ErrorBoundary',
     });
 
-    // Call external onError if provided
-    if (this.props.onError) {
-      this.props.onError(error, errorInfo);
-    }
-  }
+    // Update state
+    setErrorState({
+      hasError: true,
+      error,
+    });
 
-  handleReset = (): void => {
-    this.setState({
+    // Call external onError if provided
+    if (onError) {
+      onError(error, errorInfo);
+    }
+  }, [onError]);
+
+  // Reset error state
+  const resetError = useCallback(() => {
+    setErrorState({
       hasError: false,
       error: null,
     });
-  };
+  }, []);
 
-  render(): ReactNode {
-    if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
-
-      return (
-        <ErrorDisplay error={this.state.error} onReset={this.handleReset} />
-      );
+  // If there's an error, render fallback
+  if (errorState.hasError) {
+    if (fallback) {
+      return <>{fallback}</>;
     }
 
-    return this.props.children;
+    return (
+      <View style={[styles.container, { backgroundColor: tokens.colors.error.background }]}>
+        <View style={styles.content}>
+          <AtomicText variant="h3" style={styles.title}>
+            Something went wrong
+          </AtomicText>
+
+          {errorState.error && (
+            <AtomicText variant="body" style={styles.message}>
+              {errorState.error.message}
+            </AtomicText>
+          )}
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: tokens.colors.primary }]}
+            onPress={resetError}
+          >
+            <AtomicText variant="button" style={styles.buttonText}>
+              Try Again
+            </AtomicText>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   }
-}
 
-interface ErrorDisplayProps {
-  error: Error | null;
-  onReset: () => void;
-}
-
-const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onReset }) => {
-  const tokens = useAppDesignTokens();
-  const styles = getStyles(tokens);
-
-  return (
-    <View style={styles.container}>
-      <AtomicText style={styles.title}>Something went wrong</AtomicText>
-      <AtomicText style={styles.message}>
-        {error?.message || 'An unexpected error occurred'}
-      </AtomicText>
-      <TouchableOpacity style={styles.button} onPress={onReset}>
-        <AtomicText style={styles.buttonText}>Try Again</AtomicText>
-      </TouchableOpacity>
-    </View>
-  );
+  return <>{children}</>;
 };
 
-const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) =>
-  StyleSheet.create({
-    button: {
-      backgroundColor: tokens.colors.primary,
-      borderRadius: tokens.borders.radius.sm,
-      paddingHorizontal: tokens.spacing.lg,
-      paddingVertical: tokens.spacing.sm,
-    },
-    buttonText: {
-      color: tokens.colors.textInverse,
-      fontSize: tokens.typography.bodyLarge.fontSize,
-      fontWeight: tokens.typography.labelLarge.fontWeight,
-    },
-    container: {
-      alignItems: 'center',
-      backgroundColor: tokens.colors.backgroundPrimary,
-      flex: 1,
-      justifyContent: 'center',
-      padding: tokens.spacing.lg,
-    },
-    message: {
-      color: tokens.colors.textSecondary,
-      fontSize: tokens.typography.bodyLarge.fontSize,
-      marginBottom: tokens.spacing.lg,
-      textAlign: 'center',
-    },
-    title: {
-      color: tokens.colors.textPrimary,
-      fontSize: tokens.typography.headlineSmall.fontSize,
-      fontWeight: tokens.typography.headlineSmall.fontWeight,
-      marginBottom: tokens.spacing.sm,
-    },
-  });
-
-/**
- * Higher-order component version of ErrorBoundary
- */
-export function withErrorBoundary<P extends object>(
-  WrappedComponent: React.ComponentType<P>,
-  fallback?: ReactNode,
-): React.ComponentType<P> {
-  return (props: P) => (
-    <ErrorBoundary fallback={fallback}>
-      <WrappedComponent {...props} />
-    </ErrorBoundary>
-  );
-}
-
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  content: {
+    alignItems: 'center',
+    maxWidth: 400,
+  },
+  title: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  message: {
+    marginBottom: 20,
+    textAlign: 'center',
+    opacity: 0.7,
+  },
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#fff',
+  },
+});
