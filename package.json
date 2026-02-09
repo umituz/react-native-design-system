@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.23.81",
+  "version": "4.23.82",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -31,7 +31,6 @@
     "./loading": "./src/loading/index.ts",
     "./package.json": "./package.json"
   },
-
   "scripts": {
     "typecheck": "tsc --noEmit --skipLibCheck",
     "lint": "eslint . --ext .ts,.tsx",
