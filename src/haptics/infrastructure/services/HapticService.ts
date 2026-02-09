@@ -16,7 +16,6 @@ import type { ImpactStyle, NotificationType, HapticPattern } from '../../domain/
  */
 function logError(method: string, error: unknown): void {
   if (process.env.NODE_ENV === 'development') {
-    console.error(`[HapticService.${method}]`, error);
   }
 }
 

@@ -59,7 +59,6 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
       // Runtime validation
       if (!isValidArray(parsed)) {
         if (__DEV__) {
-          console.warn('[useCalendarEvents] Invalid events data: not an array');
         }
         set({ error: 'Invalid data format', isLoading: false });
         return;

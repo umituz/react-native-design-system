@@ -3,7 +3,7 @@
  * Query methods for repository operations
  */
 
-import type { QueryClient, QueryKey } from '@tanstack/react-query';
+import type { QueryKey } from '@tanstack/react-query';
 import type { ListParams } from '../RepositoryTypes';
 import type { IBaseRepository } from '../IBaseRepository';
 
@@ -18,11 +18,11 @@ export async function queryAll<TData>(
   repository: IBaseRepository<TData, unknown, unknown>,
   params?: ListParams
 ): Promise<TData[]> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   const queryKey = params
     ? repository.keys.list(params as Record<string, unknown>)
     : repository.keys.lists();
-  const cacheOptions = (repository as any).getCacheOptions();
+  const cacheOptions = repository.getCacheOptions();
 
   return client.fetchQuery({
     queryKey: queryKey as QueryKey,
@@ -42,9 +42,9 @@ export async function queryById<TData>(
   repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): Promise<TData | undefined> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   const queryKey = repository.keys.detail(id);
-  const cacheOptions = (repository as any).getCacheOptions();
+  const cacheOptions = repository.getCacheOptions();
 
   try {
     return client.fetchQuery({
@@ -64,14 +64,14 @@ export async function queryById<TData>(
  * @param params - Optional list parameters
  */
 export async function prefetchAll<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   params?: ListParams
 ): Promise<void> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   const queryKey = params
     ? repository.keys.list(params as Record<string, unknown>)
     : repository.keys.lists();
-  const cacheOptions = (repository as any).getCacheOptions();
+  const cacheOptions = repository.getCacheOptions();
 
   await client.prefetchQuery({
     queryKey: queryKey as QueryKey,
@@ -87,12 +87,12 @@ export async function prefetchAll<TData>(
  * @param id - Item ID
  */
 export async function prefetchById<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): Promise<void> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   const queryKey = repository.keys.detail(id);
-  const cacheOptions = (repository as any).getCacheOptions();
+  const cacheOptions = repository.getCacheOptions();
 
   await client.prefetchQuery({
     queryKey: queryKey as QueryKey,

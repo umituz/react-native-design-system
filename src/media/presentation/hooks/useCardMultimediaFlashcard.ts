@@ -3,7 +3,7 @@
  * Main hook and exports for card multimedia functionality
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import { calculateTotalSize, extractMediaTypes } from "../../infrastructure/utils/media-collection-utils";
 import type { UseCardMultimediaFlashcardResult } from "./card-multimedia.types";
 import type {

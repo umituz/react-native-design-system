@@ -109,7 +109,6 @@ export function createEnvConfig(
 
     if (isExpoGo && testStoreKey) {
       if (__DEV__) {
-        console.log("[createEnvConfig] Using RevenueCat Test Store Key (Expo Go)");
       }
       return testStoreKey;
     }

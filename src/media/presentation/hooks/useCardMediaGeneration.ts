@@ -3,7 +3,7 @@
  * Hook for generating card media with AI
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import type { UseCardMediaGenerationResult } from "./card-multimedia.types";
 import type {
   CardMediaAttachment,

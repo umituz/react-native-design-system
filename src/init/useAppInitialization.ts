@@ -16,7 +16,6 @@ import type {
  * @example
  * ```typescript
  * const { isReady, isLoading, error } = useAppInitialization(initializeApp, {
- *   onReady: () => console.log('App ready!'),
  * });
  *
  * if (isLoading) return <SplashScreen />;

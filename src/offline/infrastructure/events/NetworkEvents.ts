@@ -37,7 +37,6 @@ class NetworkEventEmitter implements NetworkEvents {
         listener(state);
       } catch (error) {
         if (__DEV__) {
-          console.error(`[NetworkEventEmitter] Error in ${event} listener:`, error);
         }
       }
     });

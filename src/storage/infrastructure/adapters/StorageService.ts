@@ -22,7 +22,6 @@ export const storageService: StateStorage = {
       devWarn(errorMessage, error);
       // Also log in production for debugging
       if (!__DEV__) {
-        console.error(errorMessage, error);
       }
       return null;
     }
@@ -36,7 +35,6 @@ export const storageService: StateStorage = {
       devWarn(errorMessage, error);
       // Also log in production for debugging
       if (!__DEV__) {
-        console.error(errorMessage, error);
       }
     }
   },
@@ -49,7 +47,6 @@ export const storageService: StateStorage = {
       devWarn(errorMessage, error);
       // Also log in production for debugging
       if (!__DEV__) {
-        console.error(errorMessage, error);
       }
     }
   },

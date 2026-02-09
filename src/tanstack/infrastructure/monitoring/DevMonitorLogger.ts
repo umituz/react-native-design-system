@@ -8,13 +8,11 @@ import type { QueryMetrics, CacheStats } from './DevMonitor.types';
 export class DevMonitorLogger {
   static logInit(): void {
     if (__DEV__) {
-      console.log('[TanStack DevMonitor] Monitoring initialized');
     }
   }
 
   static logSlowQuery(queryKeyString: string, fetchTime: number): void {
     if (__DEV__) {
-      console.warn(
         `[TanStack DevMonitor] Slow query detected: ${queryKeyString} (${fetchTime}ms)`,
       );
     }
@@ -22,19 +20,16 @@ export class DevMonitorLogger {
 
   static logAttached(): void {
     if (__DEV__) {
-      console.log('[TanStack DevMonitor] Attached to QueryClient');
     }
   }
 
   static logMethodsCleared(): void {
     if (__DEV__) {
-      console.log('[TanStack DevMonitor] Metrics cleared');
     }
   }
 
   static logReset(): void {
     if (__DEV__) {
-      console.log('[TanStack DevMonitor] Reset');
     }
   }
 
@@ -53,7 +48,6 @@ export class DevMonitorLogger {
       }
 
       if (slowQueries.length > 0) {
-        console.warn(`Found ${slowQueries.length} slow queries:`);
         console.table(
           slowQueries.map((m) => ({
             queryKey: JSON.stringify(m.queryKey),

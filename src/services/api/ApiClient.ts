@@ -7,6 +7,7 @@ import type {
   ApiClientConfig,
   ApiRequestConfig,
   ApiResponse,
+  HttpMethod,
 } from './types/ApiTypes';
 import {
   buildURL,
@@ -20,6 +21,20 @@ import {
   fetchWithTimeout,
 } from './utils/responseHandler';
 
+/**
+ * Applies interceptors to a value
+ */
+async function applyInterceptors<T>(
+  value: T,
+  interceptors: Array<(value: T) => T | Promise<T>> | undefined
+): Promise<T> {
+  let result = value;
+  for (const interceptor of interceptors || []) {
+    result = await interceptor(result);
+  }
+  return result;
+}
+
 export class ApiClient {
   private config: ApiClientConfig;
 
@@ -32,19 +47,11 @@ export class ApiClient {
 
   /**
    * Makes an HTTP request
-   *
-   * @param requestConfig - Request configuration
-   * @returns API response
    */
   async request<T>(requestConfig: ApiRequestConfig): Promise<ApiResponse<T>> {
     try {
-      // Apply request interceptors
-      let config = requestConfig;
-      for (const interceptor of this.config.requestInterceptors || []) {
-        config = await interceptor(config);
-      }
+      const config = await applyInterceptors(requestConfig, this.config.requestInterceptors);
 
-      // Build request
       const fullURL = config.url.startsWith('http')
         ? config.url
         : buildURL(this.config.baseURL, config.url, config.params);
@@ -54,176 +61,74 @@ export class ApiClient {
         headers: { ...this.config.headers, ...config.headers },
       });
 
-      // Make request with timeout
       const response = await fetchWithTimeout(
         fullURL,
         fetchOptions,
         config.timeout || this.config.timeout || 30000
       );
 
-      // Check for HTTP errors
       if (!isSuccessfulResponse(response)) {
         const error = await handleHttpError(response);
-
-        // Apply error interceptors
-        let finalError = error;
-        for (const interceptor of this.config.errorInterceptors || []) {
-          finalError = await interceptor(finalError);
-        }
-
-        throw finalError;
+        throw await applyInterceptors(error, this.config.errorInterceptors);
       }
 
-      // Parse response
       let parsedResponse = await parseResponse<T>(response);
-
-      // Apply response interceptors
-      for (const interceptor of this.config.responseInterceptors || []) {
-        parsedResponse = await interceptor(parsedResponse);
-      }
+      parsedResponse = await applyInterceptors(parsedResponse, this.config.responseInterceptors);
 
       return parsedResponse;
     } catch (error) {
-      // Handle network errors
       const apiError = handleNetworkError(error);
-
-      // Apply error interceptors
-      let finalError = apiError;
-      for (const interceptor of this.config.errorInterceptors || []) {
-        finalError = await interceptor(finalError);
-      }
-
-      throw finalError;
+      throw await applyInterceptors(apiError, this.config.errorInterceptors);
     }
   }
 
   /**
-   * Makes a GET request
-   *
-   * @param url - Request URL
-   * @param params - Query parameters
-   * @param config - Additional config
-   * @returns API response
+   * Makes an HTTP request with a specific method
    */
-  async get<T>(
+  private requestWithMethod<T>(
+    method: HttpMethod,
     url: string,
-    params?: Record<string, string | number | boolean | undefined>,
+    bodyOrParams?: any,
     config?: Partial<ApiRequestConfig>
   ): Promise<ApiResponse<T>> {
-    return this.request<T>({
+    const requestData: ApiRequestConfig = {
       url,
-      method: 'GET',
-      params,
+      method,
+      ...(method === 'GET' || method === 'DELETE' ? { params: bodyOrParams } : { body: bodyOrParams }),
       ...config,
-    });
+    };
+    return this.request<T>(requestData);
   }
 
-  /**
-   * Makes a POST request
-   *
-   * @param url - Request URL
-   * @param body - Request body
-   * @param config - Additional config
-   * @returns API response
-   */
-  async post<T>(
-    url: string,
-    body?: any,
-    config?: Partial<ApiRequestConfig>
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>({
-      url,
-      method: 'POST',
-      body,
-      ...config,
-    });
+  get<T>(url: string, params?: Record<string, string | number | boolean | undefined>, config?: Partial<ApiRequestConfig>): Promise<ApiResponse<T>> {
+    return this.requestWithMethod<T>('GET', url, params, config);
   }
 
-  /**
-   * Makes a PUT request
-   *
-   * @param url - Request URL
-   * @param body - Request body
-   * @param config - Additional config
-   * @returns API response
-   */
-  async put<T>(
-    url: string,
-    body?: any,
-    config?: Partial<ApiRequestConfig>
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>({
-      url,
-      method: 'PUT',
-      body,
-      ...config,
-    });
+  post<T>(url: string, body?: any, config?: Partial<ApiRequestConfig>): Promise<ApiResponse<T>> {
+    return this.requestWithMethod<T>('POST', url, body, config);
   }
 
-  /**
-   * Makes a PATCH request
-   *
-   * @param url - Request URL
-   * @param body - Request body
-   * @param config - Additional config
-   * @returns API response
-   */
-  async patch<T>(
-    url: string,
-    body?: any,
-    config?: Partial<ApiRequestConfig>
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>({
-      url,
-      method: 'PATCH',
-      body,
-      ...config,
-    });
+  put<T>(url: string, body?: any, config?: Partial<ApiRequestConfig>): Promise<ApiResponse<T>> {
+    return this.requestWithMethod<T>('PUT', url, body, config);
   }
 
-  /**
-   * Makes a DELETE request
-   *
-   * @param url - Request URL
-   * @param config - Additional config
-   * @returns API response
-   */
-  async delete<T>(
-    url: string,
-    config?: Partial<ApiRequestConfig>
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>({
-      url,
-      method: 'DELETE',
-      ...config,
-    });
+  patch<T>(url: string, body?: any, config?: Partial<ApiRequestConfig>): Promise<ApiResponse<T>> {
+    return this.requestWithMethod<T>('PATCH', url, body, config);
   }
 
-  /**
-   * Updates base configuration
-   *
-   * @param updates - Configuration updates
-   */
+  delete<T>(url: string, config?: Partial<ApiRequestConfig>): Promise<ApiResponse<T>> {
+    return this.requestWithMethod<T>('DELETE', url, undefined, config);
+  }
+
   updateConfig(updates: Partial<ApiClientConfig>): void {
     this.config = { ...this.config, ...updates };
   }
 
-  /**
-   * Gets current configuration
-   *
-   * @returns Current configuration
-   */
   getConfig(): ApiClientConfig {
     return { ...this.config };
   }
 }
 
-/**
- * Creates a singleton API client instance
- *
- * @param config - API client configuration
- * @returns API client instance
- */
 let apiClientInstance: ApiClient | null = null;
 
 export function createApiClient(config: ApiClientConfig): ApiClient {
@@ -240,3 +145,5 @@ export function getApiClient(): ApiClient | null {
 export function resetApiClient(): void {
   apiClientInstance = null;
 }
+
+

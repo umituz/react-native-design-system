@@ -125,7 +125,6 @@ export function useOnboardingScreenState({
   useEffect(() => {
     return () => {
       if (__DEV__) {
-        console.log("[useOnboardingScreenState] Cleanup completed");
       }
     };
   }, []);

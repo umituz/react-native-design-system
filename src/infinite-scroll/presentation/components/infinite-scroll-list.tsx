@@ -5,7 +5,7 @@
  * Optimized with React.memo for performance
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import { FlatList } from "react-native";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { calculateEndReachedThreshold } from "../../domain/utils/pagination-utils";

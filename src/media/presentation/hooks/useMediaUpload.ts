@@ -3,7 +3,7 @@
  * Hook for uploading media files
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import { generateThumbnail, getMediaDuration } from "../../infrastructure/utils/file-media-utils";
 import { getMediaTypeFromMime } from "../../infrastructure/utils/mime-type-detector";
 import type { UseMediaUploadResult } from "./multimedia.types";

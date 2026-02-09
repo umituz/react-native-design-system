@@ -7,7 +7,7 @@
  * Purpose: Empty state indication across all apps
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';

@@ -47,13 +47,11 @@ export class HealthCheck {
       const isHealthy = response.ok;
 
       if (this.config.debug) {
-        console.log('[HealthCheck] Result:', isHealthy ? 'HEALTHY' : 'UNHEALTHY');
       }
 
       return isHealthy;
     } catch (error) {
       if (this.config.debug) {
-        console.warn('[HealthCheck] Failed:', error);
       }
 
       return false;
@@ -68,7 +66,6 @@ export class HealthCheck {
   start(callback: (isHealthy: boolean) => void): void {
     if (this.config.healthCheckInterval === 0) {
       if (this.config.debug) {
-        console.log('[HealthCheck] Disabled (interval = 0)');
       }
       return;
     }
@@ -78,7 +75,6 @@ export class HealthCheck {
     }
 
     if (this.config.debug) {
-      console.log('[HealthCheck] Starting (interval:', this.config.healthCheckInterval + 'ms)');
     }
 
     this.intervalId = setInterval(async () => {
@@ -96,7 +92,6 @@ export class HealthCheck {
       this.intervalId = null;
 
       if (this.config.debug) {
-        console.log('[HealthCheck] Stopped');
       }
     }
   }

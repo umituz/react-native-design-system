@@ -12,7 +12,7 @@
  * - Fully configurable for general purpose use
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon, AtomicText } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';

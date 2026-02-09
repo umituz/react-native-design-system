@@ -36,7 +36,6 @@ export function useInvalidateQueries() {
 
       if (__DEV__) {
         
-        console.log('[TanStack Query] Invalidated queries:', queryKey);
       }
     },
     [queryClient],
@@ -65,7 +64,6 @@ export function useInvalidateMultipleQueries() {
 
       if (__DEV__) {
         
-        console.log('[TanStack Query] Invalidated multiple queries:', queryKeys);
       }
     },
     [queryClient],
@@ -93,7 +91,6 @@ export function useRemoveQueries() {
 
       if (__DEV__) {
         
-        console.log('[TanStack Query] Removed queries:', queryKey);
       }
     },
     [queryClient],
@@ -120,7 +117,6 @@ export function useResetQueries() {
 
       if (__DEV__) {
         
-        console.log('[TanStack Query] Reset queries:', queryKey);
       }
     },
     [queryClient],

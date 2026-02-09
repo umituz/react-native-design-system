@@ -75,7 +75,6 @@ export const useIconStore = create<IconStore>((set) => ({
     if (__DEV__) {
       const missingKeys = REQUIRED_ICON_KEYS.filter(key => !iconNames[key]);
       if (missingKeys.length > 0) {
-        console.error(
           `[DesignSystem] Missing icon names: ${missingKeys.join(', ')}`
         );
       }
@@ -101,7 +100,6 @@ export const useIconName = (key: keyof IconNames): string => {
 
   if (!iconNames) {
     if (__DEV__) {
-      console.warn(
         `[DesignSystem] useIconName("${key}") - iconNames not configured.`
       );
     }

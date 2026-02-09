@@ -50,7 +50,6 @@ export const useOnboardingNavigation = (
     }
     // Emit event for app-level handling
      
-    if (__DEV__) console.log("[useOnboardingNavigation] Emitting onboarding-complete event");
     DeviceEventEmitter.emit("onboarding-complete");
   }, [onComplete]);
 

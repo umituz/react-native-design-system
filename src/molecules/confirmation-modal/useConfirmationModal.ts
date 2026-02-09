@@ -4,7 +4,7 @@
  * Hook for managing confirmation modal state
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { ConfirmationModalProps, ConfirmationModalVariant } from './types';
 
 const useConfirmationModalState = () => {

@@ -3,7 +3,7 @@
  * Hook for generating media with AI
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import type { UseMediaGenerationResult } from "./multimedia.types";
 import type {
   MediaAttachment,

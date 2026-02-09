@@ -2,11 +2,6 @@
  * useInfiniteScroll Hook
  *
  * Supports page-based and cursor-based pagination
- * Features:
- * - AbortController for request cancellation
- * - Automatic retry with exponential backoff
- * - Performance monitoring in __DEV__ mode
- * - Memory leak prevention
  */
 
 import { useState, useCallback, useEffect, useRef } from "react";
@@ -53,20 +48,14 @@ export function useInfiniteScroll<T>(
   const isMountedRef = useRef(true);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup on unmount
   useEffect(() => {
     isMountedRef.current = true;
-
     return () => {
       isMountedRef.current = false;
       abortControllerRef.current?.abort();
-      if (__DEV__) {
-        console.log("[useInfiniteScroll] Cleanup: component unmounted");
-      }
     };
   }, []);
 
-  // Cancel pending requests
   const cancelPendingRequests = useCallback(() => {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
@@ -79,32 +68,20 @@ export function useInfiniteScroll<T>(
 
     if (isMountedRef.current) setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-    const startTime = __DEV__ ? performance.now() : 0;
-
     try {
       const newState = await retryWithBackoff(
-        async () => {
-          return await loadData(config, initialPage, pageSize, totalItems);
-        },
+        () => loadData(config, initialPage, pageSize, totalItems),
         maxRetries,
         retryDelay,
       );
 
       if (isMountedRef.current) {
         setState(newState);
-        if (__DEV__) {
-          const duration = performance.now() - startTime;
-          console.log(
-            `[useInfiniteScroll] Initial load completed in ${duration.toFixed(2)}ms`,
-            `Loaded ${newState.items.length} items`,
-          );
-        }
       }
     } catch (error) {
       if (isMountedRef.current) {
         const errorMessage = error instanceof Error ? error.message : "Failed to load data";
         setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
-        if (__DEV__) console.error("[useInfiniteScroll] Load initial failed:", errorMessage);
       }
     } finally {
       isLoadingRef.current = false;
@@ -125,32 +102,20 @@ export function useInfiniteScroll<T>(
     isLoadingRef.current = true;
     if (isMountedRef.current) setState((prev) => ({ ...prev, isLoadingMore: true, error: null }));
 
-    const startTime = __DEV__ ? performance.now() : 0;
-
     try {
       const updates = await retryWithBackoff(
-        async () => {
-          return await loadMoreData(config, state, pageSize);
-        },
+        () => loadMoreData(config, state, pageSize),
         maxRetries,
         retryDelay,
       );
 
       if (isMountedRef.current) {
         setState((prev) => ({ ...prev, ...updates }));
-        if (__DEV__) {
-          const duration = performance.now() - startTime;
-          console.log(
-            `[useInfiniteScroll] Load more completed in ${duration.toFixed(2)}ms`,
-            `Loaded ${updates.items?.length || 0} items`,
-          );
-        }
       }
     } catch (error) {
       if (isMountedRef.current) {
         const errorMessage = error instanceof Error ? error.message : "Failed to load more items";
         setState((prev) => ({ ...prev, isLoadingMore: false, error: errorMessage }));
-        if (__DEV__) console.error("[useInfiniteScroll] Load more failed:", errorMessage);
       }
     } finally {
       isLoadingRef.current = false;
@@ -164,32 +129,20 @@ export function useInfiniteScroll<T>(
 
     if (isMountedRef.current) setState((prev) => ({ ...prev, isRefreshing: true, error: null }));
 
-    const startTime = __DEV__ ? performance.now() : 0;
-
     try {
       const newState = await retryWithBackoff(
-        async () => {
-          return await loadData(config, initialPage, pageSize, totalItems);
-        },
+        () => loadData(config, initialPage, pageSize, totalItems),
         maxRetries,
         retryDelay,
       );
 
       if (isMountedRef.current) {
         setState(newState);
-        if (__DEV__) {
-          const duration = performance.now() - startTime;
-          console.log(
-            `[useInfiniteScroll] Refresh completed in ${duration.toFixed(2)}ms`,
-            `Loaded ${newState.items.length} items`,
-          );
-        }
       }
     } catch (error) {
       if (isMountedRef.current) {
         const errorMessage = error instanceof Error ? error.message : "Failed to refresh data";
         setState((prev) => ({ ...prev, isRefreshing: false, error: errorMessage }));
-        if (__DEV__) console.error("[useInfiniteScroll] Refresh failed:", errorMessage);
       }
     } finally {
       isLoadingRef.current = false;
@@ -200,17 +153,14 @@ export function useInfiniteScroll<T>(
     isLoadingRef.current = false;
     cancelPendingRequests();
     setState(createInitialState<T>(initialPage, totalItems));
-    if (__DEV__) console.log("[useInfiniteScroll] State reset");
   }, [initialPage, totalItems, cancelPendingRequests]);
 
   useEffect(() => {
     if (autoLoad) loadInitial();
-    return () => {
-      if (__DEV__) console.log("[useInfiniteScroll] Config changed, cleaning up");
-    };
   }, [autoLoad, loadInitial]);
 
   const canLoadMore = state.hasMore && !state.isLoadingMore && !state.isLoading;
 
   return { items: state.items, state, loadMore, refresh, reset, canLoadMore };
 }
+

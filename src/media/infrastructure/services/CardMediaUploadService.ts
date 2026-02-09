@@ -56,7 +56,6 @@ export class CardMediaUploadService {
    */
   async downloadMedia(attachmentId: string): Promise<string> {
     if (__DEV__) {
-      console.log(`[CardMediaUploadService] Downloading media: ${attachmentId}`);
     }
     return `/local/storage/${attachmentId}`;
   }

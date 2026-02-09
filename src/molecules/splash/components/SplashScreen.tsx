@@ -37,7 +37,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
   const handleTimeout = useCallback(() => {
     if (__DEV__) {
-      console.log(`[SplashScreen] Timeout reached: ${maxDuration}ms`);
     }
     setTimedOut(true);
     onTimeout?.();
@@ -45,7 +44,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
   useEffect(() => {
     if (__DEV__) {
-      console.log("[SplashScreen] Mounted", { appName, visible });
     }
     onReady?.();
   }, [appName, visible, onReady]);
@@ -68,13 +66,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
   if (!visible) {
     if (__DEV__) {
-      console.log("[SplashScreen] Not visible (visible=false), returning null");
     }
     return null;
   }
 
   if (__DEV__) {
-    console.log("[SplashScreen] Rendering splash screen UI");
   }
 
   const iconPlaceholderColor = colors.iconPlaceholder ?? `${colors.text}30`;

@@ -44,7 +44,6 @@ class RepositoryFactoryClass {
     if (this.repositories.has(key)) {
       if (__DEV__) {
         
-        console.warn(
           `[RepositoryFactory] Repository "${key}" is already registered. Overwriting.`,
         );
       }
@@ -83,7 +82,6 @@ class RepositoryFactoryClass {
   unregister(key: string): boolean {
     if (__DEV__ && !this.repositories.has(key)) {
       
-      console.warn(`[RepositoryFactory] Repository "${key}" is not registered.`);
     }
     return this.repositories.delete(key);
   }

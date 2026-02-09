@@ -31,11 +31,6 @@ export async function retryWithBackoff<T>(
 
       if (attempt < maxRetries) {
         const delay = baseDelay * Math.pow(2, attempt);
-        if (__DEV__) {
-          console.log(
-            `[useInfiniteScroll] Retry attempt ${attempt + 1}/${maxRetries} after ${delay}ms`,
-          );
-        }
         await sleep(delay);
       }
     }

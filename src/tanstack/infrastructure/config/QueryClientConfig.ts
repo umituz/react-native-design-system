@@ -128,7 +128,6 @@ export function createQueryClient(options: QueryClientFactoryOptions = {}): Quer
         onError: (error: Error) => {
           if (enableDevLogging) {
 
-            console.error('[TanStack Query] Mutation error:', error);
           }
         },
       },

@@ -60,8 +60,8 @@ export abstract class BaseRepository<
   TCreateVariables = unknown,
   TUpdateVariables = Partial<TData>,
 > {
-  protected readonly resource: string;
-  protected readonly options: RepositoryOptions;
+  public readonly resource: string;
+  public readonly options: RepositoryOptions;
 
   /**
    * Query key factory for this repository
@@ -77,14 +77,14 @@ export abstract class BaseRepository<
   /**
    * Get query client instance
    */
-  protected getClient(): QueryClient {
+  public getClient(): QueryClient {
     return getGlobalQueryClient();
   }
 
   /**
    * Get cache options for queries
    */
-  protected getCacheOptions(): { staleTime: number; gcTime: number } {
+  public getCacheOptions(): { staleTime: number; gcTime: number } {
     return getCacheOptions(this.options);
   }
 

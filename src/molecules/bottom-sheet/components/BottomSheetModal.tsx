@@ -32,7 +32,6 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
     useEffect(() => {
       if (__DEV__) {
-        console.log('[BottomSheetModal] Visible state changed:', {
           visible,
           preset,
           hasChildren: !!children,
@@ -42,12 +41,10 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
     }, [visible, preset, children, sheetHeight]);
 
     const present = useCallback(() => {
-      if (__DEV__) console.log('[BottomSheetModal] Opening');
       setVisible(true);
     }, []);
 
     const dismiss = useCallback(() => {
-      if (__DEV__) console.log('[BottomSheetModal] Closing');
       setVisible(false);
       onDismiss?.();
     }, [onDismiss]);

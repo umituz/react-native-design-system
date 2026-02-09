@@ -60,7 +60,6 @@ export function useOnboardingScreenHandlers({
       }
     } catch (error) {
       if (__DEV__) {
-        console.error("[useOnboardingScreenHandlers] Error in handleNext:", error);
       }
     }
   }, [
@@ -101,7 +100,6 @@ export function useOnboardingScreenHandlers({
       await skipOnboarding();
     } catch (error) {
       if (__DEV__) {
-        console.error("[useOnboardingScreenHandlers] Error in handleSkip:", error);
       }
     }
   }, [skipOnboarding]);

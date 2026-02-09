@@ -67,7 +67,8 @@ export {
   type ImageViewerConfig,
 } from './infrastructure/services/ImageViewerService';
 
-export { ImageBatchService, type BatchOperation, type BatchProcessingOptions, type BatchProcessingResult } from './infrastructure/services/ImageBatchService';
+export { ImageBatchService, type BatchProcessingOptions, type BatchProcessingResult } from './infrastructure/services/ImageBatchService';
+export type { BatchOperation } from './infrastructure/types/BatchTypes';
 export { ImageEnhanceService, type AutoEnhancementOptions, type EnhancementResult } from './infrastructure/services/ImageEnhanceService';
 export { ImageMetadataService, type ImageMetadataExtractionOptions } from './infrastructure/services/ImageMetadataService';
 export { ImageQualityPresetService, type QualityPreset, type QualityPresets, IMAGE_QUALITY_PRESETS } from './infrastructure/utils/ImageQualityPresets';

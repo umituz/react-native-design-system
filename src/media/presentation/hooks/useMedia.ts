@@ -30,7 +30,6 @@ import { MediaLibraryPermission } from "../../domain/entities/Media";
  * const handlePickImage = async () => {
  *   const result = await pickImage({ allowsEditing: true });
  *   if (!result.canceled && result.assets) {
- *     console.log('Picked:', result.assets[0].uri);
  *   }
  * };
  * ```

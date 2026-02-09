@@ -14,7 +14,6 @@ export const isDev = (): boolean => {
  */
 export const devWarn = (message: string, ...args: unknown[]): void => {
   if (__DEV__) {
-    console.warn(message, ...args);
   }
 };
 
@@ -23,7 +22,6 @@ export const devWarn = (message: string, ...args: unknown[]): void => {
  */
 export const devError = (message: string, ...args: unknown[]): void => {
   if (__DEV__) {
-    console.error(message, ...args);
   }
 };
 
@@ -32,6 +30,5 @@ export const devError = (message: string, ...args: unknown[]): void => {
  */
 export const devLog = (message: string, ...args: unknown[]): void => {
   if (__DEV__) {
-    console.log(message, ...args);
   }
 };

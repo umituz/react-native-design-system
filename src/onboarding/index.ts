@@ -22,7 +22,6 @@
  *         backgroundColor: '#3B82F6',
  *       },
  *     ]}
- *     onComplete={() => console.log('Completed')}
  *   />
  */
 

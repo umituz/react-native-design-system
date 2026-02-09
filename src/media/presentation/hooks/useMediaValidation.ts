@@ -3,7 +3,7 @@
  * Hook for validating media files
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import { formatFileSize } from "../../infrastructure/utils/media-collection-utils";
 import type { UseMediaValidationResult } from "./multimedia.types";
 import type { MediaValidation, MediaFile } from "../../domain/entities/MultimediaFlashcardTypes";

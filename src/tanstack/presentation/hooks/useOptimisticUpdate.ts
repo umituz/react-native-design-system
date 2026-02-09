@@ -39,7 +39,6 @@ export function useOptimisticUpdate<TData = unknown, TVariables = unknown, TErro
 
         if (__DEV__) {
           
-          console.log('[TanStack Query] Optimistic update applied:', queryKey);
         }
       }
 
@@ -53,7 +52,6 @@ export function useOptimisticUpdate<TData = unknown, TVariables = unknown, TErro
 
         if (__DEV__) {
           
-          console.error('[TanStack Query] Optimistic update rolled back:', error);
         }
       }
 

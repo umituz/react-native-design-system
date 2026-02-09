@@ -43,7 +43,6 @@ export function createAppInitializer(
 
   const log = (message: string, ...args: unknown[]) => {
     if (debug) {
-      console.log(`[AppInit] ${message}`, ...args);
     }
   };
 

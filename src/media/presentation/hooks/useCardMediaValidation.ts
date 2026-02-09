@@ -3,7 +3,7 @@
  * Hook for validating card media files
  */
 
-import React from "react";
+import { useState, useCallback } from "react";
 import { formatFileSize } from "../../infrastructure/utils/media-collection-utils";
 import type { UseCardMediaValidationResult } from "./card-multimedia.types";
 import type { CardMediaValidation, CardMediaFile } from "../../domain/entities/CardMultimedia.types";

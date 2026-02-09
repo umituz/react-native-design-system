@@ -85,7 +85,6 @@ export class BaseStorageOperations {
       devWarn(errorMessage, error);
       // Also log in production for debugging
       if (!__DEV__) {
-        console.error(errorMessage, error);
       }
       return false;
     }

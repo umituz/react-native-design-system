@@ -90,7 +90,6 @@ export const OnboardingScreen = ({
   translations,
 }: OnboardingScreenProps) => {
   if (__DEV__) {
-    console.log("[OnboardingScreen] Rendering with slides:", slides?.length);
   }
 
   const tokens = useAppDesignTokens();
@@ -141,13 +140,11 @@ export const OnboardingScreen = ({
   });
 
   if (__DEV__) {
-    console.log("[OnboardingScreen] filteredSlides:", filteredSlides?.length);
   }
 
   // Early return if no slides - prevents rendering empty/broken screen
   if (filteredSlides.length === 0) {
     if (__DEV__) {
-      console.log("[OnboardingScreen] No slides, returning null");
     }
     return null;
   }

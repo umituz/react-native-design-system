@@ -4,7 +4,7 @@
  * Used across all modals in the app for consistency
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
@@ -38,7 +38,6 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   // Debug logging for modal visibility
   useEffect(() => {
     if (__DEV__) {
-      console.log("[BaseModal] Visibility changed:", {
         visible,
         testID,
         modalWidth: modalLayout.width,
@@ -56,7 +55,6 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   if (!visible) return null;
 
   if (__DEV__) {
-    console.log("[BaseModal] Rendering modal content:", { testID });
   }
 
   return (

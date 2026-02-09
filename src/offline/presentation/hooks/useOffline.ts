@@ -72,7 +72,6 @@ export const useOffline = (config?: OfflineConfig) => {
       })
       .catch((error: Error) => {
         if (isMountedRef.current && (__DEV__ || mergedConfig.debug)) {
-          console.error('[react-native-offline] Failed to fetch network state:', error);
         }
       });
 

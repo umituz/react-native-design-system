@@ -13,7 +13,6 @@ let navigationRef: NavigationContainerRef<any> | null = null;
  */
 export const setRef = (ref: NavigationContainerRef<any> | null): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Setting navigation ref', !!ref);
     }
     navigationRef = ref;
 };
@@ -38,7 +37,6 @@ export const canGoBack = (): boolean => navigationRef?.canGoBack() ?? false;
  */
 export const navigate = (name: string, params?: object): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Navigating to:', name, params);
     }
     if (navigationRef?.isReady()) {
         navigationRef.navigate(name, params);
@@ -50,7 +48,6 @@ export const navigate = (name: string, params?: object): void => {
  */
 export const push = (name: string, params?: object): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Pushing:', name, params);
     }
     if (navigationRef?.isReady()) {
         navigationRef.dispatch(StackActions.push(name, params));
@@ -62,7 +59,6 @@ export const push = (name: string, params?: object): void => {
  */
 export const goBack = (): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Going back');
     }
     if (navigationRef?.isReady() && navigationRef.canGoBack()) {
         navigationRef.goBack();
@@ -74,7 +70,6 @@ export const goBack = (): void => {
  */
 export const reset = (name: string, params?: object): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Resetting to:', name, params);
     }
     if (navigationRef?.isReady()) {
         navigationRef.dispatch(
@@ -91,7 +86,6 @@ export const reset = (name: string, params?: object): void => {
  */
 export const replace = (name: string, params?: object): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Replacing with:', name, params);
     }
     if (navigationRef?.isReady()) {
         navigationRef.dispatch(StackActions.replace(name, params));
@@ -103,7 +97,6 @@ export const replace = (name: string, params?: object): void => {
  */
 export const popToTop = (): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Popping to top');
     }
     if (navigationRef?.isReady()) {
         navigationRef.dispatch(StackActions.popToTop());
@@ -115,7 +108,6 @@ export const popToTop = (): void => {
  */
 export const pop = (count: number = 1): void => {
     if (__DEV__) {
-        console.log('[AppNavigation] Popping:', count);
     }
     if (navigationRef?.isReady()) {
         navigationRef.dispatch(StackActions.pop(count));

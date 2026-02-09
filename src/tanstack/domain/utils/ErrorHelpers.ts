@@ -149,6 +149,5 @@ export function getErrorCode(error: unknown): string | null {
 export function logError(context: string, error: unknown): void {
   if (__DEV__) {
     
-    console.error(`[${context}]`, error);
   }
 }

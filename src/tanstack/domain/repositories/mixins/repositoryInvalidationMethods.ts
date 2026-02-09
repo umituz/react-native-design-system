@@ -3,7 +3,6 @@
  * Cache invalidation methods for repository operations
  */
 
-import type { QueryClient } from '@tanstack/react-query';
 import type { IBaseRepository } from '../IBaseRepository';
 import { matchesResource } from '../helpers/repositoryHelpers';
 
@@ -15,8 +14,8 @@ import { matchesResource } from '../helpers/repositoryHelpers';
 export function invalidateAll<TData>(
   repository: IBaseRepository<TData, unknown, unknown>
 ): Promise<void> {
-  const client = (repository as any).getClient() as QueryClient;
-  const resource = (repository as any).resource;
+  const client = repository.getClient();
+  const resource = repository.resource;
 
   return client.invalidateQueries({
     predicate: (query: { queryKey: readonly unknown[] }) => {
@@ -33,7 +32,7 @@ export function invalidateAll<TData>(
 export function invalidateLists<TData>(
   repository: IBaseRepository<TData, unknown, unknown>
 ): Promise<void> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   return client.invalidateQueries({
     queryKey: repository.keys.lists(),
   });
@@ -49,7 +48,7 @@ export function invalidateDetail<TData>(
   repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): Promise<void> {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   return client.invalidateQueries({
     queryKey: repository.keys.detail(id),
   });
@@ -63,11 +62,11 @@ export function invalidateDetail<TData>(
  * @param data - Data to set
  */
 export function setData<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number,
   data: TData
 ): void {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   client.setQueryData(repository.keys.detail(id), data);
 }
 
@@ -79,10 +78,10 @@ export function setData<TData>(
  * @returns Cached data or undefined
  */
 export function getData<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): TData | undefined {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   return client.getQueryData<TData>(repository.keys.detail(id));
 }
 
@@ -93,9 +92,9 @@ export function getData<TData>(
  * @param id - Item ID
  */
 export function clearData<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): void {
-  const client = (repository as any).getClient() as QueryClient;
+  const client = repository.getClient();
   client.setQueryData(repository.keys.detail(id), undefined);
 }

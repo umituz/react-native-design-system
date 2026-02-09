@@ -47,7 +47,6 @@ export function handleError(error: unknown, context: string): string {
   const message = error instanceof Error ? error.message : `Failed to ${context}`;
 
   if (__DEV__) {
-    console.error(`[OnboardingStore] ${context} error:`, error);
   }
 
   return message;
@@ -55,6 +54,5 @@ export function handleError(error: unknown, context: string): string {
 
 export function logSuccess(message: string): void {
   if (__DEV__) {
-    console.log(`[OnboardingStore] ${message}`);
   }
 }

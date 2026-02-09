@@ -4,7 +4,8 @@
 
 import { useCallback } from 'react';
 import { useImageOperation } from './useImageOperation';
-import { ImageBatchService, type BatchOperation, type BatchProcessingOptions } from '../../infrastructure/services/ImageBatchService';
+import { ImageBatchService, type BatchProcessingOptions } from '../../infrastructure/services/ImageBatchService';
+import type { BatchOperation } from '../../infrastructure/types/BatchTypes';
 
 export const useImageBatch = () => {
     const { isProcessing, error, execute } = useImageOperation();

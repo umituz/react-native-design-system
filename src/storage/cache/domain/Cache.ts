@@ -47,7 +47,6 @@ export class Cache<T = unknown> {
     this.statsTracker.updateSize(this.store.size);
 
     if (__DEV__) {
-      console.log(`Cache: Set key "${key}" with TTL ${entry.ttl}ms`);
     }
   }
 
@@ -135,7 +134,6 @@ export class Cache<T = unknown> {
       this.statsTracker.updateSize(this.store.size);
 
       if (__DEV__) {
-        console.log(`Cache: Evicted key "${keyToEvict}" using ${strategy} strategy`);
       }
 
       if (entry) {

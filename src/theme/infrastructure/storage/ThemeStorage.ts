@@ -62,7 +62,6 @@ export class ThemeStorage {
       }
 
       if (__DEV__) {
-        console.warn('[ThemeStorage] Invalid or corrupted custom colors data - ignoring');
       }
 
       return undefined;

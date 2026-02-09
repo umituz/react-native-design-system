@@ -1,16 +1,9 @@
 /**
  * PickerModal - Selection modal for AtomicPicker
- * Handles search, filtering, and option selection.
  */
 
 import React from 'react';
-import {
-  View,
-  Modal,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Modal, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
@@ -42,9 +35,9 @@ interface PickerModalProps {
   onSearchChange: (query: string) => void;
   filteredOptions: PickerOption[];
   multiple?: boolean;
-  emptyMessage?: string; // Translated string
-  searchPlaceholder?: string; // Translated string
-  closeAccessibilityLabel?: string; // Translated string
+  emptyMessage?: string;
+  searchPlaceholder?: string;
+  closeAccessibilityLabel?: string;
   testID?: string;
 }
 
@@ -65,141 +58,67 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
-  const checkCircleIcon = useIconName('checkCircle');
-  const searchIcon = useIconName('search');
-  const closeIcon = useIconName('close');
-  const infoIcon = useIconName('info');
+  const icons = { checkCircle: useIconName('checkCircle'), search: useIconName('search'), close: useIconName('close'), info: useIconName('info') };
 
-  const modalOverlayStyles = getModalOverlayStyles();
-  const modalContainerStyles = getModalContainerStyles(tokens, 0);
-  const modalHeaderStyles = getModalHeaderStyles(tokens);
-  const modalTitleStyles = getModalTitleStyles(tokens);
-  const searchContainerStyles = getSearchContainerStyles(tokens);
-  const searchInputStyles = getSearchInputStyles(tokens);
-  const emptyStateStyles = getEmptyStateStyles(tokens);
-  const emptyStateTextStyles = getEmptyStateTextStyles(tokens);
-
-  const safeSelectedValues = selectedValues ?? [];
-
-  const isSelected = (optionValue: string): boolean => {
-    return safeSelectedValues.includes(optionValue);
+  const styles = {
+    overlay: getModalOverlayStyles(),
+    container: getModalContainerStyles(tokens, 0),
+    header: getModalHeaderStyles(tokens),
+    title: getModalTitleStyles(tokens),
+    search: getSearchContainerStyles(tokens),
+    searchInput: getSearchInputStyles(tokens),
+    empty: getEmptyStateStyles(tokens),
+    emptyText: getEmptyStateTextStyles(tokens),
   };
+
+  const isSelected = (value: string) => selectedValues?.includes(value) ?? false;
 
   const renderOption = ({ item }: { item: PickerOption }) => {
     const selected = isSelected(item.value);
-    const itemDisabled = item.disabled || false;
-
-    const optionContainerStyle = getOptionContainerStyles(
-      tokens,
-      selected,
-      itemDisabled
-    );
-    const optionTextStyle = getOptionTextStyles(tokens, selected);
-    const optionDescriptionStyle = getOptionDescriptionStyles(tokens);
+    const disabled = item.disabled || false;
 
     return (
       <TouchableOpacity
-        onPress={() => !itemDisabled && onSelect(item.value)}
-        disabled={itemDisabled}
+        onPress={() => !disabled && onSelect(item.value)}
+        disabled={disabled}
         testID={item.testID || `${testID}-option-${item.value}`}
-        style={optionContainerStyle}
+        style={getOptionContainerStyles(tokens, selected, disabled)}
       >
-        {/* Option Icon */}
-        {item.icon && (
-          <AtomicIcon
-            name={item.icon}
-            size="md"
-            color={selected ? 'primary' : 'secondary'}
-          />
-        )}
-
-        {/* Option Content */}
+        {item.icon && <AtomicIcon name={item.icon} size="md" color={selected ? 'primary' : 'secondary'} />}
         <View style={{ flex: 1 }}>
-          <AtomicText style={optionTextStyle}>{item.label}</AtomicText>
-          {item.description && (
-            <AtomicText style={optionDescriptionStyle}>
-              {item.description}
-            </AtomicText>
-          )}
+          <AtomicText style={getOptionTextStyles(tokens, selected)}>{item.label}</AtomicText>
+          {item.description && <AtomicText style={getOptionDescriptionStyles(tokens)}>{item.description}</AtomicText>}
         </View>
-
-        {/* Selected Indicator */}
-        {selected && (
-          <AtomicIcon name={checkCircleIcon} size="md" color="primary" />
-        )}
+        {selected && <AtomicIcon name={icons.checkCircle} size="md" color="primary" />}
       </TouchableOpacity>
     );
   };
 
   return (
-    <Modal
-      visible={visible}
-      animationType="none"
-      transparent
-      onRequestClose={onClose}
-      testID={`${testID}-modal`}
-    >
-      <View style={modalOverlayStyles}>
-        <View
-          style={[
-            modalContainerStyles,
-            { paddingBottom: insets.bottom + tokens.spacing.md },
-          ]}
-        >
-          {/* Modal Header */}
-          <View style={modalHeaderStyles}>
-            {/* Title */}
-            <AtomicText style={modalTitleStyles}>
-              {title || 'Select'}
-            </AtomicText>
-
-            {/* Close Button */}
-            <TouchableOpacity
-              onPress={onClose}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              accessibilityRole="button"
-              accessibilityLabel={closeAccessibilityLabel}
-              testID={`${testID}-close`}
-            >
-              <AtomicIcon name={closeIcon} size="md" color="primary" />
+    <Modal visible={visible} animationType="none" transparent onRequestClose={onClose} testID={`${testID}-modal`}>
+      <View style={styles.overlay}>
+        <View style={[styles.container, { paddingBottom: insets.bottom + tokens.spacing.md }]}>
+          <View style={styles.header}>
+            <AtomicText style={styles.title}>{title || 'Select'}</AtomicText>
+            <TouchableOpacity onPress={onClose} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} accessibilityRole="button" accessibilityLabel={closeAccessibilityLabel} testID={`${testID}-close`}>
+              <AtomicIcon name={icons.close} size="md" color="primary" />
             </TouchableOpacity>
           </View>
 
-          {/* Search Bar */}
           {searchable && (
-            <View style={searchContainerStyles}>
-              <AtomicIcon name={searchIcon} size="sm" color="secondary" />
-              <TextInput
-                value={searchQuery}
-                onChangeText={onSearchChange}
-                placeholder={searchPlaceholder}
-                placeholderTextColor={tokens.colors.textSecondary}
-                style={searchInputStyles}
-                testID={`${testID}-search`}
-              />
-              {searchQuery.length > 0 && (
-                <TouchableOpacity onPress={() => onSearchChange('')}>
-                  <AtomicIcon name={closeIcon} size="sm" color="secondary" />
-                </TouchableOpacity>
-              )}
+            <View style={styles.search}>
+              <AtomicIcon name={icons.search} size="sm" color="secondary" />
+              <TextInput value={searchQuery} onChangeText={onSearchChange} placeholder={searchPlaceholder} placeholderTextColor={tokens.colors.textSecondary} style={styles.searchInput} testID={`${testID}-search`} />
+              {searchQuery.length > 0 && <TouchableOpacity onPress={() => onSearchChange('')}><AtomicIcon name={icons.close} size="sm" color="secondary" /></TouchableOpacity>}
             </View>
           )}
 
-          {/* Options List */}
           {filteredOptions.length > 0 ? (
-            <FlatList
-              data={filteredOptions}
-              keyExtractor={(item: PickerOption) => item.value}
-              renderItem={renderOption}
-              showsVerticalScrollIndicator
-              testID={`${testID}-list`}
-            />
+            <FlatList data={filteredOptions} keyExtractor={(item: PickerOption) => item.value} renderItem={renderOption} showsVerticalScrollIndicator testID={`${testID}-list`} />
           ) : (
-            <View style={emptyStateStyles}>
-              <AtomicIcon name={infoIcon} size="xl" color="secondary" />
-              <AtomicText style={emptyStateTextStyles}>
-                {emptyMessage}
-              </AtomicText>
+            <View style={styles.empty}>
+              <AtomicIcon name={icons.info} size="xl" color="secondary" />
+              <AtomicText style={styles.emptyText}>{emptyMessage}</AtomicText>
             </View>
           )}
         </View>

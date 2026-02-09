@@ -18,12 +18,10 @@ export const useOfflineWithMutations = (onOnline: () => Promise<void>) => {
     isProcessingRef.current = true;
     try {
       if (__DEV__) {
-        console.log('[react-native-offline] Executing online callback');
       }
       await onOnline();
     } catch (error) {
       if (__DEV__) {
-        console.error('[react-native-offline] Online callback failed:', error);
       }
     } finally {
       isProcessingRef.current = false;

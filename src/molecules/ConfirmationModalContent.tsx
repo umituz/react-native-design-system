@@ -4,7 +4,7 @@
  * Content component for confirmation modal
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { View, ViewStyle, StyleProp } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { ConfirmationModalVariant } from './confirmation-modal/types/';

@@ -9,18 +9,6 @@ import { InputLabel } from './input/components/InputLabel';
 import { InputIcon } from './input/components/InputIcon';
 import { InputHelper } from './input/components/InputHelper';
 
-/**
- * AtomicInput - Pure React Native Text Input
- *
- * Features:
- * - Pure React Native implementation (no Paper dependency)
- * - Icon support via AtomicIcon (app provides renderer)
- * - Outlined/filled/flat variants
- * - Error, success, disabled states
- * - Character counter
- * - Responsive sizing
- * - Full accessibility support
- */
 export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, AtomicInputProps>(({
   variant = 'outlined',
   state = 'default',
@@ -79,22 +67,10 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
   const hasSuccess = state === 'success';
 
   const sizeConfig = getSizeConfig({ size, tokens });
-  const variantStyle = getVariantStyle({
-    variant,
-    isFocused,
-    hasError,
-    hasSuccess,
-    isDisabled,
-    tokens,
-  });
-  const textColor = getTextColor({
-    isDisabled,
-    hasError,
-    hasSuccess,
-    tokens,
-  });
-
+  const variantStyle = getVariantStyle({ variant, isFocused, hasError, hasSuccess, isDisabled, tokens });
+  const textColor = getTextColor({ isDisabled, hasError, hasSuccess, tokens });
   const iconColor = isDisabled ? tokens.colors.textDisabled : tokens.colors.textSecondary;
+  const iconPadding = sizeConfig.iconSize + 8;
 
   const containerStyle: StyleProp<ViewStyle> = [
     inputStyles.container,
@@ -117,9 +93,9 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       lineHeight: (sizeConfig.fontSize || 16) * 1.2,
       color: textColor,
       paddingVertical: 4,
+      paddingLeft: leadingIcon ? iconPadding : undefined,
+      paddingRight: (trailingIcon || showPasswordToggle) ? iconPadding : undefined,
     },
-    leadingIcon ? { paddingLeft: sizeConfig.iconSize + 8 } : undefined,
-    (trailingIcon || showPasswordToggle) ? { paddingRight: sizeConfig.iconSize + 8 } : undefined,
     inputStyle,
   ];
 
@@ -128,14 +104,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       <InputLabel label={label} state={state} />
 
       <View style={containerStyle}>
-        {leadingIcon && (
-          <InputIcon
-            name={leadingIcon }
-            size={sizeConfig.iconSize}
-            color={iconColor}
-            position="leading"
-          />
-        )}
+        {leadingIcon && <InputIcon name={leadingIcon} size={sizeConfig.iconSize} color={iconColor} position="leading" />}
 
         <TextInput
           ref={ref}
@@ -158,31 +127,25 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
           numberOfLines={numberOfLines}
           textContentType={textContentType}
           style={textInputStyle}
-          onBlur={() => {
-            setIsFocused(false);
-            onBlur?.();
-          }}
-          onFocus={() => {
-            setIsFocused(true);
-            onFocus?.();
-          }}
+          onBlur={() => { setIsFocused(false); onBlur?.(); }}
+          onFocus={() => { setIsFocused(true); onFocus?.(); }}
           testID={testID ? `${testID}-input` : undefined}
         />
 
-        {(showPasswordToggle && secureTextEntry) && (
+        {showPasswordToggle && secureTextEntry && (
           <InputIcon
             name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
             size={sizeConfig.iconSize}
             color={iconColor}
             position="trailing"
-            onPress={() => togglePasswordVisibility()}
+            onPress={togglePasswordVisibility}
             testID={testID ? `${testID}-toggle-password` : undefined}
           />
         )}
 
         {trailingIcon && !showPasswordToggle && (
           <InputIcon
-            name={trailingIcon }
+            name={trailingIcon}
             size={sizeConfig.iconSize}
             color={iconColor}
             position="trailing"
