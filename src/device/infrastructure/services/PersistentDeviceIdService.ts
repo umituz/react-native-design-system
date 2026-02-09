@@ -43,6 +43,7 @@ export class PersistentDeviceIdService {
 
       if (secureId) {
         if (__DEV__) {
+          console.log(`[DesignSystem] Device ID: Using secure ID: ${secureId}`);
         }
         cachedDeviceId = secureId;
         return secureId;
@@ -53,12 +54,14 @@ export class PersistentDeviceIdService {
       await this.secureRepo.set(newId);
 
       if (__DEV__) {
+        console.log(`[DesignSystem] Device ID: Created new ID: ${newId}`);
       }
 
       cachedDeviceId = newId;
       return newId;
     } catch (error) {
       if (__DEV__) {
+        console.error('[DesignSystem] Device ID: Initialization failed', error);
       }
       const fallbackId = `fallback_${generateUUID()}`;
       cachedDeviceId = fallbackId;
@@ -100,6 +103,7 @@ export class PersistentDeviceIdService {
       cachedDeviceId = null;
       initializationPromise = null;
       if (__DEV__) {
+        console.log('[DesignSystem] Device ID: Stored ID cleared');
       }
     } catch {
       // Silent fail

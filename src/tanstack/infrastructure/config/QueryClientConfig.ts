@@ -86,12 +86,6 @@ export interface QueryClientFactoryOptions {
    * @default 3
    */
   defaultRetry?: boolean | number | RetryFunction;
-
-  /**
-   * Enable development mode logging
-   * @default __DEV__
-   */
-  enableDevLogging?: boolean;
 }
 
 /**
@@ -110,7 +104,6 @@ export function createQueryClient(options: QueryClientFactoryOptions = {}): Quer
     defaultStaleTime = DEFAULT_STALE_TIME.SHORT,
     defaultGcTime = DEFAULT_GC_TIME.LONG,
     defaultRetry = DEFAULT_RETRY.STANDARD,
-    enableDevLogging = __DEV__,
   } = options;
 
   return new QueryClient({
@@ -125,11 +118,6 @@ export function createQueryClient(options: QueryClientFactoryOptions = {}): Quer
       },
       mutations: {
         retry: DEFAULT_RETRY.MINIMAL,
-        onError: (error: Error) => {
-          if (enableDevLogging) {
-
-          }
-        },
       },
     },
   });

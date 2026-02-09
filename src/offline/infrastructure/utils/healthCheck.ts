@@ -50,7 +50,7 @@ export class HealthCheck {
       }
 
       return isHealthy;
-    } catch (error) {
+    } catch (_error) {
       if (this.config.debug) {
       }
 

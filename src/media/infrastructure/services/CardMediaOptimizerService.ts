@@ -30,6 +30,7 @@ export class CardMediaOptimizerService {
    */
   async deleteMedia(attachmentId: string): Promise<void> {
     if (__DEV__) {
+      console.log(`[DesignSystem] CardMediaOptimizerService: Deleting media ${attachmentId}`);
     }
   }
 }

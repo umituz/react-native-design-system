@@ -58,7 +58,7 @@ export function useOnboardingScreenHandlers({
           loadAnswerForSlide(nextSlide);
         }
       }
-    } catch (error) {
+    } catch (_error) {
       if (__DEV__) {
       }
     }
@@ -98,7 +98,7 @@ export function useOnboardingScreenHandlers({
   const handleSkip = useCallback(async () => {
     try {
       await skipOnboarding();
-    } catch (error) {
+    } catch (_error) {
       if (__DEV__) {
       }
     }

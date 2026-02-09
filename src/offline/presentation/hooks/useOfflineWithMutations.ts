@@ -20,7 +20,7 @@ export const useOfflineWithMutations = (onOnline: () => Promise<void>) => {
       if (__DEV__) {
       }
       await onOnline();
-    } catch (error) {
+    } catch (_error) {
       if (__DEV__) {
       }
     } finally {

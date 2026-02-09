@@ -38,6 +38,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
   // Debug logging for modal visibility
   useEffect(() => {
     if (__DEV__) {
+      console.log({
         visible,
         testID,
         modalWidth: modalLayout.width,

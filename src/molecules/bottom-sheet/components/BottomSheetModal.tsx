@@ -32,6 +32,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
     useEffect(() => {
       if (__DEV__) {
+        console.log({
           visible,
           preset,
           hasChildren: !!children,

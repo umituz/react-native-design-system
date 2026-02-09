@@ -12,7 +12,7 @@ export const isDev = (): boolean => {
 /**
  * Log warning in development mode only
  */
-export const devWarn = (message: string, ...args: unknown[]): void => {
+export const devWarn = (_message: string, ..._args: unknown[]): void => {
   if (__DEV__) {
   }
 };
@@ -20,7 +20,7 @@ export const devWarn = (message: string, ...args: unknown[]): void => {
 /**
  * Log error in development mode only
  */
-export const devError = (message: string, ...args: unknown[]): void => {
+export const devError = (_message: string, ..._args: unknown[]): void => {
   if (__DEV__) {
   }
 };
@@ -28,7 +28,7 @@ export const devError = (message: string, ...args: unknown[]): void => {
 /**
  * Log info in development mode only
  */
-export const devLog = (message: string, ...args: unknown[]): void => {
+export const devLog = (_message: string, ..._args: unknown[]): void => {
   if (__DEV__) {
   }
 };

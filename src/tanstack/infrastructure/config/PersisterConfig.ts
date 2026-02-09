@@ -82,7 +82,7 @@ export function createPersister(options: PersisterFactoryOptions = {}): Persiste
         // Validate cache version
         if (parsed.version !== busterVersion) {
           if (__DEV__) {
-            
+            console.warn(
               `[TanStack Query] Cache version mismatch. Expected: ${busterVersion}, Got: ${parsed.version}`,
             );
           }
@@ -93,7 +93,7 @@ export function createPersister(options: PersisterFactoryOptions = {}): Persiste
         const age = Date.now() - parsed.timestamp;
         if (age > maxAge) {
           if (__DEV__) {
-            
+            console.warn(`[TanStack Query] Cache age exceeded maxAge: ${maxAge}ms`);
           }
           return undefined;
         }
@@ -101,7 +101,7 @@ export function createPersister(options: PersisterFactoryOptions = {}): Persiste
         return parsed.data;
       } catch (error) {
         if (__DEV__) {
-          
+          console.error('[TanStack Query] Error deserializing cache:', error);
         }
         return undefined;
       }
@@ -122,11 +122,11 @@ export async function clearPersistedCache(keyPrefix: string = 'tanstack-query'):
   try {
     await storageService.removeItem(`${keyPrefix}-cache`);
     if (__DEV__) {
-      
+      console.log(`[TanStack Query] Cleared persisted cache for keyPrefix: ${keyPrefix}`);
     }
   } catch (error) {
     if (__DEV__) {
-      
+      console.error('[TanStack Query] Error clearing persisted cache:', error);
     }
   }
 }
@@ -148,7 +148,7 @@ export async function getPersistedCacheSize(
     return data ? new Blob([data]).size : 0;
   } catch (error) {
     if (__DEV__) {
-      
+      console.error('[TanStack Query] Error getting persisted cache size:', error);
     }
     return 0;
   }

@@ -28,6 +28,7 @@ export function StackNavigator<T extends ParamListBase>({ config }: StackNavigat
         NavigationValidator.validateInitialRoute(config.initialRouteName, config.screens);
     } catch (error) {
         if (__DEV__) {
+            console.error("[DesignSystem] StackNavigator validation failed:", error);
         }
     }
 

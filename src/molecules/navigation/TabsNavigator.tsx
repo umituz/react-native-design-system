@@ -34,6 +34,7 @@ export function TabsNavigator<T extends ParamListBase>({
         );
     } catch (error) {
         if (__DEV__) {
+            console.error("[DesignSystem] TabsNavigator validation failed:", error);
         }
     }
 

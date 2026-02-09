@@ -70,7 +70,7 @@ export const useOffline = (config?: OfflineConfig) => {
           isInitialized.current = true;
         }
       })
-      .catch((error: Error) => {
+      .catch((_error: Error) => {
         if (isMountedRef.current && (__DEV__ || mergedConfig.debug)) {
         }
       });

@@ -30,9 +30,9 @@ export interface BaseScreen<T extends ParamListBase = ParamListBase> {
   /** Unique name identifier for the screen */
   name: Extract<keyof T, string>;
   /** React component to render for this screen */
-  component?: React.ComponentType<Record<string, unknown>>;
+  component?: React.ComponentType<any>;
   /** Render function for children (alternative to component) */
-  children?: (props: Record<string, unknown>) => React.ReactNode;
+  children?: (props: any) => React.ReactNode;
 }
 
 /**

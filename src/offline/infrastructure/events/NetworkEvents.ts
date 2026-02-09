@@ -35,8 +35,9 @@ class NetworkEventEmitter implements NetworkEvents {
     this.listeners.get(event)?.forEach((listener) => {
       try {
         listener(state);
-      } catch (error) {
+      } catch (_error) {
         if (__DEV__) {
+          console.error('[DesignSystem] PersistentDeviceIdService: Initialization failed', _error);
         }
       }
     });

@@ -52,7 +52,7 @@ export function handleError(error: unknown, context: string): string {
   return message;
 }
 
-export function logSuccess(message: string): void {
+export function logSuccess(_message: string): void {
   if (__DEV__) {
   }
 }

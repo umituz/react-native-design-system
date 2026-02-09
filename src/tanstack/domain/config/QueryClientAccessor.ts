@@ -20,7 +20,7 @@ let globalQueryClient: QueryClient | null = null;
 export function setGlobalQueryClient(client: QueryClient): void {
     if (globalQueryClient && globalQueryClient !== client) {
         if (__DEV__) {
-            
+            console.warn(
                 '[TanStack] QueryClient instance changed. Ensure you are not creating multiple instances.',
             );
         }

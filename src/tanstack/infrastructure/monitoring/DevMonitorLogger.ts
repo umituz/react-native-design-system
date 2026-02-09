@@ -13,6 +13,7 @@ export class DevMonitorLogger {
 
   static logSlowQuery(queryKeyString: string, fetchTime: number): void {
     if (__DEV__) {
+      console.warn(
         `[TanStack DevMonitor] Slow query detected: ${queryKeyString} (${fetchTime}ms)`,
       );
     }

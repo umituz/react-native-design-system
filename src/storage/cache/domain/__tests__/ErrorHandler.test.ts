@@ -56,7 +56,7 @@ describe('ErrorHandler', () => {
       
       try {
         ErrorHandler.handle(originalError, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Regular error');
         expect((error as CacheError).code).toBe('CACHE_ERROR');
       }
@@ -67,7 +67,7 @@ describe('ErrorHandler', () => {
       
       try {
         ErrorHandler.handle(unknownError, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Unknown error');
         expect((error as CacheError).code).toBe('UNKNOWN_ERROR');
       }
@@ -76,7 +76,7 @@ describe('ErrorHandler', () => {
     test('should handle null error', () => {
       try {
         ErrorHandler.handle(null, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Unknown error');
         expect((error as CacheError).code).toBe('UNKNOWN_ERROR');
       }
@@ -85,7 +85,7 @@ describe('ErrorHandler', () => {
     test('should handle undefined error', () => {
       try {
         ErrorHandler.handle(undefined, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Unknown error');
         expect((error as CacheError).code).toBe('UNKNOWN_ERROR');
       }
@@ -97,7 +97,7 @@ describe('ErrorHandler', () => {
       
       try {
         ErrorHandler.handle(originalError, 'test context');
-      } catch (error) {
+      } catch (_error) {
         const cacheError = error as CacheError;
         expect(cacheError.message).toBe('test context: Original error');
         expect(cacheError.code).toBe('CACHE_ERROR');
@@ -135,7 +135,7 @@ describe('ErrorHandler', () => {
       
       try {
         await ErrorHandler.withTimeout(promise, 1000, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Operation timed out after 1000ms');
         expect((error as CacheError).code).toBe('TIMEOUT');
       }
@@ -154,7 +154,7 @@ describe('ErrorHandler', () => {
       
       try {
         await ErrorHandler.withTimeout(promise, 1000, 'test context');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).message).toBe('test context: Promise rejected');
         expect((error as CacheError).code).toBe('CACHE_ERROR');
       }
@@ -261,7 +261,7 @@ describe('ErrorHandler', () => {
       
       try {
         await ErrorHandler.withTimeout(promise, 1000, 'test');
-      } catch (error) {
+      } catch (_error) {
         expect((error as CacheError).code).toBe('TIMEOUT');
       }
     });

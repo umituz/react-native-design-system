@@ -43,7 +43,7 @@ class RepositoryFactoryClass {
   ): void {
     if (this.repositories.has(key)) {
       if (__DEV__) {
-        
+        console.warn(
           `[RepositoryFactory] Repository "${key}" is already registered. Overwriting.`,
         );
       }
