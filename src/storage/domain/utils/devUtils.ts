@@ -11,24 +11,25 @@ export const isDev = (): boolean => {
 
 /**
  * Log warning in development mode only
+ * All logs are disabled
  */
 export const devWarn = (_message: string, ..._args: unknown[]): void => {
-  if (__DEV__) {
-  }
+  // Disabled
 };
 
 /**
  * Log error in development mode only
+ * All logs are disabled
  */
 export const devError = (_message: string, ..._args: unknown[]): void => {
-  if (__DEV__) {
-  }
+  // Disabled
 };
 
 /**
  * Log info in development mode only
+ * All logs are disabled
  */
 export const devLog = (_message: string, ..._args: unknown[]): void => {
-  if (__DEV__) {
-  }
+  // Disabled
 };
+

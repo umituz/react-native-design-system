@@ -20,9 +20,6 @@ export const storageService: StateStorage = {
     } catch (error) {
       const errorMessage = `StorageService: Failed to get item "${name}"`;
       devWarn(errorMessage, error);
-      // Also log in production for debugging
-      if (!__DEV__) {
-      }
       return null;
     }
   },
@@ -33,9 +30,6 @@ export const storageService: StateStorage = {
     } catch (error) {
       const errorMessage = `StorageService: Failed to set item "${name}"`;
       devWarn(errorMessage, error);
-      // Also log in production for debugging
-      if (!__DEV__) {
-      }
     }
   },
 
@@ -45,9 +39,6 @@ export const storageService: StateStorage = {
     } catch (error) {
       const errorMessage = `StorageService: Failed to remove item "${name}"`;
       devWarn(errorMessage, error);
-      // Also log in production for debugging
-      if (!__DEV__) {
-      }
     }
   },
 };

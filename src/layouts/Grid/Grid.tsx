@@ -78,17 +78,22 @@ export const Grid: React.FC<GridProps> = ({
 
   return (
     <View style={[styles.container, style]} testID={testID}>
-      {childArray.map((child, index) => (
-        <View
-          key={index}
-          style={{
-            flex: columns ? 1 / columns - 0.01 : undefined,
-            minWidth: columns ? `${100 / columns - 1}%` : undefined,
-          }}
-        >
-          {child}
-        </View>
-      ))}
+      {childArray.map((child, index) => {
+        // Use child's key if available, otherwise use index
+        const key = (child as React.ReactElement).key || `grid-item-${index}`;
+
+        return (
+          <View
+            key={key}
+            style={{
+              flex: columns ? 1 / columns - 0.01 : undefined,
+              minWidth: columns ? `${100 / columns - 1}%` : undefined,
+            }}
+          >
+            {child}
+          </View>
+        );
+      })}
     </View>
   );
 };

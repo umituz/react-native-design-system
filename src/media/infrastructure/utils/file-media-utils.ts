@@ -74,16 +74,33 @@ export const downloadMediaToFile = async (url: string, isVideo: boolean): Promis
   const filename = `media_${timestamp}.${extension}`;
   const file = new ExpoFile(Paths.cache, filename);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to download media: ${response.statusText}`);
+  // Create abort controller for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Failed to download media: ${response.statusText}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    file.write(bytes);
+
+    return file.uri;
+  } catch (error) {
+    // Clear timeout if error occurs
+    clearTimeout(timeoutId);
+
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Download timeout - request took longer than 30 seconds');
+    }
+
+    throw error;
   }
-
-  const arrayBuffer = await response.arrayBuffer();
-  const bytes = new Uint8Array(arrayBuffer);
-  file.write(bytes);
-
-  return file.uri;
 };
 
 export interface SaveToGalleryResult {

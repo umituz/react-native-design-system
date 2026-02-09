@@ -56,7 +56,7 @@ export const useOffline = (config?: OfflineConfig) => {
 
     networkEvents.emit('change', networkState);
     previousStateRef.current = networkState;
-  }, [store]);
+  }, [store, previousStateRef]);
 
   useEffect(() => {
     if (isInitialized.current) return;
@@ -72,6 +72,7 @@ export const useOffline = (config?: OfflineConfig) => {
       })
       .catch((_error: Error) => {
         if (isMountedRef.current && (__DEV__ || mergedConfig.debug)) {
+          console.error('[DesignSystem] useOffline: Failed to get initial network state', _error);
         }
       });
 
