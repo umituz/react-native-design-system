@@ -3,7 +3,7 @@
  * Catches React errors and provides fallback UI
  */
 
-import React, { Component, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { exceptionService } from '../../infrastructure/services/ExceptionService';
@@ -20,7 +20,7 @@ interface State {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
