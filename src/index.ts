@@ -58,9 +58,9 @@ export * from "./organisms";
 export * from "./safe-area";
 
 // =============================================================================
-// EXCEPTION EXPORTS
+// EXCEPTION EXPORTS (DISABLED FOR REACT 19 COMPATIBILITY)
 // =============================================================================
-export * from "./exception";
+// export * from "./exception";
 
 // =============================================================================
 // INFINITE SCROLL EXPORTS
