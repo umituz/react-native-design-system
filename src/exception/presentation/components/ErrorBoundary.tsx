@@ -127,4 +127,18 @@ const getStyles = (tokens: ReturnType<typeof useAppDesignTokens>) =>
     },
   });
 
+/**
+ * Higher-order component version of ErrorBoundary
+ */
+export function withErrorBoundary<P extends object>(
+  WrappedComponent: React.ComponentType<P>,
+  fallback?: ReactNode,
+): React.ComponentType<P> {
+  return (props: P) => (
+    <ErrorBoundary fallback={fallback}>
+      <WrappedComponent {...props} />
+    </ErrorBoundary>
+  );
+}
+
 

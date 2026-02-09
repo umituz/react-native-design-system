@@ -5,7 +5,7 @@
  * Presentation Layer - UI Component
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import {
   AtomicIcon,
