@@ -51,7 +51,8 @@ export { ExceptionLogger } from './infrastructure/services/ExceptionLogger';
 // =============================================================================
 
 // Components
-export { ErrorBoundary, withErrorBoundary } from './presentation/components/ErrorBoundary';
+// ErrorBoundary temporarily disabled for React 19 compatibility
+// export { ErrorBoundary, withErrorBoundary } from './presentation/components/ErrorBoundary';
 export { ExceptionEmptyState } from './presentation/components/ExceptionEmptyState';
 export type { ExceptionEmptyStateProps } from './presentation/components/ExceptionEmptyState';
 export { ExceptionErrorState } from './presentation/components/ExceptionErrorState';
