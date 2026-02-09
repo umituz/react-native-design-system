@@ -4,7 +4,7 @@
  * Main confirmation modal component
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import { View, Modal, TouchableOpacity } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { ConfirmationModalProps } from './confirmation-modal/types/';
@@ -15,7 +15,7 @@ import {
 import { ConfirmationModalContent } from './ConfirmationModalContent';
 
 const useBackdropHandler = (backdropDismissible: boolean, onCancel: () => void) => {
-  return React.useCallback(() => {
+  return useCallback(() => {
     if (backdropDismissible) {
       onCancel();
     }

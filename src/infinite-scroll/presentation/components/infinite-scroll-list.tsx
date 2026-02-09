@@ -62,13 +62,13 @@ function InfiniteScrollListComponent<T>({
 }: InfiniteScrollListProps<T>): React.ReactElement {
   const { items, state, loadMore, refresh, canLoadMore } = useInfiniteScroll(config);
 
-  const handleEndReached = React.useCallback(() => {
+  const handleEndReached = useCallback(() => {
     if (canLoadMore && config.autoLoad !== false) {
       loadMore();
     }
   }, [canLoadMore, loadMore, config.autoLoad]);
 
-  const getItemKey = React.useCallback(
+  const getItemKey = useCallback(
     (item: T, index: number): string => {
       if (config.getItemKey) {
         return config.getItemKey(item, index);

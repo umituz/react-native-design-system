@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import type { Persister } from '@tanstack/react-query-persist-client';
@@ -78,7 +78,7 @@ export function TanstackProvider({
   onPersistError,
 }: TanstackProviderProps): React.ReactElement {
   // Create QueryClient if not provided and set as global singleton
-  const [queryClient] = React.useState(() => {
+  const [queryClient] = useState(() => {
     const client = providedQueryClient ?? createQueryClient(queryClientOptions);
     setGlobalQueryClient(client);
 
@@ -90,7 +90,7 @@ export function TanstackProvider({
   });
 
   // Create persister if persistence is enabled
-  const [persister] = React.useState(() => {
+  const [persister] = useState(() => {
     if (!enablePersistence) return undefined;
     return providedPersister ?? createPersister(persisterOptions);
   });

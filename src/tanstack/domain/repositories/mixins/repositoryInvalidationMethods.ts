@@ -4,7 +4,7 @@
  */
 
 import type { QueryClient } from '@tanstack/react-query';
-import type { BaseRepository } from '../BaseRepository';
+import type { IBaseRepository } from '../IBaseRepository';
 import { matchesResource } from '../helpers/repositoryHelpers';
 
 /**
@@ -13,7 +13,7 @@ import { matchesResource } from '../helpers/repositoryHelpers';
  * @param repository - Repository instance
  */
 export function invalidateAll<TData>(
-  repository: BaseRepository<TData, unknown, unknown>
+  repository: IBaseRepository<TData, unknown, unknown>
 ): Promise<void> {
   const client = (repository as any).getClient() as QueryClient;
   const resource = (repository as any).resource;
@@ -31,7 +31,7 @@ export function invalidateAll<TData>(
  * @param repository - Repository instance
  */
 export function invalidateLists<TData>(
-  repository: BaseRepository<TData, unknown, unknown>
+  repository: IBaseRepository<TData, unknown, unknown>
 ): Promise<void> {
   const client = (repository as any).getClient() as QueryClient;
   return client.invalidateQueries({
@@ -46,7 +46,7 @@ export function invalidateLists<TData>(
  * @param id - Item ID
  */
 export function invalidateDetail<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): Promise<void> {
   const client = (repository as any).getClient() as QueryClient;

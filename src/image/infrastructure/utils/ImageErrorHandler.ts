@@ -9,6 +9,7 @@ export class ImageError extends Error {
     ) {
         super(message);
         this.name = 'ImageError';
+        Object.setPrototypeOf(this, ImageError.prototype);
     }
 }
 

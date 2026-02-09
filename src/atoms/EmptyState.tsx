@@ -7,7 +7,7 @@
  * Purpose: Empty state indication across all apps
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
@@ -39,7 +39,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   const tokens = useAppDesignTokens();
   const displayDescription = description || subtitle;
 
-  const themedStyles = React.useMemo(
+  const themedStyles = useMemo(
     () =>
       StyleSheet.create({
         container: {

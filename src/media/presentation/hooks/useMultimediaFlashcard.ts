@@ -29,10 +29,10 @@ export type {
  * Main hook for multimedia flashcard operations
  */
 export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
-  const [isProcessing, setIsProcessing] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const createMultimediaCard = React.useCallback(
+  const createMultimediaCard = useCallback(
     async (cardData: CreateMultimediaCardData): Promise<MultimediaFlashcard> => {
       try {
         setIsProcessing(true);
@@ -71,7 +71,7 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
     [],
   );
 
-  const updateMedia = React.useCallback(
+  const updateMedia = useCallback(
     async (
       _cardId: string,
       _media: MediaAttachment[],
@@ -83,7 +83,7 @@ export const useMultimediaFlashcard = (): UseMultimediaFlashcardResult => {
     [],
   );
 
-  const deleteMedia = React.useCallback(
+  const deleteMedia = useCallback(
     async (_attachmentId: string): Promise<void> => {
       // Mock implementation
       await new Promise((resolve) => setTimeout(resolve, 500));

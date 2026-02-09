@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
-import { AtomicText } from '../../../../index';
+import { AtomicText } from '../../../../atoms';
 import { calendarStyles } from './calendarStyles';
 
 interface CalendarWeekdayHeaderProps {

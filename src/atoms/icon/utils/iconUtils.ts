@@ -4,7 +4,7 @@
  */
 
 import type { IconColor } from '../AtomicIcon.types';
-import type { DesignTokens } from '../../../theme';
+import type { DesignTokens } from '../../../theme/types/ThemeTypes';
 
 /**
  * Maps semantic color names to actual color values from tokens

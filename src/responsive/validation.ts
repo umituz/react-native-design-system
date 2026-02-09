@@ -14,6 +14,7 @@ export class ResponsiveValidationError extends Error {
   constructor(message: string) {
     super(`[Responsive] ${message}`);
     this.name = 'ResponsiveValidationError';
+    Object.setPrototypeOf(this, ResponsiveValidationError.prototype);
   }
 }
 

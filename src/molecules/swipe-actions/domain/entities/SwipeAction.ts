@@ -8,7 +8,7 @@
  * @layer domain/entities
  */
 
-import type { IconName } from '../../../../index';
+import type { IconName } from '../../../../atoms/icon';
 
 /**
  * Pre-built swipe action types

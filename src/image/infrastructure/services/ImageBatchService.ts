@@ -5,6 +5,7 @@
  */
 
 import type { ImageManipulationResult } from '../../domain/entities/ImageTypes';
+import type { BatchOperation } from '../types/BatchTypes';
 import { BatchProcessor } from '../utils/BatchProcessor';
 
 export interface BatchProcessingOptions {
@@ -25,13 +26,6 @@ export interface BatchProcessingResult {
   totalProcessed: number;
   successCount: number;
   failureCount: number;
-}
-
-export interface BatchOperation {
-  uri: string;
-  type: 'resize' | 'crop' | 'filter' | 'compress' | 'convert';
-  params: Record<string, unknown>;
-  options?: Record<string, unknown>;
 }
 
 export class ImageBatchService {

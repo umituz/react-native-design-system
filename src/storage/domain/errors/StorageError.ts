@@ -12,6 +12,7 @@ export class StorageError extends Error {
   constructor(message: string, public readonly key?: string) {
     super(message);
     this.name = 'StorageError';
+    Object.setPrototypeOf(this, StorageError.prototype);
   }
 }
 
@@ -25,6 +26,7 @@ export class StorageReadError extends StorageError {
     super(`Failed to read from storage: ${key}`, key);
     this.name = 'StorageReadError';
     this.cause = cause;
+    Object.setPrototypeOf(this, StorageReadError.prototype);
   }
 }
 
@@ -38,6 +40,7 @@ export class StorageWriteError extends StorageError {
     super(`Failed to write to storage: ${key}`, key);
     this.name = 'StorageWriteError';
     this.cause = cause;
+    Object.setPrototypeOf(this, StorageWriteError.prototype);
   }
 }
 
@@ -51,6 +54,7 @@ export class StorageDeleteError extends StorageError {
     super(`Failed to delete from storage: ${key}`, key);
     this.name = 'StorageDeleteError';
     this.cause = cause;
+    Object.setPrototypeOf(this, StorageDeleteError.prototype);
   }
 }
 
@@ -64,6 +68,7 @@ export class StorageSerializationError extends StorageError {
     super(`Failed to serialize data for key: ${key}`, key);
     this.name = 'StorageSerializationError';
     this.cause = cause;
+    Object.setPrototypeOf(this, StorageSerializationError.prototype);
   }
 }
 
@@ -77,5 +82,6 @@ export class StorageDeserializationError extends StorageError {
     super(`Failed to deserialize data for key: ${key}`, key);
     this.name = 'StorageDeserializationError';
     this.cause = cause;
+    Object.setPrototypeOf(this, StorageDeserializationError.prototype);
   }
 }

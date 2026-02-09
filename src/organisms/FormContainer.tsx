@@ -43,7 +43,7 @@
  * @module FormContainer
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import {
   ScrollView,
   View,
@@ -106,7 +106,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   const formElementSpacing = tokens.spacing.lg;
 
   // Create styles for form container (memoized to avoid re-creation on every render)
-  const styles = React.useMemo(
+  const styles = useMemo(
     () =>
       StyleSheet.create({
         container: {

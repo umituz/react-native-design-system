@@ -30,10 +30,10 @@ export type {
  */
 export const useCardMultimediaFlashcard =
   (): UseCardMultimediaFlashcardResult => {
-    const [isProcessing, setIsProcessing] = React.useState(false);
-    const [error, setError] = React.useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const createCardMultimedia = React.useCallback(
+    const createCardMultimedia = useCallback(
       async (cardData: CreateCardMultimediaData): Promise<CardMultimediaFlashcard> => {
         try {
           setIsProcessing(true);
@@ -72,7 +72,7 @@ export const useCardMultimediaFlashcard =
       [],
     );
 
-    const updateCardMedia = React.useCallback(
+    const updateCardMedia = useCallback(
       async (
         _cardId: string,
         _media: CardMediaAttachment[],
@@ -84,7 +84,7 @@ export const useCardMultimediaFlashcard =
       [],
     );
 
-    const deleteCardMedia = React.useCallback(
+    const deleteCardMedia = useCallback(
       async (_attachmentId: string): Promise<void> => {
         // Mock implementation
         await new Promise((resolve) => setTimeout(resolve, 500));

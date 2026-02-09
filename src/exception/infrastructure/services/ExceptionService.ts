@@ -21,17 +21,22 @@ import { ExceptionLogger } from './ExceptionLogger';
 import { useExceptionStore } from '../storage/ExceptionStore';
 
 export class ExceptionService {
-  private logger: ExceptionLogger;
-  private reporter: ExceptionReporter;
+  private logger: ExceptionLogger | null = null;
+  private reporter: ExceptionReporter | null = null;
+  private reporterConfig: ExceptionReporter['config'];
 
   constructor(reporterConfig?: ExceptionReporter['config']) {
-    this.logger = new ExceptionLogger();
-    this.reporter = new ExceptionReporter(
-      reporterConfig || {
-        enabled: false,
-        environment: 'development'
-      }
-    );
+    this.reporterConfig = reporterConfig || {
+      enabled: false,
+      environment: 'development'
+    };
+  }
+
+  private ensureInitialized() {
+    if (!this.logger) {
+      this.logger = new ExceptionLogger();
+      this.reporter = new ExceptionReporter(this.reporterConfig);
+    }
   }
 
   /**
@@ -43,17 +48,19 @@ export class ExceptionService {
     category: ExceptionCategory = 'unknown',
     context: ExceptionContext = {},
   ): Promise<void> {
+    this.ensureInitialized();
+
     const exception = ExceptionHandler.createException(error, severity, category, context);
 
     // Add to store
     useExceptionStore.getState().addException(exception);
 
     // Log locally
-    await this.logger.logException(exception);
+    await this.logger!.logException(exception);
 
     // Report to external service if needed
     if (ExceptionHandler.shouldReportException(exception)) {
-      await this.reporter.reportException(exception);
+      await this.reporter!.reportException(exception);
     }
 
     // Mark as handled
@@ -92,35 +99,40 @@ export class ExceptionService {
    * Get stored exceptions
    */
   async getStoredExceptions(): Promise<ExceptionEntity[]> {
-    return this.logger.getStoredExceptions();
+    this.ensureInitialized();
+    return this.logger!.getStoredExceptions();
   }
 
   /**
    * Get exception statistics
    */
   async getExceptionStats() {
-    return this.logger.getExceptionStats();
+    this.ensureInitialized();
+    return this.logger!.getExceptionStats();
   }
 
   /**
    * Clear stored exceptions
    */
   async clearStoredExceptions(): Promise<void> {
-    await this.logger.clearStoredExceptions();
+    this.ensureInitialized();
+    await this.logger!.clearStoredExceptions();
   }
 
   /**
    * Update reporter configuration
    */
   updateReporterConfig(config: Partial<ExceptionReporter['config']>): void {
-    this.reporter.updateConfig(config);
+    this.ensureInitialized();
+    this.reporter!.updateConfig(config);
   }
 
   /**
    * Set max stored exceptions
    */
   setMaxStoredExceptions(limit: number): void {
-    this.logger.setMaxStoredExceptions(limit);
+    this.ensureInitialized();
+    this.logger!.setMaxStoredExceptions(limit);
   }
 
   /**
@@ -145,7 +157,7 @@ export class ExceptionService {
   }
 }
 
-// Export default instance
+// Export default instance - lazy initialization
 export const exceptionService = new ExceptionService();
 
 

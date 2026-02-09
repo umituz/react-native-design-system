@@ -5,7 +5,7 @@
 
 import type { QueryClient, QueryKey } from '@tanstack/react-query';
 import type { ListParams } from '../RepositoryTypes';
-import type { BaseRepository } from '../BaseRepository';
+import type { IBaseRepository } from '../IBaseRepository';
 
 /**
  * Query all items with caching
@@ -15,7 +15,7 @@ import type { BaseRepository } from '../BaseRepository';
  * @returns Promise of data array
  */
 export async function queryAll<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   params?: ListParams
 ): Promise<TData[]> {
   const client = (repository as any).getClient() as QueryClient;
@@ -39,7 +39,7 @@ export async function queryAll<TData>(
  * @returns Promise of data or undefined if not found
  */
 export async function queryById<TData>(
-  repository: BaseRepository<TData, unknown, unknown>,
+  repository: IBaseRepository<TData, unknown, unknown>,
   id: string | number
 ): Promise<TData | undefined> {
   const client = (repository as any).getClient() as QueryClient;

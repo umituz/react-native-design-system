@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, { useEffect, useState, ReactNode, lazy, Suspense } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
@@ -6,9 +6,12 @@ import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
 import { useTheme } from '../stores/themeStore';
 import { useDesignSystemTheme, type ThemeMode } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
-import { SplashScreen } from '../../../molecules/splash';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
-import { useIconStore, type IconRenderer, type IconNames } from '../../../atoms/icon';
+import { useIconStore } from '../../../atoms/icon/iconStore';
+import type { IconRenderer, IconNames } from '../../../atoms/icon/iconStore';
+
+// Lazy load SplashScreen to avoid circular dependency
+const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
 
 
 interface DesignSystemProviderProps {
@@ -97,7 +100,15 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     if (loadingComponent) {
       content = loadingComponent;
     } else if (splashConfig) {
-      content = <SplashScreen {...splashConfig} visible={true} />;
+      content = (
+        <Suspense fallback={
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </View>
+        }>
+          <SplashScreen {...splashConfig} visible={true} />
+        </Suspense>
+      );
     } else {
       content = (
         <View style={styles.loadingContainer}>

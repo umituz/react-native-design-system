@@ -1,9 +1,8 @@
 
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { initialWindowMetrics } from "../../../safe-area";
-import { AtomicText, AtomicSpinner } from "../../../atoms";
-import { useAppDesignTokens } from "../../../theme";
+import { useAppDesignTokens } from "../../../theme/hooks/useAppDesignTokens";
 import type { SplashScreenProps, SplashColors } from "../types";
 import { SPLASH_CONSTANTS } from "../constants";
 
@@ -100,39 +99,26 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
         )}
 
         {appName ? (
-          <AtomicText
-            type="displaySmall"
-            style={[styles.title, { color: colors.text }]}
-          >
+          <Text style={[styles.title, { color: colors.text, fontSize: 30, fontWeight: '800' }]}>
             {appName}
-          </AtomicText>
+          </Text>
         ) : null}
 
         {tagline ? (
-          <AtomicText
-            type="bodyLarge"
-            style={[styles.tagline, { color: colors.text }]}
-          >
+          <Text style={[styles.tagline, { color: colors.text, fontSize: 16 }]}>
             {tagline}
-          </AtomicText>
+          </Text>
         ) : null}
 
         {/* Always show loading indicator during initialization */}
         <View style={styles.loadingContainer}>
-          <AtomicSpinner
-            size="lg"
-            color={colors.text}
-            style={styles.loadingIndicator}
-          />
+          <ActivityIndicator size="large" color={colors.text} />
         </View>
 
         {timedOut && __DEV__ ? (
-          <AtomicText
-            type="labelSmall"
-            style={[styles.timeoutText, { color: colors.text }]}
-          >
+          <Text style={[styles.timeoutText, { color: colors.text, fontSize: 12 }]}>
             Initialization timeout
-          </AtomicText>
+          </Text>
         ) : null}
       </View>
     </View>

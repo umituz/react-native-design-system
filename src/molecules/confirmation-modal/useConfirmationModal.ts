@@ -4,14 +4,14 @@
  * Hook for managing confirmation modal state
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import { ConfirmationModalProps, ConfirmationModalVariant } from './types';
 
 const useConfirmationModalState = () => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
-  const showConfirmation = React.useCallback(() => setVisible(true), []);
-  const hideConfirmation = React.useCallback(() => setVisible(false), []);
+  const showConfirmation = useCallback(() => setVisible(true), []);
+  const hideConfirmation = useCallback(() => setVisible(false), []);
 
   return { visible, showConfirmation, hideConfirmation };
 };
@@ -26,12 +26,12 @@ export const useConfirmationModal = (config: {
 }) => {
   const { visible, showConfirmation, hideConfirmation } = useConfirmationModalState();
 
-  const handleConfirm = React.useCallback(() => {
+  const handleConfirm = useCallback(() => {
     config.onConfirm();
     hideConfirmation();
   }, [config, hideConfirmation]);
 
-  const confirmationProps: ConfirmationModalProps = React.useMemo(() => ({
+  const confirmationProps: ConfirmationModalProps = useMemo(() => ({
     visible,
     title: config.title,
     message: config.message,

@@ -12,12 +12,12 @@ import type {
 } from "../../domain/entities/CardMultimedia.types";
 
 export const useCardMediaGeneration = (): UseCardMediaGenerationResult => {
-  const [isGenerating, setIsGenerating] = React.useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [generationResult, setGenerationResult] =
-    React.useState<CardMediaGenerationResult | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+    useState<CardMediaGenerationResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const generateMedia = React.useCallback(
+  const generateMedia = useCallback(
     async (
       request: CardMediaGenerationRequest,
     ): Promise<CardMediaGenerationResult> => {

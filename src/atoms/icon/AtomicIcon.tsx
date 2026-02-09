@@ -22,7 +22,7 @@
 
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../../theme';
+import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
 import { useIconRenderer } from './iconStore';
 import {
   type IconSize as BaseIconSize,

@@ -15,12 +15,12 @@ import type {
 } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export const useMediaUpload = (): UseMediaUploadResult => {
-  const [isUploading, setIsUploading] = React.useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] =
-    React.useState<MediaUploadProgress | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+    useState<MediaUploadProgress | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const uploadMedia = React.useCallback(
+  const uploadMedia = useCallback(
     async (file: MediaFile, _options?: MediaCompressionOptions) => {
       try {
         setIsUploading(true);

@@ -37,7 +37,7 @@ export const Countdown: React.FC<CountdownProps> = ({
         showSeconds = true,
     } = displayConfig;
 
-    const [currentTargetIndex, setCurrentTargetIndex] = React.useState(0);
+    const [currentTargetIndex, setCurrentTargetIndex] = useState(0);
     const allTargets = useMemo(
         () => [target, ...alternateTargets],
         [target, alternateTargets]
@@ -49,7 +49,7 @@ export const Countdown: React.FC<CountdownProps> = ({
         onExpire,
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (currentTarget) {
             updateTarget(currentTarget);
         }

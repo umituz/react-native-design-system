@@ -12,12 +12,12 @@ import type {
 } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export const useMediaGeneration = (): UseMediaGenerationResult => {
-  const [isGenerating, setIsGenerating] = React.useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [generationResult, setGenerationResult] =
-    React.useState<MediaGenerationResult | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+    useState<MediaGenerationResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const generateMedia = React.useCallback(
+  const generateMedia = useCallback(
     async (request: MediaGenerationRequest): Promise<MediaGenerationResult> => {
       try {
         setIsGenerating(true);

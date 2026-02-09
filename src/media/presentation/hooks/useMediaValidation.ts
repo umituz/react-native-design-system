@@ -9,13 +9,13 @@ import type { UseMediaValidationResult } from "./multimedia.types";
 import type { MediaValidation, MediaFile } from "../../domain/entities/MultimediaFlashcardTypes";
 
 export const useMediaValidation = (): UseMediaValidationResult => {
-  const [isValidating, setIsValidating] = React.useState(false);
-  const [validation, setValidation] = React.useState<MediaValidation | null>(
+  const [isValidating, setIsValidating] = useState(false);
+  const [validation, setValidation] = useState<MediaValidation | null>(
     null,
   );
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const validateMedia = React.useCallback(
+  const validateMedia = useCallback(
     async (file: MediaFile): Promise<MediaValidation> => {
       try {
         setIsValidating(true);

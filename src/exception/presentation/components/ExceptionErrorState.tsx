@@ -44,7 +44,7 @@ export const ExceptionErrorState: React.FC<ExceptionErrorStateProps> = ({
   const refreshIcon = useIconName('refresh');
   const displayIcon = icon || alertCircleIcon;
 
-  const styles = React.useMemo(
+  const styles = useMemo(
     () =>
       StyleSheet.create({
         actionButton: {

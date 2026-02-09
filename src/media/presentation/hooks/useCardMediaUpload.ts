@@ -15,12 +15,12 @@ import type {
 } from "../../domain/entities/CardMultimedia.types";
 
 export const useCardMediaUpload = (): UseCardMediaUploadResult => {
-  const [isUploading, setIsUploading] = React.useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] =
-    React.useState<CardMediaUploadProgress | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+    useState<CardMediaUploadProgress | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const uploadMedia = React.useCallback(
+  const uploadMedia = useCallback(
     async (file: CardMediaFile, _options?: CardMediaCompressionOptions) => {
       try {
         setIsUploading(true);

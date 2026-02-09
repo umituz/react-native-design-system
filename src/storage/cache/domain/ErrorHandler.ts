@@ -6,6 +6,7 @@ export class CacheError extends Error {
   constructor(message: string, public readonly code: string) {
     super(message);
     this.name = 'CacheError';
+    Object.setPrototypeOf(this, CacheError.prototype);
   }
 }
 

@@ -32,7 +32,7 @@
 
 import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
-import { useAppDesignTokens } from '../../../../index';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
 import { CalendarService } from '../../infrastructure/services/CalendarService';
 import { calendarStyles } from './calendarStyles';

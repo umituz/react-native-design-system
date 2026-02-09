@@ -5,7 +5,7 @@
  */
 
 import type { ImageManipulationResult, ImageCropArea, SaveFormat } from '../../domain/entities/ImageTypes';
-import type { BatchOperation } from '../services/ImageBatchService';
+import type { BatchOperation } from '../types/BatchTypes';
 import { ImageTransformService } from '../services/ImageTransformService';
 import { ImageConversionService } from '../services/ImageConversionService';
 import { ImageValidator } from './ImageValidator';

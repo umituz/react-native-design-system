@@ -12,7 +12,7 @@
  * - Fully configurable for general purpose use
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import { View, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon, AtomicText } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
@@ -71,7 +71,7 @@ const ScreenHeaderBackButton: React.FC<{
   backIconColor?: 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'surfaceVariant';
   testID?: string;
 }> = ({ hideBackButton, onBackPress, backIconName, backIconColor, testID }) => {
-  const handleBackPress = React.useCallback(() => {
+  const handleBackPress = useCallback(() => {
     if (onBackPress) {
       onBackPress();
     }
@@ -136,7 +136,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const headerStyle = React.useMemo(() => [
+  const headerStyle = useMemo(() => [
     {
       flexDirection: 'row' as const,
       alignItems: 'center' as const,

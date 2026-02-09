@@ -54,7 +54,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
         });
     }
 
-    const styles = React.useMemo(() => StyleSheet.create({
+    const styles = useMemo(() => StyleSheet.create({
         container: {
             flex: 1,
             padding: 16,
@@ -151,7 +151,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
 
     const hasActiveFilters = FilterUtils.hasActiveFilter(safeSelectedIds, defaultId);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (__DEV__) {
             console.log('[FilterBottomSheet] useEffect - Component ready', {
                 refCurrent: !!internalRef.current,

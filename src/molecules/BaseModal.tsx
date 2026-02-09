@@ -47,7 +47,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
     }
   }, [visible, testID, modalLayout.width, modalLayout.height]);
 
-  const handleBackdropPress = React.useCallback(() => {
+  const handleBackdropPress = useCallback(() => {
     if (dismissOnBackdrop) {
       onClose();
     }

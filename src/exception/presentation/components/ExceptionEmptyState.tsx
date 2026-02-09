@@ -29,7 +29,7 @@ export const ExceptionEmptyState: React.FC<ExceptionEmptyStateProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const styles = React.useMemo(
+  const styles = useMemo(
     () =>
       StyleSheet.create({
         actionButton: {

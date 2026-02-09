@@ -4,7 +4,8 @@
 
 import React from 'react';
 import { TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
-import { AtomicText, useAppDesignTokens } from '../../../../index';
+import { AtomicText } from '../../../../atoms';
+import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import type { CalendarDay } from '../../domain/entities/CalendarDay.entity';
 
 import { calendarStyles } from './calendarStyles';
