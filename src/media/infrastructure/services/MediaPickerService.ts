@@ -12,64 +12,27 @@ import type {
   CameraOptions,
 } from "../../domain/entities/Media";
 import {
-  MediaLibraryPermission,
   MediaType,
   MediaValidationError,
   MEDIA_CONSTANTS,
 } from "../../domain/entities/Media";
 import {
   mapMediaType,
-  mapPermissionStatus,
   mapPickerResult,
 } from "../utils/mediaPickerMappers";
+import { PermissionManager } from "../utils/PermissionManager";
+import { FileValidator } from "../../domain/utils/FileValidator";
 
 /**
  * Media picker service for selecting images/videos
  */
 export class MediaPickerService {
-  static async requestCameraPermission(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      return mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
-  }
-
-  static async requestMediaLibraryPermission(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      return mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
-  }
-
-  static async getCameraPermissionStatus(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } = await ImagePicker.getCameraPermissionsAsync();
-      return mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
-  }
-
-  static async getMediaLibraryPermissionStatus(): Promise<MediaLibraryPermission> {
-    try {
-      const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-      return mapPermissionStatus(status);
-    } catch {
-      return MediaLibraryPermission.DENIED;
-    }
-  }
-
   static async launchCamera(
     options?: CameraOptions
   ): Promise<MediaPickerResult> {
     try {
-      const permission = await MediaPickerService.requestCameraPermission();
-      if (permission === MediaLibraryPermission.DENIED) {
+      const permission = await PermissionManager.requestCameraPermission();
+      if (!PermissionManager.isPermissionGranted(permission)) {
         return { canceled: true };
       }
 
@@ -91,8 +54,8 @@ export class MediaPickerService {
     options?: CameraOptions
   ): Promise<MediaPickerResult> {
     try {
-      const permission = await MediaPickerService.requestCameraPermission();
-      if (permission === MediaLibraryPermission.DENIED) {
+      const permission = await PermissionManager.requestCameraPermission();
+      if (!PermissionManager.isPermissionGranted(permission)) {
         return { canceled: true };
       }
 
@@ -113,9 +76,8 @@ export class MediaPickerService {
     options?: MediaPickerOptions
   ): Promise<MediaPickerResult> {
     try {
-      const permission =
-        await MediaPickerService.requestMediaLibraryPermission();
-      if (permission === MediaLibraryPermission.DENIED) {
+      const permission = await PermissionManager.requestMediaLibraryPermission();
+      if (!PermissionManager.isPermissionGranted(permission)) {
         return {
           canceled: true,
           error: MediaValidationError.PERMISSION_DENIED,
@@ -138,17 +100,16 @@ export class MediaPickerService {
 
       // Validate file size if not canceled and has assets
       if (!mappedResult.canceled && mappedResult.assets && mappedResult.assets.length > 0) {
-        const maxSizeMB = options?.maxFileSizeMB ?? MEDIA_CONSTANTS.MAX_IMAGE_SIZE_MB;
-        const maxSizeBytes = maxSizeMB * 1024 * 1024;
+        const validation = FileValidator.validateAssets(mappedResult.assets, {
+          maxFileSizeMB: options?.maxFileSizeMB,
+        });
 
-        for (const asset of mappedResult.assets) {
-          if (asset.fileSize && asset.fileSize > maxSizeBytes) {
-            return {
-              canceled: true,
-              error: MediaValidationError.FILE_TOO_LARGE,
-              errorMessage: `File size exceeds ${maxSizeMB}MB limit`,
-            };
-          }
+        if (!validation.valid) {
+          return {
+            canceled: true,
+            error: validation.error,
+            errorMessage: validation.errorMessage,
+          };
         }
       }
 

@@ -7,6 +7,7 @@
 
 import { useState, useCallback } from "react";
 import { MediaPickerService } from "../../infrastructure/services/MediaPickerService";
+import { PermissionManager } from "../../infrastructure/utils/PermissionManager";
 import type {
   MediaPickerOptions,
   MediaPickerResult,
@@ -140,7 +141,7 @@ export const useMedia = () => {
   const requestCameraPermission =
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
-        return await MediaPickerService.requestCameraPermission();
+        return await PermissionManager.requestCameraPermission();
       } catch {
         return MediaLibraryPermission.DENIED;
       }
@@ -149,7 +150,7 @@ export const useMedia = () => {
   const requestMediaLibraryPermission =
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
-        return await MediaPickerService.requestMediaLibraryPermission();
+        return await PermissionManager.requestMediaLibraryPermission();
       } catch {
         return MediaLibraryPermission.DENIED;
       }
@@ -158,7 +159,7 @@ export const useMedia = () => {
   const getCameraPermissionStatus =
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
-        return await MediaPickerService.getCameraPermissionStatus();
+        return await PermissionManager.getCameraPermissionStatus();
       } catch {
         return MediaLibraryPermission.DENIED;
       }
@@ -167,7 +168,7 @@ export const useMedia = () => {
   const getMediaLibraryPermissionStatus =
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
-        return await MediaPickerService.getMediaLibraryPermissionStatus();
+        return await PermissionManager.getMediaLibraryPermissionStatus();
       } catch {
         return MediaLibraryPermission.DENIED;
       }

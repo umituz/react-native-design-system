@@ -6,8 +6,9 @@ import React from 'react';
 import { StyleSheet, View, Modal, Pressable } from 'react-native';
 import { AtomicText, AtomicButton } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
-import { Alert, AlertType } from './AlertTypes';
+import { Alert } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
+import { getAlertBackgroundColor } from './utils/alertUtils';
 
 interface AlertModalProps {
     alert: Alert;
@@ -22,15 +23,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
         alert.onDismiss?.();
     };
 
-    const getHeaderColor = () => {
-        switch (alert.type) {
-            case AlertType.SUCCESS: return tokens.colors.success;
-            case AlertType.ERROR: return tokens.colors.error;
-            case AlertType.WARNING: return tokens.colors.warning;
-            case AlertType.INFO: return tokens.colors.info;
-            default: return tokens.colors.primary;
-        }
-    };
+    const headerColor = getAlertBackgroundColor(alert.type, tokens);
 
     return (
         <Modal
@@ -53,7 +46,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                         borderColor: tokens.colors.border,
                     }
                 ]}>
-                    <View style={[styles.header, { backgroundColor: getHeaderColor() }]}>
+                    <View style={[styles.header, { backgroundColor: headerColor }]}>
                         <AtomicText type="titleLarge" style={{ color: tokens.colors.textInverse }}>
                             {alert.title}
                         </AtomicText>

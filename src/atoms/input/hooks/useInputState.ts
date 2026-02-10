@@ -24,12 +24,10 @@ export const useInputState = ({
   value = '',
   onChangeText,
   secureTextEntry = false,
-  showPasswordToggle = false,
+  showPasswordToggle: _showPasswordToggle = false,
   maxLength,
-  showCharacterCount = false,
+  showCharacterCount: _showCharacterCount = false,
 }: UseInputStateProps = {}): UseInputStateReturn => {
-  void showPasswordToggle;
-  void showCharacterCount;
   const [localValue, setLocalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);

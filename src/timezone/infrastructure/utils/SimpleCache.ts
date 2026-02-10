@@ -13,10 +13,22 @@ interface CacheEntry<T> {
 export class SimpleCache<T> {
   private cache = new Map<string, CacheEntry<T>>();
   private defaultTTL: number;
+  private cleanupTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(defaultTTL: number = 60000) {
     this.defaultTTL = defaultTTL;
-    this.cleanup();
+    this.scheduleCleanup();
+  }
+
+  /**
+   * Destroy the cache and stop cleanup timer
+   */
+  destroy(): void {
+    if (this.cleanupTimeout) {
+      clearTimeout(this.cleanupTimeout);
+      this.cleanupTimeout = null;
+    }
+    this.cache.clear();
   }
 
   set(key: string, value: T, ttl?: number): void {
@@ -58,7 +70,17 @@ export class SimpleCache<T> {
         this.cache.delete(key);
       }
     }
+  }
 
-    setTimeout(() => this.cleanup(), 60000);
+  private scheduleCleanup(): void {
+    if (this.cleanupTimeout) {
+      clearTimeout(this.cleanupTimeout);
+    }
+
+    this.cleanup();
+
+    this.cleanupTimeout = setTimeout(() => {
+      this.scheduleCleanup();
+    }, 60000);
   }
 }

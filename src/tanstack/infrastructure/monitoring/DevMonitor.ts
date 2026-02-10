@@ -9,12 +9,14 @@
 import type { Query, QueryClient } from '@tanstack/react-query';
 import type { QueryMetrics, CacheStats, DevMonitorOptions } from './DevMonitor.types';
 import { DevMonitorLogger } from './DevMonitorLogger';
+import { MetricsCalculator } from '../../domain/utils/MetricsCalculator';
 
 class DevMonitorClass {
   private metrics: Map<string, QueryMetrics> = new Map();
   private queryClient: QueryClient | null = null;
   private options: Required<DevMonitorOptions>;
   private statsInterval: ReturnType<typeof setInterval> | null = null;
+  private cacheSubscription: (() => void) | null = null;
   private isEnabled: boolean;
 
   constructor(options: DevMonitorOptions = {}) {
@@ -38,37 +40,22 @@ class DevMonitorClass {
     this.startStatsLogging();
   }
 
-  private getQueryKeyString(queryKey: readonly unknown[]): string {
-    return JSON.stringify(queryKey);
-  }
-
   private trackQuery(query: Query): void {
     if (!this.isEnabled) return;
 
-    const queryKeyString = this.getQueryKeyString(query.queryKey);
+    const queryKeyString = MetricsCalculator.getQueryKeyString(query.queryKey);
+    const currentMetrics = this.metrics.get(queryKeyString) ?? null;
+    const updatedMetrics = MetricsCalculator.calculateQueryMetrics(
+      query,
+      currentMetrics,
+      this.options
+    );
 
-    if (!this.metrics.has(queryKeyString)) {
-      this.metrics.set(queryKeyString, {
-        queryKey: query.queryKey,
-        fetchCount: 0,
-        totalFetchTime: 0,
-        averageFetchTime: 0,
-        slowFetchCount: 0,
-        lastFetchTime: null,
-      });
-    }
+    this.metrics.set(queryKeyString, updatedMetrics);
 
-    const metrics = this.metrics.get(queryKeyString)!;
-    const fetchTime = Date.now() - (query.state.dataUpdatedAt ?? Date.now());
-
-    metrics.fetchCount++;
-    metrics.totalFetchTime += fetchTime;
-    metrics.averageFetchTime = metrics.totalFetchTime / metrics.fetchCount;
-    metrics.lastFetchTime = fetchTime;
-
-    if (fetchTime > this.options.slowQueryThreshold) {
-      metrics.slowFetchCount++;
-      if (this.options.enableLogging) {
+    if (this.options.enableLogging && updatedMetrics.slowFetchCount > 0) {
+      const fetchTime = MetricsCalculator.calculateFetchTime(query);
+      if (MetricsCalculator.isSlowQuery(fetchTime, this.options.slowQueryThreshold)) {
         DevMonitorLogger.logSlowQuery(queryKeyString, fetchTime);
       }
     }
@@ -80,8 +67,13 @@ class DevMonitorClass {
   attach(queryClient: QueryClient): void {
     if (!this.isEnabled) return;
 
+    // Detach from previous client if attached
+    if (this.cacheSubscription) {
+      this.detach();
+    }
+
     this.queryClient = queryClient;
-    queryClient.getQueryCache().subscribe((event) => {
+    this.cacheSubscription = queryClient.getQueryCache().subscribe((event) => {
       if (event.query) {
         this.trackQuery(event.query as Query);
       }
@@ -90,6 +82,20 @@ class DevMonitorClass {
     if (this.options.enableLogging) {
       DevMonitorLogger.logAttached();
     }
+  }
+
+  /**
+   * Detach monitor from query client
+   */
+  detach(): void {
+    if (!this.isEnabled) return;
+
+    if (this.cacheSubscription) {
+      this.cacheSubscription();
+      this.cacheSubscription = null;
+    }
+
+    this.queryClient = null;
   }
 
   /**
@@ -105,7 +111,7 @@ class DevMonitorClass {
    */
   getQueryMetrics(queryKey: readonly unknown[]): QueryMetrics | undefined {
     if (!this.isEnabled) return undefined;
-    const queryKeyString = this.getQueryKeyString(queryKey);
+    const queryKeyString = MetricsCalculator.getQueryKeyString(queryKey);
     return this.metrics.get(queryKeyString);
   }
 
@@ -179,9 +185,9 @@ class DevMonitorClass {
    */
   reset(): void {
     if (!this.isEnabled) return;
+    this.detach();
     this.stopStatsLogging();
     this.clear();
-    this.queryClient = null;
     if (this.options.enableLogging) {
       DevMonitorLogger.logReset();
     }

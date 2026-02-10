@@ -6,7 +6,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AtomicText } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
-import { Alert, AlertType } from './AlertTypes';
+import { Alert } from './AlertTypes';
+import { getAlertBorderColor, getAlertBackgroundColorInline } from './utils/alertUtils';
 
 interface AlertInlineProps {
     alert: Alert;
@@ -15,32 +16,12 @@ interface AlertInlineProps {
 export const AlertInline: React.FC<AlertInlineProps> = ({ alert }) => {
     const tokens = useAppDesignTokens();
 
-    const getBorderColor = () => {
-        switch (alert.type) {
-            case AlertType.SUCCESS: return tokens.colors.success;
-            case AlertType.ERROR: return tokens.colors.error;
-            case AlertType.WARNING: return tokens.colors.warning;
-            case AlertType.INFO: return tokens.colors.info;
-            default: return tokens.colors.border;
-        }
-    };
-
-    const getBackgroundColor = () => {
-        switch (alert.type) {
-            case AlertType.SUCCESS: return tokens.colors.success + '15';
-            case AlertType.ERROR: return tokens.colors.error + '15';
-            case AlertType.WARNING: return tokens.colors.warning + '15';
-            case AlertType.INFO: return tokens.colors.info + '15';
-            default: return tokens.colors.backgroundSecondary;
-        }
-    };
-
     return (
         <View style={[
             styles.container,
             {
-                borderColor: getBorderColor(),
-                backgroundColor: getBackgroundColor(),
+                borderColor: getAlertBorderColor(alert.type, tokens),
+                backgroundColor: getAlertBackgroundColorInline(alert.type, tokens),
                 borderRadius: tokens.borders.radius.sm,
                 padding: tokens.spacing.md,
                 marginVertical: tokens.spacing.sm,

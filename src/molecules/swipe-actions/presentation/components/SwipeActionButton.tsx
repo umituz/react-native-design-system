@@ -14,7 +14,12 @@ import { AtomicText, AtomicIcon } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
 import { HapticService } from '../../../../haptics';
 import type { SwipeActionConfig } from '../../domain/entities/SwipeAction';
-import { SwipeActionUtils } from '../../domain/entities/SwipeAction';
+import {
+  getActionLabel,
+  getActionIcon,
+  getActionColorKey,
+  getHapticsIntensity,
+} from '../../domain/entities/SwipeAction';
 
 /**
  * SwipeActionButton component props
@@ -58,9 +63,9 @@ export const SwipeActionButton: React.FC<SwipeActionButtonProps> = ({
   const tokens = useAppDesignTokens();
 
   // Get action properties
-  const label = SwipeActionUtils.getLabel(action);
-  const iconName = SwipeActionUtils.getIcon(action);
-  const colorKey = SwipeActionUtils.getColorKey(action);
+  const label = getActionLabel(action);
+  const iconName = getActionIcon(action);
+  const colorKey = getActionColorKey(action);
   const customColor = action.color;
   const enableHaptics = action.enableHaptics !== false;
 
@@ -83,7 +88,7 @@ export const SwipeActionButton: React.FC<SwipeActionButtonProps> = ({
   const handlePress = async () => {
     // Trigger haptic feedback
     if (enableHaptics) {
-      const intensity = SwipeActionUtils.getHapticsIntensity(action);
+      const intensity = getHapticsIntensity(action);
       await HapticService.impact(intensity);
     }
 

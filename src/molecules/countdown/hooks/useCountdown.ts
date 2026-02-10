@@ -44,6 +44,14 @@ export function useCountdown(
     );
 
     const expiredRef = useRef(false);
+    const onExpireRef = useRef(onExpire);
+    const onTickRef = useRef(onTick);
+
+    // Keep refs in sync with latest callbacks
+    useEffect(() => {
+        onExpireRef.current = onExpire;
+        onTickRef.current = onTick;
+    }, [onExpire, onTick]);
 
     const updateTime = useCallback(() => {
         if (!target) return;
@@ -51,18 +59,18 @@ export function useCountdown(
         const remaining = calculateTimeRemaining(target.date);
         setTimeRemaining(remaining);
 
-        if (onTick) {
-            onTick(remaining);
+        if (onTickRef.current) {
+            onTickRef.current(remaining);
         }
 
         if (remaining.isExpired && !expiredRef.current) {
             expiredRef.current = true;
             setIsActive(false);
-            if (onExpire) {
-                onExpire();
+            if (onExpireRef.current) {
+                onExpireRef.current();
             }
         }
-    }, [target, onTick, onExpire]);
+    }, [target]);
 
     useEffect(() => {
         if (!isActive || !target) return;

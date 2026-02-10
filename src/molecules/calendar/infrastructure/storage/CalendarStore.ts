@@ -3,7 +3,7 @@
  * Convenience hook that combines all calendar stores
  */
 
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useCalendarEvents } from '../stores/useCalendarEvents';
 import { useCalendarNavigation } from '../stores/useCalendarNavigation';
 import { useCalendarView } from '../stores/useCalendarView';
@@ -26,22 +26,22 @@ export const useCalendar = () => {
   const navigation = useCalendarNavigation();
   const view = useCalendarView();
 
-  // Utility functions
-  const getEventsForDate = (date: Date) => {
+  // Utility functions - memoized to prevent recreating on every render
+  const getEventsForDate = useCallback((date: Date) => {
     return events.events.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate.toDateString() === date.toDateString();
     });
-  };
+  }, [events.events]);
 
-  const getEventsForMonth = (year: number, month: number) => {
+  const getEventsForMonth = useCallback((year: number, month: number) => {
     return events.events.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate.getFullYear() === year && eventDate.getMonth() === month;
     });
-  };
+  }, [events.events]);
 
-  return {
+  return useMemo(() => ({
     // Events state and actions
     events: events.events,
     isLoading: events.isLoading,
@@ -70,7 +70,29 @@ export const useCalendar = () => {
     // Utility functions
     getEventsForDate,
     getEventsForMonth,
-  };
+  }), [
+    events.events,
+    events.isLoading,
+    events.error,
+    events.loadEvents,
+    events.addEvent,
+    events.updateEvent,
+    events.deleteEvent,
+    events.completeEvent,
+    events.uncompleteEvent,
+    events.clearError,
+    events.clearAllEvents,
+    navigation.selectedDate,
+    navigation.currentMonth,
+    navigation.setSelectedDate,
+    navigation.goToToday,
+    navigation.navigateMonth,
+    navigation.setCurrentMonth,
+    view.viewMode,
+    view.setViewMode,
+    getEventsForDate,
+    getEventsForMonth,
+  ]);
 };
 
 /**
@@ -85,6 +107,40 @@ export const useCalendarStore = () => {
     return CalendarService.getMonthDays(year, month, calendar.events);
   }, [calendar.currentMonth, calendar.events]);
 
+  const actions = useMemo(() => ({
+    loadEvents: calendar.loadEvents,
+    addEvent: calendar.addEvent,
+    updateEvent: calendar.updateEvent,
+    deleteEvent: calendar.deleteEvent,
+    completeEvent: calendar.completeEvent,
+    uncompleteEvent: calendar.uncompleteEvent,
+    setSelectedDate: calendar.setSelectedDate,
+    goToToday: calendar.goToToday,
+    navigateMonth: calendar.navigateMonth,
+    setCurrentMonth: calendar.setCurrentMonth,
+    setViewMode: calendar.setViewMode,
+    getEventsForDate: calendar.getEventsForDate,
+    getEventsForMonth: calendar.getEventsForMonth,
+    clearError: calendar.clearError,
+    clearAllEvents: calendar.clearAllEvents,
+  }), [
+    calendar.loadEvents,
+    calendar.addEvent,
+    calendar.updateEvent,
+    calendar.deleteEvent,
+    calendar.completeEvent,
+    calendar.uncompleteEvent,
+    calendar.setSelectedDate,
+    calendar.goToToday,
+    calendar.navigateMonth,
+    calendar.setCurrentMonth,
+    calendar.setViewMode,
+    calendar.getEventsForDate,
+    calendar.getEventsForMonth,
+    calendar.clearError,
+    calendar.clearAllEvents,
+  ]);
+
   return {
     events: calendar.events,
     selectedDate: calendar.selectedDate,
@@ -92,23 +148,7 @@ export const useCalendarStore = () => {
     viewMode: calendar.viewMode,
     isLoading: calendar.isLoading,
     error: calendar.error,
-    actions: {
-      loadEvents: calendar.loadEvents,
-      addEvent: calendar.addEvent,
-      updateEvent: calendar.updateEvent,
-      deleteEvent: calendar.deleteEvent,
-      completeEvent: calendar.completeEvent,
-      uncompleteEvent: calendar.uncompleteEvent,
-      setSelectedDate: calendar.setSelectedDate,
-      goToToday: calendar.goToToday,
-      navigateMonth: calendar.navigateMonth,
-      setCurrentMonth: calendar.setCurrentMonth,
-      setViewMode: calendar.setViewMode,
-      getEventsForDate: calendar.getEventsForDate,
-      getEventsForMonth: calendar.getEventsForMonth,
-      clearError: calendar.clearError,
-      clearAllEvents: calendar.clearAllEvents,
-    },
+    actions,
     days,
   };
 };

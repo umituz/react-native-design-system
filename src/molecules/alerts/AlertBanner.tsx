@@ -6,15 +6,14 @@
  * Auto-dismisses after duration (default 3 seconds).
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
 import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
-import { Alert, AlertType, AlertPosition } from './AlertTypes';
+import { Alert, AlertPosition } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
-
-const DEFAULT_DURATION = 3000;
+import { getAlertBackgroundColor, getAlertTextColor, DEFAULT_ALERT_DURATION } from './utils/alertUtils';
 
 interface AlertBannerProps {
     alert: Alert;
@@ -26,37 +25,22 @@ export function AlertBanner({ alert }: AlertBannerProps) {
     const tokens = useAppDesignTokens();
     const closeIcon = useIconName('close');
 
-    const handleDismiss = () => {
+    const handleDismiss = useCallback(() => {
         dismissAlert(alert.id);
         alert.onDismiss?.();
-    };
+    }, [alert.id, dismissAlert, alert.onDismiss]);
 
     // Auto-dismiss after duration
     useEffect(() => {
-        const duration = alert.duration ?? DEFAULT_DURATION;
+        const duration = alert.duration ?? DEFAULT_ALERT_DURATION;
         if (duration <= 0) return;
 
         const timer = setTimeout(handleDismiss, duration);
         return () => clearTimeout(timer);
-    }, [alert.id, alert.duration]);
+    }, [alert.duration, handleDismiss]);
 
-    const getBackgroundColor = (type: AlertType): string => {
-        switch (type) {
-            case AlertType.SUCCESS:
-                return tokens.colors.success;
-            case AlertType.ERROR:
-                return tokens.colors.error;
-            case AlertType.WARNING:
-                return tokens.colors.warning;
-            case AlertType.INFO:
-                return tokens.colors.info;
-            default:
-                return tokens.colors.backgroundSecondary;
-        }
-    };
-
-    const backgroundColor = getBackgroundColor(alert.type);
-    const textColor = tokens.colors.textInverse;
+    const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
+    const textColor = getAlertTextColor(tokens);
     const isTop = alert.position === AlertPosition.TOP;
 
     return (

@@ -2,7 +2,6 @@
  * Swipe Actions Domain - Entity Layer
  *
  * Core swipe action types and configurations.
- * Defines pre-built action types, colors, icons, and utilities.
  *
  * @domain swipe-actions
  * @layer domain/entities
@@ -62,53 +61,6 @@ export interface SwipeableConfig {
 }
 
 /**
- * Pre-built action type configurations
- */
-export const ACTION_PRESETS: Record<Exclude<SwipeActionType, 'custom'>, {
-  label: string;
-  icon: IconName;
-  colorKey: 'error' | 'success' | 'primary' | 'secondary' | 'warning' | 'textSecondary';
-  hapticsIntensity: 'Light' | 'Medium' | 'Heavy';
-}> = {
-  delete: {
-    label: 'Delete',
-    icon: 'Trash2',
-    colorKey: 'error',
-    hapticsIntensity: 'Heavy',
-  },
-  archive: {
-    label: 'Archive',
-    icon: 'Archive',
-    colorKey: 'success',
-    hapticsIntensity: 'Medium',
-  },
-  edit: {
-    label: 'Edit',
-    icon: 'Pencil',
-    colorKey: 'primary',
-    hapticsIntensity: 'Light',
-  },
-  share: {
-    label: 'Share',
-    icon: 'Share2',
-    colorKey: 'secondary',
-    hapticsIntensity: 'Light',
-  },
-  favorite: {
-    label: 'Favorite',
-    icon: 'Heart',
-    colorKey: 'warning',
-    hapticsIntensity: 'Light',
-  },
-  more: {
-    label: 'More',
-    icon: 'MoveHorizontal',
-    colorKey: 'textSecondary',
-    hapticsIntensity: 'Light',
-  },
-};
-
-/**
  * Default swipe configuration
  */
 export const DEFAULT_SWIPE_CONFIG: Required<Omit<SwipeableConfig, 'leftActions' | 'rightActions'>> = {
@@ -117,78 +69,18 @@ export const DEFAULT_SWIPE_CONFIG: Required<Omit<SwipeableConfig, 'leftActions' 
   friction: 2,
 };
 
-/**
- * Swipe action utility functions
- */
-export class SwipeActionUtils {
-  /**
-   * Gets preset configuration for action type
-   */
-  static getPreset(type: SwipeActionType) {
-    if (type === 'custom') {
-      return null;
-    }
-    return ACTION_PRESETS[type];
-  }
+// Re-export utilities for backward compatibility
+export {
+  ACTION_PRESETS,
+  getPreset,
+  getActionLabel,
+  getActionIcon,
+  getActionColorKey,
+  getHapticsIntensity,
+} from '../utils/swipeActionHelpers';
 
-  /**
-   * Validates swipe action configuration
-   */
-  static validateAction(action: SwipeActionConfig): boolean {
-    // Must have onPress handler
-    if (!action.onPress || typeof action.onPress !== 'function') {
-      return false;
-    }
-
-    // Custom actions must have label, icon, and color
-    if (action.type === 'custom') {
-      return !!(action.label && action.icon && action.color);
-    }
-
-    return true;
-  }
-
-  /**
-   * Gets action display label
-   */
-  static getLabel(action: SwipeActionConfig): string {
-    if (action.label) {
-      return action.label;
-    }
-
-    const preset = this.getPreset(action.type);
-    return preset?.label || 'Action';
-  }
-
-  /**
-   * Gets action icon name
-   */
-  static getIcon(action: SwipeActionConfig): IconName {
-    if (action.icon) {
-      return action.icon;
-    }
-
-    const preset = this.getPreset(action.type);
-    return preset?.icon || 'MoveHorizontal';
-  }
-
-  /**
-   * Gets action color key for theme
-   */
-  static getColorKey(action: SwipeActionConfig): string | null {
-    if (action.color) {
-      return null; // Use custom color
-    }
-
-    const preset = this.getPreset(action.type);
-    return preset?.colorKey || null;
-  }
-
-  /**
-   * Gets haptics intensity for action
-   */
-  static getHapticsIntensity(action: SwipeActionConfig): 'Light' | 'Medium' | 'Heavy' {
-    const preset = this.getPreset(action.type);
-    return preset?.hapticsIntensity || 'Light';
-  }
-}
+export {
+  validateSwipeAction,
+  validateSwipeActions,
+  getValidationError,
+} from '../utils/swipeActionValidator';

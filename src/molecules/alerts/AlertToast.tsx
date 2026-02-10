@@ -5,18 +5,19 @@
  * Floats on top of content.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert } from './AlertTypes';
 import { useAlertStore } from './AlertStore';
 import {
-  getAlertBackgroundColor,
-  getActionButtonStyle,
-  getActionTextColor,
-  DEFAULT_TOAST_DURATION,
-} from './utils/alertToastHelpers';
+    getAlertBackgroundColor,
+    getAlertTextColor,
+    getActionButtonStyle,
+    getActionTextColor,
+    DEFAULT_ALERT_DURATION,
+} from './utils/alertUtils';
 
 interface AlertToastProps {
   alert: Alert;
@@ -27,28 +28,28 @@ export function AlertToast({ alert }: AlertToastProps) {
   const tokens = useAppDesignTokens();
   const closeIcon = useIconName('close');
 
-  const dismiss = () => {
+  const dismiss = useCallback(() => {
     dismissAlert(alert.id);
     alert.onDismiss?.();
-  };
+  }, [alert.id, dismissAlert, alert.onDismiss]);
 
-  const handleDismiss = () => {
+  const handleDismiss = useCallback(() => {
     if (alert.dismissible) {
       dismiss();
     }
-  };
+  }, [alert.dismissible, dismiss]);
 
   // Auto-dismiss after duration
   useEffect(() => {
-    const duration = alert.duration ?? DEFAULT_TOAST_DURATION;
+    const duration = alert.duration ?? DEFAULT_ALERT_DURATION;
     if (duration <= 0) return;
 
     const timer = setTimeout(dismiss, duration);
     return () => clearTimeout(timer);
-  }, [alert.id, alert.duration]);
+  }, [alert.duration, dismiss]);
 
   const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
-  const textColor = tokens.colors.textInverse;
+  const textColor = getAlertTextColor(tokens);
 
   return (
     <View
