@@ -106,7 +106,7 @@ export type {
   CreateMultimediaCardData,
 } from "./domain/entities/MediaAttachments";
 
-// Media Hooks
+// Media Attachment Hooks
 export { useMediaUpload } from "./presentation/hooks/useMediaUpload";
 export { useMediaGeneration } from "./presentation/hooks/useMediaGeneration";
 export { useMediaValidation } from "./presentation/hooks/useMediaValidation";
@@ -117,3 +117,6 @@ export type {
   UseMediaValidationResult,
   UseMultimediaFlashcardResult,
 } from "./presentation/hooks/multimedia.types";
+
+// Media Attachment Services
+export { MultimediaFlashcardService } from "./infrastructure/services/MultimediaFlashcardService";

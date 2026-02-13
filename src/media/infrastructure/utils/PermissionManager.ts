@@ -5,7 +5,7 @@
  */
 
 import * as ImagePicker from "expo-image-picker";
-import { MediaLibraryPermission } from "../../domain/entities/MediaAttachments";
+import { MediaLibraryPermission } from "../../domain/entities/Media";
 import { mapPermissionStatus } from "./mediaPickerMappers";
 
 /**

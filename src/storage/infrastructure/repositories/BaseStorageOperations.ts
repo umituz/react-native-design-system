@@ -37,7 +37,7 @@ export class BaseStorageOperations {
         return failure(new StorageDeserializationError(key, parseError), defaultValue);
       }
     } catch (_error) {
-      return failure(new StorageReadError(key, error), defaultValue);
+      return failure(new StorageReadError(key, _error), defaultValue);
     }
   }
 
@@ -56,7 +56,7 @@ export class BaseStorageOperations {
       await AsyncStorage.setItem(key, serialized);
       return success(value);
     } catch (_error) {
-      return failure(new StorageWriteError(key, error));
+      return failure(new StorageWriteError(key, _error));
     }
   }
 
@@ -68,7 +68,7 @@ export class BaseStorageOperations {
       await AsyncStorage.removeItem(key);
       return success(undefined);
     } catch (_error) {
-      return failure(new StorageDeleteError(key, error));
+      return failure(new StorageDeleteError(key, _error));
     }
   }
 
@@ -92,7 +92,7 @@ export class BaseStorageOperations {
       await AsyncStorage.clear();
       return success(undefined);
     } catch (_error) {
-      return failure(new StorageDeleteError('ALL_KEYS', error));
+      return failure(new StorageDeleteError('ALL_KEYS', _error));
     }
   }
 }
