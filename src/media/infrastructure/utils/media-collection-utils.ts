@@ -1,14 +1,28 @@
-import type { MediaAttachment } from "../../domain/entities/MediaAttachments";
-
-// CardMediaAttachment is an alias of MediaAttachment
-type CardMediaAttachment = MediaAttachment;
+/**
+ * Media Collection Utilities
+ * Generic utilities for working with media collections
+ */
 
 type MediaType = "image" | "audio" | "video";
 
 const FILE_SIZE_UNITS = ["Bytes", "KB", "MB", "GB"] as const;
 
+/**
+ * Interface for media items with type property
+ */
+interface MediaWithType {
+  type: MediaType;
+}
+
+/**
+ * Interface for media items with file size
+ */
+interface MediaWithSize {
+  fileSize: number;
+}
+
 export function extractMediaTypes(
-  media: readonly (CardMediaAttachment | MediaAttachment)[]
+  media: readonly MediaWithType[]
 ): MediaType[] {
   const types = new Set<MediaType>();
   media.forEach((m) => types.add(m.type));
@@ -16,7 +30,7 @@ export function extractMediaTypes(
 }
 
 export function calculateTotalSize(
-  media: readonly (CardMediaAttachment | MediaAttachment)[]
+  media: readonly MediaWithSize[]
 ): number {
   return media.reduce((total, m) => total + m.fileSize, 0);
 }
