@@ -24,6 +24,10 @@ export interface AtomicButtonProps {
   readonly textStyle?: StyleProp<TextStyle>;
   readonly activeOpacity?: number;
   readonly testID?: string;
+  // Accessibility props
+  readonly accessibilityLabel?: string;
+  readonly accessibilityHint?: string;
+  readonly accessibilityRole?: 'button' | 'link';
 }
 
 export interface ButtonSizeConfig {

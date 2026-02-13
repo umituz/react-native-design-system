@@ -7,7 +7,6 @@
 import { storageRepository } from '../../infrastructure/repositories/AsyncStorageRepository';
 import type { CachedValue } from '../../domain/entities/CachedValue';
 import { createCachedValue } from '../../domain/entities/CachedValue';
-import { devWarn } from '../../domain/utils/devUtils';
 import { isValidCachedValue } from '../../domain/utils/ValidationUtils';
 
 export interface CacheStorageOptions {
@@ -56,16 +55,11 @@ export class CacheStorageOperations {
           return parsed as CachedValue<T>;
         }
 
-        if (__DEV__) {
-          devWarn(`CacheStorageOperations: Invalid cached data structure for key "${key}"`);
-        }
-
         return null;
       }
 
       return null;
     } catch (error) {
-      devWarn(`CacheStorageOperations: Failed to load cache for key "${key}"`, error);
       return null;
     }
   }
@@ -86,7 +80,7 @@ export class CacheStorageOperations {
       const cached = createCachedValue(value, ttl || 0, version);
       await storageRepository.setString(key, JSON.stringify(cached));
     } catch (error) {
-      devWarn(`CacheStorageOperations: Failed to save cache for key "${key}"`, error);
+      // Silent failure
     }
   }
 
@@ -99,7 +93,7 @@ export class CacheStorageOperations {
     try {
       await storageRepository.removeItem(key);
     } catch (error) {
-      devWarn(`CacheStorageOperations: Failed to clear cache for key "${key}"`, error);
+      // Silent failure
     }
   }
 }

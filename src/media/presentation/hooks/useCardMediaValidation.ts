@@ -6,7 +6,10 @@
 import { useState, useCallback } from "react";
 import { formatFileSize } from "../../infrastructure/utils/media-collection-utils";
 import type { UseCardMediaValidationResult } from "./card-multimedia.types";
-import type { CardMediaValidation, CardMediaFile } from "../../domain/entities/CardMultimedia.types";
+import type {
+  MediaValidation as CardMediaValidation,
+  MediaFile as CardMediaFile,
+} from "../../domain/entities/MultimediaFlashcardTypes";
 
 export const useCardMediaValidation = (): UseCardMediaValidationResult => {
   const [isValidating, setIsValidating] = useState(false);

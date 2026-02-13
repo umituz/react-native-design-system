@@ -1,12 +1,10 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 
 interface UseInputStateProps {
   value?: string;
   onChangeText?: (text: string) => void;
   secureTextEntry?: boolean;
-  showPasswordToggle?: boolean;
   maxLength?: number;
-  showCharacterCount?: boolean;
 }
 
 interface UseInputStateReturn {
@@ -24,9 +22,7 @@ export const useInputState = ({
   value = '',
   onChangeText,
   secureTextEntry = false,
-  showPasswordToggle: _showPasswordToggle = false,
   maxLength,
-  showCharacterCount: _showCharacterCount = false,
 }: UseInputStateProps = {}): UseInputStateReturn => {
   const [localValue, setLocalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
@@ -49,7 +45,7 @@ export const useInputState = ({
   const characterCount = localValue.length;
   const isAtMaxLength = maxLength ? characterCount >= maxLength : false;
 
-  return {
+  return useMemo(() => ({
     localValue,
     isFocused,
     isPasswordVisible,
@@ -58,5 +54,5 @@ export const useInputState = ({
     setIsFocused,
     handleTextChange,
     togglePasswordVisibility,
-  };
+  }), [localValue, isFocused, isPasswordVisible, characterCount, isAtMaxLength, handleTextChange, togglePasswordVisibility]);
 };

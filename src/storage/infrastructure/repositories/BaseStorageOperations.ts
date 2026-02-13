@@ -14,7 +14,6 @@ import {
   StorageSerializationError,
   StorageDeserializationError,
 } from '../../domain/errors/StorageError';
-import { devWarn } from '../../domain/utils/devUtils';
 
 /**
  * Base storage operations implementation
@@ -81,8 +80,6 @@ export class BaseStorageOperations {
       const value = await AsyncStorage.getItem(key);
       return value !== null;
     } catch (error) {
-      const errorMessage = `BaseStorageOperations: Failed to check if key "${key}" exists`;
-      devWarn(errorMessage, error);
       return false;
     }
   }

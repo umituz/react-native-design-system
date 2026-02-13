@@ -8,11 +8,11 @@ import { generateThumbnail, getMediaDuration } from "../../infrastructure/utils/
 import { getMediaTypeFromMime } from "../../infrastructure/utils/mime-type-detector";
 import type { UseCardMediaUploadResult } from "./card-multimedia.types";
 import type {
-  CardMediaAttachment,
-  CardMediaCompressionOptions,
-  CardMediaFile,
-  CardMediaUploadProgress,
-} from "../../domain/entities/CardMultimedia.types";
+  MediaAttachment as CardMediaAttachment,
+  MediaCompressionOptions as CardMediaCompressionOptions,
+  MediaFile as CardMediaFile,
+  MediaUploadProgress as CardMediaUploadProgress,
+} from "../../domain/entities/MultimediaFlashcardTypes";
 
 export const useCardMediaUpload = (): UseCardMediaUploadResult => {
   const [isUploading, setIsUploading] = useState(false);

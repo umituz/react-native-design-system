@@ -82,7 +82,7 @@ export { TIME_MS, DEFAULT_TTL, CACHE_VERSION } from './domain/constants/CacheDef
 // DOMAIN LAYER - Development Utilities
 // =============================================================================
 
-export { isDev, devWarn, devError, devLog } from './domain/utils/devUtils';
+export { isDev } from './domain/utils/devUtils';
 
 // =============================================================================
 // DOMAIN LAYER - Store Types

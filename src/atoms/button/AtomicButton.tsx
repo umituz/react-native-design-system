@@ -29,6 +29,9 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
   textStyle,
   activeOpacity = 0.8,
   testID,
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole = 'button',
 }) => {
   const tokens = useAppDesignTokens();
 
@@ -80,6 +83,10 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
       activeOpacity={activeOpacity}
       disabled={isDisabled}
       testID={testID}
+      accessibilityRole={accessibilityRole}
+      accessibilityLabel={accessibilityLabel || title || (typeof children === 'string' ? children : 'Button')}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
     >
       {loading ? (
         <AtomicSpinner

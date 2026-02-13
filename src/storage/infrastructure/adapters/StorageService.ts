@@ -6,7 +6,6 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { devWarn } from '../../domain/utils/devUtils';
 import type { StateStorage } from '../../domain/types/Store';
 
 /**
@@ -18,8 +17,6 @@ export const storageService: StateStorage = {
     try {
       return await AsyncStorage.getItem(name);
     } catch (error) {
-      const errorMessage = `StorageService: Failed to get item "${name}"`;
-      devWarn(errorMessage, error);
       return null;
     }
   },
@@ -28,8 +25,7 @@ export const storageService: StateStorage = {
     try {
       await AsyncStorage.setItem(name, value);
     } catch (error) {
-      const errorMessage = `StorageService: Failed to set item "${name}"`;
-      devWarn(errorMessage, error);
+      // Silent failure
     }
   },
 
@@ -37,8 +33,7 @@ export const storageService: StateStorage = {
     try {
       await AsyncStorage.removeItem(name);
     } catch (error) {
-      const errorMessage = `StorageService: Failed to remove item "${name}"`;
-      devWarn(errorMessage, error);
+      // Silent failure
     }
   },
 };

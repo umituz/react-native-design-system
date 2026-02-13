@@ -8,7 +8,7 @@
  * @layer presentation/hooks
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { SharingService } from '../../infrastructure/services/SharingService';
 import type { ShareOptions } from '../../domain/entities/Share';
 
@@ -140,7 +140,7 @@ export const useSharing = () => {
     []
   );
 
-  return {
+  return useMemo(() => ({
     // Functions
     share,
     shareWithAutoType,
@@ -150,5 +150,5 @@ export const useSharing = () => {
     isAvailable,
     isSharing,
     error,
-  };
+  }), [share, shareWithAutoType, shareMultiple, isAvailable, isSharing, error]);
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { AtomicIcon, useIconName } from '../../../atoms';
@@ -20,7 +20,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   const insets = useSafeAreaInsets();
   const arrowLeftIcon = useIconName('arrowLeft');
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       paddingTop: insets.top,
       paddingHorizontal: tokens.spacing.md,
@@ -45,7 +45,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       flex: 1,
       textAlign: 'left',
     },
-  });
+  }), [tokens, insets]);
 
   return (
     <View style={styles.container}>

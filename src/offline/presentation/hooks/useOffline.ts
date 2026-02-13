@@ -10,6 +10,7 @@ import type { NetworkState as ExpoNetworkState } from 'expo-network';
 import type { NetworkState, OfflineConfig } from '../../types';
 import { useOfflineStore } from '../../infrastructure/storage/OfflineStore';
 import { networkEvents } from '../../infrastructure/events/NetworkEvents';
+import { useOfflineConfigStore } from '../../infrastructure/storage/OfflineConfigStore';
 
 /**
  * Convert expo-network state to our internal format
@@ -21,14 +22,17 @@ const toNetworkState = (state: ExpoNetworkState): NetworkState => ({
   details: null,
 });
 
-let globalConfig: OfflineConfig = {};
-
+/**
+ * Configure offline settings globally
+ * This is a facade over the config store for backward compatibility
+ */
 export const configureOffline = (config: OfflineConfig): void => {
-  globalConfig = config;
+  useOfflineConfigStore.getState().setConfig(config);
 };
 
 export const useOffline = (config?: OfflineConfig) => {
   const store = useOfflineStore();
+  const globalConfig = useOfflineConfigStore((state) => state.config);
   const isInitialized = useRef(false);
   const previousStateRef = useRef<NetworkState | null>(null);
   const isMountedRef = useRef(true);
@@ -36,7 +40,7 @@ export const useOffline = (config?: OfflineConfig) => {
   // Memoize merged config to prevent unnecessary effect re-runs
   const mergedConfig = useMemo(
     () => ({ ...globalConfig, ...config }),
-    [config]
+    [globalConfig, config]
   );
 
   const handleNetworkStateChange = useCallback((state: ExpoNetworkState) => {

@@ -14,6 +14,7 @@ export type {
 
 // Store
 export { useOfflineStore } from './infrastructure/storage/OfflineStore';
+export { useOfflineConfigStore } from './infrastructure/storage/OfflineConfigStore';
 
 // Hooks
 export { useOffline, configureOffline } from './presentation/hooks/useOffline';

@@ -34,12 +34,30 @@ export const canGoBack = (): boolean => navigationRef?.canGoBack() ?? false;
 
 /**
  * Navigate to a specific route.
+ * Supports both simple and nested navigation.
  */
 export const navigate = (name: string, params?: object): void => {
     if (__DEV__) {
     }
     if (navigationRef?.isReady()) {
-        navigationRef.navigate(name, params);
+        navigationRef.navigate(name as never, params as never);
+    }
+};
+
+/**
+ * Navigate to a nested screen in a specific navigator.
+ * @param navigatorName - The name of the parent navigator
+ * @param screenName - The name of the screen within that navigator
+ * @param params - Optional parameters to pass to the screen
+ */
+export const navigateNested = (navigatorName: string, screenName: string, params?: object): void => {
+    if (__DEV__) {
+    }
+    if (navigationRef?.isReady()) {
+        navigationRef.navigate(navigatorName as never, {
+            screen: screenName,
+            params,
+        } as never);
     }
 };
 
@@ -130,6 +148,7 @@ export const AppNavigation = {
     isReady,
     canGoBack,
     navigate,
+    navigateNested,
     push,
     goBack,
     reset,
