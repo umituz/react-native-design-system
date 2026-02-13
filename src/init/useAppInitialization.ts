@@ -40,7 +40,7 @@ export function useAppInitialization(
   useEffect(() => {
     onReadyRef.current = onReady;
     onErrorRef.current = onError;
-  });
+  }, [onReady, onError]);
 
   useEffect(() => {
     if (skip) {

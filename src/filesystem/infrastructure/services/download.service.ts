@@ -30,7 +30,12 @@ export async function downloadFile(url: string, dest?: string): Promise<FileOper
   } catch (e: unknown) { return { success: false, error: e instanceof Error ? e.message : String(e) }; }
 }
 
-export async function downloadFileWithProgress(url: string, cacheDir: string, onProgress?: DownloadProgressCallback): Promise<DownloadWithProgressResult> {
+export async function downloadFileWithProgress(
+  url: string,
+  cacheDir: string,
+  onProgress?: DownloadProgressCallback,
+  signal?: AbortSignal
+): Promise<DownloadWithProgressResult> {
   try {
     const dir = new Directory(cacheDir);
     if (!dir.exists) dir.create({ intermediates: true, idempotent: true });
@@ -38,9 +43,9 @@ export async function downloadFileWithProgress(url: string, cacheDir: string, on
     const destUri = getCacheUri(url, cacheDir);
     if (new File(destUri).exists) return { success: true, uri: destUri, fromCache: true };
 
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
+
     const totalBytes = parseInt(response.headers.get("content-length") || "0", 10);
     if (!response.body) return { ...(await downloadFile(url, destUri)), fromCache: false };
 
@@ -48,20 +53,29 @@ export async function downloadFileWithProgress(url: string, cacheDir: string, on
     const chunks: Uint8Array[] = [];
     let received = 0;
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-      received += value.length;
-      onProgress?.({ totalBytesWritten: received, totalBytesExpectedToWrite: totalBytes || received });
+    try {
+      while (true) {
+        if (signal?.aborted) {
+          await reader.cancel();
+          throw new Error("Download aborted");
+        }
+
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        received += value.length;
+        onProgress?.({ totalBytesWritten: received, totalBytesExpectedToWrite: totalBytes || received });
+      }
+
+      const all = new Uint8Array(received);
+      let pos = 0;
+      for (const c of chunks) { all.set(c, pos); pos += c.length; }
+      new File(destUri).write(all);
+
+      return { success: true, uri: destUri, fromCache: false };
+    } finally {
+      reader.releaseLock();
     }
-
-    const all = new Uint8Array(received);
-    let pos = 0;
-    for (const c of chunks) { all.set(c, pos); pos += c.length; }
-    new File(destUri).write(all);
-
-    return { success: true, uri: destUri, fromCache: false };
   } catch (e: unknown) { return { success: false, error: e instanceof Error ? e.message : String(e) }; }
 }
 
