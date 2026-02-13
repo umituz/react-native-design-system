@@ -9,7 +9,7 @@ import type { UseMediaGenerationResult } from "./multimedia.types";
 import type {
   MediaAttachment,
   MediaGenerationRequest,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 export const useMediaGeneration = (): UseMediaGenerationResult => {
   return useGenericMediaGeneration<MediaAttachment, MediaGenerationRequest>(

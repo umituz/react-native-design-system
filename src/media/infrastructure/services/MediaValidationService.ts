@@ -4,7 +4,7 @@
  */
 
 import { formatFileSize } from "../utils/media-collection-utils";
-import type { MediaValidation, MediaFile } from "../../domain/entities/MultimediaFlashcardTypes";
+import type { MediaValidation, MediaFile } from "../../domain/entities/MediaAttachments";
 
 export class MediaValidationService {
   /**

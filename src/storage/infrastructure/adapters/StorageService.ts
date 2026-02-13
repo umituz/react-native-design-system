@@ -16,7 +16,7 @@ export const storageService: StateStorage = {
   getItem: async (name: string): Promise<string | null> => {
     try {
       return await AsyncStorage.getItem(name);
-    } catch (error) {
+    } catch (_error) {
       return null;
     }
   },
@@ -24,7 +24,7 @@ export const storageService: StateStorage = {
   setItem: async (name: string, value: string): Promise<void> => {
     try {
       await AsyncStorage.setItem(name, value);
-    } catch (error) {
+    } catch (_error) {
       // Silent failure
     }
   },
@@ -32,7 +32,7 @@ export const storageService: StateStorage = {
   removeItem: async (name: string): Promise<void> => {
     try {
       await AsyncStorage.removeItem(name);
-    } catch (error) {
+    } catch (_error) {
       // Silent failure
     }
   },

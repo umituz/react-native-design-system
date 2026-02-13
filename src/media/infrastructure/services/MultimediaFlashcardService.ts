@@ -10,7 +10,7 @@ import type {
   MediaGenerationResult,
   MediaCompressionOptions,
   MediaValidation,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 import { MediaUploadService } from "./MediaUploadService";
 import { MediaGenerationService } from "./MediaGenerationService";
 import { MediaValidationService } from "./MediaValidationService";

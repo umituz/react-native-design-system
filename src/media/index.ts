@@ -91,28 +91,29 @@ export {
   type SaveToGalleryResult,
 } from "./infrastructure/utils/file-media-utils";
 
-// Multimedia Flashcard Support
+// Media Attachment Types (Clean, no aliases)
 export type {
-  CardMediaType,
-  CardMediaPosition,
-  CardMediaAttachment,
-  CardMultimediaFlashcard,
-  CardMediaGenerationRequest,
-  CardMediaGenerationResult,
-  CardMediaUploadProgress,
-  CardMediaCompressionOptions,
-  CardMediaValidation,
-} from "./domain/entities/CardMultimedia.types";
+  MediaAttachmentType,
+  MediaPosition,
+  MediaAttachment,
+  MultimediaFlashcard,
+  MediaGenerationRequest,
+  MediaGenerationResult,
+  MediaUploadProgress,
+  MediaCompressionOptions,
+  MediaValidation,
+  MediaFile,
+  CreateMultimediaCardData,
+} from "./domain/entities/MediaAttachments";
 
-export { CardMultimediaFlashcardService } from "./infrastructure/services/CardMultimediaService";
-
-export {
-  useCardMediaUpload,
-  useCardMediaGeneration,
-  useCardMediaValidation,
-  useCardMultimediaFlashcard,
-  type UseCardMediaUploadResult,
-  type UseCardMediaGenerationResult,
-  type UseCardMediaValidationResult,
-  type UseCardMultimediaFlashcardResult,
-} from "./presentation/hooks/useCardMultimediaFlashcard";
+// Media Hooks
+export { useMediaUpload } from "./presentation/hooks/useMediaUpload";
+export { useMediaGeneration } from "./presentation/hooks/useMediaGeneration";
+export { useMediaValidation } from "./presentation/hooks/useMediaValidation";
+export { useMultimediaFlashcard } from "./presentation/hooks/useMultimediaFlashcard";
+export type {
+  UseMediaUploadResult,
+  UseMediaGenerationResult,
+  UseMediaValidationResult,
+  UseMultimediaFlashcardResult,
+} from "./presentation/hooks/multimedia.types";

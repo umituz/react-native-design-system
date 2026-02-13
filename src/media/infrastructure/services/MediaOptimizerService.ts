@@ -6,7 +6,7 @@
 import type {
   MediaAttachment,
   MediaCompressionOptions,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 export class MediaOptimizerService {
   /**

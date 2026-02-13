@@ -1,5 +1,7 @@
-import type { CardMediaAttachment } from "../../domain/entities/CardMultimedia.types";
-import type { MediaAttachment } from "../../domain/entities/MultimediaFlashcardTypes";
+import type { MediaAttachment } from "../../domain/entities/MediaAttachments";
+
+// CardMediaAttachment is an alias of MediaAttachment
+type CardMediaAttachment = MediaAttachment;
 
 type MediaType = "image" | "audio" | "video";
 

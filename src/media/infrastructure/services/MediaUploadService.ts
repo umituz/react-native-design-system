@@ -7,7 +7,7 @@ import type {
   MediaAttachment,
   MediaCompressionOptions,
   MediaFile,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 import { generateThumbnail, getMediaDuration } from "../utils/file-media-utils";
 import { getMediaTypeFromMime } from "../utils/mime-type-detector";
 

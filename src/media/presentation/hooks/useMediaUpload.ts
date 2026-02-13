@@ -12,7 +12,7 @@ import type {
   MediaCompressionOptions,
   MediaFile,
   MediaUploadProgress,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 export const useMediaUpload = (): UseMediaUploadResult => {
   const [isUploading, setIsUploading] = useState(false);

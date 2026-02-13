@@ -12,8 +12,8 @@ import type {
   MediaPickerOptions,
   MediaPickerResult,
   CameraOptions,
-} from "../../domain/entities/Media";
-import { MediaLibraryPermission } from "../../domain/entities/Media";
+} from "../../domain/entities/MediaAttachments";
+import { MediaLibraryPermission } from "../../domain/entities/MediaAttachments";
 
 /**
  * useMedia hook for complete media workflow

@@ -10,7 +10,7 @@ import type {
   MediaAttachment,
   MultimediaFlashcard,
   CreateMultimediaCardData,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 // Export individual hooks
 export { useMediaUpload } from "./useMediaUpload";

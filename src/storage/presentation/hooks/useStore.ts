@@ -16,7 +16,6 @@ export function useStore<T extends object>(config: StoreConfig<T>) {
       config.version,
       config.persist,
       config.storage,
-      config.ttl,
     ]
   );
 

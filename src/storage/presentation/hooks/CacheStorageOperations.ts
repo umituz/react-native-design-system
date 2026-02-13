@@ -59,7 +59,7 @@ export class CacheStorageOperations {
       }
 
       return null;
-    } catch (error) {
+    } catch (_error) {
       return null;
     }
   }
@@ -79,7 +79,7 @@ export class CacheStorageOperations {
     try {
       const cached = createCachedValue(value, ttl || 0, version);
       await storageRepository.setString(key, JSON.stringify(cached));
-    } catch (error) {
+    } catch (_error) {
       // Silent failure
     }
   }
@@ -92,7 +92,7 @@ export class CacheStorageOperations {
 
     try {
       await storageRepository.removeItem(key);
-    } catch (error) {
+    } catch (_error) {
       // Silent failure
     }
   }

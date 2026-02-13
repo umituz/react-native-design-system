@@ -1,22 +1,22 @@
 /**
- * Multimedia Flashcard Types
- * Extended media types for flashcard support
+ * Media Attachments Types
+ * Types for media attachments in flashcards and content
  */
 
-export type MediaType = "image" | "audio" | "video";
+export type MediaAttachmentType = "image" | "audio" | "video";
 export type MediaPosition = "front" | "back" | "both";
 
 export interface MediaAttachment {
   id: string;
-  type: MediaType;
+  type: MediaAttachmentType;
   position: MediaPosition;
   url: string;
   localPath?: string;
   filename: string;
   fileSize: number;
   mimeType: string;
-  duration?: number; // For audio/video in seconds
-  thumbnailUrl?: string; // For videos
+  duration?: number;
+  thumbnailUrl?: string;
   caption?: string;
   isDownloaded: boolean;
   createdAt: string;
@@ -30,12 +30,11 @@ export interface MultimediaFlashcard {
   tags: string[];
   createdAt?: string;
   updatedAt?: string;
-  // Extended properties for multimedia support
   media: MediaAttachment[];
-  hasMedia: boolean; // Computed property
-  mediaType: MediaType[]; // Array of media types present
-  isDownloaded: boolean; // All media downloaded?
-  estimatedSize: number; // Total size in bytes
+  hasMedia: boolean;
+  mediaType: MediaAttachmentType[];
+  isDownloaded: boolean;
+  estimatedSize: number;
 }
 
 export interface MediaGenerationRequest {
@@ -65,17 +64,17 @@ export interface MediaGenerationResult {
 
 export interface MediaUploadProgress {
   fileId: string;
-  progress: number; // 0-100
+  progress: number;
   status: "uploading" | "processing" | "completed" | "error";
   error?: string;
   url?: string;
 }
 
 export interface MediaCompressionOptions {
-  quality: number; // 0.1 - 1.0
+  quality: number;
   maxWidth?: number;
   maxHeight?: number;
-  maxFileSize?: number; // bytes
+  maxFileSize?: number;
   format?: "jpeg" | "png" | "webp";
 }
 
@@ -99,22 +98,4 @@ export interface MediaValidation {
   errors: string[];
   warnings: string[];
   recommendations: string[];
-}
-
-export interface MultimediaFlashcardService {
-  uploadMedia(
-    file: MediaFile,
-    options?: MediaCompressionOptions,
-  ): Promise<MediaAttachment>;
-  generateMedia(
-    request: MediaGenerationRequest,
-  ): Promise<MediaGenerationResult>;
-  validateMedia(file: MediaFile): Promise<MediaValidation>;
-  optimizeMedia(
-    attachment: MediaAttachment,
-    options: MediaCompressionOptions,
-  ): Promise<MediaAttachment>;
-  deleteMedia(attachmentId: string): Promise<void>;
-  getMediaUrl(attachmentId: string): Promise<string>;
-  downloadMedia(attachmentId: string): Promise<string>; // Returns local path
 }

@@ -40,7 +40,7 @@ export const navigate = (name: string, params?: object): void => {
     if (__DEV__) {
     }
     if (navigationRef?.isReady()) {
-        navigationRef.navigate(name as never, params as never);
+        navigationRef.navigate(name, params);
     }
 };
 
@@ -54,10 +54,10 @@ export const navigateNested = (navigatorName: string, screenName: string, params
     if (__DEV__) {
     }
     if (navigationRef?.isReady()) {
-        navigationRef.navigate(navigatorName as never, {
+        navigationRef.navigate(navigatorName, {
             screen: screenName,
             params,
-        } as never);
+        });
     }
 };
 

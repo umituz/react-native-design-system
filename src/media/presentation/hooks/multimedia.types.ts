@@ -13,7 +13,7 @@ import type {
   MediaUploadProgress,
   MultimediaFlashcard,
   CreateMultimediaCardData,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 export interface UseMediaUploadResult {
   uploadMedia: (

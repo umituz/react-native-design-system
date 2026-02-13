@@ -57,9 +57,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
     value,
     onChangeText,
     secureTextEntry,
-    showPasswordToggle,
     maxLength,
-    showCharacterCount,
   });
 
   const isDisabled = state === 'disabled' || disabled;

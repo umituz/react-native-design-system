@@ -9,7 +9,7 @@ import type {
   MediaGenerationResult,
   MediaType,
   MediaPosition,
-} from "../../domain/entities/MultimediaFlashcardTypes";
+} from "../../domain/entities/MediaAttachments";
 
 export class MediaGenerationService {
   /**

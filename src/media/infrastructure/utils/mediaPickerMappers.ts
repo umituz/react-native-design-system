@@ -9,7 +9,7 @@ import {
   MediaType,
   type MediaAsset,
   type MediaPickerResult,
-} from "../../domain/entities/Media";
+} from "../../domain/entities/MediaAttachments";
 
 /**
  * Map expo-image-picker permission status to MediaLibraryPermission

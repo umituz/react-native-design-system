@@ -7,10 +7,10 @@ import { useState, useCallback } from "react";
 import { calculateTotalSize, extractMediaTypes } from "../../infrastructure/utils/media-collection-utils";
 import type { UseCardMultimediaFlashcardResult } from "./card-multimedia.types";
 import type {
-  CardMediaAttachment,
-  CardMultimediaFlashcard,
-  CreateCardMultimediaData,
-} from "../../domain/entities/CardMultimedia.types";
+  MediaAttachment as CardMediaAttachment,
+  MultimediaFlashcard as CardMultimediaFlashcard,
+  CreateMultimediaCardData as CreateCardMultimediaData,
+} from "../../domain/entities/MediaAttachments";
 
 // Export individual hooks
 export { useCardMediaUpload } from "./useCardMediaUpload";
