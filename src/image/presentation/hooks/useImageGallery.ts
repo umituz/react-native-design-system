@@ -2,7 +2,7 @@
  * Presentation - Image Gallery Hook
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { ImageViewerService } from '../../infrastructure/services/ImageViewerService';
 import type {
   ImageViewerItem,
@@ -29,6 +29,13 @@ export const useImageGallery = (
     defaultOptions || ImageViewerService.getDefaultOptions()
   );
 
+  // Use ref to track latest options and avoid stale closures
+  const optionsRef = useRef(galleryOptions);
+
+  useEffect(() => {
+    optionsRef.current = galleryOptions;
+  }, [galleryOptions]);
+
   const open = useCallback(
     (
       imageData: ImageViewerItem[] | string[],
@@ -44,32 +51,32 @@ export const useImageGallery = (
       setCurrentIndex(options?.index ?? startIndex);
 
       if (options) {
-        setGalleryOptions({
-          ...galleryOptions,
+        setGalleryOptions(prev => ({
+          ...prev,
           ...options,
-        });
+        }));
       }
 
       setVisible(true);
     },
-    [galleryOptions]
+    []
   );
 
   const close = useCallback(() => {
     setVisible(false);
 
-    if (galleryOptions.onDismiss) {
-      galleryOptions.onDismiss();
+    if (optionsRef.current.onDismiss) {
+      optionsRef.current.onDismiss();
     }
-  }, [galleryOptions]);
+  }, []);
 
   const setIndex = useCallback((index: number) => {
     setCurrentIndex(index);
 
-    if (galleryOptions.onIndexChange) {
-      galleryOptions.onIndexChange(index);
+    if (optionsRef.current.onIndexChange) {
+      optionsRef.current.onIndexChange(index);
     }
-  }, [galleryOptions]);
+  }, []);
 
   const options = useMemo(() => ({
     backgroundColor: galleryOptions.backgroundColor || '#000000',

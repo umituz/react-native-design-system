@@ -33,16 +33,22 @@ export const useOnboardingNavigation = (
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToNext = useCallback(() => {
-    if (currentIndex < totalSlides - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  }, [currentIndex, totalSlides]);
+    setCurrentIndex(prev => {
+      if (prev < totalSlides - 1) {
+        return prev + 1;
+      }
+      return prev;
+    });
+  }, [totalSlides]);
 
   const goToPrevious = useCallback(() => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  }, [currentIndex]);
+    setCurrentIndex(prev => {
+      if (prev > 0) {
+        return prev - 1;
+      }
+      return prev;
+    });
+  }, []);
 
   const complete = useCallback(async () => {
     if (onComplete) {

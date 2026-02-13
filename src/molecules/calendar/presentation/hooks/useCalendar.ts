@@ -88,18 +88,24 @@ export const useCalendarPresentation = (): UseCalendarReturn => {
   // Load events on mount
   useEffect(() => {
     actions.loadEvents();
-  }, []);
+  }, [actions.loadEvents]);
 
   // Get events for selected date
   const selectedDateEvents = useMemo(() => {
-    return actions.getEventsForDate(selectedDate);
+    return events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.toDateString() === selectedDate.toDateString();
+    });
   }, [selectedDate, events]);
 
   // Get events for current month
   const currentMonthEvents = useMemo(() => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-    return actions.getEventsForMonth(year, month);
+    return events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+    });
   }, [currentMonth, events]);
 
   return {

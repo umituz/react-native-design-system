@@ -86,8 +86,12 @@ export function usePrefetchOnMount<TData = unknown>(
   options: PrefetchOptions = {},
 ) {
   const queryClient = useQueryClient();
+  const hasPrefetchedRef = useRef(false);
 
   useEffect(() => {
+    if (hasPrefetchedRef.current) return;
+
+    hasPrefetchedRef.current = true;
     queryClient.prefetchQuery({
       queryKey,
       queryFn,
