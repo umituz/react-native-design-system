@@ -66,10 +66,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                                     title={action.label}
                                     variant={action.style === 'destructive' ? 'danger' : action.style === 'secondary' ? 'secondary' : 'primary'}
                                     onPress={async () => {
-                                        await action.onPress();
                                         if (action.closeOnPress ?? true) {
                                             handleClose();
                                         }
+                                        await action.onPress();
                                     }}
                                     fullWidth
                                 />
