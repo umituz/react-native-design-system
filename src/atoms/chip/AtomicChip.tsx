@@ -3,7 +3,7 @@
  * Refactored: Extracted configs, styles, and types
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../icon';
@@ -33,10 +33,10 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const sizeConfig = getChipSizeConfig(size, tokens);
-  const colorConfig = getChipColorConfig(color, variant, tokens);
-  const borderStyle = getChipBorderStyle(variant, tokens);
-  const selectedStyle = getChipSelectedStyle(selected, tokens);
+  const sizeConfig = useMemo(() => getChipSizeConfig(size, tokens), [size, tokens]);
+  const colorConfig = useMemo(() => getChipColorConfig(color, variant, tokens), [color, variant, tokens]);
+  const borderStyle = useMemo(() => getChipBorderStyle(variant, tokens), [variant, tokens]);
+  const selectedStyle = useMemo(() => getChipSelectedStyle(selected, tokens), [selected, tokens]);
 
   // Apply custom colors if provided
   const finalBackgroundColor = backgroundColor || colorConfig.bg;

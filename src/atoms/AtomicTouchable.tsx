@@ -16,6 +16,18 @@ export interface AtomicTouchableProps {
   activeOpacity?: number;
   style?: StyleProp<ViewStyle>;
   testID?: string;
+  // Accessibility props
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  accessibilityRole?: 'button' | 'link' | 'none' | 'text' | 'search' | 'image' | 'adjustable' | 'imagebutton' | 'header' | 'summary' | 'alert' | 'checkbox' | 'combobox' | 'menu' | 'menubar' | 'menuitem' | 'progressbar' | 'radio' | 'radiogroup' | 'scrollbar' | 'spinbutton' | 'switch' | 'tab' | 'tablist' | 'timer' | 'toolbar';
+  accessibilityState?: {
+    disabled?: boolean;
+    selected?: boolean;
+    checked?: boolean | 'mixed';
+    busy?: boolean;
+    expanded?: boolean;
+  };
+  accessible?: boolean;
 }
 
 export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
@@ -26,6 +38,11 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
   activeOpacity = 0.7,
   style,
   testID,
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole = 'button',
+  accessibilityState,
+  accessible = true,
 }) => {
   return (
     <TouchableOpacity
@@ -35,6 +52,11 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
       activeOpacity={activeOpacity}
       style={style}
       testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      accessibilityRole={accessibilityRole}
+      accessibilityState={{ ...accessibilityState, disabled }}
+      accessible={accessible}
     >
       {children}
     </TouchableOpacity>

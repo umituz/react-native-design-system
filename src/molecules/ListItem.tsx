@@ -14,8 +14,22 @@ export const ListItem: React.FC<ListItemProps> = ({
   const listItemStyles = getListItemStyles(tokens);
   const Component = onPress ? TouchableOpacity : View;
 
+  const accessibilityProps = onPress
+    ? {
+        accessibilityRole: 'button' as const,
+        accessibilityLabel: title,
+        accessibilityState: { disabled },
+      }
+    : {};
+
   return (
-    <Component style={[listItemStyles.container, disabled ? listItemStyles.disabled : undefined, style]} onPress={onPress} disabled={disabled} activeOpacity={0.7}>
+    <Component
+      style={[listItemStyles.container, disabled ? listItemStyles.disabled : undefined, style]}
+      onPress={onPress}
+      disabled={disabled}
+      activeOpacity={0.7}
+      {...accessibilityProps}
+    >
       {leftIcon && (
         <AtomicIcon 
           name={leftIcon} 

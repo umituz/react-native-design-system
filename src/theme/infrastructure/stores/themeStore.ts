@@ -20,6 +20,8 @@ interface ThemeState {
   defaultThemeMode: ThemeMode;
   isDark: boolean;
   isInitialized: boolean;
+  _updateInProgress: boolean;
+  _initInProgress: boolean;
 }
 
 interface ThemeActions {
@@ -32,9 +34,6 @@ interface ThemeActions {
   initialize: () => Promise<void>;
 }
 
-let themeUpdateInProgress = false;
-let themeInitInProgress = false;
-
 export const useTheme = createStore<ThemeState, ThemeActions>({
   name: 'theme-store',
   initialState: {
@@ -45,14 +44,16 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     defaultThemeMode: 'dark',
     isDark: true,
     isInitialized: false,
+    _updateInProgress: false,
+    _initInProgress: false,
   },
   persist: false,
   actions: (set, get) => ({
     initialize: async () => {
-      const { isInitialized, customColors: currentColors, defaultThemeMode } = get();
-      if (isInitialized || themeInitInProgress) return;
+      const { isInitialized, _initInProgress, customColors: currentColors, defaultThemeMode } = get();
+      if (isInitialized || _initInProgress) return;
 
-      themeInitInProgress = true;
+      set({ _initInProgress: true });
 
       try {
         const [savedMode, savedColors] = await Promise.all([
@@ -77,16 +78,17 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
         dsTheme.setThemeMode(mode);
         dsTheme.setCustomColors(colors);
       } catch {
-        set({ isInitialized: true });
+        set({ isInitialized: true, _initInProgress: false });
         useDesignSystemTheme.getState().setThemeMode(defaultThemeMode);
       } finally {
-        themeInitInProgress = false;
+        set({ _initInProgress: false });
       }
     },
 
     setThemeMode: async (mode: ThemeMode) => {
-      if (themeUpdateInProgress) return;
-      themeUpdateInProgress = true;
+      const { _updateInProgress } = get();
+      if (_updateInProgress) return;
+      set({ _updateInProgress: true });
 
       try {
         const theme = mode === 'light' ? lightTheme : darkTheme;
@@ -96,7 +98,7 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
       } catch {
         // Silent failure
       } finally {
-        themeUpdateInProgress = false;
+        set({ _updateInProgress: false });
       }
     },
 

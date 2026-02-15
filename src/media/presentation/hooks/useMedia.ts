@@ -5,7 +5,7 @@
  * Provides camera, gallery picking functionality.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { MediaPickerService } from "../../infrastructure/services/MediaPickerService";
 import { PermissionManager } from "../../infrastructure/utils/PermissionManager";
 import type {
@@ -39,24 +39,38 @@ export const useMedia = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Track mounted state to prevent setState on unmounted component
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   const pickImage = useCallback(
     async (options?: MediaPickerOptions): Promise<MediaPickerResult> => {
-      setIsLoading(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         const result = await MediaPickerService.pickSingleImage(options);
         // Set error from validation result if present
-        if (result.errorMessage) {
+        if (result.errorMessage && isMountedRef.current) {
           setError(result.errorMessage);
         }
         return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to pick image";
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return { canceled: true };
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     []
@@ -64,18 +78,24 @@ export const useMedia = () => {
 
   const pickMultipleImages = useCallback(
     async (options?: MediaPickerOptions): Promise<MediaPickerResult> => {
-      setIsLoading(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         const result = await MediaPickerService.pickMultipleImages(options);
         return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to pick images";
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return { canceled: true };
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     []
@@ -83,18 +103,24 @@ export const useMedia = () => {
 
   const pickVideo = useCallback(
     async (options?: MediaPickerOptions): Promise<MediaPickerResult> => {
-      setIsLoading(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         const result = await MediaPickerService.pickVideo(options);
         return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to pick video";
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return { canceled: true };
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     []
@@ -102,18 +128,24 @@ export const useMedia = () => {
 
   const launchCamera = useCallback(
     async (options?: CameraOptions): Promise<MediaPickerResult> => {
-      setIsLoading(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         const result = await MediaPickerService.launchCamera(options);
         return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to launch camera";
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return { canceled: true };
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     []
@@ -121,18 +153,24 @@ export const useMedia = () => {
 
   const launchCameraForVideo = useCallback(
     async (options?: CameraOptions): Promise<MediaPickerResult> => {
-      setIsLoading(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsLoading(true);
+        setError(null);
+      }
       try {
         const result = await MediaPickerService.launchCameraForVideo(options);
         return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to record video";
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return { canceled: true };
       } finally {
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     []

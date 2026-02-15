@@ -22,7 +22,7 @@
  * ```
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle, type DimensionValue } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import type { SkeletonPattern, SkeletonConfig } from './AtomicSkeleton.types';
@@ -50,8 +50,8 @@ const SkeletonItem: React.FC<{
   config: SkeletonConfig;
   baseColor: string;
   multiplier: number;
-}> = ({ config, baseColor, multiplier }) => {
-  const itemStyles = StyleSheet.create({
+}> = React.memo(({ config, baseColor, multiplier }) => {
+  const itemStyles = useMemo(() => StyleSheet.create({
     item: {
       ...styles.skeleton,
       width: (typeof config.width === 'number' ? config.width * multiplier : config.width) as DimensionValue,
@@ -60,10 +60,10 @@ const SkeletonItem: React.FC<{
       marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
       backgroundColor: baseColor,
     },
-  });
+  }), [config, baseColor, multiplier]);
 
   return <View style={itemStyles.item} />;
-};
+});
 
 export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
   pattern = 'list',

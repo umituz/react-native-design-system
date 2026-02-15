@@ -8,7 +8,7 @@
  * @layer presentation/hooks
  */
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { SharingService } from '../../infrastructure/services/SharingService';
 import type { ShareOptions } from '../../domain/entities/Share';
 
@@ -47,29 +47,40 @@ export const useSharing = () => {
   const [isSharing, setIsSharing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Track mounted state to prevent setState on unmounted component
+  const isMountedRef = useRef(true);
+
   /**
    * Check sharing availability on mount
    */
   useEffect(() => {
     const checkAvailability = async () => {
       const available = await SharingService.isAvailable();
-      setIsAvailable(available);
+      if (isMountedRef.current) {
+        setIsAvailable(available);
+      }
     };
 
     checkAvailability();
+
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
   /**
    * Share a file via system share sheet
    */
   const share = useCallback(async (uri: string, options?: ShareOptions): Promise<boolean> => {
-    setIsSharing(true);
-    setError(null);
+    if (isMountedRef.current) {
+      setIsSharing(true);
+      setError(null);
+    }
 
     try {
       const result = await SharingService.shareFile(uri, options);
 
-      if (!result.success) {
+      if (!result.success && isMountedRef.current) {
         setError(result.error || 'Failed to share file');
         return false;
       }
@@ -77,10 +88,14 @@ export const useSharing = () => {
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to share file';
-      setError(errorMessage);
+      if (isMountedRef.current) {
+        setError(errorMessage);
+      }
       return false;
     } finally {
-      setIsSharing(false);
+      if (isMountedRef.current) {
+        setIsSharing(false);
+      }
     }
   }, []);
 
@@ -89,13 +104,15 @@ export const useSharing = () => {
    */
   const shareWithAutoType = useCallback(
     async (uri: string, filename: string, dialogTitle?: string): Promise<boolean> => {
-      setIsSharing(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsSharing(true);
+        setError(null);
+      }
 
       try {
         const result = await SharingService.shareWithAutoType(uri, filename, dialogTitle);
 
-        if (!result.success) {
+        if (!result.success && isMountedRef.current) {
           setError(result.error || 'Failed to share file');
           return false;
         }
@@ -103,10 +120,14 @@ export const useSharing = () => {
         return true;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to share file';
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return false;
       } finally {
-        setIsSharing(false);
+        if (isMountedRef.current) {
+          setIsSharing(false);
+        }
       }
     },
     []
@@ -117,13 +138,15 @@ export const useSharing = () => {
    */
   const shareMultiple = useCallback(
     async (uris: string[], options?: ShareOptions): Promise<boolean> => {
-      setIsSharing(true);
-      setError(null);
+      if (isMountedRef.current) {
+        setIsSharing(true);
+        setError(null);
+      }
 
       try {
         const result = await SharingService.shareMultipleFiles(uris, options);
 
-        if (!result.success) {
+        if (!result.success && isMountedRef.current) {
           setError(result.error || 'Failed to share files');
           return false;
         }
@@ -131,10 +154,14 @@ export const useSharing = () => {
         return true;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to share files';
-        setError(errorMessage);
+        if (isMountedRef.current) {
+          setError(errorMessage);
+        }
         return false;
       } finally {
-        setIsSharing(false);
+        if (isMountedRef.current) {
+          setIsSharing(false);
+        }
       }
     },
     []

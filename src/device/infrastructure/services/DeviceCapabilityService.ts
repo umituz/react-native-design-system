@@ -54,19 +54,8 @@ export class DeviceCapabilityService {
    */
   static async hasNotch(): Promise<boolean> {
     try {
-      if (Platform.OS !== 'ios') {
-        return false;
-      }
-
       const info = await DeviceInfoService.getDeviceInfo();
-      const modelName = info.modelName?.toLowerCase() ?? '';
-
-      // iPhone X and newer (with notch or dynamic island)
-      return (
-        modelName.includes('iphone x') ||
-        modelName.includes('iphone 1') || // 11, 12, 13, 14, 15
-        modelName.includes('pro')
-      );
+      return this.hasNotchFromInfo(info);
     } catch {
       return false;
     }

@@ -4,6 +4,7 @@
  * Date range utilities for working with date intervals
  * Handles range generation, overlap detection, and clamping
  */
+import { parseDate } from '../utils/TimezoneParsers';
 
 export class DateRangeUtils {
   /**

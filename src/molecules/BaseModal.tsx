@@ -51,6 +51,7 @@ export const BaseModal: React.FC<BaseModalProps> = ({
       onRequestClose={onClose}
       statusBarTranslucent
       testID={testID}
+      accessibilityViewIsModal={true}
     >
       <View style={styles.overlay}>
         <TouchableOpacity

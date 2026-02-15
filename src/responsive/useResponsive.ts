@@ -124,7 +124,7 @@ export const useResponsive = (): UseResponsiveReturn => {
         getGridCols,
       };
     },
-    [width, height, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols],
+    [width, height, insets, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols],
   );
 
   return responsiveValues;

@@ -99,16 +99,24 @@ export function usePersistentCache<T>(
   // Track if component is mounted to prevent state updates after unmount
   const isMountedRef = useRef(true);
 
+  // Stabilize actions to prevent circular dependency
+  const stableActionsRef = useRef(actions);
+  useEffect(() => {
+    stableActionsRef.current = actions;
+  });
+
   const loadFromStorage = useCallback(async () => {
+    const currentActions = stableActionsRef.current;
+
     if (!enabled) {
       if (isMountedRef.current) {
-        actions.setLoading(false);
+        currentActions.setLoading(false);
       }
       return;
     }
 
     if (isMountedRef.current) {
-      actions.setLoading(true);
+      currentActions.setLoading(true);
     }
 
     try {
@@ -117,35 +125,35 @@ export function usePersistentCache<T>(
       if (isMountedRef.current) {
         if (cached) {
           const expired = isCacheExpired(cached, version);
-          actions.setData(cached.value);
-          actions.setExpired(expired);
+          currentActions.setData(cached.value);
+          currentActions.setExpired(expired);
         } else {
-          actions.clearData();
+          currentActions.clearData();
         }
       }
     } catch {
       if (isMountedRef.current) {
-        actions.clearData();
+        currentActions.clearData();
       }
     } finally {
       if (isMountedRef.current) {
-        actions.setLoading(false);
+        currentActions.setLoading(false);
       }
     }
-  }, [key, version, enabled, actions, cacheOps]);
+  }, [key, version, enabled, cacheOps]); // Removed actions from dependencies
 
   const setData = useCallback(
     async (value: T) => {
       await cacheOps.saveToStorage(key, value, { ttl, version, enabled });
-      actions.setData(value);
+      stableActionsRef.current.setData(value);
     },
-    [key, ttl, version, enabled, actions, cacheOps],
+    [key, ttl, version, enabled, cacheOps],
   );
 
   const clearData = useCallback(async () => {
     await cacheOps.clearFromStorage(key, enabled);
-    actions.clearData();
-  }, [key, enabled, actions, cacheOps]);
+    stableActionsRef.current.clearData();
+  }, [key, enabled, cacheOps]);
 
   const refresh = useCallback(async () => {
     await loadFromStorage();

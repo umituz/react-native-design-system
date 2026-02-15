@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { PickerOption } from '../../picker/types';
 
 interface UsePickerStateProps {
@@ -71,23 +71,23 @@ export const usePickerState = ({
   /**
    * Handle modal open
    */
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setModalVisible(true);
     setSearchQuery('');
-  };
+  }, []);
 
   /**
    * Handle modal close
    */
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalVisible(false);
     setSearchQuery('');
-  };
+  }, []);
 
   /**
    * Handle option selection
    */
-  const handleSelect = (optionValue: string) => {
+  const handleSelect = useCallback((optionValue: string) => {
     if (multiple) {
       const newValues = selectedValues.includes(optionValue)
         ? selectedValues.filter((v) => v !== optionValue)
@@ -99,30 +99,30 @@ export const usePickerState = ({
         closeModal();
       }
     }
-  };
+  }, [multiple, selectedValues, onChange, autoClose, closeModal]);
 
   /**
    * Handle clear selection
    */
-  const handleClear = () => {
+  const handleClear = useCallback(() => {
     onChange(multiple ? [] : '');
-  };
+  }, [onChange, multiple]);
 
   /**
    * Handle search query change
    */
-  const handleSearch = (query: string) => {
+  const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
-  };
+  }, []);
 
   /**
    * Handle chip removal
    */
-  const handleChipRemove = (value: string) => {
+  const handleChipRemove = useCallback((value: string) => {
     handleSelect(value);
-  };
+  }, [handleSelect]);
 
-  return {
+  return useMemo(() => ({
     modalVisible,
     searchQuery,
     selectedValues,
@@ -135,5 +135,18 @@ export const usePickerState = ({
     handleClear,
     handleSearch,
     handleChipRemove,
-  };
+  }), [
+    modalVisible,
+    searchQuery,
+    selectedValues,
+    selectedOptions,
+    filteredOptions,
+    displayText,
+    openModal,
+    closeModal,
+    handleSelect,
+    handleClear,
+    handleSearch,
+    handleChipRemove,
+  ]);
 };

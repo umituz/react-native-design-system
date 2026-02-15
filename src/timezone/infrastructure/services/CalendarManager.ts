@@ -1,4 +1,5 @@
 import { TimezoneCalendarDay } from '../../domain/entities/Timezone';
+import { parseDate } from '../utils/TimezoneParsers';
 
 /**
  * CalendarManager
@@ -123,8 +124,7 @@ export class CalendarManager {
     }
 
     parse(date: Date | string | number): Date {
-        if (date instanceof Date) return new Date(date.getTime());
-        return new Date(date);
+        return parseDate(date);
     }
 
     isValid(date: Date | string | number): boolean {

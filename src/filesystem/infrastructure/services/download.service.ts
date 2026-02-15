@@ -38,7 +38,7 @@ export async function downloadFileWithProgress(
 ): Promise<DownloadWithProgressResult> {
   try {
     const dir = new Directory(cacheDir);
-    if (!dir.exists) dir.create({ intermediates: true, idempotent: true });
+    if (!dir.exists) await dir.create({ intermediates: true, idempotent: true });
 
     const destUri = getCacheUri(url, cacheDir);
     if (new File(destUri).exists) return { success: true, uri: destUri, fromCache: true };
@@ -70,7 +70,7 @@ export async function downloadFileWithProgress(
       const all = new Uint8Array(received);
       let pos = 0;
       for (const c of chunks) { all.set(c, pos); pos += c.length; }
-      new File(destUri).write(all);
+      await new File(destUri).write(all);
 
       return { success: true, uri: destUri, fromCache: false };
     } finally {
@@ -81,8 +81,8 @@ export async function downloadFileWithProgress(
 
 export const isUrlCached = (url: string, dir: string) => new File(getCacheUri(url, dir)).exists;
 export const getCachedFileUri = (url: string, dir: string) => isUrlCached(url, dir) ? getCacheUri(url, dir) : null;
-export const deleteCachedFile = (url: string, dir: string) => {
+export const deleteCachedFile = async (url: string, dir: string) => {
   const f = new File(getCacheUri(url, dir));
-  if (f.exists) f.delete();
+  if (f.exists) await f.delete();
   return true;
 };

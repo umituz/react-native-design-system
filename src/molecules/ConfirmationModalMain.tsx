@@ -64,6 +64,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       onRequestClose={onCancel}
       statusBarTranslucent
       testID={testID}
+      accessibilityViewIsModal={true}
     >
       <View style={getModalOverlayStyle()}>
         <ConfirmationModalBackdrop

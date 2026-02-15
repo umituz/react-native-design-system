@@ -119,7 +119,7 @@ export const AtomicCalendar: React.FC<AtomicCalendarProps> = ({
 
           return (
             <CalendarDayCell
-              key={index}
+              key={day.date.getTime()}
               day={day}
               index={index}
               isSelected={isSelected}

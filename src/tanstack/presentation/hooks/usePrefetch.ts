@@ -30,6 +30,13 @@ export function usePrefetchQuery<
   const queryClient = useQueryClient();
   const prefetchingRef = useRef(new Set<TVariables>());
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      prefetchingRef.current.clear();
+    };
+  }, []);
+
   return useCallback(
     async (variables: TVariables) => {
       if (prefetchingRef.current.has(variables)) return;
@@ -61,6 +68,13 @@ export function usePrefetchInfiniteQuery<
 ) {
   const queryClient = useQueryClient();
   const hasPrefetchedRef = useRef(false);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      hasPrefetchedRef.current = false;
+    };
+  }, []);
 
   return useCallback(async () => {
     if (hasPrefetchedRef.current) return;

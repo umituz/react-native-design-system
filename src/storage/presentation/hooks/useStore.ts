@@ -16,6 +16,7 @@ export function useStore<T extends object>(config: StoreConfig<T>) {
       config.version,
       config.persist,
       config.storage,
+      JSON.stringify(config.initialState), // Track initialState changes
     ]
   );
 

@@ -99,6 +99,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
       animationType="none"
       onRequestClose={dismiss}
       statusBarTranslucent
+      accessibilityViewIsModal={true}
     >
       <Pressable style={styles.overlay} onPress={dismiss}>
         <View style={styles.container}>

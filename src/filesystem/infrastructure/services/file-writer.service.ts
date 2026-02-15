@@ -18,7 +18,7 @@ export async function writeFile(
   try {
     const encodingType = getEncodingType(encoding);
     const file = new File(uri);
-    file.write(content, {
+    await file.write(content, {
       encoding: encodingType as ExpoEncodingType,
     });
     return { success: true, uri };

@@ -5,7 +5,7 @@
  * Extracted from AtomicDatePicker for better separation of concerns.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   Modal,
@@ -52,7 +52,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
-  const modalStyles = StyleSheet.create({
+  const modalStyles = useMemo(() => StyleSheet.create({
     overlay: {
       flex: 1,
       backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})`,
@@ -89,7 +89,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
       fontWeight: '500',
       color: tokens.colors.onPrimary,
     },
-  });
+  }), [overlayOpacity, tokens, insets.bottom]);
 
   if (Platform.OS !== 'ios') {
     return null;
@@ -102,6 +102,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
       animationType="none"
       onRequestClose={onClose}
       testID={`${testID}-modal`}
+      accessibilityViewIsModal={true}
     >
       <View style={modalStyles.overlay}>
         <View style={modalStyles.container}>

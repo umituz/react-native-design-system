@@ -5,8 +5,8 @@
  * Handles loading states, fallbacks, and status indicators.
  */
 
-import React from 'react';
-import { View, Image, StyleSheet, type StyleProp, type ViewStyle, type ImageStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Image, StyleSheet, TouchableOpacity, type StyleProp, type ViewStyle, type ImageStyle } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
@@ -62,20 +62,29 @@ export const Avatar: React.FC<AvatarProps> = ({
   onPress,
 }) => {
   const tokens = useAppDesignTokens();
-  const config = SIZE_CONFIGS[size];
+  const config = useMemo(() => SIZE_CONFIGS[size], [size]);
 
   // Determine avatar type and content
   const hasImage = !!uri;
   const hasName = !!name;
-  const initials = hasName ? AvatarUtils.generateInitials(name) : AVATAR_CONSTANTS.FALLBACK_INITIALS;
-  const bgColor = backgroundColor || (hasName ? AvatarUtils.getColorForName(name) : tokens.colors.surfaceSecondary);
-  const borderRadius = AvatarUtils.getBorderRadius(shape, config.size);
+  const initials = useMemo(
+    () => (hasName ? AvatarUtils.generateInitials(name) : AVATAR_CONSTANTS.FALLBACK_INITIALS),
+    [hasName, name]
+  );
+  const bgColor = useMemo(
+    () => backgroundColor || (hasName ? AvatarUtils.getColorForName(name) : tokens.colors.surfaceSecondary),
+    [backgroundColor, hasName, name, tokens.colors.surfaceSecondary]
+  );
+  const borderRadius = useMemo(
+    () => AvatarUtils.getBorderRadius(shape, config.size),
+    [shape, config.size]
+  );
 
   // Status indicator position
-  const statusPosition = {
+  const statusPosition = useMemo(() => ({
     bottom: 0,
     right: 0,
-  };
+  }), []);
 
   const renderContent = () => {
     if (hasImage) {
@@ -122,8 +131,10 @@ export const Avatar: React.FC<AvatarProps> = ({
     );
   };
 
+  const AvatarWrapper = onPress ? TouchableOpacity : View;
+
   return (
-    <View
+    <AvatarWrapper
       style={[
         styles.container,
         {
@@ -134,7 +145,11 @@ export const Avatar: React.FC<AvatarProps> = ({
         },
         style,
       ]}
-      onTouchEnd={onPress}
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? 'button' : 'image'}
+      accessibilityLabel={name || 'User avatar'}
+      accessible={true}
     >
       {renderContent()}
 
@@ -153,9 +168,11 @@ export const Avatar: React.FC<AvatarProps> = ({
               ...statusPosition,
             },
           ]}
+          accessibilityLabel={`Status: ${status}`}
+          accessibilityRole="none"
         />
       )}
-    </View>
+    </AvatarWrapper>
   );
 };
 

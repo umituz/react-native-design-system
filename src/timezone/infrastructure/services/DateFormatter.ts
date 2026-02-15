@@ -2,6 +2,8 @@
  * DateFormatter
  * Handles locale-aware formatting of dates and times
  */
+import { parseDate } from '../utils/TimezoneParsers';
+
 export class DateFormatter {
     formatDate(
         date: Date | string | number,
@@ -98,8 +100,7 @@ export class DateFormatter {
     }
 
     parse(date: Date | string | number): Date {
-        if (date instanceof Date) return new Date(date.getTime());
-        return new Date(date);
+        return parseDate(date);
     }
 
     formatDuration(milliseconds: number): string {

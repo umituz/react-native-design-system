@@ -3,7 +3,7 @@
  * Reusable badge for labels, status indicators, and tags
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { View, StyleSheet, type StyleProp, type ViewStyle, type TextStyle } from "react-native";
 import { AtomicText } from "../AtomicText";
 import { AtomicIcon, type IconName } from "../icon";
@@ -43,34 +43,34 @@ export const AtomicBadge: React.FC<AtomicBadgeProps> = React.memo(({
 }) => {
     const tokens = useAppDesignTokens();
 
-    const sizeConfig = {
-        sm: { 
-            paddingH: 6 * tokens.spacingMultiplier, 
-            paddingV: 2 * tokens.spacingMultiplier, 
-            fontSize: 10 * tokens.spacingMultiplier, 
-            iconSize: 10 * tokens.spacingMultiplier, 
-            gap: 3 * tokens.spacingMultiplier, 
-            radius: 4 * tokens.spacingMultiplier 
+    const sizeConfig = useMemo(() => ({
+        sm: {
+            paddingH: 6 * tokens.spacingMultiplier,
+            paddingV: 2 * tokens.spacingMultiplier,
+            fontSize: 10 * tokens.spacingMultiplier,
+            iconSize: 10 * tokens.spacingMultiplier,
+            gap: 3 * tokens.spacingMultiplier,
+            radius: 4 * tokens.spacingMultiplier
         },
-        md: { 
-            paddingH: 8 * tokens.spacingMultiplier, 
-            paddingV: 4 * tokens.spacingMultiplier, 
-            fontSize: 11 * tokens.spacingMultiplier, 
-            iconSize: 12 * tokens.spacingMultiplier, 
-            gap: 4 * tokens.spacingMultiplier, 
-            radius: 6 * tokens.spacingMultiplier 
+        md: {
+            paddingH: 8 * tokens.spacingMultiplier,
+            paddingV: 4 * tokens.spacingMultiplier,
+            fontSize: 11 * tokens.spacingMultiplier,
+            iconSize: 12 * tokens.spacingMultiplier,
+            gap: 4 * tokens.spacingMultiplier,
+            radius: 6 * tokens.spacingMultiplier
         },
-        lg: { 
-            paddingH: 12 * tokens.spacingMultiplier, 
-            paddingV: 6 * tokens.spacingMultiplier, 
-            fontSize: 13 * tokens.spacingMultiplier, 
-            iconSize: 14 * tokens.spacingMultiplier, 
-            gap: 5 * tokens.spacingMultiplier, 
-            radius: 8 * tokens.spacingMultiplier 
+        lg: {
+            paddingH: 12 * tokens.spacingMultiplier,
+            paddingV: 6 * tokens.spacingMultiplier,
+            fontSize: 13 * tokens.spacingMultiplier,
+            iconSize: 14 * tokens.spacingMultiplier,
+            gap: 5 * tokens.spacingMultiplier,
+            radius: 8 * tokens.spacingMultiplier
         },
-    }[size];
+    }[size]), [size, tokens.spacingMultiplier]);
 
-    const getVariantColors = () => {
+    const colors = useMemo(() => {
         switch (variant) {
             case "primary":
                 return { bg: tokens.colors.primaryLight, text: tokens.colors.primary };
@@ -87,9 +87,7 @@ export const AtomicBadge: React.FC<AtomicBadgeProps> = React.memo(({
             default:
                 return { bg: tokens.colors.primaryLight, text: tokens.colors.primary };
         }
-    };
-
-    const colors = getVariantColors();
+    }, [variant, tokens.colors]);
 
     const containerStyle: StyleProp<ViewStyle> = [
         styles.container,

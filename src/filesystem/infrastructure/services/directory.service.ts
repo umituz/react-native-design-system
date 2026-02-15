@@ -12,7 +12,7 @@ import type { DirectoryType } from "../../domain/entities/File";
 export async function createDirectory(uri: string): Promise<boolean> {
   try {
     const dir = new Directory(uri);
-    dir.create({ intermediates: true, idempotent: true });
+    await dir.create({ intermediates: true, idempotent: true });
     return true;
   } catch {
     return false;
@@ -25,7 +25,7 @@ export async function createDirectory(uri: string): Promise<boolean> {
 export async function listDirectory(uri: string): Promise<string[]> {
   try {
     const dir = new Directory(uri);
-    const items = dir.list();
+    const items = await dir.list();
     return items.map((item) => item.uri);
   } catch {
     return [];

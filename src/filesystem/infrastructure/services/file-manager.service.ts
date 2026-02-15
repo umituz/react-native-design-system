@@ -15,7 +15,7 @@ export async function deleteFile(uri: string): Promise<boolean> {
     try {
       const file = new File(uri);
       if (file.exists) {
-        file.delete();
+        await file.delete();
         return true;
       }
     } catch {
@@ -26,7 +26,7 @@ export async function deleteFile(uri: string): Promise<boolean> {
     try {
       const dir = new Directory(uri);
       if (dir.exists) {
-        dir.delete();
+        await dir.delete();
         return true;
       }
     } catch {
@@ -49,7 +49,7 @@ export async function copyFile(
   try {
     const sourceFile = new File(sourceUri);
     const destination = new File(destinationUri);
-    sourceFile.copy(destination);
+    await sourceFile.copy(destination);
     return { success: true, uri: destinationUri };
   } catch (error) {
     return {
@@ -69,7 +69,7 @@ export async function moveFile(
   try {
     const sourceFile = new File(sourceUri);
     const destination = new File(destinationUri);
-    sourceFile.move(destination);
+    await sourceFile.move(destination);
     return { success: true, uri: destinationUri };
   } catch (error) {
     return {

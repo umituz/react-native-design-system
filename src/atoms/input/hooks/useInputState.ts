@@ -54,5 +54,5 @@ export const useInputState = ({
     setIsFocused,
     handleTextChange,
     togglePasswordVisibility,
-  }), [localValue, isFocused, isPasswordVisible, characterCount, isAtMaxLength, handleTextChange, togglePasswordVisibility]);
+  }), [localValue, isFocused, isPasswordVisible, characterCount, isAtMaxLength, setIsFocused, handleTextChange, togglePasswordVisibility]);
 };

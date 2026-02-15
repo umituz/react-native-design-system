@@ -95,7 +95,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   };
 
   return (
-    <Modal visible={visible} animationType="none" transparent onRequestClose={onClose} testID={`${testID}-modal`}>
+    <Modal visible={visible} animationType="none" transparent onRequestClose={onClose} testID={`${testID}-modal`} accessibilityViewIsModal={true}>
       <View style={styles.overlay}>
         <View style={[styles.container, { paddingBottom: insets.bottom + tokens.spacing.md }]}>
           <View style={styles.header}>
