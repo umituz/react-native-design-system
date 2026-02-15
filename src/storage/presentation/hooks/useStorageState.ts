@@ -5,10 +5,11 @@
  * Combines React state with automatic storage persistence
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { storageRepository } from '../../infrastructure/repositories/AsyncStorageRepository';
 import { unwrap } from '../../domain/entities/StorageResult';
 import type { StorageKey } from '../../domain/value-objects/StorageKey';
+import { useAsyncOperation } from '../../../utils/hooks';
 
 /**
  * Storage State Hook
@@ -26,37 +27,27 @@ export const useStorageState = <T>(
 ): [T, (value: T) => Promise<void>, boolean] => {
   const keyString = typeof key === 'string' ? key : String(key);
   const [state, setState] = useState<T>(defaultValue);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Load initial value from storage
+  const { data, isLoading } = useAsyncOperation<T, Error>(
+    async () => {
+      const result = await storageRepository.getItem(keyString, defaultValue);
+      return unwrap(result, defaultValue);
+    },
+    {
+      immediate: true,
+      initialData: defaultValue,
+      errorHandler: (err) => err as Error,
+      onSuccess: (value) => setState(value),
+    }
+  );
+
+  // Sync state with loaded data
   useEffect(() => {
-    let isMounted = true;
-    
-    const loadFromStorage = async () => {
-      try {
-        const result = await storageRepository.getItem(keyString, defaultValue);
-        const value = unwrap(result, defaultValue);
-        
-        // Memory leak önlemek için component mount kontrolü
-        if (isMounted) {
-          setState(value);
-          setIsLoading(false);
-        }
-      } catch {
-        // Hata durumunda bile cleanup yap
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadFromStorage();
-
-    // Cleanup function
-    return () => {
-      isMounted = false;
-    };
-  }, [keyString]); // defaultValue'ı dependency array'den çıkar
+    if (data !== undefined && data !== null) {
+      setState(data);
+    }
+  }, [data]);
 
   // Update state and persist to storage
   const updateState = useCallback(

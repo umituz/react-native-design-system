@@ -3,12 +3,13 @@
  * Manages app initialization state in React components
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useMemo } from "react";
 import type {
   UseAppInitializationOptions,
   UseAppInitializationReturn,
   AppInitializerResult,
 } from "./types";
+import { useAsyncOperation } from "../utils/hooks";
 
 /**
  * Hook to manage app initialization
@@ -29,64 +30,30 @@ export function useAppInitialization(
 ): UseAppInitializationReturn {
   const { skip = false, onReady, onError } = options;
 
-  const [isReady, setIsReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(!skip);
-  const [error, setError] = useState<Error | null>(null);
+  const { data, isLoading, error } = useAsyncOperation<AppInitializerResult, Error>(
+    async () => {
+      const result = await initializer();
 
-  // Store callbacks in refs to avoid re-running effect
-  const onReadyRef = useRef(onReady);
-  const onErrorRef = useRef(onError);
-
-  useEffect(() => {
-    onReadyRef.current = onReady;
-    onErrorRef.current = onError;
-  }, [onReady, onError]);
-
-  useEffect(() => {
-    if (skip) {
-      setIsReady(true);
-      setIsLoading(false);
-      return;
-    }
-
-    let cancelled = false;
-
-    const initialize = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        const result = await initializer();
-
-        if (cancelled) return;
-
-        if (!result.success && result.failedModules.length > 0) {
-          throw new Error(
-            `Initialization failed: ${result.failedModules.join(", ")}`
-          );
-        }
-
-        setIsReady(true);
-        onReadyRef.current?.();
-      } catch (err) {
-        if (cancelled) return;
-
-        const error = err instanceof Error ? err : new Error(String(err));
-        setError(error);
-        onErrorRef.current?.(error);
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
+      if (!result.success && result.failedModules.length > 0) {
+        throw new Error(
+          `Initialization failed: ${result.failedModules.join(", ")}`
+        );
       }
-    };
 
-    initialize();
+      return result;
+    },
+    {
+      immediate: !skip,
+      skip,
+      errorHandler: (err) => err instanceof Error ? err : new Error(String(err)),
+      onSuccess: () => onReady?.(),
+      onError: (err) => onError?.(err),
+    }
+  );
 
-    return () => {
-      cancelled = true;
-    };
-  }, [initializer, skip]);
-
-  return { isReady, isLoading, error };
+  return useMemo(() => ({
+    isReady: data?.success ?? false,
+    isLoading,
+    error,
+  }), [data, isLoading, error]);
 }

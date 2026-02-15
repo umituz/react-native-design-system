@@ -67,27 +67,6 @@ export function getAlertTextColor(tokens: DesignTokens): string {
 }
 
 /**
- * Gets default icon for alert type
- *
- * @param type - Alert type
- * @returns Icon name or undefined
- */
-export function getAlertIcon(type: AlertType): string | undefined {
-    switch (type) {
-        case AlertType.SUCCESS:
-            return 'CheckCircle';
-        case AlertType.ERROR:
-            return 'AlertCircle';
-        case AlertType.WARNING:
-            return 'AlertTriangle';
-        case AlertType.INFO:
-            return 'Info';
-        default:
-            return undefined;
-    }
-}
-
-/**
  * Gets action button style
  *
  * @param actionStyle - Button style type

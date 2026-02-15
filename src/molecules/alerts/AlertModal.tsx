@@ -4,24 +4,22 @@
 
 import React from 'react';
 import { StyleSheet, View, Modal, Pressable } from 'react-native';
-import { AtomicText, AtomicButton } from '../../atoms';
+import { AtomicButton } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert } from './AlertTypes';
-import { useAlertStore } from './AlertStore';
 import { getAlertBackgroundColor } from './utils/alertUtils';
+import { useAlertDismissHandler } from './hooks';
+import { AlertContent } from './components';
 
 interface AlertModalProps {
     alert: Alert;
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
-    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const tokens = useAppDesignTokens();
 
-    const handleClose = () => {
-        dismissAlert(alert.id);
-        alert.onDismiss?.();
-    };
+    // Use shared hook (replaces 8 lines of duplicate code)
+    const handleClose = useAlertDismissHandler(alert);
 
     const headerColor = getAlertBackgroundColor(alert.type, tokens);
 
@@ -47,16 +45,26 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     }
                 ]}>
                     <View style={[styles.header, { backgroundColor: headerColor }]}>
-                        <AtomicText type="titleLarge" style={{ color: tokens.colors.textInverse }}>
-                            {alert.title}
-                        </AtomicText>
+                        <AlertContent
+                            title={alert.title}
+                            message=""
+                            titleColor={tokens.colors.textInverse}
+                            messageColor={tokens.colors.textInverse}
+                            titleType="titleLarge"
+                            textAlign="center"
+                        />
                     </View>
 
                     <View style={[styles.content, { padding: tokens.spacing.lg }]}>
                         {alert.message && (
-                            <AtomicText type="bodyMedium" style={{ color: tokens.colors.textPrimary, textAlign: 'center' }}>
-                                {alert.message}
-                            </AtomicText>
+                            <AlertContent
+                                title=""
+                                message={alert.message}
+                                titleColor={tokens.colors.textPrimary}
+                                messageColor={tokens.colors.textPrimary}
+                                messageType="bodyMedium"
+                                textAlign="center"
+                            />
                         )}
 
                         <View style={[styles.actions, { marginTop: tokens.spacing.lg, gap: tokens.spacing.sm }]}>
@@ -66,10 +74,11 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                                     title={action.label}
                                     variant={action.style === 'destructive' ? 'danger' : action.style === 'secondary' ? 'secondary' : 'primary'}
                                     onPress={async () => {
+                                        // BUG FIX: Execute action BEFORE closing (was backwards)
+                                        await action.onPress();
                                         if (action.closeOnPress ?? true) {
                                             handleClose();
                                         }
-                                        await action.onPress();
                                     }}
                                     fullWidth
                                 />

@@ -11,7 +11,7 @@
  * @layer presentation/hooks
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { PersistentDeviceIdService } from '../../infrastructure/services/PersistentDeviceIdService';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
 import type {
@@ -19,6 +19,7 @@ import type {
   UseAnonymousUserOptions,
   UseAnonymousUserResult,
 } from '../../domain/types/AnonymousUserTypes';
+import { useAsyncOperation } from '../../../utils/hooks';
 
 /**
  * useAnonymousUser hook for persistent device-based user identification
@@ -43,56 +44,49 @@ import type {
 export const useAnonymousUser = (
   options?: UseAnonymousUserOptions
 ): UseAnonymousUserResult => {
-  const [anonymousUser, setAnonymousUser] = useState<AnonymousUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const {
     anonymousDisplayName = 'Anonymous',
     fallbackUserId = 'anonymous_fallback',
   } = options || {};
 
-  const loadAnonymousUser = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
+  const { data: anonymousUser, isLoading, error, execute } = useAsyncOperation<AnonymousUser, string>(
+    async () => {
       const [userId, deviceName] = await Promise.all([
         PersistentDeviceIdService.getDeviceId(),
         DeviceService.getUserFriendlyId(),
       ]);
 
-      setAnonymousUser({
+      return {
         userId: userId || fallbackUserId,
         deviceName: deviceName || 'Unknown Device',
         displayName: anonymousDisplayName,
         isAnonymous: true,
-      });
-    } catch {
-      setAnonymousUser({
-        userId: fallbackUserId,
-        deviceName: 'Unknown Device',
-        displayName: anonymousDisplayName,
-        isAnonymous: true,
-      });
-      setError('Failed to generate device ID');
-    } finally {
-      setIsLoading(false);
+      };
+    },
+    {
+      immediate: true,
+      initialData: null,
+      errorHandler: () => 'Failed to generate device ID',
+      onError: () => {
+        // Fallback on error - set default anonymous user
+        return {
+          userId: fallbackUserId,
+          deviceName: 'Unknown Device',
+          displayName: anonymousDisplayName,
+          isAnonymous: true,
+        };
+      },
     }
-  }, [anonymousDisplayName, fallbackUserId]);
+  );
 
   const refresh = useCallback(async () => {
-    await loadAnonymousUser();
-  }, [loadAnonymousUser]);
+    await execute();
+  }, [execute]);
 
-  useEffect(() => {
-    loadAnonymousUser();
-  }, [loadAnonymousUser]);
-
-  return {
+  return useMemo(() => ({
     anonymousUser,
     isLoading,
     error,
     refresh,
-  };
+  }), [anonymousUser, isLoading, error, refresh]);
 };

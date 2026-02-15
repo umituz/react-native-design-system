@@ -3,9 +3,9 @@
  * Generic utilities for working with media collections
  */
 
-type MediaType = "image" | "audio" | "video";
+import { formatFileSize as formatFileSizeUtil } from "../../../utils/formatters/stringFormatter";
 
-const FILE_SIZE_UNITS = ["Bytes", "KB", "MB", "GB"] as const;
+type MediaType = "image" | "audio" | "video";
 
 /**
  * Interface for media items with type property
@@ -35,9 +35,12 @@ export function calculateTotalSize(
   return media.reduce((total, m) => total + m.fileSize, 0);
 }
 
+/**
+ * Format file size in bytes to human-readable format
+ *
+ * @param bytes - File size in bytes
+ * @returns Formatted file size string (e.g., "1.5 MB")
+ */
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 Bytes";
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  const size = Math.round((bytes / Math.pow(1024, i)) * 100) / 100;
-  return `${size} ${FILE_SIZE_UNITS[i]}`;
+  return formatFileSizeUtil(bytes, { decimals: 2 });
 }

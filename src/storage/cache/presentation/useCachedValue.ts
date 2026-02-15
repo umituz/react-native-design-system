@@ -2,9 +2,10 @@
  * useCachedValue Hook
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useMemo } from 'react';
 import { cacheManager } from '../domain/CacheManager';
 import type { CacheConfig } from '../domain/types/Cache';
+import { useAsyncOperation } from '../../../utils/hooks';
 
 export function useCachedValue<T>(
   cacheName: string,
@@ -12,95 +13,53 @@ export function useCachedValue<T>(
   fetcher: () => Promise<T>,
   config?: CacheConfig & { ttl?: number }
 ) {
-  const [value, setValue] = useState<T | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
   const fetcherRef = useRef(fetcher);
   const configRef = useRef(config);
 
-  const loadValue = useCallback(async () => {
-    const cache = cacheManager.getCache<T>(cacheName, configRef.current);
-    const cached = cache.get(key);
-
-    if (cached !== undefined) {
-      setValue(cached);
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const data = await fetcherRef.current!();
-      cache.set(key, data, configRef.current?.ttl);
-      setValue(data);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [cacheName, key]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const doLoad = async () => {
+  const { data: value, isLoading, error, execute, setData } = useAsyncOperation<T | undefined, Error>(
+    async () => {
       const cache = cacheManager.getCache<T>(cacheName, configRef.current);
       const cached = cache.get(key);
 
       if (cached !== undefined) {
-        if (isMounted) setValue(cached);
-        return;
+        return cached;
       }
 
-      if (isMounted) {
-        setIsLoading(true);
-        setError(null);
-      }
-
-      try {
-        const data = await fetcherRef.current!();
-        cache.set(key, data, configRef.current?.ttl);
-        if (isMounted) setValue(data);
-      } catch (err) {
-        if (isMounted) setError(err as Error);
-      } finally {
-        if (isMounted) setIsLoading(false);
-      }
-    };
-
-    doLoad();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [cacheName, key]);
+      const data = await fetcherRef.current!();
+      cache.set(key, data, configRef.current?.ttl);
+      return data;
+    },
+    {
+      immediate: true,
+      initialData: undefined,
+      errorHandler: (err) => err as Error,
+    }
+  );
 
   const invalidate = useCallback(() => {
     const cache = cacheManager.getCache<T>(cacheName);
     cache.delete(key);
-    setValue(undefined);
-  }, [cacheName, key]);
+    setData(undefined);
+  }, [cacheName, key, setData]);
 
   const invalidatePattern = useCallback((pattern: string): number => {
     const cache = cacheManager.getCache<T>(cacheName);
     const count = cache.invalidatePattern(pattern);
-    setValue(undefined);
+    setData(undefined);
     return count;
-  }, [cacheName]);
+  }, [cacheName, setData]);
 
   const refetch = useCallback(() => {
-    setValue(undefined);
-    loadValue();
-  }, [loadValue]);
+    setData(undefined);
+    execute();
+  }, [execute, setData]);
 
-  return {
+  return useMemo(() => ({
     value,
     isLoading,
     error,
     invalidate,
     invalidatePattern,
     refetch,
-  };
+  }), [value, isLoading, error, invalidate, invalidatePattern, refetch]);
 }

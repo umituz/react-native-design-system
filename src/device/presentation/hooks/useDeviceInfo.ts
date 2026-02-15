@@ -8,108 +8,57 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
 import { PersistentDeviceIdService } from '../../infrastructure/services/PersistentDeviceIdService';
 import type { DeviceInfo, ApplicationInfo, SystemInfo } from '../../domain/entities/Device';
-
-function useAsyncData<T, E = string>(
-  fetchFn: () => Promise<T>,
-  initialData: T | null = null
-) {
-  const [data, setData] = useState<T | null>(initialData);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<E | null>(null);
-  const isMountedRef = useRef(true);
-
-  const execute = useCallback(async () => {
-    if (!isMountedRef.current) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const result = await fetchFn();
-      if (isMountedRef.current) setData(result);
-    } catch (err) {
-      if (isMountedRef.current) {
-        setError(err instanceof Error ? (err.message as E) : ('Failed to load data' as E));
-      }
-    } finally {
-      if (isMountedRef.current) setIsLoading(false);
-    }
-  }, [fetchFn]);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    execute();
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, [execute]);
-
-  return { data, isLoading, error, execute };
-}
+import { useAsyncOperation } from '../../../utils/hooks';
 
 export const useDeviceInfo = () => {
-  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
-  const [appInfo, setAppInfo] = useState<ApplicationInfo | null>(null);
-  const [systemInfo, setSystemInfo] = useState<SystemInfo | null>(null);
-  const isMountedRef = useRef(true);
-
-  const loadInfo = useCallback(async () => {
-    if (!isMountedRef.current) return;
-
-    try {
-      const system = await DeviceService.getSystemInfo();
-      if (isMountedRef.current) {
-        setSystemInfo(system);
-        setDeviceInfo(system.device);
-        setAppInfo(system.application);
-      }
-    } catch {
-      // Silent error handling
+  const systemOp = useAsyncOperation(
+    () => DeviceService.getSystemInfo(),
+    {
+      immediate: true,
+      initialData: null,
+      errorHandler: () => null, // Silent error handling
     }
-  }, []);
+  );
 
-  const loadDeviceInfo = useCallback(async () => {
-    if (!isMountedRef.current) return;
-    try {
-      const info = await DeviceService.getDeviceInfo();
-      if (isMountedRef.current) setDeviceInfo(info);
-    } catch {
-      // Silent error handling
+  const deviceOp = useAsyncOperation(
+    () => DeviceService.getDeviceInfo(),
+    {
+      immediate: false,
+      initialData: null,
+      errorHandler: () => null,
     }
-  }, []);
+  );
 
-  const loadAppInfo = useCallback(async () => {
-    if (!isMountedRef.current) return;
-    try {
-      const info = await DeviceService.getApplicationInfo();
-      if (isMountedRef.current) setAppInfo(info);
-    } catch {
-      // Silent error handling
+  const appOp = useAsyncOperation(
+    () => DeviceService.getApplicationInfo(),
+    {
+      immediate: false,
+      initialData: null,
+      errorHandler: () => null,
     }
-  }, []);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    loadInfo();
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, [loadInfo]);
+  );
 
   return {
-    deviceInfo,
-    appInfo,
-    systemInfo,
-    isLoading: !deviceInfo && !appInfo && !systemInfo,
+    deviceInfo: systemOp.data?.device ?? deviceOp.data,
+    appInfo: systemOp.data?.application ?? appOp.data,
+    systemInfo: systemOp.data,
+    isLoading: systemOp.isLoading || deviceOp.isLoading || appOp.isLoading,
     error: null,
-    refresh: loadInfo,
-    loadDeviceInfo,
-    loadAppInfo,
+    refresh: systemOp.execute,
+    loadDeviceInfo: deviceOp.execute,
+    loadAppInfo: appOp.execute,
   };
 };
 
 export const useDeviceCapabilities = () => {
-  const { data: capabilities, isLoading } = useAsyncData(DeviceService.getDeviceCapabilities, null);
+  const { data: capabilities, isLoading } = useAsyncOperation(
+    () => DeviceService.getDeviceCapabilities(),
+    {
+      immediate: true,
+      initialData: null,
+      errorHandler: (err) => err instanceof Error ? err.message : 'Failed to load device capabilities',
+    }
+  );
 
   return {
     isDevice: capabilities?.isDevice ?? false,
@@ -121,7 +70,14 @@ export const useDeviceCapabilities = () => {
 };
 
 export const useDeviceId = () => {
-  const { data: deviceId, isLoading } = useAsyncData(PersistentDeviceIdService.getDeviceId, null);
+  const { data: deviceId, isLoading } = useAsyncOperation(
+    () => PersistentDeviceIdService.getDeviceId(),
+    {
+      immediate: true,
+      initialData: null,
+      errorHandler: (err) => err instanceof Error ? err.message : 'Failed to load device ID',
+    }
+  );
 
   return { deviceId, isLoading };
 };

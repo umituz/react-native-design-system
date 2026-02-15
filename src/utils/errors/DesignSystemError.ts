@@ -21,16 +21,43 @@ export class DesignSystemError extends Error {
    */
   public readonly timestamp: Date;
 
+  /**
+   * Error category for grouping
+   */
+  public readonly category: ErrorCategory;
+
+  /**
+   * Operation that failed
+   */
+  public readonly operation?: string;
+
+  /**
+   * Original error cause
+   */
+  public readonly cause?: unknown;
+
+  /**
+   * Whether operation can be retried
+   */
+  public readonly retryable: boolean;
+
   constructor(
     message: string,
     code: string,
-    context?: Record<string, any>
+    context?: Record<string, any>,
+    metadata?: ErrorMetadata
   ) {
     super(message);
     this.name = 'DesignSystemError';
     this.code = code;
     this.context = context;
     this.timestamp = new Date();
+
+    // Extract metadata
+    this.category = metadata?.category ?? ErrorCategory.UNKNOWN;
+    this.operation = metadata?.operation;
+    this.cause = metadata?.cause;
+    this.retryable = metadata?.retryable ?? false;
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
@@ -115,3 +142,32 @@ export const ErrorCodes = {
 } as const;
 
 export type ErrorCode = typeof ErrorCodes[keyof typeof ErrorCodes];
+
+/**
+ * Error Categories for grouping related errors
+ */
+export enum ErrorCategory {
+  FILESYSTEM = 'FILESYSTEM',
+  NETWORK = 'NETWORK',
+  MEDIA = 'MEDIA',
+  STORAGE = 'STORAGE',
+  CACHE = 'CACHE',
+  IMAGE = 'IMAGE',
+  VALIDATION = 'VALIDATION',
+  THEME = 'THEME',
+  PERMISSION = 'PERMISSION',
+  INITIALIZATION = 'INITIALIZATION',
+  UNKNOWN = 'UNKNOWN',
+}
+
+/**
+ * Error metadata for rich context
+ */
+export interface ErrorMetadata {
+  category?: ErrorCategory;
+  operation?: string;
+  key?: string;
+  cause?: unknown;
+  retryable?: boolean;
+  userMessage?: string;
+}

@@ -5,48 +5,31 @@
  * Floats on top of content.
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
-import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
+import { AtomicText, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert } from './AlertTypes';
-import { useAlertStore } from './AlertStore';
 import {
     getAlertBackgroundColor,
     getAlertTextColor,
     getActionButtonStyle,
     getActionTextColor,
-    DEFAULT_ALERT_DURATION,
 } from './utils/alertUtils';
+import { useAlertDismissHandler, useAlertAutoDismiss } from './hooks';
+import { AlertIcon, AlertContent } from './components';
 
 interface AlertToastProps {
   alert: Alert;
 }
 
 export function AlertToast({ alert }: AlertToastProps) {
-  const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
   const tokens = useAppDesignTokens();
   const closeIcon = useIconName('close');
 
-  const dismiss = useCallback(() => {
-    dismissAlert(alert.id);
-    alert.onDismiss?.();
-  }, [alert.id, dismissAlert, alert.onDismiss]);
-
-  const handleDismiss = useCallback(() => {
-    if (alert.dismissible) {
-      dismiss();
-    }
-  }, [alert.dismissible, dismiss]);
-
-  // Auto-dismiss after duration
-  useEffect(() => {
-    const duration = alert.duration ?? DEFAULT_ALERT_DURATION;
-    if (duration <= 0) return;
-
-    const timer = setTimeout(dismiss, duration);
-    return () => clearTimeout(timer);
-  }, [alert.duration, dismiss]);
+  // Use shared hooks (replaces 25 lines of duplicate code)
+  const handleDismiss = useAlertDismissHandler(alert);
+  useAlertAutoDismiss(alert, handleDismiss);
 
   const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
   const textColor = getAlertTextColor(tokens);
@@ -63,39 +46,28 @@ export function AlertToast({ alert }: AlertToastProps) {
       ]}
       testID={alert.testID}
     >
-      <Pressable onPress={handleDismiss} style={styles.content}>
+      <Pressable
+        onPress={alert.dismissible ? handleDismiss : undefined}
+        style={styles.content}
+      >
         <View style={styles.row}>
           {alert.icon && (
-            <AtomicIcon
+            <AlertIcon
               name={alert.icon}
-              customSize={20}
-              customColor={textColor}
-              style={{ marginRight: tokens.spacing.sm }}
+              color={textColor}
+              marginRight={tokens.spacing.sm}
             />
           )}
 
-          <View style={styles.textContainer}>
-            <AtomicText
-              type="bodyMedium"
-              style={[styles.title, { color: textColor }]}
-              numberOfLines={2}
-            >
-              {alert.title}
-            </AtomicText>
-
-            {alert.message && (
-              <AtomicText
-                type="bodySmall"
-                style={[
-                  styles.message,
-                  { color: textColor, marginTop: tokens.spacing.xs },
-                ]}
-                numberOfLines={3}
-              >
-                {alert.message}
-              </AtomicText>
-            )}
-          </View>
+          <AlertContent
+            title={alert.title}
+            message={alert.message}
+            titleColor={textColor}
+            messageColor={textColor}
+            messageMarginTop={tokens.spacing.xs}
+            titleNumberOfLines={2}
+            messageNumberOfLines={3}
+          />
 
           {alert.dismissible && (
             <Pressable
@@ -103,7 +75,7 @@ export function AlertToast({ alert }: AlertToastProps) {
               style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
               hitSlop={8}
             >
-              <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
+              <AlertIcon name={closeIcon} color={textColor} />
             </Pressable>
           )}
         </View>
@@ -116,7 +88,7 @@ export function AlertToast({ alert }: AlertToastProps) {
                 onPress={async () => {
                   await action.onPress();
                   if (action.closeOnPress ?? true) {
-                    dismiss();
+                    handleDismiss();
                   }
                 }}
                 style={[

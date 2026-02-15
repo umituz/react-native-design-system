@@ -4,10 +4,10 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AtomicText } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert } from './AlertTypes';
 import { getAlertBorderColor, getAlertBackgroundColorInline } from './utils/alertUtils';
+import { AlertContent } from './components';
 
 interface AlertInlineProps {
     alert: Alert;
@@ -27,14 +27,13 @@ export const AlertInline: React.FC<AlertInlineProps> = ({ alert }) => {
                 marginVertical: tokens.spacing.sm,
             }
         ]}>
-            <AtomicText type="bodyMedium" style={{ color: tokens.colors.textPrimary, fontWeight: '700' }}>
-                {alert.title}
-            </AtomicText>
-            {alert.message && (
-                <AtomicText type="bodySmall" style={{ color: tokens.colors.textSecondary, marginTop: tokens.spacing.xs }}>
-                    {alert.message}
-                </AtomicText>
-            )}
+            <AlertContent
+                title={alert.title}
+                message={alert.message}
+                titleColor={tokens.colors.textPrimary}
+                messageColor={tokens.colors.textSecondary}
+                messageMarginTop={tokens.spacing.xs}
+            />
         </View>
     );
 };

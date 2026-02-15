@@ -5,7 +5,9 @@
  * Provides consistent error handling, logging, and reporting.
  */
 
-import { DesignSystemError, ErrorCodes } from './DesignSystemError';
+import { DesignSystemError, ErrorCodes, ErrorCategory, type ErrorMetadata } from './DesignSystemError';
+import type { Result } from './types/Result';
+import { ok, err } from './types/Result';
 
 export class ErrorHandler {
   /**
@@ -132,6 +134,108 @@ export class ErrorHandler {
     } catch (error) {
       const handled = this.handleAndLog(error, context);
       return [handled, null];
+    }
+  }
+
+  /**
+   * Normalize any error to DesignSystemError with metadata
+   */
+  static normalize(
+    error: unknown,
+    code: string,
+    metadata?: ErrorMetadata
+  ): DesignSystemError {
+    if (error instanceof DesignSystemError) {
+      return error;
+    }
+
+    if (error instanceof Error) {
+      return new DesignSystemError(
+        error.message,
+        code,
+        {
+          originalError: error.name,
+          stack: error.stack,
+        },
+        {
+          ...metadata,
+          cause: error,
+        }
+      );
+    }
+
+    if (typeof error === 'string') {
+      return new DesignSystemError(error, code, undefined, metadata);
+    }
+
+    return new DesignSystemError(
+      'An unknown error occurred',
+      code,
+      { originalError: String(error) },
+      metadata
+    );
+  }
+
+  /**
+   * Wrap async function with timeout
+   */
+  static async withTimeout<T>(
+    promise: Promise<T>,
+    timeoutMs: number,
+    context?: string
+  ): Promise<T> {
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(
+          new DesignSystemError(
+            `${context || 'Operation'} timed out after ${timeoutMs}ms`,
+            ErrorCodes.TIMEOUT_ERROR,
+            { timeoutMs, context },
+            {
+              category: ErrorCategory.NETWORK,
+              retryable: true,
+            }
+          )
+        );
+      }, timeoutMs);
+    });
+
+    return Promise.race([promise, timeoutPromise]);
+  }
+
+  /**
+   * Wrap async function returning Result type
+   */
+  static async tryAsyncResult<T>(
+    fn: () => Promise<T>,
+    code: string,
+    metadata?: ErrorMetadata
+  ): Promise<Result<T, DesignSystemError>> {
+    try {
+      const result = await fn();
+      return ok(result);
+    } catch (error) {
+      const normalized = this.normalize(error, code, metadata);
+      this.log(normalized);
+      return err(normalized);
+    }
+  }
+
+  /**
+   * Wrap sync function returning Result type
+   */
+  static tryResult<T>(
+    fn: () => T,
+    code: string,
+    metadata?: ErrorMetadata
+  ): Result<T, DesignSystemError> {
+    try {
+      const result = fn();
+      return ok(result);
+    } catch (error) {
+      const normalized = this.normalize(error, code, metadata);
+      this.log(normalized);
+      return err(normalized);
     }
   }
 }

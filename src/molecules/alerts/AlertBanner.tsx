@@ -6,38 +6,28 @@
  * Auto-dismisses after duration (default 3 seconds).
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
-import { AtomicText, AtomicIcon, useIconName } from '../../atoms';
+import { AtomicText, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertPosition } from './AlertTypes';
-import { useAlertStore } from './AlertStore';
-import { getAlertBackgroundColor, getAlertTextColor, DEFAULT_ALERT_DURATION } from './utils/alertUtils';
+import { getAlertBackgroundColor, getAlertTextColor, getActionButtonStyle, getActionTextColor } from './utils/alertUtils';
+import { useAlertDismissHandler, useAlertAutoDismiss } from './hooks';
+import { AlertIcon, AlertContent } from './components';
 
 interface AlertBannerProps {
     alert: Alert;
 }
 
 export function AlertBanner({ alert }: AlertBannerProps) {
-    const dismissAlert = useAlertStore((state: { dismissAlert: (id: string) => void }) => state.dismissAlert);
     const insets = useSafeAreaInsets();
     const tokens = useAppDesignTokens();
     const closeIcon = useIconName('close');
 
-    const handleDismiss = useCallback(() => {
-        dismissAlert(alert.id);
-        alert.onDismiss?.();
-    }, [alert.id, dismissAlert, alert.onDismiss]);
-
-    // Auto-dismiss after duration
-    useEffect(() => {
-        const duration = alert.duration ?? DEFAULT_ALERT_DURATION;
-        if (duration <= 0) return;
-
-        const timer = setTimeout(handleDismiss, duration);
-        return () => clearTimeout(timer);
-    }, [alert.duration, handleDismiss]);
+    // Use shared hooks (replaces 20 lines of duplicate code)
+    const handleDismiss = useAlertDismissHandler(alert);
+    useAlertAutoDismiss(alert, handleDismiss);
 
     const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
     const textColor = getAlertTextColor(tokens);
@@ -59,36 +49,22 @@ export function AlertBanner({ alert }: AlertBannerProps) {
             <View style={styles.content}>
                 <View style={styles.row}>
                     {alert.icon && (
-                        <AtomicIcon
+                        <AlertIcon
                             name={alert.icon}
-                            customSize={20}
-                            customColor={textColor}
-                            style={{ marginRight: tokens.spacing.sm }}
+                            color={textColor}
+                            marginRight={tokens.spacing.sm}
                         />
                     )}
 
-                    <View style={styles.textContainer}>
-                        <AtomicText
-                            type="bodyMedium"
-                            style={[styles.title, { color: textColor }]}
-                            numberOfLines={1}
-                        >
-                            {alert.title}
-                        </AtomicText>
-
-                        {alert.message && (
-                            <AtomicText
-                                type="bodySmall"
-                                style={[
-                                    styles.message,
-                                    { color: textColor, marginTop: tokens.spacing.xs },
-                                ]}
-                                numberOfLines={2}
-                            >
-                                {alert.message}
-                            </AtomicText>
-                        )}
-                    </View>
+                    <AlertContent
+                        title={alert.title}
+                        message={alert.message}
+                        titleColor={textColor}
+                        messageColor={textColor}
+                        messageMarginTop={tokens.spacing.xs}
+                        titleNumberOfLines={1}
+                        messageNumberOfLines={2}
+                    />
 
                     {alert.dismissible && (
                         <Pressable
@@ -96,7 +72,7 @@ export function AlertBanner({ alert }: AlertBannerProps) {
                             style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
                             hitSlop={8}
                         >
-                            <AtomicIcon name={closeIcon} customSize={20} customColor={textColor} />
+                            <AlertIcon name={closeIcon} color={textColor} />
                         </Pressable>
                     )}
                 </View>
@@ -118,14 +94,16 @@ export function AlertBanner({ alert }: AlertBannerProps) {
                                         paddingVertical: tokens.spacing.xs,
                                         paddingHorizontal: tokens.spacing.sm,
                                         marginRight: tokens.spacing.xs,
+                                        borderRadius: tokens.borders.radius.sm,
                                     },
+                                    getActionButtonStyle(action.style, tokens),
                                 ]}
                             >
                                 <AtomicText
                                     type="bodySmall"
                                     style={[
                                         styles.actionText,
-                                        { color: textColor },
+                                        { color: getActionTextColor(action.style, tokens) },
                                     ]}
                                 >
                                     {action.label}
