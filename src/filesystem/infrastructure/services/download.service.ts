@@ -7,6 +7,8 @@ import type { FileOperationResult } from "../../domain/entities/File";
 import { FileUtils } from "../../domain/entities/File";
 import { SUPPORTED_DOWNLOAD_EXTENSIONS, DEFAULT_DOWNLOAD_EXTENSION } from "./download.constants";
 import type { DownloadProgressCallback, DownloadWithProgressResult } from "./download.types";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
+import { retryWithBackoff, isNetworkError } from "../../../utils/async";
 
 const hashUrl = (url: string) => {
   let hash = 0;
@@ -25,9 +27,29 @@ const getCacheUri = (url: string, dir: string) => FileUtils.joinPaths(dir, `cach
 export async function downloadFile(url: string, dest?: string): Promise<FileOperationResult> {
   try {
     const destination = dest ? new File(dest) : new File(Paths.document, FileUtils.generateUniqueFilename("download"));
-    const res = await File.downloadFileAsync(url, destination, { idempotent: true });
+
+    // Retry download with exponential backoff
+    const res = await retryWithBackoff(
+      () => File.downloadFileAsync(url, destination, { idempotent: true }),
+      {
+        maxRetries: 3,
+        baseDelay: 1000,
+        shouldRetry: (error) => isNetworkError(error as Error),
+      }
+    );
+
     return { success: true, uri: res.uri };
-  } catch (e: unknown) { return { success: false, error: e instanceof Error ? e.message : String(e) }; }
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'downloadFile',
+      { url, dest }
+    );
+    return {
+      success: false,
+      error: handled.getUserMessage(),
+    };
+  }
 }
 
 export async function downloadFileWithProgress(
@@ -44,7 +66,13 @@ export async function downloadFileWithProgress(
     if (new File(destUri).exists) return { success: true, uri: destUri, fromCache: true };
 
     const response = await fetch(url, { signal });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      throw ErrorHandler.create(
+        `HTTP ${response.status}: ${response.statusText}`,
+        ErrorCodes.NETWORK_ERROR,
+        { url, status: response.status }
+      );
+    }
 
     const totalBytes = parseInt(response.headers.get("content-length") || "0", 10);
     if (!response.body) return { ...(await downloadFile(url, destUri)), fromCache: false };
@@ -57,7 +85,11 @@ export async function downloadFileWithProgress(
       while (true) {
         if (signal?.aborted) {
           await reader.cancel();
-          throw new Error("Download aborted");
+          throw ErrorHandler.create(
+            'Download aborted by user',
+            ErrorCodes.NETWORK_ERROR,
+            { url }
+          );
         }
 
         const { done, value } = await reader.read();
@@ -76,13 +108,32 @@ export async function downloadFileWithProgress(
     } finally {
       reader.releaseLock();
     }
-  } catch (e: unknown) { return { success: false, error: e instanceof Error ? e.message : String(e) }; }
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'downloadFileWithProgress',
+      { url, cacheDir }
+    );
+    return {
+      success: false,
+      error: handled.getUserMessage(),
+    };
+  }
 }
 
 export const isUrlCached = (url: string, dir: string) => new File(getCacheUri(url, dir)).exists;
 export const getCachedFileUri = (url: string, dir: string) => isUrlCached(url, dir) ? getCacheUri(url, dir) : null;
-export const deleteCachedFile = async (url: string, dir: string) => {
-  const f = new File(getCacheUri(url, dir));
-  if (f.exists) await f.delete();
-  return true;
+export const deleteCachedFile = async (url: string, dir: string): Promise<boolean> => {
+  try {
+    const f = new File(getCacheUri(url, dir));
+    if (f.exists) await f.delete();
+    return true;
+  } catch (error) {
+    ErrorHandler.handleAndLog(
+      error,
+      'deleteCachedFile',
+      { url, dir }
+    );
+    return false;
+  }
 };

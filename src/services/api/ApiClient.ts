@@ -20,6 +20,8 @@ import {
   isSuccessfulResponse,
   fetchWithTimeout,
 } from './utils/responseHandler';
+import { retryWithBackoff, isNetworkError, isRetryableHttpStatus } from '../../utils/async';
+import { ErrorHandler } from '../../utils/errors';
 
 /**
  * Applies interceptors to a value
@@ -46,7 +48,7 @@ export class ApiClient {
   }
 
   /**
-   * Makes an HTTP request
+   * Makes an HTTP request with automatic retry for retryable errors
    */
   async request<T>(requestConfig: ApiRequestConfig): Promise<ApiResponse<T>> {
     try {
@@ -61,11 +63,39 @@ export class ApiClient {
         headers: { ...this.config.headers, ...config.headers },
       });
 
-      const response = await fetchWithTimeout(
-        fullURL,
-        fetchOptions,
-        config.timeout || this.config.timeout || 30000
-      );
+      // Retry only for GET requests and retryable errors
+      const shouldRetry = config.method === 'GET';
+      const timeout = config.timeout || this.config.timeout || 30000;
+
+      const response = shouldRetry
+        ? await retryWithBackoff(
+            () => fetchWithTimeout(fullURL, fetchOptions, timeout),
+            {
+              maxRetries: 3,
+              baseDelay: 1000,
+              shouldRetry: (error) => {
+                // Retry on network errors
+                if (isNetworkError(error as Error)) return true;
+
+                // Retry on specific HTTP status codes (5xx, 429, 408)
+                if ('status' in error && typeof error.status === 'number') {
+                  return isRetryableHttpStatus(error.status);
+                }
+
+                return false;
+              },
+              onRetry: (error, attempt, delay) => {
+                if (__DEV__) {
+                  ErrorHandler.log({
+                    name: 'ApiRetry',
+                    message: `Retrying API request (attempt ${attempt}) after ${delay}ms`,
+                    context: { url: fullURL, error: error.message },
+                  });
+                }
+              },
+            }
+          )
+        : await fetchWithTimeout(fullURL, fetchOptions, timeout);
 
       if (!isSuccessfulResponse(response)) {
         const error = await handleHttpError(response);
@@ -78,6 +108,7 @@ export class ApiClient {
       return parsedResponse;
     } catch (error) {
       const apiError = handleNetworkError(error);
+      ErrorHandler.log(apiError);
       throw await applyInterceptors(apiError, this.config.errorInterceptors);
     }
   }

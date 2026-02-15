@@ -5,6 +5,7 @@
 
 import { Directory, Paths } from "expo-file-system";
 import type { DirectoryType } from "../../domain/entities/File";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
 /**
  * Create directory
@@ -14,8 +15,17 @@ export async function createDirectory(uri: string): Promise<boolean> {
     const dir = new Directory(uri);
     await dir.create({ intermediates: true, idempotent: true });
     return true;
-  } catch {
-    return false;
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'createDirectory',
+      { uri }
+    );
+    throw ErrorHandler.create(
+      `Failed to create directory: ${handled.message}`,
+      ErrorCodes.DIRECTORY_CREATE_ERROR,
+      { uri, originalError: handled }
+    );
   }
 }
 
@@ -27,8 +37,17 @@ export async function listDirectory(uri: string): Promise<string[]> {
     const dir = new Directory(uri);
     const items = await dir.list();
     return items.map((item) => item.uri);
-  } catch {
-    return [];
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'listDirectory',
+      { uri }
+    );
+    throw ErrorHandler.create(
+      `Failed to list directory contents: ${handled.message}`,
+      ErrorCodes.FILE_READ_ERROR,
+      { uri, originalError: handled }
+    );
   }
 }
 
@@ -43,10 +62,19 @@ export function getDirectoryPath(type: DirectoryType): string {
       case "cacheDirectory":
         return Paths.cache.uri;
       default:
-        return "";
+        throw ErrorHandler.create(
+          `Unknown directory type: ${type}`,
+          ErrorCodes.INVALID_INPUT,
+          { type }
+        );
     }
-  } catch {
-    return "";
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'getDirectoryPath',
+      { type }
+    );
+    throw handled;
   }
 }
 

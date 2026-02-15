@@ -22,6 +22,7 @@ import {
 } from "../utils/mediaPickerMappers";
 import { PermissionManager } from "../utils/PermissionManager";
 import { FileValidator } from "../../domain/utils/FileValidator";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
 /**
  * Media picker service for selecting images/videos
@@ -33,7 +34,11 @@ export class MediaPickerService {
     try {
       const permission = await PermissionManager.requestCameraPermission();
       if (!PermissionManager.isPermissionGranted(permission)) {
-        return { canceled: true };
+        return {
+          canceled: true,
+          error: MediaValidationError.PERMISSION_DENIED,
+          errorMessage: "Camera permission was denied",
+        };
       }
 
       const result = await ImagePicker.launchCameraAsync({
@@ -45,8 +50,13 @@ export class MediaPickerService {
       });
 
       return mapPickerResult(result);
-    } catch {
-      return { canceled: true };
+    } catch (error) {
+      ErrorHandler.handleAndLog(error, 'launchCamera', { options });
+      return {
+        canceled: true,
+        error: MediaValidationError.PICKER_ERROR,
+        errorMessage: "Failed to launch camera",
+      };
     }
   }
 
@@ -56,7 +66,11 @@ export class MediaPickerService {
     try {
       const permission = await PermissionManager.requestCameraPermission();
       if (!PermissionManager.isPermissionGranted(permission)) {
-        return { canceled: true };
+        return {
+          canceled: true,
+          error: MediaValidationError.PERMISSION_DENIED,
+          errorMessage: "Camera permission was denied",
+        };
       }
 
       const result = await ImagePicker.launchCameraAsync({
@@ -67,8 +81,13 @@ export class MediaPickerService {
       });
 
       return mapPickerResult(result);
-    } catch {
-      return { canceled: true };
+    } catch (error) {
+      ErrorHandler.handleAndLog(error, 'launchCameraForVideo', { options });
+      return {
+        canceled: true,
+        error: MediaValidationError.PICKER_ERROR,
+        errorMessage: "Failed to launch camera for video",
+      };
     }
   }
 
@@ -114,8 +133,13 @@ export class MediaPickerService {
       }
 
       return mappedResult;
-    } catch {
-      return { canceled: true };
+    } catch (error) {
+      ErrorHandler.handleAndLog(error, 'pickImage', { options });
+      return {
+        canceled: true,
+        error: MediaValidationError.PICKER_ERROR,
+        errorMessage: "Failed to pick image from library",
+      };
     }
   }
 

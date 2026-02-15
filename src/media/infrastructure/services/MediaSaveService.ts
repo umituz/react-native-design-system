@@ -5,6 +5,7 @@
 
 import * as FileSystem from "expo-file-system";
 import { MediaLibraryPermission } from "../../domain/entities/Media";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
 export interface SaveResult {
   success: boolean;
@@ -87,10 +88,14 @@ export class MediaSaveService {
         path: destination,
       };
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
+      const handled = ErrorHandler.handleAndLog(
+        error,
+        'saveToStorage',
+        { uri, mediaType }
+      );
       return {
         success: false,
-        error: `Failed to save media: ${message}`,
+        error: `Failed to save media: ${handled.getUserMessage()}`,
       };
     }
   }

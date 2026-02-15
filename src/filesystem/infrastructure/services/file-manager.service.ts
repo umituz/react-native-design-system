@@ -5,6 +5,7 @@
 
 import { File, Directory } from "expo-file-system";
 import type { FileOperationResult } from "../../domain/entities/File";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
 /**
  * Delete file or directory
@@ -18,8 +19,11 @@ export async function deleteFile(uri: string): Promise<boolean> {
         await file.delete();
         return true;
       }
-    } catch {
+    } catch (fileError) {
       // Not a file, try as directory
+      if (__DEV__) {
+        console.log('[deleteFile] Not a file, trying as directory:', uri);
+      }
     }
 
     // Try as directory
@@ -29,13 +33,30 @@ export async function deleteFile(uri: string): Promise<boolean> {
         await dir.delete();
         return true;
       }
-    } catch {
+    } catch (dirError) {
       // Not a directory either
+      if (__DEV__) {
+        console.log('[deleteFile] Not a directory:', uri);
+      }
     }
 
-    return false;
-  } catch {
-    return false;
+    // File/directory doesn't exist
+    throw ErrorHandler.create(
+      `File or directory not found: ${uri}`,
+      ErrorCodes.FILE_NOT_FOUND,
+      { uri }
+    );
+  } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'deleteFile',
+      { uri }
+    );
+    throw ErrorHandler.create(
+      `Failed to delete file: ${handled.message}`,
+      ErrorCodes.FILE_DELETE_ERROR,
+      { uri, originalError: handled }
+    );
   }
 }
 
@@ -52,9 +73,14 @@ export async function copyFile(
     await sourceFile.copy(destination);
     return { success: true, uri: destinationUri };
   } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'copyFile',
+      { sourceUri, destinationUri }
+    );
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: handled.getUserMessage(),
     };
   }
 }
@@ -72,9 +98,14 @@ export async function moveFile(
     await sourceFile.move(destination);
     return { success: true, uri: destinationUri };
   } catch (error) {
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'moveFile',
+      { sourceUri, destinationUri }
+    );
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: handled.getUserMessage(),
     };
   }
 }

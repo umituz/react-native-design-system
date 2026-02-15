@@ -6,6 +6,7 @@
 import { File } from "expo-file-system";
 import type { FileEncoding, FileOperationResult } from "../../domain/entities/File";
 import { getEncodingType, type ExpoEncodingType } from "./encoding.service";
+import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
 /**
  * Write string to file
@@ -23,10 +24,14 @@ export async function writeFile(
     });
     return { success: true, uri };
   } catch (error) {
-    const writeError = error as Error;
+    const handled = ErrorHandler.handleAndLog(
+      error,
+      'writeFile',
+      { uri, encoding, contentLength: content.length }
+    );
     return {
       success: false,
-      error: writeError.message || "Unknown error",
+      error: handled.getUserMessage(),
     };
   }
 }
