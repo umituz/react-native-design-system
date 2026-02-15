@@ -49,6 +49,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const initialize = useTheme((state) => state.initialize);
   const setCustomColors = useTheme((state) => state.setCustomColors);
   const setDefaultColors = useTheme((state) => state.setDefaultColors);
+  const setDefaultThemeMode = useTheme((state) => state.setDefaultThemeMode);
   const setGlobalCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
   const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
 
@@ -68,6 +69,8 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       setGlobalCustomColors(customColors);
     }
 
+    // Set default theme mode BEFORE initialize
+    setDefaultThemeMode(initialThemeMode);
     setGlobalThemeMode(initialThemeMode);
 
     initialize()
