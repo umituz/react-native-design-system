@@ -35,6 +35,8 @@ export interface IconNames {
   calendar: string;
   swap: string;
   colorFilter: string;
+  diamond: string;
+  award: string;
 }
 
 export const REQUIRED_ICON_KEYS: (keyof IconNames)[] = [
@@ -42,6 +44,7 @@ export const REQUIRED_ICON_KEYS: (keyof IconNames)[] = [
   'chevronUp', 'chevronDown', 'arrowLeft', 'arrowRight', 'search',
   'closeCircle', 'clock', 'refresh', 'alertCircle', 'star',
   'starOutline', 'wifiOff', 'info', 'trash', 'calendar', 'swap', 'colorFilter',
+  'diamond', 'award',
 ];
 
 /**
