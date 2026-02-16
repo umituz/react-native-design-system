@@ -47,7 +47,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     <View style={[styles.header, { backgroundColor: headerColor }]}>
                         <AlertContent
                             title={alert.title}
-                            message=""
+                            message={alert.message ?? ""}
                             titleColor={tokens.colors.textInverse}
                             messageColor={tokens.colors.textInverse}
                             titleType="titleLarge"
@@ -56,16 +56,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     </View>
 
                     <View style={[styles.content, { padding: tokens.spacing.lg }]}>
-                        {alert.message && (
-                            <AlertContent
-                                title=""
-                                message={alert.message}
-                                titleColor={tokens.colors.textPrimary}
-                                messageColor={tokens.colors.textPrimary}
-                                messageType="bodyMedium"
-                                textAlign="center"
-                            />
-                        )}
 
                         <View style={[styles.actions, { marginTop: tokens.spacing.lg, gap: tokens.spacing.sm }]}>
                             {alert.actions.map((action) => (
