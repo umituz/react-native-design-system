@@ -13,3 +13,4 @@ export * from './formatters/stringFormatter';
 export * from './validators/dataValidators';
 export * from './validators/stringValidators';
 export * from './validators/numericValidators';
+export * from './logger';

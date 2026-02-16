@@ -103,6 +103,12 @@ export * from "./presentation/utils/variants";
 export * from "./utilities";
 
 // =============================================================================
+// UTILS EXPORTS (Logger, formatters, validators)
+// =============================================================================
+export { logger, Logger } from "./utils/logger";
+export type { LoggerConfig } from "./utils/logger";
+
+// =============================================================================
 // STORAGE EXPORTS
 // =============================================================================
 export * from "./storage";
