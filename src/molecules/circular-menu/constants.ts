@@ -1,7 +1,8 @@
 import { ViewStyle } from "react-native";
 
 export const LAYOUT = {
-  ITEM_SIZE: 52,
+  ITEM_SIZE: 90,
+  ICON_SIZE: 52,
   CLOSE_BUTTON_SIZE: 48,
 } as const;
 

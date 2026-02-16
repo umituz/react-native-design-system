@@ -31,9 +31,9 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = ({
           styles.iconContainer,
           {
             backgroundColor: tokens.colors.surfaceVariant,
-            width: LAYOUT.ITEM_SIZE,
-            height: LAYOUT.ITEM_SIZE,
-            borderRadius: LAYOUT.ITEM_SIZE / 2,
+            width: LAYOUT.ICON_SIZE,
+            height: LAYOUT.ICON_SIZE,
+            borderRadius: LAYOUT.ICON_SIZE / 2,
             borderWidth: 1,
             borderColor: tokens.colors.border,
           },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     gap: 6,
-    width: 90,
+    width: LAYOUT.ITEM_SIZE,
   },
   iconContainer: {
     justifyContent: "center",
