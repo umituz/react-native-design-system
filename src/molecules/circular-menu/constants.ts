@@ -9,7 +9,7 @@ export const ROW_CONFIG = {
   TOP_RADIUS: 80,
   TOP_START_ANGLE: -135,
   TOP_END_ANGLE: -45,
-  BOTTOM_OFFSET_X: 160,
+  BOTTOM_OFFSET_X: 130,
   BOTTOM_Y: 60,
   CENTER_Y: 150,
 } as const;
