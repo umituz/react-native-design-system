@@ -112,7 +112,8 @@ export const OnboardingScreen = ({
         iconBg: tokens.colors.surfaceSecondary,
         iconBorder: tokens.colors.borderLight,
         errorColor: tokens.colors.error,
-        featureItemBg: tokens.colors.surfaceSecondary,
+        // Use surfaceVariant for better contrast with textPrimary in both light/dark modes
+        featureItemBg: tokens.colors.surfaceVariant,
       },
     [providedThemeColors, tokens]
   );
