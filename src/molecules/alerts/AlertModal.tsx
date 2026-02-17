@@ -64,7 +64,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                                     title={action.label}
                                     variant={action.style === 'destructive' ? 'danger' : action.style === 'secondary' ? 'secondary' : 'primary'}
                                     onPress={async () => {
-                                        // BUG FIX: Execute action BEFORE closing (was backwards)
                                         await action.onPress();
                                         if (action.closeOnPress ?? true) {
                                             handleClose();

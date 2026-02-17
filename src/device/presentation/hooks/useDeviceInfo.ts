@@ -4,10 +4,8 @@
  * React hook for device and application information.
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
 import { DeviceService } from '../../infrastructure/services/DeviceService';
 import { PersistentDeviceIdService } from '../../infrastructure/services/PersistentDeviceIdService';
-import type { DeviceInfo, ApplicationInfo, SystemInfo } from '../../domain/entities/Device';
 import { useAsyncOperation } from '../../../utils/hooks';
 
 export const useDeviceInfo = () => {

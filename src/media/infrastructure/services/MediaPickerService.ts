@@ -22,7 +22,7 @@ import {
 } from "../utils/mediaPickerMappers";
 import { PermissionManager } from "../utils/PermissionManager";
 import { FileValidator } from "../../domain/utils/FileValidator";
-import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
+import { ErrorHandler } from "../../../utils/errors";
 
 /**
  * Media picker service for selecting images/videos

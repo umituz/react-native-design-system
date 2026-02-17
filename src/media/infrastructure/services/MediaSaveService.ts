@@ -5,7 +5,7 @@
 
 import * as FileSystem from "expo-file-system";
 import { MediaLibraryPermission } from "../../domain/entities/Media";
-import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
+import { ErrorHandler } from "../../../utils/errors";
 
 export interface SaveResult {
   success: boolean;

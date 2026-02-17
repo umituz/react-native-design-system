@@ -19,7 +19,7 @@ export async function deleteFile(uri: string): Promise<boolean> {
         await file.delete();
         return true;
       }
-    } catch (fileError) {
+    } catch (_fileError) {
       // Not a file, try as directory
       if (__DEV__) {
         console.log('[deleteFile] Not a file, trying as directory:', uri);
@@ -33,7 +33,7 @@ export async function deleteFile(uri: string): Promise<boolean> {
         await dir.delete();
         return true;
       }
-    } catch (dirError) {
+    } catch (_dirError) {
       // Not a directory either
       if (__DEV__) {
         console.log('[deleteFile] Not a directory:', uri);

@@ -14,7 +14,6 @@ export function useAlertAutoDismiss(
   onDismiss: () => void
 ) {
   useEffect(() => {
-    // BUG FIX: Check dismissible flag before auto-dismissing
     if (!alert.dismissible) return;
 
     const duration = alert.duration ?? DEFAULT_ALERT_DURATION;

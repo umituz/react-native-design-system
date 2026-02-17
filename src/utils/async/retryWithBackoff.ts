@@ -5,8 +5,6 @@
  * Useful for network requests, file operations, etc.
  */
 
-import { ErrorHandler } from '../errors/ErrorHandler';
-
 export interface RetryOptions {
   /**
    * Maximum number of retry attempts

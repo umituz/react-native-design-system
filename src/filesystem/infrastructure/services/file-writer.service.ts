@@ -6,7 +6,7 @@
 import { File } from "expo-file-system";
 import type { FileEncoding, FileOperationResult } from "../../domain/entities/File";
 import { getEncodingType, type ExpoEncodingType } from "./encoding.service";
-import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
+import { ErrorHandler } from "../../../utils/errors";
 
 /**
  * Write string to file

@@ -182,7 +182,6 @@ export function useAsyncOperation<T, E = Error>(
     if (immediate && !skip) {
       execute();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [immediate, skip]);
 
   // Derived state

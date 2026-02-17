@@ -4,10 +4,6 @@
  * Logs are suppressed in production builds to reduce bundle size and improve performance
  */
 
-/* eslint-disable no-console */
-
-type LogLevel = "debug" | "info" | "warn" | "error";
-
 interface LoggerConfig {
   enableInProduction?: boolean;
   errorTrackingService?: (error: unknown, context?: Record<string, unknown>) => void;
