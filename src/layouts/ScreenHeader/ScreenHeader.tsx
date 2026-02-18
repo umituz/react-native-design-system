@@ -166,5 +166,3 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
     </View>
   );
 };
-
-export default ScreenHeader;

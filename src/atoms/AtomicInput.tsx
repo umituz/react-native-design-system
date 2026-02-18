@@ -29,7 +29,6 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
   returnKeyType,
   onSubmitEditing,
   blurOnSubmit,
-  autoFocus,
   autoCapitalize = 'sentences',
   autoCorrect = true,
   autoComplete,
@@ -116,7 +115,6 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
           returnKeyType={returnKeyType}
           onSubmitEditing={onSubmitEditing}
           blurOnSubmit={blurOnSubmit}
-          autoFocus={autoFocus}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
           autoComplete={autoComplete}

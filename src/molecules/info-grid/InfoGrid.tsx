@@ -84,8 +84,8 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       )}
 
       <View style={styles.grid}>
-        {items.map((item, index) => (
-          <View key={index} style={[styles.item, itemStyle]}>
+        {items.map((item) => (
+          <View key={item.text} style={[styles.item, itemStyle]}>
             {item.icon && (
               <View style={styles.iconContainer}>
                 <AtomicIcon name={item.icon} size="xs" color="primary" />

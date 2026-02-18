@@ -102,7 +102,7 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
           <View style={styles.stepIndicator}>
             {Array.from({ length: cfg.totalSteps }, (_, i) => (
               <View
-                key={i}
+                key={`step-${i}`}
                 style={[
                   styles.stepDot,
                   i + 1 <= cfg.currentStep!

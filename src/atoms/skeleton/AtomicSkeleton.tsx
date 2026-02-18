@@ -79,9 +79,9 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
 
   const renderSkeletonItem = (index: number) => (
     <View key={`skeleton-group-${index}`} style={styles.skeletonGroup}>
-      {skeletonConfigs.map((config, configIndex) => (
+      {skeletonConfigs.map((config) => (
         <SkeletonItem
-          key={`skeleton-${index}-${configIndex}`}
+          key={`skeleton-${index}-${config.width}-${config.height}`}
           config={config}
           baseColor={tokens.colors.surfaceSecondary}
           multiplier={tokens.spacingMultiplier}

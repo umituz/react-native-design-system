@@ -13,41 +13,86 @@ import type { AvatarSize, AvatarShape } from './Avatar.types';
 import { SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
 import { AvatarUtils } from './Avatar.utils';
 
-/**
- * Avatar component props
- */
 export interface AvatarProps {
-  /** Image URI */
   uri?: string;
-  /** User name for initials */
   name?: string;
-  /** Icon name (fallback when no image/name) */
   icon?: string;
-  /** Size preset */
   size?: AvatarSize;
-  /** Shape */
   shape?: AvatarShape;
-  /** Custom background color */
   backgroundColor?: string;
-  /** Show status indicator */
   showStatus?: boolean;
-  /** Status (online/offline/away/busy) */
   status?: 'online' | 'offline' | 'away' | 'busy';
-  /** Custom container style */
   style?: StyleProp<ViewStyle>;
-  /** Custom image style */
   imageStyle?: StyleProp<ImageStyle>;
-  /** OnPress handler */
   onPress?: () => void;
 }
 
-/**
- * Avatar Component
- * Displays user avatars with automatic fallback hierarchy:
- * 1. Image (if uri provided)
- * 2. Initials (if name provided)
- * 3. Icon (fallback)
- */
+interface AvatarContentProps {
+  hasImage: boolean;
+  hasName: boolean;
+  uri?: string;
+  initials: string;
+  icon: string;
+  config: typeof SIZE_CONFIGS[AvatarSize];
+  borderRadius: number;
+  imageStyle?: StyleProp<ImageStyle>;
+}
+
+const AvatarContent: React.FC<AvatarContentProps> = ({
+  hasImage,
+  hasName,
+  uri,
+  initials,
+  icon,
+  config,
+  borderRadius,
+  imageStyle,
+}) => {
+  const tokens = useAppDesignTokens();
+
+  if (hasImage) {
+    return (
+      <Image
+        source={{ uri }}
+        style={[
+          styles.image,
+          {
+            width: config.size,
+            height: config.size,
+            borderRadius,
+          },
+          imageStyle,
+        ]}
+      />
+    );
+  }
+
+  if (hasName) {
+    return (
+      <AtomicText
+        type="bodyMedium"
+        style={[
+          styles.initials,
+          {
+            fontSize: config.fontSize,
+            color: tokens.colors.textInverse,
+          },
+        ]}
+      >
+        {initials}
+      </AtomicText>
+    );
+  }
+
+  return (
+    <AtomicIcon
+      name={icon}
+      customSize={config.iconSize}
+      customColor={tokens.colors.textInverse}
+    />
+  );
+};
+
 export const Avatar: React.FC<AvatarProps> = ({
   uri,
   name,
@@ -64,7 +109,6 @@ export const Avatar: React.FC<AvatarProps> = ({
   const tokens = useAppDesignTokens();
   const config = useMemo(() => SIZE_CONFIGS[size], [size]);
 
-  // Determine avatar type and content
   const hasImage = !!uri;
   const hasName = !!name;
   const initials = useMemo(
@@ -80,56 +124,10 @@ export const Avatar: React.FC<AvatarProps> = ({
     [shape, config.size]
   );
 
-  // Status indicator position
   const statusPosition = useMemo(() => ({
     bottom: 0,
     right: 0,
   }), []);
-
-  const renderContent = () => {
-    if (hasImage) {
-      return (
-        <Image
-          source={{ uri }}
-          style={[
-            styles.image,
-            {
-              width: config.size,
-              height: config.size,
-              borderRadius,
-            },
-            imageStyle,
-          ]}
-        />
-      );
-    }
-
-    if (hasName) {
-      return (
-        <AtomicText
-          type="bodyMedium"
-          style={[
-            styles.initials,
-            {
-              fontSize: config.fontSize,
-              color: tokens.colors.textInverse,
-            },
-          ]}
-        >
-          {initials}
-        </AtomicText>
-      );
-    }
-
-    // Fallback to icon
-    return (
-      <AtomicIcon
-        name={icon}
-        customSize={config.iconSize}
-        customColor={tokens.colors.textInverse}
-      />
-    );
-  };
 
   const AvatarWrapper = onPress ? TouchableOpacity : View;
 
@@ -151,9 +149,17 @@ export const Avatar: React.FC<AvatarProps> = ({
       accessibilityLabel={name || 'User avatar'}
       accessible={true}
     >
-      {renderContent()}
+      <AvatarContent
+        hasImage={hasImage}
+        hasName={hasName}
+        uri={uri}
+        initials={initials}
+        icon={icon}
+        config={config}
+        borderRadius={borderRadius}
+        imageStyle={imageStyle}
+      />
 
-      {/* Status Indicator */}
       {showStatus && (
         <View
           style={[
@@ -194,4 +200,3 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
-

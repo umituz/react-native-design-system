@@ -14,7 +14,6 @@ export interface SearchBarProps {
     onFocus?: () => void;
     onBlur?: () => void;
     placeholder?: string;
-    autoFocus?: boolean;
     loading?: boolean;
     disabled?: boolean;
     showCancelButton?: boolean;

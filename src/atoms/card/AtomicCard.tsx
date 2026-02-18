@@ -1,6 +1,6 @@
 /**
  * AtomicCard
- * 
+ *
  * Unified card component that handles base card states, media, info, and glowing effects.
  * Replaces InfoCard, MediaCard, and GlowingCard molecules.
  */
@@ -10,6 +10,8 @@ import {
   View,
   Pressable,
   type GestureResponderEvent,
+  type StyleProp,
+  type TextStyle,
 } from 'react-native';
 import { AtomicImage } from '../image/AtomicImage';
 import { AtomicText } from '../AtomicText';
@@ -19,66 +21,45 @@ import { getCardVariantStyles, cardStyles } from './styles/cardStyles';
 import { getCardPadding } from './configs/cardPaddingConfig';
 import type { AtomicCardProps } from './types';
 
-const AtomicCardComponent: React.FC<AtomicCardProps> = ({
-  children,
-  variant = 'elevated',
-  padding = 'md',
+interface CardContentProps {
+  badge?: string;
+  image?: AtomicCardProps['image'];
+  imageAspectRatio: number;
+  selected: boolean;
+  checkCircleIcon: string;
+  paddingValue: number;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  leftIcon?: string;
+  rightIcon?: string;
+  titleStyle?: StyleProp<TextStyle>;
+  subtitleStyle?: StyleProp<TextStyle>;
+  descriptionStyle?: StyleProp<TextStyle>;
+  children?: React.ReactNode;
+}
+
+const CardContent: React.FC<CardContentProps> = ({
+  badge,
+  image,
+  imageAspectRatio,
+  selected,
+  checkCircleIcon,
+  paddingValue,
   title,
   subtitle,
   description,
-  image,
-  imageAspectRatio = 1.6,
-  badge,
   leftIcon,
   rightIcon,
-  selected = false,
-  glowColor,
-  glowIntensity = 1,
-  onPress,
-  disabled = false,
-  style,
   titleStyle,
   subtitleStyle,
   descriptionStyle,
-  testID,
+  children,
 }) => {
   const tokens = useAppDesignTokens();
-  const checkCircleIcon = useIconName('checkCircle');
-  
-  const variantStyles = useMemo(() => {
-    const base = getCardVariantStyles(variant, tokens);
-    if (variant === 'glowing' && glowColor) {
-      return {
-        ...base,
-        container: {
-          ...base.container,
-          borderColor: glowColor,
-          borderWidth: 2 * glowIntensity,
-        }
-      };
-    }
-    return base;
-  }, [variant, tokens, glowColor, glowIntensity]);
 
-  const paddingValue = getCardPadding(padding, tokens);
-
-  const containerStyle = [
-    cardStyles.container,
-    { borderRadius: tokens.borders.radius.lg },
-    variantStyles.container,
-    selected && { borderColor: tokens.colors.primary, borderWidth: 2 },
-    style,
-  ];
-
-  const handlePress = (event: GestureResponderEvent) => {
-    if (!disabled && onPress) {
-      onPress(event);
-    }
-  };
-
-  const renderContent = () => (
+  return (
     <>
-      {/* Badge */}
       {badge && (
         <View style={[cardStyles.badge, { backgroundColor: tokens.colors.primary }]}>
           <AtomicText type="labelSmall" color="onPrimary">
@@ -87,7 +68,6 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
         </View>
       )}
 
-      {/* Media */}
       {image && (
         <AtomicImage
           source={typeof image === 'string' ? { uri: image } : image}
@@ -96,14 +76,12 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
         />
       )}
 
-      {/* Selected Indicator */}
       {selected && (
         <View style={cardStyles.selectedOverlay}>
           <AtomicIcon name={checkCircleIcon} color="primary" size="md" />
         </View>
       )}
 
-      {/* Text Content */}
       <View style={{ padding: paddingValue }}>
         {(title || leftIcon || rightIcon) && (
           <View style={cardStyles.header}>
@@ -159,6 +137,85 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
       </View>
     </>
   );
+};
+
+const AtomicCardComponent: React.FC<AtomicCardProps> = ({
+  children,
+  variant = 'elevated',
+  padding = 'md',
+  title,
+  subtitle,
+  description,
+  image,
+  imageAspectRatio = 1.6,
+  badge,
+  leftIcon,
+  rightIcon,
+  selected = false,
+  glowColor,
+  glowIntensity = 1,
+  onPress,
+  disabled = false,
+  style,
+  titleStyle,
+  subtitleStyle,
+  descriptionStyle,
+  testID,
+}) => {
+  const tokens = useAppDesignTokens();
+  const checkCircleIcon = useIconName('checkCircle');
+
+  const variantStyles = useMemo(() => {
+    const base = getCardVariantStyles(variant, tokens);
+    if (variant === 'glowing' && glowColor) {
+      return {
+        ...base,
+        container: {
+          ...base.container,
+          borderColor: glowColor,
+          borderWidth: 2 * glowIntensity,
+        }
+      };
+    }
+    return base;
+  }, [variant, tokens, glowColor, glowIntensity]);
+
+  const paddingValue = getCardPadding(padding, tokens);
+
+  const containerStyle = [
+    cardStyles.container,
+    { borderRadius: tokens.borders.radius.lg },
+    variantStyles.container,
+    selected && { borderColor: tokens.colors.primary, borderWidth: 2 },
+    style,
+  ];
+
+  const handlePress = (event: GestureResponderEvent) => {
+    if (!disabled && onPress) {
+      onPress(event);
+    }
+  };
+
+  const content = (
+    <CardContent
+      badge={badge}
+      image={image}
+      imageAspectRatio={imageAspectRatio}
+      selected={selected}
+      checkCircleIcon={checkCircleIcon}
+      paddingValue={paddingValue}
+      title={title}
+      subtitle={subtitle}
+      description={description}
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
+      titleStyle={titleStyle}
+      subtitleStyle={subtitleStyle}
+      descriptionStyle={descriptionStyle}
+    >
+      {children}
+    </CardContent>
+  );
 
   if (onPress) {
     return (
@@ -171,14 +228,14 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
         ]}
         testID={testID}
       >
-        {renderContent()}
+        {content}
       </Pressable>
     );
   }
 
   return (
     <View style={containerStyle} testID={testID}>
-      {renderContent()}
+      {content}
     </View>
   );
 };

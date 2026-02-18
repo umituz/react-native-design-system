@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useCountdown } from '../hooks/useCountdown';
@@ -6,6 +6,9 @@ import { CountdownHeader } from './CountdownHeader';
 import { TimeUnit } from './TimeUnit';
 import type { CountdownTarget, CountdownDisplayConfig } from '../types/CountdownTypes';
 import type { IconName } from '../../../atoms';
+
+const EMPTY_TARGETS: CountdownTarget[] = [];
+const DEFAULT_DISPLAY_CONFIG: CountdownDisplayConfig = {};
 
 export interface CountdownProps {
     target: CountdownTarget;
@@ -19,8 +22,8 @@ export interface CountdownProps {
 
 export const Countdown: React.FC<CountdownProps> = ({
     target,
-    alternateTargets = [],
-    displayConfig = {},
+    alternateTargets = EMPTY_TARGETS,
+    displayConfig = DEFAULT_DISPLAY_CONFIG,
     interval = 1000,
     onExpire,
     onTargetChange,
@@ -49,17 +52,12 @@ export const Countdown: React.FC<CountdownProps> = ({
         onExpire,
     });
 
-    useEffect(() => {
-        if (currentTarget) {
-            updateTarget(currentTarget);
-        }
-    }, [currentTarget, updateTarget]);
-
     const handleToggle = () => {
         const nextIndex = (currentTargetIndex + 1) % allTargets.length;
         const nextTarget = allTargets[nextIndex];
         if (nextTarget) {
             setCurrentTargetIndex(nextIndex);
+            updateTarget(nextTarget);
             onTargetChange?.(nextTarget);
         }
     };
@@ -78,6 +76,7 @@ export const Countdown: React.FC<CountdownProps> = ({
 
     const timeUnits = useMemo(() => {
         interface CountdownUnit {
+            key: string;
             value: number;
             label: string;
         }
@@ -87,24 +86,28 @@ export const Countdown: React.FC<CountdownProps> = ({
 
         if (shouldShowDays) {
             units.push({
+                key: 'days',
                 value: timeRemaining.days,
                 label: labelFormatter('days', timeRemaining.days)
             });
         }
         if (showHours) {
             units.push({
+                key: 'hours',
                 value: timeRemaining.hours,
                 label: labelFormatter('hours', timeRemaining.hours)
             });
         }
         if (showMinutes) {
             units.push({
+                key: 'minutes',
                 value: timeRemaining.minutes,
                 label: labelFormatter('minutes', timeRemaining.minutes)
             });
         }
         if (showSeconds) {
             units.push({
+                key: 'seconds',
                 value: timeRemaining.seconds,
                 label: labelFormatter('seconds', timeRemaining.seconds)
             });
@@ -125,9 +128,9 @@ export const Countdown: React.FC<CountdownProps> = ({
             )}
 
             <View style={[styles.grid, { gap: tokens.spacing.sm }]}>
-                {timeUnits.map((unit, index) => (
+                {timeUnits.map((unit) => (
                     <TimeUnit
-                        key={index}
+                        key={unit.key}
                         value={unit.value}
                         label={unit.label}
                         size={size}

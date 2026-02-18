@@ -14,6 +14,8 @@ import type { IconRenderer, IconNames } from '../../../atoms/icon/iconStore';
 const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
 
 
+const EMPTY_FONTS: Record<string, any> = {};
+
 interface DesignSystemProviderProps {
   children: ReactNode;
   customColors?: CustomThemeColors;
@@ -44,7 +46,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   iconNames,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [fontsLoaded, fontError] = fonts ? useFonts(fonts) : [true, null];
+  const [fontsLoaded, fontError] = useFonts(fonts ?? EMPTY_FONTS);
 
   const initialize = useTheme((state) => state.initialize);
   const setCustomColors = useTheme((state) => state.setCustomColors);

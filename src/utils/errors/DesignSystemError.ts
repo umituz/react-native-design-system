@@ -60,8 +60,8 @@ export class DesignSystemError extends Error {
     this.retryable = metadata?.retryable ?? false;
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, DesignSystemError);
+    if (typeof (Error as any).captureStackTrace === 'function') {
+      (Error as any).captureStackTrace(this, DesignSystemError);
     }
   }
 

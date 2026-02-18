@@ -3,10 +3,19 @@
  * Global loading provider with auto-detection
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import { useIsFetching } from '@tanstack/react-query';
 import { LoadingOverlay } from '../components/LoadingOverlay';
 import type { LoadingProviderProps } from '../../domain/types/loading.types';
+
+type LoadingAction = { type: 'SHOW' } | { type: 'HIDE' };
+
+function loadingReducer(state: boolean, action: LoadingAction): boolean {
+  switch (action.type) {
+    case 'SHOW': return true;
+    case 'HIDE': return false;
+  }
+}
 
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   children,
@@ -18,7 +27,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   minDisplayTime = 300,
 }) => {
   const isFetching = useIsFetching();
-  const [showFetchLoading, setShowFetchLoading] = useState(false);
+  const [showFetchLoading, dispatch] = useReducer(loadingReducer, false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showTimeRef = useRef<number>(0);
 
@@ -31,13 +40,13 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
         hideTimeoutRef.current = null;
       }
       showTimeRef.current = Date.now();
-      setShowFetchLoading(true);
+      dispatch({ type: 'SHOW' });
     } else if (showFetchLoading) {
       const elapsed = Date.now() - showTimeRef.current;
       const remaining = Math.max(0, minDisplayTime - elapsed);
 
       hideTimeoutRef.current = setTimeout(() => {
-        setShowFetchLoading(false);
+        dispatch({ type: 'HIDE' });
         hideTimeoutRef.current = null;
       }, remaining);
     }

@@ -2,7 +2,7 @@
  * Presentation - Sticker Picker Sheet
  */
 
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef } from 'react';
 import { View, TouchableOpacity, ScrollView, Image, useWindowDimensions } from 'react-native';
 import { BottomSheetModal } from '../../../../molecules/bottom-sheet/components/BottomSheetModal';
 import type { BottomSheetModalRef } from '../../../../molecules/bottom-sheet/types/BottomSheet';
@@ -22,10 +22,7 @@ export const StickerPickerSheet = forwardRef<BottomSheetModalRef, StickerPickerS
     const tokens = useAppDesignTokens();
     const { width: SCREEN_WIDTH } = useWindowDimensions();
 
-    const stickerSize = useMemo(
-      () => (SCREEN_WIDTH - 64) / 3,
-      [SCREEN_WIDTH]
-    );
+    const stickerSize = (SCREEN_WIDTH - 64) / 3;
 
     return (
       <BottomSheetModal ref={ref} snapPoints={snapPoints} onDismiss={onDismiss}>
@@ -36,9 +33,9 @@ export const StickerPickerSheet = forwardRef<BottomSheetModalRef, StickerPickerS
 
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.md }}>
-              {stickers.map((uri, index) => (
+              {stickers.map((uri) => (
                 <TouchableOpacity
-                  key={index}
+                  key={uri}
                   onPress={() => onSelectSticker(uri)}
                   style={{
                     width: stickerSize,

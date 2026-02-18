@@ -41,7 +41,7 @@ export function SearchSuggestions<T>({
         >
             {displayedSuggestions.map((item, index) => (
                 <TouchableOpacity
-                    key={index}
+                    key={String(item)}
                     onPress={() => onSelectSuggestion(item)}
                     style={[
                         styles.item,

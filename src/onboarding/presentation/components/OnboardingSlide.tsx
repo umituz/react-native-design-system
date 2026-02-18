@@ -64,9 +64,9 @@ export const OnboardingSlide = ({
 
       {slide.features && slide.features.length > 0 && (
         <View style={styles.features}>
-          {slide.features.map((feature, index) => (
+          {slide.features.map((feature) => (
             <View
-              key={index}
+              key={feature}
               style={[
                 styles.featureItem,
                 { backgroundColor: colors.featureItemBg },

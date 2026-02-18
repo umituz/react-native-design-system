@@ -76,9 +76,9 @@ export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = ({
 
   return (
     <View style={[StyleSheet.absoluteFill, { opacity }]} pointerEvents="none">
-      {imageLayouts.map((item, index) => (
+      {imageLayouts.map((item) => (
         <Image
-          key={index}
+          key={String(item.source)}
           source={item.source}
           style={item.style}
           contentFit="cover"

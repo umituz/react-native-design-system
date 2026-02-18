@@ -45,8 +45,6 @@ export interface AtomicInputProps {
   onSubmitEditing?: () => void;
   /** Blur on submit */
   blurOnSubmit?: boolean;
-  /** Auto focus */
-  autoFocus?: boolean;
   /** Auto-capitalize */
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   /** Auto-correct */

@@ -5,6 +5,8 @@
 
 import { File as ExpoFile, Paths } from "expo-file-system/next";
 
+declare function atob(data: string): string;
+
 interface FileWithType {
   readonly type: string;
 }

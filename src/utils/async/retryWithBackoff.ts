@@ -101,7 +101,7 @@ export async function retryWithBackoff<T>(
       }
 
       // Wait before retrying
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise<void>((resolve) => setTimeout(() => resolve(), delay));
     }
   }
 

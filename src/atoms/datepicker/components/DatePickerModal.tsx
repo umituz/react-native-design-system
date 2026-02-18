@@ -2,7 +2,7 @@
  * DatePickerModal Component
  *
  * Modal component for iOS date picker with proper styling and behavior.
- * Extracted from AtomicDatePicker for better separation of concerns.
+ * Uses lazy-loaded @react-native-community/datetimepicker (optional peer dependency).
  */
 
 import React, { useMemo } from 'react';
@@ -14,9 +14,20 @@ import {
   Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from '../../../safe-area';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useAppDesignTokens } from '../../../theme';
 import { AtomicText } from '../../AtomicText';
+
+let DateTimePicker: any = null;
+try {
+  DateTimePicker = require('@react-native-community/datetimepicker').default;
+} catch {
+  // Optional peer dependency not installed
+}
+
+type DateTimePickerEvent = {
+  type: 'set' | 'dismissed' | 'neutralButtonPressed';
+  nativeEvent: { timestamp: number; utcOffset: number };
+};
 
 interface DatePickerModalProps {
   visible: boolean;
@@ -91,7 +102,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
     },
   }), [overlayOpacity, tokens, insets.bottom]);
 
-  if (Platform.OS !== 'ios') {
+  if (Platform.OS !== 'ios' || !DateTimePicker) {
     return null;
   }
 

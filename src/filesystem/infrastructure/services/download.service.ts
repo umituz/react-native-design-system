@@ -75,9 +75,9 @@ export async function downloadFileWithProgress(
     }
 
     const totalBytes = parseInt(response.headers.get("content-length") || "0", 10);
-    if (!response.body) return { ...(await downloadFile(url, destUri)), fromCache: false };
+    if (!(response as any).body) return { ...(await downloadFile(url, destUri)), fromCache: false };
 
-    const reader = response.body.getReader();
+    const reader = (response as any).body.getReader();
     const chunks: Uint8Array[] = [];
     let received = 0;
 

@@ -100,8 +100,8 @@ class Logger {
    * Use for performance measurements
    */
   time(label: string): void {
-    if (this.isDev && console.time) {
-      console.time(label);
+    if (this.isDev && (console as any).time) {
+      (console as any).time(label);
     }
   }
 
@@ -109,8 +109,8 @@ class Logger {
    * End time measurement - only in development
    */
   timeEnd(label: string): void {
-    if (this.isDev && console.timeEnd) {
-      console.timeEnd(label);
+    if (this.isDev && (console as any).timeEnd) {
+      (console as any).timeEnd(label);
     }
   }
 
@@ -119,8 +119,8 @@ class Logger {
    * Use for assertions
    */
   assert(condition: boolean, ...args: unknown[]): void {
-    if (this.isDev && console.assert) {
-      console.assert(condition, ...args);
+    if (this.isDev && (console as any).assert) {
+      (console as any).assert(condition, ...args);
     }
   }
 

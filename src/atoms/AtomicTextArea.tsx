@@ -30,8 +30,6 @@ export interface AtomicTextAreaProps {
   style?: StyleProp<ViewStyle>;
   /** Input text style */
   inputStyle?: StyleProp<TextStyle>;
-  /** Auto focus */
-  autoFocus?: boolean;
   /** Return key type */
   returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
   /** Callback when submit button is pressed */
@@ -60,7 +58,6 @@ export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, Ato
   disabled = false,
   style,
   inputStyle,
-  autoFocus,
   returnKeyType,
   onSubmitEditing,
   blurOnSubmit,
@@ -92,7 +89,6 @@ export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, Ato
         numberOfLines={lineCount}
         multiline
         editable={!disabled}
-        autoFocus={autoFocus}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
         blurOnSubmit={blurOnSubmit}

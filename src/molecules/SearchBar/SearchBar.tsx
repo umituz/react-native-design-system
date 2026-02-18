@@ -18,7 +18,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     onFocus,
     onBlur,
     placeholder = 'Search...',
-    autoFocus = false,
     loading = false,
     disabled = false,
     containerStyle,
@@ -67,7 +66,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 onBlur={onBlur}
                 placeholder={placeholder}
                 placeholderTextColor={tokens.colors.textSecondary}
-                autoFocus={autoFocus}
                 editable={!disabled}
                 returnKeyType="search"
                 autoCapitalize="none"

@@ -4,35 +4,9 @@
  * A reusable date picker component that wraps the native date picker
  * with consistent styling and behavior across platforms.
  *
- * Features:
- * - Platform-specific native pickers (iOS wheel, Android dialog)
- * - Consistent styling with design tokens
- * - Locale-aware date/time formatting (native Date methods)
- * - Timezone-aware (respects device timezone)
- * - Automatic language integration (native locale support)
- * - Optional label and error states
- * - Minimum and maximum date constraints
- * - Disabled state support
- * - Theme-aware styling
- * - Proper keyboard avoidance on iOS
- *
- * Usage:
- * ```tsx
- * const [selectedDate, setSelectedDate] = useState(new Date());
- *
- * <AtomicDatePicker
- *   value={selectedDate}
- *   onChange={setSelectedDate}
- *   label="Birth Date"
- *   minimumDate={new Date(1900, 0, 1)}
- *   maximumDate={new Date()}
- * />
- * ```
- *
- * Platform Behavior:
- * - Opens bottom sheet from bottom with spinner wheel
- * - Requires "Done" button to confirm selection
- * - Can be dismissed by swiping down or tapping backdrop
+ * Requires @react-native-community/datetimepicker as a peer dependency.
+ * If not installed, the component will render only the button with a
+ * console warning when pressed.
  *
  * @module AtomicDatePicker
  */
@@ -44,13 +18,24 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText } from './AtomicText';
 import { DatePickerModal } from './datepicker/components/DatePickerModal';
 import { DatePickerButton } from './datepicker/components/DatePickerButton';
 import { useDatePickerText } from './datepicker/hooks/useDatePickerText';
 import { getDatePickerStyles } from './datepicker/styles/datePickerStyles';
+
+let DateTimePicker: any = null;
+try {
+  DateTimePicker = require('@react-native-community/datetimepicker').default;
+} catch {
+  // Optional peer dependency not installed
+}
+
+type DateTimePickerEvent = {
+  type: 'set' | 'dismissed' | 'neutralButtonPressed';
+  nativeEvent: { timestamp: number; utcOffset: number };
+};
 
 /**
  * Props for AtomicDatePicker component
@@ -80,16 +65,6 @@ export interface AtomicDatePickerProps {
   style?: StyleProp<ViewStyle>;
 }
 
-/**
- * AtomicDatePicker - Universal date/time picker component
- *
- * Wraps @react-native-community/datetimepicker with:
- * - Theme integration
- * - Platform-specific modal handling
- * - Error states
- * - Disabled states
- * - Responsive sizing
- */
 export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   value,
   onChange,
@@ -106,10 +81,6 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const tokens = useAppDesignTokens();
   const [showPicker, setShowPicker] = useState(false);
 
-  /**
-   * Handle date/time change in picker
-   * On Android, directly apply the change. On iOS, show picker in modal and apply on confirm.
-   */
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (Platform.OS === 'android') {
       setShowPicker(false);
@@ -117,27 +88,24 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
         onChange(selectedDate);
       }
     } else {
-      // iOS: Update value while picker is open
       if (event.type === 'set' && selectedDate) {
         onChange(selectedDate);
       }
-      // iOS: Close on dismiss (swipe down)
       if (event.type === 'dismissed') {
         setShowPicker(false);
       }
     }
   };
 
-  /**
-   * Handle open - show native picker
-   */
   const handleOpen = () => {
-    if (Platform.OS === 'android') {
-      setShowPicker(true);
-    } else {
-      // iOS: Show picker inline
-      setShowPicker(true);
+    if (!DateTimePicker) {
+      console.warn(
+        '[AtomicDatePicker] @react-native-community/datetimepicker is not installed. ' +
+        'Install it to use the date picker: npx expo install @react-native-community/datetimepicker'
+      );
+      return;
     }
+    setShowPicker(true);
   };
 
   const { displayText } = useDatePickerText({ value, placeholder, mode });
@@ -167,19 +135,21 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
       )}
 
       {/* iOS Modal */}
-      <DatePickerModal
-        visible={Platform.OS === 'ios' && showPicker}
-        onClose={() => setShowPicker(false)}
-        onDateChange={handleChange}
-        currentDate={value ?? new Date()}
-        mode={mode}
-        minimumDate={minimumDate}
-        maximumDate={maximumDate}
-        testID={testID}
-      />
+      {DateTimePicker && (
+        <DatePickerModal
+          visible={Platform.OS === 'ios' && showPicker}
+          onClose={() => setShowPicker(false)}
+          onDateChange={handleChange}
+          currentDate={value ?? new Date()}
+          mode={mode}
+          minimumDate={minimumDate}
+          maximumDate={maximumDate}
+          testID={testID}
+        />
+      )}
 
       {/* Android Picker */}
-      {Platform.OS === 'android' && showPicker && (
+      {DateTimePicker && Platform.OS === 'android' && showPicker && (
         <DateTimePicker
           value={value ?? new Date()}
           mode={mode}

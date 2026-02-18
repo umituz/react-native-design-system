@@ -2,14 +2,16 @@
  * @umituz/react-native-design-system
  * Universal design system for React Native apps
  *
- * Consolidated package including:
- * - Atoms (primitive UI components)
- * - Molecules (composite components)
- * - Organisms (complex UI patterns)
- * - Theme (design tokens, colors)
- * - Typography (text styles)
- * - Responsive (screen utilities)
- * - Safe Area (safe area utilities and hooks)
+ * This main entry point exports only modules with NO optional native dependencies.
+ * Modules with native dependencies are available via sub-path imports:
+ *   - @umituz/react-native-design-system/gallery    (expo-media-library)
+ *   - @umituz/react-native-design-system/media       (expo-file-system, expo-image-picker, expo-media-library)
+ *   - @umituz/react-native-design-system/filesystem   (expo-file-system)
+ *   - @umituz/react-native-design-system/image        (expo-file-system, expo-image-manipulator)
+ *   - @umituz/react-native-design-system/device       (expo-device, expo-secure-store)
+ *   - @umituz/react-native-design-system/offline      (expo-network)
+ *   - @umituz/react-native-design-system/onboarding   (expo-video)
+ *   - @umituz/react-native-design-system/storage      (expo-secure-store)
  */
 
 // =============================================================================
@@ -26,11 +28,6 @@ export * from "./typography";
 // RESPONSIVE EXPORTS
 // =============================================================================
 export * from "./responsive";
-
-// =============================================================================
-// DEVICE EXPORTS
-// =============================================================================
-export * from "./device";
 
 // =============================================================================
 // ATOMS EXPORTS
@@ -68,24 +65,9 @@ export * from "./exception";
 export * from "./infinite-scroll";
 
 // =============================================================================
-// UUID EXPORTS
-// =============================================================================
-export * from "./uuid";
-
-// =============================================================================
 // TIMEZONE EXPORTS
 // =============================================================================
 export * from "./timezone";
-
-// =============================================================================
-// OFFLINE EXPORTS
-// =============================================================================
-export * from "./offline";
-
-// =============================================================================
-// IMAGE EXPORTS
-// =============================================================================
-export * from "./image";
 
 // =============================================================================
 // HAPTICS EXPORTS
@@ -93,40 +75,15 @@ export * from "./image";
 export * from "./haptics";
 
 // =============================================================================
-// MEDIA EXPORTS
-// =============================================================================
-export * from "./media";
-
-// =============================================================================
 // VARIANT UTILITIES
 // =============================================================================
 export * from "./presentation/utils/variants";
-
-// =============================================================================
-// UTILITIES
-// =============================================================================
-export * from "./utilities";
 
 // =============================================================================
 // UTILS EXPORTS (Logger, formatters, validators)
 // =============================================================================
 export { logger, Logger } from "./utils/logger";
 export type { LoggerConfig } from "./utils/logger";
-
-// =============================================================================
-// STORAGE EXPORTS
-// =============================================================================
-export * from "./storage";
-
-
-// =============================================================================
-// ONBOARDING EXPORTS
-// =============================================================================
-export * from "./onboarding";
-// =============================================================================
-// FILESYSTEM EXPORTS
-// =============================================================================
-export * from "./filesystem";
 
 // =============================================================================
 // TANSTACK EXPORTS
@@ -144,9 +101,9 @@ export * from "./loading";
 export * from "./init";
 
 // =============================================================================
-// GALLERY EXPORTS
+// STORAGE EXPORTS
 // =============================================================================
-export * from "./gallery";
+export * from "./storage";
 
 // =============================================================================
 // CAROUSEL EXPORTS

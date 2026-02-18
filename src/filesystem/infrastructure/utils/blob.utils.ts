@@ -5,6 +5,8 @@
 
 import { File, Paths } from "expo-file-system";
 
+declare function atob(data: string): string;
+
 /**
  * Extract raw base64 from data URI
  */

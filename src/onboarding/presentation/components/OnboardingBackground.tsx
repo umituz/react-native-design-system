@@ -10,6 +10,64 @@ import { BackgroundVideo } from "./BackgroundVideo";
 import { BackgroundImageCollage } from "./BackgroundImageCollage";
 import { AtomicImage } from "../../../atoms/image/AtomicImage";
 
+interface BackgroundContentProps {
+  slide: OnboardingSlide;
+  useCustomBackground: boolean;
+  overlayOpacity: number;
+}
+
+const BackgroundContent: React.FC<BackgroundContentProps> = ({
+  slide,
+  useCustomBackground,
+  overlayOpacity,
+}) => {
+  if (slide.backgroundVideo) {
+    return (
+      <BackgroundVideo
+        source={slide.backgroundVideo}
+        overlayOpacity={overlayOpacity}
+      />
+    );
+  }
+
+  if (slide.backgroundImages && slide.backgroundImages.length > 0) {
+    return (
+      <BackgroundImageCollage
+        images={slide.backgroundImages}
+        layout={slide.backgroundImagesLayout || "grid"}
+        columns={slide.backgroundImagesColumns}
+        gap={slide.backgroundImagesGap}
+        borderRadius={slide.backgroundImagesBorderRadius}
+      />
+    );
+  }
+
+  if (slide.backgroundImage) {
+    return (
+      <AtomicImage
+        source={slide.backgroundImage}
+        style={StyleSheet.absoluteFill}
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        priority="high"
+      />
+    );
+  }
+
+  if (useCustomBackground && slide.backgroundColor) {
+    return (
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: slide.backgroundColor }
+        ]}
+      />
+    );
+  }
+
+  return null;
+};
+
 interface OnboardingBackgroundProps {
   currentSlide: OnboardingSlide | undefined;
   useCustomBackground: boolean;
@@ -25,57 +83,13 @@ export const OnboardingBackground: React.FC<OnboardingBackgroundProps> = ({
 }) => {
   if (!currentSlide) return null;
 
-  const renderContent = () => {
-    if (currentSlide.backgroundVideo) {
-      return (
-        <BackgroundVideo
-          source={currentSlide.backgroundVideo}
-          overlayOpacity={overlayOpacity}
-        />
-      );
-    }
-
-    if (currentSlide.backgroundImages && currentSlide.backgroundImages.length > 0) {
-      return (
-        <BackgroundImageCollage
-          images={currentSlide.backgroundImages}
-          layout={currentSlide.backgroundImagesLayout || "grid"}
-          columns={currentSlide.backgroundImagesColumns}
-          gap={currentSlide.backgroundImagesGap}
-          borderRadius={currentSlide.backgroundImagesBorderRadius}
-        />
-      );
-    }
-
-    if (currentSlide.backgroundImage) {
-      return (
-        <AtomicImage
-          source={currentSlide.backgroundImage}
-          style={StyleSheet.absoluteFill}
-          contentFit="cover"
-          cachePolicy="memory-disk"
-          priority="high"
-        />
-      );
-    }
-
-    if (useCustomBackground && currentSlide.backgroundColor) {
-      return (
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            { backgroundColor: currentSlide.backgroundColor }
-          ]}
-        />
-      );
-    }
-
-    return null;
-  };
-
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      {renderContent()}
+      <BackgroundContent
+        slide={currentSlide}
+        useCustomBackground={useCustomBackground}
+        overlayOpacity={overlayOpacity}
+      />
       <View
         style={[
           StyleSheet.absoluteFill,

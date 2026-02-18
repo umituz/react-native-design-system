@@ -1,11 +1,11 @@
 /**
  * Presentation - Image Gallery Component
- * 
+ *
  * High-performance, premium image gallery using expo-image.
  * Replaces slow standard image components for instant loading.
  */
 
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useRef, useMemo } from 'react';
 import { Modal, View, StyleSheet, FlatList, useWindowDimensions, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -35,7 +35,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
 }) => {
     const insets = useSafeAreaInsets();
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
-    const [currentIndex, setCurrentIndex] = useState(index);
+    const currentIndexRef = useRef(index);
+    const [, forceRender] = React.useReducer((x: number) => x + 1, 0);
 
     const styles = useMemo(() => StyleSheet.create({
         container: {
@@ -63,23 +64,24 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         }
     }), [SCREEN_WIDTH, SCREEN_HEIGHT]);
 
-    useEffect(() => {
-        if (visible) setCurrentIndex(index);
-    }, [visible, index]);
+    if (visible) {
+        currentIndexRef.current = index;
+    }
 
     const handleEdit = useCallback(async () => {
-        const currentImage = images[currentIndex];
+        const currentImage = images[currentIndexRef.current];
         if (!currentImage || !onImageChange) return;
-        await onImageChange(currentImage.uri, currentIndex);
-    }, [images, currentIndex, onImageChange]);
+        await onImageChange(currentImage.uri, currentIndexRef.current);
+    }, [images, onImageChange]);
 
     const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const nextIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-        if (nextIndex !== currentIndex) {
-            setCurrentIndex(nextIndex);
+        if (nextIndex !== currentIndexRef.current) {
+            currentIndexRef.current = nextIndex;
             onIndexChange?.(nextIndex);
+            forceRender();
         }
-    }, [currentIndex, onIndexChange, SCREEN_WIDTH]);
+    }, [onIndexChange, SCREEN_WIDTH]);
 
     const renderItem = useCallback(({ item }: { item: ImageViewerItem }) => (
         <View style={styles.imageWrapper}>
@@ -98,7 +100,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         index: i,
     }), [SCREEN_WIDTH]);
 
-    if (!visible && !currentIndex) return null;
+    if (!visible) return null;
 
     return (
         <Modal
@@ -112,7 +114,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 <GalleryHeader
                     onClose={onDismiss}
                     onEdit={enableEditing ? handleEdit : undefined}
-                    title={title || `${currentIndex + 1} / ${images.length}`}
+                    title={title || `${currentIndexRef.current + 1} / ${images.length}`}
                 />
 
                 <FlatList
@@ -130,7 +132,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                 />
 
                 <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 20) }]}>
-                    {/* Potential for thumbnail strip or captions in future */}
                 </View>
             </View>
         </Modal>

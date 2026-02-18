@@ -40,7 +40,6 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
   return (
     <TouchableOpacity
-      key={index}
       style={[
         calendarStyles.dayCell,
         {
@@ -75,9 +74,9 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
           <View style={[calendarStyles.eventDot, { backgroundColor: tokens.colors.success }]} />
         )}
 
-        {visibleEvents.map((event, eventIndex) => (
+        {visibleEvents.map((event) => (
           <View
-            key={eventIndex}
+            key={event.id}
             style={[
               calendarStyles.eventDot,
               {
