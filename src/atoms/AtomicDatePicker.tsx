@@ -27,6 +27,7 @@ import { getDatePickerStyles } from './datepicker/styles/datePickerStyles';
 
 let DateTimePicker: any = null;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   DateTimePicker = require('@react-native-community/datetimepicker').default;
 } catch {
   // Optional peer dependency not installed

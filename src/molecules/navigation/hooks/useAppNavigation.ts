@@ -1,4 +1,4 @@
-import { useNavigation, CommonActions } from "@react-navigation/native";
+import { useNavigation, StackActions } from "@react-navigation/native";
 import type { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { useCallback, useMemo } from "react";
 
@@ -22,6 +22,7 @@ export interface AppNavigationResult {
  * useAppNavigation Hook
  *
  * Clean navigation API without complex type casting.
+ * Uses navigation.navigate() directly for proper nested navigator support.
  * Use: const navigation = useAppNavigation();
  *      navigation.navigate("ScreenName", { param: value });
  */
@@ -30,22 +31,20 @@ export function useAppNavigation(): AppNavigationResult {
 
   const navigate = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      navigation.dispatch(CommonActions.navigate({ name: screen, params }));
+      (navigation as any).navigate(screen, params);
     },
     [navigation]
   );
 
   const push = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      navigation.dispatch({ type: "PUSH", payload: { name: screen, params } });
+      navigation.dispatch(StackActions.push(screen, params));
     },
     [navigation]
   );
 
   const goBack = useCallback(() => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
+    navigation.goBack();
   }, [navigation]);
 
   const reset = useCallback(
@@ -57,20 +56,20 @@ export function useAppNavigation(): AppNavigationResult {
 
   const replace = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      navigation.dispatch({ type: "REPLACE", payload: { name: screen, params } });
+      navigation.dispatch(StackActions.replace(screen, params));
     },
     [navigation]
   );
 
   const pop = useCallback(
     (count = 1) => {
-      navigation.dispatch({ type: "POP", payload: { count } });
+      navigation.dispatch(StackActions.pop(count));
     },
     [navigation]
   );
 
   const popToTop = useCallback(() => {
-    navigation.dispatch({ type: "POP_TO_TOP" });
+    navigation.dispatch(StackActions.popToTop());
   }, [navigation]);
 
   const canGoBack = useCallback(() => navigation.canGoBack(), [navigation]);
