@@ -1,16 +1,32 @@
 /**
  * useOffline Hook
  * Primary hook for accessing offline state in components
- * Automatically subscribes to network changes via expo-network
+ * Automatically subscribes to network changes via expo-network (lazy loaded)
  */
 
 import { useEffect, useCallback, useRef, useMemo } from 'react';
-import * as Network from 'expo-network';
 import type { NetworkState as ExpoNetworkState } from 'expo-network';
 import type { NetworkState, OfflineConfig } from '../../types';
 import { useOfflineStore } from '../../infrastructure/storage/OfflineStore';
 import { networkEvents } from '../../infrastructure/events/NetworkEvents';
 import { useOfflineConfigStore } from '../../infrastructure/storage/OfflineConfigStore';
+
+/**
+ * Lazy-load expo-network to avoid crash when native module is not available
+ * (e.g. running in Expo Go without a custom dev build)
+ */
+let _networkModule: typeof import('expo-network') | null = null;
+
+const getNetworkModule = (): typeof import('expo-network') | null => {
+  if (_networkModule !== null) return _networkModule;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    _networkModule = require('expo-network') as typeof import('expo-network');
+    return _networkModule;
+  } catch {
+    return null;
+  }
+};
 
 /**
  * Convert expo-network state to our internal format
@@ -66,6 +82,15 @@ export const useOffline = (config?: OfflineConfig) => {
     if (isInitialized.current) return;
 
     isMountedRef.current = true;
+
+    const Network = getNetworkModule();
+
+    if (!Network) {
+      if (__DEV__ || mergedConfig.debug) {
+        console.warn('[DesignSystem] useOffline: expo-network native module not available. Network state tracking disabled.');
+      }
+      return;
+    }
 
     Network.getNetworkStateAsync()
       .then((state: ExpoNetworkState) => {

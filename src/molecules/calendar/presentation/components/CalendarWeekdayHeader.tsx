@@ -16,7 +16,7 @@ export const CalendarWeekdayHeader: React.FC<CalendarWeekdayHeaderProps> = ({
 }) => {
   return (
     <View style={calendarStyles.weekdayHeader}>
-      {weekdayNames.map((day, index) => (
+      {weekdayNames.map((day) => (
         <View key={day} style={calendarStyles.weekdayCell}>
           <AtomicText type="bodySmall" color="secondary" style={calendarStyles.weekdayText}>
             {day}

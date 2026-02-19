@@ -10,7 +10,7 @@ import type { LoadingProviderProps } from '../../domain/types/loading.types';
 
 type LoadingAction = { type: 'SHOW' } | { type: 'HIDE' };
 
-function loadingReducer(state: boolean, action: LoadingAction): boolean {
+function loadingReducer(_state: boolean, action: LoadingAction): boolean {
   switch (action.type) {
     case 'SHOW': return true;
     case 'HIDE': return false;
