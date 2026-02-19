@@ -36,15 +36,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   const [timedOut, setTimedOut] = useState(false);
 
   const handleTimeout = useCallback(() => {
-    if (__DEV__) {
-    }
     setTimedOut(true);
     onTimeout?.();
   }, [maxDuration, onTimeout]);
 
   useEffect(() => {
-    if (__DEV__) {
-    }
     onReady?.();
   }, [appName, visible, onReady]);
 
@@ -65,12 +61,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
 
   if (!visible) {
-    if (__DEV__) {
-    }
     return null;
-  }
-
-  if (__DEV__) {
   }
 
   const iconPlaceholderColor = colors.iconPlaceholder ?? `${colors.text}30`;

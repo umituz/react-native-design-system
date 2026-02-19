@@ -108,8 +108,6 @@ export function createEnvConfig(
     const testStoreKey = config.revenueCat?.testStoreKey;
 
     if (isExpoGo && testStoreKey) {
-      if (__DEV__) {
-      }
       return testStoreKey;
     }
 
