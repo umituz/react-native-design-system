@@ -44,7 +44,9 @@ export function useAppNavigation(): AppNavigationResult {
   );
 
   const goBack = useCallback(() => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   }, [navigation]);
 
   const reset = useCallback(

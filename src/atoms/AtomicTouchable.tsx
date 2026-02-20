@@ -5,8 +5,10 @@
  * Purpose: Touchable wrapper across all apps
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
+
+const DEBOUNCE_MS = 300;
 
 export interface AtomicTouchableProps {
   children: React.ReactNode;
@@ -44,9 +46,20 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
   accessibilityState,
   accessible = true,
 }) => {
+  const lastPressRef = useRef(0);
+
+  const handlePress = onPress
+    ? () => {
+        const now = Date.now();
+        if (now - lastPressRef.current < DEBOUNCE_MS) return;
+        lastPressRef.current = now;
+        onPress();
+      }
+    : undefined;
+
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={handlePress}
       onLongPress={onLongPress}
       disabled={disabled}
       activeOpacity={activeOpacity}
