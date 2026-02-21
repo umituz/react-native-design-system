@@ -1,70 +1,56 @@
 /**
  * Image Infrastructure - Metadata Extractor Utilities
  *
- * Helper functions for extracting metadata from images
+ * Helper functions for extracting metadata from images.
+ * NOTE: These methods require a native image library (e.g. expo-image-manipulator,
+ * expo-file-system) to be implemented. They throw until a real implementation is provided.
  */
 
-import { ImageErrorHandler } from './ImageErrorHandler';
+import { ImageErrorHandler, IMAGE_ERROR_CODES } from './ImageErrorHandler';
+
+export interface ExifData {
+  DateTimeOriginal?: string;
+  Make?: string;
+  Model?: string;
+  ISO?: number;
+  FocalLength?: number;
+  Flash?: boolean;
+  ExposureTime?: string;
+  FNumber?: number;
+}
 
 export class MetadataExtractor {
-   
+
   static async getImageDimensions(_uri: string): Promise<{ width: number; height: number }> {
-    try {
-      // In a real implementation, we would use:
-      // - expo-image-manipulator for basic dimensions
-      // - react-native-image-picker for metadata
-      // - react-native-exif-reader for EXIF data
-
-      // Mock implementation
-      return {
-        width: Math.floor(Math.random() * 2000) + 100,
-        height: Math.floor(Math.random() * 2000) + 100,
-      };
-    } catch (error) {
-      throw ImageErrorHandler.handleUnknownError(error, 'getDimensions');
-    }
+    throw ImageErrorHandler.createError(
+      'getImageDimensions is not implemented. Provide a native image library.',
+      IMAGE_ERROR_CODES.MANIPULATION_FAILED,
+      'getDimensions'
+    );
   }
 
-   
   static async getFileSize(_uri: string): Promise<number> {
-    try {
-      // In real implementation, use expo-file-system or similar
-      return Math.floor(Math.random() * 5000000) + 10000; // Random size between 10KB-5MB
-    } catch (error) {
-      throw ImageErrorHandler.handleUnknownError(error, 'getFileSize');
-    }
+    throw ImageErrorHandler.createError(
+      'getFileSize is not implemented. Provide a native file system library.',
+      IMAGE_ERROR_CODES.MANIPULATION_FAILED,
+      'getFileSize'
+    );
   }
 
-   
-  static async extractExifData(_uri: string): Promise<any> {
-    try {
-      // Mock EXIF data extraction
-      return {
-        DateTimeOriginal: new Date().toISOString(),
-        Make: 'Mock Camera',
-        Model: 'Mock Phone',
-        ISO: Math.floor(Math.random() * 1600) + 100,
-        FocalLength: Math.random() * 50 + 10,
-        Flash: Math.random() > 0.5,
-        ExposureTime: `1/${Math.floor(Math.random() * 1000) + 100}`,
-        FNumber: Math.random() * 8 + 1.4,
-      };
-    } catch {
-      return null;
-    }
+  static async extractExifData(_uri: string): Promise<ExifData | null> {
+    throw ImageErrorHandler.createError(
+      'extractExifData is not implemented. Provide a native EXIF reader library.',
+      IMAGE_ERROR_CODES.MANIPULATION_FAILED,
+      'extractExifData'
+    );
   }
 
-   
   static async extractGPSData(_uri: string): Promise<{ latitude: number; longitude: number } | null> {
-    try {
-      // Mock GPS data extraction
-      return Math.random() > 0.7 ? {
-        latitude: Math.random() * 180 - 90,
-        longitude: Math.random() * 360 - 180,
-      } : null;
-    } catch {
-      return null;
-    }
+    throw ImageErrorHandler.createError(
+      'extractGPSData is not implemented. Provide a native EXIF reader library.',
+      IMAGE_ERROR_CODES.MANIPULATION_FAILED,
+      'extractGPSData'
+    );
   }
 
   static detectFormat(uri: string): string {

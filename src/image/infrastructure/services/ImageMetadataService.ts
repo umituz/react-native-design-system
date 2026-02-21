@@ -105,12 +105,8 @@ export class ImageMetadataService {
   }
 
   static async hasMetadata(uri: string): Promise<boolean> {
-    try {
-      const exifData = await MetadataExtractor.extractExifData(uri);
-      const gpsData = await MetadataExtractor.extractGPSData(uri);
-      return !!(exifData || gpsData);
-    } catch {
-      return false;
-    }
+    const exifData = await MetadataExtractor.extractExifData(uri);
+    const gpsData = await MetadataExtractor.extractGPSData(uri);
+    return !!(exifData || gpsData);
   }
 }
