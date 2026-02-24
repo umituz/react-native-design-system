@@ -64,6 +64,17 @@ export interface OnboardingScreenProps extends OnboardingOptions {
    * All translations for the onboarding (required)
    */
   translations: OnboardingTranslations;
+
+  /**
+   * Optional video background component.
+   * Required only when slides use `backgroundVideo`.
+   * Import from expo-video in apps that have it installed.
+   *
+   * @example
+   * import { BackgroundVideo } from '@umituz/react-native-design-system/onboarding';
+   * <OnboardingScreen VideoComponent={BackgroundVideo} ... />
+   */
+  VideoComponent?: React.ComponentType<{ source: unknown; overlayOpacity?: number }>;
 }
 
 export const OnboardingScreen = ({
@@ -88,6 +99,7 @@ export const OnboardingScreen = ({
   themeVariant = "default",
   themeColors: providedThemeColors,
   translations,
+  VideoComponent,
 }: OnboardingScreenProps) => {
   if (__DEV__) {
   }
@@ -180,6 +192,7 @@ export const OnboardingScreen = ({
         onUpgrade={onUpgrade}
         showPaywallOnComplete={showPaywallOnComplete}
         variant={themeVariant}
+        VideoComponent={VideoComponent}
       />
     </OnboardingProvider>
   );

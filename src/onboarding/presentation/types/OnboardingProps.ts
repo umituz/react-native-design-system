@@ -2,6 +2,7 @@
  * Onboarding Screen Content Props
  */
 
+import type React from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import type { OnboardingSlide } from "../../domain/entities/OnboardingSlide";
 import type { OnboardingAnswerValue } from "../../domain/entities/OnboardingQuestion";
@@ -45,4 +46,5 @@ export interface OnboardingScreenContentProps {
   onUpgrade?: () => void;
   showPaywallOnComplete?: boolean;
   variant?: "default" | "card" | "minimal" | "fullscreen";
+  VideoComponent?: React.ComponentType<{ source: unknown; overlayOpacity?: number }>;
 }

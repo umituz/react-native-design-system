@@ -42,6 +42,7 @@ export const OnboardingScreenContent = ({
   onUpgrade,
   showPaywallOnComplete,
   variant = "default",
+  VideoComponent,
 }: OnboardingScreenContentProps) => {
   const { themeMode } = useTheme();
 
@@ -77,6 +78,7 @@ export const OnboardingScreenContent = ({
         useCustomBackground={useCustomBackground}
         showOverlay={showOverlay}
         overlayOpacity={overlayOpacity}
+        VideoComponent={VideoComponent}
       />
 
       {renderHeader ? (

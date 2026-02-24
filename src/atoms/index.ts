@@ -146,5 +146,5 @@ export { AtomicKeyboardAvoidingView, type AtomicKeyboardAvoidingViewProps } from
 // GlassView
 export { GlassView, type GlassViewProps } from './GlassView/GlassView';
 
-// Image
-export { AtomicImage, type AtomicImageProps } from './image/AtomicImage';
+// Image — available via sub-path: @umituz/react-native-design-system/image
+// Requires expo-image peer dependency

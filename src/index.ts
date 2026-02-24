@@ -1,148 +1,44 @@
 /**
  * @umituz/react-native-design-system
- * Universal design system for React Native apps
  *
- * Consolidated package including all modules.
- * Sub-path imports also available (e.g. @umituz/react-native-design-system/media)
+ * Sub-path imports ONLY. Barrel import is disabled to prevent
+ * bundling unused modules with optional peer dependencies.
+ *
+ * Usage:
+ *   import { DesignSystemProvider, useAppDesignTokens } from "@umituz/react-native-design-system/theme";
+ *   import { AtomicText, AtomicButton } from "@umituz/react-native-design-system/atoms";
+ *   import { FormField } from "@umituz/react-native-design-system/molecules";
+ *   import { generateUUID } from "@umituz/react-native-design-system/uuid";
+ *
+ * Available sub-paths:
+ *   /atoms        - AtomicText, AtomicButton, AtomicIcon, AtomicSpinner, etc.
+ *   /molecules    - FormField, AppNavigation, AlertContainer, BottomSheet, etc.
+ *   /organisms    - Complex screen-level components
+ *   /theme        - DesignSystemProvider, useAppDesignTokens, useTheme
+ *   /typography   - Typography utilities
+ *   /responsive   - useResponsive
+ *   /layouts      - ScreenLayout
+ *   /safe-area    - useSafeAreaInsets
+ *   /exception    - ErrorBoundary, ExceptionErrorState
+ *   /infinite-scroll - useInfiniteScroll, InfiniteScrollList
+ *   /uuid         - generateUUID, isValidUUID
+ *   /timezone     - useTimezone, date utilities
+ *   /offline      - useOffline, OfflineBanner
+ *   /storage      - storageRepository, useStorageState
+ *   /filesystem   - useFilesystem, Directory
+ *   /media        - MediaPickerService
+ *   /image        - AtomicImage, ImageGallery
+ *   /tanstack     - TanstackProvider
+ *   /loading      - LoadingProvider, useGlobalLoading
+ *   /haptics      - HapticService, useHaptics
+ *   /onboarding   - OnboardingScreen
+ *   /gallery      - gallerySaveService
+ *   /carousel     - Carousel components
+ *   /init         - createAppInitializer, createEnvConfig
+ *   /device       - DeviceService, useDeviceInfo
  */
 
-// =============================================================================
-// THEME EXPORTS
-// =============================================================================
-export * from "./theme";
-
-// =============================================================================
-// TYPOGRAPHY EXPORTS
-// =============================================================================
-export * from "./typography";
-
-// =============================================================================
-// RESPONSIVE EXPORTS
-// =============================================================================
-export * from "./responsive";
-
-// =============================================================================
-// DEVICE EXPORTS
-// =============================================================================
-export * from "./device";
-
-// =============================================================================
-// ATOMS EXPORTS
-// =============================================================================
-export * from "./atoms";
-
-// =============================================================================
-// LAYOUTS EXPORTS
-// =============================================================================
-export * from "./layouts";
-
-// =============================================================================
-// MOLECULES EXPORTS
-// =============================================================================
-export * from "./molecules";
-
-// =============================================================================
-// ORGANISMS EXPORTS
-// =============================================================================
-export * from "./organisms";
-
-// =============================================================================
-// SAFE AREA EXPORTS
-// =============================================================================
-export * from "./safe-area";
-
-// =============================================================================
-// EXCEPTION EXPORTS
-// =============================================================================
-export * from "./exception";
-
-// =============================================================================
-// INFINITE SCROLL EXPORTS
-// =============================================================================
-export * from "./infinite-scroll";
-
-// =============================================================================
-// UUID EXPORTS
-// =============================================================================
-export * from "./uuid";
-
-// =============================================================================
-// TIMEZONE EXPORTS
-// =============================================================================
-export * from "./timezone";
-
-// =============================================================================
-// OFFLINE EXPORTS
-// =============================================================================
-export * from "./offline";
-
-// =============================================================================
-// IMAGE EXPORTS
-// =============================================================================
-export * from "./image";
-
-// =============================================================================
-// HAPTICS EXPORTS
-// =============================================================================
-export * from "./haptics";
-
-// =============================================================================
-// MEDIA EXPORTS
-// =============================================================================
-export * from "./media";
-
-// =============================================================================
-// VARIANT UTILITIES
-// =============================================================================
-export * from "./presentation/utils/variants";
-
-// =============================================================================
-// UTILITIES
-// =============================================================================
-export * from "./utilities";
-
-// =============================================================================
-// UTILS EXPORTS (Logger, formatters, validators)
-// =============================================================================
-export { logger, Logger } from "./utils/logger";
-export type { LoggerConfig } from "./utils/logger";
-
-// =============================================================================
-// STORAGE EXPORTS
-// =============================================================================
-export * from "./storage";
-
-// =============================================================================
-// ONBOARDING EXPORTS
-// =============================================================================
-export * from "./onboarding";
-
-// =============================================================================
-// FILESYSTEM EXPORTS
-// =============================================================================
-export * from "./filesystem";
-
-// =============================================================================
-// TANSTACK EXPORTS
-// =============================================================================
-export * from "./tanstack";
-
-// =============================================================================
-// LOADING EXPORTS
-// =============================================================================
-export * from "./loading";
-
-// =============================================================================
-// INIT EXPORTS
-// =============================================================================
-export * from "./init";
-
-// =============================================================================
-// GALLERY EXPORTS
-// =============================================================================
-export * from "./gallery";
-
-// =============================================================================
-// CAROUSEL EXPORTS
-// =============================================================================
-export * from "./carousel";
+throw new Error(
+  '[@umituz/react-native-design-system] Barrel import is disabled. ' +
+  'Use sub-path imports instead: e.g. "@umituz/react-native-design-system/theme"'
+);
