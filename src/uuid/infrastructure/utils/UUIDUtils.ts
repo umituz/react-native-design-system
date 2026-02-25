@@ -1,46 +1,49 @@
 /**
  * UUID Generation Utility
  *
- * Provides cross-platform UUID generation using expo-crypto.
- * Compatible with React Native (iOS, Android) and Web.
+ * Provides cross-platform UUID generation.
+ * Uses expo-crypto when available, falls back to Math.random-based v4 UUID.
  */
 
-import * as Crypto from 'expo-crypto';
 import type { UUID } from '../../types/UUID';
 import { UUID_CONSTANTS } from '../../types/UUID';
 
+// Lazy-load expo-crypto to avoid crash when native module is not available
+let _cryptoModule: typeof import('expo-crypto') | null = null;
+
+const getCryptoModule = (): typeof import('expo-crypto') | null => {
+  if (_cryptoModule !== null) return _cryptoModule;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    _cryptoModule = require('expo-crypto') as typeof import('expo-crypto');
+    return _cryptoModule;
+  } catch {
+    return null;
+  }
+};
+
+const fallbackUUID = (): UUID => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  }) as UUID;
+};
+
 /**
  * Generate a v4 UUID
- * Uses expo-crypto's randomUUID() for secure UUID generation
- *
- * @returns A v4 UUID string
- *
- * @example
- * ```typescript
- * import { generateUUID } from '@umituz/react-native-uuid';
- *
- * const id = generateUUID();
- * // Returns: "550e8400-e29b-41d4-a716-446655440000"
- * ```
+ * Uses expo-crypto's randomUUID() when available, otherwise Math.random fallback
  */
 export const generateUUID = (): UUID => {
-  return Crypto.randomUUID() as UUID;
+  const Crypto = getCryptoModule();
+  if (Crypto) {
+    return Crypto.randomUUID() as UUID;
+  }
+  return fallbackUUID();
 };
 
 /**
  * Validate UUID format
- * Checks if a string is a valid v4 UUID
- *
- * @param value - The value to validate
- * @returns True if the value is a valid v4 UUID
- *
- * @example
- * ```typescript
- * import { isValidUUID } from '@umituz/react-native-uuid';
- *
- * isValidUUID('550e8400-e29b-41d4-a716-446655440000'); // true
- * isValidUUID('invalid-uuid'); // false
- * ```
  */
 export const isValidUUID = (value: string): value is UUID => {
   return UUID_CONSTANTS.PATTERN.test(value);
@@ -48,19 +51,6 @@ export const isValidUUID = (value: string): value is UUID => {
 
 /**
  * Get version from UUID string
- * Returns the UUID version number (1-5) or null for NIL/invalid
- *
- * @param value - The UUID string
- * @returns UUID version number or null
- *
- * @example
- * ```typescript
- * import { getUUIDVersion } from '@umituz/react-native-uuid';
- *
- * getUUIDVersion('550e8400-e29b-41d4-a716-446655440000'); // 4
- * getUUIDVersion('00000000-0000-0000-0000-000000000000'); // 0 (NIL)
- * getUUIDVersion('invalid'); // null
- * ```
  */
 export const getUUIDVersion = (value: string): number | null => {
   if (value === UUID_CONSTANTS.NIL) {
@@ -72,4 +62,3 @@ export const getUUIDVersion = (value: string): number | null => {
 
   return (version >= 1 && version <= 5) ? version : null;
 };
-

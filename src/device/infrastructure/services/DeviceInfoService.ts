@@ -1,46 +1,51 @@
 /**
  * Device Info Service
  *
- * Single Responsibility: Get device information from native modules
- * Follows SOLID principles - only handles device info retrieval
+ * Single Responsibility: Get device information from native modules.
+ * Uses expo-device (optional peer dep) with safe fallback.
  */
 
-import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import * as Localization from 'expo-localization';
 import type { DeviceInfo } from '../../domain/entities/Device';
 import { safeAccess, withTimeout } from '../utils/nativeModuleUtils';
 
-/**
- * Service for retrieving device information
- */
+// Lazy-load expo-device to avoid crash when native module is not available
+let _deviceModule: typeof import('expo-device') | null = null;
+
+const getDeviceModule = (): typeof import('expo-device') | null => {
+  if (_deviceModule !== null) return _deviceModule;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    _deviceModule = require('expo-device') as typeof import('expo-device');
+    return _deviceModule;
+  } catch {
+    return null;
+  }
+};
+
 export class DeviceInfoService {
-  /**
-   * Get device information
-   * SAFE: Returns minimal info if native modules are not ready
-   */
   static async getDeviceInfo(): Promise<DeviceInfo> {
     try {
-      const totalMemoryResult = await withTimeout<number>(
-        () => Device.getMaxMemoryAsync(),
-        1000,
-      );
-      const totalMemory: number | null = totalMemoryResult ?? null;
+      const Device = getDeviceModule();
 
-      const brand = safeAccess(() => Device.brand, null);
-      const manufacturer = safeAccess(() => Device.manufacturer, null);
-      const modelName = safeAccess(() => Device.modelName, null);
-      const modelId = safeAccess(() => Device.modelId, null);
-      const deviceName = safeAccess(() => Device.deviceName, null);
-      const deviceYearClass = safeAccess(() => Device.deviceYearClass, null);
-      const deviceType = safeAccess(() => Device.deviceType, null);
-      const isDevice = safeAccess(() => Device.isDevice, false);
-      const osName = safeAccess(() => Device.osName, null);
-      const osVersion = safeAccess(() => Device.osVersion, null);
-      const osBuildId = safeAccess(() => Device.osBuildId, null);
-      const platformApiLevel = safeAccess(() => Device.platformApiLevel, null);
+      const totalMemory: number | null = Device
+        ? (await withTimeout<number>(() => Device.getMaxMemoryAsync(), 1000)) ?? null
+        : null;
 
-      // Localization
+      const brand = Device ? safeAccess(() => Device.brand, null) : null;
+      const manufacturer = Device ? safeAccess(() => Device.manufacturer, null) : null;
+      const modelName = Device ? safeAccess(() => Device.modelName, null) : null;
+      const modelId = Device ? safeAccess(() => Device.modelId, null) : null;
+      const deviceName = Device ? safeAccess(() => Device.deviceName, null) : null;
+      const deviceYearClass = Device ? safeAccess(() => Device.deviceYearClass, null) : null;
+      const deviceType = Device ? safeAccess(() => Device.deviceType, null) : null;
+      const isDevice = Device ? safeAccess(() => Device.isDevice, false) : false;
+      const osName = Device ? safeAccess(() => Device.osName, null) : null;
+      const osVersion = Device ? safeAccess(() => Device.osVersion, null) : null;
+      const osBuildId = Device ? safeAccess(() => Device.osBuildId, null) : null;
+      const platformApiLevel = Device ? safeAccess(() => Device.platformApiLevel, null) : null;
+
       const calendars = Localization.getCalendars();
       const locales = Localization.getLocales();
       const timezone = calendars?.[0]?.timeZone ?? null;
@@ -69,9 +74,6 @@ export class DeviceInfoService {
     }
   }
 
-  /**
-   * Get minimal device info (fallback)
-   */
   private static getMinimalDeviceInfo(): DeviceInfo {
     return {
       brand: null,
@@ -93,4 +95,3 @@ export class DeviceInfoService {
     };
   }
 }
-

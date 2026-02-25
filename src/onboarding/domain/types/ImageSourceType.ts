@@ -1,8 +1,10 @@
 /**
  * Image Source Type
- * Domain type for image sources used in onboarding slides
+ * Domain type for image sources used in onboarding slides.
+ * Compatible with expo-image ImageSource (optional peer dep).
  */
 
-import type { ImageSource } from "expo-image";
-
-export type ImageSourceType = ImageSource | number | string;
+export type ImageSourceType =
+  | number  // require() static assets
+  | string  // URI string
+  | { uri: string; headers?: Record<string, string>; cacheKey?: string; [key: string]: unknown };
