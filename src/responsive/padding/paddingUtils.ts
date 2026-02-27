@@ -27,8 +27,8 @@ export const getResponsiveVerticalPadding = (
     // Apply spacing multiplier for consistency
     const adjustedPadding = basePadding * spacingMultiplier;
 
-    // Ensure minimum padding respects safe area
-    return Math.max(adjustedPadding, top > 0 ? 8 : adjustedPadding);
+    // We now return the base padding; safe areas are handled by ScreenLayout
+    return adjustedPadding;
   } catch {
     return LAYOUT_CONSTANTS.VERTICAL_PADDING_STANDARD;
   }

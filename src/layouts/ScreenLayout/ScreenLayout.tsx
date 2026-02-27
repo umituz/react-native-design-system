@@ -12,21 +12,22 @@ import { AtomicKeyboardAvoidingView } from '../../atoms';
 import { getScreenLayoutStyles } from './styles/screenLayoutStyles';
 import type { ScreenLayoutProps } from './types';
 
-export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
-  children,
-  scrollable = true,
-  edges = ['top'],
-  header,
-  footer,
-  backgroundColor,
-  containerStyle,
-  contentContainerStyle,
-  testID,
-  hideScrollIndicator = false,
-  keyboardAvoiding = false,
-  maxWidth,
-  refreshControl,
-}) => {
+export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutProps) => {
+  const {
+    children,
+    scrollable = true,
+    edges = ['top', 'bottom', 'left', 'right'],
+    header,
+    footer,
+    backgroundColor,
+    containerStyle,
+    contentContainerStyle,
+    testID,
+    hideScrollIndicator = false,
+    keyboardAvoiding = false,
+    maxWidth,
+    refreshControl,
+  } = props;
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
@@ -49,13 +50,30 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
 
   const bgColor = backgroundColor || tokens.colors.backgroundPrimary;
   
+  // Robust safe area handling
+  const paddingTop = edges.includes('top') ? insets.top : 0;
+  const paddingBottom = edges.includes('bottom') ? insets.bottom : 0;
+  const paddingLeft = edges.includes('left') ? insets.left : 0;
+  const paddingRight = edges.includes('right') ? insets.right : 0;
+
   const content = (
-    <View style={styles.responsiveWrapper}>
+    <View style={[
+      styles.responsiveWrapper,
+      {
+        paddingTop,
+        paddingBottom: footer ? 0 : paddingBottom,
+        paddingLeft,
+        paddingRight,
+      }
+    ]}>
       {header}
       {scrollable ? (
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+          contentContainerStyle={[
+            styles.scrollContent, 
+            contentContainerStyle,
+          ]}
           showsVerticalScrollIndicator={!hideScrollIndicator}
           keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
           refreshControl={refreshControl}
@@ -67,14 +85,17 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
           {children}
         </View>
       )}
-      {footer}
+      {footer && (
+        <View style={{ paddingBottom }}>
+          {footer}
+        </View>
+      )}
     </View>
   );
 
   return (
-    <SafeAreaView
+    <View
       style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
-      edges={edges}
       testID={testID}
     >
       {keyboardAvoiding ? (
@@ -86,7 +107,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
            {content}
          </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
