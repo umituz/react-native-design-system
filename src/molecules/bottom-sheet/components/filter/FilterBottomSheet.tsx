@@ -64,7 +64,7 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
     scrollView: { flex: 1 },
   }), [tokens]);
 
-  const safeSelectedIds = selectedIds ?? [];
+  const safeSelectedIds = useMemo(() => selectedIds ?? [], [selectedIds]);
 
   const renderOption = useCallback((option: FilterOption, categoryId: string) => {
     const isSelected = safeSelectedIds.includes(option.id);

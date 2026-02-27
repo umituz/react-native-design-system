@@ -16,7 +16,6 @@ try {
   const { useVideoPlayer, VideoView } = require('expo-video'); // eslint-disable-line @typescript-eslint/no-require-imports
 
   BackgroundVideoImpl = ({ source, overlayOpacity = 0.5 }: BackgroundVideoProps) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const player = useVideoPlayer(source, (p: any) => {
       p.loop = true;
       p.play();

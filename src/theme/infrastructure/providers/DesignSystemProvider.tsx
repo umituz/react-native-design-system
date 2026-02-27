@@ -83,7 +83,17 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
         setIsInitialized(true);
         onError?.(error);
       });
-  }, []);
+  }, [
+    customColors,
+    initialThemeMode,
+    initialize,
+    onError,
+    setCustomColors,
+    setDefaultColors,
+    setDefaultThemeMode,
+    setGlobalCustomColors,
+    setGlobalThemeMode,
+  ]);
 
   useEffect(() => {
     if (isInitialized && fontsLoaded) {

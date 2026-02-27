@@ -8,16 +8,9 @@ import { createStore } from '../../domain/factories/StoreFactory';
 import type { StoreConfig } from '../../domain/types/Store';
 
 export function useStore<T extends object>(config: StoreConfig<T>) {
-  // Stabilize entire config to track all property changes
   const stableConfig = useMemo(
     () => config,
-    [
-      config.name,
-      config.version,
-      config.persist,
-      config.storage,
-      JSON.stringify(config.initialState), // Track initialState changes
-    ]
+    [config]
   );
 
   const store = useMemo(() => createStore(stableConfig), [stableConfig]);

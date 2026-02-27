@@ -15,7 +15,7 @@ export function useAlertDismissHandler(alert: Alert) {
   const handleDismiss = useCallback(() => {
     dismissAlert(alert.id);
     alert.onDismiss?.();
-  }, [alert.id, alert.onDismiss, dismissAlert]);
+  }, [alert, dismissAlert]);
 
   return handleDismiss;
 }

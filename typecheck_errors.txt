@@ -1,0 +1,1392 @@
+
+> @umituz/react-native-design-system@4.25.43 typecheck
+> tsc --noEmit --skipLibCheck
+
+src/atoms/AtomicAvatar.tsx(17,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicAvatar.tsx(18,85): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicAvatar.tsx(58,3): error TS7031: Binding element 'source' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(59,3): error TS7031: Binding element 'name' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(61,3): error TS7031: Binding element 'customSize' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(62,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(63,3): error TS7031: Binding element 'textColor' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(64,3): error TS7031: Binding element 'borderRadius' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(66,3): error TS7031: Binding element 'borderColor' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(67,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(68,3): error TS7031: Binding element 'imageStyle' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(69,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicAvatar.tsx(73,75): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'AvatarSizes'.
+  No index signature with a parameter of type 'string' was found on type 'AvatarSizes'.
+src/atoms/AtomicAvatar.tsx(131,10): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; color: any; style: { fontSize: number; fontWeight: "600"; }; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicAvatar.tsx(142,10): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; color: any; style: { fontSize: number; fontWeight: "600"; }; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicDatePicker.tsx(14,33): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicDatePicker.tsx(20,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicDatePicker.tsx(31,20): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/atoms/AtomicDatePicker.tsx(70,3): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(71,3): error TS7031: Binding element 'onChange' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(72,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(73,3): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(75,3): error TS7031: Binding element 'minimumDate' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(76,3): error TS7031: Binding element 'maximumDate' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(79,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(80,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicDatePicker.tsx(112,67): error TS2322: Type 'string' is not assignable to type 'DatepickerMode'.
+src/atoms/AtomicDatePicker.tsx(118,10): error TS2741: Property 'children' is missing in type '{ style: any; testID: string | undefined; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicDatePicker.tsx(133,10): error TS2741: Property 'children' is missing in type '{ style: any; testID: string | undefined; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicFab.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicFab.tsx(2,46): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicFab.tsx(48,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/atoms/AtomicFab.tsx(49,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/AtomicFab.tsx(53,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicFab.tsx(54,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicFab.tsx(55,3): error TS7031: Binding element 'accessibilityLabel' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicInput.tsx(2,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicInput.tsx(16,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(18,3): error TS7031: Binding element 'onChangeText' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(19,3): error TS7031: Binding element 'placeholder' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(20,3): error TS7031: Binding element 'helperText' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(21,3): error TS7031: Binding element 'leadingIcon' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(22,3): error TS7031: Binding element 'trailingIcon' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(23,3): error TS7031: Binding element 'onTrailingIconPress' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(26,3): error TS7031: Binding element 'maxLength' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(29,3): error TS7031: Binding element 'returnKeyType' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(30,3): error TS7031: Binding element 'onSubmitEditing' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(31,3): error TS7031: Binding element 'blurOnSubmit' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(34,3): error TS7031: Binding element 'autoComplete' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(36,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(37,3): error TS7031: Binding element 'inputStyle' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(38,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(39,3): error TS7031: Binding element 'onBlur' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(40,3): error TS7031: Binding element 'onFocus' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(42,3): error TS7031: Binding element 'numberOfLines' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(43,3): error TS7031: Binding element 'textContentType' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(44,4): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/atoms/AtomicInput.tsx(66,38): error TS2322: Type 'string' is not assignable to type 'AtomicInputSize'.
+src/atoms/AtomicInput.tsx(67,42): error TS2322: Type 'string' is not assignable to type 'AtomicInputVariant'.
+src/atoms/AtomicKeyboardAvoidingView.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicKeyboardAvoidingView.tsx(7,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicKeyboardAvoidingView.tsx(25,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/AtomicKeyboardAvoidingView.tsx(26,3): error TS7031: Binding element 'behavior' implicitly has an 'any' type.
+src/atoms/AtomicKeyboardAvoidingView.tsx(27,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(7,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicPicker.tsx(8,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicPicker.tsx(27,3): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(28,3): error TS7031: Binding element 'onChange' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(29,3): error TS7031: Binding element 'options' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(30,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(31,3): error TS7031: Binding element 'placeholder' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(32,3): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(39,3): error TS7031: Binding element 'modalTitle' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(40,3): error TS7031: Binding element 'emptyMessage' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(41,3): error TS7031: Binding element 'searchPlaceholder' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(42,3): error TS7031: Binding element 'clearAccessibilityLabel' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(43,3): error TS7031: Binding element 'closeAccessibilityLabel' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(44,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(45,3): error TS7031: Binding element 'labelStyle' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(46,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicPicker.tsx(61,18): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicPicker.tsx(61,74): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<PickerSize, TextStyle>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<PickerSize, TextStyle>'.
+src/atoms/AtomicPicker.tsx(72,11): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<PickerSize, ViewStyle>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<PickerSize, ViewStyle>'.
+src/atoms/AtomicPicker.tsx(78,10): error TS2741: Property 'children' is missing in type '{ style: any; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicPicker.tsx(81,28): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<PickerSize, TextStyle>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<PickerSize, TextStyle>'.
+src/atoms/AtomicPicker.tsx(81,53): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<PickerSize, TextStyle>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<PickerSize, TextStyle>'.
+src/atoms/AtomicPicker.tsx(105,18): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicProgress.tsx(17,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicProgress.tsx(18,67): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicProgress.tsx(55,3): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/atoms/AtomicProgress.tsx(58,3): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/atoms/AtomicProgress.tsx(59,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/atoms/AtomicProgress.tsx(63,3): error TS7031: Binding element 'textColor' implicitly has an 'any' type.
+src/atoms/AtomicProgress.tsx(64,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicProgress.tsx(65,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicSpinner.tsx(16,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicSpinner.tsx(17,64): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicSpinner.tsx(74,3): error TS7031: Binding element 'text' implicitly has an 'any' type.
+src/atoms/AtomicSpinner.tsx(78,3): error TS7031: Binding element 'overlayColor' implicitly has an 'any' type.
+src/atoms/AtomicSpinner.tsx(79,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicSpinner.tsx(80,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicSpinner.tsx(85,54): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<SpinnerSize, number>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<SpinnerSize, number>'.
+src/atoms/AtomicSpinner.tsx(90,7): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<SpinnerSize, "large" | "small">'.
+  No index signature with a parameter of type 'string' was found on type 'Record<SpinnerSize, "large" | "small">'.
+src/atoms/AtomicSpinner.tsx(143,10): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicSwitch.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicSwitch.tsx(9,53): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicSwitch.tsx(24,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(25,3): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(26,3): error TS7031: Binding element 'onValueChange' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(28,3): error TS7031: Binding element 'description' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(29,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(30,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicSwitch.tsx(39,14): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicSwitch.tsx(46,16): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; style: { color: string; marginTop: number; }; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicText.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicText.tsx(2,70): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicTextArea.tsx(1,35): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicTextArea.tsx(2,93): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicTextArea.tsx(48,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(49,3): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(50,3): error TS7031: Binding element 'onChangeText' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(51,3): error TS7031: Binding element 'placeholder' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(52,3): error TS7031: Binding element 'helperText' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(53,3): error TS7031: Binding element 'errorText' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(54,3): error TS7031: Binding element 'maxLength' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(55,3): error TS7031: Binding element 'numberOfLines' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(57,3): error TS7031: Binding element 'minHeight' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(59,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(60,3): error TS7031: Binding element 'inputStyle' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(61,3): error TS7031: Binding element 'returnKeyType' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(62,3): error TS7031: Binding element 'onSubmitEditing' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(63,3): error TS7031: Binding element 'blurOnSubmit' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(64,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(65,4): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/atoms/AtomicTextArea.tsx(74,10): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicTextArea.tsx(113,12): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicTextArea.tsx(121,14): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/AtomicTouchable.tsx(8,31): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/AtomicTouchable.tsx(9,56): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/AtomicTouchable.tsx(36,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(37,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(38,3): error TS7031: Binding element 'onLongPress' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(41,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(42,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(43,3): error TS7031: Binding element 'accessibilityLabel' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(44,3): error TS7031: Binding element 'accessibilityHint' implicitly has an 'any' type.
+src/atoms/AtomicTouchable.tsx(46,3): error TS7031: Binding element 'accessibilityState' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(6,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/badge/AtomicBadge.tsx(7,82): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/badge/AtomicBadge.tsx(35,5): error TS7031: Binding element 'text' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(38,5): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(40,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(41,5): error TS7031: Binding element 'textStyle' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(42,5): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/badge/AtomicBadge.tsx(114,14): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/button/AtomicButton.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/button/AtomicButton.tsx(7,67): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/button/AtomicButton.tsx(18,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(19,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(20,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(25,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(28,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(29,3): error TS7031: Binding element 'textStyle' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(31,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(32,3): error TS7031: Binding element 'accessibilityLabel' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(33,3): error TS7031: Binding element 'accessibilityHint' implicitly has an 'any' type.
+src/atoms/button/AtomicButton.tsx(45,38): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ButtonSize'.
+src/atoms/button/AtomicButton.tsx(46,42): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ButtonVariant'.
+src/atoms/button/AtomicButton.tsx(106,8): error TS2741: Property 'children' is missing in type '{ style: StyleProp<TextStyle>; }' but required in type 'AtomicTextProps'.
+src/atoms/button/styles/buttonStyles.ts(5,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/button/types/index.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/button/types/index.ts(6,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/button/types/index.ts(14,23): error TS2503: Cannot find namespace 'React'.
+src/atoms/card/AtomicCard.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/card/AtomicCard.tsx(15,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/card/AtomicCard.tsx(43,3): error TS7031: Binding element 'badge' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(44,3): error TS7031: Binding element 'image' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(45,3): error TS7031: Binding element 'imageAspectRatio' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(46,3): error TS7031: Binding element 'selected' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(47,3): error TS7031: Binding element 'checkCircleIcon' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(48,3): error TS7031: Binding element 'paddingValue' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(49,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(50,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(51,3): error TS7031: Binding element 'description' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(52,3): error TS7031: Binding element 'leftIcon' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(53,3): error TS7031: Binding element 'rightIcon' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(54,3): error TS7031: Binding element 'titleStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(55,3): error TS7031: Binding element 'subtitleStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(56,3): error TS7031: Binding element 'descriptionStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(57,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(65,12): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; color: string; }' but required in type 'AtomicTextProps'.
+src/atoms/card/AtomicCard.tsx(98,18): error TS2741: Property 'children' is missing in type '{ type: "titleMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/card/AtomicCard.tsx(106,18): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/card/AtomicCard.tsx(127,12): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; color: string; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/card/AtomicCard.tsx(143,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(146,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(147,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(148,3): error TS7031: Binding element 'description' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(149,3): error TS7031: Binding element 'image' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(151,3): error TS7031: Binding element 'badge' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(152,3): error TS7031: Binding element 'leftIcon' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(153,3): error TS7031: Binding element 'rightIcon' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(155,3): error TS7031: Binding element 'glowColor' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(157,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(159,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(160,3): error TS7031: Binding element 'titleStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(161,3): error TS7031: Binding element 'subtitleStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(162,3): error TS7031: Binding element 'descriptionStyle' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(163,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/card/AtomicCard.tsx(169,39): error TS2345: Argument of type 'string' is not assignable to parameter of type 'CardVariant'.
+src/atoms/card/AtomicCard.tsx(183,39): error TS2345: Argument of type 'string' is not assignable to parameter of type 'CardPadding'.
+src/atoms/card/AtomicCard.tsx(225,19): error TS7031: Binding element 'pressed' implicitly has an 'any' type.
+src/atoms/card/styles/cardStyles.ts(5,39): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/card/types.ts(5,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/card/types.ts(6,98): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/chip/AtomicChip.tsx(6,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/chip/AtomicChip.tsx(7,51): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/chip/AtomicChip.tsx(17,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(21,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(22,3): error TS7031: Binding element 'textColor' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(23,3): error TS7031: Binding element 'borderColor' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(24,3): error TS7031: Binding element 'leadingIcon' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(25,3): error TS7031: Binding element 'trailingIcon' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(27,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(30,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(31,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/chip/AtomicChip.tsx(36,54): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ChipSize'.
+src/atoms/chip/AtomicChip.tsx(37,56): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ChipColor'.
+src/atoms/chip/AtomicChip.tsx(38,56): error TS2345: Argument of type 'string' is not assignable to parameter of type 'ChipVariant'.
+src/atoms/chip/AtomicChip.tsx(87,8): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; color: any; style: { fontSize: any; fontWeight: "500"; }; }' but required in type 'AtomicTextProps'.
+src/atoms/chip/types/index.ts(5,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/chip/types/index.ts(13,22): error TS2503: Cannot find namespace 'React'.
+src/atoms/datepicker/components/DatePickerButton.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/datepicker/components/DatePickerButton.tsx(13,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/datepicker/components/DatePickerButton.tsx(28,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerButton.tsx(30,3): error TS7031: Binding element 'displayText' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerButton.tsx(31,3): error TS7031: Binding element 'hasValue' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerButton.tsx(32,3): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerButton.tsx(33,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerButton.tsx(99,10): error TS2741: Property 'children' is missing in type '{ style: any; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/atoms/datepicker/components/DatePickerModal.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/datepicker/components/DatePickerModal.tsx(15,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/datepicker/components/DatePickerModal.tsx(23,20): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/atoms/datepicker/components/DatePickerModal.tsx(52,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(53,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(54,3): error TS7031: Binding element 'onDateChange' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(55,3): error TS7031: Binding element 'currentDate' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(57,3): error TS7031: Binding element 'minimumDate' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(58,3): error TS7031: Binding element 'maximumDate' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(60,3): error TS7031: Binding element 'titleText' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(62,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/datepicker/components/DatePickerModal.tsx(123,14): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/datepicker/components/DatePickerModal.tsx(136,16): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/atoms/datepicker/hooks/useDatePickerText.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/datepicker/styles/datePickerStyles.ts(6,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/EmptyState.tsx(10,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/EmptyState.tsx(11,63): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/EmptyState.tsx(30,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(31,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(32,3): error TS7031: Binding element 'description' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(33,3): error TS7031: Binding element 'actionLabel' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(34,3): error TS7031: Binding element 'onAction' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(35,3): error TS7031: Binding element 'illustration' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(36,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(37,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/EmptyState.tsx(90,8): error TS2741: Property 'children' is missing in type '{ type: "headlineSmall"; color: string; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/EmptyState.tsx(99,10): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; color: string; style: any[]; }' but required in type 'AtomicTextProps'.
+src/atoms/EmptyState.tsx(117,12): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; color: string; }' but required in type 'AtomicTextProps'.
+src/atoms/fab/styles/fabStyles.ts(8,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/fab/types.ts(1,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/GlassView/GlassView.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/GlassView/GlassView.tsx(2,56): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/GlassView/GlassView.tsx(25,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/atoms/GlassView/GlassView.tsx(26,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/GlassView/GlassView.tsx(28,3): error TS7031: Binding element 'tint' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(23,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/icon/AtomicIcon.tsx(24,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/icon/AtomicIcon.tsx(77,5): error TS7031: Binding element 'name' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(79,5): error TS7031: Binding element 'customSize' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(80,5): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(81,5): error TS7031: Binding element 'customColor' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(83,5): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(84,5): error TS7031: Binding element 'svgPath' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(86,5): error TS7031: Binding element 'accessibilityLabel' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(87,5): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/icon/AtomicIcon.tsx(88,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/icon/components/iconRenderer.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/icon/components/iconRenderer.tsx(7,56): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/icon/components/iconRenderer.tsx(8,27): error TS2307: Cannot find module 'react-native-svg' or its corresponding type declarations.
+src/atoms/icon/iconStore.ts(8,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/atoms/icon/iconStore.ts(9,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/icon/iconStore.ts(10,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/icon/iconStore.ts(72,48): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/atoms/icon/iconStore.ts(77,15): error TS7006: Parameter 'iconNames' implicitly has an 'any' type.
+src/atoms/icon/iconStore.ts(77,26): error TS7006: Parameter 'iconRenderer' implicitly has an 'any' type.
+src/atoms/icon/iconStore.ts(96,24): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/atoms/icon/iconStore.ts(103,35): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/atoms/icon/iconStore.ts(121,24): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/atoms/image/AtomicImage.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/image/AtomicImage.tsx(2,67): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/image/AtomicImage.tsx(8,15): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/atoms/image/AtomicImage.tsx(23,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/image/AtomicImage.tsx(24,3): error TS7031: Binding element 'rounded' implicitly has an 'any' type.
+src/atoms/image/AtomicImage.tsx(26,3): error TS7031: Binding element 'cachePolicy' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/input/components/InputHelper.tsx(2,22): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/input/components/InputHelper.tsx(16,3): error TS7031: Binding element 'helperText' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(17,3): error TS7031: Binding element 'showCharacterCount' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(19,3): error TS7031: Binding element 'maxLength' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(20,3): error TS7031: Binding element 'state' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(21,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/input/components/InputHelper.tsx(30,10): error TS2741: Property 'children' is missing in type '{ style: { flex: number; }; color: string; testID: string | undefined; }' but required in type 'AtomicTextProps'.
+src/atoms/input/components/InputHelper.tsx(39,10): error TS2741: Property 'children' is missing in type '{ style: { marginLeft: number; }; color: string; testID: string | undefined; }' but required in type 'AtomicTextProps'.
+src/atoms/input/components/InputIcon.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/input/components/InputIcon.tsx(2,27): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/input/components/InputIcon.tsx(15,3): error TS7031: Binding element 'name' implicitly has an 'any' type.
+src/atoms/input/components/InputIcon.tsx(16,3): error TS7031: Binding element 'size' implicitly has an 'any' type.
+src/atoms/input/components/InputIcon.tsx(17,3): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/atoms/input/components/InputIcon.tsx(18,3): error TS7031: Binding element 'position' implicitly has an 'any' type.
+src/atoms/input/components/InputIcon.tsx(19,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/atoms/input/components/InputIcon.tsx(20,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/input/components/InputLabel.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/input/components/InputLabel.tsx(10,57): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/atoms/input/components/InputLabel.tsx(10,64): error TS7031: Binding element 'state' implicitly has an 'any' type.
+src/atoms/input/components/InputLabel.tsx(16,6): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; color: string; style: { marginBottom: number; }; }' but required in type 'AtomicTextProps'.
+src/atoms/input/hooks/useInputState.ts(1,59): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/input/hooks/useInputState.ts(42,27): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/atoms/input/styles/inputStyles.ts(6,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/input/styles/inputStylesHelper.ts(8,27): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/input/types.ts(1,48): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/input/types.ts(2,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/components/PickerChips.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/picker/components/PickerChips.tsx(9,63): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/components/PickerChips.tsx(27,3): error TS7031: Binding element 'selectedOptions' implicitly has an 'any' type.
+src/atoms/picker/components/PickerChips.tsx(28,3): error TS7031: Binding element 'onRemoveChip' implicitly has an 'any' type.
+src/atoms/picker/components/PickerChips.tsx(41,29): error TS7006: Parameter 'opt' implicitly has an 'any' type.
+src/atoms/picker/components/PickerChips.tsx(43,12): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/picker/components/PickerIcons.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/picker/components/PickerIcons.tsx(7,40): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/components/PickerIcons.tsx(23,3): error TS7031: Binding element 'clearable' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(24,3): error TS7031: Binding element 'disabled' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(25,3): error TS7031: Binding element 'modalVisible' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(26,3): error TS7031: Binding element 'selectedOptionsCount' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(27,3): error TS7031: Binding element 'onClear' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(28,3): error TS7031: Binding element 'clearAccessibilityLabel' implicitly has an 'any' type.
+src/atoms/picker/components/PickerIcons.tsx(29,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/picker/components/PickerModal.tsx(6,68): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/components/PickerModal.tsx(45,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(46,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(47,3): error TS7031: Binding element 'selectedValues' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(48,3): error TS7031: Binding element 'onSelect' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(49,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(51,3): error TS7031: Binding element 'searchQuery' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(52,3): error TS7031: Binding element 'onSearchChange' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(53,3): error TS7031: Binding element 'filteredOptions' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(54,3): error TS7031: Binding element 'emptyMessage' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(55,3): error TS7031: Binding element 'searchPlaceholder' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(56,3): error TS7031: Binding element 'closeAccessibilityLabel' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(57,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/picker/components/PickerModal.tsx(89,12): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/picker/components/PickerModal.tsx(90,33): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/picker/components/PickerModal.tsx(102,14): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/picker/components/PickerModal.tsx(121,16): error TS2741: Property 'children' is missing in type '{ style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/atoms/picker/hooks/usePickerState.ts(1,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/picker/hooks/usePickerState.ts(93,34): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/atoms/picker/styles/pickerModalStyles.ts(5,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/styles/pickerOptionStyles.ts(5,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/styles/pickerSearchStyles.ts(5,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/styles/pickerStateStyles.ts(5,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/styles/pickerStyles.ts(4,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/picker/types.ts(1,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/skeleton/AtomicSkeleton.tsx(25,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/skeleton/AtomicSkeleton.tsx(26,87): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/skeleton/AtomicSkeleton.tsx(53,20): error TS7031: Binding element 'config' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(53,28): error TS7031: Binding element 'baseColor' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(53,39): error TS7031: Binding element 'multiplier' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(70,3): error TS7031: Binding element 'custom' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(72,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(73,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/atoms/skeleton/AtomicSkeleton.tsx(78,7): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<SkeletonPattern, SkeletonConfig[]>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<SkeletonPattern, SkeletonConfig[]>'.
+src/atoms/skeleton/AtomicSkeleton.tsx(82,29): error TS7006: Parameter 'config' implicitly has an 'any' type.
+src/atoms/status-bar/AtomicStatusBar.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/atoms/status-bar/AtomicStatusBar.tsx(7,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/atoms/status-bar/AtomicStatusBar.tsx(18,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/carousel/BannerCarousel.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/BannerCarousel.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/BannerCarousel.tsx(21,65): error TS7031: Binding element 'items' implicitly has an 'any' type.
+src/carousel/BannerCarousel.tsx(47,14): error TS2741: Property 'children' is missing in type '{ type: "headlineLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/carousel/BannerCarousel.tsx(62,14): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/carousel/BannerCarousel.tsx(103,68): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/carousel/Carousel.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/Carousel.tsx(2,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/Carousel.tsx(45,13): error TS2322: Type '{ key: string; item: CarouselItem<T>; itemWidth: number; renderContent: (itemData: CarouselItem<T>) => React.ReactNode; style: { marginRight: number; } | undefined; }' is not assignable to type 'IntrinsicAttributes & CarouselItemProps<T>'.
+  Property 'key' does not exist on type 'IntrinsicAttributes & CarouselItemProps<T>'.
+src/carousel/carouselCalculations.ts(1,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/CarouselDots.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/CarouselDots.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/CarouselDots.tsx(7,3): error TS7031: Binding element 'count' implicitly has an 'any' type.
+src/carousel/CarouselDots.tsx(8,3): error TS7031: Binding element 'currentIndex' implicitly has an 'any' type.
+src/carousel/CarouselDots.tsx(9,3): error TS7031: Binding element 'activeColor' implicitly has an 'any' type.
+src/carousel/CarouselDots.tsx(10,3): error TS7031: Binding element 'inactiveColor' implicitly has an 'any' type.
+src/carousel/CarouselItem.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/CarouselItem.tsx(2,57): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/CarouselScrollView.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/CarouselScrollView.tsx(8,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/CarouselScrollView.tsx(21,3): error TS7031: Binding element 'onScroll' implicitly has an 'any' type.
+src/carousel/CarouselScrollView.tsx(22,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/carousel/CarouselScrollView.tsx(24,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/carousel/CarouselScrollView.tsx(25,3): error TS7031: Binding element 'contentContainerStyle' implicitly has an 'any' type.
+src/carousel/types.ts(1,62): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/carousel/types.ts(11,57): error TS2503: Cannot find namespace 'React'.
+src/carousel/types.ts(22,13): error TS2503: Cannot find namespace 'React'.
+src/carousel/useCarouselScroll.ts(1,39): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/carousel/useCarouselScroll.ts(2,57): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/detection/deviceDetection.ts(8,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/detection/deviceDetection.ts(13,34): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/detection/deviceDetection.ts(15,43): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/detection/deviceDetection.ts(19,21): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/device/detection/deviceDetection.ts(19,61): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/detection/iPadDetection.ts(8,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/detection/iPadLayoutUtils.ts(5,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/detection/iPadModalUtils.ts(6,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/repositories/SecureDeviceIdRepository.ts(13,30): error TS2307: Cannot find module 'expo-secure-store' or its corresponding type declarations.
+src/device/infrastructure/services/ApplicationInfoService.ts(8,30): error TS2307: Cannot find module 'expo-application' or its corresponding type declarations.
+src/device/infrastructure/services/ApplicationInfoService.ts(9,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceCapabilityService.ts(8,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceExtrasCollector.ts(11,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceExtrasCollector.ts(12,31): error TS2307: Cannot find module 'expo-localization' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceIdService.ts(8,30): error TS2307: Cannot find module 'expo-application' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceIdService.ts(9,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceInfoService.ts(8,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceInfoService.ts(9,31): error TS2307: Cannot find module 'expo-localization' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceInfoService.ts(14,34): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceInfoService.ts(16,43): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/infrastructure/services/DeviceInfoService.ts(20,21): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/device/infrastructure/services/DeviceInfoService.ts(20,61): error TS2307: Cannot find module 'expo-device' or its corresponding type declarations.
+src/device/infrastructure/services/UserFriendlyIdService.ts(8,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/device/presentation/hooks/useAnonymousUser.ts(14,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/device/presentation/hooks/useDeviceFeatures.ts(11,50): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/exception/ErrorBoundary.tsx(6,45): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/exception/ErrorBoundary.tsx(7,58): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/exception/ErrorBoundary.tsx(26,10): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(34,10): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(43,10): error TS2339: Property 'setState' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(47,14): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(48,16): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(49,21): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(56,19): error TS2339: Property 'state' does not exist on type 'ErrorBoundary'.
+src/exception/ErrorBoundary.tsx(65,17): error TS2339: Property 'props' does not exist on type 'ErrorBoundary'.
+src/filesystem/infrastructure/services/directory.service.ts(6,34): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/services/directory.service.ts(39,23): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/filesystem/infrastructure/services/download.service.ts(5,40): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/services/download.service.ts(41,34): error TS18046: 'res' is of type 'unknown'.
+src/filesystem/infrastructure/services/file-info.service.ts(6,22): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/services/file-manager.service.ts(6,33): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/services/file-reader.service.ts(6,22): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/services/file-writer.service.ts(6,22): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/filesystem/infrastructure/utils/blob.utils.ts(6,29): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/gallery/gallery-save.service.ts(6,31): error TS2307: Cannot find module 'expo-media-library' or its corresponding type declarations.
+src/haptics/infrastructure/services/HapticService.ts(11,35): error TS2307: Cannot find module 'expo-haptics' or its corresponding type declarations.
+src/haptics/infrastructure/services/HapticService.ts(13,44): error TS2307: Cannot find module 'expo-haptics' or its corresponding type declarations.
+src/haptics/infrastructure/services/HapticService.ts(17,22): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/haptics/infrastructure/services/HapticService.ts(17,63): error TS2307: Cannot find module 'expo-haptics' or its corresponding type declarations.
+src/haptics/presentation/hooks/useHaptics.ts(11,46): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/infrastructure/services/ImageConversionService.ts(7,35): error TS2307: Cannot find module 'expo-image-manipulator' or its corresponding type declarations.
+src/image/infrastructure/services/ImageTransformService.ts(7,35): error TS2307: Cannot find module 'expo-image-manipulator' or its corresponding type declarations.
+src/image/infrastructure/utils/ImageTransformUtils.ts(7,35): error TS2307: Cannot find module 'expo-image-manipulator' or its corresponding type declarations.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(5,35): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(6,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(23,6): error TS7031: Binding element 'onSelectFilter' implicitly has an 'any' type.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(23,22): error TS7031: Binding element 'onDismiss' implicitly has an 'any' type.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(23,33): error TS7031: Binding element 'activeFilterId' implicitly has an 'any' type.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(23,92): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(31,12): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/FilterPickerSheet.tsx(57,20): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(5,35): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(6,80): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(21,6): error TS7031: Binding element 'stickers' implicitly has an 'any' type.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(21,16): error TS7031: Binding element 'onSelectSticker' implicitly has an 'any' type.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(21,33): error TS7031: Binding element 'onDismiss' implicitly has an 'any' type.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(21,94): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(30,12): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/StickerPickerSheet.tsx(36,30): error TS7006: Parameter 'uri' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(7,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(8,84): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(29,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(30,3): error TS7031: Binding element 'buttons' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(31,3): error TS7031: Binding element 'selectedValue' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(32,3): error TS7031: Binding element 'onSelect' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(33,18): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(34,18): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(35,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(41,8): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(54,23): error TS7006: Parameter 'button' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(72,16): error TS2741: Property 'children' is missing in type '{ style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(91,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/components/TransformButtonRow.tsx(114,8): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextContentTab.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextContentTab.tsx(6,33): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextContentTab.tsx(16,3): error TS7031: Binding element 'text' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextContentTab.tsx(17,3): error TS7031: Binding element 'onTextChange' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextContentTab.tsx(18,3): error TS7031: Binding element 't' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextEditorTabs.styles.ts(5,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(6,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(35,3): error TS7031: Binding element 'fontSize' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(36,3): error TS7031: Binding element 'setFontSize' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(37,3): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(38,3): error TS7031: Binding element 'setColor' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(39,3): error TS7031: Binding element 'fontFamily' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(40,3): error TS7031: Binding element 'setFontFamily' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(48,10): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(79,16): error TS2741: Property 'children' is missing in type '{ style: { fontFamily: string; }; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(87,10): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(122,10): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextStyleTab.tsx(153,16): error TS2741: Property 'children' is missing in type '{ style: { color: string; fontWeight: string; }; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(6,22): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(26,3): error TS7031: Binding element 'scale' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(27,3): error TS7031: Binding element 'setScale' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(28,3): error TS7031: Binding element 'rotation' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(29,3): error TS7031: Binding element 'setRotation' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(30,3): error TS7031: Binding element 'opacity' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(31,3): error TS7031: Binding element 'setOpacity' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(32,3): error TS7031: Binding element 'onDelete' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(58,23): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(66,23): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/image/presentation/components/editor/text-editor/TextTransformTab.tsx(74,23): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/image/presentation/components/editor/TextEditorSheet.tsx(5,45): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/editor/TextEditorSheet.tsx(6,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/editor/TextEditorSheet.tsx(35,87): error TS7006: Parameter 'props' implicitly has an 'any' type.
+src/image/presentation/components/editor/TextEditorSheet.tsx(35,94): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/image/presentation/components/editor/TextEditorSheet.tsx(60,16): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/GalleryHeader.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/GalleryHeader.tsx(9,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/GalleryHeader.tsx(10,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/image/presentation/components/GalleryHeader.tsx(37,26): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/GalleryHeader.tsx(46,22): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/GalleryHeader.tsx(59,22): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/image/presentation/components/ImageGallery.tsx(8,53): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/components/ImageGallery.tsx(9,141): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/image/presentation/components/ImageGallery.tsx(10,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/image/presentation/components/ImageGallery.tsx(18,15): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/image/presentation/components/ImageGallery.tsx(34,3): error TS7031: Binding element 'images' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(35,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(36,3): error TS7031: Binding element 'onDismiss' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(39,3): error TS7031: Binding element 'onIndexChange' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(40,3): error TS7031: Binding element 'onImageChange' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(42,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(138,26): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/image/presentation/components/ImageGallery.tsx(138,32): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/image/presentation/hooks/useImageBatch.ts(5,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageConversion.ts(4,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageEnhance.ts(5,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageGallery.ts(5,67): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageGallery.ts(54,27): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/image/presentation/hooks/useImageMetadata.ts(5,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageOperation.ts(7,39): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/image/presentation/hooks/useImageTransform.ts(4,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/domain/interfaces/infinite-scroll-list-props.ts(8,24): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/domain/interfaces/infinite-scroll-list-props.ts(56,40): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/empty.tsx(9,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/empty.tsx(10,40): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/empty.tsx(15,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/empty.tsx(16,3): error TS7031: Binding element 'textStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(9,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/error.tsx(10,58): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/error.tsx(14,3): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(15,3): error TS7031: Binding element 'onRetry' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(17,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(18,3): error TS7031: Binding element 'errorTextStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(19,3): error TS7031: Binding element 'retryTextStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/error.tsx(20,3): error TS7031: Binding element 'accessibilityLabel' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(8,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(9,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(100,22): error TS7031: Binding element 'item' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(100,28): error TS7031: Binding element 'index' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(101,22): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/infinite-scroll-list.tsx(101,28): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/loading-more.tsx(9,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/loading-more.tsx(10,53): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/loading-more.tsx(14,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/loading-more.tsx(16,3): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/loading.tsx(9,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/loading.tsx(10,53): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/components/loading.tsx(14,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/loading.tsx(16,3): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/infinite-scroll/presentation/components/types.ts(7,63): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(7,58): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(69,41): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(84,19): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(103,41): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(113,19): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(118,19): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(130,41): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/infinite-scroll/presentation/hooks/useInfiniteScroll.ts(145,19): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/init/env/createEnvConfig.ts(6,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/init/env/createEnvConfig.ts(7,23): error TS2307: Cannot find module 'expo-constants' or its corresponding type declarations.
+src/init/env/createEnvConfig.ts(94,40): error TS2580: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/init/useAppInitialization.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/AppHeader/AppHeader.tsx(11,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/AppHeader/AppHeader.tsx(12,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/AppHeader/AppHeader.tsx(46,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(47,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(48,3): error TS7031: Binding element 'leftIcon' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(49,3): error TS7031: Binding element 'onLeftPress' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(50,3): error TS7031: Binding element 'rightIcon' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(51,3): error TS7031: Binding element 'onRightPress' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(52,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(53,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/layouts/AppHeader/AppHeader.tsx(76,12): error TS2741: Property 'children' is missing in type '{ type: "titleLarge"; color: string; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/layouts/AppHeader/AppHeader.tsx(80,14): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/layouts/Container/Container.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/Container/Container.tsx(9,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/Container/Container.tsx(44,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/layouts/Container/Container.tsx(45,3): error TS7031: Binding element 'maxWidth' implicitly has an 'any' type.
+src/layouts/Container/Container.tsx(48,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/layouts/Container/Container.tsx(49,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/layouts/FormLayout/FormLayout.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/FormLayout/FormLayout.tsx(9,78): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/FormLayout/FormLayout.tsx(48,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/layouts/FormLayout/FormLayout.tsx(49,3): error TS7031: Binding element 'footer' implicitly has an 'any' type.
+src/layouts/FormLayout/FormLayout.tsx(50,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/layouts/FormLayout/FormLayout.tsx(53,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/Grid/Grid.tsx(9,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/Grid/Grid.tsx(46,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(49,3): error TS7031: Binding element 'gap' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(50,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(51,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(81,24): error TS7006: Parameter 'child' implicitly has an 'any' type.
+src/layouts/Grid/Grid.tsx(81,31): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(15,45): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/ScreenHeader/ScreenHeader.tsx(16,51): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/ScreenHeader/ScreenHeader.tsx(73,9): error TS7031: Binding element 'hideBackButton' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(73,25): error TS7031: Binding element 'onBackPress' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(73,38): error TS7031: Binding element 'backIconName' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(73,52): error TS7031: Binding element 'backIconColor' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(73,67): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(100,9): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(100,16): error TS7031: Binding element 'tokens' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(100,24): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(102,6): error TS2741: Property 'children' is missing in type '{ type: "headlineMedium"; style: { fontWeight: any; textAlign: string; color: any; }[]; numberOfLines: number; testID: string; }' but required in type 'AtomicTextProps'.
+src/layouts/ScreenHeader/ScreenHeader.tsx(121,9): error TS7031: Binding element 'rightAction' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(128,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(129,3): error TS7031: Binding element 'rightAction' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(130,3): error TS7031: Binding element 'onBackPress' implicitly has an 'any' type.
+src/layouts/ScreenHeader/ScreenHeader.tsx(132,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/layouts/ScreenLayout/ScreenLayout.tsx(6,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/layouts/ScreenLayout/ScreenLayout.tsx(7,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/ScreenLayout/ScreenLayout.tsx(8,49): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/layouts/ScreenLayout/styles/screenLayoutStyles.ts(5,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/ScreenLayout/types/index.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/ScreenLayout/types/index.ts(6,27): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/layouts/ScreenLayout/types/index.ts(7,42): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/layouts/ScreenLayout/types/index.ts(10,22): error TS2503: Cannot find namespace 'React'.
+src/layouts/ScreenLayout/types/index.ts(13,21): error TS2503: Cannot find namespace 'React'.
+src/layouts/ScreenLayout/types/index.ts(14,21): error TS2503: Cannot find namespace 'React'.
+src/layouts/ScreenLayout/types/index.ts(25,29): error TS2503: Cannot find namespace 'React'.
+src/loading/domain/types/loading.types.ts(24,13): error TS2503: Cannot find namespace 'React'.
+src/loading/infrastructure/store/LoadingStore.ts(6,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/loading/infrastructure/store/LoadingStore.ts(16,54): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/loading/infrastructure/store/LoadingStore.ts(20,10): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/loading/infrastructure/store/LoadingStore.ts(29,10): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/loading/presentation/components/LoadingOverlay.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/loading/presentation/components/LoadingOverlay.tsx(7,41): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/loading/presentation/components/LoadingOverlay.tsx(14,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/loading/presentation/components/LoadingOverlay.tsx(15,3): error TS7031: Binding element 'message' implicitly has an 'any' type.
+src/loading/presentation/hooks/useGlobalLoading.ts(6,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/loading/presentation/providers/LoadingProvider.tsx(6,54): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/loading/presentation/providers/LoadingProvider.tsx(7,31): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/loading/presentation/providers/LoadingProvider.tsx(21,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/loading/presentation/providers/LoadingProvider.tsx(22,3): error TS7031: Binding element 'spinnerColor' implicitly has an 'any' type.
+src/loading/presentation/providers/LoadingProvider.tsx(24,3): error TS7031: Binding element 'overlayColor' implicitly has an 'any' type.
+src/loading/presentation/providers/LoadingProvider.tsx(25,3): error TS7031: Binding element 'defaultMessage' implicitly has an 'any' type.
+src/media/infrastructure/services/MediaPickerService.ts(8,30): error TS2307: Cannot find module 'expo-image-picker' or its corresponding type declarations.
+src/media/infrastructure/services/MediaSaveService.ts(6,29): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/media/infrastructure/utils/file-media-utils.ts(6,41): error TS2307: Cannot find module 'expo-file-system/next' or its corresponding type declarations.
+src/media/infrastructure/utils/file-media-utils.ts(120,26): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/media/infrastructure/utils/file-media-utils.ts(146,26): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/media/infrastructure/utils/mediaPickerMappers.ts(6,30): error TS2307: Cannot find module 'expo-image-picker' or its corresponding type declarations.
+src/media/infrastructure/utils/PermissionManager.ts(7,30): error TS2307: Cannot find module 'expo-image-picker' or its corresponding type declarations.
+src/media/presentation/hooks/useMedia.ts(8,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/action-footer/ActionFooter.tsx(2,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/action-footer/ActionFooter.tsx(3,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/action-footer/ActionFooter.tsx(10,3): error TS7031: Binding element 'onBack' implicitly has an 'any' type.
+src/molecules/action-footer/ActionFooter.tsx(11,3): error TS7031: Binding element 'onAction' implicitly has an 'any' type.
+src/molecules/action-footer/ActionFooter.tsx(12,3): error TS7031: Binding element 'actionLabel' implicitly has an 'any' type.
+src/molecules/action-footer/ActionFooter.tsx(15,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/action-footer/ActionFooter.tsx(86,12): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/action-footer/types.ts(3,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertBanner.tsx(9,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertBanner.tsx(10,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertBanner.tsx(102,34): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/alerts/AlertContainer.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertContainer.tsx(6,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertContainer.tsx(29,34): error TS2322: Type '{ key: string; alert: Alert; }' is not assignable to type 'IntrinsicAttributes & AlertBannerProps'.
+  Property 'key' does not exist on type 'IntrinsicAttributes & AlertBannerProps'.
+src/molecules/alerts/AlertInline.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertInline.tsx(6,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertInline.tsx(16,59): error TS7031: Binding element 'alert' implicitly has an 'any' type.
+src/molecules/alerts/AlertModal.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertModal.tsx(6,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertModal.tsx(18,57): error TS7031: Binding element 'alert' implicitly has an 'any' type.
+src/molecules/alerts/AlertModal.tsx(61,49): error TS7006: Parameter 'action' implicitly has an 'any' type.
+src/molecules/alerts/AlertProvider.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertProvider.tsx(8,74): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/molecules/alerts/AlertToast.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/AlertToast.tsx(9,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/AlertToast.tsx(105,18): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/alerts/components/AlertContent.tsx(7,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/components/AlertContent.tsx(8,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/alerts/components/AlertContent.tsx(38,8): error TS2741: Property 'children' is missing in type '{ type: "titleLarge" | "bodyMedium"; style: any[]; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/alerts/components/AlertContent.tsx(50,10): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium" | "bodySmall"; style: any[]; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/alerts/components/AlertIcon.tsx(7,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/hooks/useAlertAutoDismiss.ts(8,27): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/hooks/useAlertDismissHandler.ts(8,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/hooks/useAlertDismissHandler.ts(13,39): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/molecules/alerts/useAlert.ts(5,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/alerts/utils/alertUtils.ts(8,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/avatar/Avatar.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/avatar/Avatar.tsx(9,108): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/avatar/Avatar.tsx(42,3): error TS7031: Binding element 'hasImage' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(43,3): error TS7031: Binding element 'hasName' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(44,3): error TS7031: Binding element 'uri' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(45,3): error TS7031: Binding element 'initials' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(46,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(47,3): error TS7031: Binding element 'config' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(48,3): error TS7031: Binding element 'borderRadius' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(49,3): error TS7031: Binding element 'imageStyle' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(72,8): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/avatar/Avatar.tsx(97,3): error TS7031: Binding element 'uri' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(98,3): error TS7031: Binding element 'name' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(102,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(105,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(106,3): error TS7031: Binding element 'imageStyle' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(107,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/molecules/avatar/Avatar.tsx(171,59): error TS2345: Argument of type 'string' is not assignable to parameter of type '"online" | "offline" | "away" | "busy"'.
+src/molecules/avatar/AvatarGroup.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/avatar/AvatarGroup.tsx(9,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/avatar/AvatarGroup.tsx(44,3): error TS7031: Binding element 'items' implicitly has an 'any' type.
+src/molecules/avatar/AvatarGroup.tsx(49,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/avatar/AvatarGroup.tsx(61,26): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/molecules/avatar/AvatarGroup.tsx(61,32): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/molecules/avatar/AvatarGroup.tsx(106,14): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/BaseModal.tsx(7,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/BaseModal.tsx(8,70): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/BaseModal.tsx(26,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(27,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(28,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(30,3): error TS7031: Binding element 'contentStyle' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(32,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(33,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/molecules/BaseModal.tsx(88,18): error TS2741: Property 'children' is missing in type '{ type: "headlineMedium"; style: { textAlign: string; marginBottom: number; }; }' but required in type 'AtomicTextProps'.
+src/molecules/BaseModal.tsx(99,18): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: string; textAlign: string; lineHeight: number; }; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(1,88): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(11,74): error TS7006: Parameter 'props' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(11,81): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(43,12): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ small: number; medium: number; large: number; full: number; custom: number; }'.
+src/molecules/bottom-sheet/components/BottomSheet.tsx(106,32): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/BottomSheetModal.tsx(1,90): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/BottomSheetModal.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/BottomSheetModal.tsx(10,4): error TS7006: Parameter 'props' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/BottomSheetModal.tsx(10,11): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/BottomSheetModal.tsx(31,25): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ small: number; medium: number; large: number; full: number; custom: number; }'.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(5,86): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(6,64): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(24,3): error TS7031: Binding element 'categories' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(25,3): error TS7031: Binding element 'selectedIds' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(26,3): error TS7031: Binding element 'onFilterPress' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(27,3): error TS7031: Binding element 'onDismiss' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(28,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(30,14): error TS7031: Binding element '_defaultId' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(31,4): error TS7006: Parameter 'ref' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(80,12): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(89,8): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/components/filter/FilterBottomSheet.tsx(105,12): error TS2741: Property 'children' is missing in type '{ type: "headlineSmall"; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(1,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(2,87): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(24,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(25,3): error TS7031: Binding element 'options' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(26,3): error TS7031: Binding element 'selectedIds' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(27,3): error TS7031: Binding element 'onFilterPress' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(28,3): error TS7031: Binding element 'onClearFilters' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(29,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(31,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(61,27): error TS7006: Parameter 'option' implicitly has an 'any' type.
+src/molecules/bottom-sheet/components/filter/FilterSheet.tsx(63,17): error TS2322: Type '{ key: any; option: any; isSelected: any; onPress: any; tokens: DesignTokens; }' is not assignable to type 'IntrinsicAttributes & FilterSheetOptionProps'.
+  Property 'key' does not exist on type 'IntrinsicAttributes & FilterSheetOptionProps'.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetHeader.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetHeader.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetHeader.tsx(17,14): error TS2741: Property 'children' is missing in type '{ type: "headlineMedium"; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetOption.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetOption.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/bottom-sheet/components/filter/FilterSheetComponents/FilterSheetOption.tsx(34,14): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/bottom-sheet/hooks/useBottomSheet.ts(1,37): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/hooks/useBottomSheetModal.ts(1,37): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(5,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(62,57): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(65,21): error TS7006: Parameter 'current' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(67,37): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(69,33): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(74,21): error TS7006: Parameter 'current' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(74,46): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/molecules/bottom-sheet/hooks/useListFilters.ts(82,58): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/molecules/bottom-sheet/types/BottomSheet.ts(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/calendar/infrastructure/storage/CalendarStore.ts(6,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/calendar/infrastructure/storage/CalendarStore.ts(31,33): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/storage/CalendarStore.ts(38,33): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(7,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(43,65): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(43,70): error TS7006: Parameter 'get' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(85,20): error TS7006: Parameter 'request' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(105,23): error TS7006: Parameter 'request' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(109,41): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(122,23): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(126,44): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(135,25): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(139,41): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(152,27): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarEvents.ts(156,41): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(6,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(22,73): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(26,21): error TS7006: Parameter 'date' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(36,19): error TS7006: Parameter 'direction' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(37,10): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarNavigation.ts(46,21): error TS7006: Parameter 'date' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarView.ts(6,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/molecules/calendar/infrastructure/stores/useCalendarView.ts(20,61): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/molecules/calendar/infrastructure/stores/useCalendarView.ts(23,17): error TS7006: Parameter 'mode' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(33,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(34,44): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(99,3): error TS7031: Binding element 'days' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(100,3): error TS7031: Binding element 'selectedDate' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(101,3): error TS7031: Binding element 'onDateSelect' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(104,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(105,3): error TS7031: Binding element 'dayStyle' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(107,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(117,20): error TS7006: Parameter 'day' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/AtomicCalendar.tsx(117,25): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(6,62): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(26,3): error TS7031: Binding element 'day' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(27,3): error TS7031: Binding element 'index' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(28,3): error TS7031: Binding element 'isSelected' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(30,3): error TS7031: Binding element 'onDateSelect' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(31,3): error TS7031: Binding element 'maxEventIndicators' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(32,3): error TS7031: Binding element 'showEventCount' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(33,3): error TS7031: Binding element 'dayStyle' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(34,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(64,8): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; color: string; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(77,29): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarDayCell.tsx(94,12): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/calendar/presentation/components/calendarStyles.ts(5,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/CalendarWeekdayHeader.tsx(5,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/CalendarWeekdayHeader.tsx(6,22): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/calendar/presentation/components/CalendarWeekdayHeader.tsx(15,3): error TS7031: Binding element 'weekdayNames' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarWeekdayHeader.tsx(19,26): error TS7006: Parameter 'day' implicitly has an 'any' type.
+src/molecules/calendar/presentation/components/CalendarWeekdayHeader.tsx(21,12): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/circular-menu/CircularMenu.tsx(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenu.tsx(8,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenu.tsx(9,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenu.tsx(36,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenu.tsx(37,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenu.tsx(38,3): error TS7031: Binding element 'actions' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenu.tsx(115,35): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenuBackground.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuBackground.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuCloseButton.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuCloseButton.tsx(2,46): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuCloseButton.tsx(12,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenuItem.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuItem.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/circular-menu/CircularMenuItem.tsx(15,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenuItem.tsx(16,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenuItem.tsx(17,3): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/molecules/circular-menu/CircularMenuItem.tsx(44,8): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/molecules/circular-menu/constants.ts(1,27): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/confirmation-modal/components.tsx(7,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/confirmation-modal/components.tsx(8,44): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/confirmation-modal/components.tsx(20,9): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(20,15): error TS7031: Binding element 'iconColor' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(20,26): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(33,9): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(33,16): error TS7031: Binding element 'tokens' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(33,24): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(34,4): error TS2741: Property 'children' is missing in type '{ type: "titleLarge"; style: { color: any; textAlign: string; fontWeight: any; }; testID: string; }' but required in type 'AtomicTextProps'.
+src/molecules/confirmation-modal/components.tsx(51,9): error TS7031: Binding element 'message' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(51,18): error TS7031: Binding element 'tokens' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(51,26): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(52,4): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: any; textAlign: string; lineHeight: any; }; testID: string; }' but required in type 'AtomicTextProps'.
+src/molecules/confirmation-modal/components.tsx(72,9): error TS7031: Binding element 'confirmText' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(72,22): error TS7031: Binding element 'cancelText' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(72,34): error TS7031: Binding element 'onConfirm' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(72,45): error TS7031: Binding element 'onCancel' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(72,55): error TS7031: Binding element 'confirmButtonStyle' implicitly has an 'any' type.
+src/molecules/confirmation-modal/components.tsx(72,75): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/confirmation-modal/styles/confirmationModalStyles.ts(7,27): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/confirmation-modal/types/index.ts(4,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/confirmation-modal/useConfirmationModal.ts(7,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/ConfirmationModalContent.tsx(7,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/ConfirmationModalContent.tsx(8,44): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/ConfirmationModalContent.tsx(54,9): error TS7031: Binding element 'tokens' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,17): error TS7031: Binding element 'variant' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,26): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,33): error TS7031: Binding element 'message' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,42): error TS7031: Binding element 'confirmText' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,55): error TS7031: Binding element 'cancelText' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,67): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,73): error TS7031: Binding element 'onConfirm' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,84): error TS7031: Binding element 'onCancel' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,94): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/ConfirmationModalContent.tsx(54,101): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(7,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/ConfirmationModalMain.tsx(8,47): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/ConfirmationModalMain.tsx(29,9): error TS7031: Binding element 'showBackdrop' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(29,23): error TS7031: Binding element 'onBackdropPress' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(29,40): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(43,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(44,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(45,3): error TS7031: Binding element 'message' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(49,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(50,3): error TS7031: Binding element 'onConfirm' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(51,3): error TS7031: Binding element 'onCancel' implicitly has an 'any' type.
+src/molecules/ConfirmationModalMain.tsx(54,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/countdown/components/Countdown.tsx(1,42): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/countdown/components/Countdown.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/countdown/components/Countdown.tsx(24,5): error TS7031: Binding element 'target' implicitly has an 'any' type.
+src/molecules/countdown/components/Countdown.tsx(28,5): error TS7031: Binding element 'onExpire' implicitly has an 'any' type.
+src/molecules/countdown/components/Countdown.tsx(29,5): error TS7031: Binding element 'onTargetChange' implicitly has an 'any' type.
+src/molecules/countdown/components/Countdown.tsx(30,5): error TS7031: Binding element 'formatLabel' implicitly has an 'any' type.
+src/molecules/countdown/components/Countdown.tsx(131,33): error TS7006: Parameter 'unit' implicitly has an 'any' type.
+src/molecules/countdown/components/CountdownHeader.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/countdown/components/CountdownHeader.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/countdown/components/CountdownHeader.tsx(16,5): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/countdown/components/CountdownHeader.tsx(17,5): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/countdown/components/CountdownHeader.tsx(20,5): error TS7031: Binding element 'onToggle' implicitly has an 'any' type.
+src/molecules/countdown/components/CountdownHeader.tsx(35,18): error TS2741: Property 'children' is missing in type '{ type: "titleMedium"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/countdown/components/TimeUnit.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/countdown/components/TimeUnit.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/countdown/components/TimeUnit.tsx(13,5): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/molecules/countdown/components/TimeUnit.tsx(14,5): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/molecules/countdown/components/TimeUnit.tsx(25,20): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ small: { fontSize: number; padding: number; minHeight: number; }; medium: { fontSize: number; padding: number; minHeight: number; }; large: { fontSize: number; padding: number; minHeight: number; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ small: { fontSize: number; padding: number; minHeight: number; }; medium: { fontSize: number; padding: number; minHeight: number; }; large: { fontSize: number; padding: number; minHeight: number; }; }'.
+src/molecules/countdown/components/TimeUnit.tsx(53,14): error TS2741: Property 'children' is missing in type '{ type: "displaySmall"; color: string; style: any[]; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/countdown/components/TimeUnit.tsx(61,14): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/countdown/hooks/useCountdown.ts(1,58): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/Divider/Divider.tsx(11,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/Divider/Divider.tsx(12,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/Divider/Divider.tsx(72,5): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/molecules/Divider/Divider.tsx(74,5): error TS7031: Binding element 'text' implicitly has an 'any' type.
+src/molecules/Divider/Divider.tsx(75,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/Divider/Divider.tsx(144,18): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(47,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(48,44): error TS2307: Cannot find module 'rn-emoji-keyboard' or its corresponding type declarations.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(70,3): error TS7031: Binding element 'open' implicitly has an 'any' type.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(71,3): error TS7031: Binding element 'onClose' implicitly has an 'any' type.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(72,3): error TS7031: Binding element 'onEmojiSelected' implicitly has an 'any' type.
+src/molecules/emoji/presentation/components/EmojiPicker.tsx(73,3): error TS7031: Binding element 'config' implicitly has an 'any' type.
+src/molecules/emoji/presentation/hooks/useEmojiPicker.ts(44,39): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/emoji/presentation/hooks/useEmojiPicker.ts(115,16): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/molecules/filter-group/FilterGroup.tsx(2,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/filter-group/FilterGroup.tsx(3,40): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/filter-group/types.ts(1,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/FormField.tsx(10,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/FormField.tsx(11,33): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/FormField.tsx(38,9): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/molecules/FormField.tsx(38,16): error TS7031: Binding element 'required' implicitly has an 'any' type.
+src/molecules/FormField.tsx(38,26): error TS7031: Binding element 'requiredIndicator' implicitly has an 'any' type.
+src/molecules/FormField.tsx(38,45): error TS7031: Binding element 'styles' implicitly has an 'any' type.
+src/molecules/FormField.tsx(43,8): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/FormField.tsx(47,10): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; color: string; }' but required in type 'AtomicTextProps'.
+src/molecules/FormField.tsx(59,9): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/molecules/FormField.tsx(59,16): error TS7031: Binding element 'helperText' implicitly has an 'any' type.
+src/molecules/FormField.tsx(59,28): error TS7031: Binding element 'styles' implicitly has an 'any' type.
+src/molecules/FormField.tsx(62,8): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/FormField.tsx(74,8): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/FormField.tsx(88,3): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/molecules/FormField.tsx(89,3): error TS7031: Binding element 'error' implicitly has an 'any' type.
+src/molecules/FormField.tsx(90,3): error TS7031: Binding element 'helperText' implicitly has an 'any' type.
+src/molecules/FormField.tsx(92,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/molecules/FormField.tsx(93,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/hero-section/HeroSection.tsx(2,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/hero-section/HeroSection.tsx(3,47): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/hero-section/HeroSection.tsx(8,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/hero-section/HeroSection.tsx(9,3): error TS7031: Binding element 'imageUrl' implicitly has an 'any' type.
+src/molecules/hero-section/HeroSection.tsx(10,3): error TS7031: Binding element 'imageSource' implicitly has an 'any' type.
+src/molecules/hero-section/HeroSection.tsx(11,3): error TS7031: Binding element 'height' implicitly has an 'any' type.
+src/molecules/hero-section/HeroSection.tsx(12,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/hero-section/types.ts(3,59): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/IconContainer.tsx(17,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/IconContainer.tsx(18,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/IconContainer.tsx(39,3): error TS7031: Binding element 'icon' implicitly has an 'any' type.
+src/molecules/IconContainer.tsx(41,3): error TS7031: Binding element 'backgroundColor' implicitly has an 'any' type.
+src/molecules/IconContainer.tsx(43,3): error TS7031: Binding element 'borderColor' implicitly has an 'any' type.
+src/molecules/IconContainer.tsx(44,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/IconContainer.tsx(45,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/IconContainer.tsx(49,25): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ sm: number; md: number; lg: number; xl: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ sm: number; md: number; lg: number; xl: number; }'.
+src/molecules/info-grid/InfoGrid.tsx(2,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/info-grid/InfoGrid.tsx(3,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/info-grid/InfoGrid.tsx(10,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(11,3): error TS7031: Binding element 'headerIcon' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(12,3): error TS7031: Binding element 'items' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(14,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(15,3): error TS7031: Binding element 'itemStyle' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(82,22): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/info-grid/InfoGrid.tsx(87,21): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/molecules/info-grid/InfoGrid.tsx(94,14): error TS2741: Property 'children' is missing in type '{ style: any; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/info-grid/types.ts(2,38): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/List/List.tsx(8,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/List/List.tsx(9,83): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/ListItem.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/ListItem.tsx(2,40): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/ListItem.tsx(11,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(11,10): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(11,20): error TS7031: Binding element 'leftIcon' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(11,30): error TS7031: Binding element 'rightIcon' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(11,41): error TS7031: Binding element 'onPress' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(11,68): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/ListItem.tsx(42,10): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; color: string; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/ListItem.tsx(43,23): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; color: string; numberOfLines: number; style: TextStyle; }' but required in type 'AtomicTextProps'.
+src/molecules/listitem/styles/listItemStyles.ts(4,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/listitem/types/index.ts(4,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/components/FabButton.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/components/FabButton.tsx(2,50): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/components/FabButton.tsx(17,5): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/molecules/navigation/components/FabButton.tsx(18,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/navigation/components/NavigationContainer.tsx(1,62): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/components/NavigationContainer.tsx(2,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/components/NavigationContainer.tsx(12,9): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/molecules/navigation/components/NavigationHeader.tsx(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/components/NavigationHeader.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/components/NavigationHeader.tsx(15,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/navigation/components/NavigationHeader.tsx(16,3): error TS7031: Binding element 'onBackPress' implicitly has an 'any' type.
+src/molecules/navigation/components/NavigationHeader.tsx(17,3): error TS7031: Binding element 'rightElement' implicitly has an 'any' type.
+src/molecules/navigation/components/NavigationHeader.tsx(62,8): error TS2741: Property 'children' is missing in type '{ type: "titleMedium"; color: string; numberOfLines: number; style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/navigation/components/TabLabel.tsx(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/components/TabLabel.tsx(13,24): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/components/TabLabel.tsx(18,5): error TS7031: Binding element 'label' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(19,5): error TS7031: Binding element 'focused' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(20,5): error TS7031: Binding element 'color' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(21,5): error TS7031: Binding element 'focusedColor' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(22,5): error TS7031: Binding element 'unfocusedColor' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(23,5): error TS7031: Binding element 'fontSize' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(26,5): error TS7031: Binding element 'textStyle' implicitly has an 'any' type.
+src/molecules/navigation/components/TabLabel.tsx(41,13): error TS2322: Type 'string' is not assignable to type 'TextStyleVariant | undefined'.
+src/molecules/navigation/hooks/useAppFocusEffect.ts(1,32): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppFocusEffect.ts(2,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppIsFocused.ts(1,30): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppNavigation.ts(1,45): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppNavigation.ts(2,52): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppNavigation.ts(3,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppRoute.ts(1,26): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useAppRoute.ts(2,47): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useTabBarStyles.ts(1,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/hooks/useTabConfig.ts(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/hooks/useTabConfig.ts(2,22): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/hooks/useTabConfig.ts(3,36): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/index.ts(21,8): error TS2307: Cannot find module '@react-navigation/stack' or its corresponding type declarations.
+src/molecules/navigation/index.ts(26,8): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+src/molecules/navigation/StackNavigator.tsx(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/StackNavigator.tsx(2,64): error TS2307: Cannot find module '@react-navigation/stack' or its corresponding type declarations.
+src/molecules/navigation/StackNavigator.tsx(3,36): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/TabsNavigator.tsx(1,45): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/TabsNavigator.tsx(2,42): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+src/molecules/navigation/TabsNavigator.tsx(3,36): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/TabsNavigator.tsx(4,71): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+src/molecules/navigation/TabsNavigator.tsx(101,34): error TS7006: Parameter 'screen' implicitly has an 'any' type.
+src/molecules/navigation/types.ts(1,36): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/types.ts(5,8): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+src/molecules/navigation/types.ts(6,45): error TS2307: Cannot find module '@react-navigation/stack' or its corresponding type declarations.
+src/molecules/navigation/types.ts(33,15): error TS2503: Cannot find namespace 'React'.
+src/molecules/navigation/types.ts(35,30): error TS2503: Cannot find namespace 'React'.
+src/molecules/navigation/types.ts(89,8): error TS2503: Cannot find namespace 'React'.
+src/molecules/navigation/utils/AppNavigation.ts(1,69): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/utils/createScreenOptions.ts(7,45): error TS2307: Cannot find module '@react-navigation/stack' or its corresponding type declarations.
+src/molecules/navigation/utils/IconRenderer.ts(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/utils/ScreenFactory.ts(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/navigation/utils/ScreenFactory.ts(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/navigation/utils/ScreenFactory.ts(3,36): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+src/molecules/navigation/utils/ScreenFactory.ts(8,8): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+src/molecules/navigation/utils/ScreenFactory.ts(18,58): error TS7006: Parameter 'props' implicitly has an 'any' type.
+src/molecules/navigation/utils/ScreenFactory.ts(54,22): error TS7006: Parameter 'buttonProps' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/SearchBar/SearchBar.tsx(7,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/SearchBar/SearchBar.tsx(14,5): error TS7031: Binding element 'value' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(15,5): error TS7031: Binding element 'onChangeText' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(16,5): error TS7031: Binding element 'onSubmit' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(17,5): error TS7031: Binding element 'onClear' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(18,5): error TS7031: Binding element 'onFocus' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(19,5): error TS7031: Binding element 'onBlur' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(23,5): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(24,5): error TS7031: Binding element 'inputStyle' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchBar.tsx(25,5): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/SearchBar/SearchHistory.tsx(6,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/SearchBar/SearchHistory.tsx(13,5): error TS7031: Binding element 'history' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(14,5): error TS7031: Binding element 'onSelectItem' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(15,5): error TS7031: Binding element 'onRemoveItem' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(16,5): error TS7031: Binding element 'onClearAll' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(18,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(35,18): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/SearchHistory.tsx(46,22): error TS2741: Property 'children' is missing in type '{ type: "labelMedium"; style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/SearchHistory.tsx(55,36): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/molecules/SearchBar/SearchHistory.tsx(67,26): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/SearchSuggestions.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/SearchBar/SearchSuggestions.tsx(6,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/SearchBar/SearchSuggestions.tsx(88,14): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/SearchSuggestions.tsx(102,10): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: string; }; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/SearchSuggestions.tsx(107,14): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { fontWeight: string; color: string; }; }' but required in type 'AtomicTextProps'.
+src/molecules/SearchBar/types.ts(1,54): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/SearchBar/types.ts(40,45): error TS2503: Cannot find namespace 'React'.
+src/molecules/SearchBar/types.ts(44,22): error TS2503: Cannot find namespace 'React'.
+src/molecules/splash/components/SplashScreen.tsx(2,57): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/splash/components/SplashScreen.tsx(3,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/splash/hooks/useSplashFlow.ts(9,37): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/splash/hooks/useSplashFlow.ts(10,36): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/splash/types.ts(6,64): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/splash/types.ts(7,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/StepHeader/StepHeader.tsx(8,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/StepHeader/StepHeader.tsx(9,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/StepHeader/StepHeader.tsx(45,3): error TS7031: Binding element 'title' implicitly has an 'any' type.
+src/molecules/StepHeader/StepHeader.tsx(46,3): error TS7031: Binding element 'subtitle' implicitly has an 'any' type.
+src/molecules/StepHeader/StepHeader.tsx(48,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/StepHeader/StepHeader.tsx(117,8): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/StepHeader/StepHeader.tsx(119,21): error TS2741: Property 'children' is missing in type '{ style: any; }' but required in type 'AtomicTextProps'.
+src/molecules/StepProgress/StepProgress.tsx(1,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/StepProgress/StepProgress.tsx(2,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/StepProgress/StepProgress.tsx(12,5): error TS7031: Binding element 'currentStep' implicitly has an 'any' type.
+src/molecules/StepProgress/StepProgress.tsx(13,5): error TS7031: Binding element 'totalSteps' implicitly has an 'any' type.
+src/molecules/StepProgress/StepProgress.tsx(14,5): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/swipe-actions/presentation/components/SwipeActionButton.tsx(11,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/molecules/swipe-actions/presentation/components/SwipeActionButton.tsx(12,84): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/molecules/swipe-actions/presentation/components/SwipeActionButton.tsx(60,3): error TS7031: Binding element 'action' implicitly has an 'any' type.
+src/molecules/swipe-actions/presentation/components/SwipeActionButton.tsx(61,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/molecules/swipe-actions/presentation/components/SwipeActionButton.tsx(121,10): error TS2741: Property 'children' is missing in type '{ type: "bodySmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/offline/infrastructure/storage/OfflineConfigStore.ts(7,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/offline/infrastructure/storage/OfflineConfigStore.ts(17,66): error TS7006: Parameter 'set' implicitly has an 'any' type.
+src/offline/infrastructure/storage/OfflineConfigStore.ts(20,15): error TS7006: Parameter 'config' implicitly has an 'any' type.
+src/offline/infrastructure/storage/OfflineConfigStore.ts(22,17): error TS7006: Parameter 'partialConfig' implicitly has an 'any' type.
+src/offline/infrastructure/storage/OfflineConfigStore.ts(22,40): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/offline/presentation/components/OfflineBanner.tsx(24,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/offline/presentation/components/OfflineBanner.tsx(25,66): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/offline/presentation/components/OfflineBanner.tsx(53,3): error TS7031: Binding element 'visible' implicitly has an 'any' type.
+src/offline/presentation/components/OfflineBanner.tsx(59,3): error TS7031: Binding element 'style' implicitly has an 'any' type.
+src/offline/presentation/components/OfflineBanner.tsx(60,3): error TS7031: Binding element 'textStyle' implicitly has an 'any' type.
+src/offline/presentation/components/OfflineBanner.tsx(90,10): error TS2741: Property 'children' is missing in type '{ style: any[]; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/offline/presentation/hooks/useOffline.ts(7,57): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/offline/presentation/hooks/useOffline.ts(8,55): error TS2307: Cannot find module 'expo-network' or its corresponding type declarations.
+src/offline/presentation/hooks/useOffline.ts(18,35): error TS2307: Cannot find module 'expo-network' or its corresponding type declarations.
+src/offline/presentation/hooks/useOffline.ts(20,44): error TS2307: Cannot find module 'expo-network' or its corresponding type declarations.
+src/offline/presentation/hooks/useOffline.ts(24,22): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/offline/presentation/hooks/useOffline.ts(24,63): error TS2307: Cannot find module 'expo-network' or its corresponding type declarations.
+src/offline/presentation/hooks/useOffline.ts(51,47): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/offline/presentation/hooks/useOfflineWithMutations.ts(7,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/offline/presentation/providers/NetworkProvider.tsx(19,40): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/offline/presentation/providers/NetworkProvider.tsx(26,72): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/onboarding/hooks/useOnboardingFlow.ts(6,50): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/hooks/useOnboardingFlow.ts(7,36): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/hooks/useOnboardingFlow.ts(8,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/onboarding/infrastructure/hooks/useOnboardingAnswers.ts(8,50): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/infrastructure/hooks/useOnboardingNavigation.ts(7,39): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/infrastructure/hooks/useOnboardingNavigation.ts(8,36): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/infrastructure/hooks/useOnboardingNavigation.ts(36,21): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/onboarding/infrastructure/hooks/useOnboardingNavigation.ts(45,21): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+src/onboarding/infrastructure/storage/OnboardingStore.ts(8,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(7,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(8,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(27,15): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(63,3): error TS7031: Binding element 'images' implicitly has an 'any' type.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(65,3): error TS7031: Binding element 'columns' implicitly has an 'any' type.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(66,3): error TS7031: Binding element 'gap' implicitly has an 'any' type.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(67,3): error TS7031: Binding element 'borderRadius' implicitly has an 'any' type.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(74,23): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'Record<CollageLayout, LayoutGenerator>'.
+  No index signature with a parameter of type 'string' was found on type 'Record<CollageLayout, LayoutGenerator>'.
+src/onboarding/presentation/components/BackgroundImageCollage.tsx(82,26): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/onboarding/presentation/components/BackgroundVideo.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/BackgroundVideo.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/BackgroundVideo.tsx(16,41): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/onboarding/presentation/components/BackgroundVideo.tsx(37,65): error TS7006: Parameter 'props' implicitly has an 'any' type.
+src/onboarding/presentation/components/BaseSlide.tsx(6,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/BaseSlide.tsx(7,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingBackground.tsx(10,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingBackground.tsx(11,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingBackground.tsx(29,3): error TS7031: Binding element 'slide' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(30,3): error TS7031: Binding element 'useCustomBackground' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(31,3): error TS7031: Binding element 'overlayOpacity' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(32,3): error TS7031: Binding element 'VideoComponent' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(101,3): error TS7031: Binding element 'currentSlide' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(102,3): error TS7031: Binding element 'useCustomBackground' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(103,3): error TS7031: Binding element 'showOverlay' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(104,3): error TS7031: Binding element 'overlayOpacity' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingBackground.tsx(105,3): error TS7031: Binding element 'VideoComponent' implicitly has an 'any' type.
+src/onboarding/presentation/components/OnboardingFooter.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingFooter.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingFooter.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingFooter.tsx(77,10): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingFooter.tsx(86,10): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingHeader.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingHeader.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingHeader.tsx(53,12): error TS2741: Property 'children' is missing in type '{ type: "labelLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingResetSetting.tsx(1,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingResetSetting.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingResetSetting.tsx(45,22): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: { color: string; fontWeight: string; }; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingResetSetting.tsx(48,22): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: { color: string; }; numberOfLines: number; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingScreenContent.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingScreenContent.tsx(7,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingSlide.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingSlide.tsx(7,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/OnboardingSlide.tsx(34,6): error TS2741: Property 'children' is missing in type '{ contentPosition: ContentPosition; }' but required in type 'BaseSlideProps'.
+src/onboarding/presentation/components/OnboardingSlide.tsx(38,14): error TS2741: Property 'children' is missing in type '{ style: { fontSize: number; }; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingSlide.tsx(49,8): error TS2741: Property 'children' is missing in type '{ type: "displaySmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingSlide.tsx(57,10): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/OnboardingSlide.tsx(80,16): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/QuestionRenderer.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/MultipleChoiceQuestion.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/MultipleChoiceQuestion.tsx(7,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/MultipleChoiceQuestion.tsx(46,11): error TS2322: Type '{ key: string; option: QuestionOption; isSelected: boolean; onPress: () => void; colors: OnboardingColors; }' is not assignable to type 'IntrinsicAttributes & QuestionOptionItemProps'.
+  Property 'key' does not exist on type 'IntrinsicAttributes & QuestionOptionItemProps'.
+src/onboarding/presentation/components/questions/MultipleChoiceQuestion.tsx(54,10): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/QuestionOptionItem.tsx(6,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/QuestionOptionItem.tsx(7,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/QuestionOptionItem.tsx(46,14): error TS2741: Property 'children' is missing in type '{ style: { fontSize: number; }; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/QuestionOptionItem.tsx(56,8): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/RatingQuestion.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/RatingQuestion.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/RatingQuestion.tsx(40,10): error TS2741: Property 'children' is missing in type '{ type: "headlineSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/RatingQuestion.tsx(41,20): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; color: string; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/SingleChoiceQuestion.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/SingleChoiceQuestion.tsx(2,52): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/SingleChoiceQuestion.tsx(46,16): error TS2741: Property 'children' is missing in type '{ style: { fontSize: number; }; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/SingleChoiceQuestion.tsx(56,10): error TS2741: Property 'children' is missing in type '{ type: "bodyLarge"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/questions/TextInputQuestion.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/TextInputQuestion.tsx(2,45): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/questions/TextInputQuestion.tsx(46,10): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/QuestionSlide.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/QuestionSlide.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/QuestionSlide.tsx(33,6): error TS2741: Property 'children' is missing in type '{ contentPosition: ContentPosition | undefined; }' but required in type 'BaseSlideProps'.
+src/onboarding/presentation/components/QuestionSlide.tsx(41,10): error TS2741: Property 'children' is missing in type '{ type: "labelSmall"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/QuestionSlideHeader.tsx(1,19): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/components/QuestionSlideHeader.tsx(2,34): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/components/QuestionSlideHeader.tsx(27,12): error TS2741: Property 'children' is missing in type '{ style: { fontSize: number; }; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/QuestionSlideHeader.tsx(33,8): error TS2741: Property 'children' is missing in type '{ type: "headlineMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/components/QuestionSlideHeader.tsx(38,10): error TS2741: Property 'children' is missing in type '{ type: "bodyMedium"; style: any[]; }' but required in type 'AtomicTextProps'.
+src/onboarding/presentation/hooks/useOnboardingContainerStyle.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingContainerStyle.ts(7,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingContainerStyle.ts(8,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(6,35): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(7,30): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(42,37): error TS7006: Parameter '_' implicitly has an 'any' type.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(42,40): error TS7006: Parameter 'gestureState' implicitly has an 'any' type.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(46,31): error TS7006: Parameter '_' implicitly has an 'any' type.
+src/onboarding/presentation/hooks/useOnboardingGestures.ts(46,34): error TS7006: Parameter 'gestureState' implicitly has an 'any' type.
+src/onboarding/presentation/hooks/useOnboardingScreenHandlers.ts(6,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingScreenState.ts(6,36): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/hooks/useOnboardingScreenState.ts(7,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/providers/OnboardingProvider.tsx(8,59): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/screens/OnboardingScreen.tsx(10,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/screens/OnboardingScreen.tsx(11,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/onboarding/presentation/screens/OnboardingScreen.tsx(166,6): error TS2741: Property 'children' is missing in type '{ useCustomBackground: boolean; colors: any; translations: OnboardingTranslations; }' but required in type 'OnboardingProviderProps'.
+src/onboarding/presentation/types/OnboardingProps.ts(5,24): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/onboarding/presentation/types/OnboardingProps.ts(6,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/organisms/FormContainer.tsx(46,32): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/organisms/FormContainer.tsx(53,8): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/organisms/FormContainer.tsx(94,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/organisms/FormContainer.tsx(95,3): error TS7031: Binding element 'containerStyle' implicitly has an 'any' type.
+src/organisms/FormContainer.tsx(96,3): error TS7031: Binding element 'contentContainerStyle' implicitly has an 'any' type.
+src/organisms/FormContainer.tsx(98,3): error TS7031: Binding element 'testID' implicitly has an 'any' type.
+src/presentation/utils/variants/core.ts(1,50): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/responsive/useResponsive.ts(6,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/responsive/useResponsive.ts(7,37): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/safe-area/components/SafeAreaProvider.tsx(6,50): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/safe-area/components/SafeAreaProvider.tsx(9,8): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/components/SafeAreaProvider.tsx(10,75): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/components/SafeAreaProvider.tsx(33,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/safe-area/components/SafeAreaProvider.tsx(34,3): error TS7031: Binding element 'config' implicitly has an 'any' type.
+src/safe-area/hooks/useContentSafeAreaPadding.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/safe-area/hooks/useContentSafeAreaPadding.ts(7,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/hooks/useHeaderSafeAreaPadding.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/safe-area/hooks/useHeaderSafeAreaPadding.ts(7,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/hooks/useSafeAreaInsets.ts(6,62): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/hooks/useStatusBarSafeAreaPadding.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/safe-area/hooks/useStatusBarSafeAreaPadding.ts(7,26): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/safe-area/hooks/useStatusBarSafeAreaPadding.ts(8,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/index.ts(24,52): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/index.ts(25,27): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/safe-area/utils/optimization.ts(5,33): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/cache/presentation/useCache.ts(5,47): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/cache/presentation/useCachedValue.ts(5,46): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/domain/factories/StoreFactory.ts(6,24): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/storage/domain/factories/StoreFactory.ts(7,44): error TS2307: Cannot find module 'zustand/middleware' or its corresponding type declarations.
+src/storage/domain/factories/StoreFactory.ts(8,31): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/storage/domain/types/Store.ts(6,31): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/storage/index.ts(109,46): error TS2307: Cannot find module 'zustand' or its corresponding type declarations.
+src/storage/index.ts(110,59): error TS2307: Cannot find module 'zustand/vanilla' or its corresponding type declarations.
+src/storage/infrastructure/adapters/StorageService.ts(8,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/storage/infrastructure/repositories/BaseStorageOperations.ts(7,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/storage/infrastructure/repositories/BatchStorageOperations.ts(7,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/storage/infrastructure/repositories/StringStorageOperations.ts(7,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/storage/presentation/hooks/useCacheState.ts(7,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/presentation/hooks/usePersistentCache.ts(8,57): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/presentation/hooks/useStorage.ts(8,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/presentation/hooks/useStorageState.ts(8,50): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/storage/presentation/hooks/useStore.ts(6,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/tanstack/domain/config/QueryClientAccessor.ts(12,34): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/repositories/BaseRepository.ts(38,34): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/repositories/IBaseRepository.ts(6,34): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/repositories/mixins/repositoryQueryMethods.ts(6,31): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/types/CacheStrategy.ts(8,38): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/utils/MetricsCalculator.ts(7,28): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/domain/utils/TypeUtilities.ts(8,56): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/index.ts(161,8): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/infrastructure/config/PersisterConfig.ts(8,45): error TS2307: Cannot find module '@tanstack/query-async-storage-persister' or its corresponding type declarations.
+src/tanstack/infrastructure/config/PersisterConfig.ts(11,32): error TS2307: Cannot find module '@tanstack/react-query-persist-client' or its corresponding type declarations.
+src/tanstack/infrastructure/config/QueryClientConfig.ts(8,29): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/infrastructure/monitoring/DevMonitor.ts(9,41): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/infrastructure/monitoring/DevMonitor.ts(76,69): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/tanstack/infrastructure/providers/TanstackProvider.tsx(1,33): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/tanstack/infrastructure/providers/TanstackProvider.tsx(2,50): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/infrastructure/providers/TanstackProvider.tsx(3,44): error TS2307: Cannot find module '@tanstack/react-query-persist-client' or its corresponding type declarations.
+src/tanstack/infrastructure/providers/TanstackProvider.tsx(4,32): error TS2307: Cannot find module '@tanstack/react-query-persist-client' or its corresponding type declarations.
+src/tanstack/presentation/hooks/types/prefetchTypes.ts(6,46): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/presentation/hooks/useInvalidateQueries.ts(8,32): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/presentation/hooks/useInvalidateQueries.ts(9,29): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/tanstack/presentation/hooks/useOptimisticUpdate.ts(6,45): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/presentation/hooks/usePaginatedQuery.ts(6,34): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/presentation/hooks/usePaginatedQuery.ts(7,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/tanstack/presentation/hooks/usePrefetch.ts(8,32): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/tanstack/presentation/hooks/usePrefetch.ts(9,48): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/tanstack/presentation/hooks/usePrefetch.ts(10,46): error TS2307: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+src/theme/core/tokens/BaseTokens.ts(7,43): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/core/tokens/Borders.ts(7,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/core/tokens/Typography.ts(7,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/formStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/layoutStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/paddingStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/screenContainerStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/scrollContainerStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/sectionStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/commonStyles/textStyles.ts(5,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/useAppDesignTokens.ts(1,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/theme/hooks/useCommonStyles.ts(18,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/theme/hooks/useThemedStyles.ts(20,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/theme/hooks/useThemedStyles.ts(21,28): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/hooks/useThemedStyles.ts(22,55): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(1,71): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(2,53): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(3,40): error TS2307: Cannot find module 'react-native-gesture-handler' or its corresponding type declarations.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(4,26): error TS2307: Cannot find module 'expo-font' or its corresponding type declarations.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(36,3): error TS7031: Binding element 'children' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(37,3): error TS7031: Binding element 'customColors' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(39,3): error TS7031: Binding element 'fonts' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(41,3): error TS7031: Binding element 'splashConfig' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(42,3): error TS7031: Binding element 'loadingComponent' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(43,3): error TS7031: Binding element 'onInitialized' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(44,3): error TS7031: Binding element 'onError' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(45,3): error TS7031: Binding element 'iconRenderer' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(46,3): error TS7031: Binding element 'iconNames' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(51,32): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(52,37): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(53,38): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(54,41): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(55,55): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(56,52): error TS7006: Parameter 'state' implicitly has an 'any' type.
+src/theme/infrastructure/providers/DesignSystemProvider.tsx(82,15): error TS7006: Parameter 'error' implicitly has an 'any' type.
+src/theme/types/ThemeTypes.ts(1,32): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/timezone/presentation/hooks/useTimezone.ts(1,25): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/typography/presentation/utils/textStyleUtils.ts(26,47): error TS2307: Cannot find module 'react-native' or its corresponding type declarations.
+src/utilities/clipboard/ClipboardUtils.ts(21,28): error TS2307: Cannot find module 'expo-clipboard' or its corresponding type declarations.
+src/utilities/sharing/infrastructure/services/SharingService.ts(11,26): error TS2307: Cannot find module 'expo-sharing' or its corresponding type declarations.
+src/utilities/sharing/presentation/hooks/useSharing.ts(11,38): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/utils/hooks/useAsyncOperation.ts(36,67): error TS2307: Cannot find module 'react' or its corresponding type declarations.
+src/uuid/infrastructure/utils/UUIDUtils.ts(12,34): error TS2307: Cannot find module 'expo-crypto' or its corresponding type declarations.
+src/uuid/infrastructure/utils/UUIDUtils.ts(14,43): error TS2307: Cannot find module 'expo-crypto' or its corresponding type declarations.
+src/uuid/infrastructure/utils/UUIDUtils.ts(18,21): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+src/uuid/infrastructure/utils/UUIDUtils.ts(18,61): error TS2307: Cannot find module 'expo-crypto' or its corresponding type declarations.

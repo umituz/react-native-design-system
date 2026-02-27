@@ -10,7 +10,7 @@ import type { DesignTokens } from '../../../theme';
 const COLOR_VARIANT_SET = new Set<string>([
   'textPrimary', 'textSecondary', 'textTertiary', 'textDisabled', 'textInverse',
   'onSurface', 'onBackground', 'onPrimary', 'onSecondary', 'onSuccess', 'onError', 'onWarning', 'onInfo',
-  'success', 'error', 'warning', 'info', 'primary', 'secondary', 'tertiary', 'disabled', 'inverse', 'surfaceVariant',
+  'success', 'error', 'warning', 'info',
 ]);
 
 const COLOR_MAP: Record<ColorVariant, keyof DesignTokens['colors']> = {
@@ -31,12 +31,6 @@ const COLOR_MAP: Record<ColorVariant, keyof DesignTokens['colors']> = {
   error: 'error',
   warning: 'warning',
   info: 'info',
-  primary: 'primary',
-  secondary: 'secondary',
-  tertiary: 'textTertiary',
-  disabled: 'textDisabled',
-  inverse: 'textInverse',
-  surfaceVariant: 'surfaceVariant',
 };
 
 const colorCache = new Map<string, string>();

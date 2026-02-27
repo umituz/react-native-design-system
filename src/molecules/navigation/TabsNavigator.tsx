@@ -85,7 +85,7 @@ export function TabsNavigator<T extends ParamListBase>({
                 ...customOptions,
             };
         },
-        [defaultScreenOptions, config.screenOptions]
+        [defaultScreenOptions, config]
     );
 
     if (visibleScreens.length === 0) {

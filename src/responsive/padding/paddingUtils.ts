@@ -11,7 +11,6 @@ export const getResponsiveVerticalPadding = (
 ): number => {
   try {
     validateSafeAreaInsets(insets);
-    const { top = 0 } = insets;
     const isTabletDevice = isTablet();
     const isSmall = isSmallPhone();
     const spacingMultiplier = getSpacingMultiplier();

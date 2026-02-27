@@ -1,4 +1,5 @@
 const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
 const reactNative = require('eslint-plugin-react-native');
 const typescriptEslint = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
@@ -8,6 +9,7 @@ module.exports = [
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
       react,
+      'react-hooks': reactHooks,
       'react-native': reactNative,
       '@typescript-eslint': typescriptEslint,
     },
@@ -29,6 +31,8 @@ module.exports = [
         'caughtErrorsIgnorePattern': '^_'
       }],
       'react/prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
     settings: {
       react: {

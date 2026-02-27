@@ -5,7 +5,7 @@
 
 import React, { useMemo } from 'react';
 import { View, ScrollView } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
 import { AtomicKeyboardAvoidingView } from '../../atoms';

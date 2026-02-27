@@ -76,13 +76,5 @@ export type ColorVariant =
   | 'success'
   | 'error'
   | 'warning'
-  | 'info'
-  // Legacy support (deprecated - use textPrimary/textSecondary instead)
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'disabled'
-  | 'inverse'
-  // Legacy: surfaceVariant is a background color, maps to textSecondary
-  | 'surfaceVariant';
+  | 'info';
 

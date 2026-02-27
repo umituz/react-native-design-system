@@ -38,7 +38,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   const handleTimeout = useCallback(() => {
     setTimedOut(true);
     onTimeout?.();
-  }, [maxDuration, onTimeout]);
+  }, [onTimeout]);
 
   useEffect(() => {
     onReady?.();

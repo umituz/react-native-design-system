@@ -32,8 +32,9 @@ export function usePrefetchQuery<
 
   // Cleanup on unmount
   useEffect(() => {
+    const currentRef = prefetchingRef.current;
     return () => {
-      prefetchingRef.current.clear();
+      currentRef.clear();
     };
   }, []);
 

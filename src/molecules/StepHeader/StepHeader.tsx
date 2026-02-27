@@ -48,7 +48,7 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
   style,
 }) => {
   const tokens = useAppDesignTokens();
-  const cfg = { ...DEFAULT_CONFIG, ...config };
+  const cfg = useMemo(() => ({ ...DEFAULT_CONFIG, ...config }), [config]);
 
   const styles = useMemo(
     () =>

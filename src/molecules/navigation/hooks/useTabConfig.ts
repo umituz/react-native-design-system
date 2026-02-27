@@ -30,7 +30,7 @@ const getIconNameForState = (baseName: string, focused: boolean): string => {
 export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T>): TabNavigatorConfig<T> {
   const { config } = props;
   const tokens = useAppDesignTokens();
-  const { tabBarConfig, insets } = useResponsive();
+  const { tabBarConfig } = useResponsive();
 
   const finalConfig: TabNavigatorConfig<T> = useMemo(() => {
     const screens = config.screens as TabScreen<T>[];
@@ -109,7 +109,7 @@ export function useTabConfig<T extends ParamListBase>(props: UseTabConfigProps<T
           : {}),
       },
     };
-  }, [tokens, config, tabBarConfig, insets]);
+  }, [tokens, config, tabBarConfig]);
 
   return finalConfig;
 }

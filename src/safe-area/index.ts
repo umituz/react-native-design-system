@@ -1,25 +1,22 @@
 /**
  * Safe Area Module
- * Configurable safe area provider and hooks for React Native apps
+ * Refactored: Simplified to only provide essential safe area utilities.
+ * 
+ * We use manual inset management in ScreenLayout for maximum stability
+ * across different React Native versions and devices.
  */
 
-export { SafeAreaProvider, useSafeAreaConfig } from './components/SafeAreaProvider';
-export type { SafeAreaProviderProps, SafeAreaConfig } from './components/SafeAreaProvider';
-
 export { useSafeAreaInsets } from './hooks/useSafeAreaInsets';
-export { useStatusBarSafeAreaPadding } from './hooks/useStatusBarSafeAreaPadding';
-export type { StatusBarPaddingOptions } from './hooks/useStatusBarSafeAreaPadding';
 
-export { useHeaderSafeAreaPadding } from './hooks/useHeaderSafeAreaPadding';
-export type { HeaderPaddingOptions } from './hooks/useHeaderSafeAreaPadding';
+// Re-export essential components from react-native-safe-area-context
+// This provides a single entry point for all safe area needs
+export { 
+  SafeAreaProvider, 
+  initialWindowMetrics, 
+  SafeAreaView 
+} from 'react-native-safe-area-context';
 
-export { useContentSafeAreaPadding } from './hooks/useContentSafeAreaPadding';
-export type { ContentPaddingOptions, ContentPaddingResult } from './hooks/useContentSafeAreaPadding';
-
-export { SAFE_AREA_DEFAULTS, PLATFORM_BEHAVIORS, DEFAULT_CONFIG } from './constants';
-export { useStableOptions, clearPerformanceCaches } from './utils/optimization';
-export { validateNumericInput, throttledWarn, clearValidationCache } from './utils/validation';
-
-// Re-export from react-native-safe-area-context for convenience
-export { initialWindowMetrics, SafeAreaView } from 'react-native-safe-area-context';
-export type { Edge } from 'react-native-safe-area-context';
+export type { 
+  Edge,
+  SafeAreaProviderProps 
+} from 'react-native-safe-area-context';

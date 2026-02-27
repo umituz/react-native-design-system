@@ -1,0 +1,5 @@
+
+> @umituz/react-native-design-system@4.25.43 lint
+> eslint . --ext .ts,.tsx
+
+sh: eslint: command not found

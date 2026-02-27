@@ -182,7 +182,7 @@ export function useAsyncOperation<T, E = Error>(
     if (immediate && !skip) {
       execute();
     }
-  }, [immediate, skip]);
+  }, [immediate, skip, execute]);
 
   // Derived state
   const isSuccess = !isIdle && !isLoading && error === null && data !== null;

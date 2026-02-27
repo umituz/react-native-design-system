@@ -1,0 +1,16 @@
+
+> @umituz/react-native-design-system@4.25.43 lint
+> eslint . --ext .ts,.tsx
+
+
+/Users/umituz/Desktop/github/umituz/apps/mobile/npm-packages/react-native-design-system/src/layouts/ScreenLayout/ScreenLayout.tsx
+  8:10  error  'SafeAreaView' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/umituz/Desktop/github/umituz/apps/mobile/npm-packages/react-native-design-system/src/onboarding/presentation/components/BackgroundVideo.tsx
+  19:5  error  Definition for rule 'react-hooks/rules-of-hooks' was not found  react-hooks/rules-of-hooks
+
+/Users/umituz/Desktop/github/umituz/apps/mobile/npm-packages/react-native-design-system/src/responsive/padding/paddingUtils.ts
+  14:13  error  'top' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+✖ 3 problems (3 errors, 0 warnings)
+
