@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.55",
+  "version": "4.25.56",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -184,7 +184,7 @@
     "offline",
     "loading"
   ],
-  "author": "\u00dcmit UZ <umit@umituz.com>",
+  "author": "Ümit UZ <umit@umituz.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
