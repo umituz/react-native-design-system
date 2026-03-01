@@ -72,16 +72,22 @@ export function useAsyncOperation<T, E = Error>(
   const lastArgsRef = useRef<any[]>([]);
   const retryCountRef = useRef(0);
 
-  // Stable callback refs
+  // Stable callback refs — prevents inline functions from causing execute to be recreated
   const onSuccessRef = useRef(onSuccess);
   const onErrorRef = useRef(onError);
   const onFinallyRef = useRef(onFinally);
+  const operationRef = useRef(operation);
+  const errorHandlerRef = useRef(errorHandler);
 
   useEffect(() => {
     onSuccessRef.current = onSuccess;
     onErrorRef.current = onError;
     onFinallyRef.current = onFinally;
   }, [onSuccess, onError, onFinally]);
+
+  // Keep operation and errorHandler in refs so execute doesn't need them as deps
+  operationRef.current = operation;
+  errorHandlerRef.current = errorHandler;
 
   // Cleanup on unmount
   useEffect(() => {
@@ -104,7 +110,7 @@ export function useAsyncOperation<T, E = Error>(
       }
 
       try {
-        const result = await operation(...args);
+        const result = await operationRef.current(...args);
 
         if (isMountedRef.current) {
           setData(result);
@@ -114,7 +120,7 @@ export function useAsyncOperation<T, E = Error>(
 
         return result;
       } catch (err) {
-        const handledError = errorHandler(err);
+        const handledError = errorHandlerRef.current(err);
 
         if (isMountedRef.current) {
           setErrorState(handledError);
@@ -129,7 +135,7 @@ export function useAsyncOperation<T, E = Error>(
         }
       }
     },
-    [operation, skip, errorHandler]
+    [skip]
   );
 
   const retry = useCallback(async (): Promise<T | null> => {

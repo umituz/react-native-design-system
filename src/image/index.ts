@@ -121,3 +121,10 @@ export {
   EXTENSION_TO_MIME_TYPE,
   MIME_TYPE_TO_EXTENSION,
 } from './infrastructure/utils/validation/mime-types.constants';
+
+// =============================================================================
+// PRESENTATION LAYER - AtomicImage Component
+// =============================================================================
+
+export { AtomicImage } from '../atoms/image/AtomicImage';
+export type { AtomicImageProps } from '../atoms/image/AtomicImage';

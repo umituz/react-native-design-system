@@ -6,7 +6,7 @@
  * Artificial delays cause poor UX - the splash should transition as soon as app is ready.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
 export interface UseSplashFlowOptions {
@@ -28,11 +28,13 @@ export interface UseSplashFlowResult {
 export const useSplashFlow = (options: UseSplashFlowOptions = {}): UseSplashFlowResult => {
   const { isAppReady, duration } = options;
   const [isInitialized, setIsInitialized] = useState(false);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
     // Primary: Use external app ready signal (preferred)
     if (isAppReady !== undefined) {
-      if (isAppReady && !isInitialized) {
+      if (isAppReady && !isInitializedRef.current) {
+        isInitializedRef.current = true;
         setIsInitialized(true);
         DeviceEventEmitter.emit('splash-ready');
       }
@@ -42,15 +44,18 @@ export const useSplashFlow = (options: UseSplashFlowOptions = {}): UseSplashFlow
     // Timer-based fallback when isAppReady is not provided
     if (duration !== undefined) {
       const timer = setTimeout(() => {
-        setIsInitialized(true);
-        DeviceEventEmitter.emit('splash-ready');
+        if (!isInitializedRef.current) {
+          isInitializedRef.current = true;
+          setIsInitialized(true);
+          DeviceEventEmitter.emit('splash-ready');
+        }
       }, duration);
 
       return () => clearTimeout(timer);
     }
 
     return undefined;
-  }, [isAppReady, duration, isInitialized]);
+  }, [isAppReady, duration]);
 
   return { isInitialized };
 };

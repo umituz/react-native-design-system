@@ -29,6 +29,7 @@ export interface IconNames {
   alertCircle: string;
   star: string;
   starOutline: string;
+  wifi: string;
   wifiOff: string;
   info: string;
   trash: string;
@@ -43,7 +44,7 @@ export const REQUIRED_ICON_KEYS: (keyof IconNames)[] = [
   'close', 'check', 'checkCircle', 'chevronLeft', 'chevronRight',
   'chevronUp', 'chevronDown', 'arrowLeft', 'arrowRight', 'search',
   'closeCircle', 'clock', 'refresh', 'alertCircle', 'star',
-  'starOutline', 'wifiOff', 'info', 'trash', 'calendar', 'swap', 'colorFilter',
+  'starOutline', 'wifi', 'wifiOff', 'info', 'trash', 'calendar', 'swap', 'colorFilter',
   'diamond', 'award',
 ];
 

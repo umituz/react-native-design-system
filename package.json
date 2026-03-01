@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.45",
+  "version": "4.25.50",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -222,7 +222,55 @@
     "@react-navigation/native": {
       "optional": true
     },
+    "@react-navigation/bottom-tabs": {
+      "optional": true
+    },
+    "@react-navigation/stack": {
+      "optional": true
+    },
+    "@tanstack/query-async-storage-persister": {
+      "optional": true
+    },
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "@tanstack/react-query-persist-client": {
+      "optional": true
+    },
     "expo-application": {
+      "optional": true
+    },
+    "expo-clipboard": {
+      "optional": true
+    },
+    "expo-crypto": {
+      "optional": true
+    },
+    "expo-font": {
+      "optional": true
+    },
+    "expo-haptics": {
+      "optional": true
+    },
+    "expo-image": {
+      "optional": true
+    },
+    "expo-image-manipulator": {
+      "optional": true
+    },
+    "expo-image-picker": {
+      "optional": true
+    },
+    "expo-network": {
+      "optional": true
+    },
+    "expo-secure-store": {
+      "optional": true
+    },
+    "expo-sharing": {
+      "optional": true
+    },
+    "expo-video": {
       "optional": true
     },
     "@react-native-community/datetimepicker": {

@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useCallback, useEffect } from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useCallback, useMemo } from 'react';
 import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
@@ -30,17 +30,6 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
     const sheetHeight = PRESET_HEIGHTS[preset] || PRESET_HEIGHTS.medium;
 
-    useEffect(() => {
-      if (__DEV__) {
-        console.log({
-          visible,
-          preset,
-          hasChildren: !!children,
-          sheetHeight,
-        });
-      }
-    }, [visible, preset, children, sheetHeight]);
-
     const present = useCallback(() => {
       setVisible(true);
     }, []);
@@ -62,7 +51,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       collapse: () => dismiss(),
     }));
 
-    const styles = StyleSheet.create({
+    const styles = useMemo(() => StyleSheet.create({
       overlay: {
         flex: 1,
         backgroundColor: tokens.colors.modalOverlay,
@@ -87,7 +76,7 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
       content: {
         flex: 1,
       },
-    });
+    }), [sheetHeight, backgroundColor, tokens.colors, borderRadius, insets.bottom]);
 
     return (
       <Modal

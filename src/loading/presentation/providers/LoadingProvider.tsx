@@ -30,6 +30,9 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
   const [showFetchLoading, dispatch] = useReducer(loadingReducer, false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showTimeRef = useRef<number>(0);
+  // Use a ref to read showFetchLoading inside the effect without adding it to deps
+  const showFetchLoadingRef = useRef(showFetchLoading);
+  showFetchLoadingRef.current = showFetchLoading;
 
   useEffect(() => {
     if (!detectFetching) return;
@@ -41,7 +44,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
       }
       showTimeRef.current = Date.now();
       dispatch({ type: 'SHOW' });
-    } else if (showFetchLoading) {
+    } else if (showFetchLoadingRef.current) {
       const elapsed = Date.now() - showTimeRef.current;
       const remaining = Math.max(0, minDisplayTime - elapsed);
 
@@ -56,7 +59,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, [isFetching, detectFetching, minDisplayTime, showFetchLoading]);
+  }, [isFetching, detectFetching, minDisplayTime]); // showFetchLoading read via ref to avoid circular dep
 
   return (
     <>
