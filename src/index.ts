@@ -38,7 +38,11 @@
  *   /device       - DeviceService, useDeviceInfo
  */
 
-throw new Error(
-  '[@umituz/react-native-design-system] Barrel import is disabled. ' +
-  'Use sub-path imports instead: e.g. "@umituz/react-native-design-system/theme"'
-);
+if (__DEV__) {
+  console.warn(
+    '[@umituz/react-native-design-system] Barrel import is disabled. ' +
+    'Use sub-path imports instead: e.g. "@umituz/react-native-design-system/theme"'
+  );
+}
+
+export {};

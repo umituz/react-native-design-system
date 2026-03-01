@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.51",
+  "version": "4.25.55",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -184,7 +184,7 @@
     "offline",
     "loading"
   ],
-  "author": "Ümit UZ <umit@umituz.com>",
+  "author": "\u00dcmit UZ <umit@umituz.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -210,7 +210,6 @@
     "expo-network": ">=8.0.0",
     "expo-secure-store": ">=14.0.0",
     "expo-sharing": ">=12.0.0",
-    "expo-video": ">=3.0.0",
     "react": ">=19.0.0",
     "react-native": "*",
     "react-native-gesture-handler": ">=2.20.0",
@@ -268,9 +267,6 @@
       "optional": true
     },
     "expo-sharing": {
-      "optional": true
-    },
-    "expo-video": {
       "optional": true
     },
     "@react-native-community/datetimepicker": {

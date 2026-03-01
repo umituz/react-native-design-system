@@ -3,9 +3,8 @@
  * Utilities for handling media files (base64, downloads, file operations)
  */
 
-import { File as ExpoFile, Paths } from "expo-file-system/next";
-
-declare function atob(data: string): string;
+import { base64ToTempFile } from "../../../filesystem/infrastructure/utils/blob.utils";
+import { downloadFile } from "../../../filesystem/infrastructure/services/download.service";
 
 interface FileWithType {
   readonly type: string;
@@ -49,60 +48,23 @@ export const toDataUrl = (str: string): string => {
 };
 
 /**
- * Save base64 image to file system
+ * Save base64 image to file system using internal filesystem service
  */
 export const saveBase64ToFile = async (base64Data: string): Promise<string> => {
-  const timestamp = Date.now();
-  const filename = `media_${timestamp}.jpg`;
-  const file = new ExpoFile(Paths.cache, filename);
-
-  const pureBase64 = base64Data.replace(/^data:image\/\w+;base64,/, "");
-  const binaryString = atob(pureBase64);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-
-  file.write(bytes);
-  return file.uri;
+  return base64ToTempFile(base64Data);
 };
 
 /**
- * Download media from URL to local file
+ * Download media from URL to local file using internal filesystem service
  */
-export const downloadMediaToFile = async (url: string, isVideo: boolean): Promise<string> => {
-  const timestamp = Date.now();
-  const extension = isVideo ? "mp4" : "jpg";
-  const filename = `media_${timestamp}.${extension}`;
-  const file = new ExpoFile(Paths.cache, filename);
+export const downloadMediaToFile = async (url: string, _isVideo: boolean): Promise<string> => {
+  const result = await downloadFile(url);
 
-  // Create abort controller for timeout
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`Failed to download media: ${response.statusText}`);
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const bytes = new Uint8Array(arrayBuffer);
-    file.write(bytes);
-
-    return file.uri;
-  } catch (error) {
-    // Clear timeout if error occurs
-    clearTimeout(timeoutId);
-
-    if (error instanceof Error && error.name === 'AbortError') {
-      throw new Error('Download timeout - request took longer than 30 seconds');
-    }
-
-    throw error;
+  if (!result.success || !result.uri) {
+    throw new Error(`Failed to download media: ${result.error ?? "Unknown error"}`);
   }
+
+  return result.uri;
 };
 
 export interface SaveToGalleryResult {
@@ -112,7 +74,6 @@ export interface SaveToGalleryResult {
 
 /**
  * Save image to device gallery
- * Downloads from URL if needed, then saves to media library
  */
 export const saveImageToGallery = async (uri: string): Promise<SaveToGalleryResult> => {
   try {
@@ -124,7 +85,6 @@ export const saveImageToGallery = async (uri: string): Promise<SaveToGalleryResu
       return { success: false, error: "Permission denied" };
     }
 
-    // Download if URL, otherwise use local path
     const localUri = uri.startsWith("http") ? await downloadMediaToFile(uri, false) : uri;
     await MediaLibrary.saveToLibraryAsync(localUri);
 
