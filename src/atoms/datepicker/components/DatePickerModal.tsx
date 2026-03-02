@@ -113,7 +113,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
       transparent
       animationType="none"
       onRequestClose={onClose}
-      testID={`${testID}-modal`}
+      testID={testID ? `${testID}-modal` : undefined}
       accessibilityViewIsModal={true}
     >
       <View style={modalStyles.overlay}>
@@ -131,7 +131,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
             <TouchableOpacity
               onPress={onClose}
               style={modalStyles.doneButton}
-              testID={`${testID}-done`}
+              testID={testID ? `${testID}-done` : undefined}
             >
               <AtomicText style={modalStyles.doneButtonText}>{doneButtonText}</AtomicText>
             </TouchableOpacity>
@@ -146,7 +146,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
             maximumDate={maximumDate}
             display="spinner"
             style={{ alignSelf: 'center' }}
-            testID={`${testID}-picker`}
+            testID={testID ? `${testID}-picker` : undefined}
           />
         </View>
       </View>

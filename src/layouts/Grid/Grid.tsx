@@ -73,23 +73,21 @@ export const Grid: React.FC<GridProps> = ({
     [responsiveGap]
   );
 
+  const itemStyle = useMemo(() => ({
+    flex: columns ? 1 / columns - 0.01 : undefined,
+    minWidth: columns ? `${100 / columns - 1}%` as const : undefined,
+  }), [columns]);
+
   // Convert children to array for mapping
   const childArray = React.Children.toArray(children);
 
   return (
     <View style={[styles.container, style]} testID={testID}>
       {childArray.map((child, index) => {
-        // Use child's key if available, otherwise use index
         const key = (child as React.ReactElement).key || `grid-item-${index}`;
 
         return (
-          <View
-            key={key}
-            style={{
-              flex: columns ? 1 / columns - 0.01 : undefined,
-              minWidth: columns ? `${100 / columns - 1}%` : undefined,
-            }}
-          >
+          <View key={key} style={itemStyle}>
             {child}
           </View>
         );

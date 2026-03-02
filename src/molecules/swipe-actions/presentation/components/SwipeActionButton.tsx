@@ -86,14 +86,15 @@ export const SwipeActionButton: React.FC<SwipeActionButtonProps> = ({
   const backgroundColor = getBackgroundColor();
 
   const handlePress = async () => {
-    // Trigger haptic feedback
-    if (enableHaptics) {
-      const intensity = getHapticsIntensity(action);
-      await HapticService.impact(intensity);
+    try {
+      if (enableHaptics) {
+        const intensity = getHapticsIntensity(action);
+        await HapticService.impact(intensity);
+      }
+      await action.onPress();
+    } catch (error) {
+      if (__DEV__) console.warn('[SwipeActionButton] Action failed:', error);
     }
-
-    // Execute action
-    await action.onPress();
   };
 
   return (
@@ -111,6 +112,8 @@ export const SwipeActionButton: React.FC<SwipeActionButtonProps> = ({
       ]}
       onPress={handlePress}
       activeOpacity={0.7}
+      accessibilityRole="button"
+      accessibilityLabel={label}
     >
       <View style={styles.content}>
         <AtomicIcon

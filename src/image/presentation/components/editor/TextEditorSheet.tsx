@@ -68,7 +68,7 @@ export const TextEditorSheet = forwardRef<BottomSheetModalRef, TextEditorSheetPr
           ))}
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 60 }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 60 }} keyboardShouldPersistTaps="handled">
           {activeTab === 'content' && <TextContentTab text={props.text} onTextChange={props.onTextChange} t={t} />}
           {activeTab === 'style' && (
             <TextStyleTab 

@@ -22,7 +22,7 @@ interface CalendarDayCellProps {
   testID?: string;
 }
 
-export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
+export const CalendarDayCell: React.FC<CalendarDayCellProps> = React.memo(({
   day,
   index,
   isSelected,
@@ -98,4 +98,4 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
       </View>
     </TouchableOpacity>
   );
-};
+});

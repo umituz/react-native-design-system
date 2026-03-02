@@ -4,7 +4,7 @@
  * Content component for confirmation modal
  */
 
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewStyle, StyleProp } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { ConfirmationModalVariant } from './confirmation-modal/types/';
@@ -27,7 +27,7 @@ const useConfirmButtonStyle = (
   variant: ConfirmationModalVariant,
   tokens: ReturnType<typeof useAppDesignTokens>
 ) => {
-  return useCallback(() => {
+  return useMemo(() => {
     const baseStyle = getButtonStyle();
     const variantStyles: ViewStyle[] = [];
 
@@ -54,7 +54,7 @@ export const ConfirmationModalContent: React.FC<{
 }> = ({ tokens, variant, title, message, confirmText, cancelText, icon, onConfirm, onCancel, style, testID }) => {
   const variantConfig = getVariantConfig(variant as 'default' | 'destructive' | 'warning' | 'success');
   const finalIcon = icon || variantConfig.icon;
-  const getConfirmButtonStyle = useConfirmButtonStyle(variant, tokens);
+  const confirmButtonStyle = useConfirmButtonStyle(variant, tokens);
 
   return (
     <View style={[getModalContainerStyle(tokens), style]}>
@@ -79,7 +79,7 @@ export const ConfirmationModalContent: React.FC<{
         cancelText={cancelText}
         onConfirm={onConfirm}
         onCancel={onCancel}
-        confirmButtonStyle={getConfirmButtonStyle()}
+        confirmButtonStyle={confirmButtonStyle}
         testID={testID}
       />
     </View>

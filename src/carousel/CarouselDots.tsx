@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { useAppDesignTokens } from "../theme";
 import type { CarouselDotsProps } from "./types";
 
-export const CarouselDots: React.FC<CarouselDotsProps> = ({
+const CarouselDotsComponent: React.FC<CarouselDotsProps> = ({
   count,
   currentIndex,
   activeColor,
@@ -35,6 +35,7 @@ export const CarouselDots: React.FC<CarouselDotsProps> = ({
     </View>
   );
 };
+export const CarouselDots = React.memo(CarouselDotsComponent);
 
 const styles = StyleSheet.create({
   container: {

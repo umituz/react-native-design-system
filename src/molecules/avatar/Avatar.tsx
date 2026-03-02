@@ -38,7 +38,7 @@ interface AvatarContentProps {
   imageStyle?: StyleProp<ImageStyle>;
 }
 
-const AvatarContent: React.FC<AvatarContentProps> = ({
+const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
   hasImage,
   hasName,
   uri,
@@ -91,7 +91,7 @@ const AvatarContent: React.FC<AvatarContentProps> = ({
       customColor={tokens.colors.textInverse}
     />
   );
-};
+});
 
 export const Avatar: React.FC<AvatarProps> = ({
   uri,

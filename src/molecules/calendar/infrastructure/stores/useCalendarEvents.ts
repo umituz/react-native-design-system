@@ -70,8 +70,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
       if (validEvents.length > 0) {
         const hydratedEvents = validEvents.map((event) => ({
           ...event,
-          createdAt: new Date(event.createdAt),
-          updatedAt: new Date(event.updatedAt),
+          createdAt: event.createdAt ? new Date(event.createdAt) : new Date(),
+          updatedAt: event.updatedAt ? new Date(event.updatedAt) : new Date(),
         }));
         set({ events: hydratedEvents, isLoading: false });
       } else {

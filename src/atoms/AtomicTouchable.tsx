@@ -32,7 +32,7 @@ export interface AtomicTouchableProps {
   accessible?: boolean;
 }
 
-export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
+const AtomicTouchableComponent: React.FC<AtomicTouchableProps> = ({
   children,
   onPress,
   onLongPress,
@@ -75,3 +75,6 @@ export const AtomicTouchable: React.FC<AtomicTouchableProps> = ({
     </TouchableOpacity>
   );
 };
+
+export const AtomicTouchable = React.memo(AtomicTouchableComponent);
+AtomicTouchableComponent.displayName = 'AtomicTouchable';

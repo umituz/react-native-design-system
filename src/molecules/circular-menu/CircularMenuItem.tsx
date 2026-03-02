@@ -11,7 +11,7 @@ export interface CircularMenuItemProps {
   onPress: () => void;
 }
 
-export const CircularMenuItem: React.FC<CircularMenuItemProps> = ({
+export const CircularMenuItem: React.FC<CircularMenuItemProps> = React.memo(({
   icon,
   label,
   onPress,
@@ -49,7 +49,7 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = ({
       </AtomicText>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

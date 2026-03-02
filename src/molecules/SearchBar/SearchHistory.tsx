@@ -80,6 +80,8 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
                         onPress={() => onRemoveItem(item.id)}
                         style={styles.removeButton}
                         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Remove ${item.query} from history`}
                     >
                         <AtomicIcon
                             name={closeIcon}

@@ -34,6 +34,7 @@ export function FilterGroup<T = string>({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       style={[styles.container, style]}
       contentContainerStyle={[styles.content, contentContainerStyle]}
     >

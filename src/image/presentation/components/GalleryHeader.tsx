@@ -33,6 +33,8 @@ export function GalleryHeader({ onEdit, onClose, title }: GalleryHeaderProps) {
                         style={[styles.actionButton, { backgroundColor: 'rgba(255, 255, 255, 0.15)' }]}
                         onPress={onEdit}
                         activeOpacity={0.7}
+                        accessibilityRole="button"
+                        accessibilityLabel="Edit"
                     >
                         <AtomicText style={styles.buttonText}>Edit</AtomicText>
                     </TouchableOpacity>
@@ -55,6 +57,8 @@ export function GalleryHeader({ onEdit, onClose, title }: GalleryHeaderProps) {
                     onPress={onClose}
                     activeOpacity={0.7}
                     hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Close gallery"
                 >
                     <AtomicText style={styles.closeIcon}>✕</AtomicText>
                 </TouchableOpacity>

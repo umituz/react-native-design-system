@@ -79,6 +79,7 @@ export const List = <T,>({
           : undefined
       }
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       {...rest}
     />
   );

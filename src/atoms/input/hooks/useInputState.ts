@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface UseInputStateProps {
   value?: string;
@@ -45,7 +45,7 @@ export const useInputState = ({
   const characterCount = localValue.length;
   const isAtMaxLength = maxLength ? characterCount >= maxLength : false;
 
-  return useMemo(() => ({
+  return {
     localValue,
     isFocused,
     isPasswordVisible,
@@ -54,5 +54,5 @@ export const useInputState = ({
     setIsFocused,
     handleTextChange,
     togglePasswordVisibility,
-  }), [localValue, isFocused, isPasswordVisible, characterCount, isAtMaxLength, setIsFocused, handleTextChange, togglePasswordVisibility]);
+  };
 };

@@ -46,7 +46,9 @@ export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
               e.stopPropagation();
               onRemoveChip(opt.value);
             }}
-            hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            accessibilityRole="button"
+            accessibilityLabel={`Remove ${opt.label}`}
           >
             <AtomicIcon name={closeIcon} size="sm" color="primary" />
           </TouchableOpacity>

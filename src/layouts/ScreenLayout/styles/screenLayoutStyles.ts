@@ -27,11 +27,6 @@ export const getScreenLayoutStyles = (
       width: '100%',
       ...(maxWidth ? { maxWidth, alignSelf: 'center' as const } : {}),
     },
-    content: {
-      flex: 1,
-      paddingTop: verticalPadding,
-      paddingHorizontal: horizontalPadding,
-    },
     scrollView: {
       flex: 1,
     },

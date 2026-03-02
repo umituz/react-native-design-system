@@ -2,7 +2,7 @@
  * PickerModal - Selection modal for AtomicPicker
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Modal, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { useAppDesignTokens } from '../../../theme';
@@ -71,9 +71,9 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
     emptyText: getEmptyStateTextStyles(tokens),
   };
 
-  const isSelected = (value: string) => selectedValues?.includes(value) ?? false;
+  const isSelected = useCallback((value: string) => selectedValues?.includes(value) ?? false, [selectedValues]);
 
-  const renderOption = ({ item }: { item: PickerOption }) => {
+  const renderOption = useCallback(({ item }: { item: PickerOption }) => {
     const selected = isSelected(item.value);
     const disabled = item.disabled || false;
 
@@ -81,6 +81,9 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
       <TouchableOpacity
         onPress={() => !disabled && onSelect(item.value)}
         disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={item.label}
+        accessibilityState={{ disabled, selected }}
         testID={item.testID || `${testID}-option-${item.value}`}
         style={getOptionContainerStyles(tokens, selected, disabled)}
       >
@@ -92,7 +95,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
         {selected && <AtomicIcon name={icons.checkCircle} size="md" color="primary" />}
       </TouchableOpacity>
     );
-  };
+  }, [isSelected, onSelect, tokens, testID]);
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose} testID={`${testID}-modal`} accessibilityViewIsModal={true}>
@@ -109,12 +112,12 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
             <View style={styles.search}>
               <AtomicIcon name={icons.search} size="sm" color="secondary" />
               <TextInput value={searchQuery} onChangeText={onSearchChange} placeholder={searchPlaceholder} placeholderTextColor={tokens.colors.textSecondary} style={styles.searchInput} testID={`${testID}-search`} />
-              {searchQuery.length > 0 && <TouchableOpacity onPress={() => onSearchChange('')}><AtomicIcon name={icons.close} size="sm" color="secondary" /></TouchableOpacity>}
+              {searchQuery.length > 0 && <TouchableOpacity onPress={() => onSearchChange('')} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} accessibilityRole="button" accessibilityLabel="Clear search"><AtomicIcon name={icons.close} size="sm" color="secondary" /></TouchableOpacity>}
             </View>
           )}
 
           {filteredOptions.length > 0 ? (
-            <FlatList data={filteredOptions} keyExtractor={(item: PickerOption) => item.value} renderItem={renderOption} showsVerticalScrollIndicator testID={`${testID}-list`} />
+            <FlatList data={filteredOptions} keyExtractor={(item: PickerOption) => item.value} renderItem={renderOption} showsVerticalScrollIndicator keyboardShouldPersistTaps="handled" testID={`${testID}-list`} />
           ) : (
             <View style={styles.empty}>
               <AtomicIcon name={icons.info} size="xl" color="secondary" />

@@ -64,7 +64,7 @@ export const AtomicPicker: React.FC<AtomicPickerProps> = ({
         onPress={() => !disabled && pickerState.openModal()}
         disabled={disabled}
         accessibilityRole="button"
-        accessibilityLabel={label || placeholder}
+        accessibilityLabel={label || placeholder || 'Select option'}
         accessibilityState={{ disabled }}
         testID={testID}
         style={StyleSheet.flatten([

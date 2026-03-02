@@ -76,13 +76,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   }, [images, onImageChange]);
 
   const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const nextIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+    const rawIndex = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+    const nextIndex = Math.max(0, Math.min(rawIndex, images.length - 1));
     if (nextIndex !== currentIndexRef.current) {
       currentIndexRef.current = nextIndex;
       onIndexChange?.(nextIndex);
       forceRender();
     }
-  }, [onIndexChange, SCREEN_WIDTH]);
+  }, [onIndexChange, SCREEN_WIDTH, images.length]);
 
   const renderItem = useCallback(({ item }: { item: ImageViewerItem }) => (
     <View style={styles.imageWrapper}>
@@ -92,12 +93,14 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           style={styles.fullImage}
           contentFit="contain"
           cachePolicy="memory-disk"
+          onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
         />
       ) : (
         <RNImage
           source={{ uri: item.uri }}
           style={styles.fullImage}
           resizeMode="contain"
+          onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
         />
       )}
     </View>

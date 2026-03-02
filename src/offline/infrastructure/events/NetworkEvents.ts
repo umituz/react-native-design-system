@@ -32,15 +32,21 @@ class NetworkEventEmitter implements NetworkEvents {
   }
 
   emit(event: 'online' | 'offline' | 'change', state: NetworkState): void {
-    this.listeners.get(event)?.forEach((listener) => {
+    const listeners = this.listeners.get(event);
+    if (!listeners) return;
+
+    const failedListeners: NetworkEventListener[] = [];
+    listeners.forEach((listener) => {
       try {
         listener(state);
       } catch (_error) {
+        failedListeners.push(listener);
         if (__DEV__) {
-          console.error('[DesignSystem] PersistentDeviceIdService: Initialization failed', _error);
+          console.error('[DesignSystem] NetworkEventEmitter: listener threw an error', _error);
         }
       }
     });
+    failedListeners.forEach((listener) => listeners.delete(listener));
   }
 
   removeAllListeners(): void {

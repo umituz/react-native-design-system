@@ -39,7 +39,7 @@ interface CardContentProps {
   children?: React.ReactNode;
 }
 
-const CardContent: React.FC<CardContentProps> = ({
+const CardContent: React.FC<CardContentProps> = React.memo(({
   badge,
   image,
   imageAspectRatio,
@@ -137,7 +137,7 @@ const CardContent: React.FC<CardContentProps> = ({
       </View>
     </>
   );
-};
+});
 
 const AtomicCardComponent: React.FC<AtomicCardProps> = ({
   children,

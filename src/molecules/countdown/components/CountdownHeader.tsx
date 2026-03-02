@@ -53,6 +53,8 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
                         },
                     ]}
                     onPress={onToggle}
+                    accessibilityRole="button"
+                    accessibilityLabel="Toggle view"
                 >
                     <AtomicIcon
                         name={swapIcon}

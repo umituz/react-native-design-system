@@ -103,12 +103,17 @@ export const FilterBottomSheet = forwardRef<BottomSheetModalRef, FilterBottomShe
       <View style={styles.container}>
         <View style={styles.header}>
           <AtomicText type="headlineSmall">{title || 'Filter'}</AtomicText>
-          <TouchableOpacity onPress={() => internalRef.current?.dismiss()}>
+          <TouchableOpacity
+            onPress={() => internalRef.current?.dismiss()}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityRole="button"
+            accessibilityLabel="Close filter"
+          >
             <AtomicIcon name={icons.close} size="md" color="textPrimary" />
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
           {categories.map(renderCategory)}
         </ScrollView>
 

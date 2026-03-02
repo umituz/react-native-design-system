@@ -54,7 +54,7 @@ export interface AtomicAvatarProps {
 // COMPONENT IMPLEMENTATION
 // =============================================================================
 
-export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
+export const AtomicAvatar: React.FC<AtomicAvatarProps> = React.memo(({
   source,
   name,
   size = 'md',
@@ -152,5 +152,5 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = ({
       )}
     </View>
   );
-};
+});
 

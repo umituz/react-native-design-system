@@ -23,19 +23,27 @@ export const InputIcon: React.FC<InputIconProps> = ({
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} style={style} testID={testID}>
+      <Pressable
+        onPress={onPress}
+        style={style}
+        testID={testID}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        accessibilityRole="button"
+        accessibilityLabel={name}
+      >
         <AtomicIcon name={name} customSize={size} customColor={color} />
       </Pressable>
     );
   }
 
   return (
-    <AtomicIcon 
-      name={name} 
-      customSize={size} 
-      customColor={color} 
+    <AtomicIcon
+      name={name}
+      customSize={size}
+      customColor={color}
       style={style}
       testID={testID}
+      accessibilityRole="image"
     />
   );
 };

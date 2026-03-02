@@ -90,7 +90,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     content: {
       flex: 1,
     }
-  }), [sheetHeight, backgroundColor, tokens.colors, borderRadius, insets.bottom]);
+  }), [sheetHeight, backgroundColor, tokens.colors.modalOverlay, tokens.colors.surface, tokens.colors.border, borderRadius, insets.bottom]);
 
   return (
     <Modal
@@ -101,9 +101,9 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
       statusBarTranslucent
       accessibilityViewIsModal={true}
     >
-      <Pressable style={styles.overlay} onPress={dismiss}>
+      <Pressable style={styles.overlay} onPress={dismiss} accessibilityLabel="Close" accessibilityRole="button">
         <View style={styles.container}>
-          <Pressable onPress={(e) => e.stopPropagation()} style={styles.content}>
+          <Pressable onPress={(e) => e.stopPropagation()} style={styles.content} accessibilityRole="none">
             <View style={styles.handle} />
             {children}
           </Pressable>

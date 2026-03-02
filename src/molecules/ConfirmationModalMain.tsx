@@ -26,7 +26,7 @@ const ConfirmationModalBackdrop: React.FC<{
   showBackdrop: boolean;
   onBackdropPress: () => void;
   testID: string;
-}> = ({ showBackdrop, onBackdropPress, testID }) => {
+}> = React.memo(({ showBackdrop, onBackdropPress, testID }) => {
   if (!showBackdrop) return null;
 
   return (
@@ -37,7 +37,7 @@ const ConfirmationModalBackdrop: React.FC<{
       testID={`${testID}-backdrop`}
     />
   );
-};
+});
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   visible,

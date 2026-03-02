@@ -21,5 +21,5 @@ export function useAlertAutoDismiss(
 
     const timer = setTimeout(onDismiss, duration);
     return () => clearTimeout(timer);
-  }, [alert.duration, alert.dismissible, onDismiss]);
+  }, [alert.id, alert.duration, alert.dismissible, onDismiss]);
 }

@@ -30,7 +30,10 @@ export class AlertService {
             message,
             position: options?.position || defaultPosition,
             icon: options?.icon,
-            actions: options?.actions || [],
+            actions: options?.actions?.map(action => ({
+                id: generateUUID(),
+                ...action,
+            })) || [],
             dismissible: options?.dismissible ?? true,
             duration: options?.duration,
             onDismiss: options?.onDismiss,

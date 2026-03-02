@@ -120,7 +120,7 @@ export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, Ato
           {maxLength && value !== undefined && (
             <AtomicText
               type="labelSmall"
-              color="secondary"
+              color={hasError ? 'error' : 'secondary'}
               style={styles.characterCount}
             >
               {value.length}/{maxLength}

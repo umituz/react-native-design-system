@@ -2,7 +2,7 @@
  * AlertContainer Component
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
 import { useAppDesignTokens } from '../../theme';
@@ -12,14 +12,14 @@ import { AlertBanner } from './AlertBanner';
 import { AlertModal } from './AlertModal';
 import { Alert, AlertMode } from './AlertTypes';
 
-export const AlertContainer: React.FC = () => {
+const AlertContainerComponent: React.FC = () => {
     const alerts = useAlertStore((state: { alerts: Alert[] }) => state.alerts);
     const insets = useSafeAreaInsets();
     const tokens = useAppDesignTokens();
 
-    const toasts = alerts.filter((a: Alert) => a.mode === AlertMode.TOAST);
-    const banners = alerts.filter((a: Alert) => a.mode === AlertMode.BANNER);
-    const modals = alerts.filter((a: Alert) => a.mode === AlertMode.MODAL);
+    const toasts = useMemo(() => alerts.filter((a: Alert) => a.mode === AlertMode.TOAST), [alerts]);
+    const banners = useMemo(() => alerts.filter((a: Alert) => a.mode === AlertMode.BANNER), [alerts]);
+    const modals = useMemo(() => alerts.filter((a: Alert) => a.mode === AlertMode.MODAL), [alerts]);
 
     return (
         <View style={styles.container} pointerEvents="box-none">
@@ -52,6 +52,9 @@ export const AlertContainer: React.FC = () => {
         </View>
     );
 };
+
+export const AlertContainer = React.memo(AlertContainerComponent);
+AlertContainerComponent.displayName = 'AlertContainer';
 
 const styles = StyleSheet.create({
     container: {

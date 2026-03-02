@@ -16,7 +16,7 @@ export interface OnboardingSlideProps {
   variant?: "default" | "card" | "minimal" | "fullscreen";
 }
 
-export const OnboardingSlide = ({
+export const OnboardingSlide = React.memo(({
   slide,
   variant = "default",
 }: OnboardingSlideProps) => {
@@ -89,7 +89,7 @@ export const OnboardingSlide = ({
       )}
     </BaseSlide>
   );
-};
+});
 
 const styles = StyleSheet.create({
   iconBox: {

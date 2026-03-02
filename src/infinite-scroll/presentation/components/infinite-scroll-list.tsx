@@ -103,6 +103,7 @@ function InfiniteScrollListComponent<T>({
       onEndReachedThreshold={calculateEndReachedThreshold(config.threshold)}
       onRefresh={refresh}
       refreshing={state.isRefreshing}
+      keyboardShouldPersistTaps="handled"
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={
         <>

@@ -57,7 +57,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
             tokens={tokens}
           />
 
-          <ScrollView style={styles.optionsList} showsVerticalScrollIndicator={false}>
+          <ScrollView style={styles.optionsList} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
             {options.map((option) => (
               <FilterSheetOption
                 key={option.id}

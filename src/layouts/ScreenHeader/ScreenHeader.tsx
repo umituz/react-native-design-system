@@ -97,7 +97,7 @@ const ScreenHeaderTitle: React.FC<{
   title: string;
   tokens: ReturnType<typeof useAppDesignTokens>;
   testID?: string;
-}> = ({ title, tokens, testID }) => (
+}> = React.memo(({ title, tokens, testID }) => (
   <View style={{ flex: 1, alignItems: 'center', paddingHorizontal: tokens.spacing.sm }}>
     <AtomicText
       type="headlineMedium"
@@ -114,15 +114,15 @@ const ScreenHeaderTitle: React.FC<{
       {title}
     </AtomicText>
   </View>
-);
+));
 
 const ScreenHeaderRightAction: React.FC<{
   rightAction?: React.ReactNode;
-}> = ({ rightAction }) => (
+}> = React.memo(({ rightAction }) => (
   <View style={{ width: 40, alignItems: 'flex-start' }}>
     {rightAction || <View style={{ width: 40 }} />}
   </View>
-);
+));
 
 export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   title,

@@ -94,7 +94,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
           color={iconColor as string}
           style={iconPosition === 'right' ? buttonStyles.iconRight : buttonStyles.iconLeft}
         />
-      ) : (showIcon && icon) ? (
+      ) : showIcon ? (
         <AtomicIcon
           name={icon}
           customSize={config.iconSize}

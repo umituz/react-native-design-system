@@ -16,7 +16,7 @@ export interface QuestionOptionItemProps {
   colors: OnboardingColors;
 }
 
-export const QuestionOptionItem = ({
+export const QuestionOptionItem = React.memo(({
   option,
   isSelected,
   onPress,
@@ -36,6 +36,9 @@ export const QuestionOptionItem = ({
       ]}
       onPress={onPress}
       activeOpacity={0.8}
+      accessibilityRole="button"
+      accessibilityLabel={option.label}
+      accessibilityState={{ selected: isSelected }}
     >
       {option.icon && (
         <View style={[
@@ -83,7 +86,7 @@ export const QuestionOptionItem = ({
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   option: {

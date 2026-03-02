@@ -5,7 +5,7 @@
  * Extracted from AtomicDatePicker for better separation of concerns.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -35,7 +35,7 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
   const tokens = useAppDesignTokens();
   const calendarIcon = useIconName('calendar');
 
-  const buttonStyles = StyleSheet.create({
+  const buttonStyles = useMemo(() => StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -75,7 +75,7 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
       alignItems: 'center',
       gap: tokens.spacing.xs,
     },
-  });
+  }), [tokens]);
 
   const containerStyle = [
     buttonStyles.container,

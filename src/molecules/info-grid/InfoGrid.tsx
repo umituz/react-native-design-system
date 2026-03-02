@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
@@ -16,7 +16,7 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       gap: tokens.spacing.md,
     },
@@ -68,7 +68,7 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       color: tokens.colors.textPrimary,
       fontWeight: '500',
     },
-  });
+  }), [tokens, columns]);
 
   return (
     <View style={[styles.container, style]}>

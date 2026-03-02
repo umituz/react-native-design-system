@@ -70,18 +70,16 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
       {scrollable ? (
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={[
-            styles.scrollContent, 
-            contentContainerStyle,
-          ]}
+          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
           showsVerticalScrollIndicator={!hideScrollIndicator}
-          keyboardShouldPersistTaps={keyboardAvoiding ? 'handled' : 'never'}
+          keyboardShouldPersistTaps="handled"
           refreshControl={refreshControl}
+          nestedScrollEnabled
         >
           {children}
         </ScrollView>
       ) : (
-        <View style={[styles.content, contentContainerStyle]}>
+        <View style={[styles.scrollView, styles.scrollContent, contentContainerStyle]}>
           {children}
         </View>
       )}

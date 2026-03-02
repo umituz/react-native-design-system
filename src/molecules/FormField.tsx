@@ -7,7 +7,7 @@
  * Composition: AtomicText + AtomicInput
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText, AtomicInput, type AtomicInputProps } from '../atoms';
@@ -96,7 +96,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const inputState = error ? 'error' : 'default';
-  const styles = getStyles(tokens);
+  const styles = useMemo(() => getStyles(tokens), [tokens]);
 
   return (
     <View style={[styles.container, containerStyle || style]}>

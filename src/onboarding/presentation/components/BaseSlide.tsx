@@ -39,6 +39,7 @@ export const BaseSlide = ({
       contentContainerStyle={contentContainerStyle}
       showsVerticalScrollIndicator={false}
       bounces={false}
+      keyboardShouldPersistTaps="handled"
     >
       <View style={slideContainerStyle}>{children}</View>
     </ScrollView>

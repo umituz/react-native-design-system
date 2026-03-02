@@ -23,7 +23,7 @@ export enum AlertPosition {
 }
 
 export interface AlertAction {
-    id: string;
+    id?: string;
     label: string;
     onPress: () => Promise<void> | void;
     style?: 'primary' | 'secondary' | 'destructive';

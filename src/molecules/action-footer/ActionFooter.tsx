@@ -67,6 +67,8 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
         onPress={onBack}
         activeOpacity={0.7}
         testID="action-footer-back"
+        accessibilityRole="button"
+        accessibilityLabel="Go back"
       >
         <AtomicIcon
           name={backIcon}
@@ -81,6 +83,9 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
         activeOpacity={0.9}
         disabled={loading}
         testID="action-footer-action"
+        accessibilityRole="button"
+        accessibilityLabel={actionLabel}
+        accessibilityState={{ disabled: loading, busy: loading }}
       >
         <View style={themedStyles.actionContent}>
           <AtomicText style={themedStyles.actionText}>{actionLabel}</AtomicText>

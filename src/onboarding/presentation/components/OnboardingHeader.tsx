@@ -49,7 +49,13 @@ export const OnboardingHeader = ({
         <View style={styles.headerButton} />
       )}
       {showSkipButton && skipButtonText ? (
-        <TouchableOpacity onPress={onSkip} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={onSkip}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={skipButtonText}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
           <AtomicText
             type="labelLarge"
             style={[styles.skipText, { color: colors.textColor }]}

@@ -5,7 +5,7 @@
  * Combines React state with automatic storage persistence
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { storageRepository } from '../../infrastructure/repositories/AsyncStorageRepository';
 import { unwrap } from '../../domain/entities/StorageResult';
 import type { StorageKey } from '../../domain/value-objects/StorageKey';
@@ -41,13 +41,6 @@ export const useStorageState = <T>(
       onSuccess: (value) => setState(value),
     }
   );
-
-  // Sync state with loaded data
-  useEffect(() => {
-    if (data !== undefined && data !== null) {
-      setState(data);
-    }
-  }, [data]);
 
   // Update state and persist to storage
   const updateState = useCallback(

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View, type ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 
@@ -18,16 +18,13 @@ export const FabButton: React.FC<FabButtonProps> = ({
     style,
 }) => {
     const tokens = useAppDesignTokens();
+    const themedStyle = useMemo(() => ({
+        backgroundColor: tokens.colors.primary,
+        borderColor: tokens.colors.onPrimary,
+    }), [tokens.colors.primary, tokens.colors.onPrimary]);
 
     return (
-        <View style={[
-            styles.container,
-            {
-                backgroundColor: tokens.colors.primary,
-                borderColor: tokens.colors.onPrimary,
-            },
-            style
-        ]}>
+        <View style={[styles.container, themedStyle, style]}>
             {children}
         </View>
     );

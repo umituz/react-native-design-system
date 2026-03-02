@@ -86,11 +86,17 @@ export function AlertToast({ alert }: AlertToastProps) {
               <Pressable
                 key={action.id}
                 onPress={async () => {
-                  await action.onPress();
+                  try {
+                    await action.onPress();
+                  } catch (e) {
+                    if (__DEV__) console.error('[AlertToast] action.onPress failed', e);
+                  }
                   if (action.closeOnPress ?? true) {
                     handleDismiss();
                   }
                 }}
+                accessibilityRole="button"
+                accessibilityLabel={action.label}
                 style={[
                   styles.actionButton,
                   {

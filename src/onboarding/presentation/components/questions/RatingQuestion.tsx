@@ -26,7 +26,16 @@ export const RatingQuestion = ({
         {Array.from({ length: max }).map((_, i) => {
           const isFilled = i < value;
           return (
-            <TouchableOpacity key={i} onPress={() => onChange(i + 1)} activeOpacity={0.8} style={styles.star}>
+            <TouchableOpacity
+                key={i}
+                onPress={() => onChange(i + 1)}
+                activeOpacity={0.8}
+                style={styles.star}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                accessibilityRole="button"
+                accessibilityLabel={`Rate ${i + 1} out of ${max}`}
+                accessibilityState={{ selected: isFilled }}
+              >
               <AtomicIcon
                 name={isFilled ? "star" : "star-outline"}
                 customSize={48}

@@ -50,7 +50,12 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   return (
     <View style={styles.container}>
       {onBackPress && (
-        <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={onBackPress}
+          style={styles.backButton}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
           <AtomicIcon
             name={arrowLeftIcon}
             size="md"

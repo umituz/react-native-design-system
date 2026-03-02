@@ -66,6 +66,9 @@ export const OnboardingFooter = ({
         onPress={onNext}
         disabled={disabled}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={buttonText}
+        accessibilityState={{ disabled }}
         style={[
           styles.button,
           {
