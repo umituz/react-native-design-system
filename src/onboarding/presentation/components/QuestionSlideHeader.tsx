@@ -16,19 +16,21 @@ export const QuestionSlideHeader = ({ slide }: QuestionSlideHeaderProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={[
-        styles.iconContainer,
-        {
-          backgroundColor: colors.iconBg,
-          borderColor: colors.iconBorder,
-        }
-      ]}>
-        {isEmoji ? (
-          <AtomicText style={{ fontSize: 48 }}>{slide.icon}</AtomicText>
-        ) : (
-          <AtomicIcon name={slide.icon} customSize={48} customColor={colors.textColor} />
-        )}
-      </View>
+      {!slide.hideIcon && (
+        <View style={[
+          styles.iconContainer,
+          {
+            backgroundColor: colors.iconBg,
+            borderColor: colors.iconBorder,
+          }
+        ]}>
+          {isEmoji ? (
+            <AtomicText style={{ fontSize: 48 }}>{slide.icon}</AtomicText>
+          ) : (
+            <AtomicIcon name={slide.icon} customSize={48} customColor={colors.textColor} />
+          )}
+        </View>
+      )}
 
       <AtomicText type="headlineMedium" style={[styles.title, { color: colors.textColor }]}>
         {slide.title}

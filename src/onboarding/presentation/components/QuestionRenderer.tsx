@@ -9,6 +9,7 @@ import { SingleChoiceQuestion } from "./questions/SingleChoiceQuestion";
 import { MultipleChoiceQuestion } from "./questions/MultipleChoiceQuestion";
 import { TextInputQuestion } from "./questions/TextInputQuestion";
 import { RatingQuestion } from "./questions/RatingQuestion";
+import { DateQuestion } from "./questions/DateQuestion";
 
 export interface QuestionRendererProps {
   question: OnboardingQuestion;
@@ -52,6 +53,14 @@ export const QuestionRenderer = ({
           question={question}
           value={value as number | undefined}
           onChange={onChange as (value: number) => void}
+        />
+      );
+    case "date":
+      return (
+        <DateQuestion
+          question={question}
+          value={value as string | undefined}
+          onChange={onChange as (value: string) => void}
         />
       );
     default:

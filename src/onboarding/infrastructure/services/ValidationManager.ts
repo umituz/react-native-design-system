@@ -37,13 +37,15 @@ export class ValidationManager {
         return this.validateMultipleChoice(answer, validation);
       case "text_input":
         return this.validateTextInput(answer, validation);
+      case "date":
+        return this.validateDate(answer, validation);
       case "rating":
         return this.validateNumeric(answer, validation);
       default:
         break;
     }
 
-    // Custom validator
+    // Custom validator (for types not covered by switch, e.g. default)
     if (validation.customValidator) {
       const customResult = validation.customValidator(answer);
       return customResult === true;
@@ -85,7 +87,17 @@ export class ValidationManager {
   ): boolean {
     if (!validation) return true;
 
+    // If no answer yet (undefined/null), valid only when not required
+    if (answer === undefined || answer === null) {
+      return !validation.required;
+    }
+
     if (typeof answer !== "string") {
+      return false;
+    }
+
+    // Empty string: valid only when not required
+    if (!answer.trim() && validation.required) {
       return false;
     }
 
@@ -97,7 +109,34 @@ export class ValidationManager {
       return false;
     }
 
+    // Run custom validator if provided
+    if (validation.customValidator) {
+      const customResult = validation.customValidator(answer);
+      return customResult === true;
+    }
+
     return true;
+  }
+
+  /**
+   * Validate date answer (ISO string from date picker)
+   */
+  private static validateDate(
+    answer: OnboardingAnswerValue,
+    validation: OnboardingQuestion["validation"],
+  ): boolean {
+    if (!validation) return true;
+
+    if (answer === undefined || answer === null) {
+      return !validation.required;
+    }
+
+    if (typeof answer !== "string" || !answer) {
+      return !validation.required;
+    }
+
+    const d = new Date(answer);
+    return !isNaN(d.getTime());
   }
 
   /**
