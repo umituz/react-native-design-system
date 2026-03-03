@@ -3,7 +3,7 @@
  * Single Responsibility: Manage file operations (delete, copy, move)
  */
 
-import { File, Directory } from "expo-file-system";
+import { File, Directory } from "expo-file-system/next";
 import type { FileOperationResult } from "../../domain/entities/File";
 import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 

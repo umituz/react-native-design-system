@@ -2,7 +2,7 @@
  * Download Service
  */
 
-import { File, Paths, Directory } from "expo-file-system";
+import { File, Paths, Directory } from "expo-file-system/next";
 import type { FileOperationResult } from "../../domain/entities/File";
 import { FileUtils } from "../../domain/entities/File";
 import { SUPPORTED_DOWNLOAD_EXTENSIONS, DEFAULT_DOWNLOAD_EXTENSION } from "./download.constants";

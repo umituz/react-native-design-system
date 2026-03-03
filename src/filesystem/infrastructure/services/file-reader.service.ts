@@ -3,7 +3,7 @@
  * Single Responsibility: Read files from device storage
  */
 
-import { File } from "expo-file-system";
+import { File } from "expo-file-system/next";
 import type { FileEncoding } from "../../domain/entities/File";
 
 /**

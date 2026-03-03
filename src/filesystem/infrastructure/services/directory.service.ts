@@ -3,7 +3,7 @@
  * Single Responsibility: Manage directory operations
  */
 
-import { Directory, Paths } from "expo-file-system";
+import { Directory, Paths } from "expo-file-system/next";
 import type { DirectoryType } from "../../domain/entities/File";
 import { ErrorHandler, ErrorCodes } from "../../../utils/errors";
 
