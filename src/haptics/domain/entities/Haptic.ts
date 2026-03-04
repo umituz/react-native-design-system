@@ -11,7 +11,7 @@
 /**
  * Impact feedback style (compatible with expo-haptics)
  */
-export type ImpactStyle = 'Light' | 'Medium' | 'Heavy';
+export type ImpactStyle = 'Light' | 'Medium' | 'Heavy' | 'Rigid' | 'Soft';
 
 /**
  * Notification feedback type (compatible with expo-haptics)
@@ -46,7 +46,7 @@ export const HAPTIC_CONSTANTS = {
  */
 export function isImpactStyle(value: unknown): value is ImpactStyle {
   return typeof value === 'string' &&
-         ['Light', 'Medium', 'Heavy'].includes(value);
+         ['Light', 'Medium', 'Heavy', 'Rigid', 'Soft'].includes(value);
 }
 
 /**

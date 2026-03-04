@@ -25,7 +25,8 @@ export function renderSvgIcon(
   size: number,
   color: string,
   testID?: string,
-  accessibilityLabel?: string
+  accessibilityLabel?: string,
+  accessibilityRole?: import('react-native').AccessibilityRole
 ): React.ReactElement {
   return (
     <Svg
@@ -34,6 +35,7 @@ export function renderSvgIcon(
       height={size}
       testID={testID}
       accessibilityLabel={accessibilityLabel}
+      accessibilityRole={accessibilityRole}
     >
       <Path d={svgPath} fill={color} />
     </Svg>
@@ -57,7 +59,8 @@ export function renderWithBackground(
   backgroundColor: string,
   style?: StyleProp<ViewStyle>,
   testID?: string,
-  accessibilityLabel?: string
+  accessibilityLabel?: string,
+  accessibilityRole?: import('react-native').AccessibilityRole
 ): React.ReactElement {
   const containerSize = size + 16;
 
@@ -75,6 +78,7 @@ export function renderWithBackground(
       ]}
       testID={testID}
       accessibilityLabel={accessibilityLabel}
+      accessibilityRole={accessibilityRole}
     >
       {iconElement}
     </View>
@@ -98,7 +102,8 @@ export function buildIconRenderProps(
   color: string,
   style?: StyleProp<ViewStyle>,
   testID?: string,
-  accessibilityLabel?: string
+  accessibilityLabel?: string,
+  accessibilityRole?: import('react-native').AccessibilityRole
 ): IconRenderProps {
   return {
     name,
@@ -107,6 +112,7 @@ export function buildIconRenderProps(
     style: style as StyleProp<ViewStyle>,
     testID,
     accessibilityLabel,
+    accessibilityRole,
   };
 }
 

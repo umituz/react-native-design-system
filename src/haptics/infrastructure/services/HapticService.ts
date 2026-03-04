@@ -2,15 +2,30 @@
  * Haptics Domain - Haptic Service
  *
  * Service for haptic feedback using expo-haptics (optional peer dep).
- * Falls back to noop when expo-haptics is not installed.
+ * Falls back to noop when expo-haptics is not installed or haptics are disabled.
+ *
+ * LAZY LOADING:
+ * expo-haptics is only required at runtime when a haptic is triggered AND enabled.
+ * Apps that don't need haptics pay zero cost — no require() is ever called.
+ *
+ * USAGE:
+ * // Opt out entirely (e.g. tablet apps, web, or apps without expo-haptics):
+ * HapticService.configure({ enabled: false })
+ *
+ * // Opt in (default):
+ * HapticService.configure({ enabled: true })
  */
 
 import type { ImpactStyle, NotificationType, HapticPattern } from '../../domain/entities/Haptic';
 
-// Lazy-load expo-haptics to avoid crash when native module is not available
+// ── App-level enable/disable flag ───────────────────────────────────────────
+let _enabled = true;
+
+// ── Module cache — required only on first haptic call (when enabled) ────────
 let _hapticsModule: typeof import('expo-haptics') | null = null;
 
 const getHapticsModule = (): typeof import('expo-haptics') | null => {
+  if (!_enabled) return null;
   if (_hapticsModule !== null) return _hapticsModule;
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -28,15 +43,32 @@ function logError(method: string, error: unknown): void {
 }
 
 export class HapticService {
+  /**
+   * Configure haptics at the app level.
+   * Call once at startup — before any haptic is triggered.
+   *
+   * @param enabled - false to silently disable all haptics (no expo-haptics required).
+   *                  Defaults to true.
+   */
+  static configure({ enabled }: { enabled: boolean }): void {
+    _enabled = enabled;
+    if (!enabled) {
+      _hapticsModule = null; // release cached reference
+    }
+  }
+
   static async impact(style: ImpactStyle = 'Light'): Promise<void> {
     const Haptics = getHapticsModule();
     if (!Haptics) return;
     try {
-      await Haptics.impactAsync(
-        style === 'Light' ? Haptics.ImpactFeedbackStyle.Light :
-        style === 'Medium' ? Haptics.ImpactFeedbackStyle.Medium :
-        Haptics.ImpactFeedbackStyle.Heavy
-      );
+      const styleMap: Record<ImpactStyle, (typeof Haptics.ImpactFeedbackStyle)[keyof typeof Haptics.ImpactFeedbackStyle]> = {
+        Light: Haptics.ImpactFeedbackStyle.Light,
+        Medium: Haptics.ImpactFeedbackStyle.Medium,
+        Heavy: Haptics.ImpactFeedbackStyle.Heavy,
+        Rigid: Haptics.ImpactFeedbackStyle.Rigid,
+        Soft: Haptics.ImpactFeedbackStyle.Soft,
+      };
+      await Haptics.impactAsync(styleMap[style] ?? Haptics.ImpactFeedbackStyle.Light);
     } catch (error) {
       logError('impact', error);
     }
@@ -46,11 +78,12 @@ export class HapticService {
     const Haptics = getHapticsModule();
     if (!Haptics) return;
     try {
-      await Haptics.notificationAsync(
-        type === 'Success' ? Haptics.NotificationFeedbackType.Success :
-        type === 'Warning' ? Haptics.NotificationFeedbackType.Warning :
-        Haptics.NotificationFeedbackType.Error
-      );
+      const typeMap: Record<NotificationType, (typeof Haptics.NotificationFeedbackType)[keyof typeof Haptics.NotificationFeedbackType]> = {
+        Success: Haptics.NotificationFeedbackType.Success,
+        Warning: Haptics.NotificationFeedbackType.Warning,
+        Error: Haptics.NotificationFeedbackType.Error,
+      };
+      await Haptics.notificationAsync(typeMap[type]);
     } catch (error) {
       logError('notification', error);
     }
@@ -89,6 +122,7 @@ export class HapticService {
     }
   }
 
+  // ── Convenience methods ──────────────────────────────────────────────────
   static async buttonPress(): Promise<void> { await HapticService.impact('Light'); }
   static async success(): Promise<void> { await HapticService.pattern('success'); }
   static async error(): Promise<void> { await HapticService.pattern('error'); }
@@ -97,4 +131,6 @@ export class HapticService {
   static async refresh(): Promise<void> { await HapticService.impact('Light'); }
   static async selectionChange(): Promise<void> { await HapticService.pattern('selection'); }
   static async longPress(): Promise<void> { await HapticService.impact('Medium'); }
+  static async rigid(): Promise<void> { await HapticService.impact('Rigid'); }
+  static async soft(): Promise<void> { await HapticService.impact('Soft'); }
 }

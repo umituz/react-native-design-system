@@ -58,6 +58,7 @@ export interface IconRenderProps {
   style?: StyleProp<ViewStyle>;
   testID?: string;
   accessibilityLabel?: string;
+  accessibilityRole?: import('react-native').AccessibilityRole;
 }
 
 export type IconRenderer = (props: IconRenderProps) => ReactNode;

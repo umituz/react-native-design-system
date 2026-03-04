@@ -63,6 +63,8 @@ export interface AtomicIconProps {
   backgroundColor?: string;
   /** Accessibility label */
   accessibilityLabel?: string;
+  /** Accessibility role */
+  accessibilityRole?: import('react-native').AccessibilityRole;
   /** Test ID */
   testID?: string;
   /** Additional styles */
@@ -84,6 +86,7 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
     svgPath,
     svgViewBox = '0 0 24 24',
     accessibilityLabel,
+    accessibilityRole,
     testID,
     style,
   }) => {
@@ -102,7 +105,8 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
         sizeInPixels,
         iconColor,
         testID,
-        accessibilityLabel
+        accessibilityLabel,
+        accessibilityRole
       );
 
       if (withBackground) {
@@ -112,7 +116,8 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
           backgroundColor || tokens.colors.surfaceVariant,
           style,
           testID,
-          accessibilityLabel
+          accessibilityLabel,
+          accessibilityRole
         );
       }
 
@@ -142,7 +147,8 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
       iconColor,
       style,
       testID,
-      accessibilityLabel
+      accessibilityLabel,
+      accessibilityRole
     );
 
     const iconElement = iconRenderer(renderProps);
@@ -154,7 +160,8 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
         backgroundColor || tokens.colors.surfaceVariant,
         style,
         testID,
-        accessibilityLabel
+        accessibilityLabel,
+        accessibilityRole
       );
     }
 

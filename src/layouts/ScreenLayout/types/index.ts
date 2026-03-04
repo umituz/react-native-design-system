@@ -18,6 +18,7 @@ export interface ScreenLayoutProps {
   readonly testID?: string;
   readonly hideScrollIndicator?: boolean;
   readonly keyboardAvoiding?: boolean;
+  readonly keyboardVerticalOffset?: number;
   readonly accessibilityLabel?: string;
   readonly accessibilityHint?: string;
   readonly accessible?: boolean;

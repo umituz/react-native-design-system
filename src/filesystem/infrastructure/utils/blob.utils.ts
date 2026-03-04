@@ -3,7 +3,7 @@
  * Base64 and file utility functions for React Native
  */
 
-import { File, Paths } from "expo-file-system/next";
+import { File, Paths } from "expo-file-system";
 
 declare function atob(data: string): string;
 
