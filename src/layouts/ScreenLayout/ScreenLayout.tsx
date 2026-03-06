@@ -37,6 +37,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
     keyboardAvoiding = false,
     keyboardVerticalOffset = 0,
     maxWidth,
+    fullWidth = false,
     refreshControl,
   } = props;
 
@@ -45,7 +46,8 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
 
   const layoutConfig = useMemo(() => getScreenLayoutConfig(insets), [insets]);
 
-  const finalMaxWidth = maxWidth || layoutConfig.maxContentWidth;
+  // fullWidth=true disables maxWidth (useful for paginated FlatLists and full-bleed layouts)
+  const finalMaxWidth = fullWidth ? undefined : (maxWidth || layoutConfig.maxContentWidth);
   const horizontalPadding = layoutConfig.horizontalPadding;
   const verticalPadding = layoutConfig.verticalPadding;
 

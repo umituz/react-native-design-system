@@ -5,7 +5,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useWindowDimensions } from "react-native";
-import { initialWindowMetrics } from "../safe-area";
+import { useSafeAreaInsets } from "../safe-area";
 import {
   getResponsiveLogoSize,
   getResponsiveInputHeight,
@@ -17,24 +17,13 @@ import {
 import { computeDeviceInfo } from "./compute/computeDeviceInfo";
 import { computeResponsiveSizes, computeOnboardingSizes } from "./compute/computeResponsiveSizes";
 import { computeResponsivePositioning } from "./compute/computeResponsivePositioning";
+import { getIPadLayoutInfo } from "../device/detection";
 import type { UseResponsiveReturn } from "./types/responsiveTypes";
-
-/**
- * Get safe area insets from initial window metrics
- * Used before SafeAreaProvider initializes
- */
-const getInitialSafeAreaInsets = () => {
-  if (initialWindowMetrics?.insets) {
-    return initialWindowMetrics.insets;
-  }
-
-  // Fallback to zero insets if no metrics available
-  return { top: 0, bottom: 0, left: 0, right: 0 };
-};
 
 export const useResponsive = (): UseResponsiveReturn => {
   const { width, height } = useWindowDimensions();
-  const insets = getInitialSafeAreaInsets();
+  // Live reactive insets — updates on orientation change, multitasking, notch changes
+  const insets = useSafeAreaInsets();
 
   // Memoize utility functions
   const getLogoSize = useCallback(
@@ -64,6 +53,7 @@ export const useResponsive = (): UseResponsiveReturn => {
   );
 
   // Compute all responsive values
+  // Spread individual inset values in deps so useMemo recomputes on any inset change
   const responsiveValues = useMemo(
     () => {
       const dimensions = { width, height };
@@ -71,6 +61,7 @@ export const useResponsive = (): UseResponsiveReturn => {
       const sizes = computeResponsiveSizes(dimensions);
       const positioning = computeResponsivePositioning(insets);
       const onboarding = computeOnboardingSizes(deviceInfo);
+      const iPadLayout = deviceInfo.isTabletDevice ? getIPadLayoutInfo() : null;
 
       return {
         // Device info
@@ -81,8 +72,11 @@ export const useResponsive = (): UseResponsiveReturn => {
         isLandscapeDevice: deviceInfo.isLandscapeDevice,
         deviceType: deviceInfo.deviceType,
 
-        // Safe area insets
+        // Safe area insets (live, reactive)
         insets,
+
+        // iPad-specific layout info (null on phones)
+        iPadLayout,
 
         // Responsive sizes
         logoSize: sizes.logoSize,
@@ -124,7 +118,8 @@ export const useResponsive = (): UseResponsiveReturn => {
         getGridCols,
       };
     },
-    [width, height, insets, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [width, height, insets.top, insets.bottom, insets.left, insets.right, getLogoSize, getInputHeight, getIconSize, getMaxWidth, getFontSize, getGridCols],
   );
 
   return responsiveValues;

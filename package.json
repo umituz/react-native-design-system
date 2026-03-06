@@ -1,6 +1,6 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.80",
+  "version": "4.25.85",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -21,6 +21,11 @@
       "react-native": "./src/molecules/index.ts",
       "types": "./src/molecules/index.ts",
       "default": "./src/molecules/index.ts"
+    },
+    "./navigation": {
+      "react-native": "./src/molecules/navigation/index.ts",
+      "types": "./src/molecules/navigation/index.ts",
+      "default": "./src/molecules/navigation/index.ts"
     },
     "./organisms": {
       "react-native": "./src/organisms/index.ts",

@@ -54,3 +54,10 @@ export {
 
 // Config exports
 export { DEVICE_BREAKPOINTS } from './config';
+
+// Screen dimension hooks — single source of truth for screen width/height
+export {
+  useScreenWidth,
+  useScreenHeight,
+  useScreenDimensions,
+} from './useScreenDimensions';

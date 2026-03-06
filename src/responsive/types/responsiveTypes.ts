@@ -2,7 +2,7 @@
  * Responsive Hook Type Definitions
  */
 
-import type { DeviceType } from '../../device/detection';
+import type { DeviceType, IPadLayoutInfo } from '../../device/detection';
 import type { ResponsiveModalLayout, ResponsiveBottomSheetLayout, ResponsiveDialogLayout } from '../responsive';
 import type { ResponsiveTabBarConfig, ScreenLayoutConfig } from '../responsiveLayout';
 
@@ -15,13 +15,16 @@ export interface UseResponsiveReturn {
   readonly isLandscapeDevice: boolean;
   readonly deviceType: DeviceType;
 
-  // Safe area insets
+  // Safe area insets (live, reactive — updates on orientation change)
   readonly insets: {
     readonly top: number;
     readonly bottom: number;
     readonly left: number;
     readonly right: number;
   };
+
+  // iPad-specific layout info (null on phones)
+  readonly iPadLayout: IPadLayoutInfo | null;
 
   // Responsive sizes
   readonly logoSize: number;

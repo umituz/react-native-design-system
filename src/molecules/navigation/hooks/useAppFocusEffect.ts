@@ -1,14 +1,19 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
 
 /**
  * useAppFocusEffect Hook
  *
- * A wrapper around React Navigation's useFocusEffect hook.
- * Standardizes focus effect usage across all packages and apps.
+ * Wrapper around React Navigation's useFocusEffect.
+ * Pass a useCallback-wrapped effect to avoid re-running on every render.
+ *
+ * Usage:
+ *   useAppFocusEffect(
+ *     useCallback(() => {
+ *       doSomething();
+ *       return () => cleanup();
+ *     }, [deps])
+ *   );
  */
-export function useAppFocusEffect(effect: () => void | (() => void)) {
+export function useAppFocusEffect(effect: () => void | (() => void)): void {
   useFocusEffect(effect);
 }
-
-export { useCallback };

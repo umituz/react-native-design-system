@@ -23,5 +23,7 @@ export interface ScreenLayoutProps {
   readonly accessibilityHint?: string;
   readonly accessible?: boolean;
   readonly maxWidth?: number;
+  /** Disable maxWidth constraint (useful for full-bleed layouts like paginated FlatLists) */
+  readonly fullWidth?: boolean;
   readonly refreshControl?: React.ReactElement<RefreshControlProps>;
 }
