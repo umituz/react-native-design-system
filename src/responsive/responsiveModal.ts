@@ -70,9 +70,9 @@ export const getResponsiveMinModalHeight = (dimensions?: { height: number }): nu
   }
 };
 
-export const getResponsiveModalWidth = (): number => {
+export const getResponsiveModalWidth = (dimensions?: { width: number }): number => {
   try {
-    const { width } = getScreenDimensions();
+    const { width } = dimensions || getScreenDimensions();
     const isTabletDevice = isTablet();
 
     const widthPercent = isTabletDevice
@@ -89,9 +89,9 @@ export const getResponsiveModalWidth = (): number => {
   }
 };
 
-export const getResponsiveModalHeight = (): number => {
+export const getResponsiveModalHeight = (dimensions?: { height: number }): number => {
   try {
-    const { height } = getScreenDimensions();
+    const { height } = dimensions || getScreenDimensions();
     const isTabletDevice = isTablet();
 
     if (isTabletDevice) {
@@ -136,12 +136,12 @@ export const getResponsiveBackdropOpacity = (): number => {
   return MODAL_CONFIG.BACKDROP_OPACITY_DEFAULT;
 };
 
-export const getResponsiveModalLayout = (): ResponsiveModalLayout => {
+export const getResponsiveModalLayout = (dimensions?: { width: number; height: number }): ResponsiveModalLayout => {
   const isTabletDevice = isTablet();
 
   return {
-    width: getResponsiveModalWidth(),
-    height: getResponsiveModalHeight(),
+    width: getResponsiveModalWidth(dimensions),
+    height: getResponsiveModalHeight(dimensions),
     maxWidth: getResponsiveModalMaxWidth(),
     borderRadius: getResponsiveModalBorderRadius(),
     backdropOpacity: getResponsiveBackdropOpacity(),
@@ -151,8 +151,8 @@ export const getResponsiveModalLayout = (): ResponsiveModalLayout => {
   };
 };
 
-export const getResponsiveBottomSheetLayout = (): ResponsiveBottomSheetLayout => {
-  const { height } = getScreenDimensions();
+export const getResponsiveBottomSheetLayout = (dimensions?: { width: number; height: number }): ResponsiveBottomSheetLayout => {
+  const { height } = dimensions || getScreenDimensions();
 
   return {
     minHeight: MODAL_CONFIG.BOTTOM_SHEET_MIN_HEIGHT,
@@ -161,8 +161,8 @@ export const getResponsiveBottomSheetLayout = (): ResponsiveBottomSheetLayout =>
   };
 };
 
-export const getResponsiveDialogLayout = (): ResponsiveDialogLayout => {
-  const { width, height } = getScreenDimensions();
+export const getResponsiveDialogLayout = (dimensions?: { width: number; height: number }): ResponsiveDialogLayout => {
+  const { width, height } = dimensions || getScreenDimensions();
 
   return {
     width: Math.min(

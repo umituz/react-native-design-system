@@ -59,7 +59,7 @@ export const useResponsive = (): UseResponsiveReturn => {
       const dimensions = { width, height };
       const deviceInfo = computeDeviceInfo(dimensions);
       const sizes = computeResponsiveSizes(dimensions);
-      const positioning = computeResponsivePositioning(insets);
+      const positioning = computeResponsivePositioning(insets, dimensions);
       const onboarding = computeOnboardingSizes(deviceInfo);
       const iPadLayout = deviceInfo.isTabletDevice ? getIPadLayoutInfo() : null;
 

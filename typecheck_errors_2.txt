@@ -1,4 +1,0 @@
-
-> @umituz/react-native-design-system@4.25.43 typecheck
-> tsc --noEmit --skipLibCheck
-

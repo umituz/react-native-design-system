@@ -46,7 +46,8 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   iconNames,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [fontsLoaded, fontError] = useFonts(fonts ?? EMPTY_FONTS);
+  const hasCustomFonts = fonts != null && Object.keys(fonts).length > 0;
+  const [fontsLoaded, fontError] = useFonts(hasCustomFonts ? fonts : EMPTY_FONTS);
 
   const initialize = useTheme((state) => state.initialize);
   const setCustomColors = useTheme((state) => state.setCustomColors);
@@ -75,14 +76,26 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     setDefaultThemeMode(initialThemeMode);
     setGlobalThemeMode(initialThemeMode);
 
+    // Safety timeout: if initialization takes too long, proceed anyway
+    const safetyTimer = setTimeout(() => {
+      setIsInitialized((prev) => {
+        if (!prev) onError?.(new Error('DesignSystemProvider initialization timed out'));
+        return true;
+      });
+    }, 5000);
+
     initialize()
       .then(() => {
+        clearTimeout(safetyTimer);
         setIsInitialized(true);
       })
       .catch((error) => {
+        clearTimeout(safetyTimer);
         setIsInitialized(true);
         onError?.(error);
       });
+
+    return () => clearTimeout(safetyTimer);
   }, [
     customColors,
     initialThemeMode,
@@ -95,11 +108,14 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     setGlobalThemeMode,
   ]);
 
+  // Skip font loading gate when no custom fonts are provided
+  const effectiveFontsLoaded = hasCustomFonts ? fontsLoaded : true;
+
   useEffect(() => {
-    if (isInitialized && fontsLoaded) {
+    if (isInitialized && effectiveFontsLoaded) {
       onInitialized?.();
     }
-  }, [isInitialized, fontsLoaded, onInitialized]);
+  }, [isInitialized, effectiveFontsLoaded, onInitialized]);
 
   useEffect(() => {
     if (fontError) {
@@ -107,7 +123,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     }
   }, [fontError, onError]);
 
-  const isLoading = showLoadingIndicator && (!isInitialized || !fontsLoaded);
+  const isLoading = showLoadingIndicator && (!isInitialized || !effectiveFontsLoaded);
 
   let content: ReactNode;
 
@@ -149,6 +165,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
 });

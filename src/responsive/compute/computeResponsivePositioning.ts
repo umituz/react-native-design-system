@@ -28,7 +28,8 @@ export interface ComputedResponsivePositioning {
 }
 
 export const computeResponsivePositioning = (
-  insets: { top: number; bottom: number; left: number; right: number }
+  insets: { top: number; bottom: number; left: number; right: number },
+  dimensions?: { width: number; height: number }
 ): ComputedResponsivePositioning => ({
   horizontalPadding: getResponsiveHorizontalPadding(undefined, insets),
   verticalPadding: getResponsiveVerticalPadding(insets),
@@ -36,7 +37,7 @@ export const computeResponsivePositioning = (
   fabPosition: getResponsiveFABPosition(insets),
   screenLayoutConfig: getScreenLayoutConfig(insets),
   tabBarConfig: getResponsiveTabBarConfig(insets),
-  modalLayout: getResponsiveModalLayout(),
-  bottomSheetLayout: getResponsiveBottomSheetLayout(),
-  dialogLayout: getResponsiveDialogLayout(),
+  modalLayout: getResponsiveModalLayout(dimensions),
+  bottomSheetLayout: getResponsiveBottomSheetLayout(dimensions),
+  dialogLayout: getResponsiveDialogLayout(dimensions),
 });

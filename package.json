@@ -1,160 +1,160 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.86",
+  "version": "4.25.90",
   "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities",
   "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "import": "./src/index.ts",
       "require": "./src/index.ts",
       "default": "./src/index.ts"
     },
     "./atoms": {
+      "types": "./dist/atoms/index.d.ts",
       "react-native": "./src/atoms/index.ts",
-      "types": "./src/atoms/index.ts",
       "default": "./src/atoms/index.ts"
     },
     "./molecules": {
+      "types": "./dist/molecules/index.d.ts",
       "react-native": "./src/molecules/index.ts",
-      "types": "./src/molecules/index.ts",
       "default": "./src/molecules/index.ts"
     },
     "./navigation": {
+      "types": "./dist/molecules/navigation/index.d.ts",
       "react-native": "./src/molecules/navigation/index.ts",
-      "types": "./src/molecules/navigation/index.ts",
       "default": "./src/molecules/navigation/index.ts"
     },
     "./organisms": {
+      "types": "./dist/organisms/index.d.ts",
       "react-native": "./src/organisms/index.ts",
-      "types": "./src/organisms/index.ts",
       "default": "./src/organisms/index.ts"
     },
     "./theme": {
+      "types": "./dist/theme/index.d.ts",
       "react-native": "./src/theme/index.ts",
-      "types": "./src/theme/index.ts",
       "default": "./src/theme/index.ts"
     },
     "./typography": {
+      "types": "./dist/typography/index.d.ts",
       "react-native": "./src/typography/index.ts",
-      "types": "./src/typography/index.ts",
       "default": "./src/typography/index.ts"
     },
     "./responsive": {
+      "types": "./dist/responsive/index.d.ts",
       "react-native": "./src/responsive/index.ts",
-      "types": "./src/responsive/index.ts",
       "default": "./src/responsive/index.ts"
     },
     "./layouts": {
+      "types": "./dist/layouts/index.d.ts",
       "react-native": "./src/layouts/index.ts",
-      "types": "./src/layouts/index.ts",
       "default": "./src/layouts/index.ts"
     },
     "./safe-area": {
+      "types": "./dist/safe-area/index.d.ts",
       "react-native": "./src/safe-area/index.ts",
-      "types": "./src/safe-area/index.ts",
       "default": "./src/safe-area/index.ts"
     },
     "./device": {
+      "types": "./dist/device/index.d.ts",
       "react-native": "./src/device/index.ts",
-      "types": "./src/device/index.ts",
       "default": "./src/device/index.ts"
     },
     "./exception": {
+      "types": "./dist/exception/index.d.ts",
       "react-native": "./src/exception/index.ts",
-      "types": "./src/exception/index.ts",
       "default": "./src/exception/index.ts"
     },
     "./image": {
+      "types": "./dist/image/index.d.ts",
       "react-native": "./src/image/index.ts",
-      "types": "./src/image/index.ts",
       "default": "./src/image/index.ts"
     },
     "./timezone": {
+      "types": "./dist/timezone/index.d.ts",
       "react-native": "./src/timezone/index.ts",
-      "types": "./src/timezone/index.ts",
       "default": "./src/timezone/index.ts"
     },
     "./offline": {
+      "types": "./dist/offline/index.d.ts",
       "react-native": "./src/offline/index.ts",
-      "types": "./src/offline/index.ts",
       "default": "./src/offline/index.ts"
     },
     "./onboarding": {
+      "types": "./dist/onboarding/index.d.ts",
       "react-native": "./src/onboarding/index.ts",
-      "types": "./src/onboarding/index.ts",
       "default": "./src/onboarding/index.ts"
     },
     "./storage": {
+      "types": "./dist/storage/index.d.ts",
       "react-native": "./src/storage/index.ts",
-      "types": "./src/storage/index.ts",
       "default": "./src/storage/index.ts"
     },
     "./filesystem": {
+      "types": "./dist/filesystem/index.d.ts",
       "react-native": "./src/filesystem/index.ts",
-      "types": "./src/filesystem/index.ts",
       "default": "./src/filesystem/index.ts"
     },
     "./media": {
+      "types": "./dist/media/index.d.ts",
       "react-native": "./src/media/index.ts",
-      "types": "./src/media/index.ts",
       "default": "./src/media/index.ts"
     },
     "./tanstack": {
+      "types": "./dist/tanstack/index.d.ts",
       "react-native": "./src/tanstack/index.ts",
-      "types": "./src/tanstack/index.ts",
       "default": "./src/tanstack/index.ts"
     },
     "./loading": {
+      "types": "./dist/loading/index.d.ts",
       "react-native": "./src/loading/index.ts",
-      "types": "./src/loading/index.ts",
       "default": "./src/loading/index.ts"
     },
     "./haptics": {
+      "types": "./dist/haptics/index.d.ts",
       "react-native": "./src/haptics/index.ts",
-      "types": "./src/haptics/index.ts",
       "default": "./src/haptics/index.ts"
     },
     "./carousel": {
+      "types": "./dist/carousel/index.d.ts",
       "react-native": "./src/carousel/index.ts",
-      "types": "./src/carousel/index.ts",
       "default": "./src/carousel/index.ts"
     },
     "./gallery": {
+      "types": "./dist/gallery/index.d.ts",
       "react-native": "./src/gallery/index.ts",
-      "types": "./src/gallery/index.ts",
       "default": "./src/gallery/index.ts"
     },
     "./init": {
+      "types": "./dist/init/index.d.ts",
       "react-native": "./src/init/index.ts",
-      "types": "./src/init/index.ts",
       "default": "./src/init/index.ts"
     },
     "./uuid": {
+      "types": "./dist/uuid/index.d.ts",
       "react-native": "./src/uuid/index.ts",
-      "types": "./src/uuid/index.ts",
       "default": "./src/uuid/index.ts"
     },
     "./infinite-scroll": {
+      "types": "./dist/infinite-scroll/index.d.ts",
       "react-native": "./src/infinite-scroll/index.ts",
-      "types": "./src/infinite-scroll/index.ts",
       "default": "./src/infinite-scroll/index.ts"
     },
     "./utilities": {
+      "types": "./dist/utilities/index.d.ts",
       "react-native": "./src/utilities/index.ts",
-      "types": "./src/utilities/index.ts",
       "default": "./src/utilities/index.ts"
     },
     "./utils": {
+      "types": "./dist/utils/logger.d.ts",
       "react-native": "./src/utils/logger.ts",
-      "types": "./src/utils/logger.ts",
       "default": "./src/utils/logger.ts"
     },
     "./variants": {
+      "types": "./dist/presentation/utils/variants.d.ts",
       "react-native": "./src/presentation/utils/variants.ts",
-      "types": "./src/presentation/utils/variants.ts",
       "default": "./src/presentation/utils/variants.ts"
     },
     "./package.json": "./package.json"
@@ -164,7 +164,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "version:patch": "npm version patch -m 'chore: release v%s'",
     "version:minor": "npm version minor -m 'chore: release v%s'",
-    "version:major": "npm version major -m 'chore: release v%s'"
+    "version:major": "npm version major -m 'chore: release v%s'",
+    "build": "tsc --project tsconfig.build.json"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
@@ -334,6 +335,7 @@
     "access": "public"
   },
   "files": [
+    "dist",
     "src",
     "README.md",
     "LICENSE"
