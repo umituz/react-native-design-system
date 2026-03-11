@@ -19,6 +19,16 @@ export type AtomicImageProps = {
   [key: string]: any;
 };
 
+const RESIZE_MODE_MAP: Record<string, 'cover' | 'contain' | 'stretch' | 'center'> = {
+  cover: 'cover',
+  contain: 'contain',
+  fill: 'stretch',
+  none: 'center',
+  'scale-down': 'contain',
+};
+
+const ROUNDED_STYLE = { borderRadius: 9999 };
+
 export const AtomicImage: React.FC<AtomicImageProps> = ({
   style,
   rounded,
@@ -26,7 +36,7 @@ export const AtomicImage: React.FC<AtomicImageProps> = ({
   cachePolicy,
   ...props
 }) => {
-  const roundedStyle = rounded ? { borderRadius: 9999 } : undefined;
+  const roundedStyle = rounded ? ROUNDED_STYLE : undefined;
 
   if (ExpoImage) {
     return (
@@ -34,23 +44,17 @@ export const AtomicImage: React.FC<AtomicImageProps> = ({
         style={[style, roundedStyle]}
         contentFit={contentFit}
         cachePolicy={cachePolicy}
+        accessibilityRole="image"
         {...props}
       />
     );
   }
 
-  // Fallback: React Native Image
-  const resizeModeMap: Record<string, 'cover' | 'contain' | 'stretch' | 'center'> = {
-    cover: 'cover',
-    contain: 'contain',
-    fill: 'stretch',
-    none: 'center',
-    'scale-down': 'contain',
-  };
   return (
     <RNImage
       style={[style as StyleProp<ImageStyle>, roundedStyle]}
-      resizeMode={resizeModeMap[contentFit] ?? 'cover'}
+      resizeMode={RESIZE_MODE_MAP[contentFit] ?? 'cover'}
+      accessibilityRole="image"
       {...props}
     />
   );

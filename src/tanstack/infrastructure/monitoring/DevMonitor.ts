@@ -95,6 +95,8 @@ class DevMonitorClass {
       this.cacheSubscription = null;
     }
 
+    this.stopStatsLogging();
+    this.metrics.clear();
     this.queryClient = null;
   }
 

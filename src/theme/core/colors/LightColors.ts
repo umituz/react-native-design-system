@@ -1,128 +1,128 @@
 /**
  * LIGHT THEME COLORS
- * 
- * Light theme color palette with warm orange harmony
+ *
+ * Light theme color palette — Forest Green & Warm Orange (MoveLog theme)
  */
 
 export const lightColors = {
-  // PRIMARY BRAND COLORS - Warm Orange & Harmony Bloom
-  primary: '#FF6B35',          // Vibrant Orange
-  primaryLight: '#FF8C42',     // Warm Orange
-  primaryDark: '#FF4500',      // Orange Red
+  // PRIMARY BRAND COLORS - Forest Green (MoveLog)
+  primary: '#4A9B6F',          // Forest Green
+  primaryLight: '#6BC48F',     // Light Green
+  primaryDark: '#3A7A5A',      // Deep Green
 
-  secondary: '#FFB88C',        // Soft Peach
-  secondaryLight: '#FFCC99',   // Light Peach
-  secondaryDark: '#FF8C69',    // Salmon
+  secondary: '#FF8C42',        // Warm Orange (accent)
+  secondaryLight: '#FFA06A',   // Light Orange
+  secondaryDark: '#E57030',    // Dark Orange
 
-  accent: '#FFB6C1',           // Light Pink (Bloom)
-  accentLight: '#FFA07A',      // Light Salmon
-  accentDark: '#FF8C69',       // Salmon
+  accent: '#FF8C42',           // Warm Orange
+  accentLight: '#FFA06A',      // Light Orange
+  accentDark: '#E57030',       // Dark Orange
 
-  // MATERIAL DESIGN 3 - ON COLORS (Text on colored backgrounds)
-  onPrimary: '#FFFFFF',           // Text on primary background
-  onSecondary: '#FFFFFF',         // Text on secondary background
-  onSuccess: '#FFFFFF',           // Text on success background
-  onError: '#FFFFFF',             // Text on error background
-  onWarning: '#000000',           // Text on warning background
-  onInfo: '#FFFFFF',              // Text on info background
-  onSurface: '#1E293B',           // Text on surface
-  onBackground: '#1E293B',        // Text on background
-  onSurfaceDisabled: '#CBD5E1',   // Disabled text color
-  onSurfaceVariant: '#64748B',    // Text on surface variant
+  // MATERIAL DESIGN 3 - ON COLORS
+  onPrimary: '#FFFFFF',
+  onSecondary: '#FFFFFF',
+  onSuccess: '#FFFFFF',
+  onError: '#FFFFFF',
+  onWarning: '#000000',
+  onInfo: '#FFFFFF',
+  onSurface: '#1C1C1E',
+  onBackground: '#1C1C1E',
+  onSurfaceDisabled: '#C7C7CC',
+  onSurfaceVariant: '#6C757D',
 
-  // MATERIAL DESIGN 3 - CONTAINER COLORS (Lighter versions for containers)
-  primaryContainer: '#FFE4CD',    // Light orange container
-  onPrimaryContainer: '#CC4A1F',  // Text on primary container
-  secondaryContainer: '#FFF8DC',  // Light peach container
-  onSecondaryContainer: '#CC8C5F', // Text on secondary container
-  errorContainer: '#FEE2E2',      // Light container using error
-  onErrorContainer: '#991B1B',    // Text on error container
+  // MATERIAL DESIGN 3 - CONTAINER COLORS
+  primaryContainer: '#D1F5E3',    // Light green container
+  onPrimaryContainer: '#2D6B4A',  // Dark green text
+  secondaryContainer: '#FFE8D4',  // Light orange container
+  onSecondaryContainer: '#CC5500', // Dark orange text
+  errorContainer: '#FEE2E2',
+  onErrorContainer: '#991B1B',
 
   // MATERIAL DESIGN 3 - OUTLINE
-  outline: '#CBD5E1',             // Default outline color
-  outlineVariant: '#E2E8F0',      // Lighter outline variant
-  outlineDisabled: '#E2E8F0',     // Disabled outline color
+  outline: '#C7C7CC',
+  outlineVariant: '#E5E5EA',
+  outlineDisabled: '#E5E5EA',
 
   // SEMANTIC UI COLORS
-  success: '#10B981',
-  successLight: '#34D399',
-  successDark: '#059669',
+  success: '#4A9B6F',             // Forest Green (same as primary)
+  successLight: '#6BC48F',
+  successDark: '#3A7A5A',
 
-  error: '#EF4444',
-  errorLight: '#F87171',
-  errorDark: '#DC2626',
+  error: '#DC3545',
+  errorLight: '#E87070',
+  errorDark: '#B02A37',
 
-  warning: '#F59E0B',
-  warningLight: '#FBBF24',
-  warningDark: '#D97706',
+  warning: '#FFC107',
+  warningLight: '#FFD54F',
+  warningDark: '#E6A800',
 
-  info: '#FF8C42',              // Warm Orange for info
-  infoLight: '#FFA07A',         // Light Salmon
-  infoDark: '#FF6347',          // Tomato
+  info: '#FF8C42',                // Warm Orange for info
+  infoLight: '#FFA06A',
+  infoDark: '#E57030',
 
-  // SEMANTIC CONTAINER COLORS (Light mode)
-  successContainer: '#D1FAE5',        // Light container for success states
-  onSuccessContainer: '#065F46',      // Text on success container
-  warningContainer: '#FEF3C7',        // Light container for warning states
-  onWarningContainer: '#92400E',      // Text on warning container
-  infoContainer: '#FFE4CD',           // Light orange container for info states
-  onInfoContainer: '#CC4A1F',         // Text on info container
+  // SEMANTIC CONTAINER COLORS
+  successContainer: '#D1F5E3',
+  onSuccessContainer: '#2D6B4A',
+  warningContainer: '#FFF8DC',
+  onWarningContainer: '#92400E',
+  infoContainer: '#FFE8D4',
+  onInfoContainer: '#CC5500',
 
   // GRAYSCALE PALETTE
   gray50: '#FAFAFA',
   gray100: '#F4F4F5',
-  gray200: '#E4E4E7',
-  gray300: '#D4D4D8',
-  gray400: '#A1A1AA',
-  gray500: '#71717A',
-  gray600: '#52525B',
-  gray700: '#3F3F46',
-  gray800: '#27272A',
-  gray900: '#18181B',
+  gray200: '#E5E5EA',
+  gray300: '#D1D1D6',
+  gray400: '#AEAEB2',
+  gray500: '#8E8E93',
+  gray600: '#636366',
+  gray700: '#48484A',
+  gray800: '#3A3A3C',
+  gray900: '#1C1C1E',
 
-  // BACKGROUND COLORS
+  // BACKGROUND COLORS — clean iOS-style whites
   backgroundPrimary: '#FFFFFF',
-  backgroundSecondary: '#F8FAFC',
+  backgroundSecondary: '#F8F9FA',
 
   surface: '#FFFFFF',
-  surfaceVariant: '#F1F5F9',
-  surfaceSecondary: '#F1F5F9', // Alias
-  surfaceDisabled: '#F4F4F5',     // Disabled surface color
+  surfaceVariant: '#F2F2F7',
+  surfaceSecondary: '#F2F2F7',
+  surfaceDisabled: '#F4F4F4',
 
   // TEXT COLORS
-  textPrimary: '#1E293B',
-  textSecondary: '#64748B',
-  textTertiary: '#94A3B8',
-  textDisabled: '#CBD5E1',
+  textPrimary: '#1C1C1E',
+  textSecondary: '#6C757D',
+  textTertiary: '#98989D',
+  textDisabled: '#C7C7CC',
   textInverse: '#FFFFFF',
 
   // BORDER COLORS
-  border: '#E2E8F0',
-  borderLight: '#F1F5F9',
-  borderMedium: '#CBD5E1',
-  borderFocus: '#3B82F6',
-  borderDisabled: '#F1F5F9',
+  border: '#E5E5EA',
+  borderLight: '#F2F2F7',
+  borderMedium: '#C7C7CC',
+  borderFocus: '#4A9B6F',
+  borderDisabled: '#F2F2F7',
 
   // COMPONENT-SPECIFIC COLORS
-  buttonPrimary: '#FF6B35',        // Vibrant Orange
-  buttonSecondary: '#FFB88C',      // Soft Peach
+  buttonPrimary: '#4A9B6F',
+  buttonSecondary: '#FF8C42',
 
   inputBackground: '#FFFFFF',
-  inputBorder: '#E2E8F0',
+  inputBorder: '#E5E5EA',
 
   cardBackground: '#FFFFFF',
 
   // COLOR ALIASES
-  text: '#1E293B',                    // Alias for textPrimary
-  background: '#FFFFFF',              // Alias for backgroundPrimary
-  card: '#FFFFFF',                    // Alias for cardBackground
+  text: '#1C1C1E',
+  background: '#FFFFFF',
+  card: '#FFFFFF',
 
   // SPECIAL COLORS
   transparent: 'transparent',
   black: '#000000',
   white: '#FFFFFF',
 
-  // RGBA OVERLAY COLORS (for modals, cards, etc.)
+  // RGBA OVERLAY COLORS
   modalOverlay: 'rgba(0, 0, 0, 0.5)',
   overlaySubtle: 'rgba(0, 0, 0, 0.05)',
   overlayLight: 'rgba(0, 0, 0, 0.1)',
@@ -135,10 +135,10 @@ export const lightColors = {
 
   textWhiteOpacity: 'rgba(255, 255, 255, 0.8)',
 
-  errorBackground: 'rgba(239, 68, 68, 0.1)',
-  primaryBackground: 'rgba(255, 107, 53, 0.1)',  // Orange background
+  errorBackground: 'rgba(220, 53, 69, 0.1)',
+  primaryBackground: 'rgba(74, 155, 111, 0.1)',  // Green background
 
-  cardOverlay: 'rgba(0, 0, 0, 0.15)',
+  cardOverlay: 'rgba(0, 0, 0, 0.08)',
 
-  inputBackground_RGBA: 'rgba(248, 250, 252, 0.9)',
+  inputBackground_RGBA: 'rgba(248, 249, 250, 0.9)',
 };

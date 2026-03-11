@@ -103,9 +103,18 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     },
 
     setCustomColors: async (colors?: CustomThemeColors) => {
-      set({ customColors: colors });
-      await ThemeStorage.setCustomColors(colors);
-      useDesignSystemTheme.getState().setCustomColors(colors);
+      const { _updateInProgress } = get();
+      if (_updateInProgress) return;
+      set({ _updateInProgress: true, customColors: colors });
+
+      try {
+        await ThemeStorage.setCustomColors(colors);
+        useDesignSystemTheme.getState().setCustomColors(colors);
+      } catch {
+        // Silent failure
+      } finally {
+        set({ _updateInProgress: false });
+      }
     },
 
     setDefaultColors: (colors: CustomThemeColors) => {

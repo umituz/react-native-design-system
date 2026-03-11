@@ -32,8 +32,10 @@ export function useDeviceFeatures(
     try {
       const result = await DeviceFeatureService.checkFeatureAccess(featureName);
       setAccess(result);
-    } catch {
-      // Silent fail
+    } catch (error) {
+      if (__DEV__) {
+        console.warn(`[DesignSystem] useDeviceFeatures: Failed to check access for "${featureName}"`, error);
+      }
     }
   }, [featureName]);
 
@@ -41,8 +43,10 @@ export function useDeviceFeatures(
     try {
       await DeviceFeatureService.incrementFeatureUsage(featureName);
       await checkAccess();
-    } catch {
-      // Silent fail
+    } catch (error) {
+      if (__DEV__) {
+        console.warn(`[DesignSystem] useDeviceFeatures: Failed to increment usage for "${featureName}"`, error);
+      }
     }
   }, [featureName, checkAccess]);
 

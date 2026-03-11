@@ -5,7 +5,7 @@
  * Purpose: Boolean toggle across all apps
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Switch, StyleSheet, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText } from './AtomicText';
@@ -31,6 +31,10 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
+  const labelStyle = useMemo(() => ({ color: tokens.colors.textPrimary }), [tokens.colors.textPrimary]);
+  const descriptionStyle = useMemo(() => ({ color: tokens.colors.textSecondary, marginTop: 2 }), [tokens.colors.textSecondary]);
+  const trackColor = useMemo(() => ({ false: tokens.colors.border, true: tokens.colors.primary }), [tokens.colors.border, tokens.colors.primary]);
+
   return (
     <View style={[styles.container, style]} testID={testID}>
       <View style={styles.row}>
@@ -38,14 +42,14 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
           <View style={styles.labelContainer}>
             <AtomicText
               type="bodyMedium"
-              style={{ color: tokens.colors.textPrimary }}
+              style={labelStyle}
             >
               {label}
             </AtomicText>
             {description && (
               <AtomicText
                 type="bodySmall"
-                style={{ color: tokens.colors.textSecondary, marginTop: 2 }}
+                style={descriptionStyle}
               >
                 {description}
               </AtomicText>
@@ -56,11 +60,11 @@ export const AtomicSwitch: React.FC<AtomicSwitchProps> = ({
           value={value}
           onValueChange={onValueChange}
           disabled={disabled}
-          trackColor={{
-            false: tokens.colors.border,
-            true: tokens.colors.primary,
-          }}
+          trackColor={trackColor}
           thumbColor={value ? tokens.colors.onPrimary : tokens.colors.surface}
+          accessibilityRole="switch"
+          accessibilityLabel={label}
+          accessibilityState={{ checked: value, disabled }}
         />
       </View>
     </View>

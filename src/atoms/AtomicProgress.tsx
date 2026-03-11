@@ -14,7 +14,7 @@
  * - Form completion
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, ViewStyle, DimensionValue, Text } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 
@@ -82,27 +82,27 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
   // Border radius based on shape
   const progressBorderRadius = shape === 'rounded' ? scaledHeight / 2 : 0;
 
-  const containerStyle: ViewStyle = {
+  const containerStyle = useMemo<ViewStyle>(() => ({
     width: width as DimensionValue,
     height: scaledHeight,
     backgroundColor: progressBackground,
     borderRadius: progressBorderRadius,
     overflow: 'hidden',
-  };
+  }), [width, scaledHeight, progressBackground, progressBorderRadius]);
 
-  const progressStyle: ViewStyle = {
+  const progressStyle = useMemo<ViewStyle>(() => ({
     width: progressWidth as DimensionValue,
     height: '100%' as DimensionValue,
     backgroundColor: progressColor,
     borderRadius: progressBorderRadius,
-  };
+  }), [progressWidth, progressColor, progressBorderRadius]);
 
-  const textStyle = {
+  const textStyle = useMemo(() => ({
     fontSize: tokens.typography.bodySmall.responsiveFontSize,
     fontWeight: tokens.typography.labelMedium.fontWeight,
     color: progressTextColor,
     textAlign: 'center' as const,
-  };
+  }), [tokens.typography.bodySmall.responsiveFontSize, tokens.typography.labelMedium.fontWeight, progressTextColor]);
 
   return (
     <View

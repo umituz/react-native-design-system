@@ -112,8 +112,10 @@ export class DeviceFeatureService {
     const key = this.getStorageKey(deviceId, featureName);
     try {
       await storageRepository.setItem(key, usage);
-    } catch {
-      // Silent fail
+    } catch (error) {
+      if (__DEV__) {
+        console.warn(`[DesignSystem] DeviceFeatureService: Failed to persist usage for "${featureName}"`, error);
+      }
     }
   }
 

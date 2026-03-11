@@ -36,12 +36,15 @@ export class ImageEnhanceService {
         throw ImageErrorHandler.createError(uriValidation.error!, IMAGE_ERROR_CODES.INVALID_URI, 'analyzeImage');
       }
 
+      if (__DEV__) {
+        console.warn('[DesignSystem] ImageEnhanceService.analyzeImage: Returning placeholder metrics. Real image analysis is not yet implemented.');
+      }
       return {
-        sharpness: Math.random() * 100,
-        brightness: Math.random() * 100,
-        contrast: Math.random() * 100,
-        colorfulness: Math.random() * 100,
-        overallQuality: Math.random() * 100,
+        sharpness: 50,
+        brightness: 50,
+        contrast: 50,
+        colorfulness: 50,
+        overallQuality: 50,
       };
     } catch (error) {
       throw ImageErrorHandler.handleUnknownError(error, 'analyzeImage');

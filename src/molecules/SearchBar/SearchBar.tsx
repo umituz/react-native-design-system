@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     View,
     TextInput,
@@ -28,10 +28,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     const searchIcon = useIconName('search');
     const closeCircleIcon = useIconName('closeCircle');
 
-    const handleClear = () => {
+    const handleClear = useCallback(() => {
         onChangeText('');
         onClear?.();
-    };
+    }, [onChangeText, onClear]);
 
     const showClear = value.length > 0 && !loading;
 

@@ -47,7 +47,7 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
   const isDisabled = disabled || (!clickable && !onPress);
   const opacity = isDisabled ? 0.5 : 1;
 
-  const chipStyle: ViewStyle = {
+  const chipStyle = useMemo<ViewStyle>(() => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -58,23 +58,28 @@ export const AtomicChip: React.FC<AtomicChipProps> = React.memo(({
     ...borderStyle,
     borderColor: finalBorderColor,
     ...selectedStyle,
-  };
+  }), [sizeConfig, finalBackgroundColor, opacity, borderStyle, finalBorderColor, selectedStyle]);
 
-  const textStyle = {
+  const textStyle = useMemo(() => ({
     fontSize: sizeConfig.fontSize,
     fontWeight: tokens.typography.medium,
-  };
+  }), [sizeConfig.fontSize, tokens.typography.medium]);
 
   const iconColor = finalTextColor;
 
-  const Component = (clickable && onPress && !disabled) ? TouchableOpacity : View;
-  const componentProps = (clickable && onPress && !disabled) ? { onPress, activeOpacity } : {};
+  const isInteractive = clickable && onPress && !disabled;
+  const Component = isInteractive ? TouchableOpacity : View;
+  const componentProps = isInteractive ? { onPress, activeOpacity } : {};
+  const accessibilityProps = isInteractive
+    ? { accessibilityRole: 'button' as const, accessibilityState: { selected, disabled } }
+    : {};
 
   return (
-    <Component 
-      style={[chipStyle, style]} 
+    <Component
+      style={[chipStyle, style]}
       testID={testID}
       {...componentProps}
+      {...accessibilityProps}
     >
       {leadingIcon && (
         <AtomicIcon

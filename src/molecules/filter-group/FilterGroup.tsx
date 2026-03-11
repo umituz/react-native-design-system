@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { AtomicChip } from '../../atoms/chip/AtomicChip';
 import { useAppDesignTokens } from '../../theme';
@@ -16,7 +16,7 @@ export function FilterGroup<T = string>({
 }: FilterGroupProps<T>) {
   const tokens = useAppDesignTokens();
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       flexGrow: 0,
     },
@@ -26,9 +26,8 @@ export function FilterGroup<T = string>({
       alignItems: 'center',
     },
     item: {
-      // Default styles if needed, though AtomicChip handles most
     },
-  });
+  }), [tokens.spacing.md]);
 
   return (
     <ScrollView

@@ -60,7 +60,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
     <View style={[styles.container, style]}>
       {visibleItems.map((item, index) => (
         <View
-          key={item.uri || item.name || item.icon}
+          key={item.uri || item.name || item.icon || `avatar-${index}`}
           style={[
             styles.avatarWrapper,
             index > 0 && { marginLeft: spacing },

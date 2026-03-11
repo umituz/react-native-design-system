@@ -99,14 +99,20 @@ export class PersistentDeviceIdService {
    */
   static async clearStoredId(): Promise<void> {
     try {
+      // Wait for pending initialization to prevent race condition
+      if (initializationPromise) {
+        await initializationPromise.catch(() => {});
+      }
       await this.secureRepo.remove();
       cachedDeviceId = null;
       initializationPromise = null;
       if (__DEV__) {
         console.log('[DesignSystem] Device ID: Stored ID cleared');
       }
-    } catch {
-      // Silent fail
+    } catch (error) {
+      if (__DEV__) {
+        console.warn('[DesignSystem] Device ID: Failed to clear stored ID', error);
+      }
     }
   }
 

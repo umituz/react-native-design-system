@@ -14,6 +14,7 @@ export class SimpleCache<T> {
   private cache = new Map<string, CacheEntry<T>>();
   private defaultTTL: number;
   private cleanupTimeout: ReturnType<typeof setTimeout> | null = null;
+  private destroyed = false;
 
   constructor(defaultTTL: number = 60000) {
     this.defaultTTL = defaultTTL;
@@ -24,6 +25,7 @@ export class SimpleCache<T> {
    * Destroy the cache and stop cleanup timer
    */
   destroy(): void {
+    this.destroyed = true;
     if (this.cleanupTimeout) {
       clearTimeout(this.cleanupTimeout);
       this.cleanupTimeout = null;
@@ -32,6 +34,7 @@ export class SimpleCache<T> {
   }
 
   set(key: string, value: T, ttl?: number): void {
+    if (this.destroyed) return;
     const expires = Date.now() + (ttl ?? this.defaultTTL);
     this.cache.set(key, { value, expires });
   }
@@ -73,6 +76,8 @@ export class SimpleCache<T> {
   }
 
   private scheduleCleanup(): void {
+    if (this.destroyed) return;
+
     if (this.cleanupTimeout) {
       clearTimeout(this.cleanupTimeout);
     }

@@ -3,7 +3,7 @@
  * Handles swipe gestures for onboarding navigation
  */
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { PanResponder } from "react-native";
 
 interface UseOnboardingGesturesProps {
@@ -27,15 +27,8 @@ export const useOnboardingGestures = ({
     onBack,
   });
 
-  // Update refs on every render to ensure PanResponder has fresh values
-  useEffect(() => {
-    latestPropsRef.current = {
-      isFirstSlide,
-      isAnswerValid,
-      onNext,
-      onBack,
-    };
-  });
+  // Update ref on every render to ensure PanResponder has fresh values
+  latestPropsRef.current = { isFirstSlide, isAnswerValid, onNext, onBack };
 
   const panResponder = useRef(
     PanResponder.create({

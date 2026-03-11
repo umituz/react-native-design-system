@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useResponsive } from '../responsive';
@@ -57,45 +57,41 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const responsive = useResponsive();
-  const isDisabled = disabled;
 
-  // Get configurations
-  const baseSizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
-  const variants = getFabVariants(tokens);
-  const variantConfig = variants[variant as 'primary' | 'secondary' | 'surface'];
-  const baseIconSize = getFabIconSize(size as 'sm' | 'md' | 'lg');
+  const variantConfig = useMemo(() => getFabVariants(tokens)[variant as 'primary' | 'secondary' | 'surface'], [tokens, variant]);
+  const iconSize = useMemo(() => getFabIconSize(size as 'sm' | 'md' | 'lg') * tokens.spacingMultiplier, [size, tokens.spacingMultiplier]);
 
-  // Scale dimensions
-  const sizeConfig = {
-    width: baseSizeConfig.width * tokens.spacingMultiplier,
-    height: baseSizeConfig.height * tokens.spacingMultiplier,
-    borderRadius: baseSizeConfig.borderRadius * tokens.spacingMultiplier,
-  };
-  const iconSize = baseIconSize * tokens.spacingMultiplier;
+  const fabStyle = useMemo(() => {
+    const baseSizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
+    const sizeConfig = {
+      width: baseSizeConfig.width * tokens.spacingMultiplier,
+      height: baseSizeConfig.height * tokens.spacingMultiplier,
+      borderRadius: baseSizeConfig.borderRadius * tokens.spacingMultiplier,
+    };
 
-  // Combine styles
-  const fabStyle = StyleSheet.flatten([
-    {
-      position: 'absolute' as const,
-      bottom: responsive.fabPosition.bottom,
-      right: responsive.fabPosition.right,
-      width: sizeConfig.width,
-      height: sizeConfig.height,
-      borderRadius: sizeConfig.borderRadius,
-      backgroundColor: variantConfig.backgroundColor,
-      alignItems: 'center' as const,
-      justifyContent: 'center' as const,
-    },
-    getFabBorder(tokens),
-    isDisabled ? { opacity: tokens.opacity.disabled } : undefined,
-    style, // Custom style override
-  ]);
+    return StyleSheet.flatten([
+      {
+        position: 'absolute' as const,
+        bottom: responsive.fabPosition.bottom,
+        right: responsive.fabPosition.right,
+        width: sizeConfig.width,
+        height: sizeConfig.height,
+        borderRadius: sizeConfig.borderRadius,
+        backgroundColor: variantConfig.backgroundColor,
+        alignItems: 'center' as const,
+        justifyContent: 'center' as const,
+      },
+      getFabBorder(tokens),
+      disabled ? { opacity: tokens.opacity.disabled } : undefined,
+      style,
+    ]);
+  }, [size, tokens, responsive.fabPosition, variantConfig, disabled, style]);
 
   return (
     <TouchableOpacity
       style={fabStyle}
       onPress={onPress}
-      disabled={isDisabled}
+      disabled={disabled}
       activeOpacity={activeOpacity}
       testID={testID}
       accessibilityLabel={accessibilityLabel || `${icon} floating action button`}

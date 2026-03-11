@@ -5,11 +5,10 @@
  * Combines React state with automatic storage persistence
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { storageRepository } from '../../infrastructure/repositories/AsyncStorageRepository';
 import { unwrap } from '../../domain/entities/StorageResult';
 import type { StorageKey } from '../../domain/value-objects/StorageKey';
-import { useAsyncOperation } from '../../../utils/hooks';
 
 /**
  * Storage State Hook
@@ -27,20 +26,33 @@ export const useStorageState = <T>(
 ): [T, (value: T) => Promise<void>, boolean] => {
   const keyString = typeof key === 'string' ? key : String(key);
   const [state, setState] = useState<T>(defaultValue);
+  const [isLoading, setIsLoading] = useState(true);
+  const isMountedRef = useRef(true);
 
-  // Load initial value from storage
-  const { data, isLoading } = useAsyncOperation<T, Error>(
-    async () => {
-      const result = await storageRepository.getItem(keyString, defaultValue);
-      return unwrap(result, defaultValue);
-    },
-    {
-      immediate: true,
-      initialData: defaultValue,
-      errorHandler: (err) => err as Error,
-      onSuccess: (value) => setState(value),
-    }
-  );
+  useEffect(() => {
+    isMountedRef.current = true;
+    setIsLoading(true);
+
+    storageRepository
+      .getItem<T>(keyString, defaultValue)
+      .then((result) => {
+        if (isMountedRef.current) {
+          setState(unwrap(result, defaultValue));
+        }
+      })
+      .catch(() => {
+        // Keep defaultValue on error
+      })
+      .finally(() => {
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, [keyString]);
 
   // Update state and persist to storage
   const updateState = useCallback(

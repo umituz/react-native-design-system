@@ -3,7 +3,7 @@
  * Renders clear button and dropdown icon for AtomicPicker
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { AtomicIcon, useIconName } from '../../icon';
@@ -33,8 +33,14 @@ export const PickerIcons: React.FC<PickerIconsProps> = ({
   const chevronUpIcon = useIconName('chevronUp');
   const chevronDownIcon = useIconName('chevronDown');
 
+  const containerStyle = useMemo(() => ({
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    gap: tokens.spacing.xs,
+  }), [tokens.spacing.xs]);
+
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.xs }}>
+    <View style={containerStyle}>
       {/* Clear Button */}
       {clearable && selectedOptionsCount > 0 && !disabled && (
         <TouchableOpacity

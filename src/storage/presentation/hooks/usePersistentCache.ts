@@ -101,9 +101,7 @@ export function usePersistentCache<T>(
 
   // Stabilize actions to prevent circular dependency
   const stableActionsRef = useRef(actions);
-  useEffect(() => {
-    stableActionsRef.current = actions;
-  });
+  stableActionsRef.current = actions;
 
   const loadFromStorage = useCallback(async () => {
     const currentActions = stableActionsRef.current;

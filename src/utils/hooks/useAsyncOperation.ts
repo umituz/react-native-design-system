@@ -79,13 +79,10 @@ export function useAsyncOperation<T, E = Error>(
   const operationRef = useRef(operation);
   const errorHandlerRef = useRef(errorHandler);
 
-  useEffect(() => {
-    onSuccessRef.current = onSuccess;
-    onErrorRef.current = onError;
-    onFinallyRef.current = onFinally;
-  }, [onSuccess, onError, onFinally]);
-
-  // Keep operation and errorHandler in refs so execute doesn't need them as deps
+  // Keep all callback refs in sync with latest values
+  onSuccessRef.current = onSuccess;
+  onErrorRef.current = onError;
+  onFinallyRef.current = onFinally;
   operationRef.current = operation;
   errorHandlerRef.current = errorHandler;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, TextInput, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { useInputState } from './input/hooks/useInputState';
@@ -69,7 +69,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
   const iconColor = isDisabled ? tokens.colors.textDisabled : tokens.colors.textSecondary;
   const iconPadding = sizeConfig.iconSize + 8;
 
-  const containerStyle: StyleProp<ViewStyle> = [
+  const containerStyle = useMemo<StyleProp<ViewStyle>>(() => [
     inputStyles.container,
     variantStyle,
     {
@@ -77,13 +77,16 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       paddingBottom: sizeConfig.paddingVertical,
       paddingHorizontal: sizeConfig.paddingHorizontal,
       minHeight: sizeConfig.minHeight,
-      justifyContent: 'center',
+      justifyContent: 'center' as const,
       opacity: isDisabled ? 0.5 : 1,
     },
     style,
-  ];
+  ], [variantStyle, sizeConfig, isDisabled, style]);
 
-  const textInputStyle: StyleProp<TextStyle> = [
+  const handleBlur = useCallback(() => { setIsFocused(false); onBlur?.(); }, [setIsFocused, onBlur]);
+  const handleFocus = useCallback(() => { setIsFocused(true); onFocus?.(); }, [setIsFocused, onFocus]);
+
+  const textInputStyle = useMemo<StyleProp<TextStyle>>(() => [
     inputStyles.input,
     {
       fontSize: sizeConfig.fontSize,
@@ -94,7 +97,7 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       paddingRight: (trailingIcon || showPasswordToggle) ? iconPadding : undefined,
     },
     inputStyle,
-  ];
+  ], [sizeConfig, textColor, leadingIcon, trailingIcon, showPasswordToggle, iconPadding, inputStyle]);
 
   return (
     <View testID={testID}>
@@ -123,8 +126,8 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
           numberOfLines={numberOfLines}
           textContentType={textContentType}
           style={textInputStyle}
-          onBlur={() => { setIsFocused(false); onBlur?.(); }}
-          onFocus={() => { setIsFocused(true); onFocus?.(); }}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           testID={testID ? `${testID}-input` : undefined}
         />
 
