@@ -65,3 +65,5 @@ export * from './info-grid';
 
 
 export * from './circular-menu';
+
+export * from './icon-grid';
