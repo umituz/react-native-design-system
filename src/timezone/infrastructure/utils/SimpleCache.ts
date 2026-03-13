@@ -15,6 +15,7 @@ export class SimpleCache<T> {
   private defaultTTL: number;
   private cleanupTimeout: ReturnType<typeof setTimeout> | null = null;
   private destroyed = false;
+  private cleanupScheduleLock = false;
 
   constructor(defaultTTL: number = 60000) {
     this.defaultTTL = defaultTTL;
@@ -26,6 +27,7 @@ export class SimpleCache<T> {
    */
   destroy(): void {
     this.destroyed = true;
+    this.cleanupScheduleLock = false;
     if (this.cleanupTimeout) {
       clearTimeout(this.cleanupTimeout);
       this.cleanupTimeout = null;
@@ -76,16 +78,26 @@ export class SimpleCache<T> {
   }
 
   private scheduleCleanup(): void {
-    if (this.destroyed) return;
+    if (this.destroyed || this.cleanupScheduleLock) return;
 
-    if (this.cleanupTimeout) {
-      clearTimeout(this.cleanupTimeout);
+    this.cleanupScheduleLock = true;
+
+    try {
+      if (this.cleanupTimeout) {
+        clearTimeout(this.cleanupTimeout);
+      }
+
+      this.cleanup();
+
+      if (!this.destroyed) {
+        this.cleanupTimeout = setTimeout(() => {
+          this.cleanupScheduleLock = false;
+          this.scheduleCleanup();
+        }, 60000);
+      }
+    } catch (error) {
+      this.cleanupScheduleLock = false;
+      throw error;
     }
-
-    this.cleanup();
-
-    this.cleanupTimeout = setTimeout(() => {
-      this.scheduleCleanup();
-    }, 60000);
   }
 }

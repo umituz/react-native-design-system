@@ -47,6 +47,12 @@ export function useInfiniteScroll<T>(
   const isLoadingRef = useRef(false);
   const isMountedRef = useRef(true);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const stateRef = useRef(state);
+
+  // Keep stateRef in sync with state
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -89,22 +95,25 @@ export function useInfiniteScroll<T>(
   }, [config, initialPage, pageSize, totalItems, maxRetries, retryDelay, cancelPendingRequests]);
 
   const loadMore = useCallback(async () => {
+    // Get fresh state from ref to avoid stale closure
+    const currentState = stateRef.current;
+
     if (
       isLoadingRef.current ||
-      !state.hasMore ||
-      state.isLoadingMore ||
-      state.isLoading
+      !currentState.hasMore ||
+      currentState.isLoadingMore ||
+      currentState.isLoading
     )
       return;
 
-    if (isCursorMode(config) && !state.cursor) return;
+    if (isCursorMode(config) && !currentState.cursor) return;
 
     isLoadingRef.current = true;
     if (isMountedRef.current) setState((prev) => ({ ...prev, isLoadingMore: true, error: null }));
 
     try {
       const updates = await retryWithBackoff(
-        () => loadMoreData(config, state, pageSize),
+        () => loadMoreData(config, currentState, pageSize),
         maxRetries,
         retryDelay,
       );
@@ -120,7 +129,7 @@ export function useInfiniteScroll<T>(
     } finally {
       isLoadingRef.current = false;
     }
-  }, [config, state, pageSize, maxRetries, retryDelay]);
+  }, [config, pageSize, maxRetries, retryDelay]);
 
   const refresh = useCallback(async () => {
     if (isLoadingRef.current) return;

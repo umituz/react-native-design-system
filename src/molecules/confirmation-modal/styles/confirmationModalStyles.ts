@@ -5,7 +5,7 @@
  */
 
 import { ViewStyle } from 'react-native';
-import { ConfirmationModalVariant, ConfirmationModalVariantConfig } from '../types/';
+import { ConfirmationModalVariant, ConfirmationModalVariantConfig } from '../types';
 import type { DesignTokens } from '../../../theme';
 
 /**

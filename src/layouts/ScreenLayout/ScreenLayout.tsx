@@ -15,6 +15,7 @@ import type { ScreenLayoutProps } from './types';
 let KCKeyboardAvoidingView: React.ComponentType<any> | null = null;
 let KCKeyboardAwareScrollView: React.ComponentType<any> | null = null;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const kc = require('react-native-keyboard-controller');
   KCKeyboardAvoidingView = kc.KeyboardAvoidingView ?? null;
   KCKeyboardAwareScrollView = kc.KeyboardAwareScrollView ?? null;

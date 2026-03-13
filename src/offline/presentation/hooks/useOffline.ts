@@ -76,7 +76,7 @@ export const useOffline = (config?: OfflineConfig) => {
 
     networkEvents.emit('change', networkState);
     previousStateRef.current = networkState;
-  }, [store, previousStateRef]);
+  }, [store]);
 
   useEffect(() => {
     if (isInitialized.current) return;

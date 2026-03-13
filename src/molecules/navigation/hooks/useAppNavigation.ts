@@ -31,6 +31,7 @@ export function useAppNavigation(): AppNavigationResult {
 
   const navigate = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
+      // Dynamic navigation: bypass ParamListBase constraint to allow arbitrary screen names
       (navigation as any).navigate(screen, params);
     },
     [navigation]

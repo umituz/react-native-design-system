@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react';
 import { View, ViewStyle, StyleProp } from 'react-native';
 import { useAppDesignTokens } from '../theme';
-import { ConfirmationModalVariant } from './confirmation-modal/types/';
+import { ConfirmationModalVariant } from './confirmation-modal/types';
 import {
   getVariantConfig,
   getModalContainerStyle,

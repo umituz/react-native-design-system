@@ -22,6 +22,7 @@ interface ThemeState {
   isInitialized: boolean;
   _updateInProgress: boolean;
   _initInProgress: boolean;
+  _lastUpdateId?: number;
 }
 
 interface ThemeActions {
@@ -46,6 +47,7 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     isInitialized: false,
     _updateInProgress: false,
     _initInProgress: false,
+    _lastUpdateId: undefined,
   },
   persist: false,
   actions: (set, get) => ({
@@ -88,30 +90,44 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     setThemeMode: async (mode: ThemeMode) => {
       const { _updateInProgress } = get();
       if (_updateInProgress) return;
-      set({ _updateInProgress: true });
+
+      const updateId = Date.now();
+      set({ _updateInProgress: true, _lastUpdateId: updateId });
 
       try {
         const theme = mode === 'light' ? lightTheme : darkTheme;
         set({ themeMode: mode, theme, isDark: mode === 'dark' });
         await ThemeStorage.setThemeMode(mode);
         useDesignSystemTheme.getState().setThemeMode(mode);
-      } catch {
-        // Silent failure
+      } catch (error) {
+        // Revert state on error
+        set({ _lastUpdateId: undefined });
+        if (__DEV__) {
+          console.error('[ThemeStore] Failed to set theme mode:', error);
+        }
+        throw error;
       } finally {
         set({ _updateInProgress: false });
       }
     },
 
     setCustomColors: async (colors?: CustomThemeColors) => {
-      const { _updateInProgress } = get();
+      const { _updateInProgress, customColors: currentColors } = get();
       if (_updateInProgress) return;
-      set({ _updateInProgress: true, customColors: colors });
+
+      const updateId = Date.now();
+      set({ _updateInProgress: true, _lastUpdateId: updateId, customColors: colors });
 
       try {
         await ThemeStorage.setCustomColors(colors);
         useDesignSystemTheme.getState().setCustomColors(colors);
-      } catch {
-        // Silent failure
+      } catch (error) {
+        // Revert to previous colors on error
+        set({ customColors: currentColors, _lastUpdateId: undefined });
+        if (__DEV__) {
+          console.error('[ThemeStore] Failed to set custom colors:', error);
+        }
+        throw error;
       } finally {
         set({ _updateInProgress: false });
       }

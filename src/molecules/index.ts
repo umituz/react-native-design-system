@@ -8,62 +8,31 @@ export * from './avatar';
 export * from './bottom-sheet';
 export { FormField, type FormFieldProps } from './FormField';
 export { ListItem, type ListItemProps } from './ListItem';
-
-
 export { SearchBar, type SearchBarProps } from './SearchBar';
 export { IconContainer } from './IconContainer';
 export { BaseModal, type BaseModalProps } from './BaseModal';
 export { ConfirmationModal } from './ConfirmationModalMain';
 export { useConfirmationModal } from './confirmation-modal/useConfirmationModal';
 
-// Type exports
-export type {
-  ConfirmationModalProps,
-  ConfirmationModalVariant,
-} from './confirmation-modal/types/';
-
-// Divider
-export * from './Divider';
-export * from "./StepProgress";
-
-// Responsive Components
-export { List, type ListProps } from './List';
-
-// Alerts
+// Other components
+export * from './Divider/Divider';
+export * from './Divider/types';
+export * from './StepProgress';
+export * from './List';
 export * from './alerts';
-
-// Calendar
 export * from './calendar';
-
-// Swipe Actions
 export * from './swipe-actions';
-
-// Navigation
 export * from './navigation';
-
-// Long Press Menu
 export * from './long-press-menu';
-
-// Step Header
 export * from './StepHeader';
-
-// Emoji
 export * from './emoji';
-
-// Countdown
 export * from './countdown';
-
-// Splash
 export * from './splash';
-
-
 export * from './filter-group';
-export * from './action-footer';
-
-export * from './hero-section';
+export * from './action-footer/ActionFooter';
+export * from './action-footer/types';
+export * from './hero-section/HeroSection';
+export * from './hero-section/types';
 export * from './info-grid';
-
-
 export * from './circular-menu';
-
 export * from './icon-grid';

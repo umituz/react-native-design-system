@@ -52,7 +52,7 @@ export const useStorageState = <T>(
     return () => {
       isMountedRef.current = false;
     };
-  }, [keyString]);
+  }, [keyString, defaultValue]);
 
   // Update state and persist to storage
   const updateState = useCallback(

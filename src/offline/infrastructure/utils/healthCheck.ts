@@ -11,6 +11,7 @@ const DEFAULT_TIMEOUT = 5000;
 export class HealthCheck {
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private isChecking = false;
+  private pendingCheck: Promise<boolean> | null = null;
   private config: Required<OfflineConfig>;
 
   constructor(config: OfflineConfig = {}) {
@@ -27,37 +28,47 @@ export class HealthCheck {
    * Perform a single health check
    */
   async check(): Promise<boolean> {
-    if (this.isChecking) {
-      return false;
+    // Return existing promise if check is in progress
+    if (this.pendingCheck) {
+      return this.pendingCheck;
     }
 
-    this.isChecking = true;
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.config.healthCheckTimeout);
-
-      const response = await fetch(this.config.healthCheckUrl, {
-        method: 'HEAD',
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      const isHealthy = response.ok;
-
-      if (this.config.debug) {
+    this.pendingCheck = (async () => {
+      if (this.isChecking) {
+        return false;
       }
 
-      return isHealthy;
-    } catch (_error) {
-      if (this.config.debug) {
-      }
+      this.isChecking = true;
 
-      return false;
-    } finally {
-      this.isChecking = false;
-    }
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.config.healthCheckTimeout);
+
+        const response = await fetch(this.config.healthCheckUrl, {
+          method: 'HEAD',
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        const isHealthy = response.ok;
+
+        if (this.config.debug) {
+        }
+
+        return isHealthy;
+      } catch (_error) {
+        if (this.config.debug) {
+        }
+
+        return false;
+      } finally {
+        this.isChecking = false;
+        this.pendingCheck = null;
+      }
+    })();
+
+    return this.pendingCheck;
   }
 
   /**
@@ -101,5 +112,6 @@ export class HealthCheck {
    */
   destroy(): void {
     this.stop();
+    this.pendingCheck = null;
   }
 }

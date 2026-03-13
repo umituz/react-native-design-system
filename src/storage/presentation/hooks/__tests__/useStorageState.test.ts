@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * useStorageState Hook Tests
  *
@@ -107,7 +106,7 @@ describe('useStorageState Hook', () => {
       const newValue = 'new-value';
 
       // Mock slow storage
-      let resolveStorage: (value: string) => void;
+      let _resolveStorage: (value: string) => void;
       (AsyncStorage.getItem as jest.Mock).mockImplementation(() => 
         new Promise(resolve => {
           resolveStorage = resolve;
@@ -133,7 +132,7 @@ describe('useStorageState Hook', () => {
       const defaultValue = 'default';
 
       // Mock slow storage
-      let resolveStorage: (value: string) => void;
+      let _resolveStorage: (value: string) => void;
       (AsyncStorage.getItem as jest.Mock).mockImplementation(() => 
         new Promise(resolve => {
           resolveStorage = resolve;
@@ -198,7 +197,7 @@ describe('useStorageState Hook', () => {
 
       await AsyncStorage.setItem(key, JSON.stringify('stored-value'));
 
-      const { result, rerender, waitForNextUpdate } = renderHook(
+      const { result: _result, rerender, waitForNextUpdate } = renderHook(
         ({ defaultValue }) => useStorageState(key, defaultValue),
         { initialProps: { defaultValue: defaultValue1 } }
       );

@@ -95,7 +95,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
         {selected && <AtomicIcon name={icons.checkCircle} size="md" color="primary" />}
       </TouchableOpacity>
     );
-  }, [isSelected, onSelect, tokens, testID]);
+  }, [icons.checkCircle, isSelected, onSelect, tokens, testID]);
 
   return (
     <Modal visible={visible} animationType="none" transparent onRequestClose={onClose} testID={`${testID}-modal`} accessibilityViewIsModal={true}>
