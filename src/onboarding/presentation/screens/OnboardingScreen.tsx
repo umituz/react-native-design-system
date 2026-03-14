@@ -102,6 +102,15 @@ export const OnboardingScreen = ({
   VideoComponent,
 }: OnboardingScreenProps) => {
   if (__DEV__) {
+    console.log("[OnboardingScreen] Component rendering");
+    console.log("[OnboardingScreen] Props:", {
+      slidesCount: slides?.length || 0,
+      storageKey,
+      showSkipButton,
+      showBackButton,
+      showProgressBar,
+      translationsProvided: !!translations,
+    });
   }
 
   const tokens = useAppDesignTokens();
@@ -158,8 +167,13 @@ export const OnboardingScreen = ({
   // Early return if no slides - prevents rendering empty/broken screen
   if (filteredSlides.length === 0) {
     if (__DEV__) {
+      console.warn("[OnboardingScreen] No slides to display - filteredSlides is empty");
     }
     return null;
+  }
+
+  if (__DEV__) {
+    console.log("[OnboardingScreen] Rendering with", filteredSlides.length, "slides");
   }
 
   return (

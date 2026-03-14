@@ -85,6 +85,7 @@ export interface OnboardingBackgroundProps {
   useCustomBackground: boolean;
   showOverlay: boolean;
   overlayOpacity: number;
+  backgroundColor?: string; // Optional background color
   /**
    * Optional video background component.
    * Required only when slides use `backgroundVideo`.
@@ -102,9 +103,30 @@ export const OnboardingBackground: React.FC<OnboardingBackgroundProps> = ({
   useCustomBackground,
   showOverlay,
   overlayOpacity,
+  backgroundColor,
   VideoComponent,
 }) => {
   if (!currentSlide) return null;
+
+  // If backgroundColor is provided, show ONLY solid color (no images/videos)
+  if (backgroundColor) {
+    if (__DEV__) {
+      console.log("[OnboardingBackground] Using solid backgroundColor:", backgroundColor);
+    }
+    return (
+      <View style={StyleSheet.absoluteFill} pointerEvents="none">
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            { backgroundColor }
+          ]}
+        />
+      </View>
+    );
+  }
+
+  // Otherwise show images/videos with optional overlay
+  const shouldShowOverlay = showOverlay;
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
@@ -118,7 +140,7 @@ export const OnboardingBackground: React.FC<OnboardingBackgroundProps> = ({
         style={[
           StyleSheet.absoluteFill,
           {
-            backgroundColor: showOverlay
+            backgroundColor: shouldShowOverlay
               ? `rgba(0,0,0,${overlayOpacity})`
               : "transparent",
           },

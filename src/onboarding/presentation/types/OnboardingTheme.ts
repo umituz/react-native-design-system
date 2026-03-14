@@ -19,6 +19,7 @@ export interface OnboardingColors {
   iconBorder: string;
   errorColor: string;
   featureItemBg: string;
+  background?: string; // Optional background color
 }
 
 export interface OnboardingTheme {

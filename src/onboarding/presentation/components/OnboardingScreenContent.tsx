@@ -12,6 +12,7 @@ import { QuestionSlide } from "./QuestionSlide";
 import { OnboardingFooter } from "./OnboardingFooter";
 import { OnboardingBackground } from "./OnboardingBackground";
 import { useOnboardingGestures } from "../hooks/useOnboardingGestures";
+import { useOnboardingProvider } from "../providers/OnboardingProvider";
 import type { OnboardingScreenContentProps } from "../types/OnboardingProps";
 
 export const OnboardingScreenContent = ({
@@ -45,6 +46,7 @@ export const OnboardingScreenContent = ({
   VideoComponent,
 }: OnboardingScreenContentProps) => {
   const { themeMode } = useTheme();
+  const { backgroundColor } = useOnboardingProvider();
 
   const panResponder = useOnboardingGestures({
     isFirstSlide,
@@ -78,6 +80,7 @@ export const OnboardingScreenContent = ({
         useCustomBackground={useCustomBackground}
         showOverlay={showOverlay}
         overlayOpacity={overlayOpacity}
+        backgroundColor={backgroundColor}
         VideoComponent={VideoComponent}
       />
 

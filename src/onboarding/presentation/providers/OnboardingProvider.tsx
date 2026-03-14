@@ -17,6 +17,7 @@ export interface OnboardingTranslations {
 interface OnboardingProviderValue {
   theme: OnboardingTheme;
   translations: OnboardingTranslations;
+  backgroundColor?: string;
 }
 
 const OnboardingScope = createContext<OnboardingProviderValue | undefined>(undefined);
@@ -41,6 +42,7 @@ export const OnboardingProvider = ({
         useCustomBackground,
       },
       translations,
+      backgroundColor: colors.background,
     }),
     [colors, useCustomBackground, translations]
   );
