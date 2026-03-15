@@ -131,4 +131,113 @@ export class DateFormatter {
 
         return parts.join(' ');
     }
+
+    /**
+     * Format time as minutes:seconds (e.g., "3:45", "12:05")
+     * @param seconds - Time in seconds
+     * @returns Formatted time string
+     */
+    formatTimeShort(seconds: number): string {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    /**
+     * Format date with relative time labels (Today, Yesterday, X days ago, X weeks ago)
+     * @param date - Date to format
+     * @param locale - Locale code
+     * @param translations - Optional translations for "Today", "Yesterday", "days ago", "weeks ago"
+     * @returns Formatted relative date string
+     */
+    formatRelativeDate(
+        date: Date | string | number,
+        locale: string,
+        translations?: {
+            today?: string;
+            yesterday?: string;
+            daysAgo?: string;
+            weeksAgo?: string;
+        }
+    ): string {
+        const d = this.parse(date);
+        const now = new Date();
+        const diffInMs = now.getTime() - d.getTime();
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+        // Check for today (today at midnight vs date at midnight)
+        const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const targetDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        const daysDiff = Math.floor((todayDate.getTime() - targetDate.getTime()) / (1000 * 60 * 60 * 24));
+
+        if (daysDiff === 0) {
+            return translations?.today || this.getDefaultTranslation('today', locale);
+        }
+
+        if (daysDiff === 1) {
+            return translations?.yesterday || this.getDefaultTranslation('yesterday', locale);
+        }
+
+        if (daysDiff > 0 && daysDiff < 7) {
+            const template = translations?.daysAgo || this.getDefaultTranslation('daysAgo', locale);
+            return template.replace('{{days}}', daysDiff.toString());
+        }
+
+        if (daysDiff >= 7 && daysDiff < 30) {
+            const weeks = Math.floor(daysDiff / 7);
+            const template = translations?.weeksAgo || this.getDefaultTranslation('weeksAgo', locale);
+            return template.replace('{{weeks}}', weeks.toString());
+        }
+
+        // Fall back to regular date format for older dates
+        return this.formatDate(d, locale, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    }
+
+    /**
+     * Get default translation for relative time keys
+     */
+    private getDefaultTranslation(key: string, locale: string): string {
+        const translations: Record<string, Record<string, string>> = {
+            today: {
+                en: 'Today',
+                tr: 'Bugün',
+            },
+            yesterday: {
+                en: 'Yesterday',
+                tr: 'Dün',
+            },
+            daysAgo: {
+                en: '{{days}} days ago',
+                tr: '{{days}} gün önce',
+            },
+            weeksAgo: {
+                en: '{{weeks}} weeks ago',
+                tr: '{{weeks}} hafta önce',
+            },
+        };
+
+        return translations[key]?.[locale] || translations[key]?.en || key;
+    }
+
+    /**
+     * Format date in short format (Jan 1, 2024)
+     */
+    formatShortDate(date: Date | string | number, locale: string): string {
+        return this.formatDate(date, locale, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    }
+
+    /**
+     * Alias for formatRelativeTime - more semantic name for "time ago" formatting
+     */
+    fromNow(date: Date | string | number, locale: string): string {
+        return this.formatRelativeTime(date, locale);
+    }
 }

@@ -59,6 +59,24 @@ export interface ITimezoneFormatting {
   /** Format duration in milliseconds to human readable string */
   formatDuration(milliseconds: number): string;
 
+  /** Format time as minutes:seconds (e.g., "3:45", "12:05") */
+  formatTimeShort(seconds: number): string;
+
+  /** Format date with relative time labels (Today, Yesterday, X days ago, X weeks ago) */
+  formatRelativeDate(
+    date: Date | string | number,
+    locale: string,
+    translations?: {
+      today?: string;
+      yesterday?: string;
+      daysAgo?: string;
+      weeksAgo?: string;
+    }
+  ): string;
+
+  /** Format date in short format (Jan 1, 2024) */
+  formatShortDate(date: Date | string | number, locale: string): string;
+
   /** Get relative time from now ("5 minutes ago", "in 2 hours") */
   fromNow(date: Date | string | number, locale?: string): string;
 }

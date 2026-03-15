@@ -99,6 +99,25 @@ export class TimezoneService implements ITimezoneService {
 
   formatDuration(milliseconds: number): string { return this.formatter.formatDuration(milliseconds); }
 
+  formatTimeShort(seconds: number): string { return this.formatter.formatTimeShort(seconds); }
+
+  formatRelativeDate(
+    date: Date | string | number,
+    locale: string,
+    translations?: {
+      today?: string;
+      yesterday?: string;
+      daysAgo?: string;
+      weeksAgo?: string;
+    }
+  ): string {
+    return this.formatter.formatRelativeDate(date, locale, translations);
+  }
+
+  formatShortDate(date: Date | string | number, locale: string): string {
+    return this.formatter.formatShortDate(date, locale);
+  }
+
   isWeekend(date: Date | string | number): boolean { return this.businessCalendar.isWeekend(date); }
 
   addBusinessDays(date: Date | string | number, days: number): Date {

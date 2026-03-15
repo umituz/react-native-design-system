@@ -18,6 +18,17 @@ export interface UseTimezoneReturn {
   formatToISOString: (date: Date) => string;
   formatRelativeTime: (date: Date) => string;
   formatDateTime: (date: Date, options?: Intl.DateTimeFormatOptions) => string;
+  formatTimeShort: (seconds: number) => string;
+  formatRelativeDate: (
+    date: Date,
+    translations?: {
+      today?: string;
+      yesterday?: string;
+      daysAgo?: string;
+      weeksAgo?: string;
+    }
+  ) => string;
+  formatShortDate: (date: Date) => string;
   getTimezones: () => TimezoneInfo[];
   isValid: (date: Date) => boolean;
   getAge: (birthDate: Date) => number;
@@ -66,9 +77,19 @@ export const useTimezone = (options?: UseTimezoneOptions): UseTimezoneReturn => 
         timezoneService.formatDateTime(date, locale, opts),
       formatRelativeTime: (date: Date) =>
         timezoneService.formatRelativeTime(date, locale),
+      formatShortDate: (date: Date) =>
+        timezoneService.formatShortDate(date, locale),
+      formatRelativeDate: (date: Date, translations?: {
+        today?: string;
+        yesterday?: string;
+        daysAgo?: string;
+        weeksAgo?: string;
+      }) =>
+        timezoneService.formatRelativeDate(date, locale, translations),
       fromNow: (date: Date) =>
         timezoneService.fromNow(date, locale),
       // Locale-independent delegates
+      formatTimeShort: (seconds: number) => timezoneService.formatTimeShort(seconds),
       getCalendarDays: (year: number, month: number) => timezoneService.getCalendarDays(year, month),
       isToday: (date: Date) => timezoneService.isToday(date),
       isSameDay: (date1: Date, date2: Date) => timezoneService.isSameDay(date1, date2),
