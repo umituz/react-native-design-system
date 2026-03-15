@@ -1,7 +1,7 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.25.115",
-  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities - TanStack persistence now fully lazy loaded",
+  "version": "4.25.116",
+  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities - TanStack persistence and expo-image-manipulator now lazy loaded",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
@@ -174,7 +174,8 @@
   },
   "optionalDependencies": {
     "@tanstack/query-async-storage-persister": "^5.0.0",
-    "@tanstack/react-query-persist-client": "^5.0.0"
+    "@tanstack/react-query-persist-client": "^5.0.0",
+    "expo-image-manipulator": "~14.0.0"
   },
   "keywords": [
     "react-native",
