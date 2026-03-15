@@ -81,7 +81,6 @@ export {
 } from './infrastructure/config/QueryClientConfig';
 
 export {
-  createPersister,
   clearPersistedCache,
   getPersistedCacheSize,
   type PersisterFactoryOptions,

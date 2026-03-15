@@ -3,12 +3,11 @@
  * Infrastructure layer - AsyncStorage persistence setup
  *
  * General-purpose persistence configuration for any React Native app
+ * Lazy loads TanStack persistence packages to reduce bundle size
  */
 
-import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { storageService } from '../../../storage';
 import { DEFAULT_GC_TIME } from '../../domain/constants/CacheDefaults';
-import type { Persister } from '@tanstack/react-query-persist-client';
 
 /**
  * Persister factory options
@@ -40,73 +39,6 @@ export interface PersisterFactoryOptions {
    * @default 1000
    */
   throttleTime?: number;
-}
-
-/**
- * Create an AsyncStorage persister for TanStack Query
- *
- * @example
- * ```typescript
- * const persister = createPersister({
- *   keyPrefix: 'myapp',
- *   maxAge: 24 * 60 * 60 * 1000, // 24 hours
- *   busterVersion: '1',
- * });
- * ```
- */
-export function createPersister(options: PersisterFactoryOptions = {}): Persister {
-  const {
-    keyPrefix = 'tanstack-query',
-    maxAge = DEFAULT_GC_TIME.LONG,
-    busterVersion = '1',
-    throttleTime = 1000,
-  } = options;
-
-  return createAsyncStoragePersister({
-    storage: storageService,
-    key: `${keyPrefix}-cache`,
-    throttleTime,
-    serialize: (data: unknown) => {
-      // Add metadata for cache validation
-      const persistData = {
-        version: busterVersion,
-        timestamp: Date.now(),
-        data,
-      };
-      return JSON.stringify(persistData);
-    },
-    deserialize: (cachedString: string) => {
-      try {
-        const parsed = JSON.parse(cachedString);
-
-        // Validate cache version
-        if (parsed.version !== busterVersion) {
-          if (__DEV__) {
-            console.warn(
-              `[TanStack Query] Cache version mismatch. Expected: ${busterVersion}, Got: ${parsed.version}`,
-            );
-          }
-          return undefined;
-        }
-
-        // Validate cache age
-        const age = Date.now() - parsed.timestamp;
-        if (age > maxAge) {
-          if (__DEV__) {
-            console.warn(`[TanStack Query] Cache age exceeded maxAge: ${maxAge}ms`);
-          }
-          return undefined;
-        }
-
-        return parsed.data;
-      } catch (error) {
-        if (__DEV__) {
-          console.error('[TanStack Query] Error deserializing cache:', error);
-        }
-        return undefined;
-      }
-    },
-  });
 }
 
 /**

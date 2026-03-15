@@ -1,65 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import type { Persister } from '@tanstack/react-query-persist-client';
 import { createQueryClient, type QueryClientFactoryOptions } from '../config/QueryClientConfig';
-import { createPersister, type PersisterFactoryOptions } from '../config/PersisterConfig';
 import { setGlobalQueryClient } from '../config/QueryClientSingleton';
 import { DevMonitor } from '../monitoring/DevMonitor';
+
+// Lazy load TanStack persistence packages
+const PersistQueryClientProvider = lazy(() =>
+  import('@tanstack/react-query-persist-client').then(m => ({ default: m.PersistQueryClientProvider }))
+);
+
+// Lazy load persister creation
+async function loadPersister(options: any) {
+  const { createAsyncStoragePersister } = await import('@tanstack/query-async-storage-persister');
+  const { storageService } = await import('../../../storage');
+  const { DEFAULT_GC_TIME } = await import('../../domain/constants/CacheDefaults');
+
+  const {
+    keyPrefix = 'tanstack-query',
+    maxAge = DEFAULT_GC_TIME.LONG,
+    busterVersion = '1',
+    throttleTime = 1000,
+  } = options;
+
+  return createAsyncStoragePersister({
+    storage: storageService,
+    key: `${keyPrefix}-cache`,
+    throttleTime,
+    serialize: (data: unknown) => {
+      const persistData = {
+        version: busterVersion,
+        timestamp: Date.now(),
+        data,
+      };
+      return JSON.stringify(persistData);
+    },
+    deserialize: (cachedString: string) => {
+      try {
+        const parsed = JSON.parse(cachedString);
+        if (parsed.version !== busterVersion) {
+          if (__DEV__) {
+            console.warn(
+              `[TanStack Query] Cache version mismatch. Expected: ${busterVersion}, Got: ${parsed.version}`,
+            );
+          }
+          return undefined;
+        }
+        const age = Date.now() - parsed.timestamp;
+        if (age > maxAge) {
+          if (__DEV__) {
+            console.warn(`[TanStack Query] Cache age exceeded maxAge: ${maxAge}ms`);
+          }
+          return undefined;
+        }
+        return parsed.data;
+      } catch (error) {
+        if (__DEV__) {
+          console.error('[TanStack Query] Error deserializing cache:', error);
+        }
+        return undefined;
+      }
+    },
+  });
+}
+
+/**
+ * Persister factory options
+ */
+export interface PersisterFactoryOptions {
+  keyPrefix?: string;
+  maxAge?: number;
+  busterVersion?: string;
+  throttleTime?: number;
+}
 
 /**
  * TanStack provider props
  */
 export interface TanstackProviderProps {
-  /**
-   * Child components
-   */
   children: React.ReactNode;
-
-  /**
-   * Custom QueryClient instance
-   * If not provided, a default one will be created
-   */
-  queryClient?: QueryClient;
-
-  /**
-   * QueryClient configuration options
-   * Only used if queryClient is not provided
-   */
+  queryClient?: any;
   queryClientOptions?: QueryClientFactoryOptions;
-
-  /**
-   * Enable AsyncStorage persistence
-   * @default true
-   */
   enablePersistence?: boolean;
-
-  /**
-   * Enable DevMonitor logging (development only)
-   * @default false
-   */
   enableDevTools?: boolean;
-
-  /**
-   * Custom persister instance
-   * Only used if enablePersistence is true
-   */
-  persister?: Persister;
-
-  /**
-   * Persister configuration options
-   * Only used if enablePersistence is true and persister is not provided
-   */
+  persister?: any;
   persisterOptions?: PersisterFactoryOptions;
-
-  /**
-   * Callback when persistence is successfully restored
-   */
   onPersistSuccess?: () => void;
-
-  /**
-   * Callback when persistence restoration fails
-   */
   onPersistError?: () => void;
 }
 
@@ -89,30 +114,44 @@ export function TanstackProvider({
     return client;
   });
 
-  // Create persister if persistence is enabled
-  const [persister] = useState(() => {
+  // Create persister if persistence is enabled and provided
+  const [persister, setPersister] = useState<any>(() => {
     if (!enablePersistence) return undefined;
-    return providedPersister ?? createPersister(persisterOptions);
+    return providedPersister;
   });
 
+  // Load persister asynchronously if needed
+  React.useEffect(() => {
+    if (enablePersistence && !providedPersister && !persister) {
+      loadPersister(persisterOptions).then(setPersister);
+    }
+  }, [enablePersistence, providedPersister, persister, persisterOptions]);
+
   // Without persistence
-  if (!enablePersistence || !persister) {
+  if (!enablePersistence) {
     return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
   }
 
-  // With persistence
+  // With persistence - wait for persister to load
+  if (!persister) {
+    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  }
+
+  // With persistence - lazy load PersistQueryClientProvider
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{
-        persister,
-        maxAge: persisterOptions?.maxAge,
-        buster: persisterOptions?.busterVersion,
-      }}
-      onSuccess={onPersistSuccess}
-      onError={onPersistError}
-    >
-      {children}
-    </PersistQueryClientProvider>
+    <Suspense fallback={<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{
+          persister,
+          maxAge: persisterOptions?.maxAge,
+          buster: persisterOptions?.busterVersion,
+        }}
+        onSuccess={onPersistSuccess}
+        onError={onPersistError}
+      >
+        {children}
+      </PersistQueryClientProvider>
+    </Suspense>
   );
 }
