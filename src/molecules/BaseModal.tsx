@@ -41,7 +41,16 @@ export const BaseModal: React.FC<BaseModalProps> = ({
     }
   }, [dismissOnBackdrop, onClose]);
 
-  if (!visible) return null;
+  if (__DEV__) {
+    console.log("[BaseModal] Render:", { visible, testID, hasChildren: !!children });
+  }
+
+  if (!visible) {
+    if (__DEV__) {
+      console.log("[BaseModal] Early returning (visible = false)");
+    }
+    return null;
+  }
 
   return (
     <Modal
