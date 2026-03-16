@@ -75,6 +75,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
         type="titleLarge"
         color="textPrimary"
         numberOfLines={1}
+        align={centerTitle ? 'center' : 'left'}
         style={styles.title}
       >
         {title}
