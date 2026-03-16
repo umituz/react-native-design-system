@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { createQueryClient, type QueryClientFactoryOptions } from '../config/QueryClientConfig';
 import { setGlobalQueryClient } from '../config/QueryClientSingleton';
 import { DevMonitor } from '../monitoring/DevMonitor';

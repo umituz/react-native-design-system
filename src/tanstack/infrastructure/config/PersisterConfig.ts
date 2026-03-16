@@ -7,7 +7,7 @@
  */
 
 import { storageService } from '../../../storage';
-import { DEFAULT_GC_TIME } from '../../domain/constants/CacheDefaults';
+
 
 /**
  * Persister factory options

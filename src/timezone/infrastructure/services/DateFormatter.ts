@@ -162,8 +162,6 @@ export class DateFormatter {
     ): string {
         const d = this.parse(date);
         const now = new Date();
-        const diffInMs = now.getTime() - d.getTime();
-        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
         // Check for today (today at midnight vs date at midnight)
         const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());

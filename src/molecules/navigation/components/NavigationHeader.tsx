@@ -9,12 +9,14 @@ export interface NavigationHeaderProps {
   title: string;
   onBackPress?: () => void;
   rightElement?: React.ReactNode;
+  centerTitle?: boolean;
 }
 
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   title,
   onBackPress,
   rightElement,
+  centerTitle = true,
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
@@ -43,13 +45,16 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
     },
     title: {
       flex: 1,
-      textAlign: 'left',
+      textAlign: centerTitle ? 'center' : 'left',
     },
-  }), [tokens, insets]);
+    sideElement: {
+      width: centerTitle ? 40 : 'auto',
+    }
+  }), [tokens, insets, centerTitle]);
 
   return (
     <View style={styles.container}>
-      {onBackPress && (
+      {onBackPress ? (
         <TouchableOpacity
           onPress={onBackPress}
           style={styles.backButton}
@@ -62,10 +67,12 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
             color="textPrimary"
           />
         </TouchableOpacity>
-      )}
+      ) : centerTitle ? (
+        <View style={styles.sideElement} />
+      ) : null}
 
       <AtomicText
-        type="titleMedium"
+        type="titleLarge"
         color="textPrimary"
         numberOfLines={1}
         style={styles.title}
@@ -73,11 +80,13 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
         {title}
       </AtomicText>
 
-      {rightElement && (
-        <View>
+      {rightElement ? (
+        <View style={styles.sideElement}>
           {rightElement}
         </View>
-      )}
+      ) : centerTitle ? (
+        <View style={styles.sideElement} />
+      ) : null}
     </View>
   );
 };

@@ -52,6 +52,7 @@ export class TimezoneService implements ITimezoneService {
   addDays(date: Date | string | number, days: number): Date { return this.calendar.addDays(date, days); }
   startOfDay(date: Date | string | number): Date { return this.calendar.startOfDay(date); }
   endOfDay(date: Date | string | number): Date { return this.calendar.endOfDay(date); }
+  setTimeOfDay(date: Date | string | number, hours: number, minutes: number): Date { return this.calendar.setTimeOfDay(date, hours, minutes); }
 
   formatDateToString(date: Date | string | number): string { return this.formatter.formatDateToString(date); }
   getCurrentISOString(): string { return this.formatter.formatToISOString(new Date()); }

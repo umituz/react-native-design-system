@@ -103,6 +103,12 @@ export class CalendarManager {
         return result;
     }
 
+    setTimeOfDay(date: Date | string | number, hours: number, minutes: number): Date {
+        const result = this.parse(date);
+        result.setHours(hours, minutes, 0, 0);
+        return result;
+    }
+
     getDifferenceInDays(date1: Date | string | number, date2: Date | string | number): number {
         const d1 = this.parse(date1);
         const d2 = this.parse(date2);

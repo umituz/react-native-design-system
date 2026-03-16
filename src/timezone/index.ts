@@ -29,3 +29,13 @@ export { timezoneService, TimezoneService } from './infrastructure/services/Time
 
 export { useTimezone } from './presentation/hooks/useTimezone';
 export type { UseTimezoneReturn } from './presentation/hooks/useTimezone';
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+
+export {
+  formatTimeComponent,
+  parseTimeComponent,
+  millisecondsToSeconds,
+} from './infrastructure/utils/TimeUtils';

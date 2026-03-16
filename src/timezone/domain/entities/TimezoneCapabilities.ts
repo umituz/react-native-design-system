@@ -100,6 +100,9 @@ export interface ITimezoneManipulation {
   /** Get middle of day (12:00:00) */
   getMiddleOfDay(date: Date | string | number): Date;
 
+  /** Set specific time of day (hours and minutes) */
+  setTimeOfDay(date: Date | string | number, hours: number, minutes: number): Date;
+
   /** Convert date from one timezone to another */
   convertTimezone(
     date: Date | string | number,
