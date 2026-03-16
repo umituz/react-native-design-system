@@ -79,7 +79,10 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
         const dsTheme = useDesignSystemTheme.getState();
         dsTheme.setThemeMode(mode);
         dsTheme.setCustomColors(colors);
-      } catch {
+      } catch (error) {
+        if (__DEV__) {
+          console.error('[ThemeStore] Failed to initialize theme:', error);
+        }
         set({ isInitialized: true, _initInProgress: false });
         useDesignSystemTheme.getState().setThemeMode(defaultThemeMode);
       } finally {

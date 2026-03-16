@@ -3,7 +3,7 @@
  * Refactored: Extracted configs, styles, and types
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleProp, ViewStyle, TextStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../icon';
@@ -35,11 +35,11 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     if (!disabled && !loading) {
       onPress();
     }
-  };
+  }, [disabled, loading, onPress]);
 
   const isDisabled = disabled || loading;
   const config = getButtonSizeConfig(size, tokens);

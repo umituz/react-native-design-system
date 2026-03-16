@@ -101,7 +101,11 @@ export class PersistentDeviceIdService {
     try {
       // Wait for pending initialization to prevent race condition
       if (initializationPromise) {
-        await initializationPromise.catch(() => {});
+        await initializationPromise.catch((error) => {
+          if (__DEV__) {
+            console.warn('[DesignSystem] Device ID: Initialization failed while clearing ID', error);
+          }
+        });
       }
       await this.secureRepo.remove();
       cachedDeviceId = null;
