@@ -1,8 +1,37 @@
 /**
  * DateFormatter
  * Handles locale-aware formatting of dates and times
+ * Optimized with Intl.DateTimeFormat caching
  */
 import { parseDate } from '../utils/TimezoneParsers';
+
+// Cache for Intl.DateTimeFormat instances to avoid recreating them
+const formatterCache = new Map<string, Intl.DateTimeFormat>();
+
+function getFormatter(locale: string, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const cacheKey = `${locale}-${JSON.stringify(options)}`;
+  let formatter = formatterCache.get(cacheKey);
+
+  if (!formatter) {
+    try {
+      formatter = new Intl.DateTimeFormat(locale, options);
+    } catch (_error) {
+      // Fallback to 'en-US' if locale is not supported
+      formatter = new Intl.DateTimeFormat('en-US', options);
+    }
+    formatterCache.set(cacheKey, formatter);
+
+    // Limit cache size to prevent memory leaks
+    if (formatterCache.size > 100) {
+      const firstKey = formatterCache.keys().next().value as string;
+      if (firstKey) {
+        formatterCache.delete(firstKey);
+      }
+    }
+  }
+
+  return formatter;
+}
 
 export class DateFormatter {
     formatDate(
@@ -16,7 +45,7 @@ export class DateFormatter {
             day: 'numeric',
             ...options,
         };
-        return new Intl.DateTimeFormat(locale, defaultOptions).format(this.parse(date));
+        return getFormatter(locale, defaultOptions).format(this.parse(date));
     }
 
     formatTime(
@@ -29,7 +58,7 @@ export class DateFormatter {
             minute: '2-digit',
             ...options,
         };
-        return new Intl.DateTimeFormat(locale, defaultOptions).format(this.parse(date));
+        return getFormatter(locale, defaultOptions).format(this.parse(date));
     }
 
     formatDateTime(
@@ -45,7 +74,7 @@ export class DateFormatter {
             minute: '2-digit',
             ...options,
         };
-        return new Intl.DateTimeFormat(locale, defaultOptions).format(this.parse(date));
+        return getFormatter(locale, defaultOptions).format(this.parse(date));
     }
 
     formatDateToString(date: Date | string | number): string {

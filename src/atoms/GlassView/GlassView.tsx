@@ -3,6 +3,7 @@ import { StyleSheet, ViewStyle, StyleProp, View } from 'react-native';
 // Remove expo-blur import to fix native module error
 // import { BlurView, BlurTint } from 'expo-blur';
 import { useDesignSystemTheme } from '../../theme';
+import { intensityToOpacity } from '../../utils/math';
 
 // Define a local type for tint to maintain API compatibility
 export type GlassTint = 'light' | 'dark' | 'default' | 'prominent' | 'regular' | 'extraLight' | 'systemThinMaterial' | 'systemMaterial' | 'systemThickMaterial' | 'systemChromeMaterial' | 'systemUltraThinMaterial' | 'systemThinMaterialLight' | 'systemMaterialLight' | 'systemThickMaterialLight' | 'systemChromeMaterialLight' | 'systemUltraThinMaterialLight' | 'systemThinMaterialDark' | 'systemMaterialDark' | 'systemThickMaterialDark' | 'systemChromeMaterialDark' | 'systemUltraThinMaterialDark';
@@ -17,7 +18,7 @@ export interface GlassViewProps {
 
 /**
  * GlassView
- * 
+ *
  * A wrapper component for glassmorphism effects.
  * Currently uses a fallback transparency implementation to avoid native module issues with expo-blur.
  */
@@ -29,17 +30,15 @@ export const GlassView: React.FC<GlassViewProps> = ({
 }) => {
   const { themeMode } = useDesignSystemTheme();
   const isDark = themeMode === 'dark';
-  
-  // Calculate background color opacity based on intensity
-  // Max intensity 100 -> 0.9 opacity (almost solid)
-  // Min intensity 0 -> 0.1 opacity (almost transparent)
-  const opacity = Math.min(0.95, Math.max(0.05, intensity / 100));
-  
+
+  // Calculate opacity using utility function
+  const opacity = intensityToOpacity(intensity);
+
   // Choose base color based on tint or theme
   const resolvedTint = tint || (isDark ? 'dark' : 'light');
   const isDarkBase = resolvedTint === 'dark' || resolvedTint.includes('Dark') || (resolvedTint === 'default' && isDark);
-  
-  const backgroundColor = isDarkBase 
+
+  const backgroundColor = isDarkBase
     ? `rgba(34, 16, 26, ${opacity})` // Dark color from theme
     : `rgba(255, 255, 255, ${opacity})`;
 

@@ -19,6 +19,7 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon } from '../../atoms';
 import { AtomicText } from '../../atoms';
 import type { IconName } from '../../atoms';
+import { calculateGridItemWidth } from '../../utils/math';
 
 export interface IconGridItem {
   /** Unique identifier */
@@ -44,6 +45,48 @@ export interface IconGridProps {
   style?: StyleProp<ViewStyle>;
 }
 
+// Memoized grid item component to prevent unnecessary re-renders
+const GridItem = React.memo<{
+  item: IconGridItem;
+  itemWidth: number;
+  cardBackground: string;
+  borderLight: string;
+  textPrimary: string;
+}>(({ item, itemWidth, cardBackground, borderLight, textPrimary }) => {
+  const cardStyle = useMemo(
+    () => [styles.card, { width: itemWidth }],
+    [itemWidth]
+  );
+
+  const iconBoxStyle = useMemo(
+    () => [
+      styles.iconBox,
+      { width: itemWidth, backgroundColor: cardBackground, borderColor: borderLight },
+    ],
+    [itemWidth, cardBackground, borderLight]
+  );
+
+  const labelStyle = useMemo(
+    () => [styles.label, { color: textPrimary }],
+    [textPrimary]
+  );
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={item.onPress}
+      style={cardStyle}
+    >
+      <View style={iconBoxStyle}>
+        <AtomicIcon name={item.icon} size="lg" color="textPrimary" />
+      </View>
+      <AtomicText style={labelStyle} numberOfLines={1}>
+        {item.label}
+      </AtomicText>
+    </TouchableOpacity>
+  );
+});
+
 /**
  * A self-sizing icon card grid.
  *
@@ -58,7 +101,7 @@ export interface IconGridProps {
  * />
  * ```
  */
-export const IconGrid: React.FC<IconGridProps> = ({
+export const IconGrid = React.memo<IconGridProps>(({
   items,
   columns = 3,
   gap = 10,
@@ -78,52 +121,43 @@ export const IconGrid: React.FC<IconGridProps> = ({
     [containerWidth],
   );
 
-  // Total gap space between columns (N columns = N-1 gaps)
+  // Calculate item width using utility function
   const itemWidth = useMemo(() => {
-    if (containerWidth <= 0) return 0;
-    const totalGap = gap * (columns - 1);
-    // Subtract 1px safety margin to prevent sub-pixel wrapping
-    return Math.floor((containerWidth - totalGap) / columns) - 1;
+    return calculateGridItemWidth(containerWidth, columns, gap);
   }, [containerWidth, columns, gap]);
 
   const { cardBackground, borderLight, textPrimary } = tokens.colors;
 
+  const gridStyle = useMemo(
+    () => [styles.grid, { columnGap: gap, rowGap: rowGap ?? gap }, style],
+    [gap, rowGap, style]
+  );
+
+  const placeholderStyle = useMemo(
+    () => ({ width: 0, height: 0 }),
+    []
+  );
+
   return (
-    <View
-      style={[styles.grid, { columnGap: gap, rowGap: rowGap ?? gap }, style]}
-      onLayout={handleLayout}
-    >
+    <View style={gridStyle} onLayout={handleLayout}>
       {items.map((item) =>
         itemWidth > 0 ? (
-          <TouchableOpacity
+          <GridItem
             key={item.id}
-            activeOpacity={0.7}
-            onPress={item.onPress}
-            style={[styles.card, { width: itemWidth }]}
-          >
-            <View
-              style={[
-                styles.iconBox,
-                { width: itemWidth, backgroundColor: cardBackground, borderColor: borderLight },
-              ]}
-            >
-              <AtomicIcon name={item.icon} size="lg" color="textPrimary" />
-            </View>
-            <AtomicText
-              style={[styles.label, { color: textPrimary }]}
-              numberOfLines={1}
-            >
-              {item.label}
-            </AtomicText>
-          </TouchableOpacity>
+            item={item}
+            itemWidth={itemWidth}
+            cardBackground={cardBackground}
+            borderLight={borderLight}
+            textPrimary={textPrimary}
+          />
         ) : (
           // Placeholder — keeps grid stable before first layout measurement
-          <View key={item.id} style={{ width: 0, height: 0 }} />
+          <View key={item.id} style={placeholderStyle} />
         ),
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   grid: {

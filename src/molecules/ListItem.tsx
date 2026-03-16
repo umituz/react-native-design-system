@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText, AtomicIcon } from '../atoms';
@@ -13,20 +13,26 @@ const ICON_PATHS: Record<string, string> = {
 
 export type { ListItemProps };
 
-export const ListItem: React.FC<ListItemProps> = ({
-  title, subtitle, leftIcon, rightIcon, onPress, disabled = false, style,
-}) => {
+export const ListItem = React.memo<ListItemProps>(({ title, subtitle, leftIcon, rightIcon, onPress, disabled = false, style }) => {
   const tokens = useAppDesignTokens();
   const listItemStyles = getListItemStyles(tokens);
   const Component = onPress ? TouchableOpacity : View;
 
-  const accessibilityProps = onPress
-    ? {
-        accessibilityRole: 'button' as const,
-        accessibilityLabel: title,
-        accessibilityState: { disabled },
-      }
-    : {};
+  const accessibilityProps = useMemo(
+    () => (onPress
+      ? {
+          accessibilityRole: 'button' as const,
+          accessibilityLabel: title,
+          accessibilityState: { disabled } as const,
+        }
+      : {}),
+    [onPress, title, disabled]
+  );
+
+  const rightIconStyle = useMemo(
+    () => ({ marginLeft: tokens.spacing.md }),
+    [tokens.spacing.md]
+  );
 
   return (
     <Component
@@ -55,9 +61,9 @@ export const ListItem: React.FC<ListItemProps> = ({
           name={!ICON_PATHS[rightIcon] ? rightIcon : undefined}
           color="surfaceVariant"
           size="sm"
-          style={{ marginLeft: tokens.spacing.md }}
+          style={rightIconStyle}
         />
       )}
     </Component>
   );
-};
+});

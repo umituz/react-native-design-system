@@ -161,9 +161,6 @@ export const OnboardingScreen = ({
     globalUseCustomBackground,
   });
 
-  if (__DEV__) {
-  }
-
   // Early return if no slides - prevents rendering empty/broken screen
   if (filteredSlides.length === 0) {
     if (__DEV__) {

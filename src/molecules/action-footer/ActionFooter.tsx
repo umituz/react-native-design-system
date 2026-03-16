@@ -1,12 +1,53 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { ActionFooterProps } from './types';
 
-export const ActionFooter: React.FC<ActionFooterProps> = ({
+const createStyles = () => StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 0,
+    gap: 0,
+  },
+  backButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 0,
+    backgroundColor: '',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '',
+  },
+  actionButton: {
+    flex: 1,
+    height: 56,
+    borderRadius: 0,
+    overflow: 'hidden',
+  },
+  actionContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '',
+    gap: 0,
+    paddingHorizontal: 0,
+  },
+  actionText: {
+    color: '',
+    fontWeight: '800',
+    fontSize: 18,
+  },
+});
+
+const baseStyles = createStyles();
+
+export const ActionFooter = React.memo<ActionFooterProps>(({
   onBack,
   onAction,
   actionLabel,
@@ -18,53 +59,51 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
   const tokens = useAppDesignTokens();
 
   const themedStyles = useMemo(
-    () =>
-      StyleSheet.create({
-        container: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: tokens.spacing.md,
-          gap: tokens.spacing.md,
-        },
-        backButton: {
-          width: 56,
-          height: 56,
-          borderRadius: tokens.borders.radius.lg,
-          backgroundColor: tokens.colors.surface,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderWidth: 1,
-          borderColor: tokens.colors.outlineVariant,
-        },
-        actionButton: {
-          flex: 1,
-          height: 56,
-          borderRadius: tokens.borders.radius.lg,
-          overflow: 'hidden',
-        },
-        actionContent: {
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          backgroundColor: tokens.colors.primary,
-          gap: tokens.spacing.sm,
-          paddingHorizontal: tokens.spacing.lg,
-        },
-        actionText: {
-          color: tokens.colors.onPrimary,
-          fontWeight: '800',
-          fontSize: 18,
-        },
-      }),
+    () => ({
+      container: {
+        ...baseStyles.container,
+        paddingVertical: tokens.spacing.md,
+        gap: tokens.spacing.md,
+      },
+      backButton: {
+        ...baseStyles.backButton,
+        borderRadius: tokens.borders.radius.lg,
+        backgroundColor: tokens.colors.surface,
+        borderColor: tokens.colors.outlineVariant,
+      },
+      actionButton: {
+        ...baseStyles.actionButton,
+        borderRadius: tokens.borders.radius.lg,
+      },
+      actionContent: {
+        ...baseStyles.actionContent,
+        backgroundColor: tokens.colors.primary,
+        gap: tokens.spacing.sm,
+        paddingHorizontal: tokens.spacing.lg,
+      },
+      actionText: {
+        ...baseStyles.actionText,
+        color: tokens.colors.onPrimary,
+      },
+    }),
     [tokens],
   );
+
+  const handleBackPress = useCallback(() => {
+    onBack?.();
+  }, [onBack]);
+
+  const handleActionPress = useCallback(() => {
+    if (!loading) {
+      onAction?.();
+    }
+  }, [loading, onAction]);
 
   return (
     <View style={[themedStyles.container, style]}>
       <TouchableOpacity
         style={themedStyles.backButton}
-        onPress={onBack}
+        onPress={handleBackPress}
         activeOpacity={0.7}
         testID="action-footer-back"
         accessibilityRole="button"
@@ -79,7 +118,7 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
 
       <TouchableOpacity
         style={themedStyles.actionButton}
-        onPress={onAction}
+        onPress={handleActionPress}
         activeOpacity={0.9}
         disabled={loading}
         testID="action-footer-action"
@@ -98,4 +137,4 @@ export const ActionFooter: React.FC<ActionFooterProps> = ({
       </TouchableOpacity>
     </View>
   );
-};
+});

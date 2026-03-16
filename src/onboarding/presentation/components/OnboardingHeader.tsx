@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { AtomicIcon, useIconName } from "../../../atoms";
 import { AtomicText } from "../../../atoms/AtomicText";
@@ -13,35 +13,56 @@ export interface OnboardingHeaderProps {
   skipButtonText?: string;
 }
 
-export const OnboardingHeader = ({
+export const OnboardingHeader = React.memo<OnboardingHeaderProps>(({
   isFirstSlide,
   onBack,
   onSkip,
   showBackButton = true,
   showSkipButton = true,
   skipButtonText,
-}: OnboardingHeaderProps) => {
+}) => {
   const {
     theme: { colors },
   } = useOnboardingProvider();
   const chevronLeftIcon = useIconName('chevronLeft');
 
+  const handleBack = useCallback(() => {
+    if (!isFirstSlide) {
+      onBack?.();
+    }
+  }, [isFirstSlide, onBack]);
+
+  const backButtonStyle = useMemo(
+    () => [
+      styles.headerButton,
+      {
+        backgroundColor: colors.headerButtonBg,
+        borderColor: colors.headerButtonBorder,
+      },
+      isFirstSlide && styles.headerButtonDisabled,
+    ],
+    [colors.headerButtonBg, colors.headerButtonBorder, isFirstSlide]
+  );
+
+  const skipTextStyle = useMemo(
+    () => [styles.skipText, { color: colors.textColor }],
+    [colors.textColor]
+  );
+
+  const hitSlop = useMemo(
+    () => ({ top: 10, bottom: 10, left: 10, right: 10 }),
+    []
+  );
+
   return (
     <View style={styles.header}>
       {showBackButton ? (
         <TouchableOpacity
-          onPress={() => !isFirstSlide && onBack?.()}
+          onPress={handleBack}
           disabled={isFirstSlide}
-          style={[
-            styles.headerButton,
-            {
-              backgroundColor: colors.headerButtonBg,
-              borderColor: colors.headerButtonBorder,
-            },
-            isFirstSlide && styles.headerButtonDisabled,
-          ]}
+          style={backButtonStyle}
           activeOpacity={0.7}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          hitSlop={hitSlop}
         >
           <AtomicIcon name={chevronLeftIcon} customSize={20} customColor={colors.iconColor} />
         </TouchableOpacity>
@@ -54,11 +75,11 @@ export const OnboardingHeader = ({
           activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel={skipButtonText}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          hitSlop={hitSlop}
         >
           <AtomicText
             type="labelLarge"
-            style={[styles.skipText, { color: colors.textColor }]}
+            style={skipTextStyle}
           >
             {skipButtonText}
           </AtomicText>
@@ -66,7 +87,7 @@ export const OnboardingHeader = ({
       ) : <View />}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   header: {

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AtomicText } from "../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
+import { calculateStepProgress } from "../../../utils/math";
 
 export interface OnboardingFooterProps {
   currentIndex: number;
@@ -15,7 +16,7 @@ export interface OnboardingFooterProps {
   disabled?: boolean;
 }
 
-export const OnboardingFooter = ({
+export const OnboardingFooter = React.memo<OnboardingFooterProps>(({
   currentIndex,
   totalSlides,
   isLastSlide,
@@ -24,62 +25,114 @@ export const OnboardingFooter = ({
   showDots = true,
   showProgressText = true,
   disabled = false,
-}: OnboardingFooterProps) => {
+}) => {
   const insets = useSafeAreaInsets();
   const { theme: { colors }, translations } = useOnboardingProvider();
 
-  const buttonText = isLastSlide
-    ? translations.getStartedButton
-    : translations.nextButton;
+  const buttonText = useMemo(
+    () => isLastSlide ? translations.getStartedButton : translations.nextButton,
+    [isLastSlide, translations.getStartedButton, translations.nextButton]
+  );
 
-  const progressPercent = ((currentIndex + 1) / totalSlides) * 100;
+  const progressPercent = useMemo(
+    () => calculateStepProgress(currentIndex + 1, totalSlides),
+    [currentIndex, totalSlides]
+  );
+
+  const footerStyle = useMemo(
+    () => [styles.footer, { paddingBottom: insets.bottom + 24 }],
+    [insets.bottom]
+  );
+
+  const progressBarBgStyle = useMemo(
+    () => [styles.progressBar, { backgroundColor: colors.progressBarBg }],
+    [colors.progressBarBg]
+  );
+
+  const progressFillStyle = useMemo(
+    () => ({
+      ...styles.progressFill,
+      width: `${progressPercent}%` as any,
+      backgroundColor: colors.progressFillColor,
+    }),
+    [progressPercent, colors.progressFillColor]
+  );
+
+  const dots = useMemo(
+    () => Array.from({ length: totalSlides }, (_, index) => {
+      const isActive = index === currentIndex;
+      return {
+        key: index,
+        style: [
+          styles.dot,
+          { backgroundColor: colors.dotColor },
+          isActive && {
+            width: 12,
+            backgroundColor: colors.activeDotColor
+          }
+        ]
+      };
+    }),
+    [totalSlides, currentIndex, colors.dotColor, colors.activeDotColor]
+  );
+
+  const buttonStyle = useMemo(
+    () => [
+      styles.button,
+      {
+        backgroundColor: colors.buttonBg,
+        opacity: disabled ? 0.5 : 1,
+      },
+    ],
+    [colors.buttonBg, disabled]
+  );
+
+  const buttonTextStyle = useMemo(
+    () => [styles.buttonText, { color: colors.buttonTextColor }],
+    [colors.buttonTextColor]
+  );
+
+  const progressTextStyle = useMemo(
+    () => [styles.progressText, { color: colors.progressTextColor }],
+    [colors.progressTextColor]
+  );
+
+  const handlePress = useCallback(() => {
+    if (!disabled) {
+      onNext();
+    }
+  }, [disabled, onNext]);
 
   return (
-    <View style={[styles.footer, { paddingBottom: insets.bottom + 24 }]}>
+    <View style={footerStyle}>
       {showProgressBar && (
         <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { backgroundColor: colors.progressBarBg }]}>
-            <View style={[styles.progressFill, { width: `${progressPercent}%`, backgroundColor: colors.progressFillColor }]} />
+          <View style={progressBarBgStyle}>
+            <View style={progressFillStyle} />
           </View>
         </View>
       )}
 
       {showDots && (
         <View style={styles.dots}>
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                { backgroundColor: colors.dotColor },
-                index === currentIndex && {
-                  width: 12,
-                  backgroundColor: colors.activeDotColor
-                }
-              ]}
-            />
+          {dots.map(({ key, style: dotStyle }) => (
+            <View key={key} style={dotStyle} />
           ))}
         </View>
       )}
 
       <TouchableOpacity
-        onPress={onNext}
+        onPress={handlePress}
         disabled={disabled}
         activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel={buttonText}
         accessibilityState={{ disabled }}
-        style={[
-          styles.button,
-          {
-            backgroundColor: colors.buttonBg,
-            opacity: disabled ? 0.5 : 1,
-          },
-        ]}
+        style={buttonStyle}
       >
         <AtomicText
           type="labelLarge"
-          style={[styles.buttonText, { color: colors.buttonTextColor }]}
+          style={buttonTextStyle}
         >
           {buttonText}
         </AtomicText>
@@ -88,14 +141,14 @@ export const OnboardingFooter = ({
       {showProgressText && (
         <AtomicText
           type="labelSmall"
-          style={[styles.progressText, { color: colors.progressTextColor }]}
+          style={progressTextStyle}
         >
           {currentIndex + 1} {translations.of} {totalSlides}
         </AtomicText>
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   footer: {

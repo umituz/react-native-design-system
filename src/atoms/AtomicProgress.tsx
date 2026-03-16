@@ -17,6 +17,7 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, ViewStyle, DimensionValue, Text } from 'react-native';
 import { useAppDesignTokens } from '../theme';
+import { normalizeProgress } from '../utils/math';
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -66,8 +67,11 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
 
-  // Clamp value between 0 and 100
-  const clampedValue = Math.max(0, Math.min(100, value));
+  // Normalize progress value using utility
+  const normalizedValue = useMemo(
+    () => normalizeProgress(value),
+    [value]
+  );
 
   // Default colors
   const progressColor = color || tokens.colors.primary;
@@ -75,7 +79,7 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
   const progressTextColor = textColor || tokens.colors.textPrimary;
 
   // Calculate progress width
-  const progressWidth = `${clampedValue}%`;
+  const progressWidth = `${normalizedValue}%`;
 
   const scaledHeight = height * tokens.spacingMultiplier;
 
@@ -109,8 +113,8 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
       style={[containerStyle, style]}
       testID={testID}
       accessibilityRole="progressbar"
-      accessibilityValue={{ min: 0, max: 100, now: Math.round(clampedValue) }}
-      accessibilityLabel={`Progress: ${Math.round(clampedValue)}${showPercentage ? '%' : ''}`}
+      accessibilityValue={{ min: 0, max: 100, now: Math.round(normalizedValue) }}
+      accessibilityLabel={`Progress: ${Math.round(normalizedValue)}${showPercentage ? '%' : ''}`}
     >
       <View style={progressStyle} />
       {(showPercentage || showValue) && (
@@ -118,9 +122,9 @@ export const AtomicProgress: React.FC<AtomicProgressProps> = ({
           <Text
             style={textStyle}
             accessibilityLiveRegion="polite"
-            accessibilityLabel={`Current progress: ${Math.round(clampedValue)}${showPercentage ? '%' : ''}`}
+            accessibilityLabel={`Current progress: ${Math.round(normalizedValue)}${showPercentage ? '%' : ''}`}
           >
-            {showPercentage ? `${Math.round(clampedValue)}%` : `${Math.round(clampedValue)}`}
+            {showPercentage ? `${Math.round(normalizedValue)}%` : `${Math.round(normalizedValue)}`}
           </Text>
         </View>
       )}
