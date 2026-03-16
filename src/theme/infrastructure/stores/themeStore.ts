@@ -91,8 +91,8 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     },
 
     setThemeMode: async (mode: ThemeMode) => {
-      const { _updateInProgress } = get();
-      if (_updateInProgress) return;
+      const { _updateInProgress, themeMode: currentMode } = get();
+      if (_updateInProgress || mode === currentMode) return;
 
       const updateId = Date.now();
       set({ _updateInProgress: true, _lastUpdateId: updateId });
@@ -117,6 +117,9 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
     setCustomColors: async (colors?: CustomThemeColors) => {
       const { _updateInProgress, customColors: currentColors } = get();
       if (_updateInProgress) return;
+
+      // Deep comparison to avoid redundant updates from new object references
+      if (JSON.stringify(colors) === JSON.stringify(currentColors)) return;
 
       const updateId = Date.now();
       set({ _updateInProgress: true, _lastUpdateId: updateId, customColors: colors });
