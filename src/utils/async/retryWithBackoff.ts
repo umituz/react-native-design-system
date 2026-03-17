@@ -5,7 +5,7 @@
  * Useful for network requests, file operations, etc.
  */
 
-import { DEFAULT_LONG_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, ONE_MINUTE_MS, ONE_SECOND_MS, TEN_SECONDS_MS } from '../constants/TimeConstants';
+import { DEFAULT_LONG_TIMEOUT_MS, ONE_SECOND_MS, TEN_SECONDS_MS } from '../constants/TimeConstants';
 
 export interface RetryOptions {
   /**
