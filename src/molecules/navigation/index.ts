@@ -31,14 +31,98 @@ export { NavigationCleanupManager } from "./utils/NavigationCleanup";
 export type { NavigationCleanup } from "./utils/NavigationCleanup";
 
 // Navigation Utilities
+
+/**
+ * AppNavigation - Global navigation utility for programmatic navigation outside React components.
+ *
+ * @example
+ * ```typescript
+ * import { AppNavigation } from '@umituz/react-native-design-system/molecules';
+ *
+ * // Navigate from a non-React context
+ * AppNavigation.navigate('ScreenName', { param: 'value' });
+ * ```
+ */
 export { AppNavigation } from "./utils/AppNavigation";
+
 export { TabLabel, type TabLabelProps } from "./components/TabLabel";
 export * from "./components/NavigationHeader";
 export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
 export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
+
+/**
+ * useAppNavigation - Standard navigation hook for all React Native packages.
+ *
+ * Provides a clean, type-safe navigation API that wraps React Navigation.
+ * Use this hook instead of @react-navigation/native's useNavigation for consistency.
+ *
+ * @example
+ * ```typescript
+ * import { useAppNavigation } from '@umituz/react-native-design-system/molecules';
+ *
+ * function MyScreen() {
+ *   const navigation = useAppNavigation();
+ *
+ *   return (
+ *     <Button onPress={() => navigation.navigate('Details', { id: 123 })}>
+ *       Go to Details
+ *     </Button>
+ *   );
+ * }
+ * ```
+ */
 export { useAppNavigation } from "./hooks/useAppNavigation";
+export type { AppNavigationResult } from "./hooks/useAppNavigation";
+
+/**
+ * useAppRoute - Hook to access current route parameters.
+ *
+ * @example
+ * ```typescript
+ * import { useAppRoute } from '@umituz/react-native-design-system/molecules';
+ *
+ * function DetailsScreen() {
+ *   const route = useAppRoute<{ id: number }>();
+ *   const id = route.params?.id;
+ * }
+ * ```
+ */
 export { useAppRoute, type RouteProp } from "./hooks/useAppRoute";
+
+/**
+ * useAppFocusEffect - Run effects when screen comes into focus.
+ *
+ * @example
+ * ```typescript
+ * import { useAppFocusEffect } from '@umituz/react-native-design-system/molecules';
+ * import { useCallback } from 'react';
+ *
+ * function ProfileScreen() {
+ *   useAppFocusEffect(
+ *     useCallback(() => {
+ *       console.log('Screen focused');
+ *       return () => console.log('Screen unfocused');
+ *     }, [])
+ *   );
+ * }
+ * ```
+ */
 export { useAppFocusEffect } from "./hooks/useAppFocusEffect";
+
+/**
+ * useAppIsFocused - Check if current screen is focused.
+ *
+ * @example
+ * ```typescript
+ * import { useAppIsFocused } from '@umituz/react-native-design-system/molecules';
+ *
+ * function VideoPlayer() {
+ *   const isFocused = useAppIsFocused();
+ *
+ *   return <Video playing={isFocused} />;
+ * }
+ * ```
+ */
 export { useAppIsFocused } from "./hooks/useAppIsFocused";
 
 // Screen Options
