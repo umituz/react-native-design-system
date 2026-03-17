@@ -21,6 +21,9 @@ import { DateUtilities } from '../utils/DateUtilities';
  * Follows SOLID principles with composition over inheritance.
  */
 export class CalendarService {
+  // Cache for weekday names to prevent recalculation
+  private static weekdayNamesCache = new Map<string, string[]>();
+
   /**
    * Generate calendar days for a specific month
    */
@@ -96,13 +99,23 @@ export class CalendarService {
   /**
    * Get weekday names
    */
-  static getWeekdayNames(locale?: string): string[] {
+  static getWeekdayNames(locale: string = 'en-US'): string[] {
+    const cacheKey = locale;
+
+    // Return cached result if available
+    if (this.weekdayNamesCache.has(cacheKey)) {
+      return this.weekdayNamesCache.get(cacheKey)!;
+    }
+
+    // Calculate and cache
     const weekdays: string[] = [];
     for (let i = 0; i < 7; i++) {
       const date = new Date();
       date.setDate(date.getDate() - date.getDay() + i);
-      weekdays.push(date.toLocaleDateString(locale ?? undefined, { weekday: 'short' }));
+      weekdays.push(date.toLocaleDateString(locale, { weekday: 'short' }));
     }
+
+    this.weekdayNamesCache.set(cacheKey, weekdays);
     return weekdays;
   }
 

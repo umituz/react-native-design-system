@@ -79,12 +79,14 @@ export function useAsyncOperation<T, E = Error>(
   const operationRef = useRef(operation);
   const errorHandlerRef = useRef(errorHandler);
 
-  // Keep all callback refs in sync with latest values
-  onSuccessRef.current = onSuccess;
-  onErrorRef.current = onError;
-  onFinallyRef.current = onFinally;
-  operationRef.current = operation;
-  errorHandlerRef.current = errorHandler;
+  // Keep all callback refs in sync with latest values - use useEffect to prevent updates on every render
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+    onErrorRef.current = onError;
+    onFinallyRef.current = onFinally;
+    operationRef.current = operation;
+    errorHandlerRef.current = errorHandler;
+  }, [onSuccess, onError, onFinally, operation, errorHandler]);
 
   // Cleanup on unmount
   useEffect(() => {

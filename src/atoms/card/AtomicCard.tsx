@@ -182,13 +182,13 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
 
   const paddingValue = getCardPadding(padding, tokens);
 
-  const containerStyle = [
+  const containerStyle = useMemo(() => [
     cardStyles.container,
     { borderRadius: tokens.borders.radius.lg },
     variantStyles.container,
     selected && { borderColor: tokens.colors.primary, borderWidth: 2 },
     style,
-  ];
+  ], [tokens.borders.radius.lg, variantStyles.container, selected, tokens.colors.primary, style]);
 
   const handlePress = (event: GestureResponderEvent) => {
     if (!disabled && onPress) {

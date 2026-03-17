@@ -18,6 +18,7 @@ class DevMonitorClass {
   private statsInterval: ReturnType<typeof setInterval> | null = null;
   private cacheSubscription: (() => void) | null = null;
   private isEnabled: boolean;
+  private maxMetrics: number = 1000; // Prevent unbounded growth
 
   constructor(options: DevMonitorOptions = {}) {
     this.isEnabled = __DEV__ ?? false;
@@ -52,6 +53,14 @@ class DevMonitorClass {
     );
 
     this.metrics.set(queryKeyString, updatedMetrics);
+
+    // Prevent unbounded growth - remove oldest metric if limit exceeded
+    if (this.metrics.size > this.maxMetrics) {
+      const oldestKey = this.metrics.keys().next().value;
+      if (oldestKey) {
+        this.metrics.delete(oldestKey);
+      }
+    }
 
     if (this.options.enableLogging && updatedMetrics.slowFetchCount > 0) {
       const fetchTime = MetricsCalculator.calculateFetchTime(query);
@@ -177,6 +186,7 @@ class DevMonitorClass {
   clear(): void {
     if (!this.isEnabled) return;
     this.metrics.clear();
+    this.stopStatsLogging();
     if (this.options.enableLogging) {
       DevMonitorLogger.logMethodsCleared();
     }

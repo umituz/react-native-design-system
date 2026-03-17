@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     View,
     TextInput,
@@ -27,6 +27,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     const tokens = useAppDesignTokens();
     const searchIcon = useIconName('search');
     const closeCircleIcon = useIconName('closeCircle');
+
+    // Memoize hitSlop to prevent object creation on every render
+    const hitSlop = useMemo(() => ({ top: 10, bottom: 10, left: 10, right: 10 }), []);
 
     const handleClear = useCallback(() => {
         onChangeText('');
@@ -94,7 +97,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                         <TouchableOpacity
                             onPress={handleClear}
                             style={styles.clearButton}
-                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                            hitSlop={hitSlop}
                             accessibilityRole="button"
                             accessibilityLabel="Clear search"
                         >
