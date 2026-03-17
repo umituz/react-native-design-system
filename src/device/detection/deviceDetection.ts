@@ -46,7 +46,9 @@ export const isTablet = (): boolean => {
     return Device.deviceType === Device.DeviceType.TABLET;
   }
   // Fallback: Platform.isPad (iOS) or screen width >= 600dp (Android)
-  if (Platform.OS === 'ios' && (Platform as any).isPad) return true;
+  // Platform.isPad is not in React Native types but exists on iOS
+  const platformWithIsPad = Platform as { isPad?: boolean };
+  if (Platform.OS === 'ios' && platformWithIsPad.isPad) return true;
   const { width, height } = getScreenDimensions();
   return Math.min(width, height) >= 600;
 };

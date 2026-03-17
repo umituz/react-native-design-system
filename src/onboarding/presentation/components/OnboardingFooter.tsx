@@ -52,7 +52,7 @@ export const OnboardingFooter = React.memo<OnboardingFooterProps>(({
   const progressFillStyle = useMemo(
     () => ({
       ...styles.progressFill,
-      width: `${progressPercent}%` as any,
+      width: `${progressPercent}%` as `${number}%`,
       backgroundColor: colors.progressFillColor,
     }),
     [progressPercent, colors.progressFillColor]

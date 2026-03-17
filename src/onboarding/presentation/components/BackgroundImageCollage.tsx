@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo } from "react";
-import { View, Image as RNImage, StyleSheet } from "react-native";
+import { View, Image as RNImage, StyleSheet, type ImageURISource, type ImageStyle } from "react-native";
 import { useSafeAreaInsets } from "../../../safe-area/hooks/useSafeAreaInsets";
 import {
   generateGridLayout,
@@ -93,8 +93,8 @@ export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = ({
         return (
           <RNImage
             key={String(item.source)}
-            source={item.source as any}
-            style={item.style as any}
+            source={item.source as ImageURISource | number}
+            style={item.style as ImageStyle}
             resizeMode="cover"
           />
         );

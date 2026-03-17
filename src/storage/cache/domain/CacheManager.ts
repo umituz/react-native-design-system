@@ -20,10 +20,12 @@ export class CacheManager {
   }
 
   getCache<T>(name: string, config?: CacheConfig): Cache<T> {
-    if (!this.caches.has(name)) {
-      this.caches.set(name, new Cache<T>(config));
+    let cache = this.caches.get(name);
+    if (!cache) {
+      cache = new Cache<T>(config);
+      this.caches.set(name, cache);
     }
-    return this.caches.get(name)!;
+    return cache;
   }
 
   deleteCache(name: string): boolean {

@@ -46,7 +46,7 @@ export type { NavigationCleanup } from "./utils/NavigationCleanup";
 export { AppNavigation } from "./utils/AppNavigation";
 
 export { TabLabel, type TabLabelProps } from "./components/TabLabel";
-export * from "./components/NavigationHeader";
+export { NavigationHeader, type NavigationHeaderProps } from "./components/NavigationHeader";
 export { useTabBarStyles, type TabBarConfig } from "./hooks/useTabBarStyles";
 export { useTabConfig, type UseTabConfigProps } from "./hooks/useTabConfig";
 

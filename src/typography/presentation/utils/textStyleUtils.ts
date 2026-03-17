@@ -112,7 +112,8 @@ export function getTextStyle(
 
   // Check cache first
   if (typographyCache.has(cacheKey)) {
-    return typographyCache.get(cacheKey)!;
+    const cached = typographyCache.get(cacheKey);
+    if (cached) return cached;
   }
 
   // Resolve style and cache it

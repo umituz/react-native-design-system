@@ -25,7 +25,12 @@ export function useCachedValue<T>(
         return cached;
       }
 
-      const data = await fetcherRef.current!();
+      const fetcherFn = fetcherRef.current;
+      if (!fetcherFn) {
+        throw new Error('Fetcher function is not defined');
+      }
+
+      const data = await fetcherFn();
       cache.set(key, data, configRef.current?.ttl);
       return data;
     },

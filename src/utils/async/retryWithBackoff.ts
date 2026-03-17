@@ -5,6 +5,8 @@
  * Useful for network requests, file operations, etc.
  */
 
+import { DEFAULT_LONG_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, ONE_MINUTE_MS, ONE_SECOND_MS, TEN_SECONDS_MS } from '../constants/TimeConstants';
+
 export interface RetryOptions {
   /**
    * Maximum number of retry attempts
@@ -59,14 +61,14 @@ export async function retryWithBackoff<T>(
 ): Promise<T> {
   const {
     maxRetries = 3,
-    baseDelay = 1000,
-    maxDelay = 10000,
+    baseDelay = ONE_SECOND_MS,
+    maxDelay = TEN_SECONDS_MS,
     backoffMultiplier = 2,
     shouldRetry = () => true,
     onRetry,
   } = options;
 
-  let lastError: Error;
+  let lastError: Error | undefined;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
@@ -106,7 +108,7 @@ export async function retryWithBackoff<T>(
   }
 
   // This should never be reached, but TypeScript needs it
-  throw lastError!;
+  throw lastError ?? new Error('Retry operation failed with unknown error');
 }
 
 /**
@@ -125,7 +127,7 @@ export async function retryWithTimeout<T>(
   fn: () => Promise<T>,
   options: RetryOptions & { timeout?: number } = {}
 ): Promise<T> {
-  const { timeout = 30000, ...retryOptions } = options;
+  const { timeout = DEFAULT_LONG_TIMEOUT_MS, ...retryOptions } = options;
 
   return retryWithBackoff(
     () => withTimeout(fn(), timeout),

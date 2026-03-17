@@ -142,10 +142,25 @@ export function usePersistentCache<T>(
 
   const setData = useCallback(
     async (value: T) => {
-      await cacheOps.saveToStorage(key, value, { ttl, version, enabled });
+      // Optimistic update
+      const previousData = state.data;
       stableActionsRef.current.setData(value);
+
+      try {
+        await cacheOps.saveToStorage(key, value, { ttl, version, enabled });
+      } catch (error) {
+        // Rollback on error
+        if (previousData !== null) {
+          stableActionsRef.current.setData(previousData);
+        } else {
+          stableActionsRef.current.clearData();
+        }
+        if (__DEV__) {
+          console.warn('[usePersistentCache] Failed to save to storage, rolling back:', error);
+        }
+      }
     },
-    [key, ttl, version, enabled, cacheOps],
+    [key, ttl, version, enabled, cacheOps, state.data],
   );
 
   const clearData = useCallback(async () => {

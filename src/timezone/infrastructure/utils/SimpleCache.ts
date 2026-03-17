@@ -5,6 +5,8 @@
  * No external dependencies - pure TypeScript implementation
  */
 
+import { ONE_MINUTE_MS } from '../../../utils/constants/TimeConstants';
+
 interface CacheEntry<T> {
   value: T;
   expires: number;
@@ -17,7 +19,7 @@ export class SimpleCache<T> {
   private destroyed = false;
   private cleanupScheduleLock = false;
 
-  constructor(defaultTTL: number = 60000) {
+  constructor(defaultTTL: number = ONE_MINUTE_MS) {
     this.defaultTTL = defaultTTL;
     this.scheduleCleanup();
   }
@@ -91,9 +93,13 @@ export class SimpleCache<T> {
 
       if (!this.destroyed) {
         this.cleanupTimeout = setTimeout(() => {
-          this.cleanupScheduleLock = false;
-          this.scheduleCleanup();
-        }, 60000);
+          if (!this.destroyed) {
+            this.cleanupScheduleLock = false;
+            this.scheduleCleanup();
+          }
+        }, ONE_MINUTE_MS);
+      } else {
+        this.cleanupScheduleLock = false;
       }
     } catch (error) {
       this.cleanupScheduleLock = false;

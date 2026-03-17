@@ -57,10 +57,21 @@ export const useStorageState = <T>(
   // Update state and persist to storage
   const updateState = useCallback(
     async (value: T) => {
+      // Optimistic update
+      const previousValue = state;
       setState(value);
-      await storageRepository.setItem(keyString, value);
+
+      try {
+        await storageRepository.setItem(keyString, value);
+      } catch (error) {
+        // Rollback on error
+        setState(previousValue);
+        if (__DEV__) {
+          console.warn('[useStorageState] Failed to persist state, rolling back:', error);
+        }
+      }
     },
-    [keyString]
+    [keyString, state]
   );
 
   return [state, updateState, isLoading];

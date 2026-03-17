@@ -12,6 +12,26 @@ import { useDesignSystemTheme } from '../globalThemeStore';
 import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 
+/**
+ * Shallow equality check for CustomThemeColors
+ * Compares all defined properties without deep object traversal
+ */
+function areCustomColorsEqual(a?: CustomThemeColors, b?: CustomThemeColors): boolean {
+  if (a === b) return true;
+  if (!a || !b) return false;
+
+  const keysA = Object.keys(a) as (keyof CustomThemeColors)[];
+  const keysB = Object.keys(b) as (keyof CustomThemeColors)[];
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (a[key] !== b[key]) return false;
+  }
+
+  return true;
+}
+
 interface ThemeState {
   theme: Theme;
   themeMode: ThemeMode;
@@ -118,8 +138,8 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
       const { _updateInProgress, customColors: currentColors } = get();
       if (_updateInProgress) return;
 
-      // Deep comparison to avoid redundant updates from new object references
-      if (JSON.stringify(colors) === JSON.stringify(currentColors)) return;
+      // Shallow comparison to avoid redundant updates from new object references
+      if (areCustomColorsEqual(colors, currentColors)) return;
 
       const updateId = Date.now();
       set({ _updateInProgress: true, _lastUpdateId: updateId, customColors: colors });

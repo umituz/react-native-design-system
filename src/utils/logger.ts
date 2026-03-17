@@ -100,8 +100,11 @@ class Logger {
    * Use for performance measurements
    */
   time(label: string): void {
-    if (this.isDev && (console as any).time) {
-      (console as any).time(label);
+    if (this.isDev) {
+      const consoleWithTime = console as { time?: (label: string) => void };
+      if (typeof consoleWithTime.time === 'function') {
+        consoleWithTime.time(label);
+      }
     }
   }
 
@@ -109,8 +112,11 @@ class Logger {
    * End time measurement - only in development
    */
   timeEnd(label: string): void {
-    if (this.isDev && (console as any).timeEnd) {
-      (console as any).timeEnd(label);
+    if (this.isDev) {
+      const consoleWithTimeEnd = console as { timeEnd?: (label: string) => void };
+      if (typeof consoleWithTimeEnd.timeEnd === 'function') {
+        consoleWithTimeEnd.timeEnd(label);
+      }
     }
   }
 

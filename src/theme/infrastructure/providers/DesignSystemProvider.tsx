@@ -9,6 +9,7 @@ import type { CustomThemeColors } from '../../core/CustomColors';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
 import { useIconStore } from '../../../atoms/icon/iconStore';
 import type { IconRenderer, IconNames } from '../../../atoms/icon/iconStore';
+import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
 
 // Lazy load SplashScreen to avoid circular dependency
 const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
@@ -82,7 +83,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
         if (!prev) onError?.(new Error('DesignSystemProvider initialization timed out'));
         return true;
       });
-    }, 5000);
+    }, FIVE_SECONDS_MS);
 
     initialize()
       .then(() => {

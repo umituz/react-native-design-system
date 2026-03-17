@@ -188,8 +188,6 @@ class DevMonitorClass {
   reset(): void {
     if (!this.isEnabled) return;
     this.detach();
-    this.stopStatsLogging();
-    this.clear();
     if (this.options.enableLogging) {
       DevMonitorLogger.logReset();
     }

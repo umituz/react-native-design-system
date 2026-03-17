@@ -53,7 +53,10 @@ export function getTextColor(
 
   const cacheKey = `${color}_${Object.keys(tokens.colors).length}_${tokens.colors.textPrimary}`;
 
-  if (colorCache.has(cacheKey)) return colorCache.get(cacheKey)!;
+  if (colorCache.has(cacheKey)) {
+    const cached = colorCache.get(cacheKey);
+    if (cached) return cached;
+  }
 
   const colorKey = COLOR_MAP[color as ColorVariant] ?? 'textPrimary';
   const resolvedColor = tokens.colors[colorKey];

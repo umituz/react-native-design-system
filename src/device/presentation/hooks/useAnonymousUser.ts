@@ -46,7 +46,6 @@ export const useAnonymousUser = (
 ): UseAnonymousUserResult => {
   const {
     anonymousDisplayName = 'Anonymous',
-    fallbackUserId = 'anonymous_fallback',
   } = options || {};
 
   const { data: anonymousUser, isLoading, error, execute } = useAsyncOperation<AnonymousUser, string>(
@@ -56,9 +55,14 @@ export const useAnonymousUser = (
         DeviceService.getUserFriendlyId(),
       ]);
 
+      // No fallback - if we can't get ID, let it error
+      if (!userId) {
+        throw new Error('Failed to generate device ID');
+      }
+
       return {
-        userId: userId || fallbackUserId,
-        deviceName: deviceName || 'Unknown Device',
+        userId,
+        deviceName: deviceName ?? 'Device',
         displayName: anonymousDisplayName,
         isAnonymous: true,
       };
@@ -66,16 +70,7 @@ export const useAnonymousUser = (
     {
       immediate: true,
       initialData: null,
-      errorHandler: () => 'Failed to generate device ID',
-      onError: () => {
-        // Fallback on error - set default anonymous user
-        return {
-          userId: fallbackUserId,
-          deviceName: 'Unknown Device',
-          displayName: anonymousDisplayName,
-          isAnonymous: true,
-        };
-      },
+      errorHandler: (err) => `Failed to generate device ID: ${err instanceof Error ? err.message : String(err)}`,
     }
   );
 

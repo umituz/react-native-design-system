@@ -1,4 +1,4 @@
-import { useNavigation, StackActions } from "@react-navigation/native";
+import { useNavigation, StackActions, CommonActions } from "@react-navigation/native";
 import type { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { useCallback, useMemo } from "react";
 
@@ -31,8 +31,13 @@ export function useAppNavigation(): AppNavigationResult {
 
   const navigate = useCallback(
     (screen: string, params?: Record<string, unknown>) => {
-      // Dynamic navigation: bypass ParamListBase constraint to allow arbitrary screen names
-      (navigation as any).navigate(screen, params);
+      // Dynamic navigation: use CommonActions for type-safe arbitrary screen navigation
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: screen,
+          params,
+        })
+      );
     },
     [navigation]
   );

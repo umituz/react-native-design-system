@@ -27,7 +27,13 @@ export const useCalendar = () => {
   const view = useCalendarView();
 
   // Utility functions - memoized to prevent recreating on every render
-  const getEventsForDate = useCallback((date: Date) => {
+  const getEventsForDate = useCallback((date: Date | null | undefined) => {
+    if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+      if (__DEV__) {
+        console.warn('[CalendarStore] getEventsForDate called with invalid date:', date);
+      }
+      return [];
+    }
     return events.events.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate.toDateString() === date.toDateString();
@@ -35,6 +41,13 @@ export const useCalendar = () => {
   }, [events.events]);
 
   const getEventsForMonth = useCallback((year: number, month: number) => {
+    if (typeof year !== 'number' || typeof month !== 'number' ||
+        isNaN(year) || isNaN(month) || month < 0 || month > 11) {
+      if (__DEV__) {
+        console.warn('[CalendarStore] getEventsForMonth called with invalid year/month:', { year, month });
+      }
+      return [];
+    }
     return events.events.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate.getFullYear() === year && eventDate.getMonth() === month;
