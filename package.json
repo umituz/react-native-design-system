@@ -152,6 +152,11 @@
       "react-native": "./src/utils/logger.ts",
       "default": "./src/utils/logger.ts"
     },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "react-native": "./src/hooks/index.ts",
+      "default": "./src/hooks/index.ts"
+    },
     "./variants": {
       "types": "./dist/presentation/utils/variants.d.ts",
       "react-native": "./src/presentation/utils/variants.ts",
