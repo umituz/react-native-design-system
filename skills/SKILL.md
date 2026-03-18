@@ -596,7 +596,178 @@ import { ImageManipulationUtils } from '@umituz/react-native-design-system/utils
 import { Typography } from '@umituz/react-native-design-system/typography';
 ```
 
-## Summary
+---
+
+## Offline Network Management
+
+### Overview
+
+The design system includes comprehensive offline/network connectivity management through `expo-network` and custom hooks.
+
+### Installation
+
+| Requirement | Description |
+|-------------|-------------|
+| Design System | `@umituz/react-native-design-system` - includes offline functionality |
+| Native Dependency | `expo-network` - required for native network detection |
+
+```bash
+npx expo install expo-network
+```
+
+### useOffline Hook
+
+Network state hook for detecting connectivity changes.
+
+#### Import
+
+```typescript
+import { useOffline } from '@umituz/react-native-design-system/hooks';
+```
+
+#### Return Values
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `isOnline` | `boolean` | Device has network connection |
+| `isOffline` | `boolean` | Device has no network connection |
+| `isConnected` | `boolean` | Alias for isOnline |
+| `isInternetReachable` | `boolean \| null` | Can reach internet servers |
+| `connectionType` | `string` | Network type (wifi, cellular, none, unknown) |
+| `lastOnlineAt` | `Date \| null` | When device was last online |
+| `connectionQuality` | `string` | Network quality assessment |
+
+#### Usage Example
+
+```typescript
+import { useOffline } from '@umituz/react-native-design-system/hooks';
+import { Alert } from 'react-native';
+
+export function DataScreen() {
+  const { isOnline, isOffline, connectionType } = useOffline();
+
+  useEffect(() => {
+    if (isOffline) {
+      Alert.alert('Offline', 'You are currently offline');
+    }
+  }, [isOffline]);
+
+  return (
+    <View>
+      <Text>Connection: {isOnline ? 'Online' : 'Offline'}</Text>
+      <Text>Type: {connectionType}</Text>
+    </View>
+  );
+}
+```
+
+### OfflineBanner Component
+
+Shows offline status banner when network is unavailable.
+
+#### Import
+
+```typescript
+import { OfflineBanner } from '@umituz/react-native-design-system/components/organisms';
+```
+
+#### Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `visible` | `boolean` | Yes | Show/hide banner |
+| `message` | `string` | No | Custom message (default: "No internet connection") |
+| `backgroundColor` | `string` | No | Custom background color |
+| `position` | `"top" \| "bottom"` | No | Banner position (default: "top") |
+
+#### Usage Example
+
+```typescript
+import { OfflineBanner } from '@umituz/react-native-design-system/components/organisms';
+import { useOffline } from '@umituz/react-native-design-system/hooks';
+
+export function AppNavigator() {
+  const { isOffline } = useOffline();
+
+  return (
+    <>
+      <OfflineBanner visible={isOffline} />
+      <Stack.Navigator>{/* screens */}</Stack.Navigator>
+    </>
+  );
+}
+```
+
+### Best Practices
+
+| Practice | Description |
+|----------|-------------|
+| **Check Before API Calls** | Use `isOnline` before network requests |
+| **Graceful Degradation** | Show offline UI when disconnected |
+| **Translations** | Store network messages in locale files |
+| **Background Listeners** | Use smart snapshot suspend strategy for Firestore queries when offline |
+
+### Complete Example: Offline-Aware Screen
+
+```typescript
+import React from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import { AtomicText } from '@umituz/react-native-design-system/components/atoms';
+import { useOffline } from '@umituz/react-native-design-system/hooks';
+import { OfflineBanner } from '@umituz/react-native-design-system/components/organisms';
+import { useTranslation } from 'react-i18next';
+
+export function FeedScreen() {
+  const { t } = useTranslation();
+  const { isOnline, isOffline } = useOffline();
+  const { data, isLoading, error } = useFetchData();
+
+  // Show offline banner when disconnected
+  if (isOffline) {
+    return (
+      <>
+        <OfflineBanner
+          visible={true}
+          message={t('offline.noConnection')}
+        />
+        {/* Show cached data */}
+        <CachedContent data={data} />
+      </>
+    );
+  }
+
+  // Online - show live data
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <AtomicText typography="body">Error: {error.message}</AtomicText>;
+  }
+
+  return <LiveContent data={data} />;
+}
+```
+
+### Troubleshooting
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| **"Cannot find native module 'ExpoNetwork'"** | Missing dependency | `npx expo install expo-network` |
+| **Network state not updating** | Not initialized | Check DesignSystemProvider wraps app |
+| **No permissions** | App lacks network permissions | Check iOS/Android network permissions |
+
+### Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Using custom network detection | Use `useOffline()` hook from design system |
+| Direct `NetInfo` imports | Use design system abstractions |
+| `Platform.OS` for network checks | Use cross-platform `useOffline()` hook |
+| Not showing offline UI | Add `OfflineBanner` component to navigation |
+| Making API calls when offline | Check `isOnline` before requests |
+
+---
 
 After setup, provide:
 
