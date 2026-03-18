@@ -3,7 +3,7 @@
  * Domain layer - Abstract repository for data operations
  *
  * Provides generic CRUD operations with TanStack Query integration.
- * Subclass this for specific entities to get type-safe data operations.
+ * Now uses common repository utilities from core/repositories.
  *
  * @example
  * ```typescript
@@ -47,6 +47,8 @@ import type {
 import { mergeRepositoryOptions, getCacheOptions } from './helpers/repositoryHelpers';
 import * as queryMethods from './mixins/repositoryQueryMethods';
 import * as invalidationMethods from './mixins/repositoryInvalidationMethods';
+// Import common utilities from core
+import { createRepositoryLogger } from '../../../core/repositories/domain/RepositoryUtils';
 
 /**
  * Base repository for CRUD operations
@@ -68,10 +70,16 @@ export abstract class BaseRepository<
    */
   public readonly keys: ReturnType<typeof createQueryKeyFactory>;
 
+  /**
+   * Debug logger for this repository
+   */
+  protected readonly log: (method: string, ...args: unknown[]) => void;
+
   constructor(resource: string, options: RepositoryOptions = {}) {
     this.resource = resource;
     this.options = mergeRepositoryOptions(options);
     this.keys = createQueryKeyFactory(this.resource);
+    this.log = createRepositoryLogger(resource, this.options.debug ?? __DEV__);
   }
 
   /**
@@ -117,6 +125,7 @@ export abstract class BaseRepository<
    * Query all items with caching
    */
   async queryAll(params?: ListParams): Promise<TData[]> {
+    this.log('queryAll', params);
     return queryMethods.queryAll(this, params);
   }
 
@@ -124,6 +133,7 @@ export abstract class BaseRepository<
    * Query item by ID with caching
    */
   async queryById(id: string | number): Promise<TData | undefined> {
+    this.log('queryById', id);
     return queryMethods.queryById(this, id);
   }
 
@@ -131,6 +141,7 @@ export abstract class BaseRepository<
    * Prefetch all items
    */
   async prefetchAll(params?: ListParams): Promise<void> {
+    this.log('prefetchAll', params);
     return queryMethods.prefetchAll(this, params);
   }
 
@@ -138,6 +149,7 @@ export abstract class BaseRepository<
    * Prefetch item by ID
    */
   async prefetchById(id: string | number): Promise<void> {
+    this.log('prefetchById', id);
     return queryMethods.prefetchById(this, id);
   }
 
@@ -145,6 +157,7 @@ export abstract class BaseRepository<
    * Invalidate all queries for this resource
    */
   invalidateAll(): Promise<void> {
+    this.log('invalidateAll');
     return invalidationMethods.invalidateAll(this);
   }
 
@@ -152,6 +165,7 @@ export abstract class BaseRepository<
    * Invalidate list queries
    */
   invalidateLists(): Promise<void> {
+    this.log('invalidateLists');
     return invalidationMethods.invalidateLists(this);
   }
 
@@ -159,6 +173,7 @@ export abstract class BaseRepository<
    * Invalidate detail query
    */
   invalidateDetail(id: string | number): Promise<void> {
+    this.log('invalidateDetail', id);
     return invalidationMethods.invalidateDetail(this, id);
   }
 
@@ -166,6 +181,7 @@ export abstract class BaseRepository<
    * Set query data (optimistic update)
    */
   setData(id: string | number, data: TData): void {
+    this.log('setData', id);
     invalidationMethods.setData(this, id, data);
   }
 
@@ -180,6 +196,7 @@ export abstract class BaseRepository<
    * Remove query data from cache
    */
   clearData(id: string | number): void {
+    this.log('clearData', id);
     invalidationMethods.clearData(this, id);
   }
 }

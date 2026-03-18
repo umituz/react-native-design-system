@@ -36,6 +36,7 @@
  *   /carousel     - Carousel components
  *   /init         - createAppInitializer, createEnvConfig
  *   /device       - DeviceService, useDeviceInfo
+ *   /core         - UnifiedCache, PermissionHandler, Repository utilities
  */
 
 if (__DEV__) {

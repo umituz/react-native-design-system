@@ -17,7 +17,10 @@ const getCryptoModule = (): typeof import('expo-crypto') | null => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     _cryptoModule = require('expo-crypto') as typeof import('expo-crypto');
     return _cryptoModule;
-  } catch {
+  } catch (error) {
+    if (__DEV__) {
+      console.warn('[UUIDUtils] expo-crypto not available, using Math.random fallback:', error);
+    }
     return null;
   }
 };

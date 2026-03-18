@@ -31,7 +31,10 @@ const getHapticsModule = (): typeof import('expo-haptics') | null => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     _hapticsModule = require('expo-haptics') as typeof import('expo-haptics');
     return _hapticsModule;
-  } catch {
+  } catch (error) {
+    if (__DEV__) {
+      console.warn('[HapticService] expo-haptics not available:', error);
+    }
     return null;
   }
 };

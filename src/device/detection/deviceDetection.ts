@@ -18,7 +18,10 @@ const getDeviceModule = (): typeof import('expo-device') | null => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     _deviceModule = require('expo-device') as typeof import('expo-device');
     return _deviceModule;
-  } catch {
+  } catch (error) {
+    if (__DEV__) {
+      console.warn('[deviceDetection] expo-device not available:', error);
+    }
     return null;
   }
 };
@@ -35,7 +38,10 @@ export const getScreenDimensions = () => {
   try {
     validateScreenDimensions(width, height);
     return { width, height };
-  } catch {
+  } catch (error) {
+    if (__DEV__) {
+      console.warn('[deviceDetection] Invalid screen dimensions, using fallback:', error);
+    }
     return { width: 414, height: 896 };
   }
 };

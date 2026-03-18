@@ -121,7 +121,10 @@ export const useMedia = () => {
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
         return await PermissionManager.requestCameraPermission();
-      } catch {
+      } catch (error) {
+        if (__DEV__) {
+          console.warn('[useMedia] Failed to request camera permission:', error);
+        }
         return MediaLibraryPermission.DENIED;
       }
     }, []);
@@ -130,7 +133,10 @@ export const useMedia = () => {
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
         return await PermissionManager.requestMediaLibraryPermission();
-      } catch {
+      } catch (error) {
+        if (__DEV__) {
+          console.warn('[useMedia] Failed to request media library permission:', error);
+        }
         return MediaLibraryPermission.DENIED;
       }
     }, []);
@@ -139,7 +145,10 @@ export const useMedia = () => {
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
         return await PermissionManager.getCameraPermissionStatus();
-      } catch {
+      } catch (error) {
+        if (__DEV__) {
+          console.warn('[useMedia] Failed to get camera permission status:', error);
+        }
         return MediaLibraryPermission.DENIED;
       }
     }, []);
@@ -148,7 +157,10 @@ export const useMedia = () => {
     useCallback(async (): Promise<MediaLibraryPermission> => {
       try {
         return await PermissionManager.getMediaLibraryPermissionStatus();
-      } catch {
+      } catch (error) {
+        if (__DEV__) {
+          console.warn('[useMedia] Failed to get media library permission status:', error);
+        }
         return MediaLibraryPermission.DENIED;
       }
     }, []);

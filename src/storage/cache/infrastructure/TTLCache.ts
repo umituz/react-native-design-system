@@ -48,6 +48,7 @@ export class TTLCache<T = unknown> extends Cache<T> {
       this.statsTracker.recordExpiration();
 
       if (__DEV__) {
+        console.log(`[TTLCache] Cleaned up ${cleanedCount} expired entries`);
       }
     }
   }
@@ -68,6 +69,7 @@ export class TTLCache<T = unknown> extends Cache<T> {
   override set(key: string, value: T, ttl?: number): void {
     if (this.isDestroyed) {
       if (__DEV__) {
+        console.warn('[TTLCache] Cannot set value on destroyed cache');
       }
       return;
     }
@@ -77,6 +79,7 @@ export class TTLCache<T = unknown> extends Cache<T> {
   override get(key: string): T | undefined {
     if (this.isDestroyed) {
       if (__DEV__) {
+        console.warn('[TTLCache] Cannot get value from destroyed cache');
       }
       return undefined;
     }

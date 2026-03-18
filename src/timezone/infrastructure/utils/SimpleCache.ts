@@ -1,65 +1,57 @@
 /**
- * SimpleCache
+ * SimpleCache (Backward Compatibility Wrapper)
  *
- * Lightweight in-memory cache for performance optimization
- * No external dependencies - pure TypeScript implementation
+ * @deprecated Use UnifiedCache from core/cache instead.
+ * This wrapper maintains backward compatibility while migrating to UnifiedCache.
+ *
+ * Lightweight in-memory cache for performance optimization.
+ * Now implemented using UnifiedCache with timeout-based cleanup strategy.
  */
 
+import { UnifiedCache } from '../../../core/cache/domain/UnifiedCache';
+import { TimeoutCleanupStrategy } from '../../../core/cache/domain/CleanupStrategy';
 import { ONE_MINUTE_MS } from '../../../utils/constants/TimeConstants';
 
-interface CacheEntry<T> {
-  value: T;
-  expires: number;
-}
-
+/**
+ * SimpleCache - Wrapper around UnifiedCache for backward compatibility
+ *
+ * @example
+ * ```ts
+ * // Old usage (still works):
+ * const cache = new SimpleCache<string>(60000);
+ *
+ * // New usage (recommended):
+ * import { CacheFactory } from '../../../core/cache';
+ * const cache = CacheFactory.createTimeoutCache(60000);
+ * ```
+ */
 export class SimpleCache<T> {
-  private cache = new Map<string, CacheEntry<T>>();
-  private defaultTTL: number;
-  private cleanupTimeout: ReturnType<typeof setTimeout> | null = null;
-  private destroyed = false;
-  private cleanupScheduleLock = false;
+  private cache: UnifiedCache<T>;
 
   constructor(defaultTTL: number = ONE_MINUTE_MS) {
-    this.defaultTTL = defaultTTL;
-    this.scheduleCleanup();
+    this.cache = new UnifiedCache<T>({
+      defaultTTL,
+      cleanupStrategy: new TimeoutCleanupStrategy(ONE_MINUTE_MS),
+    });
   }
 
   /**
    * Destroy the cache and stop cleanup timer
    */
   destroy(): void {
-    this.destroyed = true;
-    this.cleanupScheduleLock = false;
-    if (this.cleanupTimeout) {
-      clearTimeout(this.cleanupTimeout);
-      this.cleanupTimeout = null;
-    }
-    this.cache.clear();
+    this.cache.destroy();
   }
 
   set(key: string, value: T, ttl?: number): void {
-    if (this.destroyed) return;
-    const expires = Date.now() + (ttl ?? this.defaultTTL);
-    this.cache.set(key, { value, expires });
+    this.cache.set(key, value, ttl);
   }
 
   get(key: string): T | undefined {
-    const entry = this.cache.get(key);
-
-    if (!entry) {
-      return undefined;
-    }
-
-    if (Date.now() > entry.expires) {
-      this.cache.delete(key);
-      return undefined;
-    }
-
-    return entry.value;
+    return this.cache.get(key);
   }
 
   has(key: string): boolean {
-    return this.get(key) !== undefined;
+    return this.cache.has(key);
   }
 
   clear(): void {
@@ -68,42 +60,5 @@ export class SimpleCache<T> {
 
   delete(key: string): void {
     this.cache.delete(key);
-  }
-
-  private cleanup(): void {
-    const now = Date.now();
-    for (const [key, entry] of this.cache.entries()) {
-      if (now > entry.expires) {
-        this.cache.delete(key);
-      }
-    }
-  }
-
-  private scheduleCleanup(): void {
-    if (this.destroyed || this.cleanupScheduleLock) return;
-
-    this.cleanupScheduleLock = true;
-
-    try {
-      if (this.cleanupTimeout) {
-        clearTimeout(this.cleanupTimeout);
-      }
-
-      this.cleanup();
-
-      if (!this.destroyed) {
-        this.cleanupTimeout = setTimeout(() => {
-          if (!this.destroyed) {
-            this.cleanupScheduleLock = false;
-            this.scheduleCleanup();
-          }
-        }, ONE_MINUTE_MS);
-      } else {
-        this.cleanupScheduleLock = false;
-      }
-    } catch (error) {
-      this.cleanupScheduleLock = false;
-      throw error;
-    }
   }
 }
