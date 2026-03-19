@@ -7,6 +7,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { StoreApi } from 'zustand';
 import type { StoreConfig } from '../types/Store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Create a Zustand store with optional persistence and actions
@@ -36,7 +37,7 @@ export function createStore<
       name: config.name,
       storage: config.storage
         ? createJSONStorage(() => config.storage!)
-        : createJSONStorage(() => require('@react-native-async-storage/async-storage').default),
+        : createJSONStorage(() => AsyncStorage),
       version: config.version || 1,
       partialize: (config.partialize
         ? (state: Store) => config.partialize!(state)

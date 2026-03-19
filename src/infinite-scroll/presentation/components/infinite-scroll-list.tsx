@@ -78,6 +78,12 @@ function InfiniteScrollListComponent<T>({
     [config],
   );
 
+  // Memoize renderItem wrapper to prevent unnecessary re-renders
+  const memoizedRenderItem = useCallback(
+    ({ item, index }: { item: T; index: number }) => renderItem(item, index),
+    [renderItem]
+  );
+
   // Loading state
   if (state.isLoading) {
     return loadingComponent || <Loading />;
@@ -92,12 +98,6 @@ function InfiniteScrollListComponent<T>({
   if (items.length === 0 && !state.isLoading) {
     return emptyComponent || <Empty />;
   }
-
-  // Memoize renderItem wrapper to prevent unnecessary re-renders
-  const memoizedRenderItem = useCallback(
-    ({ item, index }: { item: T; index: number }) => renderItem(item, index),
-    [renderItem]
-  );
 
   // Render list
   return (
