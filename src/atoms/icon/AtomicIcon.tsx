@@ -127,8 +127,10 @@ export const AtomicIcon: React.FC<AtomicIconProps> = React.memo(
     // No icon renderer provided - warn in dev and render nothing
     if (!iconRenderer) {
       if (__DEV__) {
-        console.warn(
-          '[DesignSystem] AtomicIcon requires an iconRenderer in DesignSystemProvider.\n' +
+        console.error(
+          '[DesignSystem] ❌ AtomicIcon: No iconRenderer configured!\n' +
+            `Attempted to render icon: "${name}"\n` +
+            'Fix: Provide iconRenderer to DesignSystemProvider.\n' +
             'Example:\n' +
             '<DesignSystemProvider\n' +
             '  iconRenderer={({ name, size, color }) => (\n' +

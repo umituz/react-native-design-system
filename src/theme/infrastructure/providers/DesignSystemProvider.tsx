@@ -61,8 +61,18 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   if (iconRenderer && iconNames) {
     const store = useIconStore.getState();
     if (!store.isConfigured) {
+      if (__DEV__) {
+        console.log('[DesignSystemProvider] ✅ Registering iconRenderer and iconNames');
+      }
       useIconStore.getState().setConfig(iconNames, iconRenderer);
+    } else if (__DEV__) {
+      console.log('[DesignSystemProvider] ℹ️ Icon config already configured, skipping');
     }
+  } else if (__DEV__) {
+    console.warn('[DesignSystemProvider] ❌ iconRenderer or iconNames missing!', {
+      hasIconRenderer: !!iconRenderer,
+      hasIconNames: !!iconNames,
+    });
   }
 
   useEffect(() => {
