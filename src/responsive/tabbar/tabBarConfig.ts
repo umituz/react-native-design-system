@@ -16,6 +16,8 @@ const TAB_BAR_CONSTANTS = {
   FAB_SIZE_TABLET: 72,
   FAB_OFFSET_Y_PHONE: -24,
   FAB_OFFSET_Y_TABLET: -28,
+  // iPad Home Indicator padding (iPadOS 15+)
+  HOME_INDICATOR_PADDING: 6,
 } as const;
 
 export interface ResponsiveTabBarConfig {
@@ -39,7 +41,9 @@ export const getResponsiveTabBarHeight = (
       ? TAB_BAR_CONSTANTS.BASE_HEIGHT_TABLET
       : TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE;
 
-    const bottomPadding = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM);
+    // iPad: Add extra padding for home indicator (iPadOS 15+)
+    const extraPadding = isTabletDevice ? TAB_BAR_CONSTANTS.HOME_INDICATOR_PADDING : 0;
+    const bottomPadding = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM) + extraPadding;
 
     return baseHeight + bottomPadding;
   } catch {
@@ -59,7 +63,9 @@ export const getResponsiveTabBarConfig = (
       ? TAB_BAR_CONSTANTS.BASE_HEIGHT_TABLET
       : TAB_BAR_CONSTANTS.BASE_HEIGHT_PHONE;
 
-    const paddingBottom = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM);
+    // iPad: Add extra padding for home indicator (iPadOS 15+)
+    const extraPadding = isTabletSize ? TAB_BAR_CONSTANTS.HOME_INDICATOR_PADDING : 0;
+    const paddingBottom = Math.max(bottom, TAB_BAR_CONSTANTS.MIN_PADDING_BOTTOM) + extraPadding;
 
     return {
       height: baseHeight + paddingBottom,

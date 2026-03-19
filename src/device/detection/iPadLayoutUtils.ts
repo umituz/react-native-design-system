@@ -56,10 +56,14 @@ export function getIPadScreenPadding(): number {
 
 /**
  * Get font scale for iPad
+ * Optimized for readability - Apple HIG recommends slightly larger fonts on iPad
+ * but not too large to avoid crowding
  */
 export function getIPadFontScale(): number {
-    if (isIPadPro()) return 1.15;
-    if (isIPad()) return IPAD_LAYOUT_CONFIG.FONT_SCALE;
+    // iPad Pro: Slightly larger fonts for larger screen
+    if (isIPadPro()) return 1.08;
+    // Standard iPad: Minimal scale to avoid crowding
+    if (isIPad()) return 1.03;
     return 1.0;
 }
 

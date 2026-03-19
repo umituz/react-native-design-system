@@ -65,7 +65,7 @@ export const SIZE_CONSTRAINTS = {
   ICON_MAX_TABLET: 180,          // Maximum icon container for tablets
 
   // Content width constraints
-  CONTENT_MAX_TABLET: 600,       // Maximum content width for tablets
+  CONTENT_MAX_TABLET: 672,       // Maximum content width for tablets (Apple HIG readable width)
 
   // Modal height constraints
   MODAL_MIN_SMALL: 250,         // Minimum modal height for small devices
