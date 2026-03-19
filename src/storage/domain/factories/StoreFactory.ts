@@ -34,7 +34,9 @@ export function createStore<
   return create<Store>()(
     persist<Store>(stateCreator, {
       name: config.name,
-      storage: config.storage ? createJSONStorage(() => config.storage!) : undefined,
+      storage: config.storage
+        ? createJSONStorage(() => config.storage!)
+        : createJSONStorage(() => require('@react-native-async-storage/async-storage').default),
       version: config.version || 1,
       partialize: (config.partialize
         ? (state: Store) => config.partialize!(state)
