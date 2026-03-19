@@ -4,7 +4,7 @@
  * Uses expo-image when available, falls back to React Native Image.
  */
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { View, Image as RNImage, StyleSheet, type ImageURISource, type ImageStyle } from "react-native";
 import { useSafeAreaInsets } from "../../../safe-area/hooks/useSafeAreaInsets";
 import {
@@ -59,7 +59,7 @@ const LAYOUT_GENERATORS: Record<CollageLayout, LayoutGenerator> = {
   honeycomb: generateHoneycombLayout,
 };
 
-export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = ({
+export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = React.memo(({
   images,
   layout = "grid",
   columns,
@@ -75,30 +75,39 @@ export const BackgroundImageCollage: React.FC<BackgroundImageCollageProps> = ({
     return generator(images, { columns, gap, borderRadius, safeAreaInsets: insets });
   }, [images, layout, columns, gap, borderRadius, insets]);
 
+  // Stable key extractor - must be before early return
+  const keyExtractor = useCallback((item: ImageLayoutItem) => {
+    return typeof item.source === 'string' ? item.source : String(item.source);
+  }, []);
+
   if (imageLayouts.length === 0) return null;
+
+  // Memoized image component to prevent unnecessary re-renders
+  const CollageImage = React.memo<{ item: ImageLayoutItem }>(({ item }) => {
+    if (ExpoImage) {
+      return (
+        <ExpoImage
+          source={item.source}
+          style={item.style}
+          contentFit="cover"
+        />
+      );
+    }
+    return (
+      <RNImage
+        source={item.source as ImageURISource | number}
+        style={item.style as ImageStyle}
+        resizeMode="cover"
+      />
+    );
+  });
+  CollageImage.displayName = 'CollageImage';
 
   return (
     <View style={[StyleSheet.absoluteFill, { opacity }]} pointerEvents="none">
-      {imageLayouts.map((item) => {
-        if (ExpoImage) {
-          return (
-            <ExpoImage
-              key={String(item.source)}
-              source={item.source}
-              style={item.style}
-              contentFit="cover"
-            />
-          );
-        }
-        return (
-          <RNImage
-            key={String(item.source)}
-            source={item.source as ImageURISource | number}
-            style={item.style as ImageStyle}
-            resizeMode="cover"
-          />
-        );
-      })}
+      {imageLayouts.map((item) => (
+        <CollageImage key={keyExtractor(item)} item={item} />
+      ))}
     </View>
   );
-};
+});

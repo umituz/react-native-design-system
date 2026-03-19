@@ -5,7 +5,7 @@
  * Extracted from AtomicPicker for better separation of concerns.
  */
 
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { View, TouchableOpacity, GestureResponderEvent } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { PickerOption } from '../types';
@@ -30,30 +30,36 @@ export const PickerChips: React.FC<PickerChipsProps> = React.memo(({
   const tokens = useAppDesignTokens();
   const closeIcon = useIconName('close');
 
-  const chipContainerStyles = getChipContainerStyles(tokens);
-  const chipStyles = getChipStyles(tokens);
-  const chipTextStyles = getChipTextStyles(tokens);
+  // Memoize styles to prevent recalculation
+  const chipContainerStyles = useMemo(() => getChipContainerStyles(tokens), [tokens]);
+  const chipStyles = useMemo(() => getChipStyles(tokens), [tokens]);
+  const chipTextStyles = useMemo(() => getChipTextStyles(tokens), [tokens]);
 
-  if (selectedOptions.length === 0) return null;
+  // Memoized chip renderer - handleRemove created inline to avoid useCallback inside callback
+  const renderChip = useCallback((opt: PickerOption) => {
+    const handleRemove = (e: GestureResponderEvent) => {
+      e.stopPropagation();
+      onRemoveChip(opt.value);
+    };
+
+    return (
+      <View key={opt.value} style={chipStyles}>
+        <AtomicText style={chipTextStyles}>{opt.label}</AtomicText>
+        <TouchableOpacity
+          onPress={handleRemove}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          accessibilityRole="button"
+          accessibilityLabel={`Remove ${opt.label}`}
+        >
+          <AtomicIcon name={closeIcon} size="sm" color="primary" />
+        </TouchableOpacity>
+      </View>
+    );
+  }, [chipStyles, chipTextStyles, closeIcon, onRemoveChip]);
 
   return (
     <View style={chipContainerStyles}>
-      {selectedOptions.map((opt) => (
-        <View key={opt.value} style={chipStyles}>
-          <AtomicText style={chipTextStyles}>{opt.label}</AtomicText>
-          <TouchableOpacity
-            onPress={(e: GestureResponderEvent) => {
-              e.stopPropagation();
-              onRemoveChip(opt.value);
-            }}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            accessibilityRole="button"
-            accessibilityLabel={`Remove ${opt.label}`}
-          >
-            <AtomicIcon name={closeIcon} size="sm" color="primary" />
-          </TouchableOpacity>
-        </View>
-      ))}
+      {selectedOptions.map(renderChip)}
     </View>
   );
 });

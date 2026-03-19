@@ -14,6 +14,7 @@ import {
   type LayoutChangeEvent,
   type StyleProp,
   type ViewStyle,
+  FlatList,
 } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon } from '../../atoms';
@@ -53,6 +54,8 @@ const GridItem = React.memo<{
   borderLight: string;
   textPrimary: string;
 }>(({ item, itemWidth, cardBackground, borderLight, textPrimary }) => {
+  const { onPress: handlePress } = item;
+
   const cardStyle = useMemo(
     () => [styles.card, { width: itemWidth }],
     [itemWidth]
@@ -74,7 +77,7 @@ const GridItem = React.memo<{
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={item.onPress}
+      onPress={handlePress}
       style={cardStyle}
     >
       <View style={iconBoxStyle}>
@@ -133,28 +136,57 @@ export const IconGrid = React.memo<IconGridProps>(({
     [gap, rowGap, style]
   );
 
-  const placeholderStyle = useMemo(
-    () => ({ width: 0, height: 0 }),
-    []
-  );
+  // Memoize color props to prevent unnecessary GridItem re-renders
+  const colorProps = useMemo(() => ({
+    cardBackground,
+    borderLight,
+    textPrimary,
+  }), [cardBackground, borderLight, textPrimary]);
+
+  // Stable renderItem with memoization
+  const renderItem = useCallback(({ item }: { item: IconGridItem }) => {
+    if (itemWidth === 0) {
+      return <View key={item.id} style={{ width: 0, height: 0 }} />;
+    }
+
+    return (
+      <GridItem
+        item={item}
+        itemWidth={itemWidth}
+        {...colorProps}
+      />
+    );
+  }, [itemWidth, colorProps]);
+
+  const keyExtractor = useCallback((item: IconGridItem) => item.id, []);
+
+  const getItemLayout = useCallback((_?: unknown, index?: number) => ({
+    length: itemWidth,
+    offset: itemWidth * (index || 0),
+    index: index || 0,
+  }), [itemWidth]);
+
+  if (itemWidth === 0) {
+    return (
+      <View style={gridStyle} onLayout={handleLayout}>
+        {items.map((item) => (
+          <View key={item.id} style={{ width: 0, height: 0 }} />
+        ))}
+      </View>
+    );
+  }
 
   return (
     <View style={gridStyle} onLayout={handleLayout}>
-      {items.map((item) =>
-        itemWidth > 0 ? (
-          <GridItem
-            key={item.id}
-            item={item}
-            itemWidth={itemWidth}
-            cardBackground={cardBackground}
-            borderLight={borderLight}
-            textPrimary={textPrimary}
-          />
-        ) : (
-          // Placeholder — keeps grid stable before first layout measurement
-          <View key={item.id} style={placeholderStyle} />
-        ),
-      )}
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        getItemLayout={getItemLayout}
+        numColumns={columns}
+        scrollEnabled={false}
+        contentContainerStyle={gridStyle}
+      />
     </View>
   );
 });

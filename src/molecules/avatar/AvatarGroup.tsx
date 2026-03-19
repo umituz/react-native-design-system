@@ -5,7 +5,7 @@
  * Shows overflow count when exceeding max visible avatars.
  */
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText } from '../../atoms';
@@ -40,7 +40,96 @@ export interface AvatarGroupProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const AvatarGroup: React.FC<AvatarGroupProps> = ({
+// Memoized individual avatar item
+const AvatarItem = React.memo<{
+  item: AvatarGroupItem;
+  index: number;
+  size: AvatarSize;
+  shape: AvatarShape;
+  spacing: number;
+  avatarStyle: any;
+}>(({ item, index, size, shape, spacing, avatarStyle }) => {
+  const wrapperStyle = useMemo(
+    () => [
+      styles.avatarWrapper,
+      index > 0 && { marginLeft: spacing },
+    ],
+    [index, spacing]
+  );
+
+  return (
+    <View style={wrapperStyle}>
+      <Avatar
+        uri={item.uri}
+        name={item.name}
+        icon={item.icon}
+        size={size}
+        shape={shape}
+        style={avatarStyle}
+      />
+    </View>
+  );
+});
+
+// Memoized overflow badge
+const OverflowBadge = React.memo<{
+  count: number;
+  spacing: number;
+  config: any;
+  shape: AvatarShape;
+  surfaceSecondary: string;
+  onBackground: string;
+  textSecondary: string;
+}>(({ count, spacing, config, shape, surfaceSecondary, onBackground, textSecondary }) => {
+  const wrapperStyle = useMemo(
+    () => [
+      styles.avatarWrapper,
+      { marginLeft: spacing },
+    ],
+    [spacing]
+  );
+
+  const badgeStyle = useMemo(
+    () => [
+      styles.overflow,
+      {
+        width: config.size,
+        height: config.size,
+        borderRadius: shape === 'circle' ? config.size / 2 : shape === 'rounded' ? 8 : 0,
+        backgroundColor: surfaceSecondary,
+        borderWidth: 2,
+        borderColor: onBackground,
+      },
+    ],
+    [config.size, shape, surfaceSecondary, onBackground]
+  );
+
+  const textStyle = useMemo(
+    () => [
+      styles.overflowText,
+      {
+        fontSize: config.fontSize,
+        color: textSecondary,
+      },
+    ],
+    [config.fontSize, textSecondary]
+  );
+
+  return (
+    <View style={wrapperStyle}>
+      <View style={badgeStyle}>
+        <AtomicText
+          type="bodySmall"
+          style={textStyle}
+        >
+          +{count}
+        </AtomicText>
+      </View>
+    </View>
+  );
+});
+
+export const AvatarGroup: React.FC<AvatarGroupProps> = React.memo(({
   items,
   maxVisible = AVATAR_CONSTANTS.MAX_GROUP_VISIBLE,
   size = AVATAR_CONSTANTS.DEFAULT_SIZE,
@@ -51,76 +140,62 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const tokens = useAppDesignTokens();
   const config = SIZE_CONFIGS[size];
 
-  // Calculate visible avatars and overflow count
-  const visibleItems = items.slice(0, maxVisible);
-  const overflowCount = items.length - maxVisible;
-  const hasOverflow = overflowCount > 0;
+  // Memoize calculations to prevent recalculation on every render
+  const { visibleItems, overflowCount, hasOverflow } = useMemo(() => {
+    const visItems = items.slice(0, maxVisible);
+    const overflow = items.length - maxVisible;
+    return {
+      visibleItems: visItems,
+      overflowCount: overflow,
+      hasOverflow: overflow > 0,
+    };
+  }, [items, maxVisible]);
+
+  // Memoize avatar style
+  const avatarStyle = useMemo(
+    () => [
+      styles.avatar,
+      {
+        borderWidth: 2,
+        borderColor: tokens.colors.onBackground,
+      },
+    ],
+    [tokens.colors.onBackground]
+  );
+
+  // Stable key extractor
+  const keyExtractor = useCallback((item: AvatarGroupItem, index: number) => {
+    return item.uri || item.name || item.icon || `avatar-${index}`;
+  }, []);
 
   return (
     <View style={[styles.container, style]}>
       {visibleItems.map((item, index) => (
-        <View
-          key={item.uri || item.name || item.icon || `avatar-${index}`}
-          style={[
-            styles.avatarWrapper,
-            index > 0 && { marginLeft: spacing },
-          ]}
-        >
-          <Avatar
-            uri={item.uri}
-            name={item.name}
-            icon={item.icon}
-            size={size}
-            shape={shape}
-            style={[
-              styles.avatar,
-              {
-                borderWidth: 2,
-                borderColor: tokens.colors.onBackground,
-              },
-            ]}
-          />
-        </View>
+        <AvatarItem
+          key={keyExtractor(item, index)}
+          item={item}
+          index={index}
+          size={size}
+          shape={shape}
+          spacing={spacing}
+          avatarStyle={avatarStyle}
+        />
       ))}
 
       {hasOverflow && (
-        <View
-          style={[
-            styles.avatarWrapper,
-            { marginLeft: spacing },
-          ]}
-        >
-          <View
-            style={[
-              styles.overflow,
-              {
-                width: config.size,
-                height: config.size,
-                borderRadius: shape === 'circle' ? config.size / 2 : shape === 'rounded' ? 8 : 0,
-                backgroundColor: tokens.colors.surfaceSecondary,
-                borderWidth: 2,
-                borderColor: tokens.colors.onBackground,
-              },
-            ]}
-          >
-            <AtomicText
-              type="bodySmall"
-              style={[
-                styles.overflowText,
-                {
-                  fontSize: config.fontSize,
-                  color: tokens.colors.textSecondary,
-                },
-              ]}
-            >
-              +{overflowCount}
-            </AtomicText>
-          </View>
-        </View>
+        <OverflowBadge
+          count={overflowCount}
+          spacing={spacing}
+          config={config}
+          shape={shape}
+          surfaceSecondary={tokens.colors.surfaceSecondary}
+          onBackground={tokens.colors.onBackground}
+          textSecondary={tokens.colors.textSecondary}
+        />
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

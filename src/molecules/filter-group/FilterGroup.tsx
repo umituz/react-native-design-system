@@ -1,11 +1,11 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { AtomicChip } from '../../atoms/chip/AtomicChip';
 import { useAppDesignTokens } from '../../theme';
 import type { FilterGroupProps } from './types';
 
-export function FilterGroup<T = string>({
+export const FilterGroup = React.memo(function FilterGroup<T = string>({
   items,
   selectedValue,
   onSelect,
@@ -29,6 +29,33 @@ export function FilterGroup<T = string>({
     },
   }), [tokens.spacing.md]);
 
+  // Memoize selected items to prevent unnecessary re-renders
+  const selectedSet = useMemo(() => {
+    if (multiSelect && Array.isArray(selectedValue)) {
+      return new Set(selectedValue);
+    }
+    return new Set(selectedValue !== undefined ? [selectedValue] : []);
+  }, [selectedValue, multiSelect]);
+
+  // Memoize isSelected calculation for each item
+  const isSelected = useCallback((value: any) => selectedSet.has(value), [selectedSet]);
+
+  // Memoized chip renderer
+  const renderChip = useCallback((item: any) => (
+    <AtomicChip
+      key={String(item.value)}
+      variant={isSelected(item.value) ? 'filled' : 'outlined'}
+      color={isSelected(item.value) ? 'primary' : 'secondary'}
+      selected={isSelected(item.value)}
+      onPress={() => onSelect(item.value)}
+      clickable
+      style={[styles.item, itemStyle]}
+      testID={item.testID}
+    >
+      {item.label}
+    </AtomicChip>
+  ), [isSelected, onSelect, styles.item, itemStyle]);
+
   return (
     <ScrollView
       horizontal
@@ -37,25 +64,7 @@ export function FilterGroup<T = string>({
       style={[styles.container, style]}
       contentContainerStyle={[styles.content, contentContainerStyle]}
     >
-      {items.map((item) => {
-        const isSelected = multiSelect
-          ? Array.isArray(selectedValue) && selectedValue.includes(item.value)
-          : item.value === selectedValue;
-        return (
-          <AtomicChip
-            key={`${item.value}`}
-            variant={isSelected ? 'filled' : 'outlined'}
-            color={isSelected ? 'primary' : 'secondary'}
-            selected={isSelected}
-            onPress={() => onSelect(item.value)}
-            clickable
-            style={[styles.item, itemStyle]}
-            testID={item.testID}
-          >
-            {item.label}
-          </AtomicChip>
-        );
-      })}
+      {items.map(renderChip)}
     </ScrollView>
   );
-}
+});

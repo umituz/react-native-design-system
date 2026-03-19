@@ -20,6 +20,29 @@ try {
   // expo-image not installed — using React Native Image fallback
 }
 
+// Memoized image component (outside main component to avoid dependency issues)
+const GalleryImage = React.memo<{ item: ImageViewerItem; style: any }>(({ item, style }) => (
+  <View style={style.imageWrapper}>
+    {ExpoImage ? (
+      <ExpoImage
+        source={{ uri: item.uri }}
+        style={style.fullImage}
+        contentFit="contain"
+        cachePolicy="memory-disk"
+        onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
+      />
+    ) : (
+      <RNImage
+        source={{ uri: item.uri }}
+        style={style.fullImage}
+        resizeMode="contain"
+        onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
+      />
+    )}
+  </View>
+));
+GalleryImage.displayName = 'GalleryImage';
+
 export interface ImageGalleryProps extends ImageGalleryOptions {
   images: ImageViewerItem[];
   visible: boolean;
@@ -44,7 +67,6 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   const insets = useSafeAreaInsets();
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
   const currentIndexRef = useRef(index);
-  const [, forceRender] = React.useReducer((x: number) => x + 1, 0);
 
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1 },
@@ -81,30 +103,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     if (nextIndex !== currentIndexRef.current) {
       currentIndexRef.current = nextIndex;
       onIndexChange?.(nextIndex);
-      forceRender();
     }
   }, [onIndexChange, SCREEN_WIDTH, images.length]);
 
   const renderItem = useCallback(({ item }: { item: ImageViewerItem }) => (
-    <View style={styles.imageWrapper}>
-      {ExpoImage ? (
-        <ExpoImage
-          source={{ uri: item.uri }}
-          style={styles.fullImage}
-          contentFit="contain"
-          cachePolicy="memory-disk"
-          onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
-        />
-      ) : (
-        <RNImage
-          source={{ uri: item.uri }}
-          style={styles.fullImage}
-          resizeMode="contain"
-          onError={() => { if (__DEV__) console.warn('[ImageGallery] Failed to load image:', item.uri); }}
-        />
-      )}
-    </View>
-  ), [styles]);
+    <GalleryImage item={item} style={{ imageWrapper: styles.imageWrapper, fullImage: styles.fullImage }} />
+  ), [styles.imageWrapper, styles.fullImage]);
 
   const getItemLayout = useCallback((_: unknown, i: number) => ({
     length: SCREEN_WIDTH,
