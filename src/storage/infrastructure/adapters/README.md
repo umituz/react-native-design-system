@@ -137,7 +137,6 @@ Storage adapter implementations for Zustand persist middleware. Located at `src/
 - MUST migrate data on read
 - MUST clean up old data after migration
 - MUST handle migration failures
-- MUST be backward compatible
 
 ### Error Handling
 - MUST catch all exceptions in adapter methods

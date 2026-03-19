@@ -6,10 +6,12 @@
  */
 
 // Cache
-export { UnifiedCache, CacheFactory } from './cache/domain/UnifiedCache';
-export { CleanupStrategy, IntervalCleanupStrategy, TimeoutCleanupStrategy } from './cache/domain/CleanupStrategy';
+export { UnifiedCache } from './cache/domain/UnifiedCache';
+export { CacheFactory } from './cache/infrastructure/CacheFactory';
+export type { CleanupStrategy } from './cache/domain/CleanupStrategy';
+export { IntervalCleanupStrategy, TimeoutCleanupStrategy } from './cache/domain/CleanupStrategy';
 export type { UnifiedCacheConfig } from './cache/domain/UnifiedCache';
-export type { CacheEntry, CacheConfig } from './cache/domain/types';
+export type { CacheEntry, CacheConfig, CleanupType } from './cache/domain/types';
 
 // Permissions
 export { PermissionHandler } from './permissions/domain/PermissionHandler';

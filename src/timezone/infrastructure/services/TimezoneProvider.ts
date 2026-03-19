@@ -1,12 +1,12 @@
 import { TimezoneInfo } from '../../domain/entities/Timezone';
-import { SimpleCache } from '../utils/SimpleCache';
+import { UnifiedCache } from '../../../core/cache/domain/UnifiedCache';
 
 /**
  * TimezoneProvider
  * Responsible for discovering device timezone and providing available timezones
  */
 export class TimezoneProvider {
-    private cache = new SimpleCache<TimezoneInfo[]>(300000); // 5 min cache
+    private cache = new UnifiedCache<TimezoneInfo[]>({ defaultTTL: 300000 }); // 5 min cache
     /**
      * Get current device timezone using Intl API
      */

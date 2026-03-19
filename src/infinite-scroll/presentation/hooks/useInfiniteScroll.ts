@@ -67,33 +67,6 @@ export function useInfiniteScroll<T>(
     abortControllerRef.current = new AbortController();
   }, []);
 
-  const loadInitial = useCallback(async () => {
-    if (isLoadingRef.current) return;
-    isLoadingRef.current = true;
-    cancelPendingRequests();
-
-    if (isMountedRef.current) setState((prev) => ({ ...prev, isLoading: true, error: null }));
-
-    try {
-      const newState = await retryWithBackoff(
-        () => loadData(config, initialPage, pageSize, totalItems),
-        maxRetries,
-        retryDelay,
-      );
-
-      if (isMountedRef.current) {
-        setState(newState);
-      }
-    } catch (error) {
-      if (isMountedRef.current) {
-        const errorMessage = error instanceof Error ? error.message : "Failed to load data";
-        setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
-      }
-    } finally {
-      isLoadingRef.current = false;
-    }
-  }, [config, initialPage, pageSize, totalItems, maxRetries, retryDelay, cancelPendingRequests]);
-
   const loadMore = useCallback(async () => {
     // Get fresh state from ref to avoid stale closure
     const currentState = stateRef.current;
@@ -165,8 +138,38 @@ export function useInfiniteScroll<T>(
   }, [initialPage, totalItems, cancelPendingRequests]);
 
   useEffect(() => {
-    if (autoLoad) loadInitial();
-  }, [autoLoad, loadInitial]);
+    if (autoLoad) {
+      const initialize = async () => {
+        if (isLoadingRef.current) return;
+
+        isLoadingRef.current = true;
+        cancelPendingRequests();
+
+        if (isMountedRef.current) setState((prev) => ({ ...prev, isLoading: true, error: null }));
+
+        try {
+          const newState = await retryWithBackoff(
+            () => loadData(config, initialPage, pageSize, totalItems),
+            maxRetries,
+            retryDelay,
+          );
+
+          if (isMountedRef.current) {
+            setState(newState);
+          }
+        } catch (error) {
+          if (isMountedRef.current) {
+            const errorMessage = error instanceof Error ? error.message : "Failed to load data";
+            setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
+          }
+        } finally {
+          isLoadingRef.current = false;
+        }
+      };
+      initialize();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoLoad]);
 
   const canLoadMore = state.hasMore && !state.isLoadingMore && !state.isLoading;
 

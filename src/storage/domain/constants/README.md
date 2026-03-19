@@ -84,7 +84,6 @@ Constant values for time-based calculations and default configuration. Located a
 - MUST increment CACHE_VERSION on schema changes
 - MUST implement migration for old versions
 - MUST document breaking changes
-- MUST support backward compatibility where possible
 
 ### Export Rules
 - MUST export all constants

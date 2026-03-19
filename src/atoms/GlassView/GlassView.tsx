@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet, ViewStyle, StyleProp, View } from 'react-native';
-// Remove expo-blur import to fix native module error
-// import { BlurView, BlurTint } from 'expo-blur';
 import { useDesignSystemTheme } from '../../theme';
 import { intensityToOpacity } from '../../utils/math';
 

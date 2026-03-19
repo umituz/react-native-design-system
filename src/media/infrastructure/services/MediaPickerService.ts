@@ -16,9 +16,8 @@ import type {
 import {
   MediaType,
   MediaValidationError,
-  MEDIA_CONSTANTS,
 } from '../../domain/entities/Media';
-import { mapPickerResult } from '../utils/mediaPickerMappers';
+import { mapPickerResultFromStrategy } from '../utils/mediaPickerMappers';
 import { PermissionManager } from '../utils/PermissionManager';
 import { FileValidator } from '../../domain/utils/FileValidator';
 import { ErrorHandler } from '../../../utils/errors';
@@ -62,8 +61,8 @@ export class MediaPickerService {
     }
 
     try {
-      const result = await strategy.launch(options ?? {});
-      return mapPickerResult(result);
+      const pickerResult = await strategy.launch(options ?? {});
+      return mapPickerResultFromStrategy(pickerResult);
     } catch (error) {
       ErrorHandler.handleAndLog(error, 'launchMediaPicker', {
         strategy: strategy.name,
@@ -177,15 +176,5 @@ export class MediaPickerService {
       ...options,
       mediaTypes: MediaType.ALL,
     });
-  }
-
-  /**
-   * Legacy method for backward compatibility
-   * @deprecated Use pickSingleImage instead
-   */
-  static async pickImage(
-    options?: MediaPickerOptions
-  ): Promise<MediaPickerResult> {
-    return this.pickFromLibrary(options);
   }
 }

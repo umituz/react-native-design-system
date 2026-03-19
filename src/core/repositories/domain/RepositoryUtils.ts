@@ -12,7 +12,7 @@ import type { RepositoryOptions, ListParams } from './types';
  */
 const DEFAULT_CACHE_OPTIONS = {
   staleTime: 5 * 60 * 1000, // 5 minutes
-  gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+  gcTime: 10 * 60 * 1000, // 10 minutes
 };
 
 /**
@@ -43,10 +43,10 @@ export function getCacheOptions(options: RepositoryOptions): {
   staleTime: number;
   gcTime: number;
 } {
-  const merged = mergeRepositoryOptions(options);
+  const cache = options.cache ?? {};
   return {
-    staleTime: merged.cache.staleTime,
-    gcTime: merged.cache.gcTime,
+    staleTime: cache.staleTime ?? DEFAULT_CACHE_OPTIONS.staleTime,
+    gcTime: cache.gcTime ?? DEFAULT_CACHE_OPTIONS.gcTime,
   };
 }
 

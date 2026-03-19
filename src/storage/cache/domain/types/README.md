@@ -103,5 +103,4 @@ TypeScript type definitions for cache entries, configuration, statistics, and ev
 ### Export Rules
 - MUST export all public types
 - MUST use `type` keyword for type-only exports
-- MUST maintain backward compatibility
 - MUST document type changes

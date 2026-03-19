@@ -120,9 +120,3 @@ This directory contains React hooks that integrate storage and cache functionali
 - MUST use `useMemo` for computed values
 - MUST implement proper dependency arrays
 - MUST avoid unnecessary re-renders
-
-### Deprecation
-- MUST document deprecated hooks
-- MUST provide migration path for deprecated hooks
-- MUST maintain backward compatibility when possible
-- MUST remove deprecated hooks after major version bump

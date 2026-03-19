@@ -32,8 +32,10 @@ export class CameraPickerStrategy implements PickerStrategy {
   }
 
   async launch(options: LaunchOptions): Promise<any> {
-    const mediaTypes =
-      this.config.mediaType === 'videos' ? ['videos'] : ['images'];
+    const mediaTypes: ImagePicker.MediaTypeOptions =
+      this.config.mediaType === 'videos'
+        ? ImagePicker.MediaTypeOptions.Videos
+        : ImagePicker.MediaTypeOptions.Images;
 
     const launchOptions: ImagePicker.ImagePickerOptions = {
       mediaTypes,
@@ -51,12 +53,6 @@ export class CameraPickerStrategy implements PickerStrategy {
     if (this.config.mediaType === 'videos') {
       if (options.videoMaxDuration !== undefined) {
         launchOptions.videoMaxDuration = options.videoMaxDuration;
-      }
-      if (options.videoMaxBitrate !== undefined) {
-        launchOptions.videoMaxBitrate = options.videoMaxBitrate;
-      }
-      if (options.videoQuality) {
-        launchOptions.videoQuality = options.videoQuality;
       }
     }
 

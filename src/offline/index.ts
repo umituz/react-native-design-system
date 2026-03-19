@@ -17,7 +17,7 @@ export { useOfflineStore } from './infrastructure/storage/OfflineStore';
 export { useOfflineConfigStore } from './infrastructure/storage/OfflineConfigStore';
 
 // Hooks
-export { useOffline, configureOffline } from './presentation/hooks/useOffline';
+export { useOffline } from './presentation/hooks/useOffline';
 export { useOfflineState } from './presentation/hooks/useOfflineState';
 export { useOfflineWithMutations } from './presentation/hooks/useOfflineWithMutations';
 

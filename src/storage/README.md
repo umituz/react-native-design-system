@@ -118,7 +118,6 @@ Clean Architecture with DDD principles:
 - MUST export from index.ts at root level
 - MUST organize exports by module
 - MUST provide TypeScript types
-- MUST maintain backward compatibility
 - MUST not export internal utilities
 
 ### File Organization

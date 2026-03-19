@@ -28,20 +28,29 @@ export const useStorageState = <T>(
   const [state, setState] = useState<T>(defaultValue);
   const [isLoading, setIsLoading] = useState(true);
   const isMountedRef = useRef(true);
+  const defaultValueRef = useRef(defaultValue);
+
+  // Update ref when defaultValue changes
+  useEffect(() => {
+    defaultValueRef.current = defaultValue;
+  }, [defaultValue]);
 
   useEffect(() => {
     isMountedRef.current = true;
     setIsLoading(true);
 
     storageRepository
-      .getItem<T>(keyString, defaultValue)
+      .getItem<T>(keyString, defaultValueRef.current)
       .then((result) => {
         if (isMountedRef.current) {
-          setState(unwrap(result, defaultValue));
+          setState(unwrap(result, defaultValueRef.current));
         }
       })
-      .catch(() => {
+      .catch((error) => {
         // Keep defaultValue on error
+        if (__DEV__) {
+          console.warn('[useStorageState] Failed to load from storage:', error);
+        }
       })
       .finally(() => {
         if (isMountedRef.current) {
@@ -52,7 +61,7 @@ export const useStorageState = <T>(
     return () => {
       isMountedRef.current = false;
     };
-  }, [keyString, defaultValue]);
+  }, [keyString]);
 
   // Update state and persist to storage
   const updateState = useCallback(

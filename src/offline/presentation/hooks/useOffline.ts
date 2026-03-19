@@ -38,14 +38,6 @@ const toNetworkState = (state: ExpoNetworkState): NetworkState => ({
   details: null,
 });
 
-/**
- * Configure offline settings globally
- * This is a facade over the config store for backward compatibility
- */
-export const configureOffline = (config: OfflineConfig): void => {
-  useOfflineConfigStore.getState().setConfig(config);
-};
-
 export const useOffline = (config?: OfflineConfig) => {
   const store = useOfflineStore();
   const globalConfig = useOfflineConfigStore((state) => state.config);

@@ -2,7 +2,7 @@
  * useCachedValue Hook
  */
 
-import { useCallback, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { cacheManager } from '../domain/CacheManager';
 import type { CacheConfig } from '../domain/types/Cache';
 import { useAsyncOperation } from '../../../utils/hooks';
@@ -15,6 +15,15 @@ export function useCachedValue<T>(
 ) {
   const fetcherRef = useRef(fetcher);
   const configRef = useRef(config);
+
+  // Update refs when props change
+  useEffect(() => {
+    fetcherRef.current = fetcher;
+  }, [fetcher]);
+
+  useEffect(() => {
+    configRef.current = config;
+  }, [config]);
 
   const { data: value, isLoading, error, execute, setData } = useAsyncOperation<T | undefined, Error>(
     async () => {
@@ -55,8 +64,9 @@ export function useCachedValue<T>(
   }, [cacheName, setData]);
 
   const refetch = useCallback(() => {
+    // Clear data first, then execute on next tick
     setData(undefined);
-    execute();
+    Promise.resolve().then(() => execute());
   }, [execute, setData]);
 
   return useMemo(() => ({

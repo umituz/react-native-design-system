@@ -120,4 +120,3 @@ Presentation layer provides React hooks and components for integrating cache fun
 - MUST export hooks from index file
 - MUST provide consistent naming
 - MUST document hook contracts
-- MUST maintain backward compatibility

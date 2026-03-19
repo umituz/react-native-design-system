@@ -69,7 +69,6 @@ export const DEFAULT_SWIPE_CONFIG: Required<Omit<SwipeableConfig, 'leftActions' 
   friction: 2,
 };
 
-// Re-export utilities for backward compatibility
 export {
   ACTION_PRESETS,
   getPreset,

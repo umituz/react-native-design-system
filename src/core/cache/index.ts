@@ -8,8 +8,9 @@
 export { UnifiedCache } from './domain/UnifiedCache';
 export type { UnifiedCacheConfig } from './domain/UnifiedCache';
 
-export { CleanupStrategy, IntervalCleanupStrategy, TimeoutCleanupStrategy } from './domain/CleanupStrategy';
-export type { CleanupType } from './domain/CleanupStrategy';
+export type { CleanupStrategy } from './domain/CleanupStrategy';
+export { IntervalCleanupStrategy, TimeoutCleanupStrategy } from './domain/CleanupStrategy';
+export type { CleanupType } from './domain/types';
 
 export { CacheFactory } from './infrastructure/CacheFactory';
 

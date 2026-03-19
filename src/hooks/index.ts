@@ -20,11 +20,6 @@
 
 export {
   useAppDesignTokens,
-  useDesignSystemTheme,
-  useTheme,
-  useThemedStyles,
-  useThemedStyleSheet,
-  useCommonStyles,
 } from '../theme/hooks/useAppDesignTokens';
 
 export { useTheme as useThemeStore } from '../theme/infrastructure/stores/themeStore';
@@ -35,9 +30,10 @@ export { useTheme as useThemeStore } from '../theme/infrastructure/stores/themeS
 
 export {
   useResponsive,
-  useBreakpoint,
-  useOrientation,
-  type Breakpoint,
+  useScreenWidth,
+  useScreenHeight,
+  useScreenDimensions,
+  type UseResponsiveReturn,
 } from '../responsive';
 
 // =============================================================================
@@ -45,7 +41,6 @@ export {
 // =============================================================================
 
 export {
-  useSafeArea,
   useSafeAreaInsets,
 } from '../safe-area';
 
@@ -55,8 +50,8 @@ export {
 
 export {
   useInfiniteScroll,
-  type UseInfiniteScrollOptions,
-  type UseInfiniteScrollResult,
+  type InfiniteScrollConfig,
+  type UseInfiniteScrollReturn,
 } from '../infinite-scroll';
 
 // =============================================================================
@@ -65,7 +60,7 @@ export {
 
 export {
   useOffline,
-  type NetworkStatus,
+  type NetworkState,
 } from '../offline';
 
 // =============================================================================
@@ -73,9 +68,11 @@ export {
 // =============================================================================
 
 export {
-  useDeviceContext,
   useDeviceInfo,
+  useDeviceCapabilities,
+  useDeviceId,
   type DeviceInfo,
+  type AnonymousUser,
 } from '../device';
 
 // =============================================================================
@@ -84,8 +81,14 @@ export {
 
 export {
   useStorage,
-  useAsyncStorage,
-  useSecureStorage,
+  useStorageState,
+  useStore,
+  usePersistentCache,
+  useCache,
+  useCachedValue,
+  useCacheState,
+  type PersistentCacheOptions,
+  type PersistentCacheResult,
 } from '../storage';
 
 // =============================================================================
@@ -93,10 +96,8 @@ export {
 // =============================================================================
 
 export {
-  useImagePicker,
-  useImageLibrary,
-  useCamera,
-  type ImagePickerResult,
+  useMedia,
+  type MediaPickerResult,
 } from '../media';
 
 // =============================================================================
@@ -105,7 +106,6 @@ export {
 
 export {
   useTimezone,
-  useLocalTime,
   type TimezoneInfo,
 } from '../timezone';
 
@@ -115,9 +115,6 @@ export {
 
 export {
   useHaptics,
-  useImpact,
-  useNotification,
-  useSelection,
 } from '../haptics';
 
 // =============================================================================
@@ -125,6 +122,6 @@ export {
 // =============================================================================
 
 export {
-  useLoading,
-  useLoadingState,
+  useGlobalLoading,
+  type LoadingState,
 } from '../loading';

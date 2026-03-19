@@ -79,7 +79,7 @@ export abstract class BaseRepository<
     this.resource = resource;
     this.options = mergeRepositoryOptions(options);
     this.keys = createQueryKeyFactory(this.resource);
-    this.log = createRepositoryLogger(resource, this.options.debug ?? __DEV__);
+    this.log = createRepositoryLogger(resource, __DEV__);
   }
 
   /**

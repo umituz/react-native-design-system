@@ -53,7 +53,7 @@ export interface UpdateParams<TVariables> {
 export type QueryKeyFactory = {
   all: () => readonly string[];
   lists: () => readonly string[];
-  list: (params: ListParams) => readonly string[];
+  list: (params: ListParams) => readonly unknown[];
   details: () => readonly string[];
-  detail: (id: string | number) => readonly string[];
+  detail: (id: string | number) => readonly unknown[];
 };

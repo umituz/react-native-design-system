@@ -15,15 +15,13 @@ import {
  * Map expo-image-picker permission status to MediaLibraryPermission
  */
 export const mapPermissionStatus = (
-  status: ImagePicker.PermissionStatus
+  status: string
 ): MediaLibraryPermission => {
   switch (status) {
-    case ImagePicker.PermissionStatus.GRANTED:
+    case 'granted':
       return MediaLibraryPermission.GRANTED;
-    case ImagePicker.PermissionStatus.DENIED:
-      return MediaLibraryPermission.DENIED;
-    case ImagePicker.PermissionStatus.UNDETERMINED:
-      return MediaLibraryPermission.DENIED;
+    case 'denied':
+    case 'undetermined':
     default:
       return MediaLibraryPermission.DENIED;
   }
@@ -67,6 +65,31 @@ export const mapPickerResult = (
     duration: asset.duration ?? undefined,
     base64: asset.base64 ?? undefined,
     mimeType: asset.mimeType ?? undefined,
+  }));
+
+  return {
+    canceled: false,
+    assets,
+  };
+};
+
+/**
+ * Map PickerStrategy result to MediaPickerResult
+ */
+export const mapPickerResultFromStrategy = (
+  result: { canceled: boolean; assets?: Array<{ uri: string; width?: number; height?: number; type?: 'image' | 'video'; duration?: number; fileSize?: number }> }
+): MediaPickerResult => {
+  if (result.canceled) {
+    return { canceled: true };
+  }
+
+  const assets: MediaAsset[] = (result.assets ?? []).map((asset) => ({
+    uri: asset.uri,
+    width: asset.width ?? 0,
+    height: asset.height ?? 0,
+    type: asset.type === 'video' ? MediaType.VIDEO : MediaType.IMAGE,
+    fileSize: asset.fileSize,
+    duration: asset.duration,
   }));
 
   return {
