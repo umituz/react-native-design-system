@@ -21,3 +21,6 @@ export type { PermissionMethod, PermissionStatus, PermissionResult, PermissionHa
 export { createRepositoryKeyFactory } from './repositories/domain/RepositoryKeyFactory';
 export { mergeRepositoryOptions, getCacheOptions, normalizeListParams, createRepositoryLogger } from './repositories/domain/RepositoryUtils';
 export type { RepositoryOptions, ListParams, CreateParams, UpdateParams, QueryKeyFactory } from './repositories/domain/types';
+
+// Shared utilities (for new code)
+export * from './shared';
