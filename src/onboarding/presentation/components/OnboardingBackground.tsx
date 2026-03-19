@@ -55,13 +55,18 @@ const BackgroundContent: React.FC<BackgroundContentProps> = ({
   }
 
   if (slide.backgroundImage) {
+    // Normalize ImageSourceType to ImageSourcePropType
+    // ImageSourceType supports string URIs, but ImageSourcePropType requires { uri: string } objects
+    const normalizedSource = typeof slide.backgroundImage === 'string'
+      ? { uri: slide.backgroundImage }
+      : slide.backgroundImage;
+
     return (
       <AtomicImage
-        source={slide.backgroundImage}
+        source={normalizedSource}
         style={StyleSheet.absoluteFill}
         contentFit="cover"
         cachePolicy="memory-disk"
-        priority="high"
       />
     );
   }

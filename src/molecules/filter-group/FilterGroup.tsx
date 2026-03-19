@@ -32,16 +32,18 @@ export const FilterGroup = React.memo(function FilterGroup<T = string>({
   // Memoize selected items to prevent unnecessary re-renders
   const selectedSet = useMemo(() => {
     if (multiSelect && Array.isArray(selectedValue)) {
-      return new Set(selectedValue);
+      return new Set<T>(selectedValue);
     }
-    return new Set(selectedValue !== undefined ? [selectedValue] : []);
+    // Single selection: wrap in array if present
+    const singleValue = selectedValue !== undefined ? [selectedValue] : [];
+    return new Set<T>(singleValue as T[]);
   }, [selectedValue, multiSelect]);
 
   // Memoize isSelected calculation for each item
-  const isSelected = useCallback((value: any) => selectedSet.has(value), [selectedSet]);
+  const isSelected = useCallback((value: T) => selectedSet.has(value), [selectedSet]);
 
   // Memoized chip renderer
-  const renderChip = useCallback((item: any) => (
+  const renderChip = useCallback((item: { value: T; label: string; testID?: string }) => (
     <AtomicChip
       key={String(item.value)}
       variant={isSelected(item.value) ? 'filled' : 'outlined'}

@@ -93,11 +93,17 @@ function InfiniteScrollListComponent<T>({
     return emptyComponent || <Empty />;
   }
 
+  // Memoize renderItem wrapper to prevent unnecessary re-renders
+  const memoizedRenderItem = useCallback(
+    ({ item, index }: { item: T; index: number }) => renderItem(item, index),
+    [renderItem]
+  );
+
   // Render list
   return (
     <FlatList
       data={items}
-      renderItem={({ item, index }) => renderItem(item, index)}
+      renderItem={memoizedRenderItem}
       keyExtractor={(item, index) => getItemKey(item, index)}
       onEndReached={handleEndReached}
       onEndReachedThreshold={calculateEndReachedThreshold(config.threshold)}

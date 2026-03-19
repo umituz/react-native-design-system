@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image as RNImage, type StyleProp, type ImageStyle } from 'react-native';
+import { Image as RNImage, type StyleProp, type ImageStyle, ImageSourcePropType } from 'react-native';
 
 // Lazy-load expo-image (optional peer dep) — falls back to React Native Image
+// biome-ignore lint/suspicious/noExplicitAny: ExpoImage type is dynamic from optional peer dependency
 let ExpoImage: React.ComponentType<any> | null = null;
 try {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -10,13 +11,18 @@ try {
   // expo-image not installed — using React Native Image fallback
 }
 
+/**
+ * Image source type compatible with both React Native and expo-image
+ * Supports: require() assets, URI strings, and image source objects
+ */
+export type ImageSource = ImageSourcePropType;
+
 export type AtomicImageProps = {
-  source?: any;
+  source?: ImageSource;
   style?: StyleProp<ImageStyle>;
   rounded?: boolean;
   contentFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   cachePolicy?: 'none' | 'disk' | 'memory' | 'memory-disk';
-  [key: string]: any;
 };
 
 const RESIZE_MODE_MAP: Record<string, 'cover' | 'contain' | 'stretch' | 'center'> = {
