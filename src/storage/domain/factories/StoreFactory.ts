@@ -1,13 +1,16 @@
 /**
  * Store Factory
- * Create Zustand stores with AsyncStorage persistence and actions
+ * Create Zustand stores with optional persistence and actions
+ *
+ * NOTE: For persistence, provide a storage implementation.
+ * Use `storageRepository` from '@umituz/react-native-design-system/storage'
+ * for a centralized AsyncStorage abstraction.
  */
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { StoreApi } from 'zustand';
 import type { StoreConfig } from '../types/Store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Create a Zustand store with optional persistence and actions
@@ -28,16 +31,35 @@ export function createStore<
     return { ...state, ...actions } as Store;
   };
 
+  // No persistence requested
   if (!config.persist) {
     return create<Store>(stateCreator);
   }
 
+  // Persistence requested but no storage provided - warn and create in-memory store
+  if (!config.storage) {
+    if (__DEV__) {
+      console.warn(
+        `[StoreFactory] ⚠️ Store "${config.name}" requested persistence but no storage was provided.\n` +
+        `Creating in-memory store instead (data will be lost on reload).\n\n` +
+        `💡 Fix: Import and provide storage:\n` +
+        `   import { storageRepository } from '@umituz/react-native-design-system/storage';\n\n` +
+        `   createStore({\n` +
+        `     name: 'my-store',\n` +
+        `     persist: true,\n` +
+        `     storage: storageRepository,  // ← Add this\n` +
+        `     ...config\n` +
+        `   });`
+      );
+    }
+    return create<Store>(stateCreator);
+  }
+
+  // Persistence with storage
   return create<Store>()(
     persist<Store>(stateCreator, {
       name: config.name,
-      storage: config.storage
-        ? createJSONStorage(() => config.storage!)
-        : createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => config.storage!),
       version: config.version || 1,
       partialize: (config.partialize
         ? (state: Store) => config.partialize!(state)
