@@ -146,7 +146,7 @@ export type { StateStorage } from './domain/types/Store';
  *   ...
  * });
  */
-export { persistentStorage, zustandStorage } from './infrastructure/adapters/ZustandStorageAdapter';
+export { persistentStorage } from './infrastructure/adapters/ZustandStorageAdapter';
 
 // =============================================================================
 // PRESENTATION LAYER - Hooks

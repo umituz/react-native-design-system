@@ -29,8 +29,3 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * No wrapping needed - AsyncStorage already provides the correct interface.
  */
 export const persistentStorage = AsyncStorage;
-
-/**
- * @deprecated Use persistentStorage instead
- */
-export const zustandStorage = AsyncStorage;
