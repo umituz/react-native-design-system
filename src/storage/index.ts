@@ -128,25 +128,25 @@ export { storageService } from './infrastructure/adapters/StorageService';
 export type { StateStorage } from './domain/types/Store';
 
 // =============================================================================
-// ZUSTAND STORAGE - Sync API for Zustand persist middleware
+// PERSISTENT STORAGE - Sync API for state management persist middleware
 // =============================================================================
 
 /**
- * Zustand-compatible storage export
+ * Persistent storage export
  *
- * AsyncStorage natively provides the Promise-based API that Zustand persist expects.
- * This is a centralized export for all Zustand stores to use.
+ * AsyncStorage natively provides the Promise-based API that state management libraries expect.
+ * This is a centralized export for all persistent stores to use.
  *
  * @example
- * import { createStore, zustandStorage } from '@umituz/react-native-design-system/storage';
+ * import { createStore, persistentStorage } from '@umituz/react-native-design-system/storage';
  *
  * createStore({
  *   persist: true,
- *   storage: zustandStorage,
+ *   storage: persistentStorage,
  *   ...
  * });
  */
-export { zustandStorage } from './infrastructure/adapters/ZustandStorageAdapter';
+export { persistentStorage, zustandStorage } from './infrastructure/adapters/ZustandStorageAdapter';
 
 // =============================================================================
 // PRESENTATION LAYER - Hooks

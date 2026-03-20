@@ -17,8 +17,9 @@ export { AlertInline } from './AlertInline';
 export { AlertModal } from './AlertModal';
 export { AlertToast } from './AlertToast';
 
-// Types
-export type { AlertType, AlertMode, AlertPosition, AlertAction, AlertOptions, Alert } from './AlertTypes';
+// Types - Enums exported as values
+export { AlertType, AlertMode } from './AlertTypes';
+export type { AlertPosition, AlertAction, AlertOptions, Alert } from './AlertTypes';
 
 // Sub-exports
 export * from './components';

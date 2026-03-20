@@ -1,21 +1,21 @@
 /**
- * Zustand Storage Adapter
+ * Persistent Storage Adapter
  *
- * Provides AsyncStorage in a format compatible with Zustand persist middleware.
+ * Provides AsyncStorage in a format compatible with state management persist middleware.
  *
- * AsyncStorage natively supports the Promise-based API that Zustand expects:
+ * AsyncStorage natively supports the Promise-based API that state libraries expect:
  * - getItem: (key: string) => Promise<string | null>
  * - setItem: (key: string, value: string) => Promise<void>
  * - removeItem: (key: string) => Promise<void>
  *
- * This is a centralized export point for Zustand stores throughout the app.
+ * This is a centralized export point for persistent stores throughout the app.
  *
  * @example
- * import { createStore, zustandStorage } from '@umituz/react-native-design-system/storage';
+ * import { createStore, persistentStorage } from '@umituz/react-native-design-system/storage';
  *
  * const store = createStore({
  *   persist: true,
- *   storage: zustandStorage,
+ *   storage: persistentStorage,
  *   ...
  * });
  */
@@ -23,9 +23,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
- * Zustand-compatible storage export
+ * Persistent storage export
  *
- * AsyncStorage instance that can be used directly with Zustand's persist middleware.
+ * AsyncStorage instance that can be used directly with state management persist middleware.
  * No wrapping needed - AsyncStorage already provides the correct interface.
+ */
+export const persistentStorage = AsyncStorage;
+
+/**
+ * @deprecated Use persistentStorage instead
  */
 export const zustandStorage = AsyncStorage;
