@@ -4,6 +4,7 @@
 
 import { generateUUID } from '../../uuid';
 import { Alert, AlertType, AlertMode, AlertOptions, AlertPosition } from './AlertTypes';
+import { useAlertStore } from './AlertStore';
 
 export class AlertService {
     /**
@@ -56,5 +57,47 @@ export class AlertService {
 
     static createInfoAlert(title: string, message?: string, options?: AlertOptions): Alert {
         return this.createAlert(AlertType.INFO, AlertMode.TOAST, title, message, options);
+    }
+
+    /**
+     * Convenience methods to show alerts directly from outside React components
+     * These access the Zustand store directly without requiring hooks
+     */
+    static success(title: string, message?: string, options?: AlertOptions): string {
+        const alert = this.createSuccessAlert(title, message, options);
+        useAlertStore.getState().addAlert(alert);
+        return alert.id;
+    }
+
+    static error(title: string, message?: string, options?: AlertOptions): string {
+        const alert = this.createErrorAlert(title, message, options);
+        useAlertStore.getState().addAlert(alert);
+        return alert.id;
+    }
+
+    static warning(title: string, message?: string, options?: AlertOptions): string {
+        const alert = this.createWarningAlert(title, message, options);
+        useAlertStore.getState().addAlert(alert);
+        return alert.id;
+    }
+
+    static info(title: string, message?: string, options?: AlertOptions): string {
+        const alert = this.createInfoAlert(title, message, options);
+        useAlertStore.getState().addAlert(alert);
+        return alert.id;
+    }
+
+    static show(type: AlertType, mode: AlertMode, title: string, message?: string, options?: AlertOptions): string {
+        const alert = this.createAlert(type, mode, title, message, options);
+        useAlertStore.getState().addAlert(alert);
+        return alert.id;
+    }
+
+    static dismiss(id: string): void {
+        useAlertStore.getState().dismissAlert(id);
+    }
+
+    static clear(): void {
+        useAlertStore.getState().clearAlerts();
     }
 }
