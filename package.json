@@ -1,7 +1,7 @@
 {
   "name": "@umituz/react-native-design-system",
-  "version": "4.27.35",
-  "description": "Universal design system for React Native apps - Consolidated package with atoms, molecules, organisms, theme, typography, responsive, safe area, exception, infinite scroll, UUID, image, timezone, offline, onboarding, and loading utilities - TanStack persistence and expo-image-manipulator now lazy loaded",
+  "version": "4.28.2",
+  "description": "Universal design system for React Native apps with safe navigation hooks - updated SKILL.md with navigation documentation",
   "main": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
@@ -243,9 +243,6 @@
       "optional": true
     },
     "@react-navigation/bottom-tabs": {
-      "optional": true
-    },
-    "@react-navigation/stack": {
       "optional": true
     },
     "@tanstack/query-async-storage-persister": {

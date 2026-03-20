@@ -1,19 +1,42 @@
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect as useRNFocusEffect } from "@react-navigation/native";
+import { useEffect } from "react";
 
 /**
  * useAppFocusEffect Hook
  *
- * Wrapper around React Navigation's useFocusEffect.
- * Pass a useCallback-wrapped effect to avoid re-running on every render.
+ * Safe wrapper around React Navigation's useFocusEffect.
+ * Only runs the effect if navigation is ready.
  *
- * Usage:
- *   useAppFocusEffect(
- *     useCallback(() => {
- *       doSomething();
- *       return () => cleanup();
- *     }, [deps])
- *   );
+ * @param effect - Callback to run when screen is focused
+ *
+ * @example
+ * ```typescript
+ * useAppFocusEffect(
+ *   useCallback(() => {
+ *     // Runs when screen is focused
+ *     return () => {
+ *       // Cleanup when screen is unfocused
+ *     };
+ *   }, [dependency])
+ * );
+ * ```
  */
 export function useAppFocusEffect(effect: () => void | (() => void)): void {
-  useFocusEffect(effect);
+  try {
+    // Try to use React Navigation's useFocusEffect
+    useRNFocusEffect(effect);
+  } catch (error) {
+    // Navigation not ready - run effect once and cleanup
+    if (__DEV__) {
+      console.warn('[useAppFocusEffect] Navigation not ready. Running effect once instead.');
+    }
+    useEffect(() => {
+      const cleanup = effect();
+      return () => {
+        if (typeof cleanup === 'function') {
+          cleanup();
+        }
+      };
+    }, [effect]);
+  }
 }

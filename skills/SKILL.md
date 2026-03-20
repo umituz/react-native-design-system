@@ -17,6 +17,7 @@ This skill handles everything needed to integrate a complete design system into 
 - Typography system
 - Responsive utilities
 - Safe area handling
+- **Safe navigation hooks (work outside NavigationContainer)**
 - Utility hooks (infinite scroll, offline, UUID, etc.)
 
 ## ⚠️ CRITICAL: Sub-Path Imports
@@ -35,6 +36,7 @@ import { DesignSystemProvider } from '@umituz/react-native-design-system';
 import { DesignSystemProvider } from '@umituz/react-native-design-system/theme';
 import { AtomicButton } from '@umituz/react-native-design-system/components/atoms';
 import { useInfiniteScroll } from '@umituz/react-native-design-system/hooks';
+import { useAppNavigation } from '@umituz/react-native-design-system/navigation';
 ```
 
 ## Quick Start
@@ -49,6 +51,7 @@ Just say: **"Setup design system in my app"** and this skill will handle everyth
 - Typography scale
 - Spacing and layout utilities
 - Responsive design helpers
+- **Safe navigation hooks (useAppNavigation, useAppRoute, etc.)**
 - Infinite scroll hook
 - Offline support
 - UUID generation
@@ -64,6 +67,7 @@ Invoke this skill when you need to:
 - Implement responsive design
 - Add utility hooks (infinite scroll, offline, etc.)
 - Set up typography system
+- **Set up safe navigation hooks**
 
 ## Step 1: Analyze the Project
 
@@ -98,6 +102,9 @@ npx expo install expo-font expo-asset expo-haptics expo-clipboard expo-device ex
 
 # React Native modules
 npm install react-native-gesture-handler react-native-safe-area-context react-native-svg
+
+# React Navigation (REQUIRED for navigation hooks)
+npm install @react-navigation/native @react-navigation/stack
 
 # State management
 npm install @tanstack/react-query zustand
@@ -281,7 +288,170 @@ export function MainScreen() {
 }
 ```
 
-## Step 6: Use Utility Hooks
+## Step 6: Safe Navigation Hooks
+
+### ⚠️ CRITICAL: Navigation Safety
+
+The design system provides **safe navigation hooks** that work **even outside NavigationContainer**. This prevents crashes when components use navigation hooks before the navigation system is ready.
+
+### useAppNavigation - Safe Navigation Hook
+
+```typescript
+import { useAppNavigation } from '@umituz/react-native-design-system/navigation';
+
+export function MyComponent() {
+  const navigation = useAppNavigation();
+
+  // ALWAYS check isReady before using navigation
+  const handleNavigate = () => {
+    if (navigation.isReady) {
+      navigation.navigate('DetailScreen', { itemId: 123 });
+    } else {
+      console.warn('Navigation not ready yet');
+    }
+  };
+
+  return (
+    <Button title="Go to Details" onPress={handleNavigate} />
+  );
+}
+```
+
+#### Return Type
+
+```typescript
+interface AppNavigationResult {
+  navigate: (screen: string, params?: Record<string, unknown>) => void;
+  push: (screen: string, params?: Record<string, unknown>) => void;
+  goBack: () => void;
+  reset: (screen: string, params?: Record<string, unknown>) => void;
+  replace: (screen: string, params?: Record<string, unknown>) => void;
+  pop: (count?: number) => void;
+  popToTop: () => void;
+  canGoBack: () => boolean;
+  getState: () => NavigationState;
+  getParent: () => NavigationProp | undefined;
+  /** ✅ NEW: Whether navigation is available (inside NavigationContainer) */
+  isReady: boolean;
+}
+```
+
+#### Safety Features
+
+| Feature | Description |
+|---------|-------------|
+| **No-op when not ready** | Functions do nothing if NavigationContainer not ready |
+| **Development warnings** | Console warnings when navigation used before ready |
+| **No crashes** | Never throws "Couldn't find a navigation object" error |
+| **Type-safe** | Full TypeScript support with isReady check |
+
+### useAppRoute - Safe Route Hook
+
+```typescript
+import { useAppRoute } from '@umituz/react-native-design-system/navigation';
+
+export function DetailScreen() {
+  const route = useAppRoute();
+
+  // Check if route is ready before accessing params
+  if (route.isReady) {
+    const itemId = route.params?.itemId;
+    console.log('Item ID:', itemId);
+  }
+
+  return <View>{/* ... */}</View>;
+}
+```
+
+### useAppFocusEffect - Safe Focus Effect Hook
+
+```typescript
+import { useAppFocusEffect } from '@umituz/react-native-design-system/navigation';
+import { useCallback } from 'react';
+
+export function ProfileScreen() {
+  useAppFocusEffect(
+    useCallback(() => {
+      console.log('Screen focused');
+      // Refresh data when screen is focused
+
+      return () => {
+        console.log('Screen unfocused - cleanup');
+      };
+    }, [])
+  );
+
+  return <View>{/* ... */}</View>;
+}
+```
+
+**Safety Feature:** Falls back to `useEffect` if navigation not ready.
+
+### useAppIsFocused - Safe Focus Status Hook
+
+```typescript
+import { useAppIsFocused } from '@umituz/react-native-design-system/navigation';
+
+export function FeedScreen() {
+  const isFocused = useAppIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log('Screen is currently focused');
+      // Only run expensive operations when focused
+    }
+  }, [isFocused]);
+
+  return <View>{/* ... */}</View>;
+}
+```
+
+**Safety Feature:** Returns `false` if navigation not ready.
+
+### Navigation Import Reference
+
+```typescript
+// ✅ CORRECT: Use navigation sub-path
+import { useAppNavigation } from '@umituz/react-native-design-system/navigation';
+import { useAppRoute } from '@umituz/react-native-design-system/navigation';
+import { useAppFocusEffect } from '@umituz/react-native-design-system/navigation';
+import { useAppIsFocused } from '@umituz/react-native-design-system/navigation';
+import { NavigationContainer } from '@umituz/react-native-design-system/navigation';
+import { AppNavigator } from '@umituz/react-native-design-system/navigation';
+
+// ❌ WRONG: Don't use barrel import for navigation
+import { useAppNavigation } from '@umituz/react-native-design-system/molecules';
+```
+
+### Complete Navigation Example
+
+```typescript
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+import { useAppNavigation } from '@umituz/react-native-design-system/navigation';
+
+export function ProductCard({ product }) {
+  const navigation = useAppNavigation();
+
+  const handlePress = () => {
+    if (navigation.isReady) {
+      navigation.navigate('ProductDetail', {
+        productId: product.id
+      });
+    }
+  };
+
+  return (
+    <Button
+      title="View Details"
+      onPress={handlePress}
+      disabled={!navigation.isReady}
+    />
+  );
+}
+```
+
+## Step 7: Use Utility Hooks
 
 ### Infinite Scroll
 
@@ -375,7 +545,7 @@ export function ImageEditorScreen() {
 }
 ```
 
-## Step 7: Responsive Design
+## Step 8: Responsive Design
 
 ### Use Responsive Utilities
 
@@ -418,7 +588,7 @@ export function SafeComponent() {
 }
 ```
 
-## Step 8: Typography System
+## Step 9: Typography System
 
 ### Use Typography Scale
 
@@ -456,7 +626,7 @@ export function CustomText() {
 }
 ```
 
-## Step 9: Theme Customization
+## Step 10: Theme Customization
 
 ### Create Custom Theme
 
@@ -505,7 +675,7 @@ export default function RootLayout() {
 }
 ```
 
-## Step 10: Native Setup (Bare React Native)
+## Step 11: Native Setup (Bare React Native)
 
 ### iOS Setup
 
@@ -517,7 +687,7 @@ cd ios && pod install && cd ..
 
 No additional setup needed.
 
-## Step 11: Verify Setup
+## Step 12: Verify Setup
 
 ### Run the App
 
@@ -530,12 +700,13 @@ npx react-native run-ios
 ### Verification Checklist
 
 - ✅ Package installed
-- ✅ All dependencies installed
+- ✅ All dependencies installed (including @react-navigation/*)
 - ✅ DesignSystemProvider wraps app
 - ✅ Using sub-path imports (NOT barrel imports!)
 - ✅ Components render correctly
 - ✅ Theme tokens accessible
 - ✅ Responsive utilities work
+- ✅ Navigation hooks work safely (with isReady check)
 - ✅ Hooks work (infinite scroll, offline, etc.)
 
 ## Common Mistakes
@@ -543,11 +714,13 @@ npx react-native run-ios
 | Mistake | Fix |
 |---------|-----|
 | Using barrel imports | ALWAYS use sub-path imports! |
-| Forgetting peer dependencies | Install all Expo modules and RN modules |
+| Forgetting peer dependencies | Install all Expo modules, RN modules, and React Navigation |
 | Provider not wrapping app | DesignSystemProvider must wrap entire app |
 | Wrong theme structure | Follow customTheme interface |
 | Missing safe area | Use useSafeArea hook |
 | Not using responsive utilities | Use useResponsive for tablet/desktop |
+| **Not checking navigation.isReady** | ALWAYS check isReady before navigation! |
+| **Using navigation hooks outside container** | Safe hooks handle this, but still check isReady |
 
 ## Troubleshooting
 
@@ -559,6 +732,8 @@ npx react-native run-ios
 | **Theme not applying** | Ensure DesignSystemProvider wraps the component tree |
 | **Font not loading** | Wait for expo-font to load before rendering |
 | **Safe area not working** | Use useSafeArea hook or SafeAreaView component |
+| **"Couldn't find a navigation object"** | Use safe navigation hooks and check isReady! |
+| **Navigation crashes on startup** | Components using navigation before NavigationContainer ready - use isReady check |
 
 ## Import Reference
 
@@ -567,6 +742,14 @@ npx react-native run-ios
 ```typescript
 // Provider
 import { DesignSystemProvider } from '@umituz/react-native-design-system/theme';
+
+// Navigation Hooks (Safe - work outside NavigationContainer)
+import { useAppNavigation } from '@umituz/react-native-design-system/navigation';
+import { useAppRoute } from '@umituz/react-native-design-system/navigation';
+import { useAppFocusEffect } from '@umituz/react-native-design-system/navigation';
+import { useAppIsFocused } from '@umituz/react-native-design-system/navigation';
+import { NavigationContainer } from '@umituz/react-native-design-system/navigation';
+import { AppNavigator } from '@umituz/react-native-design-system/navigation';
 
 // Hooks
 import { useAppDesignTokens } from '@umituz/react-native-design-system/hooks';
@@ -772,16 +955,18 @@ export function FeedScreen() {
 After setup, provide:
 
 1. ✅ Package version installed
-2. ✅ Dependencies added
+2. ✅ Dependencies added (including React Navigation)
 3. ✅ DesignSystemProvider location (with sub-path import!)
 4. ✅ Theme configuration
 5. ✅ Components imported correctly
-6. ✅ Hooks working
-7. ✅ Verification status
+6. ✅ Navigation hooks working with isReady checks
+7. ✅ Other hooks working
+8. ✅ Verification status
 
 ---
 
-**Compatible with:** @umituz/react-native-design-system@latest
+**Compatible with:** @umituz/react-native-design-system@4.28.1+
 **Platforms:** React Native (Expo & Bare)
-**Dependencies:** expo-*, react-native-gesture-handler, react-native-safe-area-context, react-native-svg, @tanstack/react-query, zustand
+**Dependencies:** expo-*, react-native-gesture-handler, react-native-safe-area-context, react-native-svg, @react-navigation/*, @tanstack/react-query, zustand
 **IMPORTANT:** Always use sub-path imports, never barrel imports!
+**NAVIGATION:** All navigation hooks are safe and work outside NavigationContainer with isReady check
