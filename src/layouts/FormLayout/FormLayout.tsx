@@ -101,7 +101,6 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
       accessibilityLabel={accessibilityLabel || "Form"}
       accessibilityHint={accessibilityHint}
       accessible={accessible !== false}
-      accessibilityRole="form"
     >
       {children}
     </View>

@@ -42,7 +42,7 @@ const createStyles = (spacingMultiplier: number) => ({
   },
   actionText: {
     color: '',
-    fontWeight: '800',
+    fontWeight: 800 as const,
   },
 });
 

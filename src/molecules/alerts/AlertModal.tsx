@@ -58,7 +58,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
             backgroundColor: 'rgba(0,0,0,0.55)',
         },
         modal: {
-            width: '100%',
+            width: '100%' as const,
             maxWidth: calculateResponsiveSize(MODAL_SIZES.maxWidth, spacingMultiplier),
             padding: calculateResponsiveSize(MODAL_SIZES.padding, spacingMultiplier),
             alignItems: 'center' as const,
@@ -83,10 +83,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
         },
         actionsRow: {
             flexDirection: 'row' as const,
-            width: '100%',
+            width: '100%' as const,
         },
         actionsColumn: {
-            width: '100%',
+            width: '100%' as const,
         },
         actionButtonHalf: {
             flex: 1,

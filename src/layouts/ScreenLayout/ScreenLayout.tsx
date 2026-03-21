@@ -3,12 +3,11 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform, type StyleProp, type ViewStyle } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, type StyleProp, type ViewStyle, type AccessibilityRole, type ScrollViewProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
 import { getScreenLayoutStyles } from './styles/screenLayoutStyles';
-import type { ScreenLayoutProps } from './types';
 
 export interface ScreenLayoutProps {
   children: React.ReactNode;
@@ -25,9 +24,8 @@ export interface ScreenLayoutProps {
   keyboardVerticalOffset?: number;
   maxWidth?: number;
   fullWidth?: boolean;
-  refreshControl?: React.ReactElement;
+  refreshControl?: any;
   accessibilityLabel?: string;
-  accessibilityRole?: 'window' | 'region' | 'section';
   accessible?: boolean;
 }
 
@@ -62,7 +60,6 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
     fullWidth = false,
     refreshControl,
     accessibilityLabel,
-    accessibilityRole = 'region',
     accessible,
   } = props;
 
@@ -105,7 +102,6 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
         },
       ]}
       accessibilityLabel={accessibilityLabel}
-      accessibilityRole={accessibilityRole}
       accessible={accessible !== false}
     >
       {header}
@@ -140,7 +136,6 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
         style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
         testID={testID}
         accessibilityLabel={accessibilityLabel}
-        accessibilityRole={accessibilityRole}
         accessible={accessible !== false}
       >
         <KAV
@@ -159,12 +154,9 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
       style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
       testID={testID}
       accessibilityLabel={accessibilityLabel}
-      accessibilityRole={accessibilityRole}
       accessible={accessible !== false}
     >
       <View style={styles.keyboardAvoidingView}>{content}</View>
     </View>
   );
 };
-
-export type { ScreenLayoutProps } from './types';

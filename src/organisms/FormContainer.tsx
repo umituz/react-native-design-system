@@ -131,7 +131,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
         paddingBottom: formBottomPadding + insets.bottom,
         maxWidth: formContentWidth,
         alignSelf: 'center' as const,
-        width: '100%',
+        width: '100%' as const,
         gap: formElementSpacing,
       },
     }),
@@ -145,7 +145,6 @@ export const FormContainer: React.FC<FormContainerProps> = ({
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       accessible={accessible !== false}
-      accessibilityRole="form"
     >
       <View style={styles.surface}>
         <ScrollView
