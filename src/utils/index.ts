@@ -5,14 +5,6 @@
  */
 
 export {
-  calculateResponsiveSize,
-  calculateResponsiveSizes,
-  calculateResponsiveSizeSubtle,
-  calculateLineHeight,
-  createResponsiveSizes,
-} from './responsiveUtils';
-
-export {
   createMappedArray,
   safeSlice,
   filterById,

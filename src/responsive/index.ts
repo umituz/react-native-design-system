@@ -9,6 +9,15 @@
 export { useResponsive } from './useResponsive';
 export type { UseResponsiveReturn } from './useResponsive';
 
+// Responsive calculation utilities
+export {
+  calculateResponsiveSize,
+  calculateResponsiveSizes,
+  calculateResponsiveSizeSubtle,
+  calculateLineHeight,
+  createResponsiveSizes,
+} from './utils';
+
 // Responsive sizing utilities
 export {
   getResponsiveLogoSize,
