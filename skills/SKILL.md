@@ -123,25 +123,49 @@ In your app entry point (`app/_layout.tsx` or `App.tsx`):
 import { DesignSystemProvider } from '@umituz/react-native-design-system/theme';
 
 export default function RootLayout() {
+  const customColors = {
+    primary: '#5B7CFA',
+    onPrimary: '#FFFFFF',
+    surface: '#1A1A1A',
+    // ... more colors
+  };
+
   return (
     <DesignSystemProvider
-      theme="light" // or "dark" or "system"
-      customTheme={{
-        // Optional: Override design tokens
-        colors: {
-          primary: '#5B7CFA',
-          secondary: '#8B5CF6',
-        },
-        typography: {
-          // Custom typography scale
-        },
-      }}
+      customColors={customColors}
+      initialThemeMode="dark" // or "light" or "system"
     >
       <Stack>{/* your screens */}</Stack>
     </DesignSystemProvider>
   );
 }
 ```
+
+### ✅ DesignSystemProvider Includes
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **SafeAreaProvider** | ✅ Automatic | Uses `initialWindowMetrics` for SSR-safe first render |
+| **GestureHandlerRootView** | ✅ Automatic | Required for all gestures |
+| **Theme System** | ✅ Automatic | Light/dark mode with persistence |
+| **Font Loading** | ✅ Automatic | Skips gate when no custom fonts provided |
+| **Splash Screen** | ✅ Optional | Via `splashConfig` prop |
+
+### ⚠️ DO NOT Add SafeAreaProvider Manually
+
+```typescript
+// ❌ WRONG - Don't add SafeAreaProvider!
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+<SafeAreaProvider>
+  <DesignSystemProvider>{/* ... */}</DesignSystemProvider>
+</SafeAreaProvider>
+
+// ✅ CORRECT - DesignSystemProvider handles it!
+<DesignSystemProvider>{/* ... */}</DesignSystemProvider>
+```
+
+**Why?** `DesignSystemProvider` already includes `SafeAreaProvider` with proper `initialWindowMetrics` for SSR-safe rendering. Adding another one causes conflicts.
 
 ### Check If Already Configured
 
