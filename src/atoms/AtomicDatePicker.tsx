@@ -11,7 +11,7 @@
  * @module AtomicDatePicker
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Platform,
@@ -82,7 +82,7 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
   const tokens = useAppDesignTokens();
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+  const handleChange = useCallback((event: DateTimePickerEvent, selectedDate?: Date) => {
     if (Platform.OS === 'android') {
       setShowPicker(false);
       if (event.type === 'set' && selectedDate) {
@@ -96,9 +96,9 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
         setShowPicker(false);
       }
     }
-  };
+  }, [onChange]);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     if (!DateTimePicker) {
       console.warn(
         '[AtomicDatePicker] @react-native-community/datetimepicker is not installed. ' +
@@ -107,10 +107,10 @@ export const AtomicDatePicker: React.FC<AtomicDatePickerProps> = ({
       return;
     }
     setShowPicker(true);
-  };
+  }, [DateTimePicker]);
 
   const { displayText } = useDatePickerText({ value, placeholder, mode });
-  const styles = getDatePickerStyles(tokens);
+  const styles = useMemo(() => getDatePickerStyles(tokens), [tokens]);
 
   return (
     <View style={[styles.container, style]} testID={testID}>
