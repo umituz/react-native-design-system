@@ -12,7 +12,7 @@ import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
 import { useAppDesignTokens } from '../theme';
-import { calculateResponsiveSize } from '../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../responsive';
 import { EMPTY_STATE_ICON } from '../constants';
 
 export interface EmptyStateProps {

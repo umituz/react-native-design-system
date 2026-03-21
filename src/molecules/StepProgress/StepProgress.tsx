@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
 import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { STEP_INDICATOR } from '../../constants';
 import { createMappedArray } from '../../utils/arrayUtils';
 

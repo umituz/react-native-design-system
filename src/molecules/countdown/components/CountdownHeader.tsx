@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText, AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import type { IconName } from '../../../atoms';
-import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../responsive';
 import { COUNTDOWN_TOGGLE } from '../../../constants';
 
 export interface CountdownHeaderProps {

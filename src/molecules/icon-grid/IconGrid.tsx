@@ -21,7 +21,7 @@ import { AtomicIcon } from '../../atoms';
 import { AtomicText } from '../../atoms';
 import type { IconName } from '../../atoms';
 import { calculateGridItemWidth } from '../../utils/math';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { ICON_GRID } from '../../constants';
 
 export interface IconGridItem {

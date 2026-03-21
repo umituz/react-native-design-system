@@ -5,7 +5,7 @@ import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { ActionFooterProps } from './types';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { NAVIGATION } from '../../constants';
 
 const createStyles = (spacingMultiplier: number) => StyleSheet.create({

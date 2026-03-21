@@ -5,7 +5,7 @@ import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { InfoGridProps } from './types';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { INFO_GRID_ICONS } from '../../constants';
 
 export const InfoGrid: React.FC<InfoGridProps> = ({

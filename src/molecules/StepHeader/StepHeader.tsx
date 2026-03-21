@@ -12,7 +12,7 @@ import { useAppDesignTokens } from "../../theme/hooks/useAppDesignTokens";
 import {
   calculateResponsiveSize,
   calculateLineHeight,
-} from "../../utils/responsiveUtils";
+} from "../../responsive";
 import { SPACING, STEP_INDICATOR } from "../../constants";
 import { createMappedArray } from "../../utils";
 

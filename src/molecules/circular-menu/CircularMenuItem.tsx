@@ -4,7 +4,7 @@ import { AtomicIcon } from "../../atoms";
 import { AtomicText } from "../../atoms";
 import { useAppDesignTokens } from "../../theme";
 import { LAYOUT } from "./constants";
-import { calculateResponsiveSize } from "../../utils/responsiveUtils";
+import { calculateResponsiveSize } from "../../responsive";
 
 export interface CircularMenuItemProps {
   icon: string;

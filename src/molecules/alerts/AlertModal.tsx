@@ -9,7 +9,7 @@ import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 import { getAlertBackgroundColor } from './utils/alertUtils';
 import { useAlertDismissHandler } from './hooks';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { MODAL_SIZES, ALERT_MODAL_ICON } from '../../constants';
 
 interface AlertModalProps {
@@ -82,6 +82,36 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
         },
     }), [spacingMultiplier, tokens]);
 
+    const modalStyle = useMemo(() => [
+        styles.modal,
+        {
+            backgroundColor: tokens.colors.backgroundPrimary,
+            borderRadius: tokens.borders.radius.xl ?? 20,
+            borderWidth: 1,
+            borderColor: tokens.colors.border,
+        }
+    ], [styles.modal, tokens.colors.backgroundPrimary, tokens.borders.radius.xl, tokens.colors.border]);
+
+    const iconCircleStyle = useMemo(() => [
+        styles.iconCircle,
+        { backgroundColor: accentColor + '22' }
+    ], [styles.iconCircle, accentColor]);
+
+    const titleStyle = useMemo(() => [
+        styles.title,
+        { color: tokens.colors.textPrimary }
+    ], [styles.title, tokens.colors.textPrimary]);
+
+    const messageStyle = useMemo(() => [
+        styles.message,
+        { color: tokens.colors.textSecondary }
+    ], [styles.message, tokens.colors.textSecondary]);
+
+    const actionsContainerStyle = useMemo(() => [
+        hasTwoActions ? styles.actionsRow : styles.actionsColumn,
+        { marginTop: tokens.spacing.lg, gap: tokens.spacing.sm }
+    ], [hasTwoActions, styles.actionsRow, styles.actionsColumn, tokens.spacing.lg, tokens.spacing.sm]);
+
     return (
         <Modal
             visible
@@ -94,20 +124,9 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     style={styles.backdrop}
                     onPress={alert.dismissible ? handleClose : undefined}
                 />
-                <View style={[
-                    styles.modal,
-                    {
-                        backgroundColor: tokens.colors.backgroundPrimary,
-                        borderRadius: tokens.borders.radius.xl ?? 20,
-                        borderWidth: 1,
-                        borderColor: tokens.colors.border,
-                    }
-                ]}>
+                <View style={modalStyle}>
                     {/* Icon circle */}
-                    <View style={[
-                        styles.iconCircle,
-                        { backgroundColor: accentColor + '22' }
-                    ]}>
+                    <View style={iconCircleStyle}>
                         <AtomicIcon
                             name={iconName}
                             customSize={calculateResponsiveSize(36, spacingMultiplier)}
@@ -118,7 +137,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     {/* Title */}
                     <AtomicText
                         type="titleLarge"
-                        style={[styles.title, { color: tokens.colors.textPrimary }]}
+                        style={titleStyle}
                     >
                         {alert.title}
                     </AtomicText>
@@ -127,17 +146,14 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     {!!alert.message && (
                         <AtomicText
                             type="bodyMedium"
-                            style={[styles.message, { color: tokens.colors.textSecondary }]}
+                            style={messageStyle}
                         >
                             {alert.message}
                         </AtomicText>
                     )}
 
                     {/* Actions */}
-                    <View style={[
-                        hasTwoActions ? styles.actionsRow : styles.actionsColumn,
-                        { marginTop: tokens.spacing.lg, gap: tokens.spacing.sm }
-                    ]}>
+                    <View style={actionsContainerStyle}>
                         {alert.actions.length === 0 ? (
                             <AtomicButton
                                 title="Close"

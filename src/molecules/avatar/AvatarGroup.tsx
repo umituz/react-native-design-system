@@ -12,7 +12,7 @@ import { AtomicText } from '../../atoms';
 import { Avatar } from './Avatar';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
 import { AVATAR_SIZES } from '../../constants';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import type { SizeConfig } from './Avatar.types';
 
 const AVATAR_CONSTANTS = {

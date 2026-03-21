@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Modal, Pressable, GestureResponderEvent }
 import { useSafeAreaInsets } from "../../../../safe-area";
 import { AtomicButton } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme';
-import { calculateResponsiveSize } from '../../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../../responsive';
 import { BOTTOM_SHEET_HANDLE } from '../../../../constants';
 import type { FilterOption } from "../../types/Filter";
 import { FilterUtils } from "../../types/Filter";

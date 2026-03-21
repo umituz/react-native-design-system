@@ -12,7 +12,7 @@ import { AtomicText, AtomicIcon } from '../../atoms';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
 import type { SizeConfig } from './Avatar.types';
 import { AVATAR_SIZES } from '../../constants';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { AvatarUtils } from './Avatar.utils';
 
 export interface AvatarProps {
@@ -52,19 +52,29 @@ const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
 
+  const imageStyle = useMemo(() => [
+    styles.image,
+    {
+      width: config.size,
+      height: config.size,
+      borderRadius,
+    },
+    imageStyle,
+  ], [config.size, borderRadius, imageStyle]);
+
+  const initialsStyle = useMemo(() => [
+    styles.initials,
+    {
+      fontSize: config.fontSize,
+      color: tokens.colors.textInverse,
+    },
+  ], [config.fontSize, tokens.colors.textInverse]);
+
   if (hasImage) {
     return (
       <Image
         source={{ uri }}
-        style={[
-          styles.image,
-          {
-            width: config.size,
-            height: config.size,
-            borderRadius,
-          },
-          imageStyle,
-        ]}
+        style={imageStyle}
       />
     );
   }
@@ -73,13 +83,7 @@ const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
     return (
       <AtomicText
         type="bodyMedium"
-        style={[
-          styles.initials,
-          {
-            fontSize: config.fontSize,
-            color: tokens.colors.textInverse,
-          },
-        ]}
+        style={initialsStyle}
       >
         {initials}
       </AtomicText>
@@ -154,20 +158,35 @@ export const Avatar: React.FC<AvatarProps> = ({
     right: 0,
   }), []);
 
+  const containerStyle = useMemo(() => [
+    styles.container,
+    {
+      width: config.size,
+      height: config.size,
+      borderRadius,
+      backgroundColor: bgColor,
+    },
+    style,
+  ], [config.size, borderRadius, bgColor, style]);
+
+  const statusStyle = useMemo(() => [
+    styles.statusIndicator,
+    {
+      width: config.statusSize,
+      height: config.statusSize,
+      borderRadius: config.statusSize / 2,
+      backgroundColor: AvatarUtils.getStatusColor(status),
+      borderWidth: config.borderWidth,
+      borderColor: tokens.colors.onBackground,
+      ...statusPosition,
+    },
+  ], [config.statusSize, config.borderWidth, status, tokens.colors.onBackground, statusPosition]);
+
   const AvatarWrapper = onPress ? TouchableOpacity : View;
 
   return (
     <AvatarWrapper
-      style={[
-        styles.container,
-        {
-          width: config.size,
-          height: config.size,
-          borderRadius,
-          backgroundColor: bgColor,
-        },
-        style,
-      ]}
+      style={containerStyle}
       onPress={onPress}
       disabled={!onPress}
       accessibilityRole={onPress ? 'button' : 'image'}
@@ -187,18 +206,7 @@ export const Avatar: React.FC<AvatarProps> = ({
 
       {showStatus && (
         <View
-          style={[
-            styles.statusIndicator,
-            {
-              width: config.statusSize,
-              height: config.statusSize,
-              borderRadius: config.statusSize / 2,
-              backgroundColor: AvatarUtils.getStatusColor(status),
-              borderWidth: config.borderWidth,
-              borderColor: tokens.colors.onBackground,
-              ...statusPosition,
-            },
-          ]}
+          style={statusStyle}
           accessibilityLabel={`Status: ${status}`}
           accessibilityRole="none"
         />

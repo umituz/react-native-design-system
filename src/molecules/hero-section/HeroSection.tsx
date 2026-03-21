@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import type { HeroSectionProps } from './types';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { HERO_ICON } from '../../constants';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({

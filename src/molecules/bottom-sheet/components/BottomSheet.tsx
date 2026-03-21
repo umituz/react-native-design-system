@@ -3,7 +3,7 @@ import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { getResponsiveBottomSheetLayout } from '../../../responsive';
-import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../responsive';
 import { BOTTOM_SHEET_HANDLE } from '../../../constants';
 import type {
   BottomSheetRef,

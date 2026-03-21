@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
-import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../responsive';
 import { COUNTDOWN_SIZES } from '../../../constants';
 
 export interface TimeUnitProps {

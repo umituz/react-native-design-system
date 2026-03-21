@@ -8,7 +8,7 @@
 import type { ViewStyle } from 'react-native';
 import type { FabSizeConfig, FabVariantConfig } from '../types';
 import { FAB_SIZES as BASE_FAB_SIZES } from '../../../constants';
-import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../responsive';
 
 /**
  * Get responsive FAB sizes based on spacing multiplier

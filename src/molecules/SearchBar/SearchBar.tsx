@@ -9,7 +9,7 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon, useIconName } from '../../atoms';
 import { AtomicSpinner } from '../../atoms/AtomicSpinner';
 import type { SearchBarProps } from './types';
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 import { MISC_SIZES } from '../../constants';
 
 export const SearchBar: React.FC<SearchBarProps> = ({

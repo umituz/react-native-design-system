@@ -4,7 +4,7 @@ import { AtomicText } from '../../../atoms';
 import { AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
-import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../../responsive';
 import { NAVIGATION } from '../../../constants';
 
 export interface NavigationHeaderProps {

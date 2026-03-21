@@ -6,7 +6,7 @@ import type { TabNavigatorConfig, TabScreen } from "./types";
 import { NavigationValidator } from "./utils/NavigationValidator";
 import { createTabScreen } from "./utils/ScreenFactory";
 import { useAppDesignTokens } from "../../theme";
-import { calculateResponsiveSize } from "../../utils/responsiveUtils";
+import { calculateResponsiveSize } from "../../responsive";
 import { NAVIGATION } from "../../constants";
 
 // Create the navigator instance ONCE outside the component

@@ -8,7 +8,7 @@
  * @layer domain/entities
  */
 
-import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { calculateResponsiveSize } from '../../responsive';
 
 /**
  * Divider orientation
