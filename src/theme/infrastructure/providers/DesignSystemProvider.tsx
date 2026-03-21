@@ -8,6 +8,7 @@ import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
 import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
+import { iconStore, DEFAULT_ICON_NAMES } from '../../../atoms/icon/iconStore';
 
 // Lazy load SplashScreen to avoid circular dependency
 const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
@@ -24,6 +25,10 @@ interface DesignSystemProviderProps {
   loadingComponent?: ReactNode;
   onInitialized?: () => void;
   onError?: (error: unknown) => void;
+  /** Icon names available in the app (defaults to standard set) */
+  iconNames?: string[];
+  /** Icon renderer function from @umituz/react-native-icons or similar */
+  iconRenderer?: (props: { name: string; size: number; color: string }) => React.ReactNode;
 }
 
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
@@ -36,6 +41,8 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   loadingComponent,
   onInitialized,
   onError,
+  iconNames,
+  iconRenderer,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const hasCustomFonts = fonts != null && Object.keys(fonts).length > 0;
@@ -100,6 +107,13 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
       onError?.(fontError);
     }
   }, [fontError, onError]);
+
+  // Configure icon renderer if provided
+  useEffect(() => {
+    if (iconRenderer) {
+      iconStore.setConfig(iconNames || DEFAULT_ICON_NAMES, iconRenderer);
+    }
+  }, [iconRenderer, iconNames]);
 
   const isLoading = showLoadingIndicator && (!isInitialized || !effectiveFontsLoaded);
 
