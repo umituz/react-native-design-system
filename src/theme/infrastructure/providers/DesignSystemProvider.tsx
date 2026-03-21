@@ -7,8 +7,6 @@ import { useTheme } from '../stores/themeStore';
 import { useDesignSystemTheme, type ThemeMode } from '../globalThemeStore';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
-import { useIconStore } from '../../../atoms/icon/iconStore';
-import type { IconRenderer, IconNames } from '../../../atoms/icon/iconStore';
 import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
 
 // Lazy load SplashScreen to avoid circular dependency
@@ -27,10 +25,6 @@ interface DesignSystemProviderProps {
   loadingComponent?: ReactNode;
   onInitialized?: () => void;
   onError?: (error: unknown) => void;
-  /** Icon renderer - REQUIRED */
-  iconRenderer: IconRenderer;
-  /** Icon names mapping - REQUIRED */
-  iconNames: IconNames;
 }
 
 export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
@@ -43,8 +37,6 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   loadingComponent,
   onInitialized,
   onError,
-  iconRenderer,
-  iconNames,
 }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const hasCustomFonts = fonts != null && Object.keys(fonts).length > 0;
@@ -56,24 +48,6 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const setDefaultThemeMode = useTheme((state) => state.setDefaultThemeMode);
   const setGlobalCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
   const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
-
-  // Set icon config SYNCHRONOUSLY before first render
-  if (iconRenderer && iconNames) {
-    const store = useIconStore.getState();
-    if (!store.isConfigured) {
-      if (__DEV__) {
-        console.log('[DesignSystemProvider] ✅ Registering iconRenderer and iconNames');
-      }
-      useIconStore.getState().setConfig(iconNames, iconRenderer);
-    } else if (__DEV__) {
-      console.log('[DesignSystemProvider] ℹ️ Icon config already configured, skipping');
-    }
-  } else if (__DEV__) {
-    console.warn('[DesignSystemProvider] ❌ iconRenderer or iconNames missing!', {
-      hasIconRenderer: !!iconRenderer,
-      hasIconNames: !!iconNames,
-    });
-  }
 
   useEffect(() => {
     // Register app's default colors for reset feature

@@ -1,8 +1,25 @@
 /**
- * Icon Module
+ * @deprecated This icon system is deprecated. Use @umituz/react-native-icons instead.
  *
- * Zustand-based icon system.
- * App provides iconNames and iconRenderer via DesignSystemProvider.
+ * **Migration Guide:**
+ * ```tsx
+ * // Old way (deprecated)
+ * import { AtomicIcon } from '@umituz/react-native-design-system/atoms';
+ * <AtomicIcon name="User" size={24} color="text" />
+ *
+ * // New way (recommended)
+ * import { Icon } from '@umituz/react-native-icons';
+ * <Icon name="User" size={24} color="text" />
+ * ```
+ *
+ * **Benefits of @umituz/react-native-icons:**
+ * - ✅ Package-agnostic (works with Lucide, Expo, or custom providers)
+ * - ✅ Lazy loading (only configured provider is loaded)
+ * - ✅ Automatic name normalization (kebab ↔ PascalCase ↔ camelCase)
+ * - ✅ Better performance with caching
+ * - ✅ Zero configuration needed in DesignSystemProvider
+ *
+ * This module is kept for backward compatibility only and will be removed in a future version.
  */
 
 // Main Component
