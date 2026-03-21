@@ -48,7 +48,7 @@ const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
   icon,
   config,
   borderRadius,
-  imageStyle,
+  imageStyle: propImageStyle,
 }) => {
   const tokens = useAppDesignTokens();
 
@@ -59,8 +59,8 @@ const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
       height: config.size,
       borderRadius,
     },
-    imageStyle,
-  ], [config.size, borderRadius, imageStyle]);
+    propImageStyle,
+  ], [config.size, borderRadius, propImageStyle]);
 
   const initialsStyle = useMemo(() => [
     styles.initials,

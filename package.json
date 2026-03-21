@@ -178,15 +178,10 @@
     "build": "tsc --project tsconfig.build.json",
     "setup:skill": "node -e \"const fs = require('fs'); const path = require('path'); const skillDir = path.join(process.env.HOME, '.claude', 'skills', 'react-native-design-system'); fs.mkdirSync(skillDir, {recursive: true}); fs.copyFileSync(path.join(__dirname, 'skills/SKILL.md'), path.join(skillDir, 'SKILL.md')); console.log('✅ @umituz/react-native-design-system setup skill installed to Claude Code!');\""
   },
-  "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0",
-    "react-native-svg": "^15.12.1",
-    "rn-emoji-keyboard": "^1.7.0"
-  },
+  "dependencies": {},
   "optionalDependencies": {
     "@tanstack/query-async-storage-persister": "^5.0.0",
-    "@tanstack/react-query-persist-client": "^5.0.0",
-    "expo-image-manipulator": "~14.0.0"
+    "@tanstack/react-query-persist-client": "^5.0.0"
   },
   "keywords": [
     "react-native",
@@ -213,6 +208,7 @@
     "url": "https://github.com/umituz/react-native-design-system"
   },
   "peerDependencies": {
+    "@react-native-async-storage/async-storage": ">=2.0.0",
     "@react-native-community/datetimepicker": ">=8.0.0",
     "@react-navigation/bottom-tabs": ">=7.0.0",
     "@react-navigation/native": ">=7.0.0",
@@ -223,13 +219,17 @@
     "expo": ">=54.0.0",
     "expo-application": ">=5.0.0",
     "expo-clipboard": ">=8.0.0",
+    "expo-constants": ">=18.0.0",
     "expo-crypto": ">=13.0.0",
     "expo-device": ">=5.0.0",
+    "expo-file-system": ">=19.0.0",
     "expo-font": ">=12.0.0",
     "expo-haptics": ">=14.0.0",
     "expo-image": ">=3.0.0",
     "expo-image-manipulator": ">=14.0.0",
     "expo-image-picker": ">=14.0.0",
+    "expo-localization": ">=17.0.0",
+    "expo-media-library": ">=18.0.0",
     "expo-network": ">=8.0.0",
     "expo-secure-store": ">=14.0.0",
     "expo-sharing": ">=12.0.0",
@@ -238,9 +238,14 @@
     "react-native-gesture-handler": ">=2.20.0",
     "react-native-keyboard-controller": ">=1.0.0",
     "react-native-safe-area-context": ">=5.6.2",
+    "react-native-svg": ">=15.0.0",
+    "rn-emoji-keyboard": ">=1.0.0",
     "zustand": ">=5.0.0"
   },
   "peerDependenciesMeta": {
+    "@react-native-async-storage/async-storage": {
+      "optional": true
+    },
     "react-native-keyboard-controller": {
       "optional": true
     },
@@ -265,7 +270,13 @@
     "expo-clipboard": {
       "optional": true
     },
+    "expo-constants": {
+      "optional": true
+    },
     "expo-crypto": {
+      "optional": true
+    },
+    "expo-file-system": {
       "optional": true
     },
     "expo-font": {
@@ -283,6 +294,12 @@
     "expo-image-picker": {
       "optional": true
     },
+    "expo-localization": {
+      "optional": true
+    },
+    "expo-media-library": {
+      "optional": true
+    },
     "expo-network": {
       "optional": true
     },
@@ -290,6 +307,12 @@
       "optional": true
     },
     "expo-sharing": {
+      "optional": true
+    },
+    "react-native-svg": {
+      "optional": true
+    },
+    "rn-emoji-keyboard": {
       "optional": true
     },
     "@react-native-community/datetimepicker": {

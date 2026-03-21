@@ -86,6 +86,10 @@ const ScreenHeaderBackButton: React.FC<{
         onPress={handleBackPress}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         testID={`${testID}-back-button`}
+        accessibilityRole="button"
+        accessibilityLabel="Go back"
+        accessibilityState={{ disabled: !onBackPress }}
+        accessible
       >
         <AtomicIcon name={backIconName || 'arrow-back'} color={backIconColor} />
       </TouchableOpacity>

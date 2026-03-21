@@ -146,8 +146,8 @@ export function getErrorCode(error: unknown): string | null {
 /**
  * Log error in development
  */
-export function logError(_context: string, _error: unknown): void {
+export function logError(context: string, error: unknown): void {
   if (__DEV__) {
-    
+    console.error(`[${context}]`, error);
   }
 }

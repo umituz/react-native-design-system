@@ -2,7 +2,7 @@
  * PickerModal - Selection modal for AtomicPicker
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Modal, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { useAppDesignTokens } from '../../../theme';
@@ -60,7 +60,7 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
   const insets = useSafeAreaInsets();
   const icons = { checkCircle: useIconName('checkCircle'), search: useIconName('search'), close: useIconName('close'), info: useIconName('info') };
 
-  const styles = {
+  const styles = useMemo(() => ({
     overlay: getModalOverlayStyles(),
     container: getModalContainerStyles(tokens, 0),
     header: getModalHeaderStyles(tokens),
@@ -69,9 +69,17 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
     searchInput: getSearchInputStyles(tokens),
     empty: getEmptyStateStyles(tokens),
     emptyText: getEmptyStateTextStyles(tokens),
-  };
+  }), [tokens]);
 
   const isSelected = useCallback((value: string) => selectedValues?.includes(value) ?? false, [selectedValues]);
+
+  const OPTION_HEIGHT = 56; // Approximate height of each option
+
+  const getItemLayout = useCallback((_: unknown, index: number) => ({
+    length: OPTION_HEIGHT,
+    offset: OPTION_HEIGHT * index,
+    index,
+  }), []);
 
   const renderOption = useCallback(({ item }: { item: PickerOption }) => {
     const selected = isSelected(item.value);
@@ -117,7 +125,19 @@ export const PickerModal: React.FC<PickerModalProps> = React.memo(({
           )}
 
           {filteredOptions.length > 0 ? (
-            <FlatList data={filteredOptions} keyExtractor={(item: PickerOption) => item.value} renderItem={renderOption} showsVerticalScrollIndicator keyboardShouldPersistTaps="handled" testID={`${testID}-list`} />
+            <FlatList
+              data={filteredOptions}
+              keyExtractor={(item: PickerOption) => item.value}
+              renderItem={renderOption}
+              getItemLayout={getItemLayout}
+              windowSize={5}
+              initialNumToRender={10}
+              maxToRenderPerBatch={5}
+              removeClippedSubviews
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              testID={`${testID}-list`}
+            />
           ) : (
             <View style={styles.empty}>
               <AtomicIcon name={icons.info} size="xl" color="secondary" />

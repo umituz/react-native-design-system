@@ -22,7 +22,12 @@ export class MetricsCalculator {
    * Calculates fetch time for a query
    */
   static calculateFetchTime(query: Query): number {
-    return Date.now() - (query.state.dataUpdatedAt ?? Date.now());
+    const now = Date.now();
+    const updatedAt = query.state.dataUpdatedAt ?? now;
+    const fetchTime = now - updatedAt;
+
+    // Ensure non-negative (handles cases where dataUpdatedAt is in the future)
+    return Math.max(0, fetchTime);
   }
 
   /**

@@ -58,38 +58,39 @@ export const ActionFooter = React.memo<ActionFooterProps>(({
   const tokens = useAppDesignTokens();
   const spacingMultiplier = tokens.spacingMultiplier;
 
-  const baseStyles = createStyles(spacingMultiplier);
-
   const themedStyles = useMemo(
-    () => ({
-      container: {
-        ...baseStyles.container,
-        paddingVertical: tokens.spacing.md,
-        gap: tokens.spacing.md,
-      },
-      backButton: {
-        ...baseStyles.backButton,
-        borderRadius: tokens.borders.radius.lg,
-        backgroundColor: tokens.colors.surface,
-        borderColor: tokens.colors.outlineVariant,
-      },
-      actionButton: {
-        ...baseStyles.actionButton,
-        borderRadius: tokens.borders.radius.lg,
-      },
-      actionContent: {
-        ...baseStyles.actionContent,
-        backgroundColor: tokens.colors.primary,
-        gap: tokens.spacing.sm,
-        paddingHorizontal: tokens.spacing.lg,
-      },
-      actionText: {
-        ...baseStyles.actionText,
-        color: tokens.colors.onPrimary,
-        fontSize: calculateResponsiveSize(18, spacingMultiplier),
-      },
-    }),
-    [baseStyles, tokens, spacingMultiplier],
+    () => {
+      const baseStyles = createStyles(spacingMultiplier);
+      return {
+        container: {
+          ...baseStyles.container,
+          paddingVertical: tokens.spacing.md,
+          gap: tokens.spacing.md,
+        },
+        backButton: {
+          ...baseStyles.backButton,
+          borderRadius: tokens.borders.radius.lg,
+          backgroundColor: tokens.colors.surface,
+          borderColor: tokens.colors.outlineVariant,
+        },
+        actionButton: {
+          ...baseStyles.actionButton,
+          borderRadius: tokens.borders.radius.lg,
+        },
+        actionContent: {
+          ...baseStyles.actionContent,
+          backgroundColor: tokens.colors.primary,
+          gap: tokens.spacing.sm,
+          paddingHorizontal: tokens.spacing.lg,
+        },
+        actionText: {
+          ...baseStyles.actionText,
+          color: tokens.colors.onPrimary,
+          fontSize: calculateResponsiveSize(18, spacingMultiplier),
+        },
+      };
+    },
+    [tokens, spacingMultiplier],
   );
 
   const handleBackPress = useCallback(() => {

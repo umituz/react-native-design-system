@@ -2,7 +2,7 @@
  * Calendar Day Cell Component
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, View, StyleProp, ViewStyle } from 'react-native';
 import { AtomicText } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme/hooks/useAppDesignTokens';
@@ -38,22 +38,34 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = React.memo(({
   const visibleEvents = day.events.slice(0, maxEventIndicators);
   const hiddenEventCount = Math.max(0, eventCount - maxEventIndicators);
 
+  const cellStyle = useMemo(() => [
+    calendarStyles.dayCell,
+    {
+      backgroundColor: isSelected ? tokens.colors.primary : 'transparent',
+      borderColor: isSelected
+        ? tokens.colors.primary
+        : day.isToday
+          ? tokens.colors.primary
+          : tokens.colors.border,
+      borderWidth: isSelected ? 2 : day.isToday ? 2 : 1,
+      opacity: day.isDisabled ? 0.4 : 1,
+    },
+    dayStyle,
+  ], [isSelected, day.isToday, day.isDisabled, tokens.colors.primary, tokens.colors.border, dayStyle]);
+
+  const dayTextStyle = useMemo(() => [
+    calendarStyles.dayText,
+    day.isToday && !isSelected && { fontWeight: 'bold' as const },
+  ], [day.isToday, isSelected]);
+
+  const todayDotStyle = useMemo(() => [
+    calendarStyles.eventDot,
+    { backgroundColor: tokens.colors.success },
+  ], [calendarStyles.eventDot, tokens.colors.success]);
+
   return (
     <TouchableOpacity
-      style={[
-        calendarStyles.dayCell,
-        {
-          backgroundColor: isSelected ? tokens.colors.primary : 'transparent',
-          borderColor: isSelected
-            ? tokens.colors.primary
-            : day.isToday
-              ? tokens.colors.primary
-              : tokens.colors.border,
-          borderWidth: isSelected ? 2 : day.isToday ? 2 : 1,
-          opacity: day.isDisabled ? 0.4 : 1,
-        },
-        dayStyle,
-      ]}
+      style={cellStyle}
       onPress={() => !day.isDisabled && onDateSelect(day.date)}
       disabled={day.isDisabled}
       testID={testID ? `${testID}-day-${index}` : undefined}
@@ -64,31 +76,35 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = React.memo(({
       <AtomicText
         type="bodyMedium"
         color={isSelected ? 'inverse' : day.isCurrentMonth ? 'primary' : 'secondary'}
-        style={[calendarStyles.dayText, day.isToday && !isSelected && { fontWeight: 'bold' }]}
+        style={dayTextStyle}
       >
         {day.date.getDate()}
       </AtomicText>
 
       <View style={calendarStyles.eventIndicators}>
         {day.isToday && eventCount === 0 && (
-          <View style={[calendarStyles.eventDot, { backgroundColor: tokens.colors.success }]} />
+          <View style={todayDotStyle} />
         )}
 
-        {visibleEvents.map((event) => (
-          <View
-            key={event.id}
-            style={[
-              calendarStyles.eventDot,
-              {
-                backgroundColor: event.color
-                  ? event.color
-                  : event.isCompleted
-                    ? tokens.colors.success
-                    : tokens.colors.primary,
-              },
-            ]}
-          />
-        ))}
+        {visibleEvents.map((event) => {
+          const eventDotStyle = useMemo(() => [
+            calendarStyles.eventDot,
+            {
+              backgroundColor: event.color
+                ? event.color
+                : event.isCompleted
+                  ? tokens.colors.success
+                  : tokens.colors.primary,
+            },
+          ], [event.color, event.isCompleted, tokens.colors.success, tokens.colors.primary]);
+
+          return (
+            <View
+              key={event.id}
+              style={eventDotStyle}
+            />
+          );
+        })}
 
         {showEventCount && hiddenEventCount > 0 && (
           <AtomicText type="bodySmall" color="secondary" style={calendarStyles.moreEventsText}>

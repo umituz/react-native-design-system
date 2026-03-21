@@ -15,14 +15,21 @@ export async function withTimeout<T>(
   operation: () => Promise<T>,
   timeoutMs: number = 1000,
 ): Promise<T | null> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
   try {
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('Operation timeout')), timeoutMs);
+      timeoutId = setTimeout(() => reject(new Error('Operation timeout')), timeoutMs);
     });
 
     return await Promise.race([operation(), timeoutPromise]);
   } catch {
     return null;
+  } finally {
+    // Always clear timeout to prevent memory leak
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
   }
 }
 
@@ -51,9 +58,11 @@ export async function withTimeoutAll<T>(
   operations: Array<() => Promise<T>>,
   timeoutMs: number = 2000,
 ): Promise<Array<T | null>> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
   try {
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('Operations timeout')), timeoutMs);
+      timeoutId = setTimeout(() => reject(new Error('Operations timeout')), timeoutMs);
     });
 
     const results = await Promise.race([
@@ -64,6 +73,11 @@ export async function withTimeoutAll<T>(
     return results as Array<T | null>;
   } catch {
     return operations.map(() => null);
+  } finally {
+    // Always clear timeout to prevent memory leak
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
   }
 }
 

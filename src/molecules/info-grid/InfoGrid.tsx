@@ -8,7 +8,7 @@ import type { InfoGridProps } from './types';
 import { calculateResponsiveSize } from '../../responsive';
 import { INFO_GRID_ICONS } from '../../constants';
 
-export const InfoGrid: React.FC<InfoGridProps> = ({
+export const InfoGrid: React.FC<InfoGridProps> = React.memo(({
   title,
   headerIcon,
   items,
@@ -73,6 +73,8 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
     },
   }), [tokens, columns, spacingMultiplier]);
 
+  const memoizedItemStyle = useMemo(() => itemStyle, [itemStyle]);
+
   return (
     <View style={[styles.container, style]}>
       {(title || headerIcon) && (
@@ -88,7 +90,7 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
 
       <View style={styles.grid}>
         {items.map((item) => (
-          <View key={item.text} style={[styles.item, itemStyle]}>
+          <View key={item.text} style={[styles.item, memoizedItemStyle]}>
             {item.icon && (
               <View style={styles.iconContainer}>
                 <AtomicIcon name={item.icon} size="xs" color="primary" />
@@ -102,4 +104,4 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       </View>
     </View>
   );
-};
+});

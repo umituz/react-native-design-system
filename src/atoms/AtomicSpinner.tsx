@@ -13,7 +13,7 @@
  * - Async operation feedback
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ActivityIndicator, StyleSheet, ViewStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText } from './AtomicText';
@@ -84,13 +84,13 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
   // Resolve size (scaled)
   const baseSize = typeof size === 'number' ? size : SIZE_MAP[size];
   const resolvedSize = baseSize * tokens.spacingMultiplier;
-  
+
   const activitySize = typeof size === 'number'
     ? (size >= 30 ? 'large' : 'small')
     : ACTIVITY_SIZE_MAP[size];
 
-  // Resolve color
-  const resolveColor = (): string => {
+  // Resolve color (memoized)
+  const spinnerColor = useMemo(() => {
     if (color.startsWith('#') || color.startsWith('rgb')) {
       return color;
     }
@@ -103,26 +103,34 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
       white: '#FFFFFF',
     };
     return colorMap[color as SpinnerColor] || tokens.colors.primary;
-  };
+  }, [color, tokens.colors.primary, tokens.colors.secondary, tokens.colors.success, tokens.colors.error, tokens.colors.warning]);
 
-  const spinnerColor = resolveColor();
   const resolvedOverlayColor = overlayColor || 'rgba(0, 0, 0, 0.5)';
 
-  // Container styles
-  const containerStyles: ViewStyle[] = [
+  // Container styles (memoized)
+  const containerStyles = useMemo<ViewStyle[]>(() => [
     styles.container,
-    textPosition === 'right' && { flexDirection: 'row' },
+    textPosition === 'right' && { flexDirection: 'row' as const },
     fullContainer && styles.fullContainer,
     overlay && [styles.overlay, { backgroundColor: resolvedOverlayColor }],
-  ].filter(Boolean) as ViewStyle[];
+  ].filter(Boolean) as ViewStyle[], [textPosition, fullContainer, overlay, resolvedOverlayColor]);
 
-  // Spinner wrapper styles
-  const spinnerWrapperStyles: ViewStyle = {
+  // Spinner wrapper styles (memoized)
+  const spinnerWrapperStyles = useMemo<ViewStyle>(() => ({
     width: resolvedSize,
     height: resolvedSize,
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
+    justifyContent: 'center' as const,
+    alignItems: 'center' as const,
+  }), [resolvedSize]);
+
+  // Text style (memoized)
+  const textStyle = useMemo(() => [
+    styles.text,
+    textPosition === 'right'
+      ? { marginLeft: 12 * tokens.spacingMultiplier }
+      : { marginTop: 12 * tokens.spacingMultiplier },
+    { color: overlay ? '#FFFFFF' : tokens.colors.textSecondary },
+  ], [textPosition, overlay, tokens.spacingMultiplier, tokens.colors.textSecondary]);
 
   return (
     <View
@@ -142,13 +150,7 @@ export const AtomicSpinner: React.FC<AtomicSpinnerProps> = ({
       {text && (
         <AtomicText
           type="bodyMedium"
-          style={[
-            styles.text,
-            textPosition === 'right' 
-              ? { marginLeft: 12 * tokens.spacingMultiplier }
-              : { marginTop: 12 * tokens.spacingMultiplier },
-            { color: overlay ? '#FFFFFF' : tokens.colors.textSecondary },
-          ]}
+          style={textStyle}
         >
           {text}
         </AtomicText>

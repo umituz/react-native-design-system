@@ -43,49 +43,55 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   const spacingMultiplier = tokens.spacingMultiplier;
 
   const themedStyles = useMemo(
-    () =>
-      StyleSheet.create({
-        container: {
-          flex: 1,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          padding: tokens.spacing.xl,
-        },
-        iconContainer: {
-          width: calculateResponsiveSize(EMPTY_STATE_ICON.width, spacingMultiplier),
-          height: calculateResponsiveSize(EMPTY_STATE_ICON.height, spacingMultiplier),
-          borderRadius: calculateResponsiveSize(EMPTY_STATE_ICON.borderRadius, spacingMultiplier),
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          marginBottom: tokens.spacing.lg,
-        },
-        title: {
-          marginBottom: tokens.spacing.sm,
-        },
-        description: {
-          marginBottom: tokens.spacing.lg,
-        },
-        actionButton: {
-          paddingHorizontal: tokens.spacing.lg,
-          paddingVertical: tokens.spacing.md,
-          borderRadius: tokens.borders.radius.md,
-          marginTop: tokens.spacing.sm,
-        },
-      }),
+    () => ({
+      container: {
+        flex: 1,
+        alignItems: 'flex-start' as const,
+        justifyContent: 'flex-start' as const,
+        padding: tokens.spacing.xl,
+      },
+      iconContainer: {
+        width: calculateResponsiveSize(EMPTY_STATE_ICON.width, spacingMultiplier),
+        height: calculateResponsiveSize(EMPTY_STATE_ICON.height, spacingMultiplier),
+        borderRadius: calculateResponsiveSize(EMPTY_STATE_ICON.borderRadius, spacingMultiplier),
+        alignItems: 'flex-start' as const,
+        justifyContent: 'flex-start' as const,
+        marginBottom: tokens.spacing.lg,
+      },
+      title: {
+        marginBottom: tokens.spacing.sm,
+        textAlign: 'left' as const,
+      },
+      description: {
+        marginBottom: tokens.spacing.lg,
+        textAlign: 'left' as const,
+      },
+      actionButton: {
+        paddingHorizontal: tokens.spacing.lg,
+        paddingVertical: tokens.spacing.md,
+        borderRadius: tokens.borders.radius.md,
+        marginTop: tokens.spacing.sm,
+      },
+    }),
     [tokens, spacingMultiplier],
   );
+
+  const iconContainerStyle = useMemo(() => [
+    themedStyles.iconContainer,
+    { backgroundColor: tokens.colors.surface },
+  ], [themedStyles.iconContainer, tokens.colors.surface]);
+
+  const actionButtonStyle = useMemo(() => [
+    themedStyles.actionButton,
+    { backgroundColor: tokens.colors.primary },
+  ], [themedStyles.actionButton, tokens.colors.primary]);
 
   return (
     <View style={[themedStyles.container, style]} testID={testID}>
       {illustration ? (
         illustration
       ) : (
-        <View
-          style={[
-            themedStyles.iconContainer,
-            { backgroundColor: tokens.colors.surface },
-          ]}
-        >
+        <View style={iconContainerStyle}>
           <AtomicIcon name={icon} size="xxl" color="secondary" />
         </View>
       )}
@@ -93,7 +99,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <AtomicText
         type="headlineSmall"
         color="primary"
-        style={[themedStyles.title, { textAlign: 'left' }]}
+        style={themedStyles.title}
       >
         {title}
       </AtomicText>
@@ -102,7 +108,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <AtomicText
           type="bodyMedium"
           color="secondary"
-          style={[themedStyles.description, { textAlign: 'left' }]}
+          style={themedStyles.description}
         >
           {displayDescription}
         </AtomicText>
@@ -110,10 +116,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
       {actionLabel && onAction && (
         <TouchableOpacity
-          style={[
-            themedStyles.actionButton,
-            { backgroundColor: tokens.colors.primary },
-          ]}
+          style={actionButtonStyle}
           onPress={onAction}
           activeOpacity={0.8}
         >

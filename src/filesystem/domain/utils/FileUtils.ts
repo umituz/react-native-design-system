@@ -59,7 +59,11 @@ export class FileUtils {
    */
   static getFileExtension(filename: string): string {
     const lastDot = filename.lastIndexOf('.');
-    return lastDot > 0 ? filename.substring(lastDot) : '';
+    // Check dot is not at position 0 (dotfile like .gitignore) and not at end
+    if (lastDot > 0 && lastDot < filename.length - 1) {
+      return filename.substring(lastDot);
+    }
+    return '';
   }
 
   /**

@@ -36,27 +36,6 @@ export function getFabSizes(spacingMultiplier: number): Record<'sm' | 'md' | 'lg
 }
 
 /**
- * @deprecated Use getFabSizes(spacingMultiplier) instead
- */
-export const FAB_SIZES: Record<'sm' | 'md' | 'lg', FabSizeConfig> = {
-  sm: {
-    width: BASE_FAB_SIZES.sm,
-    height: BASE_FAB_SIZES.sm,
-    borderRadius: 12,
-  },
-  md: {
-    width: BASE_FAB_SIZES.md,
-    height: BASE_FAB_SIZES.md,
-    borderRadius: 16,
-  },
-  lg: {
-    width: BASE_FAB_SIZES.lg,
-    height: BASE_FAB_SIZES.lg,
-    borderRadius: 20,
-  },
-} as const;
-
-/**
  * Get FAB variant configurations based on design tokens
  * @param tokens - Design tokens from theme
  * @returns Variant configurations for primary, secondary, and surface

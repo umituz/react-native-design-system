@@ -34,10 +34,13 @@ export const withAlpha = (hexColor: string, alpha: number): string => {
     return hexColor;
   }
 
-  // Convert 3-digit hex to 6-digit
-  const hex = hexColor.length === 4 
-    ? hexColor.split('').map(c => c + c).join('')
-    : hexColor;
+  let hex = hexColor;
+
+  // Convert 3-digit hex to 6-digit (e.g., #RGB → #RRGGBB)
+  if (hex.length === 4) {
+    // Remove # and double each character, then add # back
+    hex = '#' + hex.slice(1).split('').map(c => c + c).join('');
+  }
 
   const alphaHex = Math.round(alpha * 255)
     .toString(16)

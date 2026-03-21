@@ -21,8 +21,70 @@ import { ErrorHandler } from '../../../utils/errors/ErrorHandler';
 export class DeviceFeatureService {
   private static config: DeviceFeatureConfig = { features: {} };
 
+  // In-memory usage tracking for debouncing
+  private static inMemoryUsage = new Map<string, number>();
+  private static dirtyFeatures = new Set<string>();
+  private static flushInterval: ReturnType<typeof setInterval> | null = null;
+  private static FLUSH_DELAY = 5000; // 5 seconds
+
   static setConfig(config: DeviceFeatureConfig): void {
     this.config = config;
+    this.startPeriodicFlush();
+  }
+
+  /**
+   * Start periodic flush of in-memory usage to storage
+   */
+  private static startPeriodicFlush(): void {
+    if (this.flushInterval) return;
+
+    this.flushInterval = setInterval(() => {
+      this.flushDirtyFeatures();
+    }, this.FLUSH_DELAY);
+  }
+
+  /**
+   * Flush dirty features to storage
+   */
+  private static async flushDirtyFeatures(): Promise<void> {
+    if (this.dirtyFeatures.size === 0) return;
+
+    const featuresToFlush = Array.from(this.dirtyFeatures);
+    this.dirtyFeatures.clear();
+
+    for (const featureKey of featuresToFlush) {
+      const [deviceId, featureName] = featureKey.split(':');
+      const increment = this.inMemoryUsage.get(featureKey) || 0;
+
+      if (increment > 0) {
+        try {
+          const usage = await this.getFeatureUsage(deviceId, featureName);
+          const updatedUsage: DeviceFeatureUsage = {
+            ...usage,
+            usageCount: usage.usageCount + increment,
+          };
+
+          await this.setFeatureUsage(deviceId, featureName, updatedUsage);
+          this.inMemoryUsage.delete(featureKey);
+        } catch (error) {
+          ErrorHandler.log(error);
+        }
+      }
+    }
+  }
+
+  /**
+   * Stop periodic flush (call on app cleanup)
+   */
+  static async destroy(): Promise<void> {
+    if (this.flushInterval) {
+      clearInterval(this.flushInterval);
+      this.flushInterval = null;
+    }
+
+    // Flush any remaining dirty features
+    await this.flushDirtyFeatures();
+    this.inMemoryUsage.clear();
   }
 
   static async checkFeatureAccess(
@@ -42,10 +104,17 @@ export class DeviceFeatureService {
     }
 
     const usage = await this.getFeatureUsage(deviceId, featureName);
+    const featureKey = `${deviceId}:${featureName}`;
+    const inMemoryIncrement = this.inMemoryUsage.get(featureKey) || 0;
+    const totalUsageCount = usage.usageCount + inMemoryIncrement;
+
     const shouldReset = this.shouldResetUsage(usage, featureConfig.resetPeriod);
 
     if (shouldReset) {
       await this.resetFeatureUsage(deviceId, featureName);
+      // Clear in-memory counter on reset
+      this.inMemoryUsage.delete(featureKey);
+      this.dirtyFeatures.delete(featureKey);
       return {
         isAllowed: true,
         remainingUses: featureConfig.maxUses - 1,
@@ -55,16 +124,16 @@ export class DeviceFeatureService {
       };
     }
 
-    const isAllowed = usage.usageCount < featureConfig.maxUses;
+    const isAllowed = totalUsageCount < featureConfig.maxUses;
     const remainingUses = Math.max(
       0,
-      featureConfig.maxUses - usage.usageCount
+      featureConfig.maxUses - totalUsageCount
     );
 
     return {
       isAllowed,
       remainingUses,
-      usageCount: usage.usageCount,
+      usageCount: totalUsageCount,
       resetAt: this.calculateNextReset(featureConfig.resetPeriod),
       maxUses: featureConfig.maxUses,
     };
@@ -72,14 +141,25 @@ export class DeviceFeatureService {
 
   static async incrementFeatureUsage(featureName: string): Promise<void> {
     const deviceId = await PersistentDeviceIdService.getDeviceId();
-    const usage = await this.getFeatureUsage(deviceId, featureName);
+    const featureKey = `${deviceId}:${featureName}`;
 
-    const updatedUsage: DeviceFeatureUsage = {
-      ...usage,
-      usageCount: usage.usageCount + 1,
-    };
+    // Increment in-memory counter
+    const currentCount = this.inMemoryUsage.get(featureKey) || 0;
+    this.inMemoryUsage.set(featureKey, currentCount + 1);
 
-    await this.setFeatureUsage(deviceId, featureName, updatedUsage);
+    // Mark as dirty for periodic flush
+    this.dirtyFeatures.add(featureKey);
+
+    // If this is the first increment, fetch current usage and set baseline
+    if (currentCount === 0) {
+      try {
+        const usage = await this.getFeatureUsage(deviceId, featureName);
+        // Store baseline to avoid double-counting
+        this.inMemoryUsage.set(featureKey, 0);
+      } catch (error) {
+        ErrorHandler.log(error);
+      }
+    }
   }
 
   private static async getFeatureUsage(

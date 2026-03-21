@@ -22,10 +22,19 @@ export function formatFileSize(bytes: number, options: FileSizeFormatOptions = {
   const { decimals = 1, locale = 'en-US' } = options;
 
   if (bytes === 0) return '0 Bytes';
+  if (bytes < 0) {
+    if (__DEV__) {
+      console.warn(`[formatFileSize] File size cannot be negative (received: ${bytes}), treating as 0`);
+    }
+    return '0 Bytes';
+  }
 
   const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB']; // Added EB for safety
+  const i = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(k)),
+    sizes.length - 1 // Prevent array out of bounds
+  );
 
   return `${formatNumber(bytes / Math.pow(k, i), { decimals, locale })} ${sizes[i]}`;
 }
@@ -130,8 +139,14 @@ export function formatPhone(phone: string, options: PhoneFormatOptions = {}): st
  * @returns Truncated text
  */
 export function truncateText(text: string, maxLength: number, suffix: string = '...'): string {
-  if (!text || text.length <= maxLength) {
+  if (!text) return '';
+  if (text.length <= maxLength) {
     return text;
+  }
+
+  // Ensure we don't end up with negative slice length
+  if (maxLength <= suffix.length) {
+    return suffix.slice(0, maxLength);
   }
 
   return text.slice(0, maxLength - suffix.length) + suffix;

@@ -3,7 +3,7 @@
  * Refactored: Extracted configs, styles, and types
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StyleProp, ViewStyle, TextStyle, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../AtomicText';
 import { AtomicIcon } from '../icon';
@@ -46,7 +46,7 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
   const variantStyles = getVariantStyles(variant, tokens);
   const iconColor = variantStyles.text.color;
 
-  const containerStyle: StyleProp<ViewStyle> = [
+  const containerStyle = useMemo<StyleProp<ViewStyle>>(() => [
     buttonStyles.button,
     {
       paddingVertical: config.paddingVertical,
@@ -58,9 +58,9 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
     fullWidth ? buttonStyles.fullWidth : undefined,
     isDisabled ? buttonStyles.disabled : undefined,
     style,
-  ];
+  ], [config, variantStyles.container, fullWidth, isDisabled, style, tokens.borders.radius.md]);
 
-  const buttonTextStyle: StyleProp<TextStyle> = [
+  const buttonTextStyle = useMemo<StyleProp<TextStyle>>(() => [
     {
       fontSize: config.fontSize,
       fontWeight: '600',
@@ -68,17 +68,16 @@ export const AtomicButton: React.FC<AtomicButtonProps> = React.memo(({
     variantStyles.text,
     isDisabled ? buttonStyles.disabledText : undefined,
     textStyle,
-  ];
+  ], [config.fontSize, variantStyles.text, isDisabled, textStyle]);
+
+  const rowReverseStyle = useMemo(() => iconPosition === 'right' ? buttonStyles.rowReverse : undefined, [iconPosition]);
 
   const buttonText = title || children;
   const showIcon = icon;
 
   return (
     <TouchableOpacity
-      style={[
-        containerStyle,
-        iconPosition === 'right' && buttonStyles.rowReverse,
-      ]}
+      style={[containerStyle, rowReverseStyle]}
       onPress={handlePress}
       activeOpacity={activeOpacity}
       disabled={isDisabled}

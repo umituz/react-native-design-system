@@ -35,11 +35,11 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
   const tokens = useAppDesignTokens();
   const calendarIcon = useIconName('calendar');
 
-  const buttonStyles = useMemo(() => StyleSheet.create({
+  const buttonStyles = useMemo(() => ({
     container: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'space-between' as const,
       paddingHorizontal: tokens.spacing.md,
       paddingVertical: tokens.spacing.sm,
       borderRadius: tokens.borders.radius.md,
@@ -71,18 +71,18 @@ export const DatePickerButton: React.FC<DatePickerButtonProps> = ({
       fontWeight: '500',
     },
     iconContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: tokens.spacing.xs,
     },
   }), [tokens]);
 
-  const containerStyle = [
+  const containerStyle = useMemo(() => [
     buttonStyles.container,
     error ? buttonStyles.containerError :
       disabled ? buttonStyles.containerDisabled :
         buttonStyles.containerDefault,
-  ];
+  ], [buttonStyles, error, disabled]);
 
   const textStyle = hasValue ? buttonStyles.valueText : buttonStyles.placeholderText;
 

@@ -58,13 +58,13 @@ const AvatarItem = React.memo<{
   spacing: number;
   avatarStyle: any;
 }>(({ item, index, size, shape, spacing, avatarStyle }) => {
-  const wrapperStyle = useMemo(
-    () => [
-      styles.avatarWrapper,
-      index > 0 && { marginLeft: spacing },
-    ],
-    [index, spacing]
-  );
+  const wrapperStyle = useMemo(() => {
+    const baseStyle = [styles.avatarWrapper];
+    if (index > 0) {
+      baseStyle.push({ marginLeft: spacing });
+    }
+    return baseStyle;
+  }, [index, spacing]);
 
   return (
     <View style={wrapperStyle}>

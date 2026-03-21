@@ -25,7 +25,34 @@ const getDeviceModule = (): typeof import('expo-device') | null => {
 };
 
 export class DeviceInfoService {
+  // Static cache for device info (app-lifetime)
+  private static cachedDeviceInfo: DeviceInfo | null = null;
+  private static cachePromise: Promise<DeviceInfo> | null = null;
+
   static async getDeviceInfo(): Promise<DeviceInfo> {
+    // Return cached data if available
+    if (this.cachedDeviceInfo) {
+      return this.cachedDeviceInfo;
+    }
+
+    // Return existing promise if cache is being populated
+    if (this.cachePromise) {
+      return this.cachePromise;
+    }
+
+    // Populate cache
+    this.cachePromise = this.fetchDeviceInfo();
+
+    try {
+      const deviceInfo = await this.cachePromise;
+      this.cachedDeviceInfo = deviceInfo;
+      return deviceInfo;
+    } finally {
+      this.cachePromise = null;
+    }
+  }
+
+  private static async fetchDeviceInfo(): Promise<DeviceInfo> {
     try {
       const Device = getDeviceModule();
 
@@ -72,6 +99,12 @@ export class DeviceInfoService {
     } catch {
       return this.getMinimalDeviceInfo();
     }
+  }
+
+  // Clear cache (useful for testing)
+  static clearCache(): void {
+    this.cachedDeviceInfo = null;
+    this.cachePromise = null;
   }
 
   private static getMinimalDeviceInfo(): DeviceInfo {

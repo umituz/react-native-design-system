@@ -12,7 +12,7 @@ import type { SearchBarProps } from './types';
 import { calculateResponsiveSize } from '../../responsive';
 import { MISC_SIZES } from '../../constants';
 
-export const SearchBar: React.FC<SearchBarProps> = ({
+export const SearchBar: React.FC<SearchBarProps> = React.memo(({
     value,
     onChangeText,
     onSubmit,
@@ -22,8 +22,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     placeholder = 'Search...',
     loading = false,
     disabled = false,
-    containerStyle,
-    inputStyle,
+    containerStyle: propContainerStyle,
+    inputStyle: propInputStyle,
     testID,
 }) => {
     const tokens = useAppDesignTokens();
@@ -42,19 +42,30 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
     const spacingMultiplier = tokens.spacingMultiplier;
 
+    const containerStyle = useMemo(() => [
+        styles.container,
+        {
+            backgroundColor: tokens.colors.surfaceVariant,
+            borderColor: tokens.colors.border,
+            height: calculateResponsiveSize(MISC_SIZES.searchInputHeight, spacingMultiplier),
+            paddingHorizontal: calculateResponsiveSize(tokens.spacing.md, spacingMultiplier),
+            borderRadius: calculateResponsiveSize(MISC_SIZES.searchBorderRadius, spacingMultiplier),
+        },
+        propContainerStyle,
+    ], [tokens.colors.surfaceVariant, tokens.colors.border, spacingMultiplier, propContainerStyle]);
+
+    const inputTextStyle = useMemo(() => [
+        styles.input,
+        {
+            color: tokens.colors.textPrimary,
+            fontSize: tokens.typography.bodyMedium.responsiveFontSize,
+        },
+        propInputStyle,
+    ], [styles.input, tokens.colors.textPrimary, tokens.typography.bodyMedium.responsiveFontSize, propInputStyle]);
+
     return (
         <View
-            style={[
-                styles.container,
-                {
-                    backgroundColor: tokens.colors.surfaceVariant,
-                    borderColor: tokens.colors.border,
-                    height: calculateResponsiveSize(MISC_SIZES.searchInputHeight, spacingMultiplier),
-                    paddingHorizontal: calculateResponsiveSize(tokens.spacing.md, spacingMultiplier),
-                    borderRadius: calculateResponsiveSize(MISC_SIZES.searchBorderRadius, spacingMultiplier),
-                },
-                containerStyle,
-            ]}
+            style={containerStyle}
             testID={testID}
         >
             <View style={styles.searchIcon}>
@@ -77,14 +88,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 returnKeyType="search"
                 autoCapitalize="none"
                 autoCorrect={false}
-                style={[
-                    styles.input,
-                    {
-                        color: tokens.colors.textPrimary,
-                        fontSize: tokens.typography.bodyMedium.responsiveFontSize,
-                    },
-                    inputStyle,
-                ]}
+                style={inputTextStyle}
             />
 
             {(loading || showClear) && (
@@ -116,7 +120,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             )}
         </View>
     );
-};
+});
 
 const styles = StyleSheet.create({
     container: {

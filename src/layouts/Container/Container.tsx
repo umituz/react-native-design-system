@@ -28,6 +28,15 @@ export interface ContainerProps {
 
   /** Test ID */
   testID?: string;
+
+  /** Accessibility label for the container */
+  accessibilityLabel?: string;
+
+  /** Accessibility role for the container */
+  accessibilityRole?: 'region' | 'section' | 'article';
+
+  /** Whether the container is accessible */
+  accessible?: boolean;
 }
 
 /**
@@ -47,6 +56,9 @@ export const Container: React.FC<ContainerProps> = ({
   center = true,
   style,
   testID,
+  accessibilityLabel,
+  accessibilityRole = 'region',
+  accessible,
 }) => {
   const { maxContentWidth } = useResponsive();
   const tokens = useAppDesignTokens();
@@ -69,7 +81,13 @@ export const Container: React.FC<ContainerProps> = ({
   );
 
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View
+      style={[styles.container, style]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole={accessibilityRole as any}
+      accessible={accessible !== false}
+    >
       {children}
     </View>
   );

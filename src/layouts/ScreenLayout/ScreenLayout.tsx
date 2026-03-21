@@ -3,12 +3,33 @@
  */
 
 import React, { useMemo } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppDesignTokens } from '../../theme';
 import { getScreenLayoutConfig } from '../../responsive/responsiveLayout';
 import { getScreenLayoutStyles } from './styles/screenLayoutStyles';
 import type { ScreenLayoutProps } from './types';
+
+export interface ScreenLayoutProps {
+  children: React.ReactNode;
+  scrollable?: boolean;
+  edges?: ('top' | 'bottom' | 'left' | 'right')[];
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+  backgroundColor?: string;
+  containerStyle?: StyleProp<ViewStyle>;
+  contentContainerStyle?: StyleProp<ViewStyle>;
+  testID?: string;
+  hideScrollIndicator?: boolean;
+  keyboardAvoiding?: boolean;
+  keyboardVerticalOffset?: number;
+  maxWidth?: number;
+  fullWidth?: boolean;
+  refreshControl?: React.ReactElement;
+  accessibilityLabel?: string;
+  accessibilityRole?: 'window' | 'region' | 'section';
+  accessible?: boolean;
+}
 
 // Lazy-load react-native-keyboard-controller (optional peer dep).
 // Falls back to React Native's built-in components when not installed.
@@ -40,6 +61,9 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
     maxWidth,
     fullWidth = false,
     refreshControl,
+    accessibilityLabel,
+    accessibilityRole = 'region',
+    accessible,
   } = props;
 
   const tokens = useAppDesignTokens();
@@ -80,6 +104,9 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
           paddingRight,
         },
       ]}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole={accessibilityRole}
+      accessible={accessible !== false}
     >
       {header}
       {scrollable ? (
@@ -109,7 +136,13 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
   if (keyboardAvoiding) {
     const KAV = KCKeyboardAvoidingView ?? KeyboardAvoidingView;
     return (
-      <View style={[styles.container, { backgroundColor: bgColor }, containerStyle]} testID={testID}>
+      <View
+        style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
+        testID={testID}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityRole={accessibilityRole}
+        accessible={accessible !== false}
+      >
         <KAV
           style={styles.keyboardAvoidingView}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -122,7 +155,13 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = (props: ScreenLayoutPro
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: bgColor }, containerStyle]} testID={testID}>
+    <View
+      style={[styles.container, { backgroundColor: bgColor }, containerStyle]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole={accessibilityRole}
+      accessible={accessible !== false}
+    >
       <View style={styles.keyboardAvoidingView}>{content}</View>
     </View>
   );

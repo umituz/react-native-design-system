@@ -118,9 +118,8 @@ export {
   type AsyncOperationState,
   type AsyncOperationActions,
   type AsyncOperationReturn,
+  type ErrorHandler as AsyncErrorHandler,
 } from './hooks';
-
-export type { ErrorHandler as AsyncErrorHandler } from './hooks';
 
 // =============================================================================
 // ERROR HANDLING
@@ -130,8 +129,11 @@ export {
   DesignSystemError,
   ErrorCodes,
   ErrorCategory,
-  type ErrorCode,
-  type ErrorMetadata,
+} from './errors';
+
+export type {
+  ErrorCode,
+  ErrorMetadata,
 } from './errors';
 
 export { ErrorHandler } from './errors/ErrorHandler';

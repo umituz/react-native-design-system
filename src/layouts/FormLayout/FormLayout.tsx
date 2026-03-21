@@ -29,6 +29,15 @@ export interface FormLayoutProps {
 
   /** Test ID */
   testID?: string;
+
+  /** Accessibility label for the form */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the form */
+  accessibilityHint?: string;
+
+  /** Whether the form is accessible */
+  accessible?: boolean;
 }
 
 /**
@@ -51,6 +60,9 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   disableKeyboardAvoid = false,
   disableScroll = false,
   testID,
+  accessibilityLabel,
+  accessibilityHint,
+  accessible,
 }) => {
   const tokens = useAppDesignTokens();
   const { insets } = useResponsive();
@@ -83,7 +95,14 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   );
 
   const content = (
-    <View style={styles.formContent} testID={testID}>
+    <View
+      style={styles.formContent}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel || "Form"}
+      accessibilityHint={accessibilityHint}
+      accessible={accessible !== false}
+      accessibilityRole="form"
+    >
       {children}
     </View>
   );

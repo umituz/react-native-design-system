@@ -96,7 +96,18 @@ export class DateUtilities {
     const year = parts[0] ?? 0;
     const month = parts[1] ?? 1;
     const day = parts[2] ?? 1;
-    return new Date(year, month - 1, day);
+
+    const date = new Date(year, month - 1, day);
+
+    // Validate the date is not invalid
+    if (isNaN(date.getTime())) {
+      if (__DEV__) {
+        console.warn(`[DateUtilities] Invalid date string: ${dateString}`);
+      }
+      throw new Error(`Invalid date string: ${dateString}`);
+    }
+
+    return date;
   }
 
   /**

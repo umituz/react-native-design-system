@@ -8,7 +8,7 @@
  * Composition: AtomicIcon + AtomicText + AtomicButton
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, type ViewStyle } from 'react-native';
 import { SafeAreaView } from '../../safe-area';
 import { useAppDesignTokens } from '../../theme';
@@ -51,13 +51,23 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   onRightPress,
   backgroundColor,
   style,
+  accessibilityLabel,
+  accessibilityHint,
+  accessible,
 }) => {
   const tokens = useAppDesignTokens();
   const bgColor = backgroundColor || tokens.colors.surface;
-  const styles = createAppHeaderStyles(tokens);
+
+  const styles = useMemo(() => createAppHeaderStyles(tokens), [tokens]);
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: bgColor }]}>
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: bgColor }]}
+      accessibilityLabel={accessibilityLabel || title}
+      accessibilityHint={accessibilityHint}
+      accessible={accessible !== false}
+      accessibilityRole="header"
+    >
       <View style={[styles.container, { backgroundColor: bgColor }, style]}>
         {/* Left Action */}
         <View style={styles.leftContainer}>

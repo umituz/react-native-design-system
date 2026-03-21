@@ -97,6 +97,9 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   showsVerticalScrollIndicator = false,
   testID,
   showBorder = true,
+  accessibilityLabel,
+  accessibilityHint,
+  accessible,
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
@@ -138,7 +141,14 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   );
 
   return (
-    <View style={[styles.container, containerStyle]} testID={testID}>
+    <View
+      style={[styles.container, containerStyle]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      accessible={accessible !== false}
+      accessibilityRole="form"
+    >
       <View style={styles.surface}>
         <ScrollView
           style={styles.scrollView}

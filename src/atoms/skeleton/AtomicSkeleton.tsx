@@ -44,7 +44,7 @@ export interface AtomicSkeletonProps {
 
 /**
  * Skeleton loader component
- * 
+ *
  * Provides visual feedback during content loading with customizable patterns
  */
 const SkeletonItem: React.FC<{
@@ -52,18 +52,16 @@ const SkeletonItem: React.FC<{
   baseColor: string;
   multiplier: number;
 }> = React.memo(({ config, baseColor, multiplier }) => {
-  const itemStyles = useMemo(() => StyleSheet.create({
-    item: {
-      ...styles.skeleton,
-      width: (typeof config.width === 'number' ? config.width * multiplier : config.width) as DimensionValue,
-      height: config.height ? config.height * multiplier : undefined,
-      borderRadius: config.borderRadius ? config.borderRadius * multiplier : undefined,
-      marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
-      backgroundColor: baseColor,
-    },
+  const itemStyle = useMemo<ViewStyle>(() => ({
+    ...styles.skeleton,
+    width: (typeof config.width === 'number' ? config.width * multiplier : config.width) as DimensionValue,
+    height: config.height ? config.height * multiplier : undefined,
+    borderRadius: config.borderRadius ? config.borderRadius * multiplier : undefined,
+    marginBottom: config.marginBottom ? config.marginBottom * multiplier : undefined,
+    backgroundColor: baseColor,
   }), [config, baseColor, multiplier]);
 
-  return <View style={itemStyles.item} />;
+  return <View style={itemStyle} />;
 });
 
 export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, type StyleProp, type TextStyle, type TextProps } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { getTextColor, type TextStyleVariant, type ColorVariant } from '../typography';
@@ -36,12 +36,13 @@ export interface AtomicTextProps extends Omit<TextProps, 'style'> {
 
 /**
  * AtomicText - Primitive Text Component
- * 
+ *
  * ✅ Responsive by default
  * ✅ Theme-aware
+ * ✅ Memoized for performance
  * ✅ SOLID, DRY, KISS
  */
-export const AtomicText = ({
+export const AtomicText = React.memo(({
   type = 'bodyMedium',
   color = 'textPrimary',
   align,
@@ -55,29 +56,31 @@ export const AtomicText = ({
 }: AtomicTextProps) => {
   const tokens = useAppDesignTokens();
 
-  // Get typography style from tokens
-  const typographyStyle = tokens.typography[type] as TextStyle & { responsiveFontSize?: number };
+  const textStyle = useMemo<StyleProp<TextStyle>>(() => {
+    // Get typography style from tokens
+    const typographyStyle = tokens.typography[type] as TextStyle & { responsiveFontSize?: number };
 
-  // Use responsive font size if available
-  const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;
+    // Use responsive font size if available
+    const fontSize = typographyStyle?.responsiveFontSize || typographyStyle?.fontSize;
 
-  // Resolve color
-  const resolvedColor = typeof color === 'string' && !color.includes('.')
-    ? getTextColor(color as ColorVariant, tokens)
-    : color;
+    // Resolve color
+    const resolvedColor = typeof color === 'string' && !color.includes('.')
+      ? getTextColor(color as ColorVariant, tokens)
+      : color;
 
-  const textStyle: StyleProp<TextStyle> = [
-    typographyStyle,
-    {
-      color: resolvedColor as string,
-      ...(fontSize && { fontSize }),
-      ...(align && { textAlign: align }),
-      ...(fontWeight && { fontWeight }),
-      ...(marginTop && { marginTop: tokens.spacing[marginTop] as number }),
-      ...(marginBottom && { marginBottom: tokens.spacing[marginBottom] as number }),
-    },
-    style,
-  ];
+    return [
+      typographyStyle,
+      {
+        color: resolvedColor as string,
+        ...(fontSize && { fontSize }),
+        ...(align && { textAlign: align }),
+        ...(fontWeight && { fontWeight }),
+        ...(marginTop && { marginTop: tokens.spacing[marginTop] as number }),
+        ...(marginBottom && { marginBottom: tokens.spacing[marginBottom] as number }),
+      },
+      style,
+    ];
+  }, [tokens, type, color, align, fontWeight, marginTop, marginBottom, style]);
 
   return (
     <Text
@@ -88,4 +91,6 @@ export const AtomicText = ({
       {children}
     </Text>
   );
-};
+});
+
+AtomicText.displayName = 'AtomicText';

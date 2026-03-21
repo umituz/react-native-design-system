@@ -64,11 +64,11 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
 
-  const modalStyles = useMemo(() => StyleSheet.create({
+  const modalStyles = useMemo(() => ({
     overlay: {
       flex: 1,
       backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})`,
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-end' as const,
     },
     container: {
       backgroundColor: tokens.colors.surface,
@@ -77,9 +77,9 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
       paddingBottom: insets.bottom,
     },
     header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      flexDirection: 'row' as const,
+      justifyContent: 'space-between' as const,
+      alignItems: 'center' as const,
       paddingHorizontal: tokens.spacing.md,
       paddingVertical: tokens.spacing.sm,
       borderBottomWidth: 1,
@@ -87,7 +87,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
     },
     title: {
       fontSize: tokens.typography.titleLarge.fontSize,
-      fontWeight: '600',
+      fontWeight: '600' as const,
       color: tokens.colors.onSurface,
     },
     doneButton: {
@@ -98,7 +98,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
     },
     doneButtonText: {
       fontSize: tokens.typography.labelMedium.fontSize,
-      fontWeight: '500',
+      fontWeight: '500' as const,
       color: tokens.colors.onPrimary,
     },
   }), [overlayOpacity, tokens, insets.bottom]);

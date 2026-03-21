@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { View, TextInput, StyleSheet, type ViewStyle, type StyleProp, type TextStyle } from 'react-native';
 import { useAppDesignTokens } from '../theme';
 import { AtomicText } from './AtomicText';
@@ -68,6 +68,21 @@ export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, Ato
   const tokens = useAppDesignTokens();
   const hasError = !!errorText;
 
+  const textInputStyle = useMemo<StyleProp<TextStyle>>(() => [
+    styles.input,
+    {
+      backgroundColor: tokens.colors.surface,
+      borderColor: hasError ? tokens.colors.error : tokens.colors.border,
+      color: tokens.colors.textPrimary,
+      minHeight: calculatedMinHeight,
+      padding: tokens.spacing.md,
+      borderRadius: tokens.borderRadius.md,
+      fontSize: 16,
+    },
+    inputStyle,
+    disabled && { opacity: 0.5 },
+  ], [tokens, hasError, calculatedMinHeight, inputStyle, disabled]);
+
   return (
     <View style={[styles.container, style]} testID={testID}>
       {label && (
@@ -93,20 +108,7 @@ export const AtomicTextArea = forwardRef<React.ElementRef<typeof TextInput>, Ato
         onSubmitEditing={onSubmitEditing}
         blurOnSubmit={blurOnSubmit}
         textAlignVertical="top"
-        style={[
-          styles.input,
-          {
-            backgroundColor: tokens.colors.surface,
-            borderColor: hasError ? tokens.colors.error : tokens.colors.border,
-            color: tokens.colors.textPrimary,
-            minHeight: calculatedMinHeight,
-            padding: tokens.spacing.md,
-            borderRadius: tokens.borderRadius.md,
-            fontSize: 16,
-          },
-          inputStyle,
-          disabled && { opacity: 0.5 },
-        ]}
+        style={textInputStyle}
       />
       {(helperText || errorText) && (
         <View style={styles.helperRow}>

@@ -3,23 +3,21 @@
  *
  * Uses expo-device for system-level tablet detection,
  * then uses screen dimensions for iPad-specific sub-categories.
+ *
+ * ⚠️ NOTE: These functions use Dimensions.get() which doesn't update on
+ * device rotation, iPad Split View, or Stage Manager. For reactive detection
+ * that updates on dimension changes, consider using useWindowDimensions() hook
+ * directly in your components.
  */
 
 import { Dimensions } from 'react-native';
 import { IPAD_BREAKPOINTS } from './iPadBreakpoints';
 import { isTablet, isLandscape } from './deviceDetection';
 
-/**
- * Detect if the current device is an iPad (or Android tablet)
- * Uses expo-device for accurate system-level detection
- */
 export function isIPad(): boolean {
     return isTablet();
 }
 
-/**
- * Detect if the current device is an iPad mini
- */
 export function isIPadMini(): boolean {
     if (!isIPad()) return false;
 
@@ -28,9 +26,6 @@ export function isIPadMini(): boolean {
     return minWidth < IPAD_BREAKPOINTS.IPAD_AIR;
 }
 
-/**
- * Detect if the current device is an iPad Pro (12.9")
- */
 export function isIPadPro(): boolean {
     if (!isIPad()) return false;
 
@@ -39,10 +34,6 @@ export function isIPadPro(): boolean {
     return minWidth >= IPAD_BREAKPOINTS.IPAD_11_PRO;
 }
 
-/**
- * Check if tablet device is in landscape orientation
- * Uses shared isLandscape detection for consistency
- */
 export function isIPadLandscape(): boolean {
     return isLandscape();
 }

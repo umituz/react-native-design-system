@@ -24,21 +24,67 @@ export function cleanModelName(model: string | null | undefined): string {
  * @param length - Length of ID part to extract (default: 6)
  * @returns Last N characters of device ID in uppercase
  */
-export function extractIdPart(deviceId: string | null, length: number = 6): string {
+export async function extractIdPart(deviceId: string | null, length: number = 6): Promise<string> {
   if (!deviceId) {
-    return generateRandomId(length);
+    return await generateRandomId(length);
   }
   const start = Math.max(0, deviceId.length - length);
   return deviceId.substring(start).toUpperCase();
 }
 
 /**
- * Generate random alphanumeric ID
+ * Synchronous version of extractIdPart (uses fallback for null deviceId)
+ * @param deviceId - Full device ID
+ * @param length - Length of ID part to extract (default: 6)
+ * @returns Last N characters of device ID in uppercase
+ */
+export function extractIdPartSync(deviceId: string | null, length: number = 6): string {
+  if (!deviceId) {
+    return generateRandomIdSync(length);
+  }
+  const start = Math.max(0, deviceId.length - length);
+  return deviceId.substring(start).toUpperCase();
+}
+
+/**
+ * Generate random alphanumeric ID using cryptographically secure random bytes
  * @param length - Length of ID to generate (default: 6)
  * @returns Random ID in uppercase
  */
-export function generateRandomId(length: number = 6): string {
-  return Math.random().toString(36).substring(2, 2 + length).toUpperCase();
+export async function generateRandomId(length: number = 6): Promise<string> {
+  try {
+    // Use expo-crypto for cryptographically secure random bytes
+    const { getRandomBytesAsync } = require('expo-crypto');
+    const bytes: Uint8Array = await getRandomBytesAsync(length);
+
+    return Array.from(bytes)
+      .map(byte => byte.toString(36))
+      .join('')
+      .substring(0, length)
+      .toUpperCase();
+  } catch {
+    // Fallback with __DEV__ warning for environments without expo-crypto
+    if (__DEV__) {
+      console.warn('[stringUtils] expo-crypto not available, using insecure fallback');
+    }
+    return Array.from({ length }, () =>
+      Math.floor(Math.random() * 36).toString(36)
+    ).join('').toUpperCase();
+  }
+}
+
+/**
+ * Synchronous version of generateRandomId (uses fallback)
+ * @param length - Length of ID to generate (default: 6)
+ * @returns Random ID in uppercase
+ */
+export function generateRandomIdSync(length: number = 6): string {
+  if (__DEV__) {
+    console.warn('[stringUtils] Using insecure fallback for random ID generation');
+  }
+  return Array.from({ length }, () =>
+    Math.floor(Math.random() * 36).toString(36)
+  ).join('').toUpperCase();
 }
 
 /**

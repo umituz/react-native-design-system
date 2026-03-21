@@ -10,7 +10,6 @@ export { useCarouselScroll } from "./useCarouselScroll";
 export {
   calculateItemWidth,
   calculateIndexFromScroll,
-  getScreenWidth,
 } from "./carouselCalculations";
 
 export { CarouselDots } from "./CarouselDots";

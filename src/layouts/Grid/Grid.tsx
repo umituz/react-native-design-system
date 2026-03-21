@@ -5,7 +5,7 @@
  * Uses design system responsive utilities
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useId } from 'react';
 import { View, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useResponsive } from '../../responsive';
 import { useAppDesignTokens } from '../../theme';
@@ -28,6 +28,12 @@ export interface GridProps {
 
   /** Test ID for testing */
   testID?: string;
+
+  /** Accessibility label for the grid */
+  accessibilityLabel?: string;
+
+  /** Whether the grid is accessible */
+  accessible?: boolean;
 }
 
 /**
@@ -49,9 +55,12 @@ export const Grid: React.FC<GridProps> = ({
   gap,
   style,
   testID,
+  accessibilityLabel,
+  accessible,
 }) => {
   const { gridColumns, spacingMultiplier } = useResponsive();
   const tokens = useAppDesignTokens();
+  const generatedIdPrefix = useId();
 
   // Calculate responsive columns
   const columns = gridColumns || (mobileColumns && tabletColumns
@@ -82,12 +91,33 @@ export const Grid: React.FC<GridProps> = ({
   const childArray = React.Children.toArray(children);
 
   return (
-    <View style={[styles.container, style]} testID={testID}>
+    <View
+      style={[styles.container, style]}
+      testID={testID}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole={"grid" as any}
+      accessible={accessible !== false}
+    >
       {childArray.map((child, index) => {
-        const key = (child as React.ReactElement).key || `grid-item-${index}`;
+        const childKey = (child as React.ReactElement).key;
+
+        // Warn in development if child is missing key
+        if (__DEV__ && !childKey) {
+          console.warn(
+            `[Grid] Child at index ${index} is missing a "key" prop. ` +
+            `This may cause issues with React reconciliation. ` +
+            `Please ensure all grid children have unique keys.`
+          );
+        }
+
+        const key = childKey || `${generatedIdPrefix}-grid-item-${index}`;
 
         return (
-          <View key={key} style={itemStyle}>
+          <View
+            key={key}
+            style={itemStyle}
+            accessibilityRole={"gridcell" as any}
+          >
             {child}
           </View>
         );

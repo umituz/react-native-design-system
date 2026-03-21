@@ -109,5 +109,14 @@ export function mapRange(
   outMin: number,
   outMax: number
 ): number {
-  return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+  const range = inMax - inMin;
+  if (range === 0) {
+    // When input range is zero, return output minimum
+    // This prevents division by zero (Infinity/NaN)
+    if (__DEV__) {
+      console.warn(`[mapRange] Input range is zero (inMin=${inMin}, inMax=${inMax}), returning outMin=${outMin}`);
+    }
+    return outMin;
+  }
+  return ((value - inMin) * (outMax - outMin)) / range + outMin;
 }

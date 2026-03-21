@@ -5,7 +5,7 @@
  * Replaces InfoCard, MediaCard, and GlowingCard molecules.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
   View,
   Pressable,
@@ -58,10 +58,28 @@ const CardContent: React.FC<CardContentProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
 
+  const badgeStyle = useMemo(() => [
+    cardStyles.badge,
+    { backgroundColor: tokens.colors.primary },
+  ], [cardStyles.badge, tokens.colors.primary]);
+
+  const imageStyle = useMemo(() => [
+    cardStyles.image,
+    { aspectRatio: imageAspectRatio },
+  ], [cardStyles.image, imageAspectRatio]);
+
+  const contentContainerStyle = useMemo(() => ({
+    padding: paddingValue,
+  }), [paddingValue]);
+
+  const leftIconStyle = useMemo(() => ({ marginRight: 8 }), []);
+
+  const rightIconStyle = useMemo(() => ({ marginLeft: 8 }), []);
+
   return (
     <>
       {badge && (
-        <View style={[cardStyles.badge, { backgroundColor: tokens.colors.primary }]}>
+        <View style={badgeStyle}>
           <AtomicText type="labelSmall" color="onPrimary">
             {badge}
           </AtomicText>
@@ -71,7 +89,7 @@ const CardContent: React.FC<CardContentProps> = React.memo(({
       {image && (
         <AtomicImage
           source={typeof image === 'string' ? { uri: image } : image}
-          style={[cardStyles.image, { aspectRatio: imageAspectRatio }]}
+          style={imageStyle}
           contentFit="cover"
         />
       )}
@@ -82,7 +100,7 @@ const CardContent: React.FC<CardContentProps> = React.memo(({
         </View>
       )}
 
-      <View style={{ padding: paddingValue }}>
+      <View style={contentContainerStyle}>
         {(title || leftIcon || rightIcon) && (
           <View style={cardStyles.header}>
             {leftIcon && (
@@ -90,7 +108,7 @@ const CardContent: React.FC<CardContentProps> = React.memo(({
                 name={leftIcon}
                 size="sm"
                 color="primary"
-                style={{ marginRight: 8 }}
+                style={leftIconStyle}
               />
             )}
             <View style={cardStyles.titleContainer}>
@@ -117,7 +135,7 @@ const CardContent: React.FC<CardContentProps> = React.memo(({
                 name={rightIcon}
                 size="sm"
                 color="textSecondary"
-                style={{ marginLeft: 8 }}
+                style={rightIconStyle}
               />
             )}
           </View>
@@ -190,11 +208,11 @@ const AtomicCardComponent: React.FC<AtomicCardProps> = ({
     style,
   ], [tokens.borders.radius.lg, variantStyles.container, selected, tokens.colors.primary, style]);
 
-  const handlePress = (event: GestureResponderEvent) => {
+  const handlePress = useCallback((event: GestureResponderEvent) => {
     if (!disabled && onPress) {
       onPress(event);
     }
-  };
+  }, [disabled, onPress]);
 
   const content = (
     <CardContent

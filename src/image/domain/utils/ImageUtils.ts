@@ -12,6 +12,12 @@ export class ImageUtils {
     }
 
     static getAspectRatio(width: number, height: number): number {
+        if (height === 0) {
+            if (__DEV__) {
+                console.warn('[ImageUtils] Cannot calculate aspect ratio when height is zero');
+            }
+            return 1; // Default to square aspect ratio
+        }
         return width / height;
     }
 

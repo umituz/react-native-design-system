@@ -32,7 +32,8 @@ export class UserFriendlyIdService {
   static async getUserFriendlyId(): Promise<string> {
     // Web platform - no native modules needed
     if (Platform.OS === 'web') {
-      return `WebUser-${generateRandomId()}`;
+      const randomId = await generateRandomId();
+      return `WebUser-${randomId}`;
     }
 
     try {
@@ -44,25 +45,26 @@ export class UserFriendlyIdService {
       if (deviceInfo && (deviceInfo.modelName || deviceInfo.deviceName)) {
         const model = deviceInfo.modelName || deviceInfo.deviceName || 'Device';
         const cleanModel = cleanModelName(model);
-        const idPart = extractIdPart(deviceId, 6);
+        const idPart = await extractIdPart(deviceId, 6);
 
         return `${cleanModel}-${idPart}`;
       }
 
       // Fallback: Use platform + random ID
-      return this.generateFallbackId();
+      return await this.generateFallbackId();
     } catch {
       // Final fallback: Generate safe random ID
-      return this.generateFallbackId();
+      return await this.generateFallbackId();
     }
   }
 
   /**
    * Generate fallback ID when native modules are not available
    */
-  private static generateFallbackId(): string {
+  private static async generateFallbackId(): Promise<string> {
     const platformPrefix = getPlatformPrefix(Platform.OS);
-    return `${platformPrefix}-${generateRandomId()}`;
+    const randomId = await generateRandomId();
+    return `${platformPrefix}-${randomId}`;
   }
 }
 

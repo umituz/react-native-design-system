@@ -14,10 +14,36 @@
  * - Default user placeholders
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Image, StyleSheet, ViewStyle, ImageStyle, ImageSourcePropType } from 'react-native';
 import { AtomicText } from './AtomicText';
 import { useAppDesignTokens } from '../theme';
+
+// =============================================================================
+// UTILITY FUNCTIONS (moved outside component)
+// =============================================================================
+
+/**
+ * Generate initials from name
+ */
+const getInitials = (name: string): string => {
+  return name
+    .split(' ')
+    .map(word => word.charAt(0))
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+};
+
+/**
+ * Calculate font size based on avatar size
+ */
+const getAvatarFontSize = (sizeValue: number, spacingMultiplier: number): number => {
+  const baseFontSize = sizeValue <= 32 ? 12 :
+                      sizeValue <= 48 ? 16 :
+                      sizeValue <= 64 ? 20 : 24;
+  return baseFontSize * spacingMultiplier;
+};
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -70,49 +96,58 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = React.memo(({
 }) => {
   const tokens = useAppDesignTokens();
 
-  const avatarSize = customSize ? customSize * tokens.spacingMultiplier : tokens.avatarSizes[size];
-  const avatarRadius = borderRadius ?? avatarSize / 2;
+  const avatarSize = useMemo(() =>
+    customSize ? customSize * tokens.spacingMultiplier : tokens.avatarSizes[size],
+    [customSize, size, tokens.spacingMultiplier, tokens.avatarSizes]
+  );
 
-  // Generate initials from name
-  const getInitials = (name: string): string => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  const avatarRadius = useMemo(() =>
+    borderRadius ?? avatarSize / 2,
+    [borderRadius, avatarSize]
+  );
 
-  // Default colors
-  const defaultBackgroundColor = backgroundColor || tokens.colors.primary;
-  const defaultTextColor = textColor || tokens.colors.onPrimary;
-  const defaultBorderColor = borderColor || tokens.colors.border;
+  const defaultBackgroundColor = useMemo(() =>
+    backgroundColor || tokens.colors.primary,
+    [backgroundColor, tokens.colors.primary]
+  );
 
-  const avatarStyle: ViewStyle = {
+  const defaultTextColor = useMemo(() =>
+    textColor || tokens.colors.onPrimary,
+    [textColor, tokens.colors.onPrimary]
+  );
+
+  const defaultBorderColor = useMemo(() =>
+    borderColor || tokens.colors.border,
+    [borderColor, tokens.colors.border]
+  );
+
+  const avatarStyle = useMemo<ViewStyle>(() => ({
     width: avatarSize,
     height: avatarSize,
     borderRadius: avatarRadius,
     backgroundColor: defaultBackgroundColor,
     borderWidth,
     borderColor: defaultBorderColor,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     overflow: 'hidden',
-  };
+  }), [avatarSize, avatarRadius, defaultBackgroundColor, borderWidth, defaultBorderColor]);
 
-  const imageStyleFinal: ImageStyle = {
+  const imageStyleFinal = useMemo<ImageStyle>(() => ({
     width: avatarSize,
     height: avatarSize,
     borderRadius: avatarRadius,
-  };
+  }), [avatarSize, avatarRadius]);
 
-  // Font size based on avatar size (scaled)
-  const getAvatarFontSize = (sizeValue: number): number => {
-    const baseFontSize = sizeValue <= 32 ? 12 : 
-                        sizeValue <= 48 ? 16 : 
-                        sizeValue <= 64 ? 20 : 24;
-    return baseFontSize * tokens.spacingMultiplier;
-  };
+  const avatarFontSize = useMemo(() =>
+    getAvatarFontSize(avatarSize, tokens.spacingMultiplier),
+    [avatarSize, tokens.spacingMultiplier]
+  );
+
+  const textStyle = useMemo(() => ({
+    fontSize: avatarFontSize,
+    fontWeight: tokens.typography.semibold,
+  }), [avatarFontSize, tokens.typography.semibold]);
 
   return (
     <View
@@ -131,10 +166,7 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = React.memo(({
         <AtomicText
           type="labelLarge"
           color={defaultTextColor}
-          style={{
-            fontSize: getAvatarFontSize(avatarSize),
-            fontWeight: tokens.typography.semibold,
-          }}
+          style={textStyle}
         >
           {getInitials(name)}
         </AtomicText>
@@ -142,10 +174,7 @@ export const AtomicAvatar: React.FC<AtomicAvatarProps> = React.memo(({
         <AtomicText
           type="labelLarge"
           color={defaultTextColor}
-          style={{
-            fontSize: getAvatarFontSize(avatarSize),
-            fontWeight: tokens.typography.semibold,
-          }}
+          style={textStyle}
         >
           ?
         </AtomicText>
