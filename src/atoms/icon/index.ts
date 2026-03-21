@@ -23,6 +23,8 @@ export {
   useIconRenderer,
   useIconName,
   useHasIconConfig,
+  iconStore,
+  DEFAULT_ICON_NAMES,
   type IconNames,
   type IconRenderer,
   type IconRenderProps,
