@@ -62,11 +62,12 @@ export const AtomicFab: React.FC<AtomicFabProps> = ({
   const iconSize = useMemo(() => getFabIconSize(size as 'sm' | 'md' | 'lg') * tokens.spacingMultiplier, [size, tokens.spacingMultiplier]);
 
   const fabStyle = useMemo(() => {
-    const baseSizeConfig = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
+    const baseSize = FAB_SIZES[size as 'sm' | 'md' | 'lg'];
+    const borderRadius = size === 'sm' ? 12 : size === 'md' ? 16 : 20;
     const sizeConfig = {
-      width: baseSizeConfig.width * tokens.spacingMultiplier,
-      height: baseSizeConfig.height * tokens.spacingMultiplier,
-      borderRadius: baseSizeConfig.borderRadius * tokens.spacingMultiplier,
+      width: baseSize * tokens.spacingMultiplier,
+      height: baseSize * tokens.spacingMultiplier,
+      borderRadius: borderRadius * tokens.spacingMultiplier,
     };
 
     return StyleSheet.flatten([

@@ -10,6 +10,9 @@ import type { FabSizeConfig, FabVariantConfig } from '../types';
 import { FAB_SIZES as BASE_FAB_SIZES } from '../../../constants';
 import { calculateResponsiveSize } from '../../../responsive';
 
+// Re-export FAB_SIZES for convenience
+export const FAB_SIZES = BASE_FAB_SIZES;
+
 /**
  * Get responsive FAB sizes based on spacing multiplier
  * @param spacingMultiplier - Spacing multiplier from design tokens
