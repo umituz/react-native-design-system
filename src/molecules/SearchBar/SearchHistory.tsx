@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -22,6 +22,45 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
     const tokens = useAppDesignTokens();
     const clockIcon = useIconName('clock');
     const closeIcon = useIconName('close');
+
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            paddingVertical: tokens.spacing.sm,
+        },
+        header: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: tokens.spacing.lg,
+            paddingVertical: tokens.spacing.sm,
+            marginBottom: tokens.spacing.xs,
+        },
+        clearButton: {
+            paddingVertical: tokens.spacing.xs,
+            paddingHorizontal: tokens.spacing.sm,
+        },
+        item: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: tokens.spacing.lg,
+            paddingVertical: tokens.spacing.md,
+            minHeight: 48,
+        },
+        itemLeft: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            flex: 1,
+            marginRight: tokens.spacing.md,
+        },
+        itemText: {
+            marginLeft: tokens.spacing.md,
+            flex: 1,
+        },
+        removeButton: {
+            padding: tokens.spacing.xs,
+        },
+    }), [tokens]);
 
     if (!history || history.length === 0) {
         return null;
@@ -94,42 +133,3 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        paddingVertical: 8,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        marginBottom: 4,
-    },
-    clearButton: {
-        paddingVertical: 4,
-        paddingHorizontal: 8,
-    },
-    item: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        minHeight: 48,
-    },
-    itemLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-        marginRight: 12,
-    },
-    itemText: {
-        marginLeft: 12,
-        flex: 1,
-    },
-    removeButton: {
-        padding: 4,
-    },
-});

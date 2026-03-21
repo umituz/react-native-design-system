@@ -11,3 +11,10 @@ export {
   calculateLineHeight,
   createResponsiveSizes,
 } from './responsiveUtils';
+
+export {
+  createMappedArray,
+  safeSlice,
+  filterById,
+  findById,
+} from './arrayUtils';

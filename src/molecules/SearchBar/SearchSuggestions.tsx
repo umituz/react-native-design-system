@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -18,6 +18,19 @@ export function SearchSuggestions<T>({
     emptyComponent,
 }: SearchSuggestionsProps<T>) {
     const tokens = useAppDesignTokens();
+
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            borderRadius: tokens.borders.radius.lg,
+            overflow: 'hidden',
+        },
+        item: {
+            paddingHorizontal: tokens.spacing.lg,
+            paddingVertical: tokens.spacing.md,
+            minHeight: 48,
+            justifyContent: 'center',
+        },
+    }), [tokens]);
 
     if (!query.trim() && !emptyComponent) {
         return null;
@@ -57,19 +70,6 @@ export function SearchSuggestions<T>({
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderRadius: 12,
-        overflow: 'hidden',
-    },
-    item: {
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        minHeight: 48,
-        justifyContent: 'center',
-    },
-});
 
 /**
  * Default suggestion renderer (simple text with highlighting)

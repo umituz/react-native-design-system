@@ -4,10 +4,11 @@
  */
 
 import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { AtomicIcon, AtomicText } from "../../../../atoms";
 import type { QuestionOption } from "../../../domain/entities/OnboardingQuestion";
 import type { OnboardingColors } from "../../types/OnboardingTheme";
+import { questionStyles, OPTION_ICON_SIZE, OPTION_EMOJI_SIZE } from "./questionStyles";
 
 export interface QuestionOptionItemProps {
   option: QuestionOption;
@@ -27,7 +28,7 @@ export const QuestionOptionItem = React.memo(({
   return (
     <TouchableOpacity
       style={[
-        styles.option,
+        questionStyles.option,
         {
           backgroundColor: isSelected ? colors.iconBg : colors.featureItemBg,
           borderColor: isSelected ? colors.iconColor : colors.headerButtonBorder,
@@ -42,15 +43,15 @@ export const QuestionOptionItem = React.memo(({
     >
       {option.icon && (
         <View style={[
-          styles.optionIcon,
+          questionStyles.optionIcon,
           { backgroundColor: isSelected ? colors.iconColor : colors.featureItemBg }
         ]}>
           {isEmoji ? (
-            <AtomicText style={{ fontSize: 24 }}>{option.icon}</AtomicText>
+            <AtomicText style={{ fontSize: OPTION_EMOJI_SIZE }}>{option.icon}</AtomicText>
           ) : (
             <AtomicIcon
               name={option.icon}
-              customSize={20}
+              customSize={OPTION_ICON_SIZE}
               customColor={isSelected ? colors.buttonTextColor : colors.subTextColor}
             />
           )}
@@ -59,7 +60,7 @@ export const QuestionOptionItem = React.memo(({
       <AtomicText
         type="bodyLarge"
         style={[
-          styles.optionLabel,
+          questionStyles.optionLabel,
           {
             color: isSelected ? colors.textColor : colors.subTextColor,
             fontWeight: isSelected ? '700' : '500'
@@ -69,7 +70,7 @@ export const QuestionOptionItem = React.memo(({
         {option.label}
       </AtomicText>
       <View style={[
-        styles.checkbox,
+        questionStyles.checkbox,
         {
           borderColor: isSelected ? colors.iconColor : colors.headerButtonBorder,
           backgroundColor: isSelected ? colors.iconColor : 'transparent',
@@ -86,33 +87,4 @@ export const QuestionOptionItem = React.memo(({
       </View>
     </TouchableOpacity>
   );
-});
-
-const styles = StyleSheet.create({
-  option: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 8,
-  },
-  optionIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  optionLabel: {
-    flex: 1,
-    fontSize: 16,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });

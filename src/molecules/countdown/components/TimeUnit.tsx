@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
+import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { COUNTDOWN_SIZES } from '../../../constants';
 
 export interface TimeUnitProps {
     value: number;
@@ -15,11 +17,42 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
     size = 'medium',
 }) => {
     const tokens = useAppDesignTokens();
+    const spacingMultiplier = tokens.spacingMultiplier;
+
+    const styles = useMemo(() => StyleSheet.create({
+        container: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        value: {
+            fontWeight: '700',
+            lineHeight: calculateResponsiveSize(38, spacingMultiplier),
+        },
+        label: {
+            fontWeight: '600',
+            marginTop: calculateResponsiveSize(2, spacingMultiplier),
+            letterSpacing: 1,
+            textTransform: 'uppercase',
+        },
+    }), [spacingMultiplier]);
 
     const sizeConfig = {
-        small: { fontSize: 24, padding: tokens.spacing.sm, minHeight: 70 },
-        medium: { fontSize: 32, padding: tokens.spacing.md, minHeight: 90 },
-        large: { fontSize: 40, padding: tokens.spacing.lg, minHeight: 110 },
+        small: {
+            fontSize: calculateResponsiveSize(COUNTDOWN_SIZES.small.fontSize, spacingMultiplier),
+            padding: tokens.spacing.sm,
+            minHeight: calculateResponsiveSize(COUNTDOWN_SIZES.small.minHeight, spacingMultiplier),
+        },
+        medium: {
+            fontSize: calculateResponsiveSize(COUNTDOWN_SIZES.medium.fontSize, spacingMultiplier),
+            padding: tokens.spacing.md,
+            minHeight: calculateResponsiveSize(COUNTDOWN_SIZES.medium.minHeight, spacingMultiplier),
+        },
+        large: {
+            fontSize: calculateResponsiveSize(COUNTDOWN_SIZES.large.fontSize, spacingMultiplier),
+            padding: tokens.spacing.lg,
+            minHeight: calculateResponsiveSize(COUNTDOWN_SIZES.large.minHeight, spacingMultiplier),
+        },
     };
 
     const config = sizeConfig[size];
@@ -68,21 +101,3 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    value: {
-        fontWeight: '700',
-        lineHeight: 38,
-    },
-    label: {
-        fontWeight: '600',
-        marginTop: 2,
-        letterSpacing: 1,
-        textTransform: 'uppercase',
-    },
-});

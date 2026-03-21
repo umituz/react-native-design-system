@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useAppDesignTokens } from "../theme";
 import type { CarouselDotsProps } from "./types";
+import { createMappedArray } from "../utils/arrayUtils";
 
 const CarouselDotsComponent: React.FC<CarouselDotsProps> = ({
   count,
@@ -20,7 +21,7 @@ const CarouselDotsComponent: React.FC<CarouselDotsProps> = ({
 
   return (
     <View style={styles.container}>
-      {Array.from({ length: count }).map((_, index) => (
+      {createMappedArray(count, (index) => (
         <View
           key={index}
           style={[

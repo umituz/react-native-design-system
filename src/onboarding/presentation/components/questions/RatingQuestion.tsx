@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { AtomicIcon, AtomicText } from "../../../../atoms";
 import { useOnboardingProvider } from "../../providers/OnboardingProvider";
 import type { OnboardingQuestion } from "../../../domain/entities/OnboardingQuestion";
+import { createMappedArray } from "../../../../utils/arrayUtils";
 
 export interface RatingQuestionProps {
   question: OnboardingQuestion;
@@ -23,7 +24,7 @@ export const RatingQuestion = ({
   return (
     <View style={styles.container}>
       <View style={styles.stars}>
-        {Array.from({ length: max }).map((_, i) => {
+        {createMappedArray(max, (i) => {
           const isFilled = i < value;
           return (
             <TouchableOpacity

@@ -5,6 +5,8 @@ import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { InfoGridProps } from './types';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { INFO_GRID_ICONS } from '../../constants';
 
 export const InfoGrid: React.FC<InfoGridProps> = ({
   title,
@@ -15,6 +17,7 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
   itemStyle,
 }) => {
   const tokens = useAppDesignTokens();
+  const spacingMultiplier = tokens.spacingMultiplier;
 
   const styles = useMemo(() => StyleSheet.create({
     container: {
@@ -26,8 +29,8 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       gap: tokens.spacing.xs,
     },
     headerIcon: {
-      width: 28,
-      height: 28,
+      width: calculateResponsiveSize(INFO_GRID_ICONS.small, spacingMultiplier),
+      height: calculateResponsiveSize(INFO_GRID_ICONS.small, spacingMultiplier),
       borderRadius: tokens.borders.radius.sm,
       backgroundColor: `${tokens.colors.primary}20`,
       justifyContent: 'center',
@@ -55,8 +58,8 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       borderColor: tokens.colors.outlineVariant,
     },
     iconContainer: {
-      width: 32,
-      height: 32,
+      width: calculateResponsiveSize(INFO_GRID_ICONS.large, spacingMultiplier),
+      height: calculateResponsiveSize(INFO_GRID_ICONS.large, spacingMultiplier),
       borderRadius: tokens.borders.radius.sm,
       backgroundColor: `${tokens.colors.primary}20`,
       justifyContent: 'center',
@@ -68,7 +71,7 @@ export const InfoGrid: React.FC<InfoGridProps> = ({
       color: tokens.colors.textPrimary,
       fontWeight: '500',
     },
-  }), [tokens, columns]);
+  }), [tokens, columns, spacingMultiplier]);
 
   return (
     <View style={[styles.container, style]}>

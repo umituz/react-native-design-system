@@ -12,6 +12,8 @@ import { View, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { AtomicIcon } from './icon';
 import { AtomicText } from './AtomicText';
 import { useAppDesignTokens } from '../theme';
+import { calculateResponsiveSize } from '../utils/responsiveUtils';
+import { EMPTY_STATE_ICON } from '../constants';
 
 export interface EmptyStateProps {
   icon?: string;
@@ -38,6 +40,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const displayDescription = description || subtitle;
+  const spacingMultiplier = tokens.spacingMultiplier;
 
   const themedStyles = useMemo(
     () =>
@@ -49,9 +52,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           padding: tokens.spacing.xl,
         },
         iconContainer: {
-          width: 120,
-          height: 120,
-          borderRadius: 60,
+          width: calculateResponsiveSize(EMPTY_STATE_ICON.width, spacingMultiplier),
+          height: calculateResponsiveSize(EMPTY_STATE_ICON.height, spacingMultiplier),
+          borderRadius: calculateResponsiveSize(EMPTY_STATE_ICON.borderRadius, spacingMultiplier),
           alignItems: 'flex-start',
           justifyContent: 'flex-start',
           marginBottom: tokens.spacing.lg,
@@ -69,7 +72,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           marginTop: tokens.spacing.sm,
         },
       }),
-    [tokens],
+    [tokens, spacingMultiplier],
   );
 
   return (

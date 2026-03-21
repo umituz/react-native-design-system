@@ -27,6 +27,7 @@ import { View, StyleSheet, type StyleProp, type ViewStyle, type DimensionValue }
 import { useAppDesignTokens } from '../../theme';
 import type { SkeletonPattern, SkeletonConfig } from './AtomicSkeleton.types';
 import { SKELETON_PATTERNS } from './AtomicSkeleton.types';
+import { createMappedArray } from '../../utils/arrayUtils';
 
 export interface AtomicSkeletonProps {
   /** Skeleton pattern preset */
@@ -92,7 +93,7 @@ export const AtomicSkeleton: React.FC<AtomicSkeletonProps> = ({
 
   return (
     <View style={[styles.container, style]} testID={testID}>
-      {Array.from({ length: count }).map((_, index) => renderSkeletonItem(index))}
+      {createMappedArray(count, (index) => renderSkeletonItem(index))}
     </View>
   );
 };

@@ -6,6 +6,8 @@ import type { TabNavigatorConfig, TabScreen } from "./types";
 import { NavigationValidator } from "./utils/NavigationValidator";
 import { createTabScreen } from "./utils/ScreenFactory";
 import { useAppDesignTokens } from "../../theme";
+import { calculateResponsiveSize } from "../../utils/responsiveUtils";
+import { NAVIGATION } from "../../constants";
 
 // Create the navigator instance ONCE outside the component
 const Tab = createBottomTabNavigator();
@@ -52,7 +54,7 @@ export function TabsNavigator<T extends ParamListBase>({
             tabBarStyle: {
                 backgroundColor: tokens.colors.surface,
                 borderTopColor: tokens.colors.surfaceVariant,
-                height: 60,
+                height: calculateResponsiveSize(NAVIGATION.tabBar.height, tokens.spacingMultiplier),
                 paddingBottom: 8,
                 paddingTop: 8,
             },

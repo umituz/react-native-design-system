@@ -4,12 +4,13 @@
  */
 
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { AtomicText } from "../../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../../providers/OnboardingProvider";
 import { ensureArray } from "../../../infrastructure/utils/arrayUtils";
 import type { OnboardingQuestion } from "../../../domain/entities/OnboardingQuestion";
 import { QuestionOptionItem } from "./QuestionOptionItem";
+import { questionStyles } from "./questionStyles";
 
 export interface MultipleChoiceQuestionProps {
   question: OnboardingQuestion;
@@ -40,7 +41,7 @@ export const MultipleChoiceQuestion = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[questionStyles.container, { gap: 12 }]}>
       {question.options?.map((option) => (
         <QuestionOptionItem
           key={option.id}
@@ -53,7 +54,7 @@ export const MultipleChoiceQuestion = ({
       {question.validation?.maxSelections && (
         <AtomicText
           type="labelSmall"
-          style={[styles.hint, { color: colors.subTextColor }]}
+          style={[questionStyles.hint, { color: colors.subTextColor }]}
         >
           Select up to {question.validation.maxSelections} options
         </AtomicText>
@@ -61,14 +62,3 @@ export const MultipleChoiceQuestion = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    gap: 12,
-  },
-  hint: {
-    textAlign: "center",
-    marginTop: 8,
-  },
-});

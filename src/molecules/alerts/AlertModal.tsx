@@ -2,13 +2,15 @@
  * AlertModal Component
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View, Modal, Pressable } from 'react-native';
 import { AtomicButton, AtomicText, AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
 import { getAlertBackgroundColor } from './utils/alertUtils';
 import { useAlertDismissHandler } from './hooks';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { MODAL_SIZES, ALERT_MODAL_ICON } from '../../constants';
 
 interface AlertModalProps {
     alert: Alert;
@@ -27,10 +29,58 @@ const getAlertIconName = (type: AlertType): string => {
 export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
     const tokens = useAppDesignTokens();
     const handleClose = useAlertDismissHandler(alert);
+    const spacingMultiplier = tokens.spacingMultiplier;
 
     const accentColor = getAlertBackgroundColor(alert.type, tokens);
     const iconName = getAlertIconName(alert.type);
     const hasTwoActions = alert.actions.length === 2;
+
+    const styles = useMemo(() => StyleSheet.create({
+        overlay: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: calculateResponsiveSize(MODAL_SIZES.overlayPadding, spacingMultiplier),
+        },
+        backdrop: {
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: 'rgba(0,0,0,0.55)',
+        },
+        modal: {
+            width: '100%',
+            maxWidth: calculateResponsiveSize(MODAL_SIZES.maxWidth, spacingMultiplier),
+            padding: calculateResponsiveSize(MODAL_SIZES.padding, spacingMultiplier),
+            alignItems: 'center',
+        },
+        iconCircle: {
+            width: calculateResponsiveSize(ALERT_MODAL_ICON.width, spacingMultiplier),
+            height: calculateResponsiveSize(ALERT_MODAL_ICON.height, spacingMultiplier),
+            borderRadius: calculateResponsiveSize(ALERT_MODAL_ICON.borderRadius, spacingMultiplier),
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: calculateResponsiveSize(ALERT_MODAL_ICON.marginBottom, spacingMultiplier),
+        },
+        title: {
+            fontWeight: '700',
+            textAlign: 'center',
+            marginBottom: tokens.spacing.sm,
+        },
+        message: {
+            textAlign: 'center',
+            lineHeight: calculateResponsiveSize(24, spacingMultiplier),
+            opacity: 0.85,
+        },
+        actionsRow: {
+            flexDirection: 'row',
+            width: '100%',
+        },
+        actionsColumn: {
+            width: '100%',
+        },
+        actionButtonHalf: {
+            flex: 1,
+        },
+    }), [spacingMultiplier, tokens]);
 
     return (
         <Modal
@@ -60,7 +110,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                     ]}>
                         <AtomicIcon
                             name={iconName}
-                            customSize={36}
+                            customSize={calculateResponsiveSize(36, spacingMultiplier)}
                             customColor={accentColor}
                         />
                     </View>
@@ -121,50 +171,3 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-    overlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 24,
-    },
-    backdrop: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0,0,0,0.55)',
-    },
-    modal: {
-        width: '100%',
-        maxWidth: 360,
-        padding: 28,
-        alignItems: 'center',
-    },
-    iconCircle: {
-        width: 76,
-        height: 76,
-        borderRadius: 38,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    title: {
-        fontWeight: '700',
-        textAlign: 'center',
-        marginBottom: 8,
-    },
-    message: {
-        textAlign: 'center',
-        lineHeight: 22,
-        opacity: 0.85,
-    },
-    actionsRow: {
-        flexDirection: 'row',
-        width: '100%',
-    },
-    actionsColumn: {
-        width: '100%',
-    },
-    actionButtonHalf: {
-        flex: 1,
-    },
-});

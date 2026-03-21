@@ -11,7 +11,8 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
 import type { SizeConfig } from './Avatar.types';
-import { getSizeConfigs, AVATAR_CONSTANTS } from './Avatar.constants';
+import { AVATAR_SIZES } from '../../constants';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
 import { AvatarUtils } from './Avatar.utils';
 
 export interface AvatarProps {
@@ -94,6 +95,13 @@ const AvatarContent: React.FC<AvatarContentProps> = React.memo(({
   );
 });
 
+const AVATAR_CONSTANTS = {
+  DEFAULT_ICON: 'person',
+  DEFAULT_SIZE: 'md' as AvatarSize,
+  DEFAULT_SHAPE: 'circle' as AvatarShape,
+  FALLBACK_INITIALS: '?',
+};
+
 export const Avatar: React.FC<AvatarProps> = ({
   uri,
   name,
@@ -108,7 +116,22 @@ export const Avatar: React.FC<AvatarProps> = ({
   onPress,
 }) => {
   const tokens = useAppDesignTokens();
-  const sizeConfigs = useMemo(() => getSizeConfigs(tokens.spacingMultiplier), [tokens.spacingMultiplier]);
+  const spacingMultiplier = tokens.spacingMultiplier;
+
+  const sizeConfigs = useMemo(() => {
+    const baseSizes = AVATAR_SIZES;
+    return Object.entries(baseSizes).reduce((acc, [key, value]) => {
+      acc[key as AvatarSize] = {
+        size: calculateResponsiveSize(value.size, spacingMultiplier),
+        fontSize: calculateResponsiveSize(value.fontSize, spacingMultiplier),
+        iconSize: calculateResponsiveSize(value.iconSize, spacingMultiplier),
+        statusSize: calculateResponsiveSize(value.statusSize, spacingMultiplier),
+        borderWidth: value.borderWidth,
+      };
+      return acc;
+    }, {} as Record<AvatarSize, SizeConfig>);
+  }, [spacingMultiplier]);
+
   const config = useMemo(() => sizeConfigs[size], [size, sizeConfigs]);
 
   const hasImage = !!uri;

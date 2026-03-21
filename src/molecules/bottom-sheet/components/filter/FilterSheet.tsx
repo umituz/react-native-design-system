@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { View, StyleSheet, ScrollView, Modal, Pressable, GestureResponderEvent } from "react-native";
 import { useSafeAreaInsets } from "../../../../safe-area";
 import { AtomicButton } from '../../../../atoms';
 import { useAppDesignTokens } from '../../../../theme';
+import { calculateResponsiveSize } from '../../../../utils/responsiveUtils';
+import { BOTTOM_SHEET_HANDLE } from '../../../../constants';
 import type { FilterOption } from "../../types/Filter";
 import { FilterUtils } from "../../types/Filter";
 import { FilterSheetHeader } from "./FilterSheetComponents/FilterSheetHeader";
@@ -33,6 +35,37 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
+  const spacingMultiplier = tokens.spacingMultiplier;
+
+  const styles = useMemo(() => StyleSheet.create({
+    backdrop: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      justifyContent: "flex-end",
+    },
+    sheet: {
+      borderTopLeftRadius: tokens.borders.radius.xl,
+      borderTopRightRadius: tokens.borders.radius.xl,
+      maxHeight: "80%",
+    },
+    handle: {
+      width: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.width, spacingMultiplier),
+      height: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.height, spacingMultiplier),
+      borderRadius: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.borderRadius, spacingMultiplier),
+      alignSelf: "center",
+      marginTop: tokens.spacing.sm,
+      marginBottom: tokens.spacing.sm,
+    },
+    optionsList: {
+      maxHeight: 400,
+      paddingVertical: tokens.spacing.sm,
+    },
+    footer: {
+      paddingHorizontal: tokens.spacing.xl,
+      paddingTop: tokens.spacing.lg,
+      paddingBottom: tokens.spacing.sm,
+    },
+  }), [tokens, spacingMultiplier]);
 
   const safeSelectedIds = selectedIds ?? [];
   const hasActiveFilter = FilterUtils.hasActiveFilter(safeSelectedIds, defaultFilterId);
@@ -83,35 +116,5 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 };
 
 FilterSheet.displayName = "FilterSheet";
-
-const styles = StyleSheet.create({
-  backdrop: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
-  },
-  sheet: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: "80%",
-  },
-  handle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    alignSelf: "center",
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  optionsList: {
-    maxHeight: 400,
-    paddingVertical: 8,
-  },
-  footer: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 8,
-  },
-});
 
 

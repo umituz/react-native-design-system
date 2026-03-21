@@ -4,8 +4,8 @@
  * Supports images, initials, icons with Turkish character support
  */
 
-import type { AvatarSize, AvatarShape, AvatarConfig, SizeConfig } from './Avatar.types';
-import { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, BASE_SIZE_CONFIGS } from './Avatar.constants';
+import type { AvatarShape, AvatarConfig } from './Avatar.types';
+import { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS } from '../../constants';
 
 /**
  * Avatar utility class
@@ -64,17 +64,10 @@ export class AvatarUtils {
    * Same name always returns same color
    */
   static getColorForName(name: string): string {
-    if (!name) return AVATAR_COLORS[0] ?? '#7E57C2';
+    if (!name) return AVATAR_COLORS[0];
 
     const hash = this.hashString(name);
-    return AVATAR_COLORS[hash % AVATAR_COLORS.length] ?? AVATAR_COLORS[0] ?? '#7E57C2';
-  }
-
-  /**
-   * Get base size config (before spacingMultiplier)
-   */
-  static getBaseSizeConfig(size: AvatarSize): SizeConfig {
-    return BASE_SIZE_CONFIGS[size] ?? BASE_SIZE_CONFIGS.md;
+    return AVATAR_COLORS[hash % AVATAR_COLORS.length] ?? AVATAR_COLORS[0];
   }
 
   /**

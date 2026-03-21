@@ -148,9 +148,9 @@
       "default": "./src/utilities/index.ts"
     },
     "./utils": {
-      "types": "./dist/utils/logger.d.ts",
-      "react-native": "./src/utils/logger.ts",
-      "default": "./src/utils/logger.ts"
+      "types": "./dist/utils/index.d.ts",
+      "react-native": "./src/utils/index.ts",
+      "default": "./src/utils/index.ts"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",

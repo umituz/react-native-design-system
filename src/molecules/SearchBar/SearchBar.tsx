@@ -9,6 +9,8 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicIcon, useIconName } from '../../atoms';
 import { AtomicSpinner } from '../../atoms/AtomicSpinner';
 import type { SearchBarProps } from './types';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { MISC_SIZES } from '../../constants';
 
 export const SearchBar: React.FC<SearchBarProps> = ({
     value,
@@ -38,6 +40,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
     const showClear = value.length > 0 && !loading;
 
+    const spacingMultiplier = tokens.spacingMultiplier;
+
     return (
         <View
             style={[
@@ -45,15 +49,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 {
                     backgroundColor: tokens.colors.surfaceVariant,
                     borderColor: tokens.colors.border,
-                    height: 48 * tokens.spacingMultiplier,
-                    paddingHorizontal: 12 * tokens.spacingMultiplier,
-                    borderRadius: 24 * tokens.spacingMultiplier,
+                    height: calculateResponsiveSize(MISC_SIZES.searchInputHeight, spacingMultiplier),
+                    paddingHorizontal: calculateResponsiveSize(tokens.spacing.md, spacingMultiplier),
+                    borderRadius: calculateResponsiveSize(MISC_SIZES.searchBorderRadius, spacingMultiplier),
                 },
                 containerStyle,
             ]}
             testID={testID}
         >
-            <View style={styles.iconContainer}>
+            <View style={styles.searchIcon}>
                 <AtomicIcon
                     name={searchIcon}
                     size="md"
@@ -118,13 +122,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 12, // Will be scaled by parent if needed, or we rely on token usage elsewhere
-        height: 48, // Should be dynamic ideally, but keeping simple for now
-        borderRadius: 24,
         borderWidth: 1,
-    },
-    iconContainer: {
-        marginRight: 8,
     },
     input: {
         flex: 1,
@@ -141,5 +139,11 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         padding: 2,
+    },
+    searchIcon: {
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

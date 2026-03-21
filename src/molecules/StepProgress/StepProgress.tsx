@@ -2,7 +2,8 @@ import React, { useMemo } from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
 import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
 import { calculateResponsiveSize } from '../../utils/responsiveUtils';
-import { BASE_SPACING, BASE_STEP_DIMENSIONS } from './StepProgress.constants';
+import { STEP_INDICATOR } from '../../constants';
+import { createMappedArray } from '../../utils/arrayUtils';
 
 export interface StepProgressProps {
     currentStep: number;
@@ -23,14 +24,14 @@ export const StepProgress: React.FC<StepProgressProps> = ({
             StyleSheet.create({
                 container: {
                     flexDirection: "row",
-                    gap: calculateResponsiveSize(BASE_SPACING.gap, spacingMultiplier),
-                    paddingHorizontal: calculateResponsiveSize(BASE_SPACING.paddingHorizontal, spacingMultiplier),
-                    paddingVertical: calculateResponsiveSize(BASE_SPACING.paddingVertical, spacingMultiplier),
+                    gap: tokens.spacing.sm,
+                    paddingHorizontal: tokens.spacing.md,
+                    paddingVertical: tokens.spacing.md,
                 },
                 step: {
                     flex: 1,
-                    height: calculateResponsiveSize(BASE_STEP_DIMENSIONS.height, spacingMultiplier),
-                    borderRadius: calculateResponsiveSize(BASE_STEP_DIMENSIONS.borderRadius, spacingMultiplier),
+                    height: calculateResponsiveSize(STEP_INDICATOR.progressBar.height, spacingMultiplier),
+                    borderRadius: calculateResponsiveSize(STEP_INDICATOR.progressBar.borderRadius, spacingMultiplier),
                     backgroundColor: tokens.colors.border,
                 },
                 activeStep: {
@@ -42,7 +43,7 @@ export const StepProgress: React.FC<StepProgressProps> = ({
 
     return (
         <View style={[styles.container, style]}>
-            {Array.from({ length: totalSteps }).map((_, index) => (
+            {createMappedArray(totalSteps, (index) => (
                 <View
                     key={index}
                     style={[styles.step, index < currentStep && styles.activeStep]}

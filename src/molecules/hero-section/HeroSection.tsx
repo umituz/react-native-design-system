@@ -3,6 +3,8 @@ import React, { useMemo } from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import type { HeroSectionProps } from './types';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { HERO_ICON } from '../../constants';
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   icon,
@@ -12,6 +14,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   style,
 }) => {
   const tokens = useAppDesignTokens();
+  const spacingMultiplier = tokens.spacingMultiplier;
 
   const themedStyles = useMemo(
     () => ({
@@ -29,9 +32,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         backgroundColor: tokens.colors.surfaceVariant,
       },
       iconWrapper: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
+        width: calculateResponsiveSize(HERO_ICON.width, spacingMultiplier),
+        height: calculateResponsiveSize(HERO_ICON.height, spacingMultiplier),
+        borderRadius: calculateResponsiveSize(HERO_ICON.borderRadius, spacingMultiplier),
         backgroundColor: tokens.colors.surfaceVariant,
         justifyContent: 'flex-start' as const,
         alignItems: 'flex-start' as const,
@@ -40,8 +43,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         zIndex: 10,
       },
     }),
-    [tokens, height],
+    [tokens, height, spacingMultiplier],
   );
+
+  const styles = useMemo(() => StyleSheet.create({
+    image: {
+      ...StyleSheet.absoluteFillObject,
+      width: '100%',
+      height: '100%',
+    },
+    emoji: {
+      fontSize: calculateResponsiveSize(64, spacingMultiplier),
+      textAlign: 'left',
+      includeFontPadding: false,
+    },
+    fadeOverlay: {
+      position: 'absolute',
+      bottom: -1,
+      left: 0,
+      right: 0,
+      height: calculateResponsiveSize(120, spacingMultiplier),
+      backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+  }), [spacingMultiplier]);
 
   const source = imageUrl ? { uri: imageUrl } : imageSource;
 
@@ -68,24 +92,3 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    ...StyleSheet.absoluteFillObject,
-    width: '100%',
-    height: '100%',
-  },
-  emoji: {
-    fontSize: 64,
-    textAlign: 'left',
-    includeFontPadding: false,
-  },
-  fadeOverlay: {
-    position: 'absolute',
-    bottom: -1,
-    left: 0,
-    right: 0,
-    height: 100,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-});

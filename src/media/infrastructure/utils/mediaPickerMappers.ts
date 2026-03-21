@@ -55,7 +55,7 @@ export const mapPickerResult = (
     return { canceled: true };
   }
 
-  const assets: MediaAsset[] = result.assets.map((asset: ImagePicker.ImagePickerAsset) => ({
+  const assets: MediaAsset[] = (result.assets ?? []).map((asset: ImagePicker.ImagePickerAsset) => ({
     uri: asset.uri,
     width: asset.width,
     height: asset.height,

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AtomicText, AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import type { IconName } from '../../../atoms';
+import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { COUNTDOWN_TOGGLE } from '../../../constants';
 
 export interface CountdownHeaderProps {
     title: string;
@@ -21,6 +23,12 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
 }) => {
     const tokens = useAppDesignTokens();
     const swapIcon = useIconName('swap');
+    const spacingMultiplier = tokens.spacingMultiplier;
+
+    const toggleButtonSize = useMemo(
+        () => calculateResponsiveSize(COUNTDOWN_TOGGLE.size, spacingMultiplier),
+        [spacingMultiplier]
+    );
 
     return (
         <View style={[styles.container, { marginBottom: tokens.spacing.md }]}>
@@ -47,9 +55,9 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
                         styles.toggleButton,
                         {
                             backgroundColor: tokens.colors.surfaceSecondary,
-                            width: 36,
-                            height: 36,
-                            borderRadius: 18,
+                            width: toggleButtonSize,
+                            height: toggleButtonSize,
+                            borderRadius: toggleButtonSize / 2,
                         },
                     ]}
                     onPress={onToggle}

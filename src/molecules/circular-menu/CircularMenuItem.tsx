@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { AtomicIcon } from "../../atoms";
 import { AtomicText } from "../../atoms";
 import { useAppDesignTokens } from "../../theme";
 import { LAYOUT } from "./constants";
+import { calculateResponsiveSize } from "../../utils/responsiveUtils";
 
 export interface CircularMenuItemProps {
   icon: string;
@@ -17,6 +18,24 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = React.memo(({
   onPress,
 }) => {
   const tokens = useAppDesignTokens();
+  const spacingMultiplier = tokens.spacingMultiplier;
+
+  const styles = useMemo(() => StyleSheet.create({
+    container: {
+      alignItems: "center",
+      gap: 6,
+      width: LAYOUT.ITEM_SIZE,
+    },
+    iconContainer: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    label: {
+      fontSize: calculateResponsiveSize(11, spacingMultiplier),
+      fontWeight: "500",
+      textAlign: "center",
+    },
+  }), [spacingMultiplier]);
 
   return (
     <TouchableOpacity
@@ -49,21 +68,4 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = React.memo(({
       </AtomicText>
     </TouchableOpacity>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    gap: 6,
-    width: LAYOUT.ITEM_SIZE,
-  },
-  iconContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  label: {
-    fontSize: 11,
-    fontWeight: "500",
-    textAlign: "center",
-  },
 });

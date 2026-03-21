@@ -11,7 +11,16 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicText } from '../../atoms';
 import { Avatar } from './Avatar';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
-import { BASE_SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
+import { AVATAR_SIZES } from '../../constants';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import type { SizeConfig } from './Avatar.types';
+
+const AVATAR_CONSTANTS = {
+  MAX_GROUP_VISIBLE: 3,
+  DEFAULT_SIZE: 'md' as AvatarSize,
+  DEFAULT_SHAPE: 'circle' as AvatarShape,
+  GROUP_SPACING: -12,
+};
 
 /**
  * Avatar item for group
@@ -75,7 +84,7 @@ const AvatarItem = React.memo<{
 const OverflowBadge = React.memo<{
   count: number;
   spacing: number;
-  config: any;
+  config: SizeConfig;
   shape: AvatarShape;
   surfaceSecondary: string;
   onBackground: string;
@@ -138,7 +147,18 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = React.memo(({
   style,
 }) => {
   const tokens = useAppDesignTokens();
-  const config = BASE_SIZE_CONFIGS[size];
+  const spacingMultiplier = tokens.spacingMultiplier;
+
+  const config = useMemo(() => {
+    const baseConfig = AVATAR_SIZES[size];
+    return {
+      size: calculateResponsiveSize(baseConfig.size, spacingMultiplier),
+      fontSize: calculateResponsiveSize(baseConfig.fontSize, spacingMultiplier),
+      iconSize: calculateResponsiveSize(baseConfig.iconSize, spacingMultiplier),
+      statusSize: calculateResponsiveSize(baseConfig.statusSize, spacingMultiplier),
+      borderWidth: baseConfig.borderWidth,
+    };
+  }, [size, spacingMultiplier]);
 
   // Memoize calculations to prevent recalculation on every render
   const { visibleItems, overflowCount, hasOverflow } = useMemo(() => {

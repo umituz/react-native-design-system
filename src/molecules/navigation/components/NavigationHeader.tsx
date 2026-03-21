@@ -4,6 +4,8 @@ import { AtomicText } from '../../../atoms';
 import { AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
+import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { NAVIGATION } from '../../../constants';
 
 export interface NavigationHeaderProps {
   title: string;
@@ -21,6 +23,7 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   const tokens = useAppDesignTokens();
   const insets = useSafeAreaInsets();
   const arrowLeftIcon = useIconName('arrowLeft');
+  const spacingMultiplier = tokens.spacingMultiplier;
 
   const styles = useMemo(() => StyleSheet.create({
     container: {
@@ -36,8 +39,8 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
     },
     backButton: {
       marginRight: tokens.spacing.md,
-      width: 40,
-      height: 40,
+      width: calculateResponsiveSize(NAVIGATION.backButton.width, spacingMultiplier),
+      height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
       borderRadius: tokens.borders.radius.full,
       alignItems: 'center',
       justifyContent: 'center',
@@ -48,9 +51,9 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       textAlign: centerTitle ? 'center' : 'left',
     },
     sideElement: {
-      width: centerTitle ? 40 : 'auto',
+      width: centerTitle ? calculateResponsiveSize(40, spacingMultiplier) : 'auto',
     }
-  }), [tokens, insets, centerTitle]);
+  }), [tokens, insets, centerTitle, spacingMultiplier]);
 
   return (
     <View style={styles.container}>

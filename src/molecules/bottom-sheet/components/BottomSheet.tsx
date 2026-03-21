@@ -3,6 +3,8 @@ import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { useAppDesignTokens } from '../../../theme';
 import { useSafeAreaInsets } from '../../../safe-area';
 import { getResponsiveBottomSheetLayout } from '../../../responsive';
+import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
+import { BOTTOM_SHEET_HANDLE } from '../../../constants';
 import type {
   BottomSheetRef,
   BottomSheetProps,
@@ -65,6 +67,8 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     close: () => dismiss(),
   }));
 
+  const spacingMultiplier = tokens.spacingMultiplier;
+
   const styles = useMemo(() => StyleSheet.create({
     overlay: {
       flex: 1,
@@ -76,21 +80,21 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
       backgroundColor: backgroundColor || tokens.colors.surface,
       borderTopLeftRadius: borderRadius,
       borderTopRightRadius: borderRadius,
-      paddingBottom: Math.max(insets.bottom, 8),
+      paddingBottom: Math.max(insets.bottom, tokens.spacing.xs),
     },
     handle: {
-      width: 40,
-      height: 4,
+      width: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.width, spacingMultiplier),
+      height: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.height, spacingMultiplier),
       backgroundColor: tokens.colors.border,
-      borderRadius: 2,
+      borderRadius: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.borderRadius, spacingMultiplier),
       alignSelf: 'center',
-      marginTop: 12,
-      marginBottom: 8,
+      marginTop: tokens.spacing.md,
+      marginBottom: tokens.spacing.sm,
     },
     content: {
       flex: 1,
     }
-  }), [sheetHeight, backgroundColor, tokens.colors.modalOverlay, tokens.colors.surface, tokens.colors.border, borderRadius, insets.bottom]);
+  }), [sheetHeight, backgroundColor, tokens, borderRadius, insets.bottom, spacingMultiplier]);
 
   return (
     <Modal

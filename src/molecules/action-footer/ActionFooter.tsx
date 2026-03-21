@@ -5,8 +5,10 @@ import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import type { ActionFooterProps } from './types';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { NAVIGATION } from '../../constants';
 
-const createStyles = () => StyleSheet.create({
+const createStyles = (spacingMultiplier: number) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -14,8 +16,8 @@ const createStyles = () => StyleSheet.create({
     gap: 0,
   },
   backButton: {
-    width: 56,
-    height: 56,
+    width: calculateResponsiveSize(NAVIGATION.backButton.width, spacingMultiplier),
+    height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
     borderRadius: 0,
     backgroundColor: '',
     justifyContent: 'center',
@@ -25,7 +27,7 @@ const createStyles = () => StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    height: 56,
+    height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
     borderRadius: 0,
     overflow: 'hidden',
   },
@@ -41,11 +43,8 @@ const createStyles = () => StyleSheet.create({
   actionText: {
     color: '',
     fontWeight: '800',
-    fontSize: 18,
   },
 });
-
-const baseStyles = createStyles();
 
 export const ActionFooter = React.memo<ActionFooterProps>(({
   onBack,
@@ -57,6 +56,9 @@ export const ActionFooter = React.memo<ActionFooterProps>(({
   loading = false,
 }) => {
   const tokens = useAppDesignTokens();
+  const spacingMultiplier = tokens.spacingMultiplier;
+
+  const baseStyles = createStyles(spacingMultiplier);
 
   const themedStyles = useMemo(
     () => ({
@@ -84,9 +86,10 @@ export const ActionFooter = React.memo<ActionFooterProps>(({
       actionText: {
         ...baseStyles.actionText,
         color: tokens.colors.onPrimary,
+        fontSize: calculateResponsiveSize(18, spacingMultiplier),
       },
     }),
-    [tokens],
+    [baseStyles, tokens, spacingMultiplier],
   );
 
   const handleBackPress = useCallback(() => {

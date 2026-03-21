@@ -1,8 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { AtomicIcon, AtomicText } from "../../../../atoms";
 import { useOnboardingProvider } from "../../providers/OnboardingProvider";
 import type { OnboardingQuestion, QuestionOption } from "../../../domain/entities/OnboardingQuestion";
+import { questionStyles, OPTION_ICON_SIZE, OPTION_EMOJI_SIZE } from "./questionStyles";
 
 export interface SingleChoiceQuestionProps {
   question: OnboardingQuestion;
@@ -27,7 +28,7 @@ export const SingleChoiceQuestion = ({
       <TouchableOpacity
         key={option.id}
         style={[
-          styles.option,
+          questionStyles.option,
           {
             backgroundColor: isSelected ? colors.iconBg : colors.featureItemBg,
             borderColor: isSelected ? colors.iconColor : colors.headerButtonBorder,
@@ -39,29 +40,29 @@ export const SingleChoiceQuestion = ({
       >
         {option.icon && (
           <View style={[
-            styles.optionIcon,
+            questionStyles.optionIcon,
             { backgroundColor: isSelected ? colors.iconColor : colors.featureItemBg }
           ]}>
             {isEmoji ? (
-              <AtomicText style={{ fontSize: 24 }}>{option.icon}</AtomicText>
+              <AtomicText style={{ fontSize: OPTION_EMOJI_SIZE }}>{option.icon}</AtomicText>
             ) : (
               <AtomicIcon
                 name={option.icon}
-                customSize={20}
+                customSize={OPTION_ICON_SIZE}
                 customColor={isSelected ? colors.buttonTextColor : colors.subTextColor}
               />
             )}
           </View>
         )}
-        <AtomicText type="bodyLarge" style={[styles.optionLabel, { color: isSelected ? colors.textColor : colors.subTextColor, fontWeight: isSelected ? '700' : '500' }]}>
+        <AtomicText type="bodyLarge" style={[questionStyles.optionLabel, { color: isSelected ? colors.textColor : colors.subTextColor, fontWeight: isSelected ? '700' : '500' }]}>
           {option.label}
         </AtomicText>
         <View style={[
-          styles.radioOuter,
+          questionStyles.radioOuter,
           { borderColor: isSelected ? colors.iconColor : colors.headerButtonBorder }
         ]}>
           {isSelected && (
-            <View style={[styles.radioInner, { backgroundColor: colors.iconColor }]} />
+            <View style={[questionStyles.radioInner, { backgroundColor: colors.iconColor }]} />
           )}
         </View>
       </TouchableOpacity>
@@ -69,49 +70,8 @@ export const SingleChoiceQuestion = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[questionStyles.container, { gap: 12 }]}>
       {question.options?.map(renderOption)}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    gap: 12,
-  },
-  option: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 8,
-  },
-  optionIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  optionLabel: {
-    flex: 1,
-    fontSize: 16,
-  },
-  radioOuter: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-});
-
-

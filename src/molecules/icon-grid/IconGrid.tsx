@@ -21,6 +21,8 @@ import { AtomicIcon } from '../../atoms';
 import { AtomicText } from '../../atoms';
 import type { IconName } from '../../atoms';
 import { calculateGridItemWidth } from '../../utils/math';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { ICON_GRID } from '../../constants';
 
 export interface IconGridItem {
   /** Unique identifier */
@@ -53,25 +55,26 @@ const GridItem = React.memo<{
   cardBackground: string;
   borderLight: string;
   textPrimary: string;
-}>(({ item, itemWidth, cardBackground, borderLight, textPrimary }) => {
+  iconGridStyles: ReturnType<typeof createStyles>;
+}>(({ item, itemWidth, cardBackground, borderLight, textPrimary, iconGridStyles }) => {
   const { onPress: handlePress } = item;
 
   const cardStyle = useMemo(
-    () => [styles.card, { width: itemWidth }],
-    [itemWidth]
+    () => [iconGridStyles.card, { width: itemWidth }],
+    [itemWidth, iconGridStyles]
   );
 
   const iconBoxStyle = useMemo(
     () => [
-      styles.iconBox,
+      iconGridStyles.iconBox,
       { width: itemWidth, backgroundColor: cardBackground, borderColor: borderLight },
     ],
-    [itemWidth, cardBackground, borderLight]
+    [itemWidth, cardBackground, borderLight, iconGridStyles]
   );
 
   const labelStyle = useMemo(
-    () => [styles.label, { color: textPrimary }],
-    [textPrimary]
+    () => [iconGridStyles.label, { color: textPrimary }],
+    [textPrimary, iconGridStyles]
   );
 
   return (
@@ -112,7 +115,10 @@ export const IconGrid = React.memo<IconGridProps>(({
   style,
 }) => {
   const tokens = useAppDesignTokens();
+  const spacingMultiplier = tokens.spacingMultiplier;
   const [containerWidth, setContainerWidth] = useState(0);
+
+  const styles = useMemo(() => createStyles(spacingMultiplier), [spacingMultiplier]);
 
   const handleLayout = useCallback(
     (e: LayoutChangeEvent) => {
@@ -133,7 +139,7 @@ export const IconGrid = React.memo<IconGridProps>(({
 
   const gridStyle = useMemo(
     () => [styles.grid, { columnGap: gap, rowGap: rowGap ?? gap }, style],
-    [gap, rowGap, style]
+    [gap, rowGap, style, styles]
   );
 
   // Memoize color props to prevent unnecessary GridItem re-renders
@@ -153,10 +159,11 @@ export const IconGrid = React.memo<IconGridProps>(({
       <GridItem
         item={item}
         itemWidth={itemWidth}
+        iconGridStyles={styles}
         {...colorProps}
       />
     );
-  }, [itemWidth, colorProps]);
+  }, [itemWidth, colorProps, styles]);
 
   const keyExtractor = useCallback((item: IconGridItem) => item.id, []);
 
@@ -191,7 +198,7 @@ export const IconGrid = React.memo<IconGridProps>(({
   );
 });
 
-const styles = StyleSheet.create({
+const createStyles = (spacingMultiplier: number) => StyleSheet.create({
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -202,13 +209,13 @@ const styles = StyleSheet.create({
   },
   iconBox: {
     aspectRatio: 1,
-    borderRadius: 24,
+    borderRadius: calculateResponsiveSize(ICON_GRID.borderRadius, spacingMultiplier),
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
   },
   label: {
-    fontSize: 11,
+    fontSize: calculateResponsiveSize(ICON_GRID.fontSize, spacingMultiplier),
     fontWeight: '700',
     textAlign: 'center',
   },

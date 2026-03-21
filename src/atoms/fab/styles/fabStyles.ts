@@ -7,27 +7,51 @@
 
 import type { ViewStyle } from 'react-native';
 import type { FabSizeConfig, FabVariantConfig } from '../types';
+import { FAB_SIZES as BASE_FAB_SIZES } from '../../../constants';
+import { calculateResponsiveSize } from '../../../utils/responsiveUtils';
 
 /**
- * FAB size configurations based on Material Design 3
- * - sm: Small FAB (40x40)
- * - md: Regular FAB (56x56) - Default
- * - lg: Large FAB (72x72)
+ * Get responsive FAB sizes based on spacing multiplier
+ * @param spacingMultiplier - Spacing multiplier from design tokens
+ * @returns Size configurations for sm, md, lg
+ */
+export function getFabSizes(spacingMultiplier: number): Record<'sm' | 'md' | 'lg', FabSizeConfig> {
+  return {
+    sm: {
+      width: calculateResponsiveSize(BASE_FAB_SIZES.sm, spacingMultiplier),
+      height: calculateResponsiveSize(BASE_FAB_SIZES.sm, spacingMultiplier),
+      borderRadius: 12,
+    },
+    md: {
+      width: calculateResponsiveSize(BASE_FAB_SIZES.md, spacingMultiplier),
+      height: calculateResponsiveSize(BASE_FAB_SIZES.md, spacingMultiplier),
+      borderRadius: 16,
+    },
+    lg: {
+      width: calculateResponsiveSize(BASE_FAB_SIZES.lg, spacingMultiplier),
+      height: calculateResponsiveSize(BASE_FAB_SIZES.lg, spacingMultiplier),
+      borderRadius: 20,
+    },
+  };
+}
+
+/**
+ * @deprecated Use getFabSizes(spacingMultiplier) instead
  */
 export const FAB_SIZES: Record<'sm' | 'md' | 'lg', FabSizeConfig> = {
   sm: {
-    width: 40,
-    height: 40,
+    width: BASE_FAB_SIZES.sm,
+    height: BASE_FAB_SIZES.sm,
     borderRadius: 12,
   },
   md: {
-    width: 56,
-    height: 56,
+    width: BASE_FAB_SIZES.md,
+    height: BASE_FAB_SIZES.md,
     borderRadius: 16,
   },
   lg: {
-    width: 72,
-    height: 72,
+    width: BASE_FAB_SIZES.lg,
+    height: BASE_FAB_SIZES.lg,
     borderRadius: 20,
   },
 } as const;
