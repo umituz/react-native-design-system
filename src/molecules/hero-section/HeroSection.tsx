@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import type { HeroSectionProps } from './types';
 import { calculateResponsiveSize } from '../../responsive';
@@ -28,7 +28,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         overflow: 'hidden' as const,
       },
       background: {
-        ...StyleSheet.absoluteFillObject,
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         backgroundColor: tokens.colors.surfaceVariant,
       },
       iconWrapper: {
@@ -46,19 +50,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     [tokens, height, spacingMultiplier],
   );
 
-  const styles = useMemo(() => StyleSheet.create({
+  const styles = useMemo(() => ({
     image: {
-      ...StyleSheet.absoluteFillObject,
+      position: 'absolute' as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
       width: '100%',
       height: '100%',
     },
     emoji: {
       fontSize: calculateResponsiveSize(64, spacingMultiplier),
-      textAlign: 'left',
+      textAlign: 'left' as const,
       includeFontPadding: false,
     },
     fadeOverlay: {
-      position: 'absolute',
+      position: 'absolute' as const,
       bottom: -1,
       left: 0,
       right: 0,

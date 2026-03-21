@@ -55,11 +55,11 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
 
     const spacingMultiplier = tokens.spacingMultiplier;
 
-    const styles = useMemo(() => StyleSheet.create({
+    const styles = useMemo(() => ({
       overlay: {
         flex: 1,
         backgroundColor: tokens.colors.modalOverlay,
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end' as const,
       },
       container: {
         height: sheetHeight,
@@ -67,18 +67,19 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
         paddingBottom: Math.max(insets.bottom, tokens.spacing.xs),
+        width: '100%' as const,
+      },
+      contentWrapper: {
+        flex: 1,
       },
       handle: {
         width: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.width, spacingMultiplier),
         height: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.height, spacingMultiplier),
         backgroundColor: tokens.colors.border,
         borderRadius: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.borderRadius, spacingMultiplier),
-        alignSelf: 'center',
+        alignSelf: 'center' as const,
         marginTop: tokens.spacing.md,
         marginBottom: tokens.spacing.sm,
-      },
-      content: {
-        flex: 1,
       },
     }), [sheetHeight, backgroundColor, tokens, borderRadius, insets.bottom, spacingMultiplier]);
 
@@ -91,13 +92,13 @@ export const BottomSheetModal = forwardRef<BottomSheetModalRef, BottomSheetModal
         statusBarTranslucent
       >
         <View style={styles.overlay}>
-          <Pressable 
-            style={StyleSheet.absoluteFill} 
+          <Pressable
+            style={StyleSheet.absoluteFill}
             onPress={dismiss}
             accessibilityLabel="Close modal"
           />
-          <View style={[styles.container, { width: '100%' }]}>
-            <View style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <View style={styles.contentWrapper}>
               <View style={styles.handle} />
               {children}
             </View>

@@ -2,8 +2,8 @@
  * AlertModal Component
  */
 
-import React, { useMemo } from 'react';
-import { StyleSheet, View, Modal, Pressable } from 'react-native';
+import React, { useMemo, useCallback } from 'react';
+import { View, Modal, Pressable } from 'react-native';
 import { AtomicButton, AtomicText, AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
 import { Alert, AlertType } from './AlertTypes';
@@ -35,43 +35,54 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
     const iconName = getAlertIconName(alert.type);
     const hasTwoActions = alert.actions.length === 2;
 
-    const styles = useMemo(() => StyleSheet.create({
+    const handleActionPress = useCallback(async (action: typeof alert.actions[0]) => {
+        await action.onPress();
+        if (action.closeOnPress ?? true) {
+            handleClose();
+        }
+    }, [handleClose]);
+
+    const styles = useMemo(() => ({
         overlay: {
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: 'center' as const,
+            alignItems: 'center' as const,
             padding: calculateResponsiveSize(MODAL_SIZES.overlayPadding, spacingMultiplier),
         },
         backdrop: {
-            ...StyleSheet.absoluteFillObject,
+            position: 'absolute' as const,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             backgroundColor: 'rgba(0,0,0,0.55)',
         },
         modal: {
             width: '100%',
             maxWidth: calculateResponsiveSize(MODAL_SIZES.maxWidth, spacingMultiplier),
             padding: calculateResponsiveSize(MODAL_SIZES.padding, spacingMultiplier),
-            alignItems: 'center',
+            alignItems: 'center' as const,
         },
         iconCircle: {
             width: calculateResponsiveSize(ALERT_MODAL_ICON.width, spacingMultiplier),
             height: calculateResponsiveSize(ALERT_MODAL_ICON.height, spacingMultiplier),
             borderRadius: calculateResponsiveSize(ALERT_MODAL_ICON.borderRadius, spacingMultiplier),
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: 'center' as const,
+            alignItems: 'center' as const,
             marginBottom: calculateResponsiveSize(ALERT_MODAL_ICON.marginBottom, spacingMultiplier),
         },
         title: {
-            fontWeight: '700',
-            textAlign: 'center',
+            fontWeight: '700' as const,
+            textAlign: 'center' as const,
             marginBottom: tokens.spacing.sm,
         },
         message: {
-            textAlign: 'center',
+            textAlign: 'center' as const,
             lineHeight: calculateResponsiveSize(24, spacingMultiplier),
             opacity: 0.85,
         },
         actionsRow: {
-            flexDirection: 'row',
+            flexDirection: 'row' as const,
             width: '100%',
         },
         actionsColumn: {
@@ -170,12 +181,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({ alert }) => {
                                         : action.style === 'secondary' ? 'outline'
                                         : 'primary'
                                     }
-                                    onPress={async () => {
-                                        await action.onPress();
-                                        if (action.closeOnPress ?? true) {
-                                            handleClose();
-                                        }
-                                    }}
+                                    onPress={() => handleActionPress(action)}
                                     fullWidth={!hasTwoActions}
                                     style={hasTwoActions ? styles.actionButtonHalf : undefined}
                                 />

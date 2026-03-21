@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { AtomicIcon } from "../../atoms";
 import { AtomicText } from "../../atoms";
 import { useAppDesignTokens } from "../../theme";
@@ -20,22 +20,29 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = React.memo(({
   const tokens = useAppDesignTokens();
   const spacingMultiplier = tokens.spacingMultiplier;
 
-  const styles = useMemo(() => StyleSheet.create({
+  const styles = useMemo(() => ({
     container: {
-      alignItems: "center",
+      alignItems: "center" as const,
       gap: 6,
       width: LAYOUT.ITEM_SIZE,
     },
     iconContainer: {
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: "center" as const,
+      alignItems: "center" as const,
+      backgroundColor: tokens.colors.surfaceVariant,
+      width: LAYOUT.ICON_SIZE,
+      height: LAYOUT.ICON_SIZE,
+      borderRadius: LAYOUT.ICON_SIZE / 2,
+      borderWidth: 1,
+      borderColor: tokens.colors.border,
     },
     label: {
       fontSize: calculateResponsiveSize(11, spacingMultiplier),
-      fontWeight: "500",
-      textAlign: "center",
+      fontWeight: "500" as const,
+      textAlign: "center" as const,
+      color: tokens.colors.textPrimary,
     },
-  }), [spacingMultiplier]);
+  }), [spacingMultiplier, tokens.colors.surfaceVariant, tokens.colors.border, tokens.colors.textPrimary]);
 
   return (
     <TouchableOpacity
@@ -45,24 +52,12 @@ export const CircularMenuItem: React.FC<CircularMenuItemProps> = React.memo(({
       accessibilityRole="button"
       accessibilityLabel={label}
     >
-      <View
-        style={[
-          styles.iconContainer,
-          {
-            backgroundColor: tokens.colors.surfaceVariant,
-            width: LAYOUT.ICON_SIZE,
-            height: LAYOUT.ICON_SIZE,
-            borderRadius: LAYOUT.ICON_SIZE / 2,
-            borderWidth: 1,
-            borderColor: tokens.colors.border,
-          },
-        ]}
-      >
+      <View style={styles.iconContainer}>
         <AtomicIcon name={icon} size="lg" color="primary" />
       </View>
       <AtomicText
         type="labelSmall"
-        style={[styles.label, { color: tokens.colors.textPrimary }]}
+        style={styles.label}
       >
         {label}
       </AtomicText>

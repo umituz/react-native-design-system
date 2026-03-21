@@ -10,7 +10,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   View,
   TouchableOpacity,
-  StyleSheet,
   type LayoutChangeEvent,
   type StyleProp,
   type ViewStyle,
@@ -152,7 +151,7 @@ export const IconGrid = React.memo<IconGridProps>(({
   // Stable renderItem with memoization
   const renderItem = useCallback(({ item }: { item: IconGridItem }) => {
     if (itemWidth === 0) {
-      return <View key={item.id} style={{ width: 0, height: 0 }} />;
+      return <View key={item.id} style={styles.placeholder} />;
     }
 
     return (
@@ -177,7 +176,7 @@ export const IconGrid = React.memo<IconGridProps>(({
     return (
       <View style={gridStyle} onLayout={handleLayout}>
         {items.map((item) => (
-          <View key={item.id} style={{ width: 0, height: 0 }} />
+          <View key={item.id} style={styles.placeholder} />
         ))}
       </View>
     );
@@ -198,25 +197,29 @@ export const IconGrid = React.memo<IconGridProps>(({
   );
 });
 
-const createStyles = (spacingMultiplier: number) => StyleSheet.create({
+const createStyles = (spacingMultiplier: number) => ({
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'row' as const,
+    flexWrap: 'wrap' as const,
   },
   card: {
-    alignItems: 'center',
+    alignItems: 'center' as const,
     gap: 8,
   },
   iconBox: {
     aspectRatio: 1,
     borderRadius: calculateResponsiveSize(ICON_GRID.borderRadius, spacingMultiplier),
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     borderWidth: 1,
   },
   label: {
     fontSize: calculateResponsiveSize(ICON_GRID.fontSize, spacingMultiplier),
-    fontWeight: '700',
-    textAlign: 'center',
+    fontWeight: '700' as const,
+    textAlign: 'center' as const,
+  },
+  placeholder: {
+    width: 0,
+    height: 0,
   },
 });

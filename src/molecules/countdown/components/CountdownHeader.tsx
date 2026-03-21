@@ -30,9 +30,29 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
         [spacingMultiplier]
     );
 
+    const containerStyle = useMemo(() => [
+        styles.container,
+        { marginBottom: tokens.spacing.md },
+    ], [tokens.spacing.md]);
+
+    const titleRowStyle = useMemo(() => [
+        styles.titleRow,
+        { gap: tokens.spacing.sm },
+    ], [tokens.spacing.sm]);
+
+    const toggleButtonStyle = useMemo(() => [
+        styles.toggleButton,
+        {
+            backgroundColor: tokens.colors.surfaceSecondary,
+            width: toggleButtonSize,
+            height: toggleButtonSize,
+            borderRadius: toggleButtonSize / 2,
+        },
+    ], [styles.toggleButton, tokens.colors.surfaceSecondary, toggleButtonSize]);
+
     return (
-        <View style={[styles.container, { marginBottom: tokens.spacing.md }]}>
-            <View style={[styles.titleRow, { gap: tokens.spacing.sm }]}>
+        <View style={containerStyle}>
+            <View style={titleRowStyle}>
                 {icon && (
                     <AtomicIcon
                         name={icon}
@@ -51,15 +71,7 @@ export const CountdownHeader: React.FC<CountdownHeaderProps> = ({
 
             {showToggle && onToggle && (
                 <TouchableOpacity
-                    style={[
-                        styles.toggleButton,
-                        {
-                            backgroundColor: tokens.colors.surfaceSecondary,
-                            width: toggleButtonSize,
-                            height: toggleButtonSize,
-                            borderRadius: toggleButtonSize / 2,
-                        },
-                    ]}
+                    style={toggleButtonStyle}
                     onPress={onToggle}
                     accessibilityRole="button"
                     accessibilityLabel="Toggle view"

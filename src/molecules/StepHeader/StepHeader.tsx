@@ -6,7 +6,7 @@
  */
 
 import React, { useMemo } from "react";
-import { View, StyleSheet, type ViewStyle, type StyleProp } from "react-native";
+import { View, type ViewStyle, type StyleProp } from "react-native";
 import { AtomicText } from "../../atoms/AtomicText";
 import { useAppDesignTokens } from "../../theme/hooks/useAppDesignTokens";
 import {
@@ -60,52 +60,51 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
   const spacingMultiplier = tokens.spacingMultiplier;
 
   const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        container: {
-          paddingHorizontal: calculateResponsiveSize(
-            cfg.spacing?.paddingHorizontal ?? SPACING.xl,
-            spacingMultiplier
-          ),
-          marginBottom: calculateResponsiveSize(
-            cfg.spacing?.marginBottom ?? 32,
-            spacingMultiplier
-          ),
-        },
-        stepIndicator: {
-          flexDirection: "row",
-          alignItems: "center",
-          marginBottom: tokens.spacing.md,
-        },
-        stepDot: {
-          width: calculateResponsiveSize(STEP_INDICATOR.dot.width, spacingMultiplier),
-          height: calculateResponsiveSize(STEP_INDICATOR.dot.height, spacingMultiplier),
-          borderRadius: calculateResponsiveSize(STEP_INDICATOR.dot.borderRadius, spacingMultiplier),
-          marginHorizontal: calculateResponsiveSize(STEP_INDICATOR.dot.marginHorizontal, spacingMultiplier),
-        },
-        activeDot: {
-          backgroundColor: tokens.colors.primary,
-        },
-        inactiveDot: {
-          backgroundColor: `${tokens.colors.primary}30`,
-        },
-        title: {
-          fontSize: calculateResponsiveSize(cfg.titleFontSize ?? STEP_INDICATOR.title, spacingMultiplier),
-          fontWeight: "900",
-          color: tokens.colors.textPrimary,
-          textAlign: cfg.titleAlignment,
-          marginBottom: subtitle ? calculateResponsiveSize(STEP_INDICATOR.subtitle, spacingMultiplier) : 0,
-          letterSpacing: 0.3,
-        },
-        subtitle: {
-          fontSize: calculateResponsiveSize(cfg.subtitleFontSize ?? STEP_INDICATOR.subtitle, spacingMultiplier),
-          fontWeight: "500",
-          color: tokens.colors.textSecondary,
-          textAlign: cfg.titleAlignment,
-          lineHeight: calculateLineHeight(cfg.subtitleFontSize ?? STEP_INDICATOR.subtitle, spacingMultiplier),
-          opacity: 0.9,
-        },
-      }),
+    () => ({
+      container: {
+        paddingHorizontal: calculateResponsiveSize(
+          cfg.spacing?.paddingHorizontal ?? SPACING.xl,
+          spacingMultiplier
+        ),
+        marginBottom: calculateResponsiveSize(
+          cfg.spacing?.marginBottom ?? 32,
+          spacingMultiplier
+        ),
+      },
+      stepIndicator: {
+        flexDirection: "row" as const,
+        alignItems: "center" as const,
+        marginBottom: tokens.spacing.md,
+      },
+      stepDot: {
+        width: calculateResponsiveSize(STEP_INDICATOR.dot.width, spacingMultiplier),
+        height: calculateResponsiveSize(STEP_INDICATOR.dot.height, spacingMultiplier),
+        borderRadius: calculateResponsiveSize(STEP_INDICATOR.dot.borderRadius, spacingMultiplier),
+        marginHorizontal: calculateResponsiveSize(STEP_INDICATOR.dot.marginHorizontal, spacingMultiplier),
+      },
+      activeDot: {
+        backgroundColor: tokens.colors.primary,
+      },
+      inactiveDot: {
+        backgroundColor: `${tokens.colors.primary}30`,
+      },
+      title: {
+        fontSize: calculateResponsiveSize(cfg.titleFontSize ?? STEP_INDICATOR.title, spacingMultiplier),
+        fontWeight: "900" as const,
+        color: tokens.colors.textPrimary,
+        textAlign: cfg.titleAlignment,
+        marginBottom: subtitle ? calculateResponsiveSize(STEP_INDICATOR.subtitle, spacingMultiplier) : 0,
+        letterSpacing: 0.3,
+      },
+      subtitle: {
+        fontSize: calculateResponsiveSize(cfg.subtitleFontSize ?? STEP_INDICATOR.subtitle, spacingMultiplier),
+        fontWeight: "500" as const,
+        color: tokens.colors.textSecondary,
+        textAlign: cfg.titleAlignment,
+        lineHeight: calculateLineHeight(cfg.subtitleFontSize ?? STEP_INDICATOR.subtitle, spacingMultiplier),
+        opacity: 0.9,
+      },
+    }),
     [tokens, cfg, subtitle, spacingMultiplier],
   );
 

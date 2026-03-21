@@ -56,6 +56,10 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     onChange?.(-1);
   }, [onClose, onChange]);
 
+  const handleContentPress = useCallback((e: any) => {
+    e.stopPropagation();
+  }, []);
+
   useImperativeHandle(ref, () => ({
     snapToIndex: (index: number) => {
       if (index >= 0) present();
@@ -69,11 +73,11 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
 
   const spacingMultiplier = tokens.spacingMultiplier;
 
-  const styles = useMemo(() => StyleSheet.create({
+  const styles = useMemo(() => ({
     overlay: {
       flex: 1,
       backgroundColor: tokens.colors.modalOverlay,
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-end' as const,
     },
     container: {
       height: sheetHeight,
@@ -87,7 +91,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
       height: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.height, spacingMultiplier),
       backgroundColor: tokens.colors.border,
       borderRadius: calculateResponsiveSize(BOTTOM_SHEET_HANDLE.borderRadius, spacingMultiplier),
-      alignSelf: 'center',
+      alignSelf: 'center' as const,
       marginTop: tokens.spacing.md,
       marginBottom: tokens.spacing.sm,
     },
@@ -107,7 +111,7 @@ export const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>((props, 
     >
       <Pressable style={styles.overlay} onPress={dismiss} accessibilityLabel="Close" accessibilityRole="button">
         <View style={styles.container}>
-          <Pressable onPress={(e) => e.stopPropagation()} style={styles.content} accessibilityRole="none">
+          <Pressable onPress={handleContentPress} style={styles.content} accessibilityRole="none">
             <View style={styles.handle} />
             {children}
           </Pressable>

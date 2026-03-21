@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';
 import { calculateResponsiveSize } from '../../../responsive';
@@ -19,25 +19,25 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
     const tokens = useAppDesignTokens();
     const spacingMultiplier = tokens.spacingMultiplier;
 
-    const styles = useMemo(() => StyleSheet.create({
+    const styles = useMemo(() => ({
         container: {
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: 'center' as const,
+            justifyContent: 'center' as const,
         },
         value: {
-            fontWeight: '700',
+            fontWeight: '700' as const,
             lineHeight: calculateResponsiveSize(38, spacingMultiplier),
         },
         label: {
-            fontWeight: '600',
+            fontWeight: '600' as const,
             marginTop: calculateResponsiveSize(2, spacingMultiplier),
             letterSpacing: 1,
-            textTransform: 'uppercase',
+            textTransform: 'uppercase' as const,
         },
     }), [spacingMultiplier]);
 
-    const sizeConfig = {
+    const sizeConfig = useMemo(() => ({
         small: {
             fontSize: calculateResponsiveSize(COUNTDOWN_SIZES.small.fontSize, spacingMultiplier),
             padding: tokens.spacing.sm,
@@ -53,7 +53,7 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
             padding: tokens.spacing.lg,
             minHeight: calculateResponsiveSize(COUNTDOWN_SIZES.large.minHeight, spacingMultiplier),
         },
-    };
+    }), [spacingMultiplier, tokens.spacing.sm, tokens.spacing.md, tokens.spacing.lg]);
 
     const config = sizeConfig[size];
 
@@ -70,23 +70,28 @@ export const TimeUnit: React.FC<TimeUnitProps> = ({
 
     const calculatedFontSize = config.fontSize * fontSizeMultiplier;
 
+    const containerStyle = useMemo(() => [
+        styles.container,
+        {
+            backgroundColor: tokens.colors.surfaceSecondary,
+            borderRadius: tokens.borders.radius.lg,
+            paddingVertical: config.padding,
+            minHeight: config.minHeight,
+            paddingHorizontal: tokens.spacing.xs,
+        },
+    ], [styles.container, tokens.colors.surfaceSecondary, tokens.borders.radius.lg, config.padding, config.minHeight, tokens.spacing.xs]);
+
+    const valueStyle = useMemo(() => [
+        styles.value,
+        { fontSize: calculatedFontSize },
+    ], [styles.value, calculatedFontSize]);
+
     return (
-        <View
-            style={[
-                styles.container,
-                {
-                    backgroundColor: tokens.colors.surfaceSecondary,
-                    borderRadius: tokens.borders.radius.lg,
-                    paddingVertical: config.padding,
-                    minHeight: config.minHeight,
-                    paddingHorizontal: tokens.spacing.xs,
-                },
-            ]}
-        >
+        <View style={containerStyle}>
             <AtomicText
                 type="displaySmall"
                 color="onSurface"
-                style={[styles.value, { fontSize: calculatedFontSize }]}
+                style={valueStyle}
                 numberOfLines={1}
             >
                 {displayValue}

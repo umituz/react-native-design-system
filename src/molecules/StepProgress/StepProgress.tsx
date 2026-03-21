@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
 import { calculateResponsiveSize } from '../../responsive';
 import { STEP_INDICATOR } from '../../constants';
@@ -20,24 +20,23 @@ export const StepProgress: React.FC<StepProgressProps> = ({
     const spacingMultiplier = tokens.spacingMultiplier;
 
     const styles = useMemo(
-        () =>
-            StyleSheet.create({
-                container: {
-                    flexDirection: "row",
-                    gap: tokens.spacing.sm,
-                    paddingHorizontal: tokens.spacing.md,
-                    paddingVertical: tokens.spacing.md,
-                },
-                step: {
-                    flex: 1,
-                    height: calculateResponsiveSize(STEP_INDICATOR.progressBar.height, spacingMultiplier),
-                    borderRadius: calculateResponsiveSize(STEP_INDICATOR.progressBar.borderRadius, spacingMultiplier),
-                    backgroundColor: tokens.colors.border,
-                },
-                activeStep: {
-                    backgroundColor: tokens.colors.primary,
-                },
-            }),
+        () => ({
+            container: {
+                flexDirection: "row" as const,
+                gap: tokens.spacing.sm,
+                paddingHorizontal: tokens.spacing.md,
+                paddingVertical: tokens.spacing.md,
+            },
+            step: {
+                flex: 1,
+                height: calculateResponsiveSize(STEP_INDICATOR.progressBar.height, spacingMultiplier),
+                borderRadius: calculateResponsiveSize(STEP_INDICATOR.progressBar.borderRadius, spacingMultiplier),
+                backgroundColor: tokens.colors.border,
+            },
+            activeStep: {
+                backgroundColor: tokens.colors.primary,
+            },
+        }),
         [tokens, spacingMultiplier],
     );
 

@@ -1,6 +1,6 @@
 
 import React, { useMemo, useCallback } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
@@ -8,10 +8,10 @@ import type { ActionFooterProps } from './types';
 import { calculateResponsiveSize } from '../../responsive';
 import { NAVIGATION } from '../../constants';
 
-const createStyles = (spacingMultiplier: number) => StyleSheet.create({
+const createStyles = (spacingMultiplier: number) => ({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     paddingVertical: 0,
     gap: 0,
   },
@@ -20,8 +20,8 @@ const createStyles = (spacingMultiplier: number) => StyleSheet.create({
     height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
     borderRadius: 0,
     backgroundColor: '',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center' as const,
+    alignItems: 'center' as const,
     borderWidth: 1,
     borderColor: '',
   },
@@ -29,13 +29,13 @@ const createStyles = (spacingMultiplier: number) => StyleSheet.create({
     flex: 1,
     height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
     borderRadius: 0,
-    overflow: 'hidden',
+    overflow: 'hidden' as const,
   },
   actionContent: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'flex-start' as const,
     backgroundColor: '',
     gap: 0,
     paddingHorizontal: 0,
