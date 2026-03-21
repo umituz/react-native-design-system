@@ -145,11 +145,23 @@ export default function RootLayout() {
 
 | Feature | Status | Description |
 |---------|--------|-------------|
-| **SafeAreaProvider** | ✅ Automatic | Uses `initialWindowMetrics` for SSR-safe first render |
+| **SafeAreaProvider** | ✅ Automatic | Auto-calculates insets (no `initialWindowMetrics` needed) |
 | **GestureHandlerRootView** | ✅ Automatic | Required for all gestures |
 | **Theme System** | ✅ Automatic | Light/dark mode with persistence |
 | **Font Loading** | ✅ Automatic | Skips gate when no custom fonts provided |
 | **Splash Screen** | ✅ Optional | Via `splashConfig` prop |
+
+### 🔧 SafeAreaProvider Details
+
+**No SSR/Next.js Configuration Needed:**
+- Uses native `react-native-safe-area-context`
+- Auto-calculates insets on mount
+- Works seamlessly with Expo and bare React Native
+
+**Why No `initialWindowMetrics`?**
+- React Native (not web) doesn't need SSR optimization
+- Package auto-detects window dimensions
+- Prevents Expo compatibility issues
 
 ### ⚠️ DO NOT Add SafeAreaProvider Manually
 

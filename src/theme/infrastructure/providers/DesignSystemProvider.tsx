@@ -2,7 +2,7 @@ import React, { useEffect, useState, ReactNode, lazy, Suspense } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
-import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTheme } from '../stores/themeStore';
 import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
@@ -132,7 +132,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <SafeAreaProvider>
         {content}
       </SafeAreaProvider>
     </GestureHandlerRootView>
