@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, ViewStyle, StyleProp, View } from 'react-native';
-import { useDesignSystemTheme } from '../../theme';
+import { useTheme } from '../../theme';
 import { intensityToOpacity } from '../../utils/math';
+import { useMemo } from 'react';
 
 // Define a local type for tint to maintain API compatibility
 export type GlassTint = 'light' | 'dark' | 'default' | 'prominent' | 'regular' | 'extraLight' | 'systemThinMaterial' | 'systemMaterial' | 'systemThickMaterial' | 'systemChromeMaterial' | 'systemUltraThinMaterial' | 'systemThinMaterialLight' | 'systemMaterialLight' | 'systemThickMaterialLight' | 'systemChromeMaterialLight' | 'systemUltraThinMaterialLight' | 'systemThinMaterialDark' | 'systemMaterialDark' | 'systemThickMaterialDark' | 'systemChromeMaterialDark' | 'systemUltraThinMaterialDark';
@@ -26,8 +27,8 @@ export const GlassView: React.FC<GlassViewProps> = ({
   intensity = 50,
   tint,
 }) => {
-  const { themeMode } = useDesignSystemTheme();
-  const isDark = themeMode === 'dark';
+  const themeMode = useTheme((state) => state.themeMode);
+  const isDark = useMemo(() => themeMode === 'dark', [themeMode]);
 
   // Calculate opacity using utility function
   const opacity = intensityToOpacity(intensity);

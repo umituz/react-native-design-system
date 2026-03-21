@@ -8,7 +8,6 @@
 import { createStore } from '../../../storage';
 import { lightTheme, darkTheme, type Theme } from '../../core/themes';
 import { ThemeStorage } from '../storage/ThemeStorage';
-import { useDesignSystemTheme } from '../globalThemeStore';
 import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 
@@ -95,16 +94,11 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
           isDark: mode === 'dark',
           isInitialized: true,
         });
-
-        const dsTheme = useDesignSystemTheme.getState();
-        dsTheme.setThemeMode(mode);
-        dsTheme.setCustomColors(colors);
       } catch (error) {
         if (__DEV__) {
           console.error('[ThemeStore] Failed to initialize theme:', error);
         }
         set({ isInitialized: true, _initInProgress: false });
-        useDesignSystemTheme.getState().setThemeMode(defaultThemeMode);
       } finally {
         set({ _initInProgress: false });
       }
@@ -121,7 +115,6 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
         const theme = mode === 'light' ? lightTheme : darkTheme;
         set({ themeMode: mode, theme, isDark: mode === 'dark' });
         await ThemeStorage.setThemeMode(mode);
-        useDesignSystemTheme.getState().setThemeMode(mode);
       } catch (error) {
         // Revert state on error
         set({ _lastUpdateId: undefined });
@@ -146,7 +139,6 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
 
       try {
         await ThemeStorage.setCustomColors(colors);
-        useDesignSystemTheme.getState().setCustomColors(colors);
       } catch (error) {
         // Revert to previous colors on error
         set({ customColors: currentColors, _lastUpdateId: undefined });
@@ -173,9 +165,6 @@ export const useTheme = createStore<ThemeState, ThemeActions>({
       set({ themeMode: defaultThemeMode, theme, isDark: defaultThemeMode === 'dark', customColors: defaultColors });
       await ThemeStorage.clearThemeMode();
       await ThemeStorage.clearCustomColors();
-      const dsTheme = useDesignSystemTheme.getState();
-      dsTheme.setThemeMode(defaultThemeMode);
-      dsTheme.setCustomColors(defaultColors);
     },
 
     toggleTheme: async () => {

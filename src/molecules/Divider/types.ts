@@ -8,6 +8,8 @@
  * @layer domain/entities
  */
 
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+
 /**
  * Divider orientation
  */
@@ -57,16 +59,10 @@ const BASE_SPACING_CONFIGS: Record<DividerSpacing, number> = {
  */
 export const getSpacingConfigs = (spacingMultiplier: number): Record<DividerSpacing, number> => {
     return Object.entries(BASE_SPACING_CONFIGS).reduce((acc, [key, value]) => {
-        acc[key as DividerSpacing] = Math.floor(value * spacingMultiplier);
+        acc[key as DividerSpacing] = calculateResponsiveSize(value, spacingMultiplier);
         return acc;
     }, {} as Record<DividerSpacing, number>);
 };
-
-/**
- * @deprecated Use getSpacingConfigs(spacingMultiplier) instead
- * Kept for backward compatibility
- */
-export const SPACING_CONFIGS = BASE_SPACING_CONFIGS;
 
 /**
  * Divider utility class
@@ -76,7 +72,7 @@ export class DividerUtils {
      * Get spacing value (responsive)
      */
     static getSpacing(spacing: DividerSpacing, spacingMultiplier: number = 1): number {
-        return Math.floor(BASE_SPACING_CONFIGS[spacing] * spacingMultiplier);
+        return calculateResponsiveSize(BASE_SPACING_CONFIGS[spacing], spacingMultiplier);
     }
 
     /**

@@ -4,7 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider, initialWindowMetrics } from '../../../safe-area';
 import { useTheme } from '../stores/themeStore';
-import { useDesignSystemTheme, type ThemeMode } from '../globalThemeStore';
+import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
 import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
@@ -46,20 +46,16 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   const setCustomColors = useTheme((state) => state.setCustomColors);
   const setDefaultColors = useTheme((state) => state.setDefaultColors);
   const setDefaultThemeMode = useTheme((state) => state.setDefaultThemeMode);
-  const setGlobalCustomColors = useDesignSystemTheme((state) => state.setCustomColors);
-  const setGlobalThemeMode = useDesignSystemTheme((state) => state.setThemeMode);
 
   useEffect(() => {
     // Register app's default colors for reset feature
     if (customColors) {
       setDefaultColors(customColors);
       setCustomColors(customColors);
-      setGlobalCustomColors(customColors);
     }
 
     // Set default theme mode BEFORE initialize
     setDefaultThemeMode(initialThemeMode);
-    setGlobalThemeMode(initialThemeMode);
 
     // Safety timeout: if initialization takes too long, proceed anyway
     const safetyTimer = setTimeout(() => {
@@ -89,8 +85,6 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
     setCustomColors,
     setDefaultColors,
     setDefaultThemeMode,
-    setGlobalCustomColors,
-    setGlobalThemeMode,
   ]);
 
   // Skip font loading gate when no custom fonts are provided

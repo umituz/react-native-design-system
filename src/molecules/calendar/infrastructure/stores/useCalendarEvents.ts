@@ -8,6 +8,7 @@ import { create } from 'zustand';
 import type { CalendarEvent, CreateCalendarEventRequest, UpdateCalendarEventRequest } from '../../domain/entities/CalendarEvent.entity';
 import { zustandStorage } from './storageAdapter';
 import { isValidArray, isValidCalendarEvent } from '../../../../storage/domain/utils/ValidationUtils';
+import { ErrorHandler } from '../../../../utils/errors/ErrorHandler';
 
 const STORAGE_KEY = 'calendar_events';
 
@@ -35,8 +36,9 @@ const generateId = (): string => `${Date.now()}-${Math.random().toString(36).sub
 const persistEvents = async (events: CalendarEvent[]): Promise<void> => {
   try {
     await zustandStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  } catch {
-    // Silent fail
+  } catch (error) {
+    ErrorHandler.log(error);
+    throw error; // Re-throw to allow caller to handle
   }
 };
 
@@ -59,6 +61,7 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
       // Runtime validation
       if (!isValidArray(parsed)) {
         if (__DEV__) {
+          console.error('[CalendarEvents] Invalid data format: expected array, got', typeof parsed);
         }
         set({ error: 'Invalid data format', isLoading: false });
         return;
@@ -77,7 +80,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
       } else {
         set({ isLoading: false });
       }
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to load events', isLoading: false });
     }
   },
@@ -97,7 +101,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
 
       await persistEvents(updatedEvents);
       set({ events: updatedEvents, isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to add event', isLoading: false });
     }
   },
@@ -114,7 +119,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
 
       await persistEvents(updatedEvents);
       set({ events: updatedEvents, isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to update event', isLoading: false });
     }
   },
@@ -127,7 +133,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
 
       await persistEvents(updatedEvents);
       set({ events: updatedEvents, isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to delete event', isLoading: false });
     }
   },
@@ -144,7 +151,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
 
       await persistEvents(updatedEvents);
       set({ events: updatedEvents, isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to complete event', isLoading: false });
     }
   },
@@ -161,7 +169,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
 
       await persistEvents(updatedEvents);
       set({ events: updatedEvents, isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to uncomplete event', isLoading: false });
     }
   },
@@ -173,7 +182,8 @@ export const useCalendarEvents = create<CalendarEventsStore>()((set, get) => ({
     try {
       await zustandStorage.removeItem(STORAGE_KEY);
       set({ events: [], isLoading: false });
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       set({ error: 'Failed to clear events', isLoading: false });
     }
   },

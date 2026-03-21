@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AtomicText } from "../../../atoms/AtomicText";
 import { useOnboardingProvider } from "../providers/OnboardingProvider";
 import { calculateStepProgress } from "../../../utils/math";
+import { createMappedArray } from "../../../utils";
 
 export interface OnboardingFooterProps {
   currentIndex: number;
@@ -59,7 +60,7 @@ export const OnboardingFooter = React.memo<OnboardingFooterProps>(({
   );
 
   const dots = useMemo(
-    () => Array.from({ length: totalSlides }, (_, index) => {
+    () => createMappedArray(totalSlides, (index) => {
       const isActive = index === currentIndex;
       return {
         key: index,

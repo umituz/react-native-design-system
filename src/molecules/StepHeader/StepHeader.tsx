@@ -14,6 +14,7 @@ import {
   calculateLineHeight,
 } from "../../utils/responsiveUtils";
 import { SPACING, STEP_INDICATOR } from "../../constants";
+import { createMappedArray } from "../../utils";
 
 const DEFAULT_CONFIG: StepHeaderConfig = {
   showStepIndicator: false,
@@ -114,7 +115,7 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
         cfg.currentStep !== undefined &&
         cfg.totalSteps !== undefined && (
           <View style={styles.stepIndicator}>
-            {Array.from({ length: cfg.totalSteps }, (_, i) => (
+            {createMappedArray(cfg.totalSteps, (i) => (
               <View
                 key={`step-${i}`}
                 style={[

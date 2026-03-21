@@ -71,7 +71,7 @@ interface IconStore {
   reset: () => void;
 }
 
-export const useIconStore = create<IconStore>((set) => ({
+export const useIconStore = create<IconStore>()((set) => ({
   iconNames: null,
   iconRenderer: null,
   isConfigured: false,

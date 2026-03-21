@@ -65,7 +65,8 @@ export type {
 // =============================================================================
 
 export { useAppDesignTokens } from './hooks/useAppDesignTokens';
-export { useDesignSystemTheme } from './infrastructure/globalThemeStore';
+// Alias for backward compatibility - useTheme is now the single source of truth
+export { useTheme as useDesignSystemTheme } from './infrastructure/stores/themeStore';
 export { useTheme } from './infrastructure/stores/themeStore';
 export { useThemedStyles, useThemedStyleSheet } from './hooks/useThemedStyles';
 export { useCommonStyles } from './hooks/useCommonStyles';

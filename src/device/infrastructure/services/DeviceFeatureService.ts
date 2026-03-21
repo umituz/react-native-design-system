@@ -16,6 +16,7 @@ import type {
   ResetPeriod,
 } from '../../domain/entities/DeviceFeatureConfig';
 import { PersistentDeviceIdService } from './PersistentDeviceIdService';
+import { ErrorHandler } from '../../../utils/errors/ErrorHandler';
 
 export class DeviceFeatureService {
   private static config: DeviceFeatureConfig = { features: {} };
@@ -99,7 +100,8 @@ export class DeviceFeatureService {
         defaultUsage
       );
       return unwrap(result, defaultUsage);
-    } catch {
+    } catch (error) {
+      ErrorHandler.log(error);
       return defaultUsage;
     }
   }
