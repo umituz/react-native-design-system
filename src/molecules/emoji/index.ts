@@ -166,8 +166,11 @@ export type {
 export { EmojiCategory, EmojiUtils } from './domain/entities/Emoji';
 
 // Presentation Components
-export { EmojiPicker } from './presentation/components/EmojiPicker';
-export type { EmojiPickerProps } from './presentation/components/EmojiPicker';
+// NOTE: EmojiPicker requires rn-emoji-keyboard (optional peer dependency)
+// Import it directly when needed:
+// import { EmojiPicker } from '@umituz/react-native-design-system/src/molecules/emoji/presentation/components/EmojiPicker';
+// export { EmojiPicker } from './presentation/components/EmojiPicker';
+// export type { EmojiPickerProps } from './presentation/components/EmojiPicker';
 
 // Presentation Hooks
 export { useEmojiPicker } from './presentation/hooks/useEmojiPicker';

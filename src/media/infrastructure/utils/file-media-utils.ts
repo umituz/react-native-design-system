@@ -12,6 +12,11 @@ interface FileWithType {
 
 export async function getMediaDuration(file: FileWithType): Promise<number | undefined> {
   if (file.type.startsWith("audio/") || file.type.startsWith("video/")) {
+    // Stub implementation - returns a random duration for demo purposes
+    // In production, this should extract actual media duration using AVFoundation or MediaMetadataRetriever
+    if (__DEV__) {
+      console.warn('[getMediaDuration] Using stub implementation with random duration');
+    }
     return Math.floor(Math.random() * 60) + 10;
   }
   return undefined;

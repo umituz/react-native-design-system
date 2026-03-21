@@ -10,7 +10,6 @@ import {
   View,
   Modal,
   TouchableOpacity,
-  StyleSheet,
   Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from '../../../safe-area';
@@ -103,6 +102,10 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
     },
   }), [overlayOpacity, tokens, insets.bottom]);
 
+  const pickerStyle = useMemo(() => ({
+    alignSelf: 'center' as const,
+  }), []);
+
   if (Platform.OS !== 'ios' || !DateTimePicker) {
     return null;
   }
@@ -145,7 +148,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
             minimumDate={minimumDate}
             maximumDate={maximumDate}
             display="spinner"
-            style={{ alignSelf: 'center' }}
+            style={pickerStyle}
             testID={testID ? `${testID}-picker` : undefined}
           />
         </View>

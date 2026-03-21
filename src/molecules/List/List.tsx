@@ -5,7 +5,7 @@
  * Uses design system responsive utilities
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FlatList, RefreshControl, type FlatListProps, type ListRenderItem } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 
@@ -55,29 +55,33 @@ export const List = <T,>({
 }: ListProps<T>) => {
   const tokens = useAppDesignTokens();
 
+  const contentContainerStyle = useMemo(() => (
+    contentPadding
+      ? {
+          paddingHorizontal: tokens.spacing.screenPadding,
+          paddingBottom: tokens.spacing.lg,
+        }
+      : undefined
+  ), [contentPadding, tokens.spacing.screenPadding, tokens.spacing.lg]);
+
+  const refreshControlElement = useMemo(() => (
+    onRefresh ? (
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        tintColor={tokens.colors.primary}
+        colors={[tokens.colors.primary]}
+      />
+    ) : undefined
+  ), [onRefresh, refreshing, tokens.colors.primary]);
+
   return (
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
-      refreshControl={
-        onRefresh ? (
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor={tokens.colors.primary}
-            colors={[tokens.colors.primary]}
-          />
-        ) : undefined
-      }
-      contentContainerStyle={
-        contentPadding
-          ? {
-              paddingHorizontal: tokens.spacing.screenPadding,
-              paddingBottom: tokens.spacing.lg,
-            }
-          : undefined
-      }
+      refreshControl={refreshControlElement}
+      contentContainerStyle={contentContainerStyle}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
       {...rest}

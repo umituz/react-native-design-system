@@ -5,7 +5,7 @@
  * Floats on top of content.
  */
 
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { AtomicText, useIconName } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
@@ -34,16 +34,39 @@ export function AlertToast({ alert }: AlertToastProps) {
   const backgroundColor = getAlertBackgroundColor(alert.type, tokens);
   const textColor = getAlertTextColor(tokens);
 
+  const containerStyle = useMemo(() => [
+    styles.container,
+    {
+      backgroundColor,
+      padding: tokens.spacing.md,
+      borderRadius: tokens.borders.radius.md,
+    },
+  ], [backgroundColor, tokens.borders.radius.md, tokens.spacing.md]);
+
+  const closeButtonStyle = useMemo(() => [
+    styles.closeButton,
+    { marginLeft: tokens.spacing.sm }
+  ], [tokens.spacing.sm]);
+
+  const actionsContainerStyle = useMemo(() => [
+    styles.actionsContainer,
+    { marginTop: tokens.spacing.sm }
+  ], [tokens.spacing.sm]);
+
+  const handleActionPress = useCallback(async (action: typeof alert.actions[0]) => {
+    try {
+      await action.onPress();
+    } catch (e) {
+      if (__DEV__) console.error('[AlertToast] action.onPress failed', e);
+    }
+    if (action.closeOnPress ?? true) {
+      handleDismiss();
+    }
+  }, [handleDismiss]);
+
   return (
     <View
-      style={[
-        styles.container,
-        {
-          backgroundColor,
-          padding: tokens.spacing.md,
-          borderRadius: tokens.borders.radius.md,
-        },
-      ]}
+      style={containerStyle}
       testID={alert.testID}
     >
       <Pressable
@@ -72,7 +95,7 @@ export function AlertToast({ alert }: AlertToastProps) {
           {alert.dismissible && (
             <Pressable
               onPress={handleDismiss}
-              style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
+              style={closeButtonStyle}
               hitSlop={8}
             >
               <AlertIcon name={closeIcon} color={textColor} />
@@ -81,44 +104,41 @@ export function AlertToast({ alert }: AlertToastProps) {
         </View>
 
         {alert.actions && alert.actions.length > 0 && (
-          <View style={[styles.actionsContainer, { marginTop: tokens.spacing.sm }]}>
-            {alert.actions.map((action) => (
-              <Pressable
-                key={action.id}
-                onPress={async () => {
-                  try {
-                    await action.onPress();
-                  } catch (e) {
-                    if (__DEV__) console.error('[AlertToast] action.onPress failed', e);
-                  }
-                  if (action.closeOnPress ?? true) {
-                    handleDismiss();
-                  }
-                }}
-                accessibilityRole="button"
-                accessibilityLabel={action.label}
-                style={[
-                  styles.actionButton,
-                  {
-                    paddingVertical: tokens.spacing.xs,
-                    paddingHorizontal: tokens.spacing.sm,
-                    marginRight: tokens.spacing.xs,
-                    borderRadius: tokens.borders.radius.sm,
-                  },
-                  getActionButtonStyle(action.style, tokens),
-                ]}
-              >
-                <AtomicText
-                  type="bodySmall"
-                  style={[
-                    styles.actionText,
-                    { color: getActionTextColor(action.style, tokens) },
-                  ]}
+          <View style={actionsContainerStyle}>
+            {alert.actions.map((action) => {
+              const actionButtonStyle = useMemo(() => [
+                styles.actionButton,
+                {
+                  paddingVertical: tokens.spacing.xs,
+                  paddingHorizontal: tokens.spacing.sm,
+                  marginRight: tokens.spacing.xs,
+                  borderRadius: tokens.borders.radius.sm,
+                },
+                getActionButtonStyle(action.style, tokens),
+              ], [action.style, tokens]);
+
+              const actionTextStyle = useMemo(() => [
+                styles.actionText,
+                { color: getActionTextColor(action.style, tokens) }
+              ], [action.style, tokens]);
+
+              return (
+                <Pressable
+                  key={action.id}
+                  onPress={() => handleActionPress(action)}
+                  accessibilityRole="button"
+                  accessibilityLabel={action.label}
+                  style={actionButtonStyle}
                 >
-                  {action.label}
-                </AtomicText>
-              </Pressable>
-            ))}
+                  <AtomicText
+                    type="bodySmall"
+                    style={actionTextStyle}
+                  >
+                    {action.label}
+                  </AtomicText>
+                </Pressable>
+              );
+            })}
           </View>
         )}
       </Pressable>

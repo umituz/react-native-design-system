@@ -25,14 +25,14 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   const arrowLeftIcon = useIconName('arrowLeft');
   const spacingMultiplier = tokens.spacingMultiplier;
 
-  const styles = useMemo(() => StyleSheet.create({
+  const styles = useMemo(() => ({
     container: {
       paddingTop: insets.top,
       paddingHorizontal: tokens.spacing.md,
       paddingBottom: tokens.spacing.sm,
       backgroundColor: tokens.colors.backgroundPrimary,
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       borderBottomWidth: 1,
       borderBottomColor: tokens.colors.outlineVariant,
       zIndex: 100,
@@ -42,16 +42,16 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
       width: calculateResponsiveSize(NAVIGATION.backButton.width, spacingMultiplier),
       height: calculateResponsiveSize(NAVIGATION.backButton.height, spacingMultiplier),
       borderRadius: tokens.borders.radius.full,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       backgroundColor: tokens.colors.surfaceVariant,
     },
     title: {
       flex: 1,
-      textAlign: centerTitle ? 'center' : 'left',
+      textAlign: (centerTitle ? 'center' : 'left') as 'center' | 'left',
     },
     sideElement: {
-      width: centerTitle ? calculateResponsiveSize(40, spacingMultiplier) : 'auto',
+      width: centerTitle ? calculateResponsiveSize(40, spacingMultiplier) : 'auto' as const,
     }
   }), [tokens, insets, centerTitle, spacingMultiplier]);
 

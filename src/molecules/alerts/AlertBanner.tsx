@@ -6,7 +6,7 @@
  * Auto-dismisses after duration (default 3 seconds).
  */
 
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from '../../safe-area';
 import { AtomicText, useIconName } from '../../atoms';
@@ -33,17 +33,36 @@ export function AlertBanner({ alert }: AlertBannerProps) {
     const textColor = getAlertTextColor(tokens);
     const isTop = alert.position === AlertPosition.TOP;
 
+    const containerStyle = useMemo(() => [
+        styles.container,
+        {
+            backgroundColor,
+            paddingTop: isTop ? insets.top + tokens.spacing.sm : tokens.spacing.sm,
+            paddingBottom: isTop ? tokens.spacing.sm : insets.bottom + tokens.spacing.sm,
+            paddingHorizontal: tokens.spacing.md,
+        },
+    ], [backgroundColor, insets.bottom, insets.top, isTop, tokens.spacing.md, tokens.spacing.sm]);
+
+    const closeButtonStyle = useMemo(() => [
+        styles.closeButton,
+        { marginLeft: tokens.spacing.sm }
+    ], [tokens.spacing.sm]);
+
+    const actionsContainerStyle = useMemo(() => [
+        styles.actionsContainer,
+        { marginTop: tokens.spacing.sm }
+    ], [tokens.spacing.sm]);
+
+    const handleActionPress = useCallback(async (action: typeof alert.actions[0]) => {
+        await action.onPress();
+        if (action.closeOnPress ?? true) {
+            handleDismiss();
+        }
+    }, [handleDismiss]);
+
     return (
         <View
-            style={[
-                styles.container,
-                {
-                    backgroundColor,
-                    paddingTop: isTop ? insets.top + tokens.spacing.sm : tokens.spacing.sm,
-                    paddingBottom: isTop ? tokens.spacing.sm : insets.bottom + tokens.spacing.sm,
-                    paddingHorizontal: tokens.spacing.md,
-                },
-            ]}
+            style={containerStyle}
             testID={alert.testID}
         >
             <View style={styles.content}>
@@ -69,7 +88,7 @@ export function AlertBanner({ alert }: AlertBannerProps) {
                     {alert.dismissible && (
                         <Pressable
                             onPress={handleDismiss}
-                            style={[styles.closeButton, { marginLeft: tokens.spacing.sm }]}
+                            style={closeButtonStyle}
                             hitSlop={8}
                         >
                             <AlertIcon name={closeIcon} color={textColor} />
@@ -78,38 +97,39 @@ export function AlertBanner({ alert }: AlertBannerProps) {
                 </View>
 
                 {alert.actions && alert.actions.length > 0 && (
-                    <View style={[styles.actionsContainer, { marginTop: tokens.spacing.sm }]}>
-                        {alert.actions.map((action) => (
-                            <Pressable
-                                key={action.id}
-                                onPress={async () => {
-                                    await action.onPress();
-                                    if (action.closeOnPress ?? true) {
-                                        handleDismiss();
-                                    }
-                                }}
-                                style={[
-                                    styles.actionButton,
-                                    {
-                                        paddingVertical: tokens.spacing.xs,
-                                        paddingHorizontal: tokens.spacing.sm,
-                                        marginRight: tokens.spacing.xs,
-                                        borderRadius: tokens.borders.radius.sm,
-                                    },
-                                    getActionButtonStyle(action.style, tokens),
-                                ]}
-                            >
-                                <AtomicText
-                                    type="bodySmall"
-                                    style={[
-                                        styles.actionText,
-                                        { color: getActionTextColor(action.style, tokens) },
-                                    ]}
+                    <View style={actionsContainerStyle}>
+                        {alert.actions.map((action) => {
+                            const actionButtonStyle = useMemo(() => [
+                                styles.actionButton,
+                                {
+                                    paddingVertical: tokens.spacing.xs,
+                                    paddingHorizontal: tokens.spacing.sm,
+                                    marginRight: tokens.spacing.xs,
+                                    borderRadius: tokens.borders.radius.sm,
+                                },
+                                getActionButtonStyle(action.style, tokens),
+                            ], [action.style, tokens]);
+
+                            const actionTextStyle = useMemo(() => [
+                                styles.actionText,
+                                { color: getActionTextColor(action.style, tokens) }
+                            ], [action.style, tokens]);
+
+                            return (
+                                <Pressable
+                                    key={action.id}
+                                    onPress={() => handleActionPress(action)}
+                                    style={actionButtonStyle}
                                 >
-                                    {action.label}
-                                </AtomicText>
-                            </Pressable>
-                        ))}
+                                    <AtomicText
+                                        type="bodySmall"
+                                        style={actionTextStyle}
+                                    >
+                                        {action.label}
+                                    </AtomicText>
+                                </Pressable>
+                            );
+                        })}
                     </View>
                 )}
             </View>

@@ -2,7 +2,7 @@
  * AlertInline Component
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useAppDesignTokens } from '../../theme';
 import { Alert } from './AlertTypes';
@@ -16,17 +16,19 @@ interface AlertInlineProps {
 export const AlertInline: React.FC<AlertInlineProps> = ({ alert }) => {
     const tokens = useAppDesignTokens();
 
+    const containerStyle = useMemo(() => [
+        styles.container,
+        {
+            borderColor: getAlertBorderColor(alert.type, tokens),
+            backgroundColor: getAlertBackgroundColorInline(alert.type, tokens),
+            borderRadius: tokens.borders.radius.sm,
+            padding: tokens.spacing.md,
+            marginVertical: tokens.spacing.sm,
+        }
+    ], [alert.type, tokens]);
+
     return (
-        <View style={[
-            styles.container,
-            {
-                borderColor: getAlertBorderColor(alert.type, tokens),
-                backgroundColor: getAlertBackgroundColorInline(alert.type, tokens),
-                borderRadius: tokens.borders.radius.sm,
-                padding: tokens.spacing.md,
-                marginVertical: tokens.spacing.sm,
-            }
-        ]}>
+        <View style={containerStyle}>
             <AlertContent
                 title={alert.title}
                 message={alert.message}
