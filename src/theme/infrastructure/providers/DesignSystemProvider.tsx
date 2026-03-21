@@ -2,7 +2,7 @@ import React, { useEffect, useState, ReactNode, lazy, Suspense } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useFonts } from 'expo-font';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from '../../../safe-area';
 import { useTheme } from '../stores/themeStore';
 import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
@@ -11,6 +11,34 @@ import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
 
 // Lazy load SplashScreen to avoid circular dependency
 const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
+
+/**
+ * DesignSystemProvider
+ *
+ * Root provider that wraps all design system functionality.
+ *
+ * ⚠️ CRITICAL: Multiple Children Pattern
+ * ========================================
+ * When passing multiple children, ALWAYS wrap them in a React fragment:
+ *
+ * ✅ CORRECT:
+ * <DesignSystemProvider>
+ *   <>
+ *     <Component1 />
+ *     <Component2 />
+ *     <Component3 />
+ *   </>
+ * </DesignSystemProvider>
+ *
+ * ❌ WRONG (Component2 and 3 won't be in SafeAreaProvider):
+ * <DesignSystemProvider>
+ *   <Component1 />
+ *   <Component2 />
+ *   <Component3 />
+ * </DesignSystemProvider>
+ *
+ * This ensures ALL children are inside SafeAreaProvider context and can use useSafeAreaInsets().
+ */
 
 
 const EMPTY_FONTS: Record<string, any> = {};
