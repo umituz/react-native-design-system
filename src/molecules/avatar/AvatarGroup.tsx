@@ -11,7 +11,7 @@ import { useAppDesignTokens } from '../../theme';
 import { AtomicText } from '../../atoms';
 import { Avatar } from './Avatar';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
-import { SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
+import { BASE_SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
 
 /**
  * Avatar item for group
@@ -138,7 +138,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = React.memo(({
   style,
 }) => {
   const tokens = useAppDesignTokens();
-  const config = SIZE_CONFIGS[size];
+  const config = BASE_SIZE_CONFIGS[size];
 
   // Memoize calculations to prevent recalculation on every render
   const { visibleItems, overflowCount, hasOverflow } = useMemo(() => {

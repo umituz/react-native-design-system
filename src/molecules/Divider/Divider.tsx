@@ -75,7 +75,7 @@ export const Divider: React.FC<DividerProps> = ({
     style,
 }) => {
     const tokens = useAppDesignTokens();
-    const spacingValue = DividerUtils.getSpacing(spacing);
+    const spacingValue = DividerUtils.getSpacing(spacing, tokens.spacingMultiplier);
     const borderColor = color || tokens.colors.border;
 
     // Determine border style based on lineStyle
@@ -144,7 +144,7 @@ export const Divider: React.FC<DividerProps> = ({
                 <AtomicText
                     type="bodySmall"
                     color="secondary"
-                    style={styles.textLabel}
+                    style={[styles.textLabel, { marginHorizontal: Math.floor(12 * tokens.spacingMultiplier) }]}
                 >
                     {text}
                 </AtomicText>
@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     textLabel: {
-        marginHorizontal: 12,
         fontWeight: '500',
     },
 });

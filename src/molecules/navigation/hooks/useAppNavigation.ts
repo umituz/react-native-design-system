@@ -14,57 +14,10 @@ export interface AppNavigationResult {
   pop: (count?: number) => void;
   popToTop: () => void;
   canGoBack: () => boolean;
-  getState: () => ReturnType<NavigationProp<ParamListBase>["getState"]>;
-  getParent: () => NavigationProp<ParamListBase> | undefined;
+  getState: () => ReturnType<NavigationProp<ParamListBase>["getState"]> | null;
+  getParent: () => NavigationProp<ParamListBase> | null | undefined;
   /** Whether navigation is available (inside NavigationContainer) */
   isReady: boolean;
-}
-
-/**
- * Creates a no-op navigation object for use outside NavigationContainer
- */
-function createNoOpNavigation(): AppNavigationResult {
-  return {
-    navigate: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    push: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    goBack: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    reset: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    replace: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    pop: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    popToTop: () => {
-      if (__DEV__) {
-        console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
-      }
-    },
-    canGoBack: () => false,
-    getState: () => ({ key: 'root', index: 0, routeNames: [], history: [], routes: [], type: 'nav', stale: false }),
-    getParent: () => undefined,
-    isReady: false,
-  };
 }
 
 /**
@@ -81,84 +34,101 @@ function createNoOpNavigation(): AppNavigationResult {
  *      }
  */
 export function useAppNavigation(): AppNavigationResult {
-  try {
-    const navigation = useNavigation<NavigationProp<ParamListBase>>();
+  // Always call hooks - no conditional calls
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-    const navigate = useCallback(
-      (screen: string, params?: Record<string, unknown>) => {
-        // Dynamic navigation: use CommonActions for type-safe arbitrary screen navigation
-        navigation.dispatch(
-          CommonActions.navigate({
-            name: screen,
-            params,
-          })
-        );
-      },
-      [navigation]
-    );
+  // Check if navigation is ready
+  const isReady = Boolean(navigation);
 
-    const push = useCallback(
-      (screen: string, params?: Record<string, unknown>) => {
-        navigation.dispatch(StackActions.push(screen, params));
-      },
-      [navigation]
-    );
-
-    const goBack = useCallback(() => {
-      if (navigation.canGoBack()) {
-        navigation.goBack();
+  const navigate = useCallback(
+    (screen: string, params?: Record<string, unknown>) => {
+      if (!navigation) {
+        if (__DEV__) {
+          console.warn('[useAppNavigation] Navigation not ready. Component must be inside NavigationContainer.');
+        }
+        return;
       }
-    }, [navigation]);
+      // Dynamic navigation: use CommonActions for type-safe arbitrary screen navigation
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: screen,
+          params,
+        })
+      );
+    },
+    [navigation]
+  );
 
-    const reset = useCallback(
-      (screen: string, params?: Record<string, unknown>) => {
-        navigation.reset({ index: 0, routes: [{ name: screen, params }] });
-      },
-      [navigation]
-    );
+  const push = useCallback(
+    (screen: string, params?: Record<string, unknown>) => {
+      if (!navigation) return;
+      navigation.dispatch(StackActions.push(screen, params));
+    },
+    [navigation]
+  );
 
-    const replace = useCallback(
-      (screen: string, params?: Record<string, unknown>) => {
-        navigation.dispatch(StackActions.replace(screen, params));
-      },
-      [navigation]
-    );
+  const goBack = useCallback(() => {
+    if (!navigation) return;
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  }, [navigation]);
 
-    const pop = useCallback(
-      (count = 1) => {
-        navigation.dispatch(StackActions.pop(count));
-      },
-      [navigation]
-    );
+  const reset = useCallback(
+    (screen: string, params?: Record<string, unknown>) => {
+      if (!navigation) return;
+      navigation.reset({ index: 0, routes: [{ name: screen, params }] });
+    },
+    [navigation]
+  );
 
-    const popToTop = useCallback(() => {
-      navigation.dispatch(StackActions.popToTop());
-    }, [navigation]);
+  const replace = useCallback(
+    (screen: string, params?: Record<string, unknown>) => {
+      if (!navigation) return;
+      navigation.dispatch(StackActions.replace(screen, params));
+    },
+    [navigation]
+  );
 
-    const canGoBack = useCallback(() => navigation.canGoBack(), [navigation]);
+  const pop = useCallback(
+    (count = 1) => {
+      if (!navigation) return;
+      navigation.dispatch(StackActions.pop(count));
+    },
+    [navigation]
+  );
 
-    const getState = useCallback(() => navigation.getState(), [navigation]);
+  const popToTop = useCallback(() => {
+    if (!navigation) return;
+    navigation.dispatch(StackActions.popToTop());
+  }, [navigation]);
 
-    const getParent = useCallback(() => navigation.getParent(), [navigation]);
+  const canGoBackCallback = useCallback(() => {
+    return navigation ? navigation.canGoBack() : false;
+  }, [navigation]);
 
-    return useMemo(
-      () => ({
-        navigate,
-        push,
-        goBack,
-        reset,
-        replace,
-        pop,
-        popToTop,
-        canGoBack,
-        getState,
-        getParent,
-        isReady: true,
-      }),
-      [navigate, push, goBack, reset, replace, pop, popToTop, canGoBack, getState, getParent]
-    );
-  } catch (error) {
-    // Navigation not ready - return no-op navigation
-    return createNoOpNavigation();
-  }
+  const getState = useCallback(() => {
+    return navigation ? navigation.getState() : null;
+  }, [navigation]);
+
+  const getParent = useCallback(() => {
+    return navigation ? navigation.getParent() : null;
+  }, [navigation]);
+
+  return useMemo(
+    () => ({
+      navigate,
+      push,
+      goBack,
+      reset,
+      replace,
+      pop,
+      popToTop,
+      canGoBack: canGoBackCallback,
+      getState,
+      getParent,
+      isReady,
+    }),
+    [navigate, push, goBack, reset, replace, pop, popToTop, canGoBackCallback, getState, getParent, isReady]
+  );
 }

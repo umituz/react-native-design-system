@@ -4,11 +4,12 @@
  */
 
 import type { AvatarSize, AvatarShape, AvatarType, SizeConfig } from './Avatar.types';
+import { calculateResponsiveSize, calculateResponsiveSizeSubtle } from '../../utils/responsiveUtils';
 
 /**
- * Size configurations (px)
+ * Base size configurations (px) - will be multiplied by spacingMultiplier
  */
-export const SIZE_CONFIGS: Record<AvatarSize, SizeConfig> = {
+export const BASE_SIZE_CONFIGS: Record<AvatarSize, SizeConfig> = {
   xs: {
     size: 24,
     fontSize: 10,
@@ -51,6 +52,23 @@ export const SIZE_CONFIGS: Record<AvatarSize, SizeConfig> = {
     statusSize: 20,
     borderWidth: 3,
   },
+};
+
+/**
+ * Get responsive size configurations
+ * Multiplies base sizes by spacingMultiplier for tablet/small device support
+ */
+export const getSizeConfigs = (spacingMultiplier: number): Record<AvatarSize, SizeConfig> => {
+  return Object.entries(BASE_SIZE_CONFIGS).reduce((acc, [key, config]) => {
+    acc[key as AvatarSize] = {
+      size: calculateResponsiveSize(config.size, spacingMultiplier),
+      fontSize: calculateResponsiveSize(config.fontSize, spacingMultiplier),
+      iconSize: calculateResponsiveSize(config.iconSize, spacingMultiplier),
+      statusSize: calculateResponsiveSize(config.statusSize, spacingMultiplier),
+      borderWidth: calculateResponsiveSizeSubtle(config.borderWidth, spacingMultiplier),
+    };
+    return acc;
+  }, {} as Record<AvatarSize, SizeConfig>);
 };
 
 /**

@@ -10,7 +10,8 @@ import { View, Image, StyleSheet, TouchableOpacity, type StyleProp, type ViewSty
 import { useAppDesignTokens } from '../../theme';
 import { AtomicText, AtomicIcon } from '../../atoms';
 import type { AvatarSize, AvatarShape } from './Avatar.types';
-import { SIZE_CONFIGS, AVATAR_CONSTANTS } from './Avatar.constants';
+import type { SizeConfig } from './Avatar.types';
+import { getSizeConfigs, AVATAR_CONSTANTS } from './Avatar.constants';
 import { AvatarUtils } from './Avatar.utils';
 
 export interface AvatarProps {
@@ -33,7 +34,7 @@ interface AvatarContentProps {
   uri?: string;
   initials: string;
   icon: string;
-  config: typeof SIZE_CONFIGS[AvatarSize];
+  config: SizeConfig;
   borderRadius: number;
   imageStyle?: StyleProp<ImageStyle>;
 }
@@ -107,7 +108,8 @@ export const Avatar: React.FC<AvatarProps> = ({
   onPress,
 }) => {
   const tokens = useAppDesignTokens();
-  const config = useMemo(() => SIZE_CONFIGS[size], [size]);
+  const sizeConfigs = useMemo(() => getSizeConfigs(tokens.spacingMultiplier), [tokens.spacingMultiplier]);
+  const config = useMemo(() => sizeConfigs[size], [size, sizeConfigs]);
 
   const hasImage = !!uri;
   const hasName = !!name;

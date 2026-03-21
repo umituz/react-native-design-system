@@ -31,7 +31,7 @@
  *   /tanstack     - TanstackProvider
  *   /loading      - LoadingProvider, useGlobalLoading
  *   /haptics      - HapticService, useHaptics
- *   /onboarding   - OnboardingScreen
+ *   /onboarding   - OnboardingScreen, ChatOnboardingScreen (chat-based)
  *   /gallery      - gallerySaveService
  *   /carousel     - Carousel components
  *   /init         - createAppInitializer, createEnvConfig

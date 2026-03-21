@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
 import { useAppDesignTokens } from '../../theme/hooks/useAppDesignTokens';
+import { calculateResponsiveSize } from '../../utils/responsiveUtils';
+import { BASE_SPACING, BASE_STEP_DIMENSIONS } from './StepProgress.constants';
 
 export interface StepProgressProps {
     currentStep: number;
@@ -14,27 +16,28 @@ export const StepProgress: React.FC<StepProgressProps> = ({
     style,
 }) => {
     const tokens = useAppDesignTokens();
+    const spacingMultiplier = tokens.spacingMultiplier;
 
     const styles = useMemo(
         () =>
             StyleSheet.create({
                 container: {
                     flexDirection: "row",
-                    gap: 8,
-                    paddingHorizontal: 24,
-                    paddingVertical: 16,
+                    gap: calculateResponsiveSize(BASE_SPACING.gap, spacingMultiplier),
+                    paddingHorizontal: calculateResponsiveSize(BASE_SPACING.paddingHorizontal, spacingMultiplier),
+                    paddingVertical: calculateResponsiveSize(BASE_SPACING.paddingVertical, spacingMultiplier),
                 },
                 step: {
                     flex: 1,
-                    height: 4,
-                    borderRadius: 2,
+                    height: calculateResponsiveSize(BASE_STEP_DIMENSIONS.height, spacingMultiplier),
+                    borderRadius: calculateResponsiveSize(BASE_STEP_DIMENSIONS.borderRadius, spacingMultiplier),
                     backgroundColor: tokens.colors.border,
                 },
                 activeStep: {
                     backgroundColor: tokens.colors.primary,
                 },
             }),
-        [tokens],
+        [tokens, spacingMultiplier],
     );
 
     return (

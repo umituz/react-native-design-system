@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import type { RouteProp, ParamListBase } from "@react-navigation/native";
+import type { RouteProp } from "@react-navigation/native";
 import { useMemo } from "react";
 
 /**
@@ -16,32 +16,31 @@ import { useMemo } from "react";
  * }
  * ```
  */
-export function useAppRoute(): any {
-  try {
-    const route = useRoute();
-    return useMemo(
-      () => ({
-        ...route,
-        isReady: true,
-      }),
-      [route]
-    );
-  } catch (error) {
-    // Route not ready - return empty route
-    if (__DEV__) {
-      console.warn('[useAppRoute] Route not ready. Component must be inside NavigationContainer.');
-    }
-    return useMemo(
-      () => ({
-        key: '',
-        name: '',
-        params: undefined,
-        path: undefined,
-        isReady: false,
-      }),
-      []
-    );
-  }
+export interface AppRouteResult<T = unknown> {
+  key: string;
+  name: string;
+  params: T | undefined;
+  path: string | undefined;
+  isReady: boolean;
+}
+
+export function useAppRoute<T = unknown>(): AppRouteResult<T> {
+  // Always call hooks - no conditional calls
+  const route = useRoute<any>();
+
+  // Check if route is ready
+  const isReady = Boolean(route);
+
+  return useMemo(
+    () => ({
+      key: route?.key ?? '',
+      name: route?.name ?? '',
+      params: route?.params as T | undefined,
+      path: route?.path ?? undefined,
+      isReady,
+    }),
+    [route, isReady]
+  );
 }
 
 export type { RouteProp };

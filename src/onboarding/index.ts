@@ -40,6 +40,13 @@ export type {
 export type { OnboardingUserData } from "./domain/entities/OnboardingUserData";
 
 // =============================================================================
+// CHAT ONBOARDING - Domain Entities
+// =============================================================================
+
+export type { ChatStep, ChatOption, ChatOnboardingFlow, ChatMascotState } from "./domain/entities/ChatStep";
+export type { ChatMessage } from "./domain/entities/ChatMessage";
+
+// =============================================================================
 // INFRASTRUCTURE LAYER - Storage and Hooks
 // =============================================================================
 
@@ -59,6 +66,15 @@ export {
   type UseOnboardingContainerStyleProps,
   type UseOnboardingContainerStyleReturn,
 } from "./presentation/hooks/useOnboardingContainerStyle";
+export {
+  useChatAnimations,
+  type UseChatAnimationsReturn,
+} from "./infrastructure/hooks/useChatAnimations";
+export {
+  useChatOnboarding,
+  type UseChatOnboardingOptions,
+  type UseChatOnboardingReturn,
+} from "./presentation/hooks/useChatOnboarding";
 
 // =============================================================================
 // PRESENTATION LAYER - Components and Screens
@@ -102,6 +118,19 @@ export type { RatingQuestionProps } from "./presentation/components/questions/Ra
 
 export { OnboardingResetSetting } from "./presentation/components/OnboardingResetSetting";
 export type { OnboardingResetSettingProps } from "./presentation/components/OnboardingResetSetting";
+
+// =============================================================================
+// CHAT ONBOARDING - Presentation Components
+// =============================================================================
+
+export { ChatMessageComponent } from "./presentation/components/chat";
+export type { ChatMessageProps } from "./presentation/components/chat";
+export { ChatOptionButton } from "./presentation/components/chat";
+export type { ChatOptionButtonProps } from "./presentation/components/chat";
+export { TypingIndicator } from "./presentation/components/chat";
+export type { TypingIndicatorProps } from "./presentation/components/chat";
+export { ChatOnboardingScreen } from "./presentation/screens/ChatOnboardingScreen";
+export type { ChatOnboardingScreenProps } from "./presentation/screens/ChatOnboardingScreen";
 
 
 export { useOnboardingFlow, type UseOnboardingFlowResult } from './hooks/useOnboardingFlow';

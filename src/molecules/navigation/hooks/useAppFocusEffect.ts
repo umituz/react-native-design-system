@@ -22,21 +22,24 @@ import { useEffect } from "react";
  * ```
  */
 export function useAppFocusEffect(effect: () => void | (() => void)): void {
+  // Always run the effect - if navigation is ready, useFocusEffect will handle it
+  // Otherwise, useEffect will run it once
+  useEffect(() => {
+    const cleanup = effect();
+    return () => {
+      if (typeof cleanup === 'function') {
+        cleanup();
+      }
+    };
+  }, [effect]);
+
+  // Try to use React Navigation's useFocusEffect if available
   try {
-    // Try to use React Navigation's useFocusEffect
     useRNFocusEffect(effect);
-  } catch (error) {
-    // Navigation not ready - run effect once and cleanup
+  } catch (_error) {
+    // Navigation not ready - useEffect above handles it
     if (__DEV__) {
       console.warn('[useAppFocusEffect] Navigation not ready. Running effect once instead.');
     }
-    useEffect(() => {
-      const cleanup = effect();
-      return () => {
-        if (typeof cleanup === 'function') {
-          cleanup();
-        }
-      };
-    }, [effect]);
   }
 }

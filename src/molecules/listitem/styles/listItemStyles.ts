@@ -3,7 +3,6 @@
  */
 import type { ViewStyle, TextStyle } from 'react-native';
 import type { DesignTokens } from '../../../theme';
-import { isTablet } from '../../../device/detection';
 
 export interface ListItemStyles {
     container: ViewStyle;
@@ -14,8 +13,8 @@ export interface ListItemStyles {
 }
 
 export const getListItemStyles = (tokens: DesignTokens): ListItemStyles => {
-    // Responsive minHeight: 56px on phone, 64px on tablet for better ergonomics
-    const minHeight = isTablet() ? 64 : 56;
+    // Responsive minHeight: uses base height (56) multiplied by spacingMultiplier
+    const minHeight = Math.floor(56 * tokens.spacingMultiplier);
 
     return {
         container: {

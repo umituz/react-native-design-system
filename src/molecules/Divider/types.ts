@@ -42,9 +42,9 @@ export interface DividerConfig {
 }
 
 /**
- * Spacing configurations (px)
+ * Base spacing configurations (px) - will be multiplied by spacingMultiplier
  */
-export const SPACING_CONFIGS: Record<DividerSpacing, number> = {
+const BASE_SPACING_CONFIGS: Record<DividerSpacing, number> = {
     none: 0,
     small: 8,
     medium: 16,
@@ -52,14 +52,31 @@ export const SPACING_CONFIGS: Record<DividerSpacing, number> = {
 };
 
 /**
+ * Get responsive spacing value
+ * Multiplies base spacing by spacingMultiplier for tablet/small device support
+ */
+export const getSpacingConfigs = (spacingMultiplier: number): Record<DividerSpacing, number> => {
+    return Object.entries(BASE_SPACING_CONFIGS).reduce((acc, [key, value]) => {
+        acc[key as DividerSpacing] = Math.floor(value * spacingMultiplier);
+        return acc;
+    }, {} as Record<DividerSpacing, number>);
+};
+
+/**
+ * @deprecated Use getSpacingConfigs(spacingMultiplier) instead
+ * Kept for backward compatibility
+ */
+export const SPACING_CONFIGS = BASE_SPACING_CONFIGS;
+
+/**
  * Divider utility class
  */
 export class DividerUtils {
     /**
-     * Get spacing value
+     * Get spacing value (responsive)
      */
-    static getSpacing(spacing: DividerSpacing): number {
-        return SPACING_CONFIGS[spacing];
+    static getSpacing(spacing: DividerSpacing, spacingMultiplier: number = 1): number {
+        return Math.floor(BASE_SPACING_CONFIGS[spacing] * spacingMultiplier);
     }
 
     /**

@@ -5,7 +5,7 @@
  */
 
 import type { AvatarSize, AvatarShape, AvatarConfig, SizeConfig } from './Avatar.types';
-import { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, SIZE_CONFIGS } from './Avatar.constants';
+import { AVATAR_COLORS, STATUS_COLORS, SHAPE_CONFIGS, BASE_SIZE_CONFIGS } from './Avatar.constants';
 
 /**
  * Avatar utility class
@@ -71,10 +71,10 @@ export class AvatarUtils {
   }
 
   /**
-   * Get size config
+   * Get base size config (before spacingMultiplier)
    */
-  static getSizeConfig(size: AvatarSize): SizeConfig {
-    return SIZE_CONFIGS[size] ?? SIZE_CONFIGS.md;
+  static getBaseSizeConfig(size: AvatarSize): SizeConfig {
+    return BASE_SIZE_CONFIGS[size] ?? BASE_SIZE_CONFIGS.md;
   }
 
   /**

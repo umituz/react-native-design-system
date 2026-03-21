@@ -9,6 +9,16 @@ import React, { useMemo } from "react";
 import { View, StyleSheet, type ViewStyle, type StyleProp } from "react-native";
 import { AtomicText } from "../../atoms/AtomicText";
 import { useAppDesignTokens } from "../../theme/hooks/useAppDesignTokens";
+import {
+  calculateResponsiveSize,
+  calculateLineHeight,
+} from "../../utils/responsiveUtils";
+import {
+  BASE_FONT_SIZES,
+  BASE_SPACING,
+  BASE_STEP_DOT_SIZES,
+  DEFAULT_CONFIG,
+} from "./StepHeader.constants";
 
 export interface StepHeaderConfig {
   showStepIndicator?: boolean;
@@ -30,17 +40,6 @@ export interface StepHeaderProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const DEFAULT_CONFIG: StepHeaderConfig = {
-  showStepIndicator: false,
-  titleAlignment: "left",
-  titleFontSize: 28,
-  subtitleFontSize: 16,
-  spacing: {
-    marginBottom: 32,
-    paddingHorizontal: 24,
-  },
-};
-
 export const StepHeader: React.FC<StepHeaderProps> = ({
   title,
   subtitle,
@@ -49,24 +48,31 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
 }) => {
   const tokens = useAppDesignTokens();
   const cfg = useMemo(() => ({ ...DEFAULT_CONFIG, ...config }), [config]);
+  const spacingMultiplier = tokens.spacingMultiplier;
 
   const styles = useMemo(
     () =>
       StyleSheet.create({
         container: {
-          paddingHorizontal: cfg.spacing?.paddingHorizontal ?? 24,
-          marginBottom: cfg.spacing?.marginBottom ?? 32,
+          paddingHorizontal: calculateResponsiveSize(
+            cfg.spacing?.paddingHorizontal ?? BASE_SPACING.paddingHorizontal,
+            spacingMultiplier
+          ),
+          marginBottom: calculateResponsiveSize(
+            cfg.spacing?.marginBottom ?? BASE_SPACING.marginBottom,
+            spacingMultiplier
+          ),
         },
         stepIndicator: {
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 12,
+          marginBottom: calculateResponsiveSize(BASE_SPACING.stepIndicatorMarginBottom, spacingMultiplier),
         },
         stepDot: {
-          width: 8,
-          height: 8,
-          borderRadius: 4,
-          marginHorizontal: 4,
+          width: calculateResponsiveSize(BASE_STEP_DOT_SIZES.width, spacingMultiplier),
+          height: calculateResponsiveSize(BASE_STEP_DOT_SIZES.height, spacingMultiplier),
+          borderRadius: calculateResponsiveSize(BASE_STEP_DOT_SIZES.borderRadius, spacingMultiplier),
+          marginHorizontal: calculateResponsiveSize(BASE_STEP_DOT_SIZES.marginHorizontal, spacingMultiplier),
         },
         activeDot: {
           backgroundColor: tokens.colors.primary,
@@ -75,23 +81,23 @@ export const StepHeader: React.FC<StepHeaderProps> = ({
           backgroundColor: `${tokens.colors.primary}30`,
         },
         title: {
-          fontSize: cfg.titleFontSize,
+          fontSize: calculateResponsiveSize(cfg.titleFontSize ?? BASE_FONT_SIZES.title, spacingMultiplier),
           fontWeight: "900",
           color: tokens.colors.textPrimary,
           textAlign: cfg.titleAlignment,
-          marginBottom: subtitle ? 12 : 0,
+          marginBottom: subtitle ? calculateResponsiveSize(BASE_SPACING.titleMarginBottom, spacingMultiplier) : 0,
           letterSpacing: 0.3,
         },
         subtitle: {
-          fontSize: cfg.subtitleFontSize,
+          fontSize: calculateResponsiveSize(cfg.subtitleFontSize ?? BASE_FONT_SIZES.subtitle, spacingMultiplier),
           fontWeight: "500",
           color: tokens.colors.textSecondary,
           textAlign: cfg.titleAlignment,
-          lineHeight: (cfg.subtitleFontSize ?? 16) * 1.5,
+          lineHeight: calculateLineHeight(cfg.subtitleFontSize ?? BASE_FONT_SIZES.subtitle, spacingMultiplier),
           opacity: 0.9,
         },
       }),
-    [tokens, cfg, subtitle],
+    [tokens, cfg, subtitle, spacingMultiplier],
   );
 
   return (

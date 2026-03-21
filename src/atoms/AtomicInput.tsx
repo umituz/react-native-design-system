@@ -92,12 +92,12 @@ export const AtomicInput = React.forwardRef<React.ElementRef<typeof TextInput>, 
       fontSize: sizeConfig.fontSize,
       lineHeight: (sizeConfig.fontSize || 16) * 1.2,
       color: textColor,
-      paddingVertical: 4,
+      paddingVertical: Math.floor(4 * tokens.spacingMultiplier),
       paddingLeft: leadingIcon ? iconPadding : undefined,
       paddingRight: (trailingIcon || showPasswordToggle) ? iconPadding : undefined,
     },
     inputStyle,
-  ], [sizeConfig, textColor, leadingIcon, trailingIcon, showPasswordToggle, iconPadding, inputStyle]);
+  ], [sizeConfig, textColor, leadingIcon, trailingIcon, showPasswordToggle, iconPadding, inputStyle, tokens.spacingMultiplier]);
 
   return (
     <View testID={testID}>

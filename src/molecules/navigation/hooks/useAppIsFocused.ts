@@ -1,5 +1,4 @@
 import { useIsFocused as useRNIsFocused } from "@react-navigation/native";
-import { useMemo } from "react";
 
 /**
  * useAppIsFocused Hook
@@ -18,7 +17,7 @@ import { useMemo } from "react";
 export function useAppIsFocused(): boolean {
   try {
     return useRNIsFocused();
-  } catch (error) {
+  } catch (_error) {
     // Navigation not ready - return false
     if (__DEV__) {
       console.warn('[useAppIsFocused] Navigation not ready. Returning false.');
