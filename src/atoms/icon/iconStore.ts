@@ -91,6 +91,38 @@ export const useIconStore = create<IconStore>()((set) => ({
   reset: () => set({ iconNames: null, iconRenderer: null, isConfigured: false }),
 }));
 
+// Alias for backward compatibility
+export const iconStore = useIconStore;
+
+// Default icon names for fallback
+export const DEFAULT_ICON_NAMES: IconNames = {
+  close: 'x',
+  check: 'check',
+  checkCircle: 'check-circle',
+  chevronLeft: 'chevron-left',
+  chevronRight: 'chevron-right',
+  chevronUp: 'chevron-up',
+  chevronDown: 'chevron-down',
+  arrowLeft: 'arrow-left',
+  arrowRight: 'arrow-right',
+  search: 'search',
+  closeCircle: 'x-circle',
+  clock: 'clock',
+  refresh: 'refresh-cw',
+  alertCircle: 'alert-circle',
+  star: 'star',
+  starOutline: 'star-outline',
+  wifi: 'wifi',
+  wifiOff: 'wifi-off',
+  info: 'info',
+  trash: 'trash',
+  calendar: 'calendar',
+  swap: 'swap',
+  colorFilter: 'filter',
+  diamond: 'diamond',
+  award: 'award',
+};
+
 /**
  * Get icon renderer
  */

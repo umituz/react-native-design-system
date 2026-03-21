@@ -8,7 +8,7 @@ import type { ThemeMode } from '../../core/ColorPalette';
 import type { CustomThemeColors } from '../../core/CustomColors';
 import type { SplashScreenProps } from '../../../molecules/splash/types';
 import { FIVE_SECONDS_MS } from '../../../utils/constants/TimeConstants';
-import { iconStore, DEFAULT_ICON_NAMES } from '../../../atoms/icon/iconStore';
+import { iconStore, DEFAULT_ICON_NAMES, type IconNames } from '../../../atoms/icon/iconStore';
 
 // Lazy load SplashScreen to avoid circular dependency
 const SplashScreen = lazy(() => import('../../../molecules/splash').then(m => ({ default: m.SplashScreen })));
@@ -26,7 +26,7 @@ interface DesignSystemProviderProps {
   onInitialized?: () => void;
   onError?: (error: unknown) => void;
   /** Icon names available in the app (defaults to standard set) */
-  iconNames?: string[];
+  iconNames?: IconNames;
   /** Icon renderer function from @umituz/react-native-icons or similar */
   iconRenderer?: (props: { name: string; size: number; color: string }) => React.ReactNode;
 }
@@ -111,7 +111,7 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
   // Configure icon renderer if provided
   useEffect(() => {
     if (iconRenderer) {
-      iconStore.setConfig(iconNames || DEFAULT_ICON_NAMES, iconRenderer);
+      iconStore.getState().setConfig(iconNames || DEFAULT_ICON_NAMES, iconRenderer);
     }
   }, [iconRenderer, iconNames]);
 
