@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { AtomicText } from '../../../atoms';
 import { AtomicIcon, useIconName } from '../../../atoms';
 import { useAppDesignTokens } from '../../../theme';

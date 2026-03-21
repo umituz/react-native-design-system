@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { AtomicText } from '../../atoms/AtomicText';
 import { AtomicIcon } from '../../atoms';
 import { useAppDesignTokens } from '../../theme';
@@ -19,13 +19,13 @@ export const InfoGrid: React.FC<InfoGridProps> = React.memo(({
   const tokens = useAppDesignTokens();
   const spacingMultiplier = tokens.spacingMultiplier;
 
-  const styles = useMemo(() => StyleSheet.create({
+  const styles = useMemo(() => ({
     container: {
       gap: tokens.spacing.md,
     },
     header: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: tokens.spacing.xs,
     },
     headerIcon: {
@@ -33,24 +33,24 @@ export const InfoGrid: React.FC<InfoGridProps> = React.memo(({
       height: calculateResponsiveSize(INFO_GRID_ICONS.small, spacingMultiplier),
       borderRadius: tokens.borders.radius.sm,
       backgroundColor: `${tokens.colors.primary}20`,
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'center' as const,
+      alignItems: 'center' as const,
     },
     headerTitle: {
       ...tokens.typography.labelLarge,
-      fontWeight: '700',
+      fontWeight: '700' as const,
       color: tokens.colors.primary,
     },
     grid: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
+      flexDirection: 'row' as const,
+      flexWrap: 'wrap' as const,
       gap: tokens.spacing.sm,
     },
     item: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
       gap: tokens.spacing.sm,
-      width: `${100 / columns - 2}%`, // Basic percentage calculation
+      width: `${100 / columns - 2}%` as const, // Basic percentage calculation
       backgroundColor: tokens.colors.surfaceVariant,
       padding: tokens.spacing.md,
       borderRadius: tokens.borders.radius.md,
@@ -62,14 +62,14 @@ export const InfoGrid: React.FC<InfoGridProps> = React.memo(({
       height: calculateResponsiveSize(INFO_GRID_ICONS.large, spacingMultiplier),
       borderRadius: tokens.borders.radius.sm,
       backgroundColor: `${tokens.colors.primary}20`,
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'center' as const,
+      alignItems: 'center' as const,
     },
     itemText: {
       flex: 1,
       ...tokens.typography.bodySmall,
       color: tokens.colors.textPrimary,
-      fontWeight: '500',
+      fontWeight: '500' as const,
     },
   }), [tokens, columns, spacingMultiplier]);
 
